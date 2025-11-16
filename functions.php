@@ -1668,12 +1668,11 @@ function SecureOutput($values)
 {
   if (is_array($values))
   {
-    while (list($id, $value) = each($values))
+    foreach ($values as $id => $value)
     {
       if (is_array($value)) $values[$id] = SecureOutput($value);
       else $values[$id] = htmlspecialchars ($value, ENT_QUOTES);
     }
-    reset($values);
     return $values;
   }
   else
@@ -1682,6 +1681,7 @@ function SecureOutput($values)
   }
 }
 
+/*
 function PrepareForJSON($values)
 {
   if (is_array($values))
@@ -1703,6 +1703,7 @@ function PrepareForJSON($values)
     return htmlspecialchars ($values, ENT_QUOTES);
   }
 }
+*/
 
 // в каждом элементе массива нужно свойство podrazdelenia_chain
 function AddChainString($Rows, $remove_zero_level = false)
