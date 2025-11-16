@@ -1,0 +1,436 @@
+[27.10.2025 - 14:21.31] array (
+  0 => 
+  array (
+    'original_uid' => '26589.281474976764370',
+    'base_uid' => '26589.281474976764370',
+    'xml_content_of_load_UID' => '26589.281474976764370',
+    'xml_content_of_load_staff_UID' => '26593.281474976764352',
+    'YearOfEducation' => '2025',
+    'Abbr' => 'Б1.О.24',
+    'group_name' => '1424С1КП2',
+    'discipline_UID' => '26006.281474976726887',
+    'discipline_name' => 'Основы оказания первой помощи',
+    'department_name' => 'Факультет социальных наук',
+    'napravlenie' => 'Клиническая психология',
+    'napravlenie_code' => '37.05.01',
+    'education_level' => 'специалитет',
+    'napravlennost' => 'Патопсихологическая диагностика и психотерапия',
+    'language' => 'Русский',
+    'UID_FormOfEducation' => '0',
+    'UID_Semester' => '2',
+    'StudentAmount' => '29',
+    'kind_of_work' => 'Практика (семинарские занятия)',
+    'UID_Course' => '2',
+    'amount' => '32.00',
+    'galaktika_lecturer_fio' => NULL,
+    'lecturer_fio' => 'Вакансия',
+    'lecturer_uid' => '',
+    'lecturer_person_id' => '00000',
+    'status' => 'require_admin_change',
+    'discipline_name_arr' => 
+    array (
+      0 => 'Основы оказания первой помощи',
+    ),
+    'discipline_UID_arr' => 
+    array (
+      0 => '26006.281474976726887',
+    ),
+    'group_name_arr' => 
+    array (
+      0 => '1424С1КП2',
+    ),
+    'Abbr_arr' => 
+    array (
+      0 => 'Б1.О.24',
+    ),
+    'napravlenie_arr' => 
+    array (
+      0 => 'Клиническая психология',
+    ),
+    'napravlennost_arr' => 
+    array (
+      0 => 'Патопсихологическая диагностика и психотерапия',
+    ),
+    'department_name_arr' => 
+    array (
+      0 => 'Факультет социальных наук',
+    ),
+    'disciplines_UIDs_chain_str' => '|26006.281474976726887|',
+    'disciplines_Names_chain_str' => '|Основы оказания первой помощи|',
+    'form_obuchenia' => 'Очная',
+  ),
+)[/ajax/post/save_nagruzka_status.php] [Chrome 109.0.0.0] [127.0.0.1]
+[27.10.2025 - 14:21.31] array (
+  'original_uid' => '26589.281474976764370',
+  'base_uid' => '26589.281474976764370',
+  'xml_content_of_load_UID' => '26589.281474976764370',
+  'xml_content_of_load_staff_UID' => '26593.281474976764352',
+  'YearOfEducation' => '2025',
+  'Abbr' => 'Б1.О.24',
+  'group_name' => '1424С1КП2',
+  'discipline_UID' => '26006.281474976726887',
+  'discipline_name' => 'Основы оказания первой помощи',
+  'department_name' => 'Факультет социальных наук',
+  'napravlenie' => 'Клиническая психология',
+  'napravlenie_code' => '37.05.01',
+  'education_level' => 'специалитет',
+  'napravlennost' => 'Патопсихологическая диагностика и психотерапия',
+  'language' => 'Русский',
+  'UID_FormOfEducation' => '0',
+  'UID_Semester' => '2',
+  'StudentAmount' => '29',
+  'kind_of_work' => 'Практика (семинарские занятия)',
+  'UID_Course' => '2',
+  'amount' => '32.00',
+  'galaktika_lecturer_fio' => NULL,
+  'lecturer_fio' => 'Вакансия',
+  'lecturer_uid' => '',
+  'lecturer_person_id' => '00000',
+  'status' => 'require_admin_change',
+  'discipline_name_arr' => 
+  array (
+    0 => 'Основы оказания первой помощи',
+  ),
+  'discipline_UID_arr' => 
+  array (
+    0 => '26006.281474976726887',
+  ),
+  'group_name_arr' => 
+  array (
+    0 => '1424С1КП2',
+  ),
+  'Abbr_arr' => 
+  array (
+    0 => 'Б1.О.24',
+  ),
+  'napravlenie_arr' => 
+  array (
+    0 => 'Клиническая психология',
+  ),
+  'napravlennost_arr' => 
+  array (
+    0 => 'Патопсихологическая диагностика и психотерапия',
+  ),
+  'department_name_arr' => 
+  array (
+    0 => 'Факультет социальных наук',
+  ),
+  'disciplines_UIDs_chain_str' => '|26006.281474976726887|',
+  'disciplines_Names_chain_str' => '|Основы оказания первой помощи|',
+  'form_obuchenia' => 'Очная',
+)[/ajax/post/save_nagruzka_status.php] [Chrome 109.0.0.0] [127.0.0.1]
+[27.10.2025 - 14:21.31] mail_utf8: wwwlab@unn.ru,  lkzk.unn.ru, lkzk@unn.ru[/ajax/post/save_nagruzka_status.php] [Chrome 109.0.0.0] [127.0.0.1]
+[31.10.2025 - 15:59.42] You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '@old_status := `status`
+    WHERE `load_base_UID` = '26589.281474976744756'' at line 2[/ajax/post/uoup_cancel_refuse.php] [Chrome 109.0.0.0] [127.0.0.1]
+[31.10.2025 - 15:59.42] Ошибка в uoup_cancel_refuse.php[/ajax/post/uoup_cancel_refuse.php] [Chrome 109.0.0.0] [127.0.0.1]
+[31.10.2025 - 15:59.42] mail_utf8: wwwlab@unn.ru,  lkzk.unn.ru, wwwlab@unn.ru[/ajax/post/uoup_cancel_refuse.php] [Chrome 109.0.0.0] [127.0.0.1]
+[31.10.2025 - 16:00.43] You can't specify target table 'nagruzka' for update in FROM clause[/ajax/post/uoup_cancel_refuse.php] [Chrome 109.0.0.0] [127.0.0.1]
+[31.10.2025 - 16:00.43] Ошибка в uoup_cancel_refuse.php[/ajax/post/uoup_cancel_refuse.php] [Chrome 109.0.0.0] [127.0.0.1]
+[31.10.2025 - 16:00.43] mail_utf8: wwwlab@unn.ru,  lkzk.unn.ru, wwwlab@unn.ru[/ajax/post/uoup_cancel_refuse.php] [Chrome 109.0.0.0] [127.0.0.1]
+[01.11.2025 - 10:33.47] mail_utf8: ,  lkzk.unn.ru, lkzk@unn.ru[/ajax/post/uoup_cancel_refuse.php] [Chrome 109.0.0.0] [127.0.0.1]
+[01.11.2025 - 10:33.47] mail_utf8: wwwlab@unn.ru,  lkzk.unn.ru, lkzk@unn.ru[/ajax/post/uoup_cancel_refuse.php] [Chrome 109.0.0.0] [127.0.0.1]
+[01.11.2025 - 10:37.11] mail_utf8: zaznobina@ibbm.unn.ru,  lkzk.unn.ru, lkzk@unn.ru[/ajax/post/uoup_cancel_refuse.php] [Chrome 109.0.0.0] [127.0.0.1]
+[01.11.2025 - 10:37.11] mail_utf8: wwwlab@unn.ru,  lkzk.unn.ru, lkzk@unn.ru[/ajax/post/uoup_cancel_refuse.php] [Chrome 109.0.0.0] [127.0.0.1]
+[01.11.2025 - 10:40.53] Error in GetSQL():[/ajax/post/uoup_cancel_refuse.php] [Chrome 109.0.0.0] [127.0.0.1]
+[01.11.2025 - 10:40.53] [/ajax/post/uoup_cancel_refuse.php] [Chrome 109.0.0.0] [127.0.0.1]
+[01.11.2025 - 10:40.53] nagruzka пустая в uoup_cancel_refuse.php[/ajax/post/uoup_cancel_refuse.php] [Chrome 109.0.0.0] [127.0.0.1]
+[01.11.2025 - 10:40.53] mail_utf8: wwwlab@unn.ru,  lkzk.unn.ru, wwwlab@unn.ru[/ajax/post/uoup_cancel_refuse.php] [Chrome 109.0.0.0] [127.0.0.1]
+[01.11.2025 - 10:40.53] array (
+)[/ajax/post/uoup_cancel_refuse.php] [Chrome 109.0.0.0] [127.0.0.1]
+[01.11.2025 - 10:40.53] [/ajax/post/uoup_cancel_refuse.php] [Chrome 109.0.0.0] [127.0.0.1]
+[01.11.2025 - 10:40.53] Ошибка в uoup_cancel_refuse.php[/ajax/post/uoup_cancel_refuse.php] [Chrome 109.0.0.0] [127.0.0.1]
+[01.11.2025 - 10:40.53] mail_utf8: wwwlab@unn.ru,  lkzk.unn.ru, wwwlab@unn.ru[/ajax/post/uoup_cancel_refuse.php] [Chrome 109.0.0.0] [127.0.0.1]
+[01.11.2025 - 10:41.12] array (
+  '26589.281474976785379' => 
+  array (
+    'original_uid' => '26589.281474976785379',
+    'base_uid' => '26589.281474976785379',
+    'xml_content_of_load_UID' => '26589.281474976785379',
+    'xml_content_of_load_staff_UID' => '26593.281474976785361',
+    'YearOfEducation' => '2025',
+    'Abbr' => 'Б1.О.03',
+    'group_name' => '4523С5ЛД_а1',
+    'discipline_UID' => '26006.281474976710660',
+    'discipline_name' => 'Безопасность жизнедеятельности',
+    'department_name' => 'Институт биологии и биомедицины',
+    'napravlenie' => 'Лечебное дело',
+    'napravlenie_code' => '31.05.01',
+    'education_level' => 'специалитет',
+    'napravlennost' => 'Лечебное дело',
+    'language' => 'Английский',
+    'UID_FormOfEducation' => '0',
+    'UID_Semester' => '1',
+    'StudentAmount' => '14',
+    'kind_of_work' => 'Практика (семинарские занятия)',
+    'UID_Course' => '3',
+    'amount' => '16.00',
+    'galaktika_lecturer_fio' => NULL,
+    'lecturer_fio' => NULL,
+    'lecturer_uid' => NULL,
+    'lecturer_person_id' => NULL,
+    'status' => 'refused',
+    'chair_name' => 'Кафедра экологии',
+    'discipline_name_arr' => 
+    array (
+      0 => 'Безопасность жизнедеятельности',
+    ),
+    'discipline_UID_arr' => 
+    array (
+      0 => '26006.281474976710660',
+    ),
+    'group_name_arr' => 
+    array (
+      0 => '4523С5ЛД_а1',
+    ),
+    'Abbr_arr' => 
+    array (
+      0 => 'Б1.О.03',
+    ),
+    'napravlenie_arr' => 
+    array (
+      0 => 'Лечебное дело',
+    ),
+    'napravlennost_arr' => 
+    array (
+      0 => 'Лечебное дело',
+    ),
+    'department_name_arr' => 
+    array (
+      0 => 'Институт биологии и биомедицины',
+    ),
+    'disciplines_UIDs_chain_str' => '|26006.281474976710660|',
+    'disciplines_Names_chain_str' => '|Безопасность жизнедеятельности|',
+    'form_obuchenia' => 'Очная',
+  ),
+)[/ajax/post/uoup_cancel_refuse.php] [Chrome 109.0.0.0] [127.0.0.1]
+[01.11.2025 - 10:41.12] mail_utf8: ,  lkzk.unn.ru, lkzk@unn.ru[/ajax/post/uoup_cancel_refuse.php] [Chrome 109.0.0.0] [127.0.0.1]
+[01.11.2025 - 10:41.12] mail_utf8: wwwlab@unn.ru,  lkzk.unn.ru, lkzk@unn.ru[/ajax/post/uoup_cancel_refuse.php] [Chrome 109.0.0.0] [127.0.0.1]
+[01.11.2025 - 10:45.02] mail_utf8: ,  lkzk.unn.ru, lkzk@unn.ru[/ajax/post/uoup_cancel_refuse.php] [Chrome 109.0.0.0] [127.0.0.1]
+[01.11.2025 - 10:45.02] mail_utf8: wwwlab@unn.ru,  lkzk.unn.ru, lkzk@unn.ru[/ajax/post/uoup_cancel_refuse.php] [Chrome 109.0.0.0] [127.0.0.1]
+[01.11.2025 - 13:01.02] array (
+  'original_uid' => '26589.281474976785379',
+  'base_uid' => '26589.281474976785379',
+  'xml_content_of_load_UID' => '26589.281474976785379',
+  'xml_content_of_load_staff_UID' => '26593.281474976785361',
+  'YearOfEducation' => '2025',
+  'Abbr' => 'Б1.О.03',
+  'group_name' => '4523С5ЛД_а1',
+  'discipline_UID' => '26006.281474976710660',
+  'discipline_name' => 'Безопасность жизнедеятельности',
+  'department_name' => 'Институт клинической медицины',
+  'napravlenie' => 'Лечебное дело',
+  'napravlenie_code' => '31.05.01',
+  'education_level' => 'специалитет',
+  'napravlennost' => 'Лечебное дело',
+  'language' => 'Английский',
+  'UID_FormOfEducation' => '0',
+  'UID_Semester' => '1',
+  'StudentAmount' => '14',
+  'kind_of_work' => 'Практика (семинарские занятия)',
+  'UID_Course' => '3',
+  'amount' => '16.00',
+  'galaktika_lecturer_fio' => NULL,
+  'lecturer_fio' => NULL,
+  'lecturer_uid' => NULL,
+  'lecturer_person_id' => NULL,
+  'status' => 'require_admin_change',
+  'chair_name' => 'Кафедра экологии',
+  'zavkaf_fio' => 'Зазнобина Наталья Ивановна',
+  'discipline_name_arr' => 
+  array (
+    0 => 'Безопасность жизнедеятельности',
+  ),
+  'discipline_UID_arr' => 
+  array (
+    0 => '26006.281474976710660',
+  ),
+  'group_name_arr' => 
+  array (
+    0 => '4523С5ЛД_а1',
+  ),
+  'Abbr_arr' => 
+  array (
+    0 => 'Б1.О.03',
+  ),
+  'napravlenie_arr' => 
+  array (
+    0 => 'Лечебное дело',
+  ),
+  'napravlennost_arr' => 
+  array (
+    0 => 'Лечебное дело',
+  ),
+  'department_name_arr' => 
+  array (
+    0 => 'Институт клинической медицины',
+  ),
+  'disciplines_UIDs_chain_str' => '|26006.281474976710660|',
+  'disciplines_Names_chain_str' => '|Безопасность жизнедеятельности|',
+  'form_obuchenia' => 'Очная',
+)[/ajax/post/uoup_done_change.php] [Chrome 109.0.0.0] [127.0.0.1]
+[01.11.2025 - 13:12.44] array (
+  'original_uid' => '26589.281474976785379',
+  'base_uid' => '26589.281474976785379',
+  'xml_content_of_load_UID' => '26589.281474976785379',
+  'xml_content_of_load_staff_UID' => '26593.281474976785361',
+  'YearOfEducation' => '2025',
+  'Abbr' => 'Б1.О.03',
+  'group_name' => '4523С5ЛД_а1',
+  'discipline_UID' => '26006.281474976710660',
+  'discipline_name' => 'Безопасность жизнедеятельности',
+  'department_name' => 'Институт клинической медицины',
+  'napravlenie' => 'Лечебное дело',
+  'napravlenie_code' => '31.05.01',
+  'education_level' => 'специалитет',
+  'napravlennost' => 'Лечебное дело',
+  'language' => 'Английский',
+  'UID_FormOfEducation' => '0',
+  'UID_Semester' => '1',
+  'StudentAmount' => '14',
+  'kind_of_work' => 'Практика (семинарские занятия)',
+  'UID_Course' => '3',
+  'amount' => '16.00',
+  'galaktika_lecturer_fio' => NULL,
+  'lecturer_fio' => NULL,
+  'lecturer_uid' => NULL,
+  'lecturer_person_id' => NULL,
+  'status' => 'require_admin_change',
+  'chair_id' => '02419',
+  'chair_name' => 'Кафедра экологии',
+  'zavkaf_fio' => 'Зазнобина Наталья Ивановна',
+  'discipline_name_arr' => 
+  array (
+    0 => 'Безопасность жизнедеятельности',
+  ),
+  'discipline_UID_arr' => 
+  array (
+    0 => '26006.281474976710660',
+  ),
+  'group_name_arr' => 
+  array (
+    0 => '4523С5ЛД_а1',
+  ),
+  'Abbr_arr' => 
+  array (
+    0 => 'Б1.О.03',
+  ),
+  'napravlenie_arr' => 
+  array (
+    0 => 'Лечебное дело',
+  ),
+  'napravlennost_arr' => 
+  array (
+    0 => 'Лечебное дело',
+  ),
+  'department_name_arr' => 
+  array (
+    0 => 'Институт клинической медицины',
+  ),
+  'disciplines_UIDs_chain_str' => '|26006.281474976710660|',
+  'disciplines_Names_chain_str' => '|Безопасность жизнедеятельности|',
+  'form_obuchenia' => 'Очная',
+)[/ajax/post/uoup_done_change.php] [Chrome 109.0.0.0] [127.0.0.1]
+[01.11.2025 - 13:14.42] Пустой unnmail зав.кафедрой (логин: ) в uoup_cancel.php[/ajax/post/uoup_cancel.php] [Chrome 109.0.0.0] [127.0.0.1]
+[01.11.2025 - 13:14.42] mail_utf8: wwwlab@unn.ru,  lkzk.unn.ru, wwwlab@unn.ru[/ajax/post/uoup_cancel.php] [Chrome 109.0.0.0] [127.0.0.1]
+[01.11.2025 - 13:14.42] mail_utf8: wwwlab@unn.ru,  lkzk.unn.ru, lkzk@unn.ru[/ajax/post/uoup_cancel.php] [Chrome 109.0.0.0] [127.0.0.1]
+[01.11.2025 - 13:15.40] array (
+  'original_uid' => '26589.281474976785379',
+  'base_uid' => '26589.281474976785379',
+  'xml_content_of_load_UID' => '26589.281474976785379',
+  'xml_content_of_load_staff_UID' => '26593.281474976785361',
+  'YearOfEducation' => '2025',
+  'Abbr' => 'Б1.О.03',
+  'group_name' => '4523С5ЛД_а1',
+  'discipline_UID' => '26006.281474976710660',
+  'discipline_name' => 'Безопасность жизнедеятельности',
+  'department_name' => 'Институт клинической медицины',
+  'napravlenie' => 'Лечебное дело',
+  'napravlenie_code' => '31.05.01',
+  'education_level' => 'специалитет',
+  'napravlennost' => 'Лечебное дело',
+  'language' => 'Английский',
+  'UID_FormOfEducation' => '0',
+  'UID_Semester' => '1',
+  'StudentAmount' => '14',
+  'kind_of_work' => 'Практика (семинарские занятия)',
+  'UID_Course' => '3',
+  'amount' => '16.00',
+  'galaktika_lecturer_fio' => NULL,
+  'lecturer_fio' => NULL,
+  'lecturer_uid' => NULL,
+  'lecturer_person_id' => NULL,
+  'status' => 'require_admin_change',
+  'chair_id' => '02419',
+  'chair_name' => 'Кафедра экологии',
+  'zavkaf_fio' => 'Зазнобина Наталья Ивановна',
+  'discipline_name_arr' => 
+  array (
+    0 => 'Безопасность жизнедеятельности',
+  ),
+  'discipline_UID_arr' => 
+  array (
+    0 => '26006.281474976710660',
+  ),
+  'group_name_arr' => 
+  array (
+    0 => '4523С5ЛД_а1',
+  ),
+  'Abbr_arr' => 
+  array (
+    0 => 'Б1.О.03',
+  ),
+  'napravlenie_arr' => 
+  array (
+    0 => 'Лечебное дело',
+  ),
+  'napravlennost_arr' => 
+  array (
+    0 => 'Лечебное дело',
+  ),
+  'department_name_arr' => 
+  array (
+    0 => 'Институт клинической медицины',
+  ),
+  'disciplines_UIDs_chain_str' => '|26006.281474976710660|',
+  'disciplines_Names_chain_str' => '|Безопасность жизнедеятельности|',
+  'form_obuchenia' => 'Очная',
+)[/ajax/post/uoup_done_change.php] [Chrome 109.0.0.0] [127.0.0.1]
+[05.11.2025 - 15:39.12] array (
+  'lecturer_fio' => 'Вакансия',
+  'disciplines_UIDs_chain_str' => '|26006.281474976725254|26006.281474976725278|',
+  'disciplines_Names_chain_str' => '|Госпитальная терапия|Сестринское дело|',
+  'load_base_UID' => '26589.281474976773927',
+)[/ajax/post/select_nagruzka_lecturer.php] [Chrome 109.0.0.0] [127.0.0.1]
+[05.11.2025 - 15:39.12] Current database: lkzk[/ajax/post/select_nagruzka_lecturer.php] [Chrome 109.0.0.0] [127.0.0.1]
+[05.11.2025 - 15:39.16] array (
+  'lecturer_fio' => 'Вакансия',
+  'disciplines_UIDs_chain_str' => '|26006.281474976725254|26006.281474976725278|',
+  'disciplines_Names_chain_str' => '|Госпитальная терапия|Сестринское дело|',
+  'load_base_UID' => '26589.281474976773927',
+)[/ajax/post/select_nagruzka_lecturer.php] [Chrome 109.0.0.0] [127.0.0.1]
+[05.11.2025 - 15:39.16] Current database: lkzk[/ajax/post/select_nagruzka_lecturer.php] [Chrome 109.0.0.0] [127.0.0.1]
+[12.11.2025 - 12:30.59] array (
+  'lecturer_fio' => 'Воловатова Ирина Николаевна',
+  'lecturer_uid' => '26115.281474976896889',
+  'lecturer_person_id' => '70544',
+  'disciplines_UIDs_chain_str' => '|26006.281474976711260|',
+  'disciplines_Names_chain_str' => '|Научно-исследовательский семинар|',
+  'load_base_UID' => '26589.281474976744756',
+)[/ajax/post/select_nagruzka_lecturer.php] [Chrome 109.0.0.0] [127.0.0.1]
+[12.11.2025 - 12:30.59] Current database: lkzk[/ajax/post/select_nagruzka_lecturer.php] [Chrome 109.0.0.0] [127.0.0.1]
+[12.11.2025 - 12:32.18] array (
+  'lecturer_fio' => 'Воловатова Ирина Николаевна',
+  'lecturer_uid' => '26115.281474976896889',
+  'lecturer_person_id' => '70544',
+  'disciplines_UIDs_chain_str' => '|26006.281474976726885|',
+  'disciplines_Names_chain_str' => '|Основы клиники внутренних болезней|',
+  'load_base_UID' => '26589.281474976763944',
+)[/ajax/post/select_nagruzka_lecturer.php] [Chrome 109.0.0.0] [127.0.0.1]
+[12.11.2025 - 12:43.35] array (
+  'lecturer_fio' => 'Воловатова Ирина Николаевна',
+  'lecturer_uid' => '26115.281474976896889',
+  'lecturer_person_id' => '70544',
+  'disciplines_UIDs_chain_str' => '|26006.281474976726885|',
+  'disciplines_Names_chain_str' => '|Основы клиники внутренних болезней|',
+  'load_base_UID' => '26589.281474976763945',
+)[/ajax/post/select_nagruzka_lecturer.php] [Chrome 109.0.0.0] [127.0.0.1]

@@ -1,0 +1,71 @@
+<table class="widefat w-50" ng-if="admins_uoup.length" style="margin-bottom: 20px; width: 99%">
+  <thead>
+    <tr>
+      <th style="width: 250px">ФИО</th>
+      <th>Логин</th>
+
+      <th style="width: 150px" ng-if="MayEditUOUP()"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="(key, admin) in admins_uoup | orderBy:'fio'">
+      <td>{{admin.fio}}</td>
+      <td>{{admin.login}}</td>
+
+      <td valign="top" ng-if="MayEditUOUP()"> 
+        <!-- <button class="btn btn-xs btn-primary" ng-click="EditManager(manager)">редактировать</button> -->
+
+        <button class="btn btn-xs btn-danger" ng-click="DeleteAdminUOUP(admin)">удалить</button> 
+        <!-- <br> -->
+        <!-- <button class="btn btn-xs btn-success" ng-click="SaveManager(manager)" ng-if="manager.edit">сохранить</button> -->
+        <!-- <button class="btn btn-xs btn-secondary" ng-click="LoadManagers()" ng-if="manager.edit">отмена</button>  -->
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- <button class="btn btn-success" ng-click="params.show_add_manager = true" ng-if="MayEditUOUP() && !params.show_add_manager">Добавить менеджера ОП</button> -->
+
+  <div ng-if="MayEditUOUP()">
+
+  
+  <h5>Добавить администратора УОУП:</h5>
+
+  <div class="form-group w-25">
+    <label for="" class="b"></label>
+
+    <angucomplete-alt id="add_admin_uoup" input-name="add_admin_uoup"
+                      placeholder="ФИО сотрудника"
+                      pause="400"
+                      initial-value=""
+                      focus-out="focusOutAdminUOUP()"
+                      selected-object="onAdminUOUPSelect"
+                      input-changed="onAdminUOUPChanged"
+                      remote-url="./ajax/get/sotrudnik.php?callback=JSON_CALLBACK&s="
+                      remote-url-data-field=""
+                      title-field="fio"
+                      description-field="hint"
+                      match-class="highlight"
+                      text-searching="Поиск..."
+                      minlength="3"
+                      auto-match="false"
+                      text-no-results="Не найдено"
+                      input-class="form-control autocomplete" 
+                      field-required="false"
+                      
+                      />
+
+  </div>
+
+  <!-- <div ng-if="new_admin_uoup.has_reader_role" class="b" style="color: #AF0000">У сотрудника есть роль "Руководитель СП". <br>Пока у сотрудника будет роль "Руководитель СП", его возможности будут ограничены "только чтением".</div> -->
+
+<!--   <div class="form-group" style="margin-left: 0px; margin-top: 15px;">
+    <label for="" class="b" style="margin-bottom: 10px;">Факультеты:</label>
+    <label ng-repeat="(key, department) in Departments" style="display:block"> 
+      <input type="checkbox" ng-model="new_admin_uoup.departments_obj[department.id]">&nbsp;{{department.title}}
+    </label>
+  </div> -->
+
+  <button class="btn btn-success btn-sm" ng-click="AddAdminUOUP()" ng-disabled="!new_admin_uoup.fio" style="margin-top: 10px; ">Добавить</button>
+
+</div>

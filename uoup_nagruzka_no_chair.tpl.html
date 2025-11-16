@@ -1,0 +1,81 @@
+<table id="DataTables_Table_nagruzka_no_chair" datatable="ng" dt-options="dtOptions"  dt-column-defs="dtColumnDefs" dt-instance="dtInstance" class="dataTable row-border hover display table "  style='margin: 0 0 ;width:100%; '>
+  <thead>
+
+    <tr>
+      <th>Факультет</th>
+      <th>Кафедра</th>
+      <th>Аббр</th>
+      <th>Дисциплина</th>
+      <th>Группа</th>
+      <th>Уровень образования</th>
+      <th>Направление подготовки</th>
+      <th>Язык программы</th>
+      <th>Форма обучения</th>
+      <th>Семестр</th>
+      <th>Количество студентов</th>
+      <th>Вид работ</th>
+      <th>Профиль/направленность программы</th>
+      <th>Курс</th>
+      <th>Количество часов</th>
+      <!-- <th>Преподаватель</th> -->
+      <!-- <th></th> -->
+      <!-- <th></th> -->
+
+    </tr>
+  </thead>
+
+  <tbody>
+     <!-- ng-click="ShowPopup(person)" -->
+      <!-- | orderBy:['-selected', 'type', 'fio'] -->
+    <tr ng-repeat="row in uoup_nagruzka">
+      <td>{{row.department_name}}</td>
+      <td>{{row.chair_name}}</td>
+      <td ng-bind-html="row.Abbr">
+      </td>
+      <td ng-bind-html="row.discipline_name">
+      </td>
+      <td ng-bind-html="row.group_name">
+      </td>
+      <td>{{row.education_level}}</td>
+      <td>{{row.napravlenie}}</td>
+      <td>{{row.language}}</td>
+      <td>{{row.form_obuchenia}}</td>
+      <td>{{row.UID_Semester}}</td>
+      <td>{{row.StudentAmount}}</td>
+      <td>{{row.kind_of_work}}</td>
+      <td>{{row.napravlennost}}</td>
+      <td>{{row.UID_Course}}</td>
+      <td>{{row.amount}}</td>
+<!--       <td>
+        {{row.lecturer_fio}}
+      </td> -->
+
+    </tr>
+
+  </tbody>
+
+   <tfoot>
+      <tr>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <!-- <th></th> -->
+      </tr>
+    </tfoot>
+
+
+  </table>
+
+  <a ng-click="ClearGreenTableFilters(dtInstance, filter_distinct)" class="link pointer" style="float:right" ng-if="!isLoading">сбросить фильтры</a>

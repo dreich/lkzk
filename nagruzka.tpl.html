@@ -1,0 +1,242 @@
+<div ng-if="nagruzka_stat.chair_name">
+  <h5>{{nagruzka_stat.chair_name}}</h5>
+</div>
+
+
+
+<table class="widefat mb-3" ng-if="c_roles.zavkaf">
+
+  <thead>
+    <tr>
+      <th>тип нагрузки</th>
+      <th>всего нагрузки</th>
+      <th>не распределено</th>
+      <th>распределено</th>
+      <th>из них на вакансию</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr ng-if="ShowNagruzkaZavkafTypeRow('discipline')">
+      <td><a href="#/nagruzka/discipline">Дисциплины</a></td>
+      <td>{{nagruzka_stat['discipline']['total'] | toFixed:1}}</td>
+      <td>{{nagruzka_stat['discipline']['not_assigned'] | toFixed:1}}</td>
+      <td>{{nagruzka_stat['discipline']['assigned'] | toFixed:1}}</td>
+      
+      <td>{{nagruzka_stat['discipline']['assigned_on_vacancy'] | toFixed:1}}</td>
+    </tr>
+    <tr ng-if="ShowNagruzkaZavkafTypeRow('vkr')">
+      <td><a href="#/nagruzka/vkr">Руководство (ВКР, курсовые работы, практики)</a></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr ng-if="ShowNagruzkaZavkafTypeRow('ksro')">
+      <td><a href="#/nagruzka/ksro">Индивидуальные консультации и КСРО</a></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr ng-if="ShowNagruzkaZavkafTypeRow('gia')">
+      <td><a href="#/nagruzka/gia">ГИА</a></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr ng-if="ShowNagruzkaZavkafTypeRow('aspirant')">
+      <td><a href="#/nagruzka/aspirant">Руководство аспирантами и соискателями, кандидатские экзамены</a></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+  </tbody>
+  
+</table>
+
+<!-- {{nagruzka_type}} -->
+
+<div ng-if="isLoading">
+  <img src="/images/hourglass.png" style='position:fixed; left: 47%; top: 47%;'>
+</div>
+
+<!-- {{filter_distinct.global_nagruzka_filter}} -->
+
+<div ng-show="nagruzka_type && !isLoading">
+
+  <select class="form-select mb-2" style="width: 300px" ng-model="filter_distinct.global_nagruzka_filter" ng-change="onNagruzkaGlobalFilterChange()">
+    <option value="">Вся нагрузка</option>
+    <option value="assigned">распределена</option>
+    <option value="not_assigned">не распределена</option>
+    <option value="assigned_to_vancancy">распределена на вакансию</option>
+  </select>
+
+  <table id="DataTables_Table_nagruzka" datatable="ng" dt-options="dtOptions"  dt-column-defs="dtColumnDefs" dt-instance="dtInstance" class="dataTable row-border hover display table "  style='margin: 0 0 ;width:100%; ' >
+    <!-- ng-show="nagruzka_type" -->
+    <thead>
+
+      <tr>
+        <th style="width: 20px" ng-if="!readonly_nagruzka_chair_id">выбор</th>
+        <th>Факультет</th>
+        <th>Аббр</th>
+        <th>Дисциплина</th>
+        <th>Группа</th>
+        <th>Уровень образования</th>
+        <th>Направление подготовки</th>
+        <th>Язык программы</th>
+        <th>Форма обучения</th>
+        <th>Семестр</th>
+        <th>Количество студентов</th>
+        <th>Вид работ</th>
+        <th>Профиль/направленность программы</th>
+        <th>Курс</th>
+        <th>Количество часов</th>
+        <th>Преподаватель</th>
+        <!-- <th></th> -->
+        <!-- <th></th> -->
+
+      </tr>
+    </thead>
+
+    <tbody>
+       <!-- ng-click="ShowPopup(person)" -->
+        <!-- | orderBy:['-selected', 'type', 'fio'] -->
+      <tr ng-repeat="row in nagruzka" class="pointer" ng-class="{'readonly': !IsNagruzkaEditable(row)}">
+        <td ng-click="SelectNagruzkaTDClick(row); $event.stopPropagation()" ng-if="!readonly_nagruzka_chair_id">  
+          <input type="checkbox" ng-model="row.selected" ng-click="$event.stopPropagation()" ng-disabled="!IsNagruzkaEditable(row)">
+        </td>
+        <td ng-click="NagruzkaRowClick(row)">{{row.department_name}}</td>
+        <td ng-bind-html="row.Abbr" ng-click="NagruzkaRowClick(row)">
+        </td>
+        <td ng-bind-html="row.discipline_name" ng-click="NagruzkaRowClick(row)">
+        </td>
+        <td ng-bind-html="row.group_name" ng-click="NagruzkaRowClick(row)">
+        </td>
+        <td ng-click="NagruzkaRowClick(row)">{{row.education_level}}</td>
+        <td ng-click="NagruzkaRowClick(row)">{{row.napravlenie}}</td>
+        <td ng-click="NagruzkaRowClick(row)">{{row.language}}</td>
+        <td ng-click="NagruzkaRowClick(row)">{{row.form_obuchenia}}</td>
+        <td ng-click="NagruzkaRowClick(row)">{{row.UID_Semester}}</td>
+        <td ng-click="NagruzkaRowClick(row)">{{row.StudentAmount}}</td>
+        <td ng-click="NagruzkaRowClick(row)">{{row.kind_of_work}}</td>
+        <td ng-click="NagruzkaRowClick(row)">{{row.napravlennost}}</td>
+        <td ng-click="NagruzkaRowClick(row)">{{row.UID_Course}}</td>
+        <td ng-click="NagruzkaRowClick(row)">{{row.amount}}</td>
+        <td>
+          {{row.lecturer_fio}}
+          <!-- <span class="glyphicon glyphicon-plus-sign"></span> -->
+          <div ng-if="!readonly_nagruzka_chair_id">
+
+            <span ng-click="row.show_lecturer_autocomplete = true; $event.stopPropagation()" class="link glyphicon glyphicon-edit" ng-if="!row.show_lecturer_autocomplete && IsNagruzkaEditable(row)"></span>
+
+            <div ng-if="row.show_lecturer_autocomplete">
+              <angucomplete-alt id="lecturer_autocomplete_{{row.xml_content_of_load_UID}}_{{row.xml_content_of_load_staff_UID}}" input-name=""
+                  placeholder="Введите ФИО"
+                  pause="400"
+                  initial-value=""
+                  focus-out="focusOutLecturer()"
+                  selected-object="NagruzkaSelectedLecturer"
+                  selected-object-data="row"
+                  input-changed="inputChangedLecturer"
+                  remote-url="ajax/get/selected_chair_sotrudniki.php?callback=JSON_CALLBACK&s="
+                  title-field="fio"
+                  match-class="highlight"
+                  text-searching="Поиск..." 
+                  minlength="3"
+                  text-no-results="Не найдено"
+                  input-class="form-control autocomplete" style='width:50%' />
+            </div>
+          </div>
+        </td>
+  <!--         <td>
+
+        </td> -->
+      </tr>
+
+    </tbody>
+
+     <tfoot>
+        <tr>
+          <th ng-if="!readonly_nagruzka_chair_id">
+  <!--             <button class="btn btn-xs btn-success" ng-click="SelectAllFilteredNagruzkaRows()">✓</button>
+            <button class="btn btn-xs btn-danger" ng-click="SelectAllFilteredNagruzkaRows()">❌</button> -->
+            <div class="btn-group btn-group-xs" role="group" style="margin-bottom:2px;">
+              <button class="btn btn-xs btn-success" ng-click="SelectAllFilteredNagruzkaRows()" style=""><span class="glyphicon glyphicon-ok"></span></button>
+              <button class="btn btn-xs btn-danger" ng-click="DeselectSelectAllFilteredNagruzkaRows()"><span class="glyphicon glyphicon-remove"></span></button>
+            </div>
+          </th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+        </tr>
+      </tfoot>
+
+
+    </table>
+
+    <a ng-click="ClearGreenTableFilters(dtInstance, filter_distinct)" class="link pointer" style="float:right">сбросить фильтры</a>
+
+  </div>
+
+
+
+<div ng-if="SomeNagruzkaRowsSelected()">
+  Групповые действия
+
+  <div>
+    <!-- {{GetFilteredNagruzkaRows().length}} -->
+    Выбрано {{GetNagruzkaSelectedCount()}} строк
+    <!-- Выбрано {{SelectAllFilteredNagruzkaRows().length}} строк -->
+  </div>
+  
+  Укажите, что сделать с выбранными строками:
+  <select class="form-select w-25" ng-model="group_action.action" >
+    <option value="assign_to_sotrudnik">Распределить всё на одного сотрудника</option>
+    <option value="assign_to_vacancy">Распределить всё на «вакансию»</option>
+    <option value="refuse_nagruzka">Отказаться от выбранной нагрузки</option>
+    <option value="require_admin_change">Запрос администратору на внесение изменений</option>
+    <option value="write_admin_comment">Написать комментарий администратору</option>
+  </select>
+
+  <div ng-if="group_action.action == 'assign_to_sotrudnik'" class="w-25 mt-2">
+    <angucomplete-alt id="group_action_autocomplete" input-name=""
+        placeholder="Введите ФИО"
+        pause="400"
+        initial-value=""
+        focus-out="focusOutLecturer()"
+        selected-object="GroupActionSelectedLecturer"
+        selected-object-data="row"
+        input-changed="GroupActionInputChangedLecturer"
+        remote-url="ajax/get/selected_chair_sotrudniki.php?callback=JSON_CALLBACK&s="
+        title-field="fio"
+        match-class="highlight"
+        text-searching="Поиск..." 
+        minlength="3"
+        text-no-results="Не найдено"
+        input-class="form-control autocomplete" style='width:50%' />
+  </div>
+
+  <div ng-if="group_action.action == 'refuse_nagruzka' || group_action.action == 'require_admin_change' || group_action.action == 'write_admin_comment'" class="w-25 mt-2">
+    Комментарий:
+    <textarea class="form-control w-100" ng-model="group_action.message" ></textarea>
+  </div>
+
+  <button class="btn btn-sm btn-success mt-2" ng-click="DoGroupAction()" ng-disabled="!group_action">Выполнить</button>
+
+</div>
+

@@ -1,0 +1,2629 @@
+<?php
+
+
+include 'functions.php';
+session_name('lkzk');
+session_start();
+$c_access = $_SESSION['c_access'];
+$c_login = $_SESSION['c_login'];
+$c_fio = $_SESSION['c_fio'];
+
+$_c_roles = ExplodePalki($_SESSION['c_roles']);
+$c_roles = [];
+if ($_c_roles)
+foreach($_c_roles as $role)
+{
+  $c_roles[$role] = true;
+}
+
+?>
+
+'use strict';
+
+Array.prototype.in_array = function(p_val) {
+  for(var i = 0, l = this.length; i < l; i++) {
+    if(this[i] == p_val) {
+      return true;
+    }
+  }
+  return false;
+}
+
+if (!String.prototype.trim) {
+    (function() {
+        // Make sure we trim BOM and NBSP
+        var rtrim = /^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g;
+        String.prototype.trim = function() {
+            return this.replace(rtrim, '');
+        };
+    })();
+}
+
+
+var MONTHS = 
+[
+  'Январь',
+  'Февраль',
+  'Март',
+  'Апрель',
+  'Май',
+  'Июнь',
+  'Июль',
+  'Август',
+  'Сентябрь',
+  'Октябрь',
+  'Ноябрь',
+  'Декабрь'
+];
+
+
+
+var showSessionExpired = function($scope, ngDialog)
+{
+  if ($scope && !$scope.showing_session_expired)
+  {
+      ngDialog.openConfirm({
+        template: 'session_expired',
+        className: 'ngdialog-theme-default',
+        scope: $scope,
+        closeByEscape: false,
+        onOpenCallback: function(value) {
+            
+            $scope.showing_session_expired = true;
+        },
+        preCloseCallback: function(value) {
+        window.location.reload() 
+      }
+    }).then(function (value) {
+
+        window.location.reload()
+
+    });
+  }
+}
+
+var checkSession = function($http, $scope, ngDialog)
+{
+  $http({url: 'ajax/get/check_session.php', method: 'POST', data: {}})
+    .then( function (response) 
+    {
+      if (response.data != true)
+      {
+         showSessionExpired($scope, ngDialog)
+      }
+    })
+}
+
+
+const c_login = '<?=$c_login?>';
+const c_fio = '<?=$c_fio?>';
+// роли авторизованного
+const c_roles = {<?=ArrayToJS($c_roles)?>};
+// справочник ролей
+const $_roles = {<?=ArrayToJS($_roles)?>};
+const $_sotrudnik_types = {<?=ArrayToJS($_sotrudnik_types)?>};
+const $_forms_obuchenia = {<?=ArrayToJS($_forms_obuchenia)?>};
+const $_degrees_codes = {<?=ArrayToJS($_degrees_codes)?>};
+// id кафедры для зав. кафедрой
+const c_chair_id = '<?=($_SESSION['c_chair_id'] ? $_SESSION['c_chair_id'] : '')?>';
+CL(c_chair_id);
+const CUR_YEAR = new Date().getFullYear();
+
+//****************************************
+// https://amsul.ca/pickadate.js/
+angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', 'angularSpinners', 'ui.mask', 'angularFileUpload', 'ngCookies', 'pickadate', 'datatables', 'datatables.columnfilter', 'datatables.colvis', 'ngResource', 'ngSanitize', 'ngCookies'])
+//    'ui.bootstrap.modal', 'ui.bootstrap', ,  'mgcrea.ngStrap',
+
+.constant('system_start_year', <?=$_system_start_year?$_system_start_year:2017?>)
+
+
+// http://oncodesign.io/2014/02/19/safely-prevent-template-caching-in-angularjs/
+.run(function($rootScope, $templateCache) {
+   $rootScope.$on('$routeChangeStart', function(event, next, current) {
+          if (typeof(current) !== 'undefined'){
+              $templateCache.remove(current.templateUrl);
+          }
+      });
+})
+
+.config(['$routeProvider', '$locationProvider', '$httpProvider', function ($routeProvider, $locationProvider, $httpProvider) 
+{
+  $locationProvider.hashPrefix('');
+
+  $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+
+  $routeProvider
+    .when('/',
+    {
+      templateUrl: 'index.tpl.php?' + getRandom(10000, 99999),
+      controller: 'IndexCtrl'
+    })
+    // Интерфейс завкафа
+    .when('/nagruzka',
+    {
+      templateUrl: 'nagruzka.tpl.html?' + getRandom(10000, 99999),
+      controller: 'NagruzkaCtrl',
+      resolve:
+      {
+        nagruzka_type: function($route)
+        {
+          return null;
+        },
+        nagruzka_chair_id: function($route)
+        {
+          return null
+        }
+      }
+    })
+    // Интерфейс завкафа
+    .when('/nagruzka/:type',
+    {
+      templateUrl: 'nagruzka.tpl.html?' + getRandom(10000, 99999),
+      controller: 'NagruzkaCtrl',
+      resolve:
+      {
+        nagruzka_type: function($route)
+        {
+          return $route.current.params.type
+        },
+        nagruzka_chair_id: function($route)
+        {
+          return null
+        }
+      }
+    })
+    // Интерфейс УОУП, как у завкафа, но readonly
+    .when('/nagruzka/:type/:nagruzka_chair_id',
+    {
+      templateUrl: 'nagruzka.tpl.html?' + getRandom(10000, 99999),
+      controller: 'NagruzkaCtrl',
+      resolve:
+      {
+        nagruzka_type: function($route)
+        {
+          return $route.current.params.type
+        },
+        nagruzka_chair_id: function($route)
+        {
+          return $route.current.params.nagruzka_chair_id
+        }
+      }
+    })
+    .when('/uoup_nagruzka',
+    {
+      templateUrl: 'uoup_nagruzka.tpl.html?' + getRandom(10000, 99999),
+      controller: 'UOUPNagruzkaCtrl',
+      resolve:
+      {
+        uoup_nagruzka: function($http)
+        {
+          return $http({url: 'ajax/get/uoup_nagruzka.php', method: 'GET'});
+        },
+        nagruzka_uoup_stat: function($http)
+        {
+          return $http({url: 'ajax/get/get_nagruzka_uoup_stat.php', method: 'GET'});
+        },
+        page: function($q) {
+          return $q.when('uoup_nagruzka');
+        }
+      }
+    })
+    .when('/uoup_nagruzka_no_chair',
+    {
+      templateUrl: 'uoup_nagruzka_no_chair.tpl.html?' + getRandom(10000, 99999),
+      controller: 'UOUPNagruzkaCtrl',
+      resolve:
+      {
+        uoup_nagruzka: function($http)
+        {
+          return $http({url: 'ajax/get/uoup_nagruzka_no_chair.php', method: 'GET'});
+        },
+        nagruzka_uoup_stat: function($http)
+        {
+          return {};
+        },
+        page: function($q) {
+          return $q.when('uoup_nagruzka_no_chair');
+        }
+      }
+    })
+    .when('/uoup_chairs_refused',
+    {
+      templateUrl: 'uoup_chairs_refused.tpl.html?' + getRandom(10000, 99999),
+      controller: 'UOUPChairsRefusedCtrl',
+      resolve:
+      {
+        uoup_nagruzka: function($http)
+        {
+          return $http({url: 'ajax/get/chairs_refused_nagruzka_discipline.php', method: 'GET'});
+        }
+      }
+    })
+    .when('/uoup_nagruzka_to_change',
+    {
+      templateUrl: 'uoup_nagruzka_to_change.tpl.html?' + getRandom(10000, 99999),
+      controller: 'UOUPNagruzkaToChangeCtrl',
+      resolve:
+      {
+        uoup_nagruzka: function($http)
+        {
+          return $http({url: 'ajax/get/chairs_require_admin_change_nagruzka_discipline.php', method: 'GET'});
+        }
+      }
+    })
+    .when('/sotrudniki',
+    {
+      templateUrl: 'sotrudniki.tpl.html?' + getRandom(10000, 99999),
+      controller: 'SotrudnikiCtrl',
+      resolve:
+      {
+       
+      }
+    })
+    .when('/test',
+    {
+      templateUrl: 'test.tpl.html?' + getRandom(10000, 99999),
+      controller: 'TestCtrl',
+      resolve:
+      {
+       
+      }
+    })
+    .when('/uoup',
+    {
+      templateUrl: 'uoup.tpl.html?' + getRandom(10000, 99999),
+      controller: 'AdminsUOUPCtrl',
+      resolve:
+      {
+        admins_uoup: function($http)
+        {
+          return $http({url: 'ajax/get/admins_uoup.php', method: 'GET'});
+        }
+      }
+    })
+    .otherwise(
+    {
+      template: 'Страница не найдена'
+    });
+
+}])
+
+//Главный контроллер
+.controller ('AppCtrl', function($templateCache, $scope, $rootScope, ngDialog, $http)
+{
+  CL('AppCtrl');
+
+  $scope.c_login = c_login;
+
+  CL(c_roles);
+ 
+  $scope.c_roles = c_roles;
+  // справочник ролей
+  $scope.$_roles = $_roles;
+
+
+
+  $scope.c_fio = c_fio;
+ 
+  $templateCache.put('session_expired', '<p>Время Вашей сессии истекло. Для продолжения работы необходимо авторизоваться повторно.</p>\
+              <div class="ngdialog-buttons">\
+                  <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="confirm(1)">OK</button>\
+              </div>');
+
+  clearInterval($rootScope.checkSessionInterval);
+  $rootScope.checkSessionInterval = setInterval(checkSession, 60000, $http, $scope, ngDialog);
+
+  $rootScope.ClearGreenTableFilters = function(dtInstance, filter_distinct) // table,  global_nagruzka_filter)
+  {
+    CL('ClearGreenTableFilters');
+
+    const table = dtInstance.dataTable;
+    // CL(global_nagruzka_filter);
+
+    filter_distinct.global_nagruzka_filter = undefined;
+
+    // Сброс глобального поиска
+    table.fnFilter('');
+
+    // Сброс фильтров для всех столбцов
+    for (let i = 0; i < table.fnSettings().aoColumns.length; i++) {
+        table.fnFilter('', i);
+    }
+
+    // CL(table);
+
+    // const dt = table;//.DataTable();
+
+    // $('#DataTables_Table_1').find('tfoot tr select').val('').trigger('change');
+    // $('#DataTables_Table_1').find('tfoot tr input').val('').trigger('change');
+
+    table.fnSort([]); // Сбрасываем сортировку
+
+    table.find('tfoot tr select').val('').trigger('change');
+    table.find('tfoot tr input').val('').trigger('change');
+
+    // Перерисовка таблицы
+    table.fnDraw();
+  }
+
+
+
+})
+
+.controller ('IndexCtrl', function($scope, $rootScope)
+{
+  $rootScope.page = 'index';
+
+  CL('IndexCtrl');
+
+  // window.location = '#/zayavki/' + cur_year;
+
+  if (c_roles.uoup)
+  {
+    window.location = '#/uoup_nagruzka';
+  }
+
+  if (c_roles.zavkaf)
+  {
+    window.location = '#/nagruzka';
+  }
+
+})
+
+/*
+.controller ('TestCtrl', function($scope,  $http, DTOptionsBuilder, DTColumnBuilder, DTColumnDefBuilder, ngDialog, $templateCache)
+{
+  CL('TestCtrl');
+
+  $templateCache.put('popup', '<p>Время Вашей сессии истекло. {{selected_person.firstName}} Для продолжения работы необходимо авторизоваться повторно.</p>\
+              <div class="ngdialog-buttons">\
+                  <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="confirm(1)">OK</button>\
+              </div>');
+  // $scope.test = "abc";
+  // $scope.dtOptions = 
+  // {
+  //   language: { decimal: "," }, 
+  //   paging:false,
+  //   dom: ""
+  // };
+
+  $scope.dtInstance = {};
+
+  // $scope.persons = $resource('data.json').query();
+
+  $scope.dtOptions = DTOptionsBuilder //.fromSource('data.json')
+        .newOptions()
+        .withOption('stateSave', true)
+        .withPaginationType('full_numbers')
+        .withColVis()
+        // Add a state change function
+        .withColVisStateChange(stateChange)
+        // Exclude the last column from the list
+        .withColVisOption('aiExclude', [0])
+        .withColumnFilter({
+            aoColumns: [{
+                type: 'number'
+            }, {
+                type: 'select',
+                bRegex: false,
+                values: ['Superman', 'Louis', 'Zed', 'Batman', 'Luke', 'Cartman', 'Test']
+                // bSmart: true
+            }
+            , {
+                type: 'select',
+                bRegex: false,
+                values: ['Whateveryournameis', 'Test', 'Yoda', 'Titi', 'Kyle', 'Bar', 'Whateveryournameis']
+            }
+          ]
+        })
+        ;
+
+        $scope.dtColumnDefs = [
+          DTColumnDefBuilder.newColumnDef(0),
+          DTColumnDefBuilder.newColumnDef(1),
+          DTColumnDefBuilder.newColumnDef(2),
+
+        ];
+
+        // CL($scope.dtOptions);
+
+    function stateChange(iColumn, bVisible) {
+        console.log('The column', iColumn, ' has changed its status to', bVisible);
+    }
+
+    // $scope.dtColumns = [
+    //     DTColumnBuilder.newColumn('id').withTitle('ID'),
+    //     DTColumnBuilder.newColumn('firstName').withTitle('First name'),
+    //     DTColumnBuilder.newColumn('lastName').withTitle('Last name')
+    // ];
+    $scope.ClearGreenTableFilters = function()
+    {
+      // CL('ClearGreenTableFilters');
+
+      // CL($scope.dtInstance);
+
+      // return;
+
+      const table = $scope.dtInstance.dataTable;
+
+      // CL(table);
+
+      // return;
+
+      // Сброс глобального поиска
+      table.fnFilter('');
+
+      // Сброс фильтров для всех столбцов
+      for (let i = 0; i < table.fnSettings().aoColumns.length; i++) {
+          table.fnFilter('', i);
+      }
+
+      $('#DataTables_Table_1').find('tfoot tr select').val('').trigger('change');
+      $('#DataTables_Table_1').find('tfoot tr input').val('').trigger('change');
+
+      // Перерисовка таблицы
+      table.fnDraw();
+    }
+
+    $scope.ShowPopup = function(person)
+    {
+      CL('ShowPopup');
+
+      $scope.selected_person = person;
+
+      ngDialog.openConfirm({
+                template: 'popup',
+                scope: $scope,
+                className: 'ngdialog-theme-default ngdialog-positions',
+                disableAnimation: true,
+                preCloseCallback: function(value)
+                {
+                  return true;
+                }
+            })
+            .then(function (value) {  // да
+
+            })
+            .catch(function dialogCloseErrorCallback(reason) {
+                    // ngDialog v1.4.0 throws an exception, when closing the dialog with reason “undefined”.
+            });
+
+    }
+
+
+})
+
+*/
+
+.controller ('NagruzkaCtrl', function($rootScope, $scope, $http, DTOptionsBuilder, DTColumnBuilder, DTColumnDefBuilder, ngDialog, $templateCache, nagruzka_type, nagruzka_chair_id, $resource, $cookies)
+{
+  CL('NagruzkaCtrl');
+  CL(nagruzka_type);
+  CL(nagruzka_chair_id);
+
+  $scope.readonly_nagruzka_chair_id = nagruzka_chair_id;
+
+  $templateCache.put('confirm_delete', '<p>Вы уверены, что хотите удалить?</p>\
+              <div class="ngdialog-buttons">\
+                  <button type="button" class="ngdialog-button ngdialog-button-secondary" ng-click="closeThisDialog(0)">Нет</button>\
+                  <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="confirm(1)">Да</button>\
+              </div>');
+
+  $rootScope.page = 'nagruzka';
+  $scope.$_forms_obuchenia = $_forms_obuchenia;
+  $scope.nagruzka_type = nagruzka_type;
+  // $scope.$_degrees_codes = $_degrees_codes;
+
+  $scope.dtInstance = {};
+  $scope.filter_distinct = {};
+  $scope.group_action = {};
+
+  $scope.filter_distinct.global_nagruzka_filter = $cookies.get('global_nagruzka_filter');
+
+
+
+  function LoadNagruzkaZavkafStat()
+  {
+    $scope.nagruzka_stat = $resource('ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=' + (nagruzka_chair_id ? nagruzka_chair_id : c_chair_id)).get(function()
+    {
+      
+    });
+  }
+
+  LoadNagruzkaZavkafStat();
+
+
+  const columns = [
+      null, 
+      // факультет
+      {
+        name: 'department_name',
+        type: 'select',
+        bRegex: false,
+        values: $scope.filter_distinct['department_name']
+        // bSmart: true
+      }, 
+      // аббревиатура
+      {
+        name: 'Abbr',
+        type: 'input',
+        bRegex: false,
+      },
+      // дисциплина
+      {
+        name: 'discipline_name',
+        type: 'input',
+        bRegex: false,
+      },
+      null,
+      // уровень образования
+      {
+        name: 'education_level',
+        type: 'select',
+        bRegex: false,
+        values: $scope.filter_distinct['education_level'] // ['бакалавриат', 'специалитет', 'магистратура', 'ординатура', 'аспирантура']
+      },
+      // направление подготовки
+      {
+        name: 'napravlenie',
+        type: 'input',
+        bRegex: false,
+      },
+      // язык программы
+      {
+        name: 'language',
+        type: 'select',
+        bRegex: false,
+        values: $scope.filter_distinct['language']
+      },
+      // форма обучения
+      {
+        name: 'form_obuchenia',
+        type: 'select',
+        bRegex: false,
+        values: ['Очная', 'Заочная', 'Очная-заочная']
+      },
+      // семестр
+      {
+        name: 'UID_Semester',
+        type: 'select',
+        bRegex: false,
+        values: ['1', '2', '3', '4', '5', '6', '7'],
+        width: '100'
+      },
+      null,
+      null,
+      null,
+      // курс
+      {
+        name: 'UID_Course',
+        type: 'select',
+        bRegex: false,
+        values: ['1', '2', '3', '4', '5', '6', '7']
+      },
+  ];
+
+  function NagruzkaInit()
+  {
+    // CL('NagruzkaInit');
+    // $scope.persons = $resource('data.json').query();
+
+    $scope.dtOptions = DTOptionsBuilder //.fromSource('data.json')
+      .newOptions()
+      .withOption('stateSave', true)
+      // .withOption('aoColumns', [{bVisible': false}])
+      .withPaginationType('full_numbers')
+      .withColVis()
+      // Add a state change function
+      // .withColVisStateChange(stateChange)
+      // Exclude the last column from the list
+      .withColVisOption('aiExclude', [0,1,3,14,15])
+      .withLanguage({
+          "loadingRecords": "Загрузка...",
+          "processing": "Обработка..."
+      })
+      .withColumnFilter({
+          aoColumns: columns
+      })
+
+      .withOption('initComplete', function(settings, json) {
+        // Скрываем индикатор когда загрузка завершена
+        // CL("initComplete");
+        $scope.$apply(function() {
+            $scope.isLoading = false;
+        });
+      })
+      // .withOption('preDrawCallback', function(settings) {
+      //     // Показываем индикатор перед началом загрузки
+      //     CL("preDrawCallback");
+      // })
+      // .withOption('processing', true)
+      // .withOption('language', {
+      //     "processing": "<div class='loading'><i class='fa fa-spinner fa-spin'></i> Загрузка...</div>"
+      // })
+      ;
+
+    $scope.dtColumnDefs = [
+      DTColumnDefBuilder.newColumnDef(0).notSortable(),
+      // DTColumnDefBuilder.newColumnDef(8).notVisible().notSortable(),
+      // DTColumnDefBuilder.newColumnDef(9).notVisible().notSortable(),
+      // DTColumnDefBuilder.newColumnDef(10).notVisible().notSortable(),
+      // DTColumnDefBuilder.newColumnDef(11).notVisible().notSortable(),
+      // DTColumnDefBuilder.newColumnDef(12).notVisible().notSortable(),
+      // DTColumnDefBuilder.newColumnDef(13).notVisible().notSortable(),
+
+    ];
+
+    $scope.filter_distinct['language'] = [];
+    $scope.filter_distinct['department_name'] = [];
+    $scope.filter_distinct['education_level'] = [];
+
+    angular.forEach($scope.nagruzka, function(row)
+    {
+      if (!$scope.filter_distinct['language'].includes(row.language))
+      {
+        $scope.filter_distinct['language'].push(row.language);
+      }
+
+      if (!$scope.filter_distinct['department_name'].includes(row.language))
+      {
+        $scope.filter_distinct['department_name'].push(row.language);
+      }
+
+      if (!$scope.filter_distinct['education_level'].includes(row.language))
+      {
+        $scope.filter_distinct['education_level'].push(row.language);
+      }
+    });
+
+  }
+
+  if (nagruzka_type == 'discipline')
+  {
+    // CL("Start loading");
+    $scope.isLoading = true;
+
+    var chair_str;
+
+    if (!isEmpty(nagruzka_chair_id)) chair_str = "?chair_id=" + nagruzka_chair_id;
+    else chair_str = "";
+
+    $scope.nagruzka = $resource('ajax/get/nagruzka_discipline.php' + chair_str).query(function()
+    {
+      NagruzkaInit();
+      // CL("End loading");
+    });
+  }
+
+  // $scope.GetMyFilteredNagruzka = function()
+  // {
+  //   return $scope.nagruzka ? $scope.nagruzka.filter( row => 
+  //     {
+  //       if (isEmpty($scope.my_nagruzka_filter))
+  //       {
+  //         return true;
+  //       }
+  //       else if ($scope.my_nagruzka_filter == 'assigned')
+  //       {
+  //         return !isEmpty(row.lecturer_fio);
+  //       }
+  //       else if ($scope.my_nagruzka_filter == 'not_assigned')
+  //       {
+  //         return isEmpty(row.lecturer_fio);
+  //       }
+  //       else if ($scope.my_nagruzka_filter == 'assigned_to_vancancy')
+  //       {
+  //         return !isEmpty(row.lecturer_fio) && row.lecturer_fio == 'Вакансия';
+  //       }
+  //     }) : [];
+  // }
+
+
+  // вычислить уровень образования по коду направления
+  $scope.GetEducationLevel = function(nagruzka_row)
+  {
+
+  }
+
+  $scope.onNagruzkaGlobalFilterChange = function() 
+  {
+    CL('onNagruzkaGlobalFilterChange');
+
+    CL($scope.filter_distinct.global_nagruzka_filter);
+
+    $cookies.put('global_nagruzka_filter', $scope.filter_distinct.global_nagruzka_filter);
+
+    window.location.reload();
+  }
+
+  $scope.GetStatNagruzka = function(nagruzka_type, stat)
+  {
+    if (nagruzka_type == 'discipline')
+    {
+      if (stat == 'total' && !isEmpty($scope.nagruzka)) return $scope.nagruzka.length;
+    }
+
+
+    return '';
+  }
+
+  /*
+  $scope.ClearGreenTableFilters = function()
+  {
+
+    const table = $scope.dtInstance.dataTable;
+
+    // Сброс глобального поиска
+    table.fnFilter('');
+
+    // Сброс фильтров для всех столбцов
+    for (let i = 0; i < table.fnSettings().aoColumns.length; i++) {
+        table.fnFilter('', i);
+    }
+
+    $('#DataTables_Table_1').find('tfoot tr select').val('').trigger('change');
+    $('#DataTables_Table_1').find('tfoot tr input').val('').trigger('change');
+
+    // Перерисовка таблицы
+    table.fnDraw();
+  }
+  */
+
+  function SaveNagruzkaLecturer(nagruzka_row)
+  {
+    $http({url: 'ajax/post/select_nagruzka_lecturer.php', method: 'POST', data: { lecturer_fio: nagruzka_row.lecturer_fio, lecturer_uid: nagruzka_row.lecturer_uid, lecturer_person_id: nagruzka_row.lecturer_person_id, disciplines_UIDs_chain_str: nagruzka_row.disciplines_UIDs_chain_str, disciplines_Names_chain_str: nagruzka_row.disciplines_Names_chain_str, load_base_UID: nagruzka_row.base_uid}})
+                .then(function(data)
+                {
+                  if (data.data.result == 'success')
+                  {
+                    toastr.success("Данные сохранены");
+                  }
+                  else
+                  {
+                    toastr.error("Ошибка");
+                  }
+                });
+  }
+
+  $scope.NagruzkaSelectedLecturer = function(data, nagruzka_row)
+  {
+    CL('NagruzkaSelectedLecturer');
+    
+    CL(data);
+
+    if (!isEmpty(nagruzka_row) && !isEmpty(data))
+    {
+      nagruzka_row.lecturer_fio = data.originalObject.fio;
+      nagruzka_row.lecturer_uid = data.originalObject.lecturer_uid;
+      nagruzka_row.lecturer_person_id = data.originalObject.person_id;
+      // nagruzka_row.lecturer_login = data.originalObject.login;
+    }
+
+    nagruzka_row.show_lecturer_autocomplete = false;
+
+    // CL(nagruzka_row);
+
+    SaveNagruzkaLecturer(nagruzka_row);
+
+    // $scope.$broadcast('angucomplete-alt:clearInput'); //, 'lecturer_autocomplete_' + nagruzka_row['xml_content_of_load_UID'] + '_' + nagruzka_row['xml_content_of_load_staff_UID']);
+
+    // CL('lecturer_autocomplete_' + nagruzka_row['xml_content_of_load_UID'] + '_' + nagruzka_row['xml_content_of_load_staff_UID']);
+  }
+
+
+  $scope.SelectNagruzkaTDClick = function(nagruzka)
+  {
+    nagruzka.selected = !nagruzka.selected;
+  }
+
+  // какие-то строки нагрузки выбраны чекбоксами
+  $scope.SomeNagruzkaRowsSelected = function()
+  {
+    var some_selected = false;
+
+    angular.forEach($scope.nagruzka, function(nagruzka)
+    {
+      // CL(nagruzka.selected);
+
+      if (nagruzka.selected)
+      {
+        // CL('selected');
+        some_selected = true;
+      }
+    });
+
+    // CL(some_selected);
+
+    return some_selected;
+  }
+
+  // получить строки нагрузки с учётом фильтров
+  $scope.GetFilteredNagruzkaRows = function()
+  {
+    if (isEmpty($scope.dtInstance) || isEmpty($scope.dtInstance.dataTable.fnSettings())) return [];
+
+    var filtered_nagruzka = [];
+    var _column;
+    var _column_filter_value = '';
+
+    angular.forEach($scope.nagruzka, function(nagruzka)
+    {
+      var all_column_filters_suit = true;
+
+      for (var i = 0; i < columns.length; i++)
+      {
+        _column = columns[i];
+        // CL(_column);
+
+        // столбец описан и потенциально участвует в фильтрации
+        if (!isEmpty(_column) && !isEmpty(_column['name']) && !isEmpty(_column['type']))
+        {
+          // CL('here');
+
+          // непосредственно значение фильтра (если не пусто)
+          _column_filter_value = $scope.dtInstance.dataTable.fnSettings().aoPreSearchCols[i].sSearch;
+
+          // CL(_column['name']);
+          // CL($scope.dtInstance.dataTable.fnSettings().aoPreSearchCols[i]);
+
+          if (!isEmpty(_column_filter_value))
+          {
+            // CL(_column_filter_value);
+          }
+          else
+          {
+            continue;
+          }
+
+          // if (nagruzka[_column['name']] != _column_filter_value)
+          // значения разные
+          if (_column['type'] == 'select' && nagruzka[_column['name']].localeCompare(_column_filter_value, 'ru', { sensitivity: 'base' }) != 0)
+          {
+            all_column_filters_suit = false;
+            break;
+          }
+          else if (_column['type'] == 'input' && !nagruzka[_column['name']].includes(_column_filter_value))
+          {
+            if (_column['name'] == 'discipline_name')
+            {
+              // CL(nagruzka[_column['name']]);
+              // CL(_column_filter_value);
+            }
+            all_column_filters_suit = false;
+            break;
+          }
+        }
+      }
+
+      if (all_column_filters_suit)
+      {
+        filtered_nagruzka.push(nagruzka);
+      }
+    });
+
+    // CL(filtered_nagruzka.length);
+
+    return filtered_nagruzka;
+  }
+
+  $scope.GetFilteredNagruzkaRowsIndexes = function()
+  {
+    var filtered_rows_inds_arr = [];
+
+    if ($scope.dtInstance.dataTable)
+    {
+      filtered_rows_inds_arr = $scope.dtInstance.dataTable.DataTable().rows({ search: 'applied'}).indexes().toArray();
+    }
+
+    return filtered_rows_inds_arr;
+  }
+
+
+  $scope.GetNagruzkaSelectedCount = function()
+  {
+    return $scope.nagruzka.filter(i => i.selected).length;
+  }
+
+  // Выбрать все видимые (после фильтрации) строки нагрузки
+  $scope.SelectAllFilteredNagruzkaRows = function()
+  {
+    CL('SelectAllFilteredNagruzkaRows');
+
+    const filtered_rows_indexes = $scope.GetFilteredNagruzkaRowsIndexes();
+
+    // очистим выбор всех строк нагрузки
+    $scope.nagruzka.forEach(item => item.selected = false);
+
+    // проставим выбор отфильтрованных строк нагрузки
+    var filtered_nagruzka_rows = filtered_rows_indexes.map(function(i) 
+    {
+      $scope.nagruzka[i].selected = true;
+      return $scope.nagruzka[i];
+    });
+
+    // CL(filtered_nagruzka_rows);
+
+    // CL($scope.dtInstance.dataTable.fnSettings().aoPreSearchCols);
+    // var filtered_rows_columns_arr = $scope.dtInstance.dataTable.DataTable().rows({ search: 'applied'}).indexes().toArray();
+
+    // CL($scope.dtInstance.dataTable.DataTable().rows({ search: 'applied'}).indexes().toArray());
+    // CL($scope.dtInstance.dataTable.fnSettings().aoPreSearchCols[1].sSearch);
+  }
+
+  $scope.DeselectSelectAllFilteredNagruzkaRows = function()
+  {
+     // очистим выбор всех строк нагрузки
+    $scope.nagruzka.forEach(item => item.selected = false);
+  }
+
+  $scope.GroupActionSelectedLecturer = function(data)
+  {
+    CL('GroupActionSelectedLecturer');
+    
+    CL(data);
+
+    if (!isEmpty(data))
+    {
+      $scope.group_action.lecturer_fio = data.originalObject.fio;
+      $scope.group_action.lecturer_uid = data.originalObject.lecturer_uid;
+      $scope.group_action.lecturer_person_id = data.originalObject.person_id;
+    }
+
+  }
+
+
+  $scope.DoGroupAction = function()
+  {
+    // Распределить всё на одного сотрудника
+    if ($scope.group_action.action == 'assign_to_sotrudnik')
+    {
+      $scope.nagruzka.forEach(nagruzka_row => 
+      {
+        // CL(item);
+        if (nagruzka_row.selected)
+        {
+          nagruzka_row.lecturer_fio = $scope.group_action.lecturer_fio;
+          nagruzka_row.lecturer_uid = $scope.group_action.lecturer_uid;
+          nagruzka_row.lecturer_person_id = $scope.group_action.lecturer_person_id;
+
+          SaveNagruzkaLecturer(nagruzka_row);
+        }
+      });
+    }
+    // Распределить всё на «вакансию»
+    else if ($scope.group_action.action == 'assign_to_vacancy')
+    {
+      $scope.nagruzka.forEach(nagruzka_row => 
+      {
+        // CL(item);
+        if (nagruzka_row.selected)
+        {
+          nagruzka_row.lecturer_fio = 'Вакансия';
+          nagruzka_row.lecturer_uid = '';
+          nagruzka_row.lecturer_person_id = '00000';
+
+          SaveNagruzkaLecturer(nagruzka_row);
+        }
+      });
+    }
+    // Отказаться от выбранной нагрузки
+    else if ($scope.group_action.action == 'refuse_nagruzka')
+    {
+      if (!$scope.group_action.message || !$scope.group_action.message.length)
+      {
+        toastr.error("Введите обязательный комментарий");
+      }
+      else
+      {
+        $scope.nagruzka.forEach(nagruzka_row => 
+      {
+        if (nagruzka_row.selected)
+        {
+          SaveNagruzkaStatus(nagruzka_row, 'refused');
+        }
+      });
+      }
+    }
+    // Запрос администратору на внесение изменений
+    else if ($scope.group_action.action == 'require_admin_change')
+    {
+      if (!$scope.group_action.message || !$scope.group_action.message.length)
+      {
+        toastr.error("Введите обязательный комментарий");
+      }
+      else
+      {
+        $scope.nagruzka.forEach(nagruzka_row => 
+      {
+        if (nagruzka_row.selected)
+        {
+          SaveNagruzkaStatus(nagruzka_row, 'require_admin_change');
+        }
+      });
+      }
+    }
+    // Написать комментарий администратору
+    else if ($scope.group_action.action == 'write_admin_comment')
+    {
+      if (!$scope.group_action.message || !$scope.group_action.message.length)
+      {
+        toastr.error("Введите обязательный комментарий");
+      }
+      else
+      {
+        $scope.nagruzka.forEach(nagruzka_row => 
+        {
+          if (nagruzka_row.selected)
+          {
+            SaveNagruzkaStatus(nagruzka_row, 'write_admin_comment');
+          }
+        });
+      }
+    }
+  }
+
+  function SaveNagruzkaStatus(nagruzka_row, new_status)
+  {
+    $http({url: 'ajax/post/save_nagruzka_status.php', method: 'POST', data: {status: new_status, message: $scope.group_action.message, load_base_UID: nagruzka_row.base_uid}})
+                .then(function(data)
+                {
+                  if (data.data.result == 'success')
+
+                  {
+                    nagruzka_row.status = new_status;
+                    toastr.success("Данные сохранены");
+
+                    $scope.nagruzka.forEach(nagruzka_row => 
+                    {
+                      if (nagruzka_row.selected = false);
+                    });
+
+                    $scope.group_action.action = undefined;
+                  }
+                  else
+                  {
+                    toastr.error("Ошибка");
+                  }
+                });
+  }
+
+
+  $scope.IsNagruzkaEditable = function(nagruzka_row)
+  {
+    const editable = !['refused', 'require_admin_change', 'done_change'].includes(nagruzka_row.status);
+
+    // CL(nagruzka_row.status);
+    // CL(editable);
+    return editable;
+  }
+
+  $scope.ShowNagruzkaZavkafTypeRow = function(type)
+  {
+    return isEmpty(nagruzka_type) || type == nagruzka_type;
+  }
+
+  $scope.NagruzkaRowClick = function(nagruzka_row)
+  {
+    CL('NagruzkaRowClick');
+    CL(nagruzka_row);
+
+    const dialogScope = $scope.$new();
+    dialogScope.nagruzka_row = nagruzka_row;
+
+    dialogScope.nagruzka_history = $resource('ajax/get/get_nagruzka_history.php?load_base_UID=' + nagruzka_row.base_uid).query();
+
+    ngDialog.open({
+                    template: "nagruzka_history.tpl.html" + "?" + getRandom(10000, 99999),
+                    scope: dialogScope,
+                    plain: false,
+                    disableAnimation: true,
+                    className: 'ngdialog-theme-default history'
+                  });
+  }
+
+  // CL($scope.filter_distinct.global_nagruzka_filter);
+
+})
+
+.controller ('UOUPNagruzkaCtrl', function($rootScope, $scope, $http, DTOptionsBuilder, DTColumnBuilder, DTColumnDefBuilder, ngDialog, $templateCache, $resource, uoup_nagruzka, nagruzka_uoup_stat, page)
+{
+  CL('UOUPNagruzkaCtrl');
+
+  $templateCache.put('confirm_delete', '<p>Вы уверены, что хотите удалить?</p>\
+              <div class="ngdialog-buttons">\
+                  <button type="button" class="ngdialog-button ngdialog-button-secondary" ng-click="closeThisDialog(0)">Нет</button>\
+                  <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="confirm(1)">Да</button>\
+              </div>');
+
+  $rootScope.page = page;
+  $scope.$_forms_obuchenia = $_forms_obuchenia;
+
+  $scope.dtInstance = {};
+  $scope.filter_distinct = {};
+  $scope.group_action = {};
+  $scope.uoup_nagruzka = uoup_nagruzka.data;
+  $scope.nagruzka_uoup_stat = nagruzka_uoup_stat.data;
+
+  $scope.isLoading = true;
+
+  // LoadNagruzkaUOUPStat();
+
+  const columns = [
+      
+      // факультет
+      {
+        name: 'department_name',
+        type: 'select',
+        bRegex: false,
+        values: $scope.filter_distinct['department_name']
+        // bSmart: true
+      }, 
+      // кафедра
+      {
+        name: 'chair',
+        type: 'input',
+        bRegex: false,
+      },
+      // заведующий
+      {
+        name: 'zavkaf',
+        type: 'input',
+        bRegex: false,
+      },
+      null,
+      // всего нагрузки
+      {
+        name: 'nagruzka_sum',
+        type: 'input',
+        bRegex: false,
+        // values: $scope.filter_distinct['education_level'] // ['бакалавриат', 'специалитет', 'магистратура', 'ординатура', 'аспирантура']
+      },
+      // распределено
+      {
+        name: 'assigned',
+        type: 'input',
+        bRegex: false,
+      },
+      // не распределено
+      {
+        name: 'not_assigned',
+        type: 'select',
+        bRegex: false,
+        // values: $scope.filter_distinct['language']
+      },
+      // на вакансии
+      {
+        name: 'form_obuchenia',
+        type: 'select',
+        bRegex: false,
+        values: ['Да', 'Нет']
+      }
+      
+  ];
+
+
+  // $scope.persons = $resource('data.json').query();
+
+  $scope.dtOptions = DTOptionsBuilder //.fromSource('data.json')
+    .newOptions()
+    .withOption('stateSave', true)
+    // .withOption('aoColumns', [{bVisible': false}])
+    .withPaginationType('full_numbers')
+    .withColVis()
+    // Add a state change function
+    // .withColVisStateChange(stateChange)
+    // Exclude the last column from the list
+    .withColVisOption('aiExclude', [])
+    .withColumnFilter({
+        aoColumns: columns
+    })
+    .withOption('initComplete', function(settings, json) {
+        // Скрываем индикатор когда загрузка завершена
+        $scope.$apply(function() {
+            $scope.isLoading = false;
+        });
+      })
+    ;
+
+  $scope.dtColumnDefs = [
+    // DTColumnDefBuilder.newColumnDef(7).notVisible().notSortable(),
+    // DTColumnDefBuilder.newColumnDef(8).notVisible().notSortable(),
+    // DTColumnDefBuilder.newColumnDef(9).notVisible().notSortable(),
+    // DTColumnDefBuilder.newColumnDef(10).notVisible().notSortable(),
+    // DTColumnDefBuilder.newColumnDef(11).notVisible().notSortable(),
+    // DTColumnDefBuilder.newColumnDef(12).notVisible().notSortable(),
+    // DTColumnDefBuilder.newColumnDef(13).notVisible().notSortable(),
+
+  ];
+
+  /*
+  
+  $scope.filter_distinct['language'] = [];
+  $scope.filter_distinct['department_name'] = [];
+  $scope.filter_distinct['education_level'] = [];
+
+  angular.forEach($scope.nagruzka, function(row)
+  {
+    if (!$scope.filter_distinct['language'].includes(row.language))
+    {
+      $scope.filter_distinct['language'].push(row.language);
+    }
+
+    if (!$scope.filter_distinct['department_name'].includes(row.language))
+    {
+      $scope.filter_distinct['department_name'].push(row.language);
+    }
+
+    if (!$scope.filter_distinct['education_level'].includes(row.language))
+    {
+      $scope.filter_distinct['education_level'].push(row.language);
+    }
+  });
+
+  */
+
+  // УОУП открывает на просмотр нагрузку кафедры
+  $scope.UOUPOpenChairNagruzka = function(chair_id)
+  {
+    CL('UOUPOpenChairNagruzka');
+    CL(chair_id);
+
+    if (!isEmpty(chair_id))
+    {
+      window.location = '#/nagruzka/discipline/' + chair_id;
+    }
+  }
+
+
+  $scope.ShowNagruzkaUOUPTypeRow = function()
+  {
+    return true;
+  }
+
+  
+})
+
+// Админ УОУП просматривает отказы зав. кафедрами от нагрузки и отменяет отказы
+.controller ('UOUPChairsRefusedCtrl', function($rootScope, $scope, $http, DTOptionsBuilder, DTColumnBuilder, DTColumnDefBuilder, ngDialog, $templateCache, $resource, uoup_nagruzka)
+{
+  CL('UOUPChairsRefusedCtrl');
+
+  $templateCache.put('confirm_delete', '<p>Вы уверены, что хотите удалить?</p>\
+              <div class="ngdialog-buttons">\
+                  <button type="button" class="ngdialog-button ngdialog-button-secondary" ng-click="closeThisDialog(0)">Нет</button>\
+                  <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="confirm(1)">Да</button>\
+              </div>');
+
+  $rootScope.page = 'uoup_chairs_refused';
+  $scope.$_forms_obuchenia = $_forms_obuchenia;
+
+  $scope.dtInstance = {};
+  $scope.filter_distinct = {};
+  $scope.group_action = {};
+  $scope.nagruzka = uoup_nagruzka.data;
+
+  const columns = [
+      null, 
+      // факультет
+      {
+        name: 'department_name',
+        type: 'select',
+        bRegex: false,
+        values: $scope.filter_distinct['department_name']
+        // bSmart: true
+      }, 
+      // кафедра
+      {
+        name: 'Abbr',
+        type: 'input',
+        bRegex: false,
+      },
+      // аббревиатура
+      {
+        name: 'Abbr',
+        type: 'input',
+        bRegex: false,
+      },
+      // дисциплина
+      {
+        name: 'discipline_name',
+        type: 'input',
+        bRegex: false,
+      },
+      null,
+      // уровень образования
+      {
+        name: 'education_level',
+        type: 'select',
+        bRegex: false,
+        values: $scope.filter_distinct['education_level'] // ['бакалавриат', 'специалитет', 'магистратура', 'ординатура', 'аспирантура']
+      },
+      // направление подготовки
+      {
+        name: 'napravlenie',
+        type: 'input',
+        bRegex: false,
+      },
+      // язык программы
+      {
+        name: 'language',
+        type: 'select',
+        bRegex: false,
+        values: $scope.filter_distinct['language']
+      },
+      // форма обучения
+      {
+        name: 'form_obuchenia',
+        type: 'select',
+        bRegex: false,
+        values: ['Очная', 'Заочная', 'Очная-заочная']
+      },
+      // семестр
+      {
+        name: 'UID_Semester',
+        type: 'select',
+        bRegex: false,
+        values: ['1', '2', '3', '4', '5', '6', '7'],
+        width: '100'
+      },
+      null,
+      null,
+      null,
+      // курс
+      {
+        name: 'UID_Course',
+        type: 'select',
+        bRegex: false,
+        values: ['1', '2', '3', '4', '5', '6', '7']
+      },
+      null
+  ];
+
+  $scope.columns = columns;
+
+
+  // $scope.persons = $resource('data.json').query();
+
+  $scope.dtOptions = DTOptionsBuilder //.fromSource('data.json')
+    .newOptions()
+    .withOption('stateSave', true)
+    // .withOption('aoColumns', [{bVisible': false}])
+    .withPaginationType('full_numbers')
+    .withColVis()
+    // Add a state change function
+    // .withColVisStateChange(stateChange)
+    // Exclude the last column from the list
+    .withColVisOption('aiExclude', [0, 1, 6, 8, 9, 10, 14])
+    // .withColumnFilter({
+    //     aoColumns: columns
+    // })
+    .withOption('initComplete', function(settings, json) {
+        // Скрываем индикатор когда загрузка завершена);
+        $scope.$apply(function() {
+            $scope.isLoading = false;
+
+            // CL($scope.dtInstance);
+            // const table = $scope.dtInstance.dataTable.DataTable();
+
+            // table.on('column-visibility.dt', function (e, settings, column, state) {
+            //   // При любом изменении видимости столбца очищаем фильтры всех столбцов
+            //   table.columns().search('').draw();
+
+            //   CL('column-visibility.dt');
+            // });
+        });
+      })
+    ;
+
+  $scope.dtColumnDefs = [
+    DTColumnDefBuilder.newColumnDef(0).notSortable(),
+    // DTColumnDefBuilder.newColumnDef(8).notVisible().notSortable(),
+    // DTColumnDefBuilder.newColumnDef(9).notVisible().notSortable(),
+    // DTColumnDefBuilder.newColumnDef(10).notVisible().notSortable(),
+    // DTColumnDefBuilder.newColumnDef(11).notVisible().notSortable(),
+    // DTColumnDefBuilder.newColumnDef(12).notVisible().notSortable(),
+    // DTColumnDefBuilder.newColumnDef(13).notVisible().notSortable(),
+
+  ];
+
+  function createSelectFilter(column, footerCell) 
+  {
+    // Получить все уникальные значения из столбца, видимые и не видимые
+    const uniqueValues = new Set();
+
+    column.data().each(function(d) {
+      if(d !== null && d !== undefined && d !== '') {
+        uniqueValues.add(d);
+      }
+    });
+
+    const select = $('<select class="search_init text_filter form-select"><option value=""></option></select>')
+      .appendTo($(footerCell))
+      .on('change', function() {
+        column.search(this.value).draw();
+      });
+
+    Array.from(uniqueValues).sort().forEach(value => {
+      select.append('<option value="' + value + '">' + value + '</option>');
+    });
+  }
+
+  function createCustomFilters() 
+  {
+    CL('createCustomFilters');
+
+    const table = $scope.dtInstance.dataTable.DataTable();
+
+    // const $tableNode = $(table.table().node());
+
+    // Очистить футер фильтров
+    // $('#DataTables_Table_nagruzka_refuse tfoot th')
+    // CL($('#DataTables_Table_nagruzka_refuse tfoot th'));
+
+    $('#DataTables_Table_nagruzka_refuse tfoot th').find('tfoot th').each(function() {
+      $(this).empty();
+    });
+
+    // Создать фильтры для видимых столбцов
+    table.columns(':visible').every(function(columnIndex) {
+      const column = this;
+      const footerCell = $('#DataTables_Table_nagruzka_refuse tfoot th').eq(columnIndex);
+      const colSettings = $scope.columns[columnIndex];
+
+      if (colSettings && colSettings.type === 'select' && colSettings.values) 
+      {
+        createSelectFilter(column, footerCell);
+      } 
+      else {
+        // Создаем input для остальных типов или если не select тип
+        const input = $('<input class="search_init text_filter form-control" type="text"  />')
+          .appendTo(footerCell)
+          .on('keyup change', function() {
+            if(column.search() !== this.value) {
+              column.search(this.value).draw();
+            }
+          });
+      }
+    });
+  }
+
+  $scope.$watch('dtInstance', function(newValue) {
+    if(newValue && newValue.DataTable) {
+      const table = newValue.DataTable;
+
+      // Инициализация фильтров при старте
+      createCustomFilters();
+
+      // Сброс и пересоздание фильтров при изменении видимости столбцов
+      table.on('column-visibility.dt', function() {
+        createCustomFilters();
+      });
+    }
+  });
+
+
+
+  /*
+  
+  $scope.filter_distinct['language'] = [];
+  $scope.filter_distinct['department_name'] = [];
+  $scope.filter_distinct['education_level'] = [];
+
+  angular.forEach($scope.nagruzka, function(row)
+  {
+    if (!$scope.filter_distinct['language'].includes(row.language))
+    {
+      $scope.filter_distinct['language'].push(row.language);
+    }
+
+    if (!$scope.filter_distinct['department_name'].includes(row.language))
+    {
+      $scope.filter_distinct['department_name'].push(row.language);
+    }
+
+    if (!$scope.filter_distinct['education_level'].includes(row.language))
+    {
+      $scope.filter_distinct['education_level'].push(row.language);
+    }
+  });
+
+  */
+
+  // Отклонить отказ зав. каф. от нагрузки
+  $scope.UOUPCancelRefuse = function(nagruzka_row)
+  {
+    $templateCache.put('comment_and_cancel_refuse', '<p>Введите причину отказа:</p>\
+              <div><textarea ng-model="message" class="form-control w-100 mb-2" style="height: 100px"></textarea></div>\
+              <div class="ngdialog-buttons">\
+                  <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="confirm(message)" ng-disabled="!message.length">Отменить отказ</button>\
+                  <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="closeThisDialog(0)">Закрыть</button>\
+              </div>');
+
+    var dialogScope = $scope.$new();
+
+    ngDialog.openConfirm({
+                template: 'comment_and_cancel_refuse',
+                scope: dialogScope,
+                className: 'ngdialog-theme-default', //  ngdialog-positions
+                disableAnimation: true,
+                preCloseCallback: function(value)
+                {
+                  return true;
+                }
+            })
+            .then(function (message) {  // да
+
+              $http({url: 'ajax/post/uoup_cancel.php', method: 'POST', data: {base_uid: nagruzka_row.base_uid, chair_id: nagruzka_row.chair_id, chair_name: nagruzka_row.chair_name, zavkaf_fio: nagruzka_row.zavkaf_fio, action: 'Администратор УОУП отклонил отказ кафедры от нагрузки', message: message}})
+                .then(function(data)
+                {
+                  if (data.data.result == 'success')
+                  {
+                    toastr.success("Данные сохранены");
+                    nagruzka_row.status = 'initial';
+                  }
+                  else
+                  {
+                    toastr.error("Ошибка");
+                  }
+                });
+
+            })
+            .catch(function dialogCloseErrorCallback(reason) {
+                    // ngDialog v1.4.0 throws an exception, when closing the dialog with reason “undefined”.
+            });
+  }
+
+  
+})
+
+.controller ('UOUPNagruzkaToChangeCtrl', function($rootScope, $scope, $http, DTOptionsBuilder, DTColumnBuilder, DTColumnDefBuilder, ngDialog, $templateCache, $resource, uoup_nagruzka)
+{
+  CL('UOUPNagruzkaToChangeCtrl');
+
+  $templateCache.put('confirm_delete', '<p>Вы уверены, что хотите удалить?</p>\
+              <div class="ngdialog-buttons">\
+                  <button type="button" class="ngdialog-button ngdialog-button-secondary" ng-click="closeThisDialog(0)">Нет</button>\
+                  <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="confirm(1)">Да</button>\
+              </div>');
+
+  $rootScope.page = 'uoup_nagruzka_to_change';
+  $scope.$_forms_obuchenia = $_forms_obuchenia;
+
+  $scope.dtInstance = {};
+  $scope.filter_distinct = {};
+  $scope.group_action = {};
+  $scope.nagruzka = uoup_nagruzka.data;
+
+  // CL($scope.nagruzka);
+
+  const columns = [
+      null, 
+      // факультет
+      {
+        name: 'department_name',
+        type: 'select',
+        bRegex: false,
+        values: $scope.filter_distinct['department_name']
+        // bSmart: true
+      }, 
+      // кафедра
+      {
+        name: 'Abbr',
+        type: 'input',
+        bRegex: false,
+      },
+      // аббревиатура
+      {
+        name: 'Abbr',
+        type: 'input',
+        bRegex: false,
+      },
+      // дисциплина
+      {
+        name: 'discipline_name',
+        type: 'input',
+        bRegex: false,
+      },
+      null,
+      // уровень образования
+      {
+        name: 'education_level',
+        type: 'select',
+        bRegex: false,
+        values: $scope.filter_distinct['education_level'] // ['бакалавриат', 'специалитет', 'магистратура', 'ординатура', 'аспирантура']
+      },
+      // направление подготовки
+      {
+        name: 'napravlenie',
+        type: 'input',
+        bRegex: false,
+      },
+      // язык программы
+      {
+        name: 'language',
+        type: 'select',
+        bRegex: false,
+        values: $scope.filter_distinct['language']
+      },
+      // форма обучения
+      {
+        name: 'form_obuchenia',
+        type: 'select',
+        bRegex: false,
+        values: ['Очная', 'Заочная', 'Очная-заочная']
+      },
+      // семестр
+      {
+        name: 'UID_Semester',
+        type: 'select',
+        bRegex: false,
+        values: ['1', '2', '3', '4', '5', '6', '7'],
+        width: '100'
+      },
+      null,
+      null,
+      null,
+      // курс
+      {
+        name: 'UID_Course',
+        type: 'select',
+        bRegex: false,
+        values: ['1', '2', '3', '4', '5', '6', '7']
+      },
+  ];
+
+
+  // $scope.persons = $resource('data.json').query();
+
+  $scope.dtOptions = DTOptionsBuilder //.fromSource('data.json')
+    .newOptions()
+    .withOption('stateSave', true)
+    // .withOption('aoColumns', [{bVisible': false}])
+    .withPaginationType('full_numbers')
+    .withColVis()
+    // Add a state change function
+    // .withColVisStateChange(stateChange)
+    // Exclude the last column from the list
+    .withColVisOption('aiExclude', [0])
+    .withColumnFilter({
+        aoColumns: columns
+    })
+    .withOption('initComplete', function(settings, json) {
+      // Скрываем индикатор когда загрузка завершена);
+      $scope.$apply(function() {
+          $scope.isLoading = false;
+      });
+    })
+    ;
+
+  $scope.dtColumnDefs = [
+    DTColumnDefBuilder.newColumnDef(0).notSortable(),
+    // DTColumnDefBuilder.newColumnDef(7).notVisible().notSortable(),
+    // DTColumnDefBuilder.newColumnDef(8).notVisible().notSortable(),
+    // DTColumnDefBuilder.newColumnDef(9).notVisible().notSortable(),
+    // DTColumnDefBuilder.newColumnDef(10).notVisible().notSortable(),
+    // DTColumnDefBuilder.newColumnDef(11).notVisible().notSortable(),
+    // DTColumnDefBuilder.newColumnDef(12).notVisible().notSortable(),
+    // DTColumnDefBuilder.newColumnDef(13).notVisible().notSortable(),
+
+  ];
+
+  /*
+  
+  $scope.filter_distinct['language'] = [];
+  $scope.filter_distinct['department_name'] = [];
+  $scope.filter_distinct['education_level'] = [];
+
+  angular.forEach($scope.nagruzka, function(row)
+  {
+    if (!$scope.filter_distinct['language'].includes(row.language))
+    {
+      $scope.filter_distinct['language'].push(row.language);
+    }
+
+    if (!$scope.filter_distinct['department_name'].includes(row.language))
+    {
+      $scope.filter_distinct['department_name'].push(row.language);
+    }
+
+    if (!$scope.filter_distinct['education_level'].includes(row.language))
+    {
+      $scope.filter_distinct['education_level'].push(row.language);
+    }
+  });
+
+  */
+
+  // Отклонить запрос зав. каф. на изменение
+  // комментарий обязателен
+  $scope.UOUPCancelToChange = function(nagruzka_row)
+  {
+    $templateCache.put('comment_and_cancel_to_change', '<p>Введите причину отказа:</p>\
+              <div><textarea ng-model="message" class="form-control w-100 mb-2" style="height: 100px"></textarea></div>\
+              <div class="ngdialog-buttons">\
+                  <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="confirm(message)" ng-disabled="!message.length">Отклонить</button>\
+                  <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="closeThisDialog(0)">Закрыть</button>\
+              </div>');
+
+    var dialogScope = $scope.$new();
+
+    ngDialog.openConfirm({
+                template: 'comment_and_cancel_to_change',
+                scope: dialogScope,
+                className: 'ngdialog-theme-default', //  ngdialog-positions
+                disableAnimation: true,
+                preCloseCallback: function(value)
+                {
+                  return true;
+                }
+            })
+            .then(function (message) {  // да
+
+              $http({url: 'ajax/post/uoup_cancel.php', method: 'POST', data: {base_uid: nagruzka_row.base_uid, chair_id: nagruzka_row.chair_id, chair_name: nagruzka_row.chair_name, zavkaf_fio: nagruzka_row.zavkaf_fio, action: 'Админ УОУП отклонил запрос кафедры на внесение изменений', message: message}})
+                .then(function(data)
+                {
+                  if (data.data.result == 'success')
+                  {
+                    toastr.success("Данные сохранены");
+                    nagruzka_row.status = 'initial';
+                  }
+                  else
+                  {
+                    toastr.error("Ошибка");
+                  }
+                });
+
+            })
+            .catch(function dialogCloseErrorCallback(reason) {
+                    // ngDialog v1.4.0 throws an exception, when closing the dialog with reason “undefined”.
+            });
+  }
+
+
+  // Выполнить запрос зав. каф. на изменение
+  // комментарий НЕ обязателен
+  $scope.UOUPDoneToChange = function(nagruzka_row)
+  {
+    $templateCache.put('comment_and_done_change', '<p>Комментарий:</p>\
+              <div><textarea ng-model="message" class="form-control w-100 mb-2" style="height: 100px"></textarea></div>\
+              <div class="ngdialog-buttons">\
+                  <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="confirm(message)" >Выполнено</button>\
+                  <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="closeThisDialog(0)">Закрыть</button>\
+              </div>');
+
+    var dialogScope = $scope.$new();
+
+    ngDialog.openConfirm({
+                template: 'comment_and_done_change',
+                scope: dialogScope,
+                className: 'ngdialog-theme-default', //  ngdialog-positions
+                disableAnimation: true,
+                preCloseCallback: function(value)
+                {
+                  return true;
+                }
+            })
+            .then(function (message) {  // да
+
+              $http({url: 'ajax/post/uoup_done_change.php', method: 'POST', data: {base_uid: nagruzka_row.base_uid, chair_id: nagruzka_row.chair_id, chair_name: nagruzka_row.chair_name, zavkaf_fio: nagruzka_row.zavkaf_fio, message: message}})
+                .then(function(data)
+                {
+                  if (data.data.result == 'success')
+                  {
+                    toastr.success("Данные сохранены");
+                    nagruzka_row.status = 'cancelling_to_change';
+                  }
+                  else
+                  {
+                    toastr.error("Ошибка");
+                  }
+                });
+
+            })
+            .catch(function dialogCloseErrorCallback(reason) {
+                    // ngDialog v1.4.0 throws an exception, when closing the dialog with reason “undefined”.
+            });
+  }
+
+  
+})
+
+.controller ('SotrudnikiCtrl', function($rootScope, $scope, $http, ngDialog, $templateCache, DTOptionsBuilder, DTColumnBuilder, DTColumnDefBuilder, $resource)
+{
+  CL('SotrudnikiCtrl');
+
+  $templateCache.put('confirm_delete', '<p>Вы уверены, что хотите удалить?</p>\
+              <div class="ngdialog-buttons">\
+                  <button type="button" class="ngdialog-button ngdialog-button-secondary" ng-click="closeThisDialog(0)">Нет</button>\
+                  <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="confirm(1)">Да</button>\
+              </div>');
+
+  $rootScope.page = 'sotrudniki';
+  $scope.$_sotrudnik_types = $_sotrudnik_types;
+
+  $scope.dtInstance = {};
+
+  $scope.persons = $resource('ajax/get/chair_sotrudniki.php').query(
+    function()
+    {
+      if (Array.isArray($scope.persons))
+      {
+        angular.forEach($scope.persons, function(person)
+        {
+          if (person.type == 'sotrudnik')
+          {
+            person.selected = true;
+          }
+        });
+      }
+    });
+
+  $scope.dtOptions = DTOptionsBuilder //.fromSource('data.json')
+        .newOptions()
+        .withOption('stateSave', true)
+        .withPaginationType('full_numbers')
+        .withColVis()
+        // Add a state change function
+        .withColVisStateChange(stateChange)
+        // Exclude the last column from the list
+        // .withColVisOption('aiExclude', [2])
+        .withColumnFilter({
+            aoColumns: [null, {
+                type: 'select',
+                bRegex: false,
+                values: ['Superman', 'Louis', 'Zed', 'Batman', 'Luke', 'Cartman', 'Test']
+                // bSmart: true
+            }
+            , {
+                type: 'select',
+                bRegex: false,
+                values: ['Whateveryournameis', 'Test', 'Yoda', 'Titi', 'Kyle', 'Bar', 'Whateveryournameis']
+            }
+          ]
+        })
+        .withOption('initComplete', function(settings, json) {
+          // Скрываем индикатор когда загрузка завершена);
+          $scope.$apply(function() {
+              $scope.isLoading = false;
+          });
+        })
+        ;
+
+        $scope.dtColumnDefs = [
+          DTColumnDefBuilder.newColumnDef(0),
+          DTColumnDefBuilder.newColumnDef(1),
+          DTColumnDefBuilder.newColumnDef(2),
+
+        ];
+
+        // CL($scope.dtOptions);
+
+    function stateChange(iColumn, bVisible) {
+        console.log('The column', iColumn, ' has changed its status to', bVisible);
+    }
+
+    // $scope.dtColumns = [
+    //     DTColumnBuilder.newColumn('id').withTitle('ID'),
+    //     DTColumnBuilder.newColumn('firstName').withTitle('First name'),
+    //     DTColumnBuilder.newColumn('lastName').withTitle('Last name')
+    // ];
+
+    /*
+    $scope.ClearGreenTableFilters = function()
+    {
+      // CL('ClearGreenTableFilters');
+
+      // CL($scope.dtInstance);
+
+      // return;
+
+      const table = $scope.dtInstance.dataTable;
+
+      // CL(table);
+
+      // return;
+
+      // Сброс глобального поиска
+      table.fnFilter('');
+
+      // Сброс фильтров для всех столбцов
+      for (let i = 0; i < table.fnSettings().aoColumns.length; i++) {
+          table.fnFilter('', i);
+      }
+
+      $('#DataTables_Table_1').find('tfoot tr select').val('').trigger('change');
+      $('#DataTables_Table_1').find('tfoot tr input').val('').trigger('change');
+
+      // Перерисовка таблицы
+      table.fnDraw();
+    }
+    */
+
+    $scope.ShowPopup = function(person)
+    {
+      CL('ShowPopup');
+
+      $scope.selected_person = person;
+
+      ngDialog.openConfirm({
+                template: 'popup',
+                scope: $scope,
+                className: 'ngdialog-theme-default ngdialog-positions',
+                disableAnimation: true,
+                preCloseCallback: function(value)
+                {
+                  return true;
+                }
+            })
+            .then(function (value) {  // да
+
+            })
+            .catch(function dialogCloseErrorCallback(reason) {
+                    // ngDialog v1.4.0 throws an exception, when closing the dialog with reason “undefined”.
+            });
+
+    }
+
+
+    $scope.SelectSotrudnik = function(person)
+    {
+      $http({url: 'ajax/post/select_sotrudnik.php', method: 'POST', data: {person_id: person.person_id, selected: person.selected}})
+                .then(function(data)
+                {
+                  if (data.data.result == 'success')
+                  {
+                    // deleteByColumn($scope.admins_uoup, 'login', admin.login);
+                    toastr.success("Данные сохранены");
+                  }
+                  else
+                  {
+                    toastr.error("Ошибка");
+                  }
+                });
+    }
+
+})
+
+.controller ('AdminsUOUPCtrl', function($rootScope, $scope, $http, ngDialog, $templateCache, admins_uoup)
+{
+  CL('AdminsUOUPCtrl');
+
+  $templateCache.put('confirm_delete', '<p>Вы уверены, что хотите удалить?</p>\
+              <div class="ngdialog-buttons">\
+                  <button type="button" class="ngdialog-button ngdialog-button-secondary" ng-click="closeThisDialog(0)">Нет</button>\
+                  <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="confirm(1)">Да</button>\
+              </div>');
+
+  $scope.admins_uoup = admins_uoup.data;
+  // CL(admins_uoup.data);
+
+  $scope.new_admin_uoup = {};
+
+  $rootScope.page = 'uoup';
+
+  $scope.MayEditUOUP = function()
+  {
+    return c_roles.full;
+  }
+
+
+  $scope.focusOutAdminUOUP = function()
+  {
+    $scope.$broadcast('angucomplete-alt:clearInput', 'add_admin_uoup');
+    $scope.new_admin_uoup = {};
+  }
+
+  $scope.onAdminUOUPSelect = function(data)
+  {
+    if (data)
+    {
+      $scope.new_admin_uoup = Object.assign($scope.new_admin_uoup, data.originalObject);
+    }
+
+    CL($scope.new_admin_uoup);
+  }
+
+
+  $scope.AddAdminUOUP = function()
+  {
+    // CL(findIndByColumn($scope.admins_uoup, 'login', $scope.new_admin_uoup.login));
+
+    if (findIndByColumn($scope.admins_uoup, 'login', $scope.new_admin_uoup.login) == null)
+    $http({url: 'ajax/post/add_admin_uoup.php', method: 'POST', data: $scope.new_admin_uoup})
+        .then(function(data)
+        {
+          if (data.data.result == 'success')
+          {
+            $scope.admins_uoup.push(clone($scope.new_admin_uoup));
+
+            $scope.focusOutAdminUOUP();
+          }
+          else
+          {
+            toastr.error("Ошибка");
+          }
+        });
+  }
+
+  $scope.DeleteAdminUOUP = function(admin)
+  {
+
+    ngDialog.openConfirm({
+                template: 'confirm_delete',
+                className: 'ngdialog-theme-default',
+                disableAnimation: true
+            }).then(function (value) {  // да
+
+                $http({url: 'ajax/post/delete_admin_uoup.php', method: 'POST', data: {login: admin.login}})
+                .then(function(data)
+                {
+                  if (data.data.result == 'success')
+                  {
+                    deleteByColumn($scope.admins_uoup, 'login', admin.login);
+                    toastr.success("Администратор удалён");
+                  }
+                  else
+                  {
+                    toastr.error("Ошибка");
+                  }
+                });
+            });
+
+
+  }
+
+}) 
+
+
+// чтобы в директиве 'numberInput' в качестве разделителя тысяч был пробел вместо запятой
+.filter('customNumber', function($filter) {
+  return function(value) {
+    // Используем стандартный фильтр 'number' для форматирования числа
+    let formatted = $filter('number')(value);
+    // Заменяем запятые на пробелы
+    return formatted.replace(/,/g, '-');
+  };
+})
+
+.filter('toFixed', function() {
+  return function(input, decimals) {
+    if (isNaN(input) || input === null || input === '') return input;
+
+    var num = Number(input);
+    var dec = Number(decimals) || 0;
+    var x = Math.pow(10, dec + 1);
+
+    return (num + (1 / x)).toFixed(dec);
+  };
+})
+
+
+.directive('numberInput', function($filter) {
+  return {
+    require: 'ngModel',
+    link: function(scope, elem, attrs, ngModelCtrl) {
+
+      ngModelCtrl.$formatters.push(function(modelValue) {
+        return setDisplayNumber(modelValue, true);
+      });
+
+      // CL('ab');
+
+      // it's best to change the displayed text using elem.val() rather than
+      // ngModelCtrl.$setViewValue because the latter will re-trigger the parser
+      // and not necessarily in the correct order with the changed value last.
+      // see http://radify.io/blog/understanding-ngmodelcontroller-by-example-part-1/
+      // for an explanation of how ngModelCtrl works.
+      ngModelCtrl.$parsers.push(function(viewValue) {
+        setDisplayNumber(viewValue);
+        return setModelNumber(viewValue);
+      });
+
+      // occasionally the parser chain doesn't run (when the user repeatedly 
+      // types the same non-numeric character)
+      // for these cases, clean up again half a second later using "keyup"
+      // (the parser runs much sooner than keyup, so it's better UX to also do it within parser
+      // to give the feeling that the comma is added as they type)
+      elem.bind('keyup focus', function() {
+        setDisplayNumber(elem.val());
+      });
+
+      function setDisplayNumber(val, formatter) {
+        var valStr, displayValue;
+
+        if (typeof val === 'undefined') {
+          return 0;
+        }
+
+        valStr = val.toString();
+        displayValue = valStr.replace(/,/g, '.').replace(/[A-Za-z]/g, '');
+
+        displayValue = parseFloat(displayValue);
+        displayValue = (!isNaN(displayValue)) ? displayValue.toString() : '';
+
+        
+
+        // handle leading character -/0
+        if (valStr.length === 1 && valStr[0] === '-') {
+          displayValue = valStr[0];
+        } else if (valStr.length === 1 && (valStr[0] === '0' || valStr[0] === 0)) 
+        {
+          displayValue = '0';
+        } else {
+          displayValue = displayValue; //$filter('number')(displayValue);
+        }
+
+          // handle decimal
+        if (!attrs.integer) {
+          if (displayValue.indexOf('.') === -1) {
+            if (valStr.slice(-1) === '.') {
+              displayValue += '.';
+            } else if (valStr.slice(-2) === '.0') {
+              displayValue += '.0';
+            } else if (valStr.slice(-3) === '.00') {
+              displayValue += '.00';
+            }
+          } // handle last character 0 after decimal and another number
+          else {
+            if (valStr.slice(-1) === '0') {
+              displayValue += '0';
+            }
+          }
+        }
+
+        if (attrs.positive && displayValue[0] === '-') {
+          displayValue = displayValue.substring(1);
+        }
+
+        if (typeof formatter !== 'undefined') {
+          return (displayValue === '') ? 0 : displayValue;
+        } else {
+          elem.val((displayValue === '0') ? '0' : displayValue);
+        }
+      }
+
+      // function setModelNumber(val) {
+      //   var modelNum = val.toString().replace(/,/g, '.').replace(/[A-Za-z]/g, '');
+      //   modelNum = parseFloat(modelNum);
+      //   modelNum = (!isNaN(modelNum)) ? modelNum : 0;
+      //   if (modelNum.toString().indexOf('.') !== -1) {
+      //     modelNum = Math.round((modelNum + 0.00001) * 100) / 100;
+      //   }
+      //   if (attrs.positive) {
+      //     modelNum = Math.abs(modelNum);
+      //   }
+      //   return modelNum;
+      // }
+
+      function setModelNumber(val) 
+      {
+          var modelNum = val.toString().replace(/,/g, '.').replace(/[A-Za-z]/g, '');
+          modelNum = parseFloat(modelNum);
+          modelNum = (!isNaN(modelNum)) ? modelNum : 0; // Если NaN, возвращаем 0
+          if (modelNum.toString().indexOf('.') !== -1) {
+            modelNum = Math.round((modelNum + 0.00001) * 100) / 100;
+          }
+          if (attrs.positive) {
+            modelNum = Math.abs(modelNum);
+          }
+          return modelNum;
+      }
+    }
+  };
+})
+
+.factory('LDialog', function(ngDialog)
+{
+  return  {
+    success: function(message)
+    {
+      ngDialog.open({
+        template: "<h4><i class='glyphicon glyphicon-ok-sign'></i></h4><p>" + message + "</p>",
+        plain: true,
+        disableAnimation: true,
+        className: 'ngdialog-theme-success'
+      });
+
+
+    },
+    error: function(message)
+    {
+      ngDialog.open({
+        template: "<h4><i class='glyphicon glyphicon-exclamation-sign'></i></h4><p>" + message + "</p>",
+        plain: true,
+        disableAnimation: true,
+        className: 'ngdialog-theme-error'
+      });
+    }
+  };
+})
+
+.directive('focus', function () {
+  return function (scope, element, attrs) {
+    attrs.$observe('focus', function (newValue) {
+      element[0].focus();
+      // CL('h');
+      // or, if you don't like side effects (see @Christophe's comment):
+      //if(newValue === 'true')  element[0].focus();
+    });
+  }
+})
+
+.filter("nl2br", function($filter) {
+ return function(data) {
+   if (!data) return data;
+   return data.replace(/\n\r?/g, '<br />');
+ };
+})
+
+.filter("br2nl", function($filter) {
+ return function(data) {
+   if (!data) return data;
+   return data.replace(/<br\s*\/?>/gi, ', ');
+ };
+})
+
+.filter("jsDate", function () {
+
+    return function (x) {
+
+      if (!x || !x.length) return '';
+
+      var dateTimeArr = x.split(' ');
+      var dateArr = dateTimeArr[0].split('-');
+      // var date = new Date(dateArr[0], dateArr[1] - 1, dateArr[2]);
+
+      // 
+      return  dateArr[2] + "." + dateArr[1] + "." + dateArr[0] + (dateTimeArr[1] ? (" " + dateTimeArr[1]) : '');
+
+        // return new Date(parseInt(x.substr(6)));
+    };
+})
+
+.filter('orderObjectBy', function() {
+  return function(items, field, reverse) {
+    const filtered = [];
+    angular.forEach(items, function(value, key) {
+      filtered.push({ key: key, value: value });
+    });
+    filtered.sort(function(a, b) {
+      return (a.value > b.value ? 1 : -1) * (reverse ? -1 : 1);
+    });
+    return filtered;
+  };
+})
+;
+
+
+
+
+
+// Функция поиска в массиве простого значения с приведением типов к целому
+// В т.ч. для поиска cfo_id
+function findValueInArray(array, value) 
+{
+  // Приводим все элементы массива к целым числам
+  const transformedArray = array.map(item => parseInt(item, 10));
+
+  // Приводим значение к целому числу
+  const integerValue = parseInt(value, 10);
+
+  // CL(transformedArray);
+
+  // Проверяем, есть ли значение в массиве
+  return transformedArray.includes(integerValue);
+}
+
+
+// Функция для форматирования даты в dd.mm.yyyy
+function formatDate(date) {
+    const day = String(date.getDate()).padStart(2, '0'); // Получаем день и добавляем ведущий ноль
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Получаем месяц (0-11) и добавляем ведущий ноль
+    const year = date.getFullYear(); // Получаем год
+
+    return `${day}.${month}.${year}`; // Форматируем строку даты
+}
+
+
+
+function isEmptyObject(obj)
+{
+  return obj == null || obj == undefined || Object.keys(obj).length === 0 && obj.constructor === Object || obj.constructor !== Object
+}
+
+// Возвращает только один элемент
+function findObjByColumn(arr, column, value)
+{
+  for (var i = 0; i < arr.length; i++)
+  {
+    if (arr[i][column] == value)
+    {
+      return arr[i];
+    }
+  }
+
+  return null;
+}
+
+// Возвращает все элементы
+function findAllObjByColumn(arr, column, value)
+{
+  var result_array = [];
+
+  for (var i = 0; i < arr.length; i++)
+  {
+    if (arr[i][column] == value)
+    {
+      result_array.push(arr[i]);
+    }
+  }
+
+  if (!result_array.length) return null;
+  else return result_array;
+}
+
+// Только сосчитать количество
+function findObjCountByColumn(arr, column, value)
+{
+  var count = 0;
+
+  for (var i = 0; i < arr.length; i++)
+  {
+    if (arr[i][column] == value)
+    {
+      count++;
+    }
+  }
+
+  return count;
+}
+
+
+function findIndByColumn(arr, column, value)
+{
+  // var index = null;
+
+  for (var i = 0; i < arr.length; i++)
+  {
+    if (arr[i][column] == value)
+    {
+      return i;
+    }
+  }
+
+  return null;
+}
+
+
+function deleteByColumn(arr, column, value)
+{
+  for (var i = 0; i < arr.length; i++)
+  {
+    if (arr[i][column] == value)
+    {
+      arr.splice(i, 1);
+      // CL(i);
+      return;
+    }
+  }
+}
+
+function isObjectWithSingleProperty(variable) {
+  if (typeof variable === 'object' && variable !== null) {
+    var keys = Object.keys(variable);
+    return keys.length === 1;
+  }
+  return false;
+}
+
+function getSingleKeyOfObject(variable) {
+  if (typeof variable === 'object' && variable !== null) {
+    var keys = Object.keys(variable);
+    if (keys.length === 1) {
+      return keys[0];
+    }
+  }
+  return null; // Возвращаем null, если объект не соответствует условиям
+}
+
+function truncateStringRegex(str, limit) {
+  const truncated = str.slice(0, limit);
+  return truncated.replace(/\s+\S*$/, '') + "...";
+}
+
+function truncateString(str, limit) {
+  if (str.length <= limit) return str;
+
+  // Обрезаем строку до лимита
+  let truncated = str.slice(0, limit);
+
+  // Ищем последнее пробелоподобное место (где кончается слово)
+  let lastSpace = truncated.lastIndexOf(" ");
+  if (lastSpace > 0) {
+    truncated = truncated.slice(0, lastSpace);
+  }
+
+  return truncated + "..."; // Добавляем троеточие для обозначения продолжения
+}
+
+
+function strip_tags(str)
+{
+    return str
+             .replace(/(<(br[^>]*)>)/ig, '\n')
+             .replace(/(<([^>]+)>)/ig,'');
+}
+
+function html_to_text(str)
+{
+    return str
+             .replace(/\s+(<.*>)/ig, '$1')
+             .replace(/&nbsp;/ig, ' ')
+             .replace(/(<(\/p[^>]*)>)/ig, '\n')
+             .replace(/(<(br[^>]*)>)/ig, '\n')
+             .replace(/(<([^>]+)>)/ig,'')
+             .replace(/\n /ig, '\n')
+             .trim()
+             ;
+}
+
+function parse_price(str)
+{
+  str = strip_tags(str);
+
+  // CL(str);
+
+  str = str
+          .trim()
+          .replace(/,/, '.')
+          .replace(/&nbsp;/ig, ' ')
+          .replace(/\.+\s*$/, '')
+          // .replace(/^(\d*\.{0,1}\d*)[^\d]+/, '$1')
+          ;
+          // .replace(/[.]+$/, '')
+
+  return str;
+}
+
+function getRandom(min, max) {
+  return Math.random() * (max - min) + min;
+}
+
+function clone(obj) {
+    var copy;
+
+    // Handle the 3 simple types, and null or undefined
+    if (null == obj || "object" != typeof obj) return obj;
+
+    // Handle Date
+    if (obj instanceof Date) {
+        copy = new Date();
+        copy.setTime(obj.getTime());
+        return copy;
+    }
+
+    // Handle Array
+    if (obj instanceof Array) {
+        copy = [];
+        for (var i = 0, len = obj.length; i < len; i++) {
+            copy[i] = clone(obj[i]);
+        }
+        return copy;
+    }
+
+    // Handle Object
+    if (obj instanceof Object) {
+        copy = {};
+        for (var attr in obj) {
+            if (obj.hasOwnProperty(attr)) copy[attr] = clone(obj[attr]);
+        }
+        return copy;
+    }
+
+    throw new Error("Unable to copy obj! Its type isn't supported.");
+}
+
+// whether object is empty
+// function isEmpty(map) {
+//    for(var key in map) {
+//       return !map.hasOwnProperty(key);
+//    }
+//    return true;
+// }
+
+function isEmpty(value) {
+  // Проверка на undefined и null
+  if (value === undefined || value === null) {
+    return true;
+  }
+
+  // Проверка на пустую строку (включая пробелы)
+  if (typeof value === 'string' && value.trim() === '') {
+    return true;
+  }
+
+  // Проверка на пустой массив
+  if (Array.isArray(value) && value.length === 0) {
+    return true;
+  }
+
+  // Проверка на пустой объект
+  if (value.constructor === Object && Object.keys(value).length === 0) {
+    return true;
+  }
+
+  // Проверка на специальные числовые значения
+  if (typeof value === 'number' && (isNaN(value) || value === Infinity)) {
+    return true;
+  }
+
+  // Проверка на булевое false (опционально)
+  // if (typeof value === 'boolean' && !value) {
+  //   return true;
+  // }
+
+  return false;
+}
+
+// whether object properies has true value
+function hasTrueValue(map) {
+   for(var key in map) {
+      if (map[key]) return true;
+   }
+   return false;
+}
+
+// для рассчетов
+function money_format(n) 
+{
+  var result = n.toFixed(2).replace(/./g, function(c, i, a) 
+  {
+      return c;
+  });
+  
+  result = result.replace('.00', '');
+
+  return parseFloat(result);
+}
+
+// для вывода на экран
+function currency_filter(n) 
+{
+  if (!n) return 0;
+
+  n = parseFloat(n);
+  var result = n.toFixed(2).replace(/./g, function(c, i, a) 
+  {
+      return i > 0 && c !== "." && (a.length - i) % 3 === 0 ? "&#8239;" + c : c;  // &#8239;
+  });
+  
+  result = result.replace('.00', '');
+  return result;
+}
+
+function cost_for_table(cost)
+{
+  return currency_filter(cost) + "&nbsp;руб.";
+}
+
+
+
+function MysqlToDE($date)
+{
+  var dateArr = $date.split('-');
+  return  dateArr[2] + "." + dateArr[1] + "." + dateArr[0];
+}
+
+// https://stackoverflow.com/questions/10015027/javascript-tofixed-not-rounding
+// Возвращает строку!
+function toFixed(number, decimals) {
+        var x = Math.pow(10, Number(decimals) + 1);
+        return (Number(number) + (1 / x)).toFixed(decimals)
+    }
+
+// Возвращает число
+function roundToTwo(num) {    
+    // return toFixed(+(Math.round(num + "e+2")  + "e-2"), 2);
+    // return Number(toFixed(+(Math.round(num + "e+2") + "e-2"), 2));
+  return Number(parseFloat(num).toFixed(2));
+}

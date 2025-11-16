@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data_Root>
+	<Descript ExpSet_Name="Language" ExpSet_Code="037"><![CDATA[]]>       
+	</Descript>
+	<Data>
+		<Collection name="Data.Language" caption="Языки" child_tags="Object">
+			<Object uid="25031.945" name="Английский" class_id="Language">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.945"></prop_value>
+					<prop_value prop_name="Name" value="Английский"></prop_value>
+					<prop_value prop_name="Abbr" value="eng"></prop_value>
+					<prop_value prop_name="AbbrEng" value="eng"></prop_value>
+					<prop_value prop_name="Code" value="eng"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.946" name="Испанский" class_id="Language">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.946"></prop_value>
+					<prop_value prop_name="Name" value="Испанский"></prop_value>
+					<prop_value prop_name="Abbr" value="esp"></prop_value>
+					<prop_value prop_name="AbbrEng" value="esp"></prop_value>
+					<prop_value prop_name="Code" value="esp"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.948" name="Немецкий" class_id="Language">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.948"></prop_value>
+					<prop_value prop_name="Name" value="Немецкий"></prop_value>
+					<prop_value prop_name="Abbr" value="deu"></prop_value>
+					<prop_value prop_name="AbbrEng" value="deu"></prop_value>
+					<prop_value prop_name="Code" value="deu"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.952" name="Французский" class_id="Language">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.952"></prop_value>
+					<prop_value prop_name="Name" value="Французский"></prop_value>
+					<prop_value prop_name="Abbr" value="fra"></prop_value>
+					<prop_value prop_name="AbbrEng" value="fra"></prop_value>
+					<prop_value prop_name="Code" value="fra"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976713543" name="Арабский" class_id="Language">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976713543"></prop_value>
+					<prop_value prop_name="Name" value="Арабский"></prop_value>
+					<prop_value prop_name="Abbr" value="ara"></prop_value>
+					<prop_value prop_name="AbbrEng" value="ara"></prop_value>
+					<prop_value prop_name="Code" value="ara"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976715638" name="Русский" class_id="Language">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976715638"></prop_value>
+					<prop_value prop_name="Name" value="Русский"></prop_value>
+					<prop_value prop_name="Abbr" value="rus"></prop_value>
+					<prop_value prop_name="AbbrEng" value="rus"></prop_value>
+					<prop_value prop_name="Code" value="rus"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976726531" name="Абхазский" class_id="Language">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976726531"></prop_value>
+					<prop_value prop_name="Name" value="Абхазский"></prop_value>
+					<prop_value prop_name="Abbr" value="abk"></prop_value>
+					<prop_value prop_name="AbbrEng" value="abk"></prop_value>
+					<prop_value prop_name="Code" value="abk"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976726533" name="Азербайджанский" class_id="Language">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976726533"></prop_value>
+					<prop_value prop_name="Name" value="Азербайджанский"></prop_value>
+					<prop_value prop_name="Abbr" value="aze"></prop_value>
+					<prop_value prop_name="AbbrEng" value="aze"></prop_value>
+					<prop_value prop_name="Code" value="aze"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976726534" name="Албанский" class_id="Language">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976726534"></prop_value>
+					<prop_value prop_name="Name" value="Албанский"></prop_value>
+					<prop_value prop_name="Abbr" value="sqi"></prop_value>
+					<prop_value prop_name="AbbrEng" value="sqi"></prop_value>
+					<prop_value prop_name="Code" value="sqi"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976726535" name="Армянский" class_id="Language">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976726535"></prop_value>
+					<prop_value prop_name="Name" value="Армянский"></prop_value>
+					<prop_value prop_name="Abbr" value="hye"></prop_value>
+					<prop_value prop_name="AbbrEng" value="hye"></prop_value>
+					<prop_value prop_name="Code" value="hye"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976726536" name="Вьетнамский" class_id="Language">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976726536"></prop_value>
+					<prop_value prop_name="Name" value="Вьетнамский"></prop_value>
+					<prop_value prop_name="Abbr" value="vie"></prop_value>
+					<prop_value prop_name="AbbrEng" value="vie"></prop_value>
+					<prop_value prop_name="Code" value="vie"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976726537" name="Иврит" class_id="Language">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976726537"></prop_value>
+					<prop_value prop_name="Name" value="Иврит"></prop_value>
+					<prop_value prop_name="Abbr" value="heb"></prop_value>
+					<prop_value prop_name="AbbrEng" value="heb"></prop_value>
+					<prop_value prop_name="Code" value="heb"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976726538" name="Ирландский" class_id="Language">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976726538"></prop_value>
+					<prop_value prop_name="Name" value="Ирландский"></prop_value>
+					<prop_value prop_name="Abbr" value="gle"></prop_value>
+					<prop_value prop_name="AbbrEng" value="gle"></prop_value>
+					<prop_value prop_name="Code" value="gle"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976726539" name="Итальянский" class_id="Language">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976726539"></prop_value>
+					<prop_value prop_name="Name" value="Итальянский"></prop_value>
+					<prop_value prop_name="Abbr" value="ita"></prop_value>
+					<prop_value prop_name="AbbrEng" value="ita"></prop_value>
+					<prop_value prop_name="Code" value="ita"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976726540" name="Казахский" class_id="Language">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976726540"></prop_value>
+					<prop_value prop_name="Name" value="Казахский"></prop_value>
+					<prop_value prop_name="Abbr" value="kaz"></prop_value>
+					<prop_value prop_name="AbbrEng" value="kaz"></prop_value>
+					<prop_value prop_name="Code" value="kaz"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976726541" name="Киргизский" class_id="Language">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976726541"></prop_value>
+					<prop_value prop_name="Name" value="Киргизский"></prop_value>
+					<prop_value prop_name="Abbr" value="kir"></prop_value>
+					<prop_value prop_name="AbbrEng" value="kir"></prop_value>
+					<prop_value prop_name="Code" value="kir"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976726542" name="Китайский" class_id="Language">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976726542"></prop_value>
+					<prop_value prop_name="Name" value="Китайский"></prop_value>
+					<prop_value prop_name="Abbr" value="zho"></prop_value>
+					<prop_value prop_name="AbbrEng" value="zho"></prop_value>
+					<prop_value prop_name="Code" value="zho"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976726543" name="Корейский" class_id="Language">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976726543"></prop_value>
+					<prop_value prop_name="Name" value="Корейский"></prop_value>
+					<prop_value prop_name="Abbr" value="kor"></prop_value>
+					<prop_value prop_name="AbbrEng" value="kor"></prop_value>
+					<prop_value prop_name="Code" value="kor"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976726544" name="Латышский" class_id="Language">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976726544"></prop_value>
+					<prop_value prop_name="Name" value="Латышский"></prop_value>
+					<prop_value prop_name="Abbr" value="lav"></prop_value>
+					<prop_value prop_name="AbbrEng" value="lav"></prop_value>
+					<prop_value prop_name="Code" value="lav"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976726545" name="Литовский" class_id="Language">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976726545"></prop_value>
+					<prop_value prop_name="Name" value="Литовский"></prop_value>
+					<prop_value prop_name="Abbr" value="lit"></prop_value>
+					<prop_value prop_name="AbbrEng" value="lit"></prop_value>
+					<prop_value prop_name="Code" value="lit"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976726546" name="Монгольский" class_id="Language">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976726546"></prop_value>
+					<prop_value prop_name="Name" value="Монгольский"></prop_value>
+					<prop_value prop_name="Abbr" value="mon"></prop_value>
+					<prop_value prop_name="AbbrEng" value="mon"></prop_value>
+					<prop_value prop_name="Code" value="mon"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976726547" name="Португальский" class_id="Language">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976726547"></prop_value>
+					<prop_value prop_name="Name" value="Португальский"></prop_value>
+					<prop_value prop_name="Abbr" value="por"></prop_value>
+					<prop_value prop_name="AbbrEng" value="por"></prop_value>
+					<prop_value prop_name="Code" value="por"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976726549" name="Сербский" class_id="Language">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976726549"></prop_value>
+					<prop_value prop_name="Name" value="Сербский"></prop_value>
+					<prop_value prop_name="Abbr" value="srp"></prop_value>
+					<prop_value prop_name="AbbrEng" value="srp"></prop_value>
+					<prop_value prop_name="Code" value="srp"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976726550" name="Сирийский" class_id="Language">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976726550"></prop_value>
+					<prop_value prop_name="Name" value="Сирийский"></prop_value>
+					<prop_value prop_name="Abbr" value="syr"></prop_value>
+					<prop_value prop_name="AbbrEng" value="syr"></prop_value>
+					<prop_value prop_name="Code" value="syr"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976726551" name="Словацкий" class_id="Language">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976726551"></prop_value>
+					<prop_value prop_name="Name" value="Словацкий"></prop_value>
+					<prop_value prop_name="Abbr" value="slk"></prop_value>
+					<prop_value prop_name="AbbrEng" value="slk"></prop_value>
+					<prop_value prop_name="Code" value="slk"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976726552" name="Словенский" class_id="Language">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976726552"></prop_value>
+					<prop_value prop_name="Name" value="Словенский"></prop_value>
+					<prop_value prop_name="Abbr" value="slv"></prop_value>
+					<prop_value prop_name="AbbrEng" value="slv"></prop_value>
+					<prop_value prop_name="Code" value="slv"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976726553" name="Сомали" class_id="Language">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976726553"></prop_value>
+					<prop_value prop_name="Name" value="Сомали"></prop_value>
+					<prop_value prop_name="Abbr" value="som"></prop_value>
+					<prop_value prop_name="AbbrEng" value="som"></prop_value>
+					<prop_value prop_name="Code" value="som"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976726554" name="Суахили" class_id="Language">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976726554"></prop_value>
+					<prop_value prop_name="Name" value="Суахили"></prop_value>
+					<prop_value prop_name="Abbr" value="swa"></prop_value>
+					<prop_value prop_name="AbbrEng" value="swa"></prop_value>
+					<prop_value prop_name="Code" value="swa"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976726555" name="Таджикский" class_id="Language">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976726555"></prop_value>
+					<prop_value prop_name="Name" value="Таджикский"></prop_value>
+					<prop_value prop_name="Abbr" value="tgk"></prop_value>
+					<prop_value prop_name="AbbrEng" value="tgk"></prop_value>
+					<prop_value prop_name="Code" value="tgk"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976726556" name="Турецкий" class_id="Language">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976726556"></prop_value>
+					<prop_value prop_name="Name" value="Турецкий"></prop_value>
+					<prop_value prop_name="Abbr" value="tur"></prop_value>
+					<prop_value prop_name="AbbrEng" value="tur"></prop_value>
+					<prop_value prop_name="Code" value="tur"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976726557" name="Узбекский" class_id="Language">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976726557"></prop_value>
+					<prop_value prop_name="Name" value="Узбекский"></prop_value>
+					<prop_value prop_name="Abbr" value="uzb"></prop_value>
+					<prop_value prop_name="AbbrEng" value="uzb"></prop_value>
+					<prop_value prop_name="Code" value="uzb"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976726558" name="Урду" class_id="Language">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976726558"></prop_value>
+					<prop_value prop_name="Name" value="Урду"></prop_value>
+					<prop_value prop_name="Abbr" value="urd"></prop_value>
+					<prop_value prop_name="AbbrEng" value="urd"></prop_value>
+					<prop_value prop_name="Code" value="urd"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976726559" name="Фанг" class_id="Language">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976726559"></prop_value>
+					<prop_value prop_name="Name" value="Фанг"></prop_value>
+					<prop_value prop_name="Abbr" value="fan"></prop_value>
+					<prop_value prop_name="AbbrEng" value="fan"></prop_value>
+					<prop_value prop_name="Code" value="fan"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976726560" name="Финский" class_id="Language">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976726560"></prop_value>
+					<prop_value prop_name="Name" value="Финский"></prop_value>
+					<prop_value prop_name="Abbr" value="fin"></prop_value>
+					<prop_value prop_name="AbbrEng" value="fin"></prop_value>
+					<prop_value prop_name="Code" value="fin"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976726561" name="Чешский" class_id="Language">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976726561"></prop_value>
+					<prop_value prop_name="Name" value="Чешский"></prop_value>
+					<prop_value prop_name="Abbr" value="ces"></prop_value>
+					<prop_value prop_name="AbbrEng" value="ces"></prop_value>
+					<prop_value prop_name="Code" value="ces"></prop_value>
+				</Collection>
+			</Object>
+		</Collection>
+	</Data>
+</Data_Root>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data_Root>
+	<Descript ExpSet_Name="FormOfEducation" ExpSet_Code="005"><![CDATA[]]>       
+	</Descript>
+	<Data>
+		<Collection name="Data.FormOfEducation" caption="Форма обучения" child_tags="Object">
+			<Object uid="0" name="Очная" class_id="FormOfEducation">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="0"></prop_value>
+					<prop_value prop_name="name" value="Очная"></prop_value>
+					<prop_value prop_name="abbr" value="Очная"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="1" name="Заочная" class_id="FormOfEducation">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="1"></prop_value>
+					<prop_value prop_name="name" value="Заочная"></prop_value>
+					<prop_value prop_name="abbr" value="Заочная"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="2" name="Очная-заочная" class_id="FormOfEducation">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="2"></prop_value>
+					<prop_value prop_name="name" value="Очная-заочная"></prop_value>
+					<prop_value prop_name="abbr" value="Очная-заочная"></prop_value>
+				</Collection>
+			</Object>
+		</Collection>
+	</Data>
+</Data_Root>

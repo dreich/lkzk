@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data_Root>
+	<Descript ExpSet_Name="Faculty" ExpSet_Code="001"><![CDATA[]]>       
+	</Descript>
+	<Data>
+		<Collection name="Data.Faculty" caption="Факультет" child_tags="Object">
+			<Object uid="25031.281474976710667" name="Институт экономики и предпринимательства" class_id="Faculty">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976710667"></prop_value>
+					<prop_value prop_name="Name" value="Институт экономики и предпринимательства"></prop_value>
+					<prop_value prop_name="Abbr" value="ИЭП"></prop_value>
+					<prop_value prop_name="Code" value="02002"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976710668" name="Институт биологии и биомедицины" class_id="Faculty">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976710668"></prop_value>
+					<prop_value prop_name="Name" value="Институт биологии и биомедицины"></prop_value>
+					<prop_value prop_name="Abbr" value="ИББМ"></prop_value>
+					<prop_value prop_name="Code" value="02324"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976710778" name="Химический факультет" class_id="Faculty">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976710778"></prop_value>
+					<prop_value prop_name="Name" value="Химический факультет"></prop_value>
+					<prop_value prop_name="Abbr" value="ХИМФАК"></prop_value>
+					<prop_value prop_name="Code" value="00169"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976710801" name="Институт международных отношений и мировой истории" class_id="Faculty">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976710801"></prop_value>
+					<prop_value prop_name="Name" value="Институт международных отношений и мировой истории"></prop_value>
+					<prop_value prop_name="Abbr" value="ИМОМИ"></prop_value>
+					<prop_value prop_name="Code" value="01986"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976710809" name="Арзамасский филиал - Историко-филологический факультет" class_id="Faculty">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976710809"></prop_value>
+					<prop_value prop_name="Name" value="Арзамасский филиал - Историко-филологический факультет"></prop_value>
+					<prop_value prop_name="Abbr" value="АФ ИФИЛ"></prop_value>
+					<prop_value prop_name="Code" value="02242"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976710823" name="Арзамасский филиал - Естественно-географический факультет" class_id="Faculty">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976710823"></prop_value>
+					<prop_value prop_name="Name" value="Арзамасский филиал - Естественно-географический факультет"></prop_value>
+					<prop_value prop_name="Abbr" value="АФ ЕГЕОГР"></prop_value>
+					<prop_value prop_name="Code" value="02249"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976710964" name="Юридический факультет" class_id="Faculty">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976710964"></prop_value>
+					<prop_value prop_name="Name" value="Юридический факультет"></prop_value>
+					<prop_value prop_name="Abbr" value="ЮРФАК"></prop_value>
+					<prop_value prop_name="Code" value="00199"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976710966" name="Физический факультет" class_id="Faculty">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976710966"></prop_value>
+					<prop_value prop_name="Name" value="Физический факультет"></prop_value>
+					<prop_value prop_name="Abbr" value="ФИЗФАК"></prop_value>
+					<prop_value prop_name="Code" value="00152"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976710969" name="Факультет физической культуры и спорта" class_id="Faculty">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976710969"></prop_value>
+					<prop_value prop_name="Name" value="Факультет физической культуры и спорта"></prop_value>
+					<prop_value prop_name="Abbr" value="ФКС"></prop_value>
+					<prop_value prop_name="Code" value="00159"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976710971" name="Факультет социальных наук" class_id="Faculty">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976710971"></prop_value>
+					<prop_value prop_name="Name" value="Факультет социальных наук"></prop_value>
+					<prop_value prop_name="Abbr" value="ФСН"></prop_value>
+					<prop_value prop_name="Code" value="00164"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976710973" name="Радиофизический факультет" class_id="Faculty">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976710973"></prop_value>
+					<prop_value prop_name="Name" value="Радиофизический факультет"></prop_value>
+					<prop_value prop_name="Abbr" value="РАДИОФАК"></prop_value>
+					<prop_value prop_name="Code" value="00113"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976710980" name="Институт информационных технологий, математики и механики" class_id="Faculty">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976710980"></prop_value>
+					<prop_value prop_name="Name" value="Институт информационных технологий, математики и механики"></prop_value>
+					<prop_value prop_name="Abbr" value="ИИТММ"></prop_value>
+					<prop_value prop_name="Code" value="02331"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976710982" name="Арзамасский филиал" class_id="Faculty">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976710982"></prop_value>
+					<prop_value prop_name="Name" value="Арзамасский филиал"></prop_value>
+					<prop_value prop_name="Abbr" value="АРЗФИЛ"></prop_value>
+					<prop_value prop_name="Code" value="00383"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976710984" name="Арзамасский филиал - Психолого-педагогический факультет" class_id="Faculty">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976710984"></prop_value>
+					<prop_value prop_name="Name" value="Арзамасский филиал - Психолого-педагогический факультет"></prop_value>
+					<prop_value prop_name="Abbr" value="АФ ПСПЕД"></prop_value>
+					<prop_value prop_name="Code" value="02252"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976710985" name="Арзамасский филиал - Факультет дошкольного и начального образования" class_id="Faculty">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976710985"></prop_value>
+					<prop_value prop_name="Name" value="Арзамасский филиал - Факультет дошкольного и начального образования"></prop_value>
+					<prop_value prop_name="Abbr" value="АФ ДиНО"></prop_value>
+					<prop_value prop_name="Code" value="02257"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976710988" name="Павловский филиал" class_id="Faculty">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976710988"></prop_value>
+					<prop_value prop_name="Name" value="Павловский филиал"></prop_value>
+					<prop_value prop_name="Abbr" value="ПАВФИЛ"></prop_value>
+					<prop_value prop_name="Code" value="00389"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976710990" name="Дзержинский филиал" class_id="Faculty">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976710990"></prop_value>
+					<prop_value prop_name="Name" value="Дзержинский филиал"></prop_value>
+					<prop_value prop_name="Abbr" value="ДЗЖФИЛ"></prop_value>
+					<prop_value prop_name="Code" value="00386"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976710991" name="Высшая школа общей и прикладной физики" class_id="Faculty">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976710991"></prop_value>
+					<prop_value prop_name="Name" value="Высшая школа общей и прикладной физики"></prop_value>
+					<prop_value prop_name="Abbr" value="ВШ ОПФ"></prop_value>
+					<prop_value prop_name="Code" value="00024"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976710992" name="Факультет повышения квалификации и профессиональной переподготовки ННГУ" class_id="Faculty">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976710992"></prop_value>
+					<prop_value prop_name="Name" value="Факультет повышения квалификации и профессиональной переподготовки ННГУ"></prop_value>
+					<prop_value prop_name="Abbr" value="ФПКиПП"></prop_value>
+					<prop_value prop_name="Code" value="01985"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976710994" name="Институт аспирантуры и докторантуры" class_id="Faculty">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976710994"></prop_value>
+					<prop_value prop_name="Name" value="Институт аспирантуры и докторантуры"></prop_value>
+					<prop_value prop_name="Abbr" value="ИАД"></prop_value>
+					<prop_value prop_name="Code" value="00035"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976711517" name="Арзамасский филиал - Отделение среднего профессионального образования (Колледж им. В.А.Новикова)" class_id="Faculty">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976711517"></prop_value>
+					<prop_value prop_name="Name" value="Арзамасский филиал - Отделение среднего профессионального образования (Колледж им. В.А.Новикова)"></prop_value>
+					<prop_value prop_name="Abbr" value="АФ ОСПО"></prop_value>
+					<prop_value prop_name="Code" value="02260"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976715634" name="Институт реабилитации и здоровья человека" class_id="Faculty">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976715634"></prop_value>
+					<prop_value prop_name="Name" value="Институт реабилитации и здоровья человека"></prop_value>
+					<prop_value prop_name="Abbr" value="ИРиЗЧ"></prop_value>
+					<prop_value prop_name="Code" value="02359"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976720931" name="Арзамасский филиал - Отделение дополнительного образования и профессионального обучения" class_id="Faculty">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976720931"></prop_value>
+					<prop_value prop_name="Name" value="Арзамасский филиал - Отделение дополнительного образования и профессионального обучения"></prop_value>
+					<prop_value prop_name="Abbr" value="АФ ОДОиПО"></prop_value>
+					<prop_value prop_name="Code" value="09000"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976727845" name="Балахнинский филиал" class_id="Faculty">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976727845"></prop_value>
+					<prop_value prop_name="Name" value="Балахнинский филиал"></prop_value>
+					<prop_value prop_name="Abbr" value="БАЛФИЛ"></prop_value>
+					<prop_value prop_name="Code" value="02709"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976730150" name="Институт филологии и журналистики" class_id="Faculty">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976730150"></prop_value>
+					<prop_value prop_name="Name" value="Институт филологии и журналистики"></prop_value>
+					<prop_value prop_name="Abbr" value="ИФИЖ"></prop_value>
+					<prop_value prop_name="Code" value="02835"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976732679" name="Центр образовательных программ для иностранных граждан" class_id="Faculty">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976732679"></prop_value>
+					<prop_value prop_name="Name" value="Центр образовательных программ для иностранных граждан"></prop_value>
+					<prop_value prop_name="Abbr" value="ЦОПИГ"></prop_value>
+					<prop_value prop_name="Code" value="02903"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976746074" name="Балахнинский филиал - Специализированный учебный научный центр ННГУ" class_id="Faculty">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976746074"></prop_value>
+					<prop_value prop_name="Name" value="Балахнинский филиал - Специализированный учебный научный центр ННГУ"></prop_value>
+					<prop_value prop_name="Abbr" value="БФСУНЦ"></prop_value>
+					<prop_value prop_name="Code" value="05137"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976747441" name="Арзамасский филиал - Факультет естественных и математических наук" class_id="Faculty">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976747441"></prop_value>
+					<prop_value prop_name="Name" value="Арзамасский филиал - Факультет естественных и математических наук"></prop_value>
+					<prop_value prop_name="Abbr" value="АФ ЕСТМАТЕМ"></prop_value>
+					<prop_value prop_name="Code" value="09003"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976750993" name="Высшая школа искусств и дизайна" class_id="Faculty">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976750993"></prop_value>
+					<prop_value prop_name="Name" value="Высшая школа искусств и дизайна"></prop_value>
+					<prop_value prop_name="Abbr" value="ВШ ИиД"></prop_value>
+					<prop_value prop_name="Code" value="05229"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976751459" name="Институт клинической медицины" class_id="Faculty">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976751459"></prop_value>
+					<prop_value prop_name="Name" value="Институт клинической медицины"></prop_value>
+					<prop_value prop_name="Abbr" value="ИКМ"></prop_value>
+					<prop_value prop_name="Code" value="05231"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976753398" name="Реализация сетевых программ" class_id="Faculty">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976753398"></prop_value>
+					<prop_value prop_name="Name" value="Реализация сетевых программ"></prop_value>
+					<prop_value prop_name="Abbr" value="РСП"></prop_value>
+					<prop_value prop_name="Code" value="892"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976753421" name="Отдел по работе с талантливой молодежью" class_id="Faculty">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976753421"></prop_value>
+					<prop_value prop_name="Name" value="Отдел по работе с талантливой молодежью"></prop_value>
+					<prop_value prop_name="Abbr" value="Отдел РТМ"></prop_value>
+					<prop_value prop_name="Code" value="05290"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976757685" name="Институт экономики" class_id="Faculty">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976757685"></prop_value>
+					<prop_value prop_name="Name" value="Институт экономики"></prop_value>
+					<prop_value prop_name="Abbr" value="ИнЭк"></prop_value>
+					<prop_value prop_name="Code" value="05416"></prop_value>
+				</Collection>
+			</Object>
+		</Collection>
+	</Data>
+</Data_Root>

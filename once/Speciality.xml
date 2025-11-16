@@ -1,0 +1,846 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data_Root>
+	<Descript ExpSet_Name="Speciality" ExpSet_Code="023"><![CDATA[]]>       
+	</Descript>
+	<Data>
+		<Collection name="Data.Speciality" caption="Специальности" child_tags="Object">
+			<Object uid="25031.281474976710711" name="Фундаментальная информатика и информационные технологии" class_id="Speciality">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976710711"></prop_value>
+					<prop_value prop_name="Name" value="Фундаментальная информатика и информационные технологии"></prop_value>
+					<prop_value prop_name="Abbr" value="+"></prop_value>
+					<prop_value prop_name="Code" value="02.03.02"></prop_value>
+					<prop_value prop_name="UID_KindOfEducaion" value="0"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976710720" name="Математика" class_id="Speciality">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976710720"></prop_value>
+					<prop_value prop_name="Name" value="Математика"></prop_value>
+					<prop_value prop_name="Abbr" value="+"></prop_value>
+					<prop_value prop_name="Code" value="01.03.01"></prop_value>
+					<prop_value prop_name="UID_KindOfEducaion" value="0"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976710721" name="Прикладная математика и информатика" class_id="Speciality">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976710721"></prop_value>
+					<prop_value prop_name="Name" value="Прикладная математика и информатика"></prop_value>
+					<prop_value prop_name="Abbr" value="+"></prop_value>
+					<prop_value prop_name="Code" value="01.03.02"></prop_value>
+					<prop_value prop_name="UID_KindOfEducaion" value="0"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976710722" name="Механика и математическое моделирование" class_id="Speciality">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976710722"></prop_value>
+					<prop_value prop_name="Name" value="Механика и математическое моделирование"></prop_value>
+					<prop_value prop_name="Abbr" value="+"></prop_value>
+					<prop_value prop_name="Code" value="01.03.03"></prop_value>
+					<prop_value prop_name="UID_KindOfEducaion" value="0"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976710725" name="Прикладная информатика" class_id="Speciality">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976710725"></prop_value>
+					<prop_value prop_name="Name" value="Прикладная информатика"></prop_value>
+					<prop_value prop_name="Abbr" value="+"></prop_value>
+					<prop_value prop_name="Code" value="09.03.03"></prop_value>
+					<prop_value prop_name="UID_KindOfEducaion" value="0"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976710726" name="Программная инженерия" class_id="Speciality">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976710726"></prop_value>
+					<prop_value prop_name="Name" value="Программная инженерия"></prop_value>
+					<prop_value prop_name="Abbr" value="+"></prop_value>
+					<prop_value prop_name="Code" value="09.03.04"></prop_value>
+					<prop_value prop_name="UID_KindOfEducaion" value="0"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976710730" name="Психология" class_id="Speciality">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976710730"></prop_value>
+					<prop_value prop_name="Name" value="Психология"></prop_value>
+					<prop_value prop_name="Abbr" value="+"></prop_value>
+					<prop_value prop_name="Code" value="37.03.01"></prop_value>
+					<prop_value prop_name="UID_KindOfEducaion" value="0"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976710731" name="Психология служебной деятельности" class_id="Speciality">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976710731"></prop_value>
+					<prop_value prop_name="Name" value="Психология служебной деятельности"></prop_value>
+					<prop_value prop_name="Abbr" value="+"></prop_value>
+					<prop_value prop_name="Code" value="37.05.02"></prop_value>
+					<prop_value prop_name="UID_KindOfEducaion" value="2"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976710732" name="Менеджмент" class_id="Speciality">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976710732"></prop_value>
+					<prop_value prop_name="Name" value="Менеджмент"></prop_value>
+					<prop_value prop_name="Abbr" value="+"></prop_value>
+					<prop_value prop_name="Code" value="38.03.02"></prop_value>
+					<prop_value prop_name="UID_KindOfEducaion" value="0"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976710733" name="Управление персоналом" class_id="Speciality">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976710733"></prop_value>
+					<prop_value prop_name="Name" value="Управление персоналом"></prop_value>
+					<prop_value prop_name="Abbr" value="+"></prop_value>
+					<prop_value prop_name="Code" value="38.03.03"></prop_value>
+					<prop_value prop_name="UID_KindOfEducaion" value="0"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976710734" name="Социология" class_id="Speciality">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976710734"></prop_value>
+					<prop_value prop_name="Name" value="Социология"></prop_value>
+					<prop_value prop_name="Abbr" value="+"></prop_value>
+					<prop_value prop_name="Code" value="39.03.01"></prop_value>
+					<prop_value prop_name="UID_KindOfEducaion" value="0"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976710735" name="Социальная работа" class_id="Speciality">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976710735"></prop_value>
+					<prop_value prop_name="Name" value="Социальная работа"></prop_value>
+					<prop_value prop_name="Abbr" value="+"></prop_value>
+					<prop_value prop_name="Code" value="39.03.02"></prop_value>
+					<prop_value prop_name="UID_KindOfEducaion" value="0"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976710741" name="Туризм" class_id="Speciality">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976710741"></prop_value>
+					<prop_value prop_name="Name" value="Туризм"></prop_value>
+					<prop_value prop_name="Abbr" value="+"></prop_value>
+					<prop_value prop_name="Code" value="43.03.02"></prop_value>
+					<prop_value prop_name="UID_KindOfEducaion" value="0"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976710743" name="Экономика" class_id="Speciality">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976710743"></prop_value>
+					<prop_value prop_name="Name" value="Экономика"></prop_value>
+					<prop_value prop_name="Abbr" value="+"></prop_value>
+					<prop_value prop_name="Code" value="38.03.01"></prop_value>
+					<prop_value prop_name="UID_KindOfEducaion" value="0"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976710744" name="Бизнес-информатика" class_id="Speciality">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976710744"></prop_value>
+					<prop_value prop_name="Name" value="Бизнес-информатика"></prop_value>
+					<prop_value prop_name="Abbr" value="+"></prop_value>
+					<prop_value prop_name="Code" value="38.03.05"></prop_value>
+					<prop_value prop_name="UID_KindOfEducaion" value="0"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976710745" name="Торговое дело" class_id="Speciality">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976710745"></prop_value>
+					<prop_value prop_name="Name" value="Торговое дело"></prop_value>
+					<prop_value prop_name="Abbr" value="+"></prop_value>
+					<prop_value prop_name="Code" value="38.03.06"></prop_value>
+					<prop_value prop_name="UID_KindOfEducaion" value="0"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976710746" name="Таможенное дело" class_id="Speciality">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976710746"></prop_value>
+					<prop_value prop_name="Name" value="Таможенное дело"></prop_value>
+					<prop_value prop_name="Abbr" value="+"></prop_value>
+					<prop_value prop_name="Code" value="38.05.02"></prop_value>
+					<prop_value prop_name="UID_KindOfEducaion" value="2"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976711017" name="Фундаментальные математика и механика" class_id="Speciality">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976711017"></prop_value>
+					<prop_value prop_name="Name" value="Фундаментальные математика и механика"></prop_value>
+					<prop_value prop_name="Abbr" value="+"></prop_value>
+					<prop_value prop_name="Code" value="01.05.01"></prop_value>
+					<prop_value prop_name="UID_KindOfEducaion" value="2"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976711220" name="Фундаментальная информатика и информационные технологии" class_id="Speciality">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976711220"></prop_value>
+					<prop_value prop_name="Name" value="Фундаментальная информатика и информационные технологии"></prop_value>
+					<prop_value prop_name="Abbr" value="+"></prop_value>
+					<prop_value prop_name="Code" value="02.04.02"></prop_value>
+					<prop_value prop_name="UID_KindOfEducaion" value="1"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976711225" name="Математика" class_id="Speciality">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976711225"></prop_value>
+					<prop_value prop_name="Name" value="Математика"></prop_value>
+					<prop_value prop_name="Abbr" value="+"></prop_value>
+					<prop_value prop_name="Code" value="01.04.01"></prop_value>
+					<prop_value prop_name="UID_KindOfEducaion" value="1"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976711226" name="Прикладная математика и информатика" class_id="Speciality">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976711226"></prop_value>
+					<prop_value prop_name="Name" value="Прикладная математика и информатика"></prop_value>
+					<prop_value prop_name="Abbr" value="+"></prop_value>
+					<prop_value prop_name="Code" value="01.04.02"></prop_value>
+					<prop_value prop_name="UID_KindOfEducaion" value="1"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976711227" name="Механика и математическое моделирование" class_id="Speciality">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976711227"></prop_value>
+					<prop_value prop_name="Name" value="Механика и математическое моделирование"></prop_value>
+					<prop_value prop_name="Abbr" value="+"></prop_value>
+					<prop_value prop_name="Code" value="01.04.03"></prop_value>
+					<prop_value prop_name="UID_KindOfEducaion" value="1"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976711229" name="Прикладная информатика" class_id="Speciality">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976711229"></prop_value>
+					<prop_value prop_name="Name" value="Прикладная информатика"></prop_value>
+					<prop_value prop_name="Abbr" value="+"></prop_value>
+					<prop_value prop_name="Code" value="09.04.03"></prop_value>
+					<prop_value prop_name="UID_KindOfEducaion" value="1"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976711230" name="Юриспруденция" class_id="Speciality">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976711230"></prop_value>
+					<prop_value prop_name="Name" value="Юриспруденция"></prop_value>
+					<prop_value prop_name="Abbr" value="40.03.01"></prop_value>
+					<prop_value prop_name="Code" value="40.03.01"></prop_value>
+					<prop_value prop_name="UID_KindOfEducaion" value="0"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976711233" name="Документоведение и архивоведение" class_id="Speciality">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976711233"></prop_value>
+					<prop_value prop_name="Name" value="Документоведение и архивоведение"></prop_value>
+					<prop_value prop_name="Abbr" value="+"></prop_value>
+					<prop_value prop_name="Code" value="46.03.02"></prop_value>
+					<prop_value prop_name="UID_KindOfEducaion" value="0"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976711239" name="Психология" class_id="Speciality">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976711239"></prop_value>
+					<prop_value prop_name="Name" value="Психология"></prop_value>
+					<prop_value prop_name="Abbr" value="+"></prop_value>
+					<prop_value prop_name="Code" value="37.04.01"></prop_value>
+					<prop_value prop_name="UID_KindOfEducaion" value="1"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976711240" name="Менеджмент" class_id="Speciality">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976711240"></prop_value>
+					<prop_value prop_name="Name" value="Менеджмент"></prop_value>
+					<prop_value prop_name="Abbr" value="+"></prop_value>
+					<prop_value prop_name="Code" value="38.04.02"></prop_value>
+					<prop_value prop_name="UID_KindOfEducaion" value="1"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976711241" name="Управление персоналом" class_id="Speciality">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976711241"></prop_value>
+					<prop_value prop_name="Name" value="Управление персоналом"></prop_value>
+					<prop_value prop_name="Abbr" value="+"></prop_value>
+					<prop_value prop_name="Code" value="38.04.03"></prop_value>
+					<prop_value prop_name="UID_KindOfEducaion" value="1"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976711242" name="Социология" class_id="Speciality">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976711242"></prop_value>
+					<prop_value prop_name="Name" value="Социология"></prop_value>
+					<prop_value prop_name="Abbr" value="+"></prop_value>
+					<prop_value prop_name="Code" value="39.04.01"></prop_value>
+					<prop_value prop_name="UID_KindOfEducaion" value="1"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976711243" name="Социальная работа" class_id="Speciality">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976711243"></prop_value>
+					<prop_value prop_name="Name" value="Социальная работа"></prop_value>
+					<prop_value prop_name="Abbr" value="+"></prop_value>
+					<prop_value prop_name="Code" value="39.04.02"></prop_value>
+					<prop_value prop_name="UID_KindOfEducaion" value="1"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976711247" name="Экономика" class_id="Speciality">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976711247"></prop_value>
+					<prop_value prop_name="Name" value="Экономика"></prop_value>
+					<prop_value prop_name="Abbr" value="+"></prop_value>
+					<prop_value prop_name="Code" value="38.04.01"></prop_value>
+					<prop_value prop_name="UID_KindOfEducaion" value="1"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976711248" name="Государственное и муниципальное управление" class_id="Speciality">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976711248"></prop_value>
+					<prop_value prop_name="Name" value="Государственное и муниципальное управление"></prop_value>
+					<prop_value prop_name="Abbr" value="+"></prop_value>
+					<prop_value prop_name="Code" value="38.03.04"></prop_value>
+					<prop_value prop_name="UID_KindOfEducaion" value="0"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976711249" name="Государственное и муниципальное управление" class_id="Speciality">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976711249"></prop_value>
+					<prop_value prop_name="Name" value="Государственное и муниципальное управление"></prop_value>
+					<prop_value prop_name="Abbr" value="+"></prop_value>
+					<prop_value prop_name="Code" value="38.04.04"></prop_value>
+					<prop_value prop_name="UID_KindOfEducaion" value="1"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976711250" name="Финансы и кредит" class_id="Speciality">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976711250"></prop_value>
+					<prop_value prop_name="Name" value="Финансы и кредит"></prop_value>
+					<prop_value prop_name="Abbr" value="+"></prop_value>
+					<prop_value prop_name="Code" value="38.04.08"></prop_value>
+					<prop_value prop_name="UID_KindOfEducaion" value="1"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976711257" name="Бизнес-информатика" class_id="Speciality">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976711257"></prop_value>
+					<prop_value prop_name="Name" value="Бизнес-информатика"></prop_value>
+					<prop_value prop_name="Abbr" value="+"></prop_value>
+					<prop_value prop_name="Code" value="38.04.05"></prop_value>
+					<prop_value prop_name="UID_KindOfEducaion" value="1"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976711258" name="Торговое дело" class_id="Speciality">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976711258"></prop_value>
+					<prop_value prop_name="Name" value="Торговое дело"></prop_value>
+					<prop_value prop_name="Abbr" value="+"></prop_value>
+					<prop_value prop_name="Code" value="38.04.06"></prop_value>
+					<prop_value prop_name="UID_KindOfEducaion" value="1"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976711494" name="Банковское дело" class_id="Speciality">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976711494"></prop_value>
+					<prop_value prop_name="Name" value="Банковское дело"></prop_value>
+					<prop_value prop_name="Abbr" value="+"></prop_value>
+					<prop_value prop_name="Code" value="38.02.07"></prop_value>
+					<prop_value prop_name="UID_KindOfEducaion" value="6"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976711498" name="Коммерция (по отраслям)" class_id="Speciality">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976711498"></prop_value>
+					<prop_value prop_name="Name" value="Коммерция (по отраслям)"></prop_value>
+					<prop_value prop_name="Abbr" value="+"></prop_value>
+					<prop_value prop_name="Code" value="38.02.04"></prop_value>
+					<prop_value prop_name="UID_KindOfEducaion" value="6"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976711502" name="Право и организация социального обеспечения" class_id="Speciality">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976711502"></prop_value>
+					<prop_value prop_name="Name" value="Право и организация социального обеспечения"></prop_value>
+					<prop_value prop_name="Abbr" value="+"></prop_value>
+					<prop_value prop_name="Code" value="40.02.01"></prop_value>
+					<prop_value prop_name="UID_KindOfEducaion" value="6"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976711507" name="Финансы" class_id="Speciality">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976711507"></prop_value>
+					<prop_value prop_name="Name" value="Финансы"></prop_value>
+					<prop_value prop_name="Abbr" value="+"></prop_value>
+					<prop_value prop_name="Code" value="38.02.06"></prop_value>
+					<prop_value prop_name="UID_KindOfEducaion" value="6"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976711508" name="Экономика и бухгалтерский учет (по отраслям)" class_id="Speciality">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976711508"></prop_value>
+					<prop_value prop_name="Name" value="Экономика и бухгалтерский учет (по отраслям)"></prop_value>
+					<prop_value prop_name="Abbr" value="+"></prop_value>
+					<prop_value prop_name="Code" value="38.02.01"></prop_value>
+					<prop_value prop_name="UID_KindOfEducaion" value="6"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976711514" name="Психолого-педагогическое образование" class_id="Speciality">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976711514"></prop_value>
+					<prop_value prop_name="Name" value="Психолого-педагогическое образование"></prop_value>
+					<prop_value prop_name="Abbr" value="+"></prop_value>
+					<prop_value prop_name="Code" value="44.03.02"></prop_value>
+					<prop_value prop_name="UID_KindOfEducaion" value="0"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976711515" name="Организация работы с молодежью" class_id="Speciality">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976711515"></prop_value>
+					<prop_value prop_name="Name" value="Организация работы с молодежью"></prop_value>
+					<prop_value prop_name="Abbr" value="+"></prop_value>
+					<prop_value prop_name="Code" value="39.03.03"></prop_value>
+					<prop_value prop_name="UID_KindOfEducaion" value="0"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976712736" name="Гостиничное дело" class_id="Speciality">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976712736"></prop_value>
+					<prop_value prop_name="Name" value="Гостиничное дело"></prop_value>
+					<prop_value prop_name="Abbr" value="+"></prop_value>
+					<prop_value prop_name="Code" value="43.03.03"></prop_value>
+					<prop_value prop_name="UID_KindOfEducaion" value="0"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976712737" name="Физическая культура для лиц с отклонениями в состоянии здоровья (адаптивная физическая культура)" class_id="Speciality">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976712737"></prop_value>
+					<prop_value prop_name="Name" value="Физическая культура для лиц с отклонениями в состоянии здоровья (адаптивная физическая культура)"></prop_value>
+					<prop_value prop_name="Abbr" value="+"></prop_value>
+					<prop_value prop_name="Code" value="49.03.02"></prop_value>
+					<prop_value prop_name="UID_KindOfEducaion" value="0"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976721240" name="Экономическая безопасность" class_id="Speciality">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976721240"></prop_value>
+					<prop_value prop_name="Name" value="Экономическая безопасность"></prop_value>
+					<prop_value prop_name="Abbr" value="+"></prop_value>
+					<prop_value prop_name="Code" value="38.05.01"></prop_value>
+					<prop_value prop_name="UID_KindOfEducaion" value="2"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976737637" name="Конфликтология" class_id="Speciality">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976737637"></prop_value>
+					<prop_value prop_name="Name" value="Конфликтология"></prop_value>
+					<prop_value prop_name="Abbr" value="37.03.02"></prop_value>
+					<prop_value prop_name="Code" value="37.03.02"></prop_value>
+					<prop_value prop_name="UID_KindOfEducaion" value="0"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976737638" name="Стоматология" class_id="Speciality">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976737638"></prop_value>
+					<prop_value prop_name="Name" value="Стоматология"></prop_value>
+					<prop_value prop_name="Abbr" value="31.05.03"></prop_value>
+					<prop_value prop_name="Code" value="31.05.03"></prop_value>
+					<prop_value prop_name="UID_KindOfEducaion" value="2"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976737639" name="Лечебное дело" class_id="Speciality">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976737639"></prop_value>
+					<prop_value prop_name="Name" value="Лечебное дело"></prop_value>
+					<prop_value prop_name="Abbr" value="31.05.01"></prop_value>
+					<prop_value prop_name="Code" value="31.05.01"></prop_value>
+					<prop_value prop_name="UID_KindOfEducaion" value="2"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976737659" name="Программная инженерия" class_id="Speciality">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976737659"></prop_value>
+					<prop_value prop_name="Name" value="Программная инженерия"></prop_value>
+					<prop_value prop_name="Abbr" value="+"></prop_value>
+					<prop_value prop_name="Code" value="09.04.04"></prop_value>
+					<prop_value prop_name="UID_KindOfEducaion" value="1"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976743767" name="Клиническая психология" class_id="Speciality">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976743767"></prop_value>
+					<prop_value prop_name="Name" value="Клиническая психология"></prop_value>
+					<prop_value prop_name="Abbr" value="37.05.01"></prop_value>
+					<prop_value prop_name="Code" value="37.05.01"></prop_value>
+					<prop_value prop_name="UID_KindOfEducaion" value="2"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976744963" name="Информационные системы и программирование" class_id="Speciality">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976744963"></prop_value>
+					<prop_value prop_name="Name" value="Информационные системы и программирование"></prop_value>
+					<prop_value prop_name="Abbr" value="09.02.07"></prop_value>
+					<prop_value prop_name="Code" value="09.02.07"></prop_value>
+					<prop_value prop_name="UID_KindOfEducaion" value="6"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976746509" name="Терапия" class_id="Speciality">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976746509"></prop_value>
+					<prop_value prop_name="Name" value="Терапия"></prop_value>
+					<prop_value prop_name="Abbr" value="31.08.49"></prop_value>
+					<prop_value prop_name="Code" value="31.08.49"></prop_value>
+					<prop_value prop_name="UID_KindOfEducaion" value="7"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976746510" name="Стоматология терапевтическая" class_id="Speciality">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976746510"></prop_value>
+					<prop_value prop_name="Name" value="Стоматология терапевтическая"></prop_value>
+					<prop_value prop_name="Abbr" value="31.08.73"></prop_value>
+					<prop_value prop_name="Code" value="31.08.73"></prop_value>
+					<prop_value prop_name="UID_KindOfEducaion" value="7"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976746511" name="Ортодонтия" class_id="Speciality">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976746511"></prop_value>
+					<prop_value prop_name="Name" value="Ортодонтия"></prop_value>
+					<prop_value prop_name="Abbr" value="31.08.77"></prop_value>
+					<prop_value prop_name="Code" value="31.08.77"></prop_value>
+					<prop_value prop_name="UID_KindOfEducaion" value="7"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976749935" name="Кардиология" class_id="Speciality">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976749935"></prop_value>
+					<prop_value prop_name="Name" value="Кардиология"></prop_value>
+					<prop_value prop_name="Abbr" value="31.08.36"></prop_value>
+					<prop_value prop_name="Code" value="31.08.36"></prop_value>
+					<prop_value prop_name="UID_KindOfEducaion" value="7"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976749947" name="Анестезиология-реаниматология" class_id="Speciality">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976749947"></prop_value>
+					<prop_value prop_name="Name" value="Анестезиология-реаниматология"></prop_value>
+					<prop_value prop_name="Abbr" value="31.08.02"></prop_value>
+					<prop_value prop_name="Code" value="31.08.02"></prop_value>
+					<prop_value prop_name="UID_KindOfEducaion" value="7"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976749948" name="Стоматология ортопедическая" class_id="Speciality">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976749948"></prop_value>
+					<prop_value prop_name="Name" value="Стоматология ортопедическая"></prop_value>
+					<prop_value prop_name="Abbr" value="31.08.75"></prop_value>
+					<prop_value prop_name="Code" value="31.08.75"></prop_value>
+					<prop_value prop_name="UID_KindOfEducaion" value="7"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976749975" name="Физическая культура для лиц с отклонениями в состоянии здоровья (адаптивная физическая культура)" class_id="Speciality">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976749975"></prop_value>
+					<prop_value prop_name="Name" value="Физическая культура для лиц с отклонениями в состоянии здоровья (адаптивная физическая культура)"></prop_value>
+					<prop_value prop_name="Abbr" value="49.04.02"></prop_value>
+					<prop_value prop_name="Code" value="49.04.02"></prop_value>
+					<prop_value prop_name="UID_KindOfEducaion" value="1"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976750912" name="Дифференциальные уравнения и математическая физика" class_id="Speciality">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976750912"></prop_value>
+					<prop_value prop_name="Name" value="Дифференциальные уравнения и математическая физика"></prop_value>
+					<prop_value prop_name="Abbr" value="1.1.2."></prop_value>
+					<prop_value prop_name="Code" value="1.1.2."></prop_value>
+					<prop_value prop_name="UID_KindOfEducaion" value="3"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976750913" name="Теория вероятностей и математическая статистика" class_id="Speciality">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976750913"></prop_value>
+					<prop_value prop_name="Name" value="Теория вероятностей и математическая статистика"></prop_value>
+					<prop_value prop_name="Abbr" value="1.1.4."></prop_value>
+					<prop_value prop_name="Code" value="1.1.4."></prop_value>
+					<prop_value prop_name="UID_KindOfEducaion" value="3"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976750914" name="Математическая логика, алгебра, теория чисел и дискретная математика" class_id="Speciality">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976750914"></prop_value>
+					<prop_value prop_name="Name" value="Математическая логика, алгебра, теория чисел и дискретная математика"></prop_value>
+					<prop_value prop_name="Abbr" value="1.1.5."></prop_value>
+					<prop_value prop_name="Code" value="1.1.5."></prop_value>
+					<prop_value prop_name="UID_KindOfEducaion" value="3"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976750915" name="Теоретическая механика, динамика машин" class_id="Speciality">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976750915"></prop_value>
+					<prop_value prop_name="Name" value="Теоретическая механика, динамика машин"></prop_value>
+					<prop_value prop_name="Abbr" value="1.1.7."></prop_value>
+					<prop_value prop_name="Code" value="1.1.7."></prop_value>
+					<prop_value prop_name="UID_KindOfEducaion" value="3"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976750916" name="Механика деформируемого твердого тела" class_id="Speciality">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976750916"></prop_value>
+					<prop_value prop_name="Name" value="Механика деформируемого твердого тела"></prop_value>
+					<prop_value prop_name="Abbr" value="1.1.8."></prop_value>
+					<prop_value prop_name="Code" value="1.1.8."></prop_value>
+					<prop_value prop_name="UID_KindOfEducaion" value="3"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976750917" name="Искусственный интеллект и машинное обучение" class_id="Speciality">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976750917"></prop_value>
+					<prop_value prop_name="Name" value="Искусственный интеллект и машинное обучение"></prop_value>
+					<prop_value prop_name="Abbr" value="1.2.1."></prop_value>
+					<prop_value prop_name="Code" value="1.2.1."></prop_value>
+					<prop_value prop_name="UID_KindOfEducaion" value="3"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976750918" name="Математическое моделирование, численные методы и комплексы программ" class_id="Speciality">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976750918"></prop_value>
+					<prop_value prop_name="Name" value="Математическое моделирование, численные методы и комплексы программ"></prop_value>
+					<prop_value prop_name="Abbr" value="1.2.2."></prop_value>
+					<prop_value prop_name="Code" value="1.2.2."></prop_value>
+					<prop_value prop_name="UID_KindOfEducaion" value="3"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976750944" name="Междисциплинарные исследования когнитивных процессов" class_id="Speciality">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976750944"></prop_value>
+					<prop_value prop_name="Name" value="Междисциплинарные исследования когнитивных процессов"></prop_value>
+					<prop_value prop_name="Abbr" value="5.12.1."></prop_value>
+					<prop_value prop_name="Code" value="5.12.1."></prop_value>
+					<prop_value prop_name="UID_KindOfEducaion" value="3"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976750945" name="Экономическая теория" class_id="Speciality">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976750945"></prop_value>
+					<prop_value prop_name="Name" value="Экономическая теория"></prop_value>
+					<prop_value prop_name="Abbr" value="5.2.1."></prop_value>
+					<prop_value prop_name="Code" value="5.2.1."></prop_value>
+					<prop_value prop_name="UID_KindOfEducaion" value="3"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976750946" name="Региональная и отраслевая экономика" class_id="Speciality">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976750946"></prop_value>
+					<prop_value prop_name="Name" value="Региональная и отраслевая экономика"></prop_value>
+					<prop_value prop_name="Abbr" value="5.2.3."></prop_value>
+					<prop_value prop_name="Code" value="5.2.3."></prop_value>
+					<prop_value prop_name="UID_KindOfEducaion" value="3"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976750947" name="Финансы" class_id="Speciality">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976750947"></prop_value>
+					<prop_value prop_name="Name" value="Финансы"></prop_value>
+					<prop_value prop_name="Abbr" value="5.2.4."></prop_value>
+					<prop_value prop_name="Code" value="5.2.4."></prop_value>
+					<prop_value prop_name="UID_KindOfEducaion" value="3"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976750948" name="Менеджмент" class_id="Speciality">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976750948"></prop_value>
+					<prop_value prop_name="Name" value="Менеджмент"></prop_value>
+					<prop_value prop_name="Abbr" value="5.2.6."></prop_value>
+					<prop_value prop_name="Code" value="5.2.6."></prop_value>
+					<prop_value prop_name="UID_KindOfEducaion" value="3"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976750950" name="Психология труда, инженерная психология, когнитивная эргономика" class_id="Speciality">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976750950"></prop_value>
+					<prop_value prop_name="Name" value="Психология труда, инженерная психология, когнитивная эргономика"></prop_value>
+					<prop_value prop_name="Abbr" value="5.3.3."></prop_value>
+					<prop_value prop_name="Code" value="5.3.3."></prop_value>
+					<prop_value prop_name="UID_KindOfEducaion" value="3"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976750951" name="Педагогическая психология, психодиагностика цифровых образовательных сред" class_id="Speciality">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976750951"></prop_value>
+					<prop_value prop_name="Name" value="Педагогическая психология, психодиагностика цифровых образовательных сред"></prop_value>
+					<prop_value prop_name="Abbr" value="5.3.4."></prop_value>
+					<prop_value prop_name="Code" value="5.3.4."></prop_value>
+					<prop_value prop_name="UID_KindOfEducaion" value="3"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976750952" name="Социальная психология, политическая и экономическая психология" class_id="Speciality">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976750952"></prop_value>
+					<prop_value prop_name="Name" value="Социальная психология, политическая и экономическая психология"></prop_value>
+					<prop_value prop_name="Abbr" value="5.3.5."></prop_value>
+					<prop_value prop_name="Code" value="5.3.5."></prop_value>
+					<prop_value prop_name="UID_KindOfEducaion" value="3"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976750953" name="Возрастная психология" class_id="Speciality">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976750953"></prop_value>
+					<prop_value prop_name="Name" value="Возрастная психология"></prop_value>
+					<prop_value prop_name="Abbr" value="5.3.7."></prop_value>
+					<prop_value prop_name="Code" value="5.3.7."></prop_value>
+					<prop_value prop_name="UID_KindOfEducaion" value="3"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976750954" name="Экономическая социология" class_id="Speciality">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976750954"></prop_value>
+					<prop_value prop_name="Name" value="Экономическая социология"></prop_value>
+					<prop_value prop_name="Abbr" value="5.4.2."></prop_value>
+					<prop_value prop_name="Code" value="5.4.2."></prop_value>
+					<prop_value prop_name="UID_KindOfEducaion" value="3"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976750955" name="Социальная структура, социальные институты и процессы" class_id="Speciality">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976750955"></prop_value>
+					<prop_value prop_name="Name" value="Социальная структура, социальные институты и процессы"></prop_value>
+					<prop_value prop_name="Abbr" value="5.4.4."></prop_value>
+					<prop_value prop_name="Code" value="5.4.4."></prop_value>
+					<prop_value prop_name="UID_KindOfEducaion" value="3"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976750956" name="Социология культуры" class_id="Speciality">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976750956"></prop_value>
+					<prop_value prop_name="Name" value="Социология культуры"></prop_value>
+					<prop_value prop_name="Abbr" value="5.4.6."></prop_value>
+					<prop_value prop_name="Code" value="5.4.6."></prop_value>
+					<prop_value prop_name="UID_KindOfEducaion" value="3"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976750957" name="Социология управления" class_id="Speciality">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976750957"></prop_value>
+					<prop_value prop_name="Name" value="Социология управления"></prop_value>
+					<prop_value prop_name="Abbr" value="5.4.7."></prop_value>
+					<prop_value prop_name="Code" value="5.4.7."></prop_value>
+					<prop_value prop_name="UID_KindOfEducaion" value="3"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976752792" name="Ревматология" class_id="Speciality">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976752792"></prop_value>
+					<prop_value prop_name="Name" value="Ревматология"></prop_value>
+					<prop_value prop_name="Abbr" value="31.08.46"></prop_value>
+					<prop_value prop_name="Code" value="31.08.46"></prop_value>
+					<prop_value prop_name="UID_KindOfEducaion" value="7"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976752842" name="Физическая и реабилитационная медицина" class_id="Speciality">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976752842"></prop_value>
+					<prop_value prop_name="Name" value="Физическая и реабилитационная медицина"></prop_value>
+					<prop_value prop_name="Abbr" value="31.08.78"></prop_value>
+					<prop_value prop_name="Code" value="31.08.78"></prop_value>
+					<prop_value prop_name="UID_KindOfEducaion" value="7"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976752903" name="Стоматология хирургическая" class_id="Speciality">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976752903"></prop_value>
+					<prop_value prop_name="Name" value="Стоматология хирургическая"></prop_value>
+					<prop_value prop_name="Abbr" value="31.08.74"></prop_value>
+					<prop_value prop_name="Code" value="31.08.74"></prop_value>
+					<prop_value prop_name="UID_KindOfEducaion" value="7"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976753286" name="Юриспруденция" class_id="Speciality">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976753286"></prop_value>
+					<prop_value prop_name="Name" value="Юриспруденция"></prop_value>
+					<prop_value prop_name="Abbr" value="40.02.04"></prop_value>
+					<prop_value prop_name="Code" value="40.02.04"></prop_value>
+					<prop_value prop_name="UID_KindOfEducaion" value="6"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976753287" name="Туризм и гостеприимство" class_id="Speciality">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976753287"></prop_value>
+					<prop_value prop_name="Name" value="Туризм и гостеприимство"></prop_value>
+					<prop_value prop_name="Abbr" value="43.02.16"></prop_value>
+					<prop_value prop_name="Code" value="43.02.16"></prop_value>
+					<prop_value prop_name="UID_KindOfEducaion" value="6"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976755672" name="Прикладная механика" class_id="Speciality">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976755672"></prop_value>
+					<prop_value prop_name="Name" value="Прикладная механика"></prop_value>
+					<prop_value prop_name="Abbr" value="15.03.03"></prop_value>
+					<prop_value prop_name="Code" value="15.03.03"></prop_value>
+					<prop_value prop_name="UID_KindOfEducaion" value="0"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976755673" name="Психиатрия" class_id="Speciality">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976755673"></prop_value>
+					<prop_value prop_name="Name" value="Психиатрия"></prop_value>
+					<prop_value prop_name="Abbr" value="31.08.20"></prop_value>
+					<prop_value prop_name="Code" value="31.08.20"></prop_value>
+					<prop_value prop_name="UID_KindOfEducaion" value="7"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976755674" name="Дерматовенерология" class_id="Speciality">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976755674"></prop_value>
+					<prop_value prop_name="Name" value="Дерматовенерология"></prop_value>
+					<prop_value prop_name="Abbr" value="31.08.32"></prop_value>
+					<prop_value prop_name="Code" value="31.08.32"></prop_value>
+					<prop_value prop_name="UID_KindOfEducaion" value="7"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976756029" name="Акушерство и гинекология" class_id="Speciality">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976756029"></prop_value>
+					<prop_value prop_name="Name" value="Акушерство и гинекология"></prop_value>
+					<prop_value prop_name="Abbr" value="31.08.01"></prop_value>
+					<prop_value prop_name="Code" value="31.08.01"></prop_value>
+					<prop_value prop_name="UID_KindOfEducaion" value="7"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976757018" name="Торговое дело" class_id="Speciality">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976757018"></prop_value>
+					<prop_value prop_name="Name" value="Торговое дело"></prop_value>
+					<prop_value prop_name="Abbr" value="38.02.08"></prop_value>
+					<prop_value prop_name="Code" value="38.02.08"></prop_value>
+					<prop_value prop_name="UID_KindOfEducaion" value="6"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976757862" name="Офтальмология" class_id="Speciality">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976757862"></prop_value>
+					<prop_value prop_name="Name" value="Офтальмология"></prop_value>
+					<prop_value prop_name="Abbr" value="31.08.59"></prop_value>
+					<prop_value prop_name="Code" value="31.08.59"></prop_value>
+					<prop_value prop_name="UID_KindOfEducaion" value="7"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976759198" name="Хирургия" class_id="Speciality">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976759198"></prop_value>
+					<prop_value prop_name="Name" value="Хирургия"></prop_value>
+					<prop_value prop_name="Abbr" value="31.08.67"></prop_value>
+					<prop_value prop_name="Code" value="31.08.67"></prop_value>
+					<prop_value prop_name="UID_KindOfEducaion" value="7"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976759305" name="Поварское и кондитерское дело" class_id="Speciality">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976759305"></prop_value>
+					<prop_value prop_name="Name" value="Поварское и кондитерское дело"></prop_value>
+					<prop_value prop_name="Abbr" value="43.02.15"></prop_value>
+					<prop_value prop_name="Code" value="43.02.15"></prop_value>
+					<prop_value prop_name="UID_KindOfEducaion" value="6"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976759360" name="Пластическая хирургия" class_id="Speciality">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976759360"></prop_value>
+					<prop_value prop_name="Name" value="Пластическая хирургия"></prop_value>
+					<prop_value prop_name="Abbr" value="31.08.60"></prop_value>
+					<prop_value prop_name="Code" value="31.08.60"></prop_value>
+					<prop_value prop_name="UID_KindOfEducaion" value="7"></prop_value>
+				</Collection>
+			</Object>
+		</Collection>
+	</Data>
+</Data_Root>

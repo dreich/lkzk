@@ -1,0 +1,101 @@
+<table class="widefat">
+
+<tr>
+  <td>Факультет</td>
+  <td>{{nagruzka_row.department_name}}</td>
+</tr>
+
+<tr>
+  <td>Аббр</td>
+  <td>{{nagruzka_row.Abbr | br2nl}}</td>
+</tr>
+
+<tr>
+  <td>Дисциплина</td>
+  <td>{{nagruzka_row.discipline_name | br2nl}}</td>
+</tr>
+
+<tr>
+  <td>Группа</td>
+  <td>{{nagruzka_row.group_name | br2nl}}</td>
+</tr>
+
+<tr>
+  <td>Уровень образования</td>
+  <td>{{nagruzka_row.education_level}}</td>
+</tr>
+
+<tr>
+  <td>Направление подготовки</td>
+  <td>{{nagruzka_row.napravlenie}}</td>
+</tr>
+
+<tr>
+  <td>Язык программы</td>
+  <td>{{nagruzka_row.language}}</td>
+</tr>
+
+<tr>
+  <td>Форма обучения</td>
+  <td>{{nagruzka_row.form_obuchenia}}</td>
+</tr>
+
+<tr>
+  <td>Семестр (номер семестра)</td>
+  <td>{{nagruzka_row.UID_Semester}}</td>
+</tr>
+
+<tr>
+  <td>Количество студентов</td>
+  <td>{{nagruzka_row.StudentAmount}}</td>
+</tr>
+
+<tr>
+  <td>Вид работ</td>
+  <td>{{nagruzka_row.kind_of_work}}</td>
+</tr>
+
+<tr>
+  <td>Профиль/направленность программы</td>
+  <td>{{nagruzka_row.napravlennost}}</td>
+</tr>
+
+<tr>
+  <td>Курс</td>
+  <td>{{nagruzka_row.UID_Course}}</td>
+</tr>
+
+<tr>
+  <td>Количество часов</td>
+  <td>{{nagruzka_row.amount}}</td>
+</tr>
+
+<tr>
+  <td>Преподаватель</td>
+  <td>{{nagruzka_row.lecturer_fio}}</td>
+</tr>
+
+</table>
+
+
+<table class="widefat mt-1" ng-if="nagruzka_history.length">
+  <thead>
+    <tr>
+      <th>Дата/время</th>
+      <th>Автор</th>
+      <th>Действие</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr ng-repeat="row in nagruzka_history">
+      <td>{{row.datetime | jsDate}}</td>
+      <td>{{row.user_title}}</td>
+      <td>{{row.log}}</td>
+      <td></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>

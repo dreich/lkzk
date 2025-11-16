@@ -1,0 +1,51 @@
+ 
+<!-- dt-columns="dtColumns" -->
+  <div ng-app="app" ng-controller="AppCtrl">
+    <table id="DataTables_Table_1" datatable="ng" dt-options="dtOptions"  dt-column-defs="dtColumnDefs" dt-instance="dtInstance" class="dataTable row-border hover display table table-bordered"  style='margin: 0 0 ;width:100%'>
+    
+
+  <!--    <thead>
+        <tr role="row"> <th>Сотрудник</th> <th style='width:15%'>Должность</th> <th style='width:6%'>Возраст</th> <th style='width: 6%'>Рейтинг сотрудника предварительный</th> <th style='width: 6%'>Рейтинг научной деятельности</th> <th style='width: 6%'>Рейтинг учебно-методической деятельности</th> <th style='width: 6%'>Рейтинг орг., восп. и обществ. деятельности</th> <th style='width: 6%'>Дополнительные баллы</th> <th style='width: 6%'>Рейтинг сотрудника утверждённый без доп. баллов</th> <th style='width: 6%'>Рейтинг сотрудника утверждённый</th> <th style='width: 6%'>Занимаемая ставка</th>
+        </tr>
+      </thead> -->
+
+    <thead>
+      <tr>
+        <th>1</th>
+        <th>2</th>
+        <th>3</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr ng-repeat="person in persons" ng-click="ShowPopup(person)">
+        <td>{{person.id}}</td>
+        <td ng-bind-html="person.firstName"></td>
+        <td ng-bind-html="person.lastName"></td>
+      </tr>
+      <!-- <tr role="row"> <td>FIO1</td> <td>{{person.dolzhnost}}</td> <td>{{person.age}}</td> <td>{{person.rating.sotrudnik_preview}}</td> <td>{{person.rating.science}}</td> <td>{{person.rating.study}}</td> <td>{{person.rating.org}}</td> <td>{{person.rating.dop_balls}}</td> <td>{{person.rating.sotrudnik_approved_no_dop}}</td> <td>{{person.rating.sotrudnik_approved}}</td> <td >{{person.stavka}}</td> </tr>
+
+      <tr role="row"> <td>FIO2</td> <td>{{person.dolzhnost}}</td> <td>{{person.age}}</td> <td>{{person.rating.sotrudnik_preview}}</td> <td>{{person.rating.science}}</td> <td>{{person.rating.study}}</td> <td>{{person.rating.org}}</td> <td>{{person.rating.dop_balls}}</td> <td>{{person.rating.sotrudnik_approved_no_dop}}</td> <td>{{person.rating.sotrudnik_approved}}</td> <td >{{person.stavka}}</td> </tr> -->
+
+    </tbody>
+
+     <tfoot>
+        <tr>
+          <th>ID</th>
+          <th></th>
+          <th>
+<!--             
+            <select class="select_filter form-control" rel="2">
+              <option value="Yoda">Yoda</option>
+              <option value=""></option>
+            </select> -->
+          </th>
+        </tr>
+      </tfoot>
+
+
+    </table>
+
+    <a ng-click="ClearGreenTableFilters()" class="link pointer" style="float:right">сбросить фильтры</a>
+
+  </div>

@@ -1,0 +1,69 @@
+ 
+<!-- dt-columns="dtColumns" -->
+  <div >
+    <!-- datatable="ng" dt-options="dtOptions"  dt-column-defs="dtColumnDefs" dt-instance="dtInstance"  -->
+    <table id="DataTables_Table_1" class="dataTable row-border hover display table "  style='margin: 0 0 ;width:100%'>
+
+    <thead>
+      <tr>
+        <th style="width: 20px">выбор</th>
+        <th>ФИО</th>
+        <th>должность</th>
+        <th>тип</th>
+        <th>нагрузка (сумма нагрузки на этого сотрудника)</th>
+      </tr>
+    </thead>
+
+    <tbody>
+       <!-- ng-click="ShowPopup(person)" -->
+        <!-- | orderBy:['-selected', 'type', 'fio'] -->
+      <tr ng-repeat="person in persons">
+        <td>  
+          <input type="checkbox" ng-model="person.selected" ng-disabled="person.type == 'sotrudnik'" ng-change="SelectSotrudnik(person)">
+        </td>
+        <td>
+          {{person.fio}}
+        </td>
+        <td>
+          {{person.dolzhnost}}
+        </td>
+        <td>
+            {{$_sotrudnik_types[person.type]}}
+<!--             <select ng-model="person.type" class="form-select">
+              <option value=""></option>
+              <option value="sotrudnik">сотрудник</option>
+              <option value="kandidat">кандидат</option>
+              <option value="worked">работал</option>
+              <option value="gph">ГПХ</option>
+            </select> -->
+
+        </td>
+        <td>
+          {{person.amount_sum}}
+        </td>
+      </tr>
+
+    </tbody>
+
+     <tfoot>
+        <tr>
+          <th></th>
+          <th></th>
+          <th>
+<!--             
+            <select class="select_filter form-control" rel="2">
+              <option value="Yoda">Yoda</option>
+              <option value=""></option>
+            </select> -->
+          </th>
+          <th></th>
+          <th></th>
+        </tr>
+      </tfoot>
+
+
+    </table>
+
+    <!-- <a ng-click="ClearGreenTableFilters(dtInstance, filter_distinct)" class="link pointer" style="float:right">сбросить фильтры</a> -->
+
+  </div>

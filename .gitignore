@@ -1,0 +1,44 @@
+# IDE and editor files
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Dependency directories
+node_modules/
+bower_components/
+vendor/
+
+# Logs and databases
+*.log
+*.sql
+*.sqlite
+
+# Temporary files
+*.tmp
+*.temp
+
+# Build output
+build/
+dist/
+
+# Config files with sensitive data
+.env
+*.env.local
+
+# User workspace preferences
+workspace_prefs.txt
+
+# Protected folders from workspace_prefs.txt
+/angular-datatables/
+/demo/
+/src/
+
+# Only allow editing specific files in /js
+/js/*
+!/js/end.js
+!/js/end.css

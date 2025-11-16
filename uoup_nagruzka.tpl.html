@@ -1,0 +1,93 @@
+<table class="widefat mb-3">
+  <thead>
+    <tr>
+      <th>тип нагрузки</th>
+      <th>всего нагрузки</th>
+      <th>не распределено</th>
+      <th>распределено</th>
+      <th>из них на вакансию</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr ng-if="ShowNagruzkaUOUPTypeRow('discipline')">
+      <td><a href="#/nagruzka/discipline">Дисциплины</a></td>
+      <td>{{nagruzka_uoup_stat['discipline']['total'] | toFixed:1}}</td>
+      <td>{{nagruzka_uoup_stat['discipline']['not_assigned'] | toFixed:1}}</td>
+      <td>{{nagruzka_uoup_stat['discipline']['assigned'] | toFixed:1}}</td>
+      
+      <td>{{nagruzka_uoup_stat['discipline']['assigned_on_vacancy'] | toFixed:1}}</td>
+    </tr>
+    <tr ng-if="ShowNagruzkaUOUPTypeRow('vkr')">
+      <td><a href="#/nagruzka/vkr">Руководство (ВКР, курсовые работы, практики)</a></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr ng-if="ShowNagruzkaUOUPTypeRow('ksro')">
+      <td><a href="#/nagruzka/ksro">Индивидуальные консультации и КСРО</a></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr ng-if="ShowNagruzkaUOUPTypeRow('gia')">
+      <td><a href="#/nagruzka/gia">ГИА</a></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr ng-if="ShowNagruzkaUOUPTypeRow('aspirant')">
+      <td><a href="#/nagruzka/aspirant">Руководство аспирантами и соискателями, кандидатские экзамены</a></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+  </tbody>
+  
+</table>
+
+<table id="DataTables_Table_nagruzka" datatable="ng" dt-options="dtOptions"  dt-column-defs="dtColumnDefs" dt-instance="dtInstance" class="dataTable row-border hover display table "  style='margin: 0 0 ;width:100%; '>
+
+  <thead>
+    <tr>
+      <th>факультет/институт</th>
+      <th>кафедра</th>
+      <th>заведующий</th>
+      <th>всего нагрузки</th>
+      <th>распределено</th>
+      <th>не распределено</th>
+      <th>на вакансии</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr ng-repeat="row in uoup_nagruzka" ng-class="" class="pointer" ng-click="UOUPOpenChairNagruzka(row.chair_id)">
+      <td>{{row.department_name}}</td>
+      <td>{{row.chair_name}}</td>
+      <td>{{row.zavkaf_fio}}</td>
+      <td>{{row.amount_sum | toFixed:1}}</td>
+      <td>{{row.assigned_num | toFixed:1}}</td>
+      <td>{{row.not_assigned_num | toFixed:1}}</td>
+      <td>{{row.on_vacancy_num | toFixed:1}}</td>
+    </tr>
+  </tbody>
+
+  <tfoot>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+  </tfoot>
+
+</table>
+
+<a ng-click="ClearGreenTableFilters(dtInstance, filter_distinct)" class="link pointer" style="float:right">сбросить фильтры</a>
