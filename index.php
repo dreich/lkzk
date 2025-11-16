@@ -103,6 +103,7 @@ if ($_SESSION['success_message'])
 <html>
 <head>
   <title><?=$_from_title?></title>
+  <meta charset="utf-8">
   <link rel="stylesheet" href="js/smoothness/jquery-ui-1.10.4.custom.min.css">
   <link rel="stylesheet" href="js/total.css?<?=rand()?>">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
