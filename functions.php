@@ -1668,33 +1668,34 @@ function SecureOutput($values)
 {
   if (is_array($values))
   {
-    foreach ($values as $id => $value)
+    while (list($id, $value) = each($values))
     {
       if (is_array($value)) $values[$id] = SecureOutput($value);
       else $values[$id] = htmlspecialchars ($value, ENT_QUOTES);
     }
+    reset($values);
     return $values;
   }
   else
   {
     return htmlspecialchars ($values, ENT_QUOTES);
   }
-  return $values;
 }
 
-/*
 function PrepareForJSON($values)
 {
   if (is_array($values))
   {
-    foreach ($values as $id => $value)
+    while (list($id, $value) = each($values))
     {
-      $values[$id] = str_replace(
-        ['\\', "\r\n", '"'],
-        ['', '\\n', '\"'],
-        $value
-      );
+      $values[$id] = $value;
+      
+      $values[$id] = str_replace("\\", '', $values[$id]);
+      $values[$id] = str_replace("\r\n", '\\n', $values[$id]);
+      $values[$id] = str_replace('"', '\"', $values[$id]);
+      
     }
+    reset($values);
     return $values;
   }
   else
@@ -1702,7 +1703,6 @@ function PrepareForJSON($values)
     return htmlspecialchars ($values, ENT_QUOTES);
   }
 }
-*/
 
 // в каждом элементе массива нужно свойство podrazdelenia_chain
 function AddChainString($Rows, $remove_zero_level = false)
