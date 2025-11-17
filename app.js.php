@@ -104,6 +104,7 @@ const $_roles = {<?=ArrayToJS($_roles)?>};
 const $_sotrudnik_types = {<?=ArrayToJS($_sotrudnik_types)?>};
 const $_forms_obuchenia = {<?=ArrayToJS($_forms_obuchenia)?>};
 const $_degrees_codes = {<?=ArrayToJS($_degrees_codes)?>};
+const $_system_modes = {<?=ArrayToJS($_system_modes)?>};
 // id кафедры для зав. кафедрой
 const c_chair_id = '<?=($_SESSION['c_chair_id'] ? $_SESSION['c_chair_id'] : '')?>';
 CL(c_chair_id);
@@ -248,6 +249,21 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
         uoup_nagruzka: function($http)
         {
           return $http({url: 'ajax/get/chairs_require_admin_change_nagruzka_discipline.php', method: 'GET'});
+        }
+      }
+    })
+    .when('/system_mode',
+    {
+      templateUrl: 'system_mode.tpl.html?' + getRandom(10000, 99999),
+      controller: 'SystemModeCtrl',
+      resolve:
+      {
+        page: function($q) {
+          return $q.when('system_mode');
+        },
+        system_mode: function($http)
+        {
+          return $http({url: 'ajax/get/get_system_mode.php', method: 'GET'});
         }
       }
     })
@@ -1281,6 +1297,32 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
   }
 
   
+})
+
+.controller ('SystemModeCtrl', function($rootScope, $scope, page, system_mode, $http)
+{
+  CL('SystemModeCtrl');
+  
+  $rootScope.page = page;
+  
+  // Placeholder for future functionality
+  $scope.systemModes = $_system_modes;
+  $scope.currentMode = system_mode.data.mode;
+
+  CL($scope.currentMode);
+
+  // Сохранить режим работы
+  $scope.SaveSystemMode = function()
+  {
+    CL('SaveSystemMode');
+    CL($scope.currentMode);
+
+    $http.post('ajax/post/save_system_mode.php', {mode: $scope.currentMode})
+      .then(function(response)
+      {
+        toastr.success('Режим работы сохранен');
+      });
+  }
 })
 
 // Админ УОУП просматривает отказы зав. кафедрами от нагрузки и отменяет отказы
