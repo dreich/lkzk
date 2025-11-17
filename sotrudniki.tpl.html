@@ -1,4 +1,6 @@
- 
+<div ng-if="system_mode == 'mode_filling' || system_mode == 'mode_verification'">
+
+
 <!-- dt-columns="dtColumns" -->
   <div >
     <!-- datatable="ng" dt-options="dtOptions"  dt-column-defs="dtColumnDefs" dt-instance="dtInstance"  -->
@@ -19,7 +21,8 @@
         <!-- | orderBy:['-selected', 'type', 'fio'] -->
       <tr ng-repeat="person in persons">
         <td>  
-          <input type="checkbox" ng-model="person.selected" ng-disabled="person.type == 'sotrudnik'" ng-change="SelectSotrudnik(person)">
+          <!-- sotrudniki_readonly -->
+          <input type="checkbox" ng-model="person.selected" ng-disabled="person.type == 'sotrudnik' || sotrudniki_readonly" ng-change="SelectSotrudnik(person)">
         </td>
         <td>
           {{person.fio}}
@@ -67,3 +70,5 @@
     <!-- <a ng-click="ClearGreenTableFilters(dtInstance, filter_distinct)" class="link pointer" style="float:right">сбросить фильтры</a> -->
 
   </div>
+
+</div> 

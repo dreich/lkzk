@@ -10,6 +10,9 @@ $Napravlenia = GetTable('napravlenia', "", "", "napravlenie");
 
 include '../connect.php';
 
+// Получим режим работы системы из БД
+$_system_mode = GetSystemParam('system_mode');
+
 // Столбцы, используемые для создания кеша, чтобы выявлять изменения в строках при обновлении из XML
 $xml_content_of_load_columns_for_hash = ['YearOfEducation', 'DateFrom', 'DateTo', 'Amount', 'AmountInUnit', 'TypeOfContingent', 'UID_Group', 'UID_SubGroup', 'UID_Stream', 'UID_KindOfWork', 'PackageNumber', 'ID_Auditorium', 'UID_Discipline', 'UID_Chair', 'UID_Semester', 'Module', 'TypeWorkload', 'UID_Course', 'DisciplineTypeLoad', 'LoadType', 'StudentAmount'];
 
@@ -168,6 +171,9 @@ function LoadXML($filename, $table_name)
     // exit;
   }
 }
+
+include '../connect.php';
+
 /*
 file_put_contents('ContentOfLoad.xml', file_get_contents('http://192.168.59.100/nagruzka/ContentOfLoad.xml'));
 file_put_contents('ContentOfLoadStaff.xml', file_get_contents('http://192.168.59.100/nagruzka/ContentOfLoadStaff.xml'));
@@ -188,7 +194,7 @@ file_put_contents('Post.xml', file_get_contents('http://192.168.59.100/nagruzka/
 
 // exit;
 
-include '../connect.php';
+
 
 LoadXML('Stream.xml', 'xml_stream');
 LoadXML('Faculty.xml', 'xml_faculty');
@@ -203,10 +209,12 @@ LoadXML('Discipline.xml', 'xml_discipline');
 LoadXML('Lecturer.xml', 'xml_lecturer');
 LoadXML('Post.xml', 'xml_post');
 
+*/
+
 LoadXML('ContentOfLoadStaff.xml', 'xml_content_of_load_staff');
 LoadXML('ContentOfLoad.xml', 'xml_content_of_load');
 
-*/
+
 // exit;
 
 // Получим данные кандидатов; они нам нужны, чтобы получить id кандидата = будущего сотрудника; он мог быть уже сотрудником прежде, тогда его id является прежним id сотрудника
@@ -864,12 +872,14 @@ if ($XMLContentOfLoad)
 
           if ($XMLChairByCode[$chair_id]) // === true
           {
+            $lecturer = $XMLLecturer[$xml_content_of_load_row['UID_Lecturer']];
+
             // признак актуальности подразделения в Сотруднике
             if (!$Podrazdelenia[$chair_id]['deleted'])
             {
               EchoLog("base_uid = $xml_content_of_load_row[base_uid], chair_id = $chair_id кафедра актуальна");
 
-              $query = "INSERT IGNORE INTO `nagruzka` SET `chair_id` = '$chair_id', `chair_name` = '$chair_name', `department_id` = '$department_id', `department_name` = '$department_name', `zavkaf_login` = '$zavkaf_login', `zavkaf_id` = '$zavkaf_id', `zavkaf_fio` = '$zavkaf_fio',  `load_base_UID` = '$xml_content_of_load_row[base_uid]', `valid` = '1'";
+              $query = "INSERT IGNORE INTO `nagruzka` SET `chair_id` = '$chair_id', `chair_name` = '$chair_name', `department_id` = '$department_id', `department_name` = '$department_name', `zavkaf_login` = '$zavkaf_login', `zavkaf_id` = '$zavkaf_id', `zavkaf_fio` = '$zavkaf_fio', `lecturer_fio` = '$lecturer[FIO]', `lecturer_uid` = '$xml_content_of_load_row[UID_Lecturer]', `lecturer_person_id` = '$lecturer[Tab_number]', `load_base_UID` = '$xml_content_of_load_row[base_uid]', `valid` = '1'";
             }
             // Кафедра не актуальна в Сотруднике:
             // нагрузку пометим невалидной, а название кафедры возьмём в Сотруднике
@@ -879,7 +889,7 @@ if ($XMLContentOfLoad)
               $chair_name = $Podrazdelenia[$chair_id]['pname'];
               $department_name = $Podrazdelenia[$chair_id]['ukrup_name'];
 
-              $query = "INSERT IGNORE INTO `nagruzka` SET `chair_id` = NULL, `chair_name` = '$chair_name', `department_id` = NULL, `department_name` = '$department_name', `zavkaf_login` = NULL, `zavkaf_id` = NULL, `zavkaf_fio` = NULL,  `load_base_UID` = '$xml_content_of_load_row[base_uid]', `valid` = '0'";
+              $query = "INSERT IGNORE INTO `nagruzka` SET `chair_id` = NULL, `chair_name` = '$chair_name', `department_id` = NULL, `department_name` = '$department_name', `zavkaf_login` = NULL, `zavkaf_id` = NULL, `zavkaf_fio` = NULL, `lecturer_fio` = '$lecturer[FIO]', `lecturer_uid` = '$xml_content_of_load_row[UID_Lecturer]', `lecturer_person_id` = '$lecturer[Tab_number]', `load_base_UID` = '$xml_content_of_load_row[base_uid]', `valid` = '0'";
             }
           }
 
@@ -946,8 +956,8 @@ if ($XMLContentOfLoad)
             // EchoLog($xml_content_of_load_row['UID_Lecturer']);
           }
 
-          // Если у нагрузки в Галактике указан преподаватель, то его взять
-          if ($xml_content_of_load_row['UID_Lecturer'] && $xml_content_of_load_row['UID_Lecturer'] != '-1' && $NagruzkaPrev[$xml_content_of_load_row[base_uid]]['lecturer_uid'] != $xml_content_of_load_row['UID_Lecturer'])
+          // Если у нагрузки в Галактике указан преподаватель, то его взять, но только если система в режиме выверки
+          if ($xml_content_of_load_row['UID_Lecturer'] && $xml_content_of_load_row['UID_Lecturer'] != '-1' && $NagruzkaPrev[$xml_content_of_load_row[base_uid]]['lecturer_uid'] != $xml_content_of_load_row['UID_Lecturer'] && $_system_mode == 'mode_verification')
           {
             EchoLog('here');
             $lecturer = $XMLLecturer[$xml_content_of_load_row['UID_Lecturer']];

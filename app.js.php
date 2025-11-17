@@ -150,9 +150,13 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
         {
           return null;
         },
-        nagruzka_chair_id: function($route)
+        uoup_nagruzka_selected_chair_id: function($route)
         {
           return null
+        },
+        system_mode: function($http)
+        {
+          return $http({url: 'ajax/get/get_system_mode.php', method: 'GET'});
         }
       }
     })
@@ -167,14 +171,18 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
         {
           return $route.current.params.type
         },
-        nagruzka_chair_id: function($route)
+        uoup_nagruzka_selected_chair_id: function($route)
         {
           return null
+        },
+        system_mode: function($http)
+        {
+          return $http({url: 'ajax/get/get_system_mode.php', method: 'GET'});
         }
       }
     })
     // Интерфейс УОУП, как у завкафа, но readonly
-    .when('/nagruzka/:type/:nagruzka_chair_id',
+    .when('/nagruzka/:type/:uoup_nagruzka_selected_chair_id',
     {
       templateUrl: 'nagruzka.tpl.html?' + getRandom(10000, 99999),
       controller: 'NagruzkaCtrl',
@@ -184,9 +192,14 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
         {
           return $route.current.params.type
         },
-        nagruzka_chair_id: function($route)
+        // Параметр только для УОУП для выбора кафедры
+        uoup_nagruzka_selected_chair_id: function($route)
         {
-          return $route.current.params.nagruzka_chair_id
+          return $route.current.params.uoup_nagruzka_selected_chair_id
+        },
+        system_mode: function($http)
+        {
+          return $http({url: 'ajax/get/get_system_mode.php', method: 'GET'});
         }
       }
     })
@@ -267,13 +280,27 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
         }
       }
     })
+    .when('/system_closed',
+    {
+      templateUrl: 'system_closed.tpl.html?' + getRandom(10000, 99999),
+      controller: 'SystemClosedCtrl',
+      resolve:
+      {
+        page: function($q) {
+          return $q.when('system_closed');
+        }
+      }
+    })
     .when('/sotrudniki',
     {
       templateUrl: 'sotrudniki.tpl.html?' + getRandom(10000, 99999),
       controller: 'SotrudnikiCtrl',
       resolve:
       {
-       
+        system_mode: function($http)
+        {
+          return $http({url: 'ajax/get/get_system_mode.php', method: 'GET'});
+        }
       }
     })
     .when('/test',
@@ -317,9 +344,24 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
   // справочник ролей
   $scope.$_roles = $_roles;
 
-
-
   $scope.c_fio = c_fio;
+
+  // $rootScope.CheckSystemMode = function(scope)
+  // {
+  //   // Получим режим работы
+  //   $http({url: 'ajax/get/get_system_mode.php', method: 'GET'})
+  //   .then(function(response) {
+  //     scope.system_mode = $rootScope.system_mode = response.data.mode;
+
+  //     CL($scope.system_mode);
+  //     CL(c_roles);
+
+  //     if (c_roles.zavkaf && $scope.system_mode === 'mode_closed')
+  //     {
+  //       // window.location = '#/system_closed';
+  //     }
+  //   });
+  // }
  
   $templateCache.put('session_expired', '<p>Время Вашей сессии истекло. Для продолжения работы необходимо авторизоваться повторно.</p>\
               <div class="ngdialog-buttons">\
@@ -364,6 +406,12 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
 
 
 
+})
+
+.controller ('SystemClosedCtrl', function($rootScope, $scope, page)
+{
+  CL('SystemClosedCtrl');
+  $rootScope.page = page;
 })
 
 .controller ('IndexCtrl', function($scope, $rootScope)
@@ -511,13 +559,22 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
 
 */
 
-.controller ('NagruzkaCtrl', function($rootScope, $scope, $http, DTOptionsBuilder, DTColumnBuilder, DTColumnDefBuilder, ngDialog, $templateCache, nagruzka_type, nagruzka_chair_id, $resource, $cookies)
+.controller ('NagruzkaCtrl', function($rootScope, $scope, $http, DTOptionsBuilder, DTColumnBuilder, DTColumnDefBuilder, ngDialog, $templateCache, nagruzka_type, uoup_nagruzka_selected_chair_id, $resource, $cookies, system_mode)
 {
   CL('NagruzkaCtrl');
   CL(nagruzka_type);
-  CL(nagruzka_chair_id);
+  CL(uoup_nagruzka_selected_chair_id);
 
-  $scope.readonly_nagruzka_chair_id = nagruzka_chair_id;
+  $scope.system_mode = system_mode.data.mode;
+
+  CL($scope.system_mode);
+
+  if (c_roles.zavkaf && $scope.system_mode === 'mode_closed')
+  {
+    window.location = '#/system_closed';
+  }
+
+  $scope.nagruzka_readonly = c_roles.zavkaf && (!isEmpty(uoup_nagruzka_selected_chair_id) || $scope.system_mode === 'mode_verification');
 
   $templateCache.put('confirm_delete', '<p>Вы уверены, что хотите удалить?</p>\
               <div class="ngdialog-buttons">\
@@ -540,7 +597,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
 
   function LoadNagruzkaZavkafStat()
   {
-    $scope.nagruzka_stat = $resource('ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=' + (nagruzka_chair_id ? nagruzka_chair_id : c_chair_id)).get(function()
+    $scope.nagruzka_stat = $resource('ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=' + (uoup_nagruzka_selected_chair_id ? uoup_nagruzka_selected_chair_id : c_chair_id)).get(function()
     {
       
     });
@@ -701,7 +758,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
 
     var chair_str;
 
-    if (!isEmpty(nagruzka_chair_id)) chair_str = "?chair_id=" + nagruzka_chair_id;
+    if (!isEmpty(uoup_nagruzka_selected_chair_id)) chair_str = "?chair_id=" + uoup_nagruzka_selected_chair_id;
     else chair_str = "";
 
     $scope.nagruzka = $resource('ajax/get/nagruzka_discipline.php' + chair_str).query(function()
@@ -1870,9 +1927,18 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
   
 })
 
-.controller ('SotrudnikiCtrl', function($rootScope, $scope, $http, ngDialog, $templateCache, DTOptionsBuilder, DTColumnBuilder, DTColumnDefBuilder, $resource)
+.controller ('SotrudnikiCtrl', function($rootScope, $scope, $http, ngDialog, $templateCache, DTOptionsBuilder, DTColumnBuilder, DTColumnDefBuilder, $resource, system_mode)
 {
   CL('SotrudnikiCtrl');
+
+  $scope.system_mode = system_mode.data.mode;
+
+  if (c_roles.zavkaf && $scope.system_mode === 'mode_closed')
+  {
+    window.location = '#/system_closed';
+  }
+
+  $scope.sotrudniki_readonly = c_roles.zavkaf && $scope.system_mode === 'mode_verification';
 
   $templateCache.put('confirm_delete', '<p>Вы уверены, что хотите удалить?</p>\
               <div class="ngdialog-buttons">\

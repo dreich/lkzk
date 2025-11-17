@@ -2546,4 +2546,10 @@ function GetNagruzkaFieldsForMail($nagruzka)
 }
 
 
+// Получить параметр из таблицы params
+function GetSystemParam($param)
+{
+  $param_row = GetRow('params', ['param' => $param]);
+  return $param_row['value'];
+}
 ?>
