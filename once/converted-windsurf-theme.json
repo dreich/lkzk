@@ -1,0 +1,14 @@
+{
+    "name": "Mac Classic",
+    "settings": {
+        "globals": {
+            "background": "#FFFFFF",
+            "caret": "#000000",
+            "foreground": "#000000",
+            "invisibles": "#BFBFBF",
+            "lineHighlight": "#00000012",
+            "selection": "#4D97FF54"
+        },
+        "rules": []
+    }
+}

@@ -434,3 +434,6 @@
   'disciplines_Names_chain_str' => '|Основы клиники внутренних болезней|',
   'load_base_UID' => '26589.281474976763945',
 )[/ajax/post/select_nagruzka_lecturer.php] [Chrome 109.0.0.0] [127.0.0.1]
+[17.11.2025 - 11:44.04] Изменен режим работы на: Закрыто (УОУП: vorobev)[/ajax/post/save_system_mode.php] [Chrome 142.0.0.0] [127.0.0.1]
+[17.11.2025 - 11:48.10] Изменен режим работы на: Закрыто (УОУП: vorobev)[/ajax/post/save_system_mode.php] [Chrome 142.0.0.0] [127.0.0.1]
+[17.11.2025 - 11:48.16] Изменен режим работы на: Выверка (УОУП: vorobev)[/ajax/post/save_system_mode.php] [Chrome 142.0.0.0] [127.0.0.1]

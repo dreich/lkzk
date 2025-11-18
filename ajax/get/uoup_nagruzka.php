@@ -27,6 +27,7 @@ if ($c_roles['uoup'])
               SELECT nagruzka.*, xml_content_of_load.Amount, xml_content_of_load.base_uid
               FROM `nagruzka`
               JOIN `xml_content_of_load` ON nagruzka.`load_base_UID` = xml_content_of_load.`base_uid`
+              WHERE `chair_id` IS NOT NULL AND `valid` = '1'
               #LIMIT 100
       ");
 

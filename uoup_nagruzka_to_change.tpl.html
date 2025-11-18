@@ -28,7 +28,7 @@
   <tbody>
      <!-- ng-click="ShowPopup(person)" -->
       <!-- | orderBy:['-selected', 'type', 'fio'] -->
-    <tr ng-repeat="row in nagruzka" ng-if="row.status == 'require_admin_change'">
+    <tr ng-repeat="row in nagruzka" ng-if="row.status == 'require_admin_change'"  ng-click="NagruzkaRowClick(row); $event.stopPropagation()">
       <td>
         <button class="btn btn-primary btn-xs" ng-click="UOUPCancelToChange(row)">Отклонить</button>
         <button class="btn btn-success btn-xs mt-1" ng-click="UOUPDoneToChange(row)">Выполнено</button>

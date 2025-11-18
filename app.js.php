@@ -332,7 +332,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
 }])
 
 //Главный контроллер
-.controller ('AppCtrl', function($templateCache, $scope, $rootScope, ngDialog, $http)
+.controller ('AppCtrl', function($templateCache, $scope, $rootScope, ngDialog, $http, $resource)
 {
   CL('AppCtrl');
 
@@ -404,7 +404,24 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
     table.fnDraw();
   }
 
+  $rootScope.NagruzkaRowClick = function(nagruzka_row)
+  {
+    CL('NagruzkaRowClick');
+    // CL(nagruzka_row);
 
+    const dialogScope = $scope.$new();
+    dialogScope.nagruzka_row = nagruzka_row;
+
+    dialogScope.nagruzka_history = $resource('ajax/get/get_nagruzka_history.php?load_base_UID=' + nagruzka_row.base_uid).query();
+
+    ngDialog.open({
+                    template: "nagruzka_history.tpl.html" + "?" + getRandom(10000, 99999),
+                    scope: dialogScope,
+                    plain: false,
+                    disableAnimation: true,
+                    className: 'ngdialog-theme-default history'
+                  });
+  }
 
 })
 
@@ -559,7 +576,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
 
 */
 
-.controller ('NagruzkaCtrl', function($rootScope, $scope, $http, DTOptionsBuilder, DTColumnBuilder, DTColumnDefBuilder, ngDialog, $templateCache, nagruzka_type, uoup_nagruzka_selected_chair_id, $resource, $cookies, system_mode)
+.controller ('NagruzkaCtrl', function($rootScope, $scope, $http, $timeout, DTOptionsBuilder, DTColumnBuilder, DTColumnDefBuilder, ngDialog, $templateCache, nagruzka_type, uoup_nagruzka_selected_chair_id, $resource, $cookies, system_mode)
 {
   CL('NagruzkaCtrl');
   CL(nagruzka_type);
@@ -738,16 +755,18 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
         $scope.filter_distinct['language'].push(row.language);
       }
 
-      if (!$scope.filter_distinct['department_name'].includes(row.language))
+      if (!$scope.filter_distinct['department_name'].includes(row.department_name))
       {
-        $scope.filter_distinct['department_name'].push(row.language);
+        $scope.filter_distinct['department_name'].push(row.department_name);
       }
 
-      if (!$scope.filter_distinct['education_level'].includes(row.language))
+      if (!$scope.filter_distinct['education_level'].includes(row.education_level))
       {
-        $scope.filter_distinct['education_level'].push(row.language);
+        $scope.filter_distinct['education_level'].push(row.education_level);
       }
     });
+
+
 
   }
 
@@ -1175,24 +1194,24 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
     return isEmpty(nagruzka_type) || type == nagruzka_type;
   }
 
-  $scope.NagruzkaRowClick = function(nagruzka_row)
-  {
-    CL('NagruzkaRowClick');
-    CL(nagruzka_row);
+  // $scope.NagruzkaRowClick = function(nagruzka_row)
+  // {
+  //   CL('NagruzkaRowClick');
+  //   // CL(nagruzka_row);
 
-    const dialogScope = $scope.$new();
-    dialogScope.nagruzka_row = nagruzka_row;
+  //   const dialogScope = $scope.$new();
+  //   dialogScope.nagruzka_row = nagruzka_row;
 
-    dialogScope.nagruzka_history = $resource('ajax/get/get_nagruzka_history.php?load_base_UID=' + nagruzka_row.base_uid).query();
+  //   dialogScope.nagruzka_history = $resource('ajax/get/get_nagruzka_history.php?load_base_UID=' + nagruzka_row.base_uid).query();
 
-    ngDialog.open({
-                    template: "nagruzka_history.tpl.html" + "?" + getRandom(10000, 99999),
-                    scope: dialogScope,
-                    plain: false,
-                    disableAnimation: true,
-                    className: 'ngdialog-theme-default history'
-                  });
-  }
+  //   ngDialog.open({
+  //                   template: "nagruzka_history.tpl.html" + "?" + getRandom(10000, 99999),
+  //                   scope: dialogScope,
+  //                   plain: false,
+  //                   disableAnimation: true,
+  //                   className: 'ngdialog-theme-default history'
+  //                 });
+  // }
 
   // CL($scope.filter_distinct.global_nagruzka_filter);
 

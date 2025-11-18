@@ -77,14 +77,15 @@
 
 </table>
 
+<b>История</b>
 
-<table class="widefat mt-1" ng-if="nagruzka_history.length">
+<table class="widefat mt-1" ng-if="nagruzka_history.length" >
   <thead>
     <tr>
       <th>Дата/время</th>
       <th>Автор</th>
       <th>Действие</th>
-      <th></th>
+      <th>Комментарий</th>
       <th></th>
     </tr>
   </thead>
@@ -94,7 +95,7 @@
       <td>{{row.datetime | jsDate}}</td>
       <td>{{row.user_title}}</td>
       <td>{{row.log}}</td>
-      <td></td>
+      <td>{{row.message}}</td>
       <td></td>
     </tr>
   </tbody>

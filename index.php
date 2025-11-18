@@ -150,6 +150,10 @@ if ($_SESSION['c_login'])
         <a href="#/uoup_nagruzka_no_chair" class="nav-link" ng-class="{active: page == 'uoup_nagruzka_no_chair'}" ><span class="glyphicon glyphicon-list"></span> Нагрузка без кафедры</a>
       </li>
 
+      <li class="nav-item" ng-if="c_roles.uoup">
+        <a href="#/system_mode" class="nav-link" ng-class="{active: page == 'system_mode'}" ><span class="glyphicon glyphicon-cog"></span> Режим работы</a>
+      </li>
+
       <li class="nav-item" ng-if="c_roles.zavkaf">
         <a href="#/sotrudniki" class="nav-link" ng-class="{active: page == 'sotrudniki'}" ><span class="glyphicon glyphicon-user"></span> Сотрудники</a>
       </li>

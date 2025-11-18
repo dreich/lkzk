@@ -70,6 +70,7 @@ if ($global_nagruzka_filter)
 
 $dop_sql = "$chair_id_sql
             $global_nagruzka_filter_sql
+            AND `chair_id` IS NOT NULL AND `valid` = '1'
             #AND `status` NOT IN ('')
             #AND `base_uid` = '26589.281474976773927'
             # TMP
@@ -80,14 +81,11 @@ $dop_sql = "$chair_id_sql
 
 $nagruzka_query = GetNagruzkaBaseQuery($dop_sql);
 
-EchoLog($nagruzka_query);
+// EchoLog($nagruzka_query);
 
-$_Nagruzka = GetSQL($nagruzka_query);
+// $_Nagruzka = GetSQL($nagruzka_query);
 
-$Nagruzka = PrepareNagruzka($_Nagruzka);
-
-
-
+// $Nagruzka = PrepareNagruzka(GetSQL($nagruzka_query));
 
 
 
@@ -98,7 +96,7 @@ header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
 header("Pragma: no-cache");
 header("Expires: 0");
 header('Content-Type: application/javascript; charset=UTF-8');
-echo json_encode(array_values($Nagruzka));
+echo json_encode(array_values(PrepareNagruzka(GetSQL($nagruzka_query))));
 
 
 ?>

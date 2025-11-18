@@ -1,0 +1,23 @@
+{
+  "settings": {
+    "rules": [
+      {
+        "name": "Your Theme Name",
+        "scope": "text",
+        "settings": {
+          "background": "#1E1E1E",
+          "foreground": "#D4D4D4",
+          "caret": "#FFFFFF",
+          "selection": "#264F78"
+        }
+      },
+      {
+        "name": "Comment",
+        "scope": "comment",
+        "settings": {
+          "foreground": "#6A9955"
+        }
+      }
+    ]
+  }
+}

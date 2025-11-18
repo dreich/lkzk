@@ -69,7 +69,7 @@ elseif ($data['message'] && $data['status'] == 'write_admin_comment')
 
     $Nagruzka = array_values(PrepareNagruzka($NagruzkaRows));
 
-    EchoLog($Nagruzka);
+    // EchoLog($Nagruzka);
 
     // по логике одна строка д.б.
     $nagruzka = $Nagruzka ? $Nagruzka[0]: null;

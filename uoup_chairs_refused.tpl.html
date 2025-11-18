@@ -28,7 +28,7 @@
   <tbody>
      <!-- ng-click="ShowPopup(person)" -->
       <!-- | orderBy:['-selected', 'type', 'fio'] -->
-    <tr ng-repeat="row in nagruzka" ng-if="row.status == 'refused'">
+    <tr ng-repeat="row in nagruzka" ng-if="row.status == 'refused'" ng-click="NagruzkaRowClick(row); $event.stopPropagation()">
       <td>
         <button class="btn btn-primary btn-xs" ng-click="UOUPCancelRefuse(row)">Отклонить</button>
         <!-- {{row.base_uid}} -->
