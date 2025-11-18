@@ -267,7 +267,11 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
         uoup_nagruzka: function($http)
         {
           return $http({url: 'ajax/get/chairs_refused_nagruzka_discipline.php', method: 'GET'});
-        }
+        },
+        system_mode: function($http)
+        {
+          return $http({url: 'ajax/get/get_system_mode.php', method: 'GET'});
+        },
       }
     })
     .when('/uoup_nagruzka_to_change',
@@ -279,7 +283,11 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
         uoup_nagruzka: function($http)
         {
           return $http({url: 'ajax/get/chairs_require_admin_change_nagruzka_discipline.php', method: 'GET'});
-        }
+        },
+        system_mode: function($http)
+        {
+          return $http({url: 'ajax/get/get_system_mode.php', method: 'GET'});
+        },
       }
     })
     .when('/system_mode',
@@ -613,7 +621,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
     window.location = '#/system_closed';
   }
 
-  $scope.nagruzka_readonly = c_roles.zavkaf && (!isEmpty(nagruzka_selected_chair_id) || $scope.system_mode === 'mode_verification');
+  $scope.nagruzka_readonly = c_roles.zavkaf && (!isEmpty(nagruzka_selected_chair_id) || $scope.system_mode === 'mode_verification') || $scope.system_mode === 'mode_archive';
 
   $templateCache.put('confirm_delete', '<p>Вы уверены, что хотите удалить?</p>\
               <div class="ngdialog-buttons">\
@@ -1437,7 +1445,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
 })
 
 // Админ УОУП просматривает отказы зав. кафедрами от нагрузки и отменяет отказы
-.controller ('UOUPChairsRefusedCtrl', function($rootScope, $scope, $http, DTOptionsBuilder, DTColumnBuilder, DTColumnDefBuilder, ngDialog, $templateCache, $resource, uoup_nagruzka)
+.controller ('UOUPChairsRefusedCtrl', function($rootScope, $scope, $http, DTOptionsBuilder, DTColumnBuilder, DTColumnDefBuilder, ngDialog, $templateCache, $resource, uoup_nagruzka, system_mode)
 {
   CL('UOUPChairsRefusedCtrl');
 
@@ -1449,6 +1457,8 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
 
   $rootScope.page = 'uoup_chairs_refused';
   $scope.$_forms_obuchenia = $_forms_obuchenia;
+  $scope.system_mode = system_mode.data.mode;
+  // CL($scope.system_mode);
 
   $scope.dtInstance = {};
   $scope.filter_distinct = {};
@@ -1729,7 +1739,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
   
 })
 
-.controller ('UOUPNagruzkaToChangeCtrl', function($rootScope, $scope, $http, DTOptionsBuilder, DTColumnBuilder, DTColumnDefBuilder, ngDialog, $templateCache, $resource, uoup_nagruzka)
+.controller ('UOUPNagruzkaToChangeCtrl', function($rootScope, $scope, $http, DTOptionsBuilder, DTColumnBuilder, DTColumnDefBuilder, ngDialog, $templateCache, $resource, uoup_nagruzka, system_mode)
 {
   CL('UOUPNagruzkaToChangeCtrl');
 
@@ -1741,6 +1751,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
 
   $rootScope.page = 'uoup_nagruzka_to_change';
   $scope.$_forms_obuchenia = $_forms_obuchenia;
+  $scope.system_mode = system_mode.data.mode;
 
   $scope.dtInstance = {};
   $scope.filter_distinct = {};

@@ -2,7 +2,7 @@
   <thead>
 
     <tr>
-      <th style="width: 20px"></th>
+      <th style="width: 20px" ng-if="system_mode != 'mode_archive'"></th>
       <th>Факультет</th>
       <th>Кафедра</th>
       <th>Аббр</th>
@@ -29,7 +29,7 @@
      <!-- ng-click="ShowPopup(person)" -->
       <!-- | orderBy:['-selected', 'type', 'fio'] -->
     <tr ng-repeat="row in nagruzka" ng-if="row.status == 'refused'" ng-click="NagruzkaRowClick(row); $event.stopPropagation()">
-      <td>
+      <td ng-if="system_mode != 'mode_archive'">
         <button class="btn btn-primary btn-xs" ng-click="UOUPCancelRefuse(row)">Отклонить</button>
         <!-- {{row.base_uid}} -->
       </td>
@@ -61,7 +61,7 @@
 
    <tfoot>
       <tr>
-        <th>
+        <th ng-if="system_mode != 'mode_archive'">
         </th>
         <th></th>
         <th></th>

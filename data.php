@@ -96,7 +96,8 @@ $_system_modes =
 [
   'mode_closed' => 'Закрыто',
   'mode_filling' => 'Заполнение',
-  'mode_verification' => 'Выверка'
+  'mode_verification' => 'Выверка',
+  'mode_archive' => 'Архив'
 ];
 
 
