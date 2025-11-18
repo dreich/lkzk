@@ -4,9 +4,8 @@
     <h5>{{nagruzka_stat.chair_name}}</h5>
   </div>
 
-
-
-  <table class="widefat mb-3" ng-if="c_roles.zavkaf">
+  <!-- c_roles.zavkaf -->
+  <table class="widefat mb-3" ng-if="true">
 
     <thead>
       <tr>
@@ -20,7 +19,10 @@
 
     <tbody>
       <tr ng-if="ShowNagruzkaZavkafTypeRow('discipline')">
-        <td><a href="#/nagruzka/discipline">Дисциплины</a></td>
+        <td>
+          <span ng-if="ShowNagruzkaTypeLinkNotText()"><a href="{{GetNagruzkaTypesRowLink('discipline')}}">Дисциплины</a></span>
+          <span ng-if="!ShowNagruzkaTypeLinkNotText()">Дисциплины</span>
+        </td>
         <td>{{nagruzka_stat['discipline']['total'] | toFixed:1}}</td>
         <td>{{nagruzka_stat['discipline']['not_assigned'] | toFixed:1}}</td>
         <td>{{nagruzka_stat['discipline']['assigned'] | toFixed:1}}</td>
@@ -28,28 +30,40 @@
         <td>{{nagruzka_stat['discipline']['assigned_on_vacancy'] | toFixed:1}}</td>
       </tr>
       <tr ng-if="ShowNagruzkaZavkafTypeRow('vkr')">
-        <td><a href="#/nagruzka/vkr">Руководство (ВКР, курсовые работы, практики)</a></td>
+        <td>
+          <span ng-if="ShowNagruzkaTypeLinkNotText()"><a href="{{GetNagruzkaTypesRowLink('vkr')}}">Руководство (ВКР, курсовые работы, практики)</a></span>
+          <span ng-if="!ShowNagruzkaTypeLinkNotText()">Руководство (ВКР, курсовые работы, практики)</span>
+        </td>
         <td></td>
         <td></td>
         <td></td>
         <td></td>
       </tr>
       <tr ng-if="ShowNagruzkaZavkafTypeRow('ksro')">
-        <td><a href="#/nagruzka/ksro">Индивидуальные консультации и КСРО</a></td>
+        <td>
+          <span ng-if="ShowNagruzkaTypeLinkNotText()"><a href="{{GetNagruzkaTypesRowLink('ksro')}}">Индивидуальные консультации и КСРО</a></span>
+          <span ng-if="!ShowNagruzkaTypeLinkNotText()">Индивидуальные консультации и КСРО</span>
+        </td>
         <td></td>
         <td></td>
         <td></td>
         <td></td>
       </tr>
       <tr ng-if="ShowNagruzkaZavkafTypeRow('gia')">
-        <td><a href="#/nagruzka/gia">ГИА</a></td>
+        <td>
+          <span ng-if="ShowNagruzkaTypeLinkNotText()"><a href="{{GetNagruzkaTypesRowLink('gia')}}">ГИА</a></span>
+          <span ng-if="!ShowNagruzkaTypeLinkNotText()">ГИА</span>
+        </td>
         <td></td>
         <td></td>
         <td></td>
         <td></td>
       </tr>
       <tr ng-if="ShowNagruzkaZavkafTypeRow('aspirant')">
-        <td><a href="#/nagruzka/aspirant">Руководство аспирантами и соискателями, кандидатские экзамены</a></td>
+        <td>
+          <span ng-if="ShowNagruzkaTypeLinkNotText()"><a href="{{GetNagruzkaTypesRowLink('aspirant')}}">Руководство аспирантами и соискателями, кандидатские экзамены</a></span>
+          <span ng-if="!ShowNagruzkaTypeLinkNotText()">Руководство аспирантами и соискателями, кандидатские экзамены</span>
+        </td>
         <td></td>
         <td></td>
         <td></td>
@@ -67,7 +81,7 @@
 
   <!-- {{filter_distinct.global_nagruzka_filter}} -->
 
-  <div ng-show="nagruzka_type && !isLoading">
+  <div ng-show="nagruzka_type && nagruzka_type != 'all' && !isLoading">
 
     <select class="form-select mb-2" style="width: 300px" ng-model="filter_distinct.global_nagruzka_filter" ng-change="onNagruzkaGlobalFilterChange()">
       <option value="">Вся нагрузка</option>

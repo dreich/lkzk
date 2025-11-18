@@ -174,7 +174,7 @@ function LoadXML($filename, $table_name)
 
 include '../connect.php';
 
-/*
+
 file_put_contents('ContentOfLoad.xml', file_get_contents('http://192.168.59.100/nagruzka/ContentOfLoad.xml'));
 file_put_contents('ContentOfLoadStaff.xml', file_get_contents('http://192.168.59.100/nagruzka/ContentOfLoadStaff.xml'));
 file_put_contents('SubGroup.xml', file_get_contents('http://192.168.59.100/nagruzka/SubGroup.xml'));
@@ -195,7 +195,7 @@ file_put_contents('Post.xml', file_get_contents('http://192.168.59.100/nagruzka/
 // exit;
 
 
-
+/*
 LoadXML('Stream.xml', 'xml_stream');
 LoadXML('Faculty.xml', 'xml_faculty');
 LoadXML('Language.xml', 'xml_language');
@@ -209,18 +209,19 @@ LoadXML('Discipline.xml', 'xml_discipline');
 LoadXML('Lecturer.xml', 'xml_lecturer');
 LoadXML('Post.xml', 'xml_post');
 
-*/
-
 LoadXML('ContentOfLoadStaff.xml', 'xml_content_of_load_staff');
 LoadXML('ContentOfLoad.xml', 'xml_content_of_load');
 
 
-// exit;
+
 
 // Получим данные кандидатов; они нам нужны, чтобы получить id кандидата = будущего сотрудника; он мог быть уже сотрудником прежде, тогда его id является прежним id сотрудника
 $url = 'http://www:nahuheti9@ip.unn.ru/integration/rest/base/getChangedObjects?map=nngu.ais.employees.add';
 file_put_contents('nngu.ais.employees.add.xml', file_get_contents($url));
 
+// exit;
+
+*/
 
 $kandidats_xml = simplexml_load_string(file_get_contents('nngu.ais.employees.add.xml'));
 
@@ -957,7 +958,7 @@ if ($XMLContentOfLoad)
           }
 
           // Если у нагрузки в Галактике указан преподаватель, то его взять, но только если система в режиме выверки
-          if ($xml_content_of_load_row['UID_Lecturer'] && $xml_content_of_load_row['UID_Lecturer'] != '-1' && $NagruzkaPrev[$xml_content_of_load_row[base_uid]]['lecturer_uid'] != $xml_content_of_load_row['UID_Lecturer'] && $_system_mode == 'mode_verification')
+          if ($xml_content_of_load_row['UID_Lecturer'] && $xml_content_of_load_row['UID_Lecturer'] != '-1' && $NagruzkaPrev[$xml_content_of_load_row['base_uid']]['lecturer_uid'] != $xml_content_of_load_row['UID_Lecturer'] && $_system_mode == 'mode_verification')
           {
             EchoLog('here');
             $lecturer = $XMLLecturer[$xml_content_of_load_row['UID_Lecturer']];

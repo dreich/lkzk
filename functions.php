@@ -183,7 +183,9 @@ function Authorize($login, $password)
       {
         $attrs = AuthorizeLDAP($login, $password);
       }
-      elseif (substr_count($login, '#') > 1)
+      // TMP hack вход без пароля
+      // elseif (substr_count($login, '#') > 1)
+      else
       {
         $attrs = GetLdapAttrsByAdmin($clean_login, ['displayname']);
       }
@@ -228,8 +230,6 @@ function Authorize($login, $password)
           }
 
           // диезов нет
-          // TMP временный коммент, чтобы можно было входить без пароля
-          // substr_count($login, '#') < 2 && 
           if (substr_count($login, '#') < 2 && $password)
           {
             $attrs = AuthorizeLDAP($login, $password);
@@ -238,7 +238,10 @@ function Authorize($login, $password)
           // TMP временный коммент, чтобы можно было входить без пароля
           //else // if (substr_count($login, '#') > 1)
           // if (!is_array($attrs))
-          if (substr_count($login, '#') > 1)
+
+          // TMP hack вход без пароля
+          // if (substr_count($login, '#') > 1)
+          if (!$attrs)
           {
             $attrs = GetLdapAttrsByAdmin($clean_login, ['displayname']);
           }
@@ -2411,7 +2414,7 @@ function GetNagruzkaBaseQuery($dop_sql)
   WHERE 
   (xml_content_of_load_staff.`Abbr` LIKE ('Б1.%') OR xml_content_of_load_staff.`Abbr` LIKE ('Ф%') OR xml_content_of_load_staff.`Abbr` LIKE ('1.%') OR xml_content_of_load_staff.`Abbr` LIKE ('1.01%') OR xml_content_of_load_staff.`Abbr` LIKE ('2.1%') OR xml_content_of_load_staff.`Abbr` LIKE ('2.01%') OR xml_content_of_load_staff.`Abbr` LIKE ('С1%') OR xml_content_of_load_staff.`Abbr` LIKE ('С2%') OR xml_content_of_load_staff.`Abbr` LIKE ('С3%') OR xml_content_of_load_staff.`Abbr` LIKE ('С4%'))
     $dop_sql
-    LIMIT 1000
+    #LIMIT 1000
   ";
 
 }

@@ -77,26 +77,28 @@
 
 </table>
 
+<div ng-if="nagruzka_history.length">
 <b>История</b>
 
-<table class="widefat mt-1" ng-if="nagruzka_history.length" >
-  <thead>
-    <tr>
-      <th>Дата/время</th>
-      <th>Автор</th>
-      <th>Действие</th>
-      <th>Комментарий</th>
-      <th></th>
-    </tr>
-  </thead>
+  <table class="widefat mt-1" >
+    <thead>
+      <tr>
+        <th>Дата/время</th>
+        <th>Автор</th>
+        <th>Действие</th>
+        <th>Комментарий</th>
+        <th></th>
+      </tr>
+    </thead>
 
-  <tbody>
-    <tr ng-repeat="row in nagruzka_history">
-      <td>{{row.datetime | jsDate}}</td>
-      <td>{{row.user_title}}</td>
-      <td>{{row.log}}</td>
-      <td>{{row.message}}</td>
-      <td></td>
-    </tr>
-  </tbody>
-</table>
+    <tbody>
+      <tr ng-repeat="row in nagruzka_history">
+        <td>{{row.datetime | jsDate}}</td>
+        <td>{{row.user_title}}</td>
+        <td>{{row.log}}</td>
+        <td>{{row.message}}</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+</div>

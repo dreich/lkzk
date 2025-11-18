@@ -150,14 +150,23 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
         {
           return null;
         },
-        uoup_nagruzka_selected_chair_id: function($route)
+        nagruzka_selected_chair_id: function($route)
         {
           return null
         },
         system_mode: function($http)
         {
           return $http({url: 'ajax/get/get_system_mode.php', method: 'GET'});
+        },
+        nagruzka_stat: function($http)
+        {
+          return $http({url: 'ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=' + c_chair_id, method: 'GET'});
         }
+
+    //     $scope.nagruzka_stat = $resource('ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=' + (nagruzka_selected_chair_id ? nagruzka_selected_chair_id : c_chair_id)).get(function()
+    // {
+      
+    // });
       }
     })
     // Интерфейс завкафа
@@ -171,18 +180,22 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
         {
           return $route.current.params.type
         },
-        uoup_nagruzka_selected_chair_id: function($route)
+        nagruzka_selected_chair_id: function($route)
         {
           return null
         },
         system_mode: function($http)
         {
           return $http({url: 'ajax/get/get_system_mode.php', method: 'GET'});
+        },
+        nagruzka_stat: function($http)
+        {
+          return $http({url: 'ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=' + c_chair_id, method: 'GET'});
         }
       }
     })
     // Интерфейс УОУП, как у завкафа, но readonly
-    .when('/nagruzka/:type/:uoup_nagruzka_selected_chair_id',
+    .when('/nagruzka/:type/:nagruzka_selected_chair_id',
     {
       templateUrl: 'nagruzka.tpl.html?' + getRandom(10000, 99999),
       controller: 'NagruzkaCtrl',
@@ -193,13 +206,17 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
           return $route.current.params.type
         },
         // Параметр только для УОУП для выбора кафедры
-        uoup_nagruzka_selected_chair_id: function($route)
+        nagruzka_selected_chair_id: function($route)
         {
-          return $route.current.params.uoup_nagruzka_selected_chair_id
+          return $route.current.params.nagruzka_selected_chair_id
         },
         system_mode: function($http)
         {
           return $http({url: 'ajax/get/get_system_mode.php', method: 'GET'});
+        },
+        nagruzka_stat: function($http, $route)
+        {
+          return $http({url: 'ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=' + ($route.current.params.nagruzka_selected_chair_id ? $route.current.params.nagruzka_selected_chair_id : c_chair_id), method: 'GET'});
         }
       }
     })
@@ -576,13 +593,18 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
 
 */
 
-.controller ('NagruzkaCtrl', function($rootScope, $scope, $http, $timeout, DTOptionsBuilder, DTColumnBuilder, DTColumnDefBuilder, ngDialog, $templateCache, nagruzka_type, uoup_nagruzka_selected_chair_id, $resource, $cookies, system_mode)
+.controller ('NagruzkaCtrl', function($rootScope, $scope, $http, $timeout, DTOptionsBuilder, DTColumnBuilder, DTColumnDefBuilder, ngDialog, $templateCache, nagruzka_type, nagruzka_selected_chair_id, $resource, $cookies, system_mode, nagruzka_stat)
 {
   CL('NagruzkaCtrl');
   CL(nagruzka_type);
-  CL(uoup_nagruzka_selected_chair_id);
-
+  CL(nagruzka_selected_chair_id);
+  
+  $scope.nagruzka_selected_chair_id = nagruzka_selected_chair_id;
   $scope.system_mode = system_mode.data.mode;
+  $rootScope.page = 'nagruzka';
+  $scope.$_forms_obuchenia = $_forms_obuchenia;
+  $scope.nagruzka_type = nagruzka_type;
+  $scope.nagruzka_stat = nagruzka_stat.data;
 
   CL($scope.system_mode);
 
@@ -591,7 +613,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
     window.location = '#/system_closed';
   }
 
-  $scope.nagruzka_readonly = c_roles.zavkaf && (!isEmpty(uoup_nagruzka_selected_chair_id) || $scope.system_mode === 'mode_verification');
+  $scope.nagruzka_readonly = c_roles.zavkaf && (!isEmpty(nagruzka_selected_chair_id) || $scope.system_mode === 'mode_verification');
 
   $templateCache.put('confirm_delete', '<p>Вы уверены, что хотите удалить?</p>\
               <div class="ngdialog-buttons">\
@@ -599,9 +621,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
                   <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="confirm(1)">Да</button>\
               </div>');
 
-  $rootScope.page = 'nagruzka';
-  $scope.$_forms_obuchenia = $_forms_obuchenia;
-  $scope.nagruzka_type = nagruzka_type;
+  
   // $scope.$_degrees_codes = $_degrees_codes;
 
   $scope.dtInstance = {};
@@ -612,15 +632,15 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
 
 
 
-  function LoadNagruzkaZavkafStat()
-  {
-    $scope.nagruzka_stat = $resource('ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=' + (uoup_nagruzka_selected_chair_id ? uoup_nagruzka_selected_chair_id : c_chair_id)).get(function()
-    {
+  // function LoadNagruzkaZavkafStat()
+  // {
+  //   $scope.nagruzka_stat = $resource('ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=' + (nagruzka_selected_chair_id ? nagruzka_selected_chair_id : c_chair_id)).get(function()
+  //   {
       
-    });
-  }
+  //   });
+  // }
 
-  LoadNagruzkaZavkafStat();
+  // LoadNagruzkaZavkafStat();
 
 
   const columns = [
@@ -777,7 +797,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
 
     var chair_str;
 
-    if (!isEmpty(uoup_nagruzka_selected_chair_id)) chair_str = "?chair_id=" + uoup_nagruzka_selected_chair_id;
+    if (!isEmpty(nagruzka_selected_chair_id)) chair_str = "?chair_id=" + nagruzka_selected_chair_id;
     else chair_str = "";
 
     $scope.nagruzka = $resource('ajax/get/nagruzka_discipline.php' + chair_str).query(function()
@@ -810,6 +830,21 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
   //     }) : [];
   // }
 
+  $scope.GetNagruzkaTypesRowLink = function(nagruzka_type)
+  {
+    var link = '#/nagruzka/' + nagruzka_type;
+
+    if (!isEmpty($scope.nagruzka_selected_chair_id)) link += '/' + $scope.nagruzka_selected_chair_id;
+
+    return link;
+  }
+
+  $scope.ShowNagruzkaTypeLinkNotText = function()
+  {
+    //  || isEmpty($scope.nagruzka_selected_chair_id
+    if (isEmpty($scope.nagruzka_type) || $scope.nagruzka_type == 'all') return true;
+    else return false;
+  }
 
   // вычислить уровень образования по коду направления
   $scope.GetEducationLevel = function(nagruzka_row)
@@ -1191,7 +1226,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
 
   $scope.ShowNagruzkaZavkafTypeRow = function(type)
   {
-    return isEmpty(nagruzka_type) || type == nagruzka_type;
+    return isEmpty(nagruzka_type) || nagruzka_type == 'all' || type == nagruzka_type;
   }
 
   // $scope.NagruzkaRowClick = function(nagruzka_row)
@@ -1362,7 +1397,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
 
     if (!isEmpty(chair_id))
     {
-      window.location = '#/nagruzka/discipline/' + chair_id;
+      window.location = '#/nagruzka/all/' + chair_id;
     }
   }
 
