@@ -26,7 +26,6 @@
         <td>{{nagruzka_stat['discipline']['total'] | toFixed:1}}</td>
         <td>{{nagruzka_stat['discipline']['not_assigned'] | toFixed:1}}</td>
         <td>{{nagruzka_stat['discipline']['assigned'] | toFixed:1}}</td>
-        
         <td>{{nagruzka_stat['discipline']['assigned_on_vacancy'] | toFixed:1}}</td>
       </tr>
       <tr ng-if="ShowNagruzkaZavkafTypeRow('vkr')">
@@ -90,12 +89,12 @@
       <option value="assigned_to_vancancy">распределена на вакансию</option>
     </select>
 
-    <table id="DataTables_Table_nagruzka" datatable="ng" dt-options="dtOptions"  dt-column-defs="dtColumnDefs" dt-instance="dtInstance" class="dataTable row-border hover display table "  style='margin: 0 0 ;width:100%; ' >
+    <table id="DataTables_Table_nagruzka" datatable="ng" dt-options="dtOptions"  dt-column-defs="dtColumnDefs" dt-instance="onNagruzkaTableInstance" class="dataTable row-border hover display table "  style='margin: 0 0 ;width:100%; ' >
       <!-- ng-show="nagruzka_type" -->
       <thead>
 
         <tr>
-          <th style="width: 20px" ng-if="!nagruzka_readonly">выбор</th>
+          <th style="width: 20px" ng-show="!nagruzka_readonly">выбор</th>
           <th>Факультет</th>
           <th>Аббр</th>
           <th>Дисциплина</th>
@@ -121,7 +120,7 @@
         <!-- ng-click="ShowPopup(person)" -->
           <!-- | orderBy:['-selected', 'type', 'fio'] -->
         <tr ng-repeat="row in nagruzka" class="pointer" ng-class="{'readonly': !IsNagruzkaEditable(row)}">
-          <td ng-click="SelectNagruzkaTDClick(row); $event.stopPropagation()" ng-if="!nagruzka_readonly">  
+          <td ng-click="SelectNagruzkaTDClick(row); $event.stopPropagation()" ng-show="!nagruzka_readonly">  
             <input type="checkbox" ng-model="row.selected" ng-click="$event.stopPropagation()" ng-disabled="!IsNagruzkaEditable(row)">
           </td>
           <td ng-click="NagruzkaRowClick(row)">{{row.department_name}}</td>
@@ -176,7 +175,7 @@
 
       <tfoot>
           <tr>
-            <th ng-if="!nagruzka_readonly">
+            <th ind="0" ng-show="!nagruzka_readonly">
     <!--             <button class="btn btn-xs btn-success" ng-click="SelectAllFilteredNagruzkaRows()">✓</button>
               <button class="btn btn-xs btn-danger" ng-click="SelectAllFilteredNagruzkaRows()">❌</button> -->
               <div class="btn-group btn-group-xs" role="group" style="margin-bottom:2px;">
@@ -184,21 +183,21 @@
                 <button class="btn btn-xs btn-danger" ng-click="DeselectSelectAllFilteredNagruzkaRows()"><span class="glyphicon glyphicon-remove"></span></button>
               </div>
             </th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
+            <th ind="1"></th>
+            <th ind="2"></th>
+            <th ind="3"></th>
+            <th ind="4"></th>
+            <th ind="5"></th>
+            <th ind="6"></th>
+            <th ind="7"></th>
+            <th ind="8"></th>
+            <th ind="9"></th>
+            <th ind="10"></th>
+            <th ind="11"></th>
+            <th ind="12"></th>
+            <th ind="13"></th>
+            <th ind="14"></th>
+            <th ind="15"></th>
           </tr>
         </tfoot>
 

@@ -27,9 +27,8 @@ if(empty($mode) || !array_key_exists($mode, $_system_modes)) {
     die(json_encode(['result' => 'error', 'message' => 'Неверный режим работы']));
 }
 
-// TODO: Реализовать сохранение режима в БД
-// $sql = "UPDATE system_settings SET mode = $mode WHERE id = 1";
-// mysql_query($sql);
+$sql = "UPDATE `params` SET `value` = '$mode' WHERE `param` = 'system_mode'";
+$mysqli->query($sql);
 
 EchoLog("Изменен режим работы на: {$_system_modes[$mode]} (УОУП: {$_SESSION['c_login']})");
 

@@ -28,30 +28,30 @@
   <tbody>
      <!-- ng-click="ShowPopup(person)" -->
       <!-- | orderBy:['-selected', 'type', 'fio'] -->
-    <tr ng-repeat="row in nagruzka" ng-if="row.status == 'require_admin_change'"  ng-click="NagruzkaRowClick(row); $event.stopPropagation()">
+    <tr ng-repeat="row in nagruzka" ng-show="row.status == 'require_admin_change'" >
       <td ng-if="system_mode != 'mode_archive'">
-        <button class="btn btn-primary btn-xs" ng-click="UOUPCancelToChange(row)">Отклонить</button>
+        <button class="btn btn-primary btn-xs" ng-click="UOUPDeclineToChange(row)">Отклонить</button>
         <button class="btn btn-success btn-xs mt-1" ng-click="UOUPDoneToChange(row)">Выполнено</button>
         <!-- {{row.base_uid}} -->
       </td>
-      <td>{{row.department_name}}</td>
-      <td>{{row.chair_name}}</td>
-      <td ng-bind-html="row.Abbr">
+      <td ng-click="NagruzkaRowClick(row); $event.stopPropagation()">{{row.department_name}}</td>
+      <td ng-click="NagruzkaRowClick(row); $event.stopPropagation()">{{row.chair_name}}</td>
+      <td ng-bind-html="row.Abbr" ng-click="NagruzkaRowClick(row); $event.stopPropagation()">
       </td>
-      <td ng-bind-html="row.discipline_name">
+      <td ng-bind-html="row.discipline_name" ng-click="NagruzkaRowClick(row); $event.stopPropagation()">
       </td>
-      <td ng-bind-html="row.group_name">
+      <td ng-bind-html="row.group_name" ng-click="NagruzkaRowClick(row); $event.stopPropagation()">
       </td>
-      <td>{{row.education_level}}</td>
-      <td>{{row.napravlenie}}</td>
-      <td>{{row.language}}</td>
-      <td>{{row.form_obuchenia}}</td>
-      <td>{{row.UID_Semester}}</td>
-      <td>{{row.StudentAmount}}</td>
-      <td>{{row.kind_of_work}}</td>
-      <td>{{row.napravlennost}}</td>
-      <td>{{row.UID_Course}}</td>
-      <td>{{row.amount}}</td>
+      <td ng-click="NagruzkaRowClick(row); $event.stopPropagation()">{{row.education_level}}</td>
+      <td ng-click="NagruzkaRowClick(row); $event.stopPropagation()">{{row.napravlenie}}</td>
+      <td ng-click="NagruzkaRowClick(row); $event.stopPropagation()">{{row.language}}</td>
+      <td ng-click="NagruzkaRowClick(row); $event.stopPropagation()">{{row.form_obuchenia}}</td>
+      <td ng-click="NagruzkaRowClick(row); $event.stopPropagation()">{{row.UID_Semester}}</td>
+      <td ng-click="NagruzkaRowClick(row); $event.stopPropagation()">{{row.StudentAmount}}</td>
+      <td ng-click="NagruzkaRowClick(row); $event.stopPropagation()">{{row.kind_of_work}}</td>
+      <td ng-click="NagruzkaRowClick(row); $event.stopPropagation()">{{row.napravlennost}}</td>
+      <td ng-click="NagruzkaRowClick(row); $event.stopPropagation()">{{row.UID_Course}}</td>
+      <td ng-click="NagruzkaRowClick(row); $event.stopPropagation()">{{row.amount}}</td>
 <!--       <td>
         {{row.lecturer_fio}}
       </td> -->
@@ -62,23 +62,23 @@
 
    <tfoot>
       <tr>
-        <th ng-if="system_mode != 'mode_archive'">
+        <th ind="0"  ng-if="system_mode != 'mode_archive'">
         </th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>   
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
+        <th ind="1"></th>
+        <th ind="2"></th>
+        <th ind="3"></th>
+        <th ind="4"></th>   
+        <th ind="5"></th>
+        <th ind="6"></th>
+        <th ind="7"></th>
+        <th ind="8"></th>
+        <th ind="9"></th>
+        <th ind="10"></th>
+        <th ind="11"></th>
+        <th ind="12"></th>
+        <th ind="13"></th>
+        <th ind="14"></th>
+        <th ind="15"></th>
         <!-- <th></th> -->
       </tr>
     </tfoot>

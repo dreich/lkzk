@@ -41,7 +41,7 @@ $s = quote_smart($_GET['s']);
 
 $Sotrudniki = GetTable('sotrudniki', "`chair_id` = '$chair_id' AND  `selected` = '1' AND `fio` LIKE ('%$s%')");
 
-if (mb_stripos('Вак', $s) === 0)
+if (mb_stripos($s, 'Вак') === 0)
 {
   $Sotrudniki[] = ['fio' => 'Вакансия', 'lecturer_person_id' => '000000'];
 }

@@ -56,7 +56,7 @@ if ($c_roles)
    $stats = [
         'discipline' =>
         [
-          'assigned_vacancy' => 0,   // 'Вакансия'
+          'assigned_on_vacancy' => 0,   // 'Вакансия'
           'not_assigned' => 0,     // пустые
           'assigned' => 0  // непустые (кроме 'Вакансия')
         ]

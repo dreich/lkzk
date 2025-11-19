@@ -56,7 +56,7 @@ if ($global_nagruzka_filter)
   }
   elseif ($global_nagruzka_filter == 'not_assigned')
   {
-    $global_nagruzka_filter_sql = "AND `lecturer_fio` = '' OR `lecturer_fio` IS NULL";
+    $global_nagruzka_filter_sql = "AND (`lecturer_fio` = '' OR `lecturer_fio` IS NULL)";
   }
   elseif ($global_nagruzka_filter == 'assigned_to_vancancy')
   {

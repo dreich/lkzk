@@ -437,3 +437,139 @@
 [17.11.2025 - 11:44.04] Изменен режим работы на: Закрыто (УОУП: vorobev)[/ajax/post/save_system_mode.php] [Chrome 142.0.0.0] [127.0.0.1]
 [17.11.2025 - 11:48.10] Изменен режим работы на: Закрыто (УОУП: vorobev)[/ajax/post/save_system_mode.php] [Chrome 142.0.0.0] [127.0.0.1]
 [17.11.2025 - 11:48.16] Изменен режим работы на: Выверка (УОУП: vorobev)[/ajax/post/save_system_mode.php] [Chrome 142.0.0.0] [127.0.0.1]
+[18.11.2025 - 12:01.31] Изменен режим работы на: Заполнение (УОУП: vorobev)[/ajax/post/save_system_mode.php] [Chrome 142.0.0.0] [127.0.0.1]
+[18.11.2025 - 12:01.57] Изменен режим работы на: Заполнение (УОУП: vorobev)[/ajax/post/save_system_mode.php] [Chrome 142.0.0.0] [127.0.0.1]
+[18.11.2025 - 12:03.45] Изменен режим работы на: Заполнение (УОУП: vorobev)[/ajax/post/save_system_mode.php] [Chrome 142.0.0.0] [127.0.0.1]
+[18.11.2025 - 12:04.27] Изменен режим работы на: Заполнение (УОУП: vorobev)[/ajax/post/save_system_mode.php] [Chrome 142.0.0.0] [127.0.0.1]
+[18.11.2025 - 12:24.56] array (
+  'lecturer_fio' => 'Вакансия',
+  'disciplines_UIDs_chain_str' => '|26006.281474976726885|',
+  'disciplines_Names_chain_str' => '|Основы клиники внутренних болезней|',
+  'load_base_UID' => '26589.281474976763947',
+)[/ajax/post/select_nagruzka_lecturer.php] [Chrome 142.0.0.0] [127.0.0.1]
+[18.11.2025 - 14:11.29] array (
+  'lecturer_fio' => 'Вакансия',
+  'disciplines_UIDs_chain_str' => '|26006.281474976726885|',
+  'disciplines_Names_chain_str' => '|Основы клиники внутренних болезней|',
+  'load_base_UID' => '26589.281474976763947',
+)[/ajax/post/select_nagruzka_lecturer.php] [Chrome 142.0.0.0] [127.0.0.1]
+[18.11.2025 - 14:11.42] array (
+  'lecturer_fio' => 'Вакансия',
+  'disciplines_UIDs_chain_str' => '|26006.281474976726885|',
+  'disciplines_Names_chain_str' => '|Основы клиники внутренних болезней|',
+  'load_base_UID' => '26589.281474976763946',
+)[/ajax/post/select_nagruzka_lecturer.php] [Chrome 142.0.0.0] [127.0.0.1]
+[18.11.2025 - 14:12.37] array (
+  'lecturer_fio' => 'Вакансия',
+  'disciplines_UIDs_chain_str' => '|26006.281474976726885|',
+  'disciplines_Names_chain_str' => '|Основы клиники внутренних болезней|',
+  'load_base_UID' => '26589.281474976763948',
+)[/ajax/post/select_nagruzka_lecturer.php] [Chrome 142.0.0.0] [127.0.0.1]
+[18.11.2025 - 14:15.42] array (
+  'lecturer_fio' => 'Вакансия',
+  'disciplines_UIDs_chain_str' => '|26006.281474976726885|',
+  'disciplines_Names_chain_str' => '|Основы клиники внутренних болезней|',
+  'load_base_UID' => '26589.281474976763949',
+)[/ajax/post/select_nagruzka_lecturer.php] [Chrome 142.0.0.0] [127.0.0.1]
+[18.11.2025 - 14:23.06] array (
+  'lecturer_fio' => 'Вакансия',
+  'disciplines_UIDs_chain_str' => '|26006.281474976726885|',
+  'disciplines_Names_chain_str' => '|Основы клиники внутренних болезней|',
+  'load_base_UID' => '26589.281474976763946',
+)[/ajax/post/select_nagruzka_lecturer.php] [Chrome 142.0.0.0] [127.0.0.1]
+[18.11.2025 - 14:23.40] array (
+  'lecturer_fio' => 'Вакансия',
+  'disciplines_UIDs_chain_str' => '|26006.281474976726885|',
+  'disciplines_Names_chain_str' => '|Основы клиники внутренних болезней|',
+  'load_base_UID' => '26589.281474976763947',
+)[/ajax/post/select_nagruzka_lecturer.php] [Chrome 142.0.0.0] [127.0.0.1]
+[18.11.2025 - 14:24.06] array (
+  'lecturer_fio' => 'Вакансия',
+  'disciplines_UIDs_chain_str' => '|26006.281474976726885|',
+  'disciplines_Names_chain_str' => '|Основы клиники внутренних болезней|',
+  'load_base_UID' => '26589.281474976763948',
+)[/ajax/post/select_nagruzka_lecturer.php] [Chrome 142.0.0.0] [127.0.0.1]
+[18.11.2025 - 14:24.16] array (
+  'lecturer_fio' => 'Вакансия',
+  'disciplines_UIDs_chain_str' => '|26006.281474976726885|',
+  'disciplines_Names_chain_str' => '|Основы клиники внутренних болезней|',
+  'load_base_UID' => '26589.281474976763949',
+)[/ajax/post/select_nagruzka_lecturer.php] [Chrome 142.0.0.0] [127.0.0.1]
+[18.11.2025 - 14:24.25] array (
+  'lecturer_fio' => 'Вакансия',
+  'disciplines_UIDs_chain_str' => '|26006.281474976726887|',
+  'disciplines_Names_chain_str' => '|Основы оказания первой помощи|',
+  'load_base_UID' => '26589.281474976764368',
+)[/ajax/post/select_nagruzka_lecturer.php] [Chrome 142.0.0.0] [127.0.0.1]
+[18.11.2025 - 14:25.24] array (
+  'lecturer_fio' => 'Вакансия',
+  'disciplines_UIDs_chain_str' => '|26006.281474976726885|',
+  'disciplines_Names_chain_str' => '|Основы клиники внутренних болезней|',
+  'load_base_UID' => '26589.281474976763946',
+)[/ajax/post/select_nagruzka_lecturer.php] [Chrome 142.0.0.0] [127.0.0.1]
+[18.11.2025 - 14:26.46] array (
+  'lecturer_fio' => 'Вакансия',
+  'disciplines_UIDs_chain_str' => '|26006.281474976726885|',
+  'disciplines_Names_chain_str' => '|Основы клиники внутренних болезней|',
+  'load_base_UID' => '26589.281474976763947',
+)[/ajax/post/select_nagruzka_lecturer.php] [Chrome 142.0.0.0] [127.0.0.1]
+[18.11.2025 - 14:28.10] array (
+  'lecturer_fio' => 'Вакансия',
+  'disciplines_UIDs_chain_str' => '|26006.281474976726885|',
+  'disciplines_Names_chain_str' => '|Основы клиники внутренних болезней|',
+  'load_base_UID' => '26589.281474976763948',
+)[/ajax/post/select_nagruzka_lecturer.php] [Chrome 142.0.0.0] [127.0.0.1]
+[18.11.2025 - 14:30.17] array (
+  'lecturer_fio' => 'Вакансия',
+  'disciplines_UIDs_chain_str' => '|26006.281474976726885|',
+  'disciplines_Names_chain_str' => '|Основы клиники внутренних болезней|',
+  'load_base_UID' => '26589.281474976763949',
+)[/ajax/post/select_nagruzka_lecturer.php] [Chrome 142.0.0.0] [127.0.0.1]
+[18.11.2025 - 14:30.35] array (
+  'lecturer_fio' => 'Вакансия',
+  'disciplines_UIDs_chain_str' => '|26006.281474976726887|',
+  'disciplines_Names_chain_str' => '|Основы оказания первой помощи|',
+  'load_base_UID' => '26589.281474976764368',
+)[/ajax/post/select_nagruzka_lecturer.php] [Chrome 142.0.0.0] [127.0.0.1]
+[18.11.2025 - 14:54.36] Пустой unnmail зав.кафедрой (логин: ) в uoup_cancel.php[/ajax/post/uoup_cancel.php] [Chrome 142.0.0.0] [127.0.0.1]
+[18.11.2025 - 14:54.36] mail_utf8: wwwlab@unn.ru,  lkzk.unn.ru, wwwlab@unn.ru[/ajax/post/uoup_cancel.php] [Chrome 142.0.0.0] [127.0.0.1]
+[18.11.2025 - 14:54.36] mail_utf8: wwwlab@unn.ru,  lkzk.unn.ru, lkzk@unn.ru[/ajax/post/uoup_cancel.php] [Chrome 142.0.0.0] [127.0.0.1]
+[18.11.2025 - 14:57.04] Пустой unnmail зав.кафедрой (логин: ) в uoup_cancel.php[/ajax/post/uoup_cancel.php] [Chrome 142.0.0.0] [127.0.0.1]
+[18.11.2025 - 14:57.04] mail_utf8: wwwlab@unn.ru,  lkzk.unn.ru, wwwlab@unn.ru[/ajax/post/uoup_cancel.php] [Chrome 142.0.0.0] [127.0.0.1]
+[18.11.2025 - 14:57.04] mail_utf8: wwwlab@unn.ru,  lkzk.unn.ru, lkzk@unn.ru[/ajax/post/uoup_cancel.php] [Chrome 142.0.0.0] [127.0.0.1]
+[18.11.2025 - 14:57.12] Пустой unnmail зав.кафедрой (логин: ) в uoup_cancel.php[/ajax/post/uoup_cancel.php] [Chrome 142.0.0.0] [127.0.0.1]
+[18.11.2025 - 14:57.12] mail_utf8: wwwlab@unn.ru,  lkzk.unn.ru, wwwlab@unn.ru[/ajax/post/uoup_cancel.php] [Chrome 142.0.0.0] [127.0.0.1]
+[18.11.2025 - 14:57.12] mail_utf8: wwwlab@unn.ru,  lkzk.unn.ru, lkzk@unn.ru[/ajax/post/uoup_cancel.php] [Chrome 142.0.0.0] [127.0.0.1]
+[18.11.2025 - 14:58.11] Пустой unnmail зав.кафедрой (логин: ) в uoup_cancel.php[/ajax/post/uoup_cancel.php] [Chrome 142.0.0.0] [127.0.0.1]
+[18.11.2025 - 14:58.11] mail_utf8: wwwlab@unn.ru,  lkzk.unn.ru, wwwlab@unn.ru[/ajax/post/uoup_cancel.php] [Chrome 142.0.0.0] [127.0.0.1]
+[18.11.2025 - 14:58.11] mail_utf8: wwwlab@unn.ru,  lkzk.unn.ru, lkzk@unn.ru[/ajax/post/uoup_cancel.php] [Chrome 142.0.0.0] [127.0.0.1]
+[18.11.2025 - 15:00.27] Пустой unnmail зав.кафедрой (логин: ) в uoup_cancel.php[/ajax/post/uoup_cancel.php] [Chrome 142.0.0.0] [127.0.0.1]
+[18.11.2025 - 15:00.27] mail_utf8: wwwlab@unn.ru,  lkzk.unn.ru, wwwlab@unn.ru[/ajax/post/uoup_cancel.php] [Chrome 142.0.0.0] [127.0.0.1]
+[18.11.2025 - 15:00.27] mail_utf8: wwwlab@unn.ru,  lkzk.unn.ru, lkzk@unn.ru[/ajax/post/uoup_cancel.php] [Chrome 142.0.0.0] [127.0.0.1]
+[18.11.2025 - 15:00.30] Пустой unnmail зав.кафедрой (логин: ) в uoup_cancel.php[/ajax/post/uoup_cancel.php] [Chrome 142.0.0.0] [127.0.0.1]
+[18.11.2025 - 15:00.30] mail_utf8: wwwlab@unn.ru,  lkzk.unn.ru, wwwlab@unn.ru[/ajax/post/uoup_cancel.php] [Chrome 142.0.0.0] [127.0.0.1]
+[18.11.2025 - 15:00.30] mail_utf8: wwwlab@unn.ru,  lkzk.unn.ru, lkzk@unn.ru[/ajax/post/uoup_cancel.php] [Chrome 142.0.0.0] [127.0.0.1]
+[18.11.2025 - 15:00.32] Пустой unnmail зав.кафедрой (логин: ) в uoup_cancel.php[/ajax/post/uoup_cancel.php] [Chrome 142.0.0.0] [127.0.0.1]
+[18.11.2025 - 15:00.32] mail_utf8: wwwlab@unn.ru,  lkzk.unn.ru, wwwlab@unn.ru[/ajax/post/uoup_cancel.php] [Chrome 142.0.0.0] [127.0.0.1]
+[18.11.2025 - 15:00.32] mail_utf8: wwwlab@unn.ru,  lkzk.unn.ru, lkzk@unn.ru[/ajax/post/uoup_cancel.php] [Chrome 142.0.0.0] [127.0.0.1]
+[18.11.2025 - 15:07.39] Пустой unnmail зав.кафедрой (логин: ) в uoup_cancel.php[/ajax/post/uoup_cancel.php] [Chrome 142.0.0.0] [127.0.0.1]
+[18.11.2025 - 15:07.39] mail_utf8: wwwlab@unn.ru,  lkzk.unn.ru, wwwlab@unn.ru[/ajax/post/uoup_cancel.php] [Chrome 142.0.0.0] [127.0.0.1]
+[18.11.2025 - 15:07.39] mail_utf8: wwwlab@unn.ru,  lkzk.unn.ru, lkzk@unn.ru[/ajax/post/uoup_cancel.php] [Chrome 142.0.0.0] [127.0.0.1]
+[18.11.2025 - 15:07.44] Пустой unnmail зав.кафедрой (логин: ) в uoup_cancel.php[/ajax/post/uoup_cancel.php] [Chrome 142.0.0.0] [127.0.0.1]
+[18.11.2025 - 15:07.44] mail_utf8: wwwlab@unn.ru,  lkzk.unn.ru, wwwlab@unn.ru[/ajax/post/uoup_cancel.php] [Chrome 142.0.0.0] [127.0.0.1]
+[18.11.2025 - 15:07.44] mail_utf8: wwwlab@unn.ru,  lkzk.unn.ru, lkzk@unn.ru[/ajax/post/uoup_cancel.php] [Chrome 142.0.0.0] [127.0.0.1]
+[18.11.2025 - 15:07.46] Пустой unnmail зав.кафедрой (логин: ) в uoup_cancel.php[/ajax/post/uoup_cancel.php] [Chrome 142.0.0.0] [127.0.0.1]
+[18.11.2025 - 15:07.46] mail_utf8: wwwlab@unn.ru,  lkzk.unn.ru, wwwlab@unn.ru[/ajax/post/uoup_cancel.php] [Chrome 142.0.0.0] [127.0.0.1]
+[18.11.2025 - 15:07.46] mail_utf8: wwwlab@unn.ru,  lkzk.unn.ru, lkzk@unn.ru[/ajax/post/uoup_cancel.php] [Chrome 142.0.0.0] [127.0.0.1]
+[18.11.2025 - 15:09.01] Пустой unnmail зав.кафедрой (логин: ) в uoup_cancel.php[/ajax/post/uoup_cancel.php] [Chrome 142.0.0.0] [127.0.0.1]
+[18.11.2025 - 15:09.01] mail_utf8: wwwlab@unn.ru,  lkzk.unn.ru, wwwlab@unn.ru[/ajax/post/uoup_cancel.php] [Chrome 142.0.0.0] [127.0.0.1]
+[18.11.2025 - 15:09.01] mail_utf8: wwwlab@unn.ru,  lkzk.unn.ru, lkzk@unn.ru[/ajax/post/uoup_cancel.php] [Chrome 142.0.0.0] [127.0.0.1]
+[18.11.2025 - 15:09.18] Пустой unnmail зав.кафедрой (логин: ) в uoup_cancel.php[/ajax/post/uoup_cancel.php] [Chrome 142.0.0.0] [127.0.0.1]
+[18.11.2025 - 15:09.18] mail_utf8: wwwlab@unn.ru,  lkzk.unn.ru, wwwlab@unn.ru[/ajax/post/uoup_cancel.php] [Chrome 142.0.0.0] [127.0.0.1]
+[18.11.2025 - 15:09.18] mail_utf8: wwwlab@unn.ru,  lkzk.unn.ru, lkzk@unn.ru[/ajax/post/uoup_cancel.php] [Chrome 142.0.0.0] [127.0.0.1]
+[18.11.2025 - 15:09.21] Пустой unnmail зав.кафедрой (логин: ) в uoup_cancel.php[/ajax/post/uoup_cancel.php] [Chrome 142.0.0.0] [127.0.0.1]
+[18.11.2025 - 15:09.21] mail_utf8: wwwlab@unn.ru,  lkzk.unn.ru, wwwlab@unn.ru[/ajax/post/uoup_cancel.php] [Chrome 142.0.0.0] [127.0.0.1]
+[18.11.2025 - 15:09.21] mail_utf8: wwwlab@unn.ru,  lkzk.unn.ru, lkzk@unn.ru[/ajax/post/uoup_cancel.php] [Chrome 142.0.0.0] [127.0.0.1]
+[18.11.2025 - 15:45.08] Пустой unnmail зав.кафедрой (логин: ) в uoup_cancel.php[/ajax/post/uoup_cancel.php] [Chrome 142.0.0.0] [127.0.0.1]
+[18.11.2025 - 15:45.08] mail_utf8: wwwlab@unn.ru,  lkzk.unn.ru, wwwlab@unn.ru[/ajax/post/uoup_cancel.php] [Chrome 142.0.0.0] [127.0.0.1]
+[18.11.2025 - 15:45.08] mail_utf8: wwwlab@unn.ru,  lkzk.unn.ru, lkzk@unn.ru[/ajax/post/uoup_cancel.php] [Chrome 142.0.0.0] [127.0.0.1]

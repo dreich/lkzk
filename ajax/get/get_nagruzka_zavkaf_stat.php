@@ -35,6 +35,10 @@ if ($c_roles)
     // $XMLChair = GetRow('xml_chair', ['Code' => $c_chair_id]);
     $dop_sql = "AND chair_id = '$c_chair_id'";
   }
+  elseif ($c_roles['uoup'])
+  {
+    $dop_sql = "AND chair_id = '$chair_id'";
+  }
 
   // $Sotrudniki = GetSQL("
   //       SELECT sotrudniki.*, SUM(xml_content_of_load.Amount) as amount_sum
@@ -56,7 +60,7 @@ if ($c_roles)
    $stats = [
         'discipline' =>
         [
-          'assigned_vacancy' => 0,   // 'Вакансия'
+          'assigned_on_vacancy' => 0,   // 'Вакансия'
           'not_assigned' => 0,     // пустые
           'assigned' => 0  // непустые (кроме 'Вакансия')
         ]

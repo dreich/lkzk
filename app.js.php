@@ -94,6 +94,70 @@ var checkSession = function($http, $scope, ngDialog)
     })
 }
 
+function createSelectFilter(column, footerCell) 
+{
+  // Получить все уникальные значения из столбца, видимые и не видимые
+  const uniqueValues = new Set();
+
+  column.data().each(function(d) {
+    if(d !== null && d !== undefined && d !== '') {
+      uniqueValues.add(d);
+    }
+  });
+
+  const select = $('<select class="search_init text_filter form-select"><option value=""></option></select>')
+    .appendTo($(footerCell))
+    .on('change', function() {
+      column.search(this.value).draw();
+    });
+
+  Array.from(uniqueValues).sort().forEach(value => {
+    select.append('<option value="' + value + '">' + value + '</option>');
+  });
+}
+
+// columns - описание столбцов таблицы
+function createCustomFilters(table_id, table, columns) 
+{
+  CL('createCustomFilters');
+
+  // const table = $scope.dtInstance.dataTable.DataTable();
+
+  // Очистить все фильтры в футере
+  $('#' + table_id + ' tfoot th').each(function() {
+    $(this).empty();
+  });
+
+  // Создать фильтры для видимых столбцов
+  table.columns(':visible').every(function(columnIndex) {
+    const column = this;
+
+    // возьмём th с ind = columnIndex
+    const footerCell = $('#' + table_id + ' tfoot th[ind="' + columnIndex + '"]');
+    const colSettings = columns[columnIndex];
+
+    // if (columnIndex == 0)
+    // {
+    //   CL(colSettings)
+    // }
+    if (colSettings && colSettings.type === 'select') // && colSettings.values) 
+    {
+      createSelectFilter(column, footerCell);
+    } 
+    else if (colSettings && colSettings.type === 'input')
+    {
+      // Создаем input для остальных типов или если не select тип
+      const input = $('<input class="search_init text_filter form-control" type="text"  />')
+        .appendTo(footerCell)
+        .on('keyup change', function() {
+          if(column.search() !== this.value) {
+            column.search(this.value).draw();
+          }
+        });
+    }
+  });
+}
+
 
 const c_login = '<?=$c_login?>';
 const c_fio = '<?=$c_fio?>';
@@ -161,12 +225,12 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
         nagruzka_stat: function($http)
         {
           return $http({url: 'ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=' + c_chair_id, method: 'GET'});
+        },
+        nagruzka: function($http)
+        {
+          return null;//$http({url: 'ajax/get/nagruzka_discipline.php?chair_id=' + c_chair_id, method: 'GET'});
         }
 
-    //     $scope.nagruzka_stat = $resource('ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=' + (nagruzka_selected_chair_id ? nagruzka_selected_chair_id : c_chair_id)).get(function()
-    // {
-      
-    // });
       }
     })
     // Интерфейс завкафа
@@ -191,7 +255,39 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
         nagruzka_stat: function($http)
         {
           return $http({url: 'ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=' + c_chair_id, method: 'GET'});
+        },
+        nagruzka: function($route, $http)
+        {
+          const nagruzka_type = $route.current.params.type;
+
+          if (nagruzka_type == 'discipline')
+          {
+            return $http({url: 'ajax/get/nagruzka_discipline.php?chair_id=' + c_chair_id, method: 'GET'});
+          }
+          // else if (nagruzka_type == 'vkr')
+          // {
+          //   return $http({url: 'ajax/get/nagruzka_vkr.php?chair_id=' + c_chair_id, method: 'GET'});
+          // }
+          // else if (nagruzka_type == 'ksro')
+          // {
+          //   return $http({url: 'ajax/get/nagruzka_ksro.php?chair_id=' + c_chair_id, method: 'GET'});
+          // }
+          // else if (nagruzka_type == 'gia')
+          // {
+          //   return $http({url: 'ajax/get/nagruzka_gia.php?chair_id=' + c_chair_id, method: 'GET'});
+          // }
+          // else if (nagruzka_type == 'aspirant')
+          // {
+          //   return $http({url: 'ajax/get/nagruzka_aspirant.php?chair_id=' + c_chair_id, method: 'GET'});
+          // }
+          return null;
         }
+        /*
+        if (!isEmpty(nagruzka_selected_chair_id)) chair_str = "?chair_id=" + nagruzka_selected_chair_id;
+        else chair_str = "";
+
+        $scope.nagruzka = $resource('ajax/get/nagruzka_discipline.php' + chair_str).query(function()
+        */
       }
     })
     // Интерфейс УОУП, как у завкафа, но readonly
@@ -217,6 +313,33 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
         nagruzka_stat: function($http, $route)
         {
           return $http({url: 'ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=' + ($route.current.params.nagruzka_selected_chair_id ? $route.current.params.nagruzka_selected_chair_id : c_chair_id), method: 'GET'});
+        },
+        nagruzka: function($http, $route)
+        {
+          const nagruzka_type = $route.current.params.type;
+          const chair_id = $route.current.params.nagruzka_selected_chair_id;
+
+          if (nagruzka_type == 'discipline')
+          {
+            return $http({url: 'ajax/get/nagruzka_discipline.php?chair_id=' + (chair_id ? chair_id : c_chair_id), method: 'GET'});
+          }
+          // else if (nagruzka_type == 'vkr')
+          // {
+          //   return $http({url: 'ajax/get/nagruzka_vkr.php?chair_id=' + c_chair_id, method: 'GET'});
+          // }
+          // else if (nagruzka_type == 'ksro')
+          // {
+          //   return $http({url: 'ajax/get/nagruzka_ksro.php?chair_id=' + c_chair_id, method: 'GET'});
+          // }
+          // else if (nagruzka_type == 'gia')
+          // {
+          //   return $http({url: 'ajax/get/nagruzka_gia.php?chair_id=' + c_chair_id, method: 'GET'});
+          // }
+          // else if (nagruzka_type == 'aspirant')
+          // {
+          //   return $http({url: 'ajax/get/nagruzka_aspirant.php?chair_id=' + c_chair_id, method: 'GET'});
+          // }
+          return null;
         }
       }
     })
@@ -476,132 +599,8 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
 
 })
 
-/*
-.controller ('TestCtrl', function($scope,  $http, DTOptionsBuilder, DTColumnBuilder, DTColumnDefBuilder, ngDialog, $templateCache)
-{
-  CL('TestCtrl');
 
-  $templateCache.put('popup', '<p>Время Вашей сессии истекло. {{selected_person.firstName}} Для продолжения работы необходимо авторизоваться повторно.</p>\
-              <div class="ngdialog-buttons">\
-                  <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="confirm(1)">OK</button>\
-              </div>');
-  // $scope.test = "abc";
-  // $scope.dtOptions = 
-  // {
-  //   language: { decimal: "," }, 
-  //   paging:false,
-  //   dom: ""
-  // };
-
-  $scope.dtInstance = {};
-
-  // $scope.persons = $resource('data.json').query();
-
-  $scope.dtOptions = DTOptionsBuilder //.fromSource('data.json')
-        .newOptions()
-        .withOption('stateSave', true)
-        .withPaginationType('full_numbers')
-        .withColVis()
-        // Add a state change function
-        .withColVisStateChange(stateChange)
-        // Exclude the last column from the list
-        .withColVisOption('aiExclude', [0])
-        .withColumnFilter({
-            aoColumns: [{
-                type: 'number'
-            }, {
-                type: 'select',
-                bRegex: false,
-                values: ['Superman', 'Louis', 'Zed', 'Batman', 'Luke', 'Cartman', 'Test']
-                // bSmart: true
-            }
-            , {
-                type: 'select',
-                bRegex: false,
-                values: ['Whateveryournameis', 'Test', 'Yoda', 'Titi', 'Kyle', 'Bar', 'Whateveryournameis']
-            }
-          ]
-        })
-        ;
-
-        $scope.dtColumnDefs = [
-          DTColumnDefBuilder.newColumnDef(0),
-          DTColumnDefBuilder.newColumnDef(1),
-          DTColumnDefBuilder.newColumnDef(2),
-
-        ];
-
-        // CL($scope.dtOptions);
-
-    function stateChange(iColumn, bVisible) {
-        console.log('The column', iColumn, ' has changed its status to', bVisible);
-    }
-
-    // $scope.dtColumns = [
-    //     DTColumnBuilder.newColumn('id').withTitle('ID'),
-    //     DTColumnBuilder.newColumn('firstName').withTitle('First name'),
-    //     DTColumnBuilder.newColumn('lastName').withTitle('Last name')
-    // ];
-    $scope.ClearGreenTableFilters = function()
-    {
-      // CL('ClearGreenTableFilters');
-
-      // CL($scope.dtInstance);
-
-      // return;
-
-      const table = $scope.dtInstance.dataTable;
-
-      // CL(table);
-
-      // return;
-
-      // Сброс глобального поиска
-      table.fnFilter('');
-
-      // Сброс фильтров для всех столбцов
-      for (let i = 0; i < table.fnSettings().aoColumns.length; i++) {
-          table.fnFilter('', i);
-      }
-
-      $('#DataTables_Table_1').find('tfoot tr select').val('').trigger('change');
-      $('#DataTables_Table_1').find('tfoot tr input').val('').trigger('change');
-
-      // Перерисовка таблицы
-      table.fnDraw();
-    }
-
-    $scope.ShowPopup = function(person)
-    {
-      CL('ShowPopup');
-
-      $scope.selected_person = person;
-
-      ngDialog.openConfirm({
-                template: 'popup',
-                scope: $scope,
-                className: 'ngdialog-theme-default ngdialog-positions',
-                disableAnimation: true,
-                preCloseCallback: function(value)
-                {
-                  return true;
-                }
-            })
-            .then(function (value) {  // да
-
-            })
-            .catch(function dialogCloseErrorCallback(reason) {
-                    // ngDialog v1.4.0 throws an exception, when closing the dialog with reason “undefined”.
-            });
-
-    }
-
-
-})
-
-*/
-
-.controller ('NagruzkaCtrl', function($rootScope, $scope, $http, $timeout, DTOptionsBuilder, DTColumnBuilder, DTColumnDefBuilder, ngDialog, $templateCache, nagruzka_type, nagruzka_selected_chair_id, $resource, $cookies, system_mode, nagruzka_stat)
+.controller ('NagruzkaCtrl', function($rootScope, $scope, $http, $timeout, DTOptionsBuilder, DTColumnBuilder, DTColumnDefBuilder, ngDialog, $templateCache, nagruzka_type, nagruzka_selected_chair_id, $resource, $cookies, system_mode, nagruzka_stat, nagruzka)
 {
   CL('NagruzkaCtrl');
   CL(nagruzka_type);
@@ -613,15 +612,19 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
   $scope.$_forms_obuchenia = $_forms_obuchenia;
   $scope.nagruzka_type = nagruzka_type;
   $scope.nagruzka_stat = nagruzka_stat.data;
+  $scope.nagruzka = nagruzka ? nagruzka.data : null;
 
   CL($scope.system_mode);
+  CL($scope.nagruzka);
 
   if (c_roles.zavkaf && $scope.system_mode === 'mode_closed')
   {
     window.location = '#/system_closed';
   }
 
-  $scope.nagruzka_readonly = c_roles.zavkaf && (!isEmpty(nagruzka_selected_chair_id) || $scope.system_mode === 'mode_verification') || $scope.system_mode === 'mode_archive';
+  // $scope.nagruzka_readonly = c_roles.zavkaf && (!isEmpty(nagruzka_selected_chair_id) || $scope.system_mode === 'mode_verification') || $scope.system_mode === 'mode_archive';
+
+  $scope.nagruzka_readonly = c_roles.uoup || $scope.system_mode === 'mode_verification' || $scope.system_mode === 'mode_archive';
 
   $templateCache.put('confirm_delete', '<p>Вы уверены, что хотите удалить?</p>\
               <div class="ngdialog-buttons">\
@@ -633,22 +636,19 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
   // $scope.$_degrees_codes = $_degrees_codes;
 
   $scope.dtInstance = {};
+  // Используется только для селекта "Вся нагрузка..."
   $scope.filter_distinct = {};
   $scope.group_action = {};
 
   $scope.filter_distinct.global_nagruzka_filter = $cookies.get('global_nagruzka_filter');
 
-
-
-  // function LoadNagruzkaZavkafStat()
-  // {
-  //   $scope.nagruzka_stat = $resource('ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=' + (nagruzka_selected_chair_id ? nagruzka_selected_chair_id : c_chair_id)).get(function()
-  //   {
-      
-  //   });
-  // }
-
-  // LoadNagruzkaZavkafStat();
+  function LoadNagruzkaZavkafStat()
+  {
+    $http({url: 'ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=' + (nagruzka_selected_chair_id ? nagruzka_selected_chair_id : c_chair_id), method: 'GET'}).then(function(response)
+    {
+      $scope.nagruzka_stat = response.data;
+    });
+  }
 
 
   const columns = [
@@ -721,9 +721,9 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
       },
   ];
 
-  function NagruzkaInit()
+  // function NagruzkaInit()
   {
-    // CL('NagruzkaInit');
+    CL('NagruzkaInit');
     // $scope.persons = $resource('data.json').query();
 
     $scope.dtOptions = DTOptionsBuilder //.fromSource('data.json')
@@ -740,37 +740,62 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
           "loadingRecords": "Загрузка...",
           "processing": "Обработка..."
       })
-      .withColumnFilter({
-          aoColumns: columns
-      })
+      // .withColumnFilter({
+      //     aoColumns: columns
+      // })
 
       .withOption('initComplete', function(settings, json) {
         // Скрываем индикатор когда загрузка завершена
-        // CL("initComplete");
+        CL("initComplete");
         $scope.$apply(function() {
             $scope.isLoading = false;
         });
       })
-      // .withOption('preDrawCallback', function(settings) {
-      //     // Показываем индикатор перед началом загрузки
-      //     CL("preDrawCallback");
-      // })
       // .withOption('processing', true)
-      // .withOption('language', {
-      //     "processing": "<div class='loading'><i class='fa fa-spinner fa-spin'></i> Загрузка...</div>"
-      // })
       ;
 
     $scope.dtColumnDefs = [
-      DTColumnDefBuilder.newColumnDef(0).notSortable(),
-      // DTColumnDefBuilder.newColumnDef(8).notVisible().notSortable(),
-      // DTColumnDefBuilder.newColumnDef(9).notVisible().notSortable(),
-      // DTColumnDefBuilder.newColumnDef(10).notVisible().notSortable(),
-      // DTColumnDefBuilder.newColumnDef(11).notVisible().notSortable(),
-      // DTColumnDefBuilder.newColumnDef(12).notVisible().notSortable(),
-      // DTColumnDefBuilder.newColumnDef(13).notVisible().notSortable(),
-
+      DTColumnDefBuilder.newColumnDef(0).notSortable(), // notVisible()
     ];
+
+    // Наблюдение за изменением dtInstance, чтобы сделать некоторые инициализации
+    /*
+    $scope.$watch('dtInstance', function(newValue) 
+    {
+      CL('dtInstance');
+      CL(newValue);
+
+      if (newValue && newValue.DataTable) 
+      {
+        const table = newValue.DataTable;
+
+        // CL(table);
+        // These are the same
+        // CL($scope.dtInstance.dataTable.DataTable());
+
+        // Инициализация фильтров при старте
+        createCustomFilters('DataTables_Table_nagruzka', table, columns);
+
+        // Сброс и пересоздание фильтров при изменении видимости столбцов
+        table.on('column-visibility.dt', function() {
+          createCustomFilters('DataTables_Table_nagruzka', table, columns);
+        });
+      }
+    }, true);
+    */
+
+    $scope.onNagruzkaTableInstance = function(dtInstance) 
+    {
+      CL('onNagruzkaTableInstance');
+      CL(dtInstance);
+
+      $scope.dtInstance = dtInstance; // если нужно хранить ссылку
+      const table = dtInstance.DataTable;
+      createCustomFilters('DataTables_Table_nagruzka', table, columns);
+      table.on('column-visibility.dt', function () {
+          createCustomFilters('DataTables_Table_nagruzka', table, columns);
+      });
+    };
 
     $scope.filter_distinct['language'] = [];
     $scope.filter_distinct['department_name'] = [];
@@ -798,6 +823,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
 
   }
 
+  /*
   if (nagruzka_type == 'discipline')
   {
     // CL("Start loading");
@@ -811,9 +837,15 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
     $scope.nagruzka = $resource('ajax/get/nagruzka_discipline.php' + chair_str).query(function()
     {
       NagruzkaInit();
+
+      
+      
+      
       // CL("End loading");
     });
   }
+
+  */
 
   // $scope.GetMyFilteredNagruzka = function()
   // {
@@ -882,27 +914,6 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
     return '';
   }
 
-  /*
-  $scope.ClearGreenTableFilters = function()
-  {
-
-    const table = $scope.dtInstance.dataTable;
-
-    // Сброс глобального поиска
-    table.fnFilter('');
-
-    // Сброс фильтров для всех столбцов
-    for (let i = 0; i < table.fnSettings().aoColumns.length; i++) {
-        table.fnFilter('', i);
-    }
-
-    $('#DataTables_Table_1').find('tfoot tr select').val('').trigger('change');
-    $('#DataTables_Table_1').find('tfoot tr input').val('').trigger('change');
-
-    // Перерисовка таблицы
-    table.fnDraw();
-  }
-  */
 
   function SaveNagruzkaLecturer(nagruzka_row)
   {
@@ -912,6 +923,8 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
                   if (data.data.result == 'success')
                   {
                     toastr.success("Данные сохранены");
+                    // Обновить статистику для ЗавКафа
+                    LoadNagruzkaZavkafStat();
                   }
                   else
                   {
@@ -939,6 +952,8 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
     // CL(nagruzka_row);
 
     SaveNagruzkaLecturer(nagruzka_row);
+
+    
 
     // $scope.$broadcast('angucomplete-alt:clearInput'); //, 'lecturer_autocomplete_' + nagruzka_row['xml_content_of_load_UID'] + '_' + nagruzka_row['xml_content_of_load_staff_UID']);
 
@@ -973,6 +988,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
   }
 
   // получить строки нагрузки с учётом фильтров
+  /*
   $scope.GetFilteredNagruzkaRows = function()
   {
     if (isEmpty($scope.dtInstance) || isEmpty($scope.dtInstance.dataTable.fnSettings())) return [];
@@ -1040,6 +1056,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
 
     return filtered_nagruzka;
   }
+  */
 
   $scope.GetFilteredNagruzkaRowsIndexes = function()
   {
@@ -1296,7 +1313,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
       // кафедра
       {
         name: 'chair',
-        type: 'input',
+        type: 'select',
         bRegex: false,
       },
       // заведующий
@@ -1305,34 +1322,14 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
         type: 'input',
         bRegex: false,
       },
-      null,
       // всего нагрузки
-      {
-        name: 'nagruzka_sum',
-        type: 'input',
-        bRegex: false,
-        // values: $scope.filter_distinct['education_level'] // ['бакалавриат', 'специалитет', 'магистратура', 'ординатура', 'аспирантура']
-      },
+      null,
       // распределено
-      {
-        name: 'assigned',
-        type: 'input',
-        bRegex: false,
-      },
+      null,
       // не распределено
-      {
-        name: 'not_assigned',
-        type: 'select',
-        bRegex: false,
-        // values: $scope.filter_distinct['language']
-      },
+      null,
       // на вакансии
-      {
-        name: 'form_obuchenia',
-        type: 'select',
-        bRegex: false,
-        values: ['Да', 'Нет']
-      }
+      null,
       
   ];
 
@@ -1344,11 +1341,11 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
     .withOption('stateSave', true)
     // .withOption('aoColumns', [{bVisible': false}])
     .withPaginationType('full_numbers')
-    .withColVis()
+    // .withColVis()
     // Add a state change function
     // .withColVisStateChange(stateChange)
     // Exclude the last column from the list
-    .withColVisOption('aiExclude', [])
+    // .withColVisOption('aiExclude', [])
     .withColumnFilter({
         aoColumns: columns
     })
@@ -1362,13 +1359,6 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
 
   $scope.dtColumnDefs = [
     // DTColumnDefBuilder.newColumnDef(7).notVisible().notSortable(),
-    // DTColumnDefBuilder.newColumnDef(8).notVisible().notSortable(),
-    // DTColumnDefBuilder.newColumnDef(9).notVisible().notSortable(),
-    // DTColumnDefBuilder.newColumnDef(10).notVisible().notSortable(),
-    // DTColumnDefBuilder.newColumnDef(11).notVisible().notSortable(),
-    // DTColumnDefBuilder.newColumnDef(12).notVisible().notSortable(),
-    // DTColumnDefBuilder.newColumnDef(13).notVisible().notSortable(),
-
   ];
 
   /*
@@ -1456,13 +1446,14 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
               </div>');
 
   $rootScope.page = 'uoup_chairs_refused';
-  $scope.$_forms_obuchenia = $_forms_obuchenia;
+  // $scope.$_forms_obuchenia = $_forms_obuchenia;
   $scope.system_mode = system_mode.data.mode;
   // CL($scope.system_mode);
 
   $scope.dtInstance = {};
+  // заглушка
   $scope.filter_distinct = {};
-  $scope.group_action = {};
+  // $scope.group_action = {};
   $scope.nagruzka = uoup_nagruzka.data;
 
   const columns = [
@@ -1478,7 +1469,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
       // кафедра
       {
         name: 'Abbr',
-        type: 'input',
+        type: 'select',
         bRegex: false,
       },
       // аббревиатура
@@ -1504,7 +1495,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
       // направление подготовки
       {
         name: 'napravlenie',
-        type: 'input',
+        type: 'select',
         bRegex: false,
       },
       // язык программы
@@ -1530,7 +1521,13 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
         width: '100'
       },
       null,
-      null,
+      // вид работ
+      {
+        name: 'kind_of_work',
+        type: 'select',
+        bRegex: false,
+        // values: ['1', '2', '3', '4', '5', '6', '7']
+      },
       null,
       // курс
       {
@@ -1542,10 +1539,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
       null
   ];
 
-  $scope.columns = columns;
-
-
-  // $scope.persons = $resource('data.json').query();
+  // $scope.columns = columns;
 
   $scope.dtOptions = DTOptionsBuilder //.fromSource('data.json')
     .newOptions()
@@ -1556,7 +1550,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
     // Add a state change function
     // .withColVisStateChange(stateChange)
     // Exclude the last column from the list
-    .withColVisOption('aiExclude', [0, 1, 6, 8, 9, 10, 14])
+    .withColVisOption('aiExclude', [0]) //, 1, 6, 8, 9, 10, 14])
     // .withColumnFilter({
     //     aoColumns: columns
     // })
@@ -1564,133 +1558,36 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
         // Скрываем индикатор когда загрузка завершена);
         $scope.$apply(function() {
             $scope.isLoading = false;
-
-            // CL($scope.dtInstance);
-            // const table = $scope.dtInstance.dataTable.DataTable();
-
-            // table.on('column-visibility.dt', function (e, settings, column, state) {
-            //   // При любом изменении видимости столбца очищаем фильтры всех столбцов
-            //   table.columns().search('').draw();
-
-            //   CL('column-visibility.dt');
-            // });
         });
       })
     ;
 
+  // Возможность отключить сортировку и видимость столбцов по-умолчанию
   $scope.dtColumnDefs = [
-    DTColumnDefBuilder.newColumnDef(0).notSortable(),
-    // DTColumnDefBuilder.newColumnDef(8).notVisible().notSortable(),
-    // DTColumnDefBuilder.newColumnDef(9).notVisible().notSortable(),
-    // DTColumnDefBuilder.newColumnDef(10).notVisible().notSortable(),
-    // DTColumnDefBuilder.newColumnDef(11).notVisible().notSortable(),
-    // DTColumnDefBuilder.newColumnDef(12).notVisible().notSortable(),
-    // DTColumnDefBuilder.newColumnDef(13).notVisible().notSortable(),
-
+    DTColumnDefBuilder.newColumnDef(0).notSortable(), // notVisible()
   ];
 
-  function createSelectFilter(column, footerCell) 
+  // Наблюдение за изменением dtInstance, чтобы сделать некоторые инициализации
+  $scope.$watch('dtInstance', function(newValue) 
   {
-    // Получить все уникальные значения из столбца, видимые и не видимые
-    const uniqueValues = new Set();
-
-    column.data().each(function(d) {
-      if(d !== null && d !== undefined && d !== '') {
-        uniqueValues.add(d);
-      }
-    });
-
-    const select = $('<select class="search_init text_filter form-select"><option value=""></option></select>')
-      .appendTo($(footerCell))
-      .on('change', function() {
-        column.search(this.value).draw();
-      });
-
-    Array.from(uniqueValues).sort().forEach(value => {
-      select.append('<option value="' + value + '">' + value + '</option>');
-    });
-  }
-
-  function createCustomFilters() 
-  {
-    CL('createCustomFilters');
-
-    const table = $scope.dtInstance.dataTable.DataTable();
-
-    // const $tableNode = $(table.table().node());
-
-    // Очистить футер фильтров
-    // $('#DataTables_Table_nagruzka_refuse tfoot th')
-    // CL($('#DataTables_Table_nagruzka_refuse tfoot th'));
-
-    $('#DataTables_Table_nagruzka_refuse tfoot th').find('tfoot th').each(function() {
-      $(this).empty();
-    });
-
-    // Создать фильтры для видимых столбцов
-    table.columns(':visible').every(function(columnIndex) {
-      const column = this;
-      const footerCell = $('#DataTables_Table_nagruzka_refuse tfoot th').eq(columnIndex);
-      const colSettings = $scope.columns[columnIndex];
-
-      if (colSettings && colSettings.type === 'select' && colSettings.values) 
-      {
-        createSelectFilter(column, footerCell);
-      } 
-      else {
-        // Создаем input для остальных типов или если не select тип
-        const input = $('<input class="search_init text_filter form-control" type="text"  />')
-          .appendTo(footerCell)
-          .on('keyup change', function() {
-            if(column.search() !== this.value) {
-              column.search(this.value).draw();
-            }
-          });
-      }
-    });
-  }
-
-  $scope.$watch('dtInstance', function(newValue) {
-    if(newValue && newValue.DataTable) {
+    if (newValue && newValue.DataTable) 
+    {
       const table = newValue.DataTable;
 
+      // CL(table);
+      // These are the same
+      // CL($scope.dtInstance.dataTable.DataTable());
+
       // Инициализация фильтров при старте
-      createCustomFilters();
+      createCustomFilters('DataTables_Table_uoup_chairs_refused', table, columns);
 
       // Сброс и пересоздание фильтров при изменении видимости столбцов
       table.on('column-visibility.dt', function() {
-        createCustomFilters();
+        createCustomFilters('DataTables_Table_uoup_chairs_refused', table, columns);
       });
     }
   });
 
-
-
-  /*
-  
-  $scope.filter_distinct['language'] = [];
-  $scope.filter_distinct['department_name'] = [];
-  $scope.filter_distinct['education_level'] = [];
-
-  angular.forEach($scope.nagruzka, function(row)
-  {
-    if (!$scope.filter_distinct['language'].includes(row.language))
-    {
-      $scope.filter_distinct['language'].push(row.language);
-    }
-
-    if (!$scope.filter_distinct['department_name'].includes(row.language))
-    {
-      $scope.filter_distinct['department_name'].push(row.language);
-    }
-
-    if (!$scope.filter_distinct['education_level'].includes(row.language))
-    {
-      $scope.filter_distinct['education_level'].push(row.language);
-    }
-  });
-
-  */
 
   // Отклонить отказ зав. каф. от нагрузки
   $scope.UOUPCancelRefuse = function(nagruzka_row)
@@ -1699,7 +1596,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
               <div><textarea ng-model="message" class="form-control w-100 mb-2" style="height: 100px"></textarea></div>\
               <div class="ngdialog-buttons">\
                   <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="confirm(message)" ng-disabled="!message.length">Отменить отказ</button>\
-                  <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="closeThisDialog(0)">Закрыть</button>\
+                  <button type="button" class="ngdialog-button ngdialog-button-secondary" ng-click="closeThisDialog(0)">Закрыть</button>\
               </div>');
 
     var dialogScope = $scope.$new();
@@ -1750,12 +1647,13 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
               </div>');
 
   $rootScope.page = 'uoup_nagruzka_to_change';
-  $scope.$_forms_obuchenia = $_forms_obuchenia;
+  // $scope.$_forms_obuchenia = $_forms_obuchenia;
   $scope.system_mode = system_mode.data.mode;
 
   $scope.dtInstance = {};
+  // заглушка
   $scope.filter_distinct = {};
-  $scope.group_action = {};
+  // $scope.group_action = {};
   $scope.nagruzka = uoup_nagruzka.data;
 
   // CL($scope.nagruzka);
@@ -1773,7 +1671,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
       // кафедра
       {
         name: 'Abbr',
-        type: 'input',
+        type: 'select',
         bRegex: false,
       },
       // аббревиатура
@@ -1799,7 +1697,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
       // направление подготовки
       {
         name: 'napravlenie',
-        type: 'input',
+        type: 'select',
         bRegex: false,
       },
       // язык программы
@@ -1825,7 +1723,13 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
         width: '100'
       },
       null,
-      null,
+      // вид работ
+      {
+        name: 'kind_of_work',
+        type: 'select',
+        bRegex: false,
+        // values: ['1', '2', '3', '4', '5', '6', '7']
+      },
       null,
       // курс
       {
@@ -1849,9 +1753,9 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
     // .withColVisStateChange(stateChange)
     // Exclude the last column from the list
     .withColVisOption('aiExclude', [0])
-    .withColumnFilter({
-        aoColumns: columns
-    })
+    // .withColumnFilter({
+    //     aoColumns: columns
+    // })
     .withOption('initComplete', function(settings, json) {
       // Скрываем индикатор когда загрузка завершена);
       $scope.$apply(function() {
@@ -1860,53 +1764,41 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
     })
     ;
 
+  // Возможность отключить сортировку и видимость столбцов по-умолчанию
   $scope.dtColumnDefs = [
-    DTColumnDefBuilder.newColumnDef(0).notSortable(),
-    // DTColumnDefBuilder.newColumnDef(7).notVisible().notSortable(),
-    // DTColumnDefBuilder.newColumnDef(8).notVisible().notSortable(),
-    // DTColumnDefBuilder.newColumnDef(9).notVisible().notSortable(),
-    // DTColumnDefBuilder.newColumnDef(10).notVisible().notSortable(),
-    // DTColumnDefBuilder.newColumnDef(11).notVisible().notSortable(),
-    // DTColumnDefBuilder.newColumnDef(12).notVisible().notSortable(),
-    // DTColumnDefBuilder.newColumnDef(13).notVisible().notSortable(),
-
+    DTColumnDefBuilder.newColumnDef(0).notSortable(), // notVisible()
   ];
 
-  /*
-  
-  $scope.filter_distinct['language'] = [];
-  $scope.filter_distinct['department_name'] = [];
-  $scope.filter_distinct['education_level'] = [];
-
-  angular.forEach($scope.nagruzka, function(row)
+  // Наблюдение за изменением dtInstance, чтобы сделать некоторые инициализации
+  $scope.$watch('dtInstance', function(newValue) 
   {
-    if (!$scope.filter_distinct['language'].includes(row.language))
+    if (newValue && newValue.DataTable) 
     {
-      $scope.filter_distinct['language'].push(row.language);
-    }
+      const table = newValue.DataTable;
 
-    if (!$scope.filter_distinct['department_name'].includes(row.language))
-    {
-      $scope.filter_distinct['department_name'].push(row.language);
-    }
+      // CL(table);
+      // These are the same
+      // CL($scope.dtInstance.dataTable.DataTable());
 
-    if (!$scope.filter_distinct['education_level'].includes(row.language))
-    {
-      $scope.filter_distinct['education_level'].push(row.language);
+      // Инициализация фильтров при старте
+      createCustomFilters('DataTables_Table_nagruzka_to_change', table, columns);
+
+      // Сброс и пересоздание фильтров при изменении видимости столбцов
+      table.on('column-visibility.dt', function() {
+        createCustomFilters('DataTables_Table_nagruzka_to_change', table, columns);
+      });
     }
   });
 
-  */
-
   // Отклонить запрос зав. каф. на изменение
   // комментарий обязателен
-  $scope.UOUPCancelToChange = function(nagruzka_row)
+  $scope.UOUPDeclineToChange = function(nagruzka_row)
   {
     $templateCache.put('comment_and_cancel_to_change', '<p>Введите причину отказа:</p>\
               <div><textarea ng-model="message" class="form-control w-100 mb-2" style="height: 100px"></textarea></div>\
               <div class="ngdialog-buttons">\
                   <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="confirm(message)" ng-disabled="!message.length">Отклонить</button>\
-                  <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="closeThisDialog(0)">Закрыть</button>\
+                  <button type="button" class="ngdialog-button ngdialog-button-secondary" ng-click="closeThisDialog(0)">Закрыть</button>\
               </div>');
 
     var dialogScope = $scope.$new();
@@ -1924,9 +1816,9 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
             .then(function (message) {  // да
 
               $http({url: 'ajax/post/uoup_cancel.php', method: 'POST', data: {base_uid: nagruzka_row.base_uid, chair_id: nagruzka_row.chair_id, chair_name: nagruzka_row.chair_name, zavkaf_fio: nagruzka_row.zavkaf_fio, action: 'Админ УОУП отклонил запрос кафедры на внесение изменений', message: message}})
-                .then(function(data)
+                .then(function(response)
                 {
-                  if (data.data.result == 'success')
+                  if (response.data.result == 'success')
                   {
                     toastr.success("Данные сохранены");
                     nagruzka_row.status = 'initial';
@@ -1952,7 +1844,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
               <div><textarea ng-model="message" class="form-control w-100 mb-2" style="height: 100px"></textarea></div>\
               <div class="ngdialog-buttons">\
                   <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="confirm(message)" >Выполнено</button>\
-                  <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="closeThisDialog(0)">Закрыть</button>\
+                  <button type="button" class="ngdialog-button ngdialog-button-secondary" ng-click="closeThisDialog(0)">Закрыть</button>\
               </div>');
 
     var dialogScope = $scope.$new();
