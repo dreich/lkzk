@@ -43,7 +43,9 @@ $Sotrudniki = GetTable('sotrudniki', "`chair_id` = '$chair_id' AND  `selected` =
 
 if (mb_stripos($s, 'Вак') === 0)
 {
-  $Sotrudniki[] = ['fio' => 'Вакансия', 'lecturer_person_id' => '000000'];
+  $VacancyLecturer = GetRow('xml_lecturer', ['Tab_number' => '000000']);
+
+  $Sotrudniki[] = ['fio' => 'Вакансия', 'lecturer_person_id' => '000000', 'lecturer_uid' => $VacancyLecturer['UID']];
 }
 
 

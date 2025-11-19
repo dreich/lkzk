@@ -10,6 +10,7 @@ const solutionsFile = path.join(testsDir, 'solutions.md');
 const appJsFile = path.join(projectRoot, 'app.js.php');
 // время ожидания после загрузки страницы и отсутствия сетевой активности (чтобы в консоли успели появиться сообщения)
 const WAIT_AFTER_IDLE_MS = 100;
+const PLAYWRIGHT_HEADLESS = true; // переключайте вручную при необходимости
 
 const testFiles = fs.readdirSync(testsDir)
   .filter((file) => file.endsWith('.js'))
@@ -184,7 +185,8 @@ const extractErrorText = (block) => {
         stdio: 'inherit',
         env: {
           ...process.env,
-          WAIT_AFTER_IDLE_MS: String(WAIT_AFTER_IDLE_MS)
+          WAIT_AFTER_IDLE_MS: String(WAIT_AFTER_IDLE_MS),
+          PLAYWRIGHT_HEADLESS: String(PLAYWRIGHT_HEADLESS)
         }
       });
 

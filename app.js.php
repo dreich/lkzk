@@ -125,7 +125,7 @@ function createCustomFilters(table_id, table, columns)
 
   // Очистить все фильтры в футере
   $('#' + table_id + ' tfoot th').each(function() {
-    $(this).empty();
+    $(this).find('select, input').remove();
   });
 
   // Создать фильтры для видимых столбцов
@@ -612,10 +612,12 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
   $scope.$_forms_obuchenia = $_forms_obuchenia;
   $scope.nagruzka_type = nagruzka_type;
   $scope.nagruzka_stat = nagruzka_stat.data;
+  // Строка для проверки, что тесты работают. Должна быть ошибка.
+  // $scope.nagruzka = nagruzka.data;
   $scope.nagruzka = nagruzka ? nagruzka.data : null;
 
   CL($scope.system_mode);
-  CL($scope.nagruzka);
+  // CL($scope.nagruzka);
 
   if (c_roles.zavkaf && $scope.system_mode === 'mode_closed')
   {
@@ -658,7 +660,6 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
         name: 'department_name',
         type: 'select',
         bRegex: false,
-        values: $scope.filter_distinct['department_name']
         // bSmart: true
       }, 
       // аббревиатура
@@ -679,7 +680,6 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
         name: 'education_level',
         type: 'select',
         bRegex: false,
-        values: $scope.filter_distinct['education_level'] // ['бакалавриат', 'специалитет', 'магистратура', 'ординатура', 'аспирантура']
       },
       // направление подготовки
       {
@@ -692,7 +692,6 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
         name: 'language',
         type: 'select',
         bRegex: false,
-        values: $scope.filter_distinct['language']
       },
       // форма обучения
       {
@@ -710,7 +709,13 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
         width: '100'
       },
       null,
-      null,
+      // вид работ
+      {
+        name: 'kind_of_work',
+        type: 'select',
+        bRegex: false,
+        // values: ['1', '2', '3', '4', '5', '6', '7']
+      },
       null,
       // курс
       {
@@ -797,79 +802,11 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
       });
     };
 
-    $scope.filter_distinct['language'] = [];
-    $scope.filter_distinct['department_name'] = [];
-    $scope.filter_distinct['education_level'] = [];
-
-    angular.forEach($scope.nagruzka, function(row)
-    {
-      if (!$scope.filter_distinct['language'].includes(row.language))
-      {
-        $scope.filter_distinct['language'].push(row.language);
-      }
-
-      if (!$scope.filter_distinct['department_name'].includes(row.department_name))
-      {
-        $scope.filter_distinct['department_name'].push(row.department_name);
-      }
-
-      if (!$scope.filter_distinct['education_level'].includes(row.education_level))
-      {
-        $scope.filter_distinct['education_level'].push(row.education_level);
-      }
-    });
-
-
+    
 
   }
 
-  /*
-  if (nagruzka_type == 'discipline')
-  {
-    // CL("Start loading");
-    $scope.isLoading = true;
-
-    var chair_str;
-
-    if (!isEmpty(nagruzka_selected_chair_id)) chair_str = "?chair_id=" + nagruzka_selected_chair_id;
-    else chair_str = "";
-
-    $scope.nagruzka = $resource('ajax/get/nagruzka_discipline.php' + chair_str).query(function()
-    {
-      NagruzkaInit();
-
-      
-      
-      
-      // CL("End loading");
-    });
-  }
-
-  */
-
-  // $scope.GetMyFilteredNagruzka = function()
-  // {
-  //   return $scope.nagruzka ? $scope.nagruzka.filter( row => 
-  //     {
-  //       if (isEmpty($scope.my_nagruzka_filter))
-  //       {
-  //         return true;
-  //       }
-  //       else if ($scope.my_nagruzka_filter == 'assigned')
-  //       {
-  //         return !isEmpty(row.lecturer_fio);
-  //       }
-  //       else if ($scope.my_nagruzka_filter == 'not_assigned')
-  //       {
-  //         return isEmpty(row.lecturer_fio);
-  //       }
-  //       else if ($scope.my_nagruzka_filter == 'assigned_to_vancancy')
-  //       {
-  //         return !isEmpty(row.lecturer_fio) && row.lecturer_fio == 'Вакансия';
-  //       }
-  //     }) : [];
-  // }
-
+  
   $scope.GetNagruzkaTypesRowLink = function(nagruzka_type)
   {
     var link = '#/nagruzka/' + nagruzka_type;
@@ -896,7 +833,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
   {
     CL('onNagruzkaGlobalFilterChange');
 
-    CL($scope.filter_distinct.global_nagruzka_filter);
+    // CL($scope.filter_distinct.global_nagruzka_filter);
 
     $cookies.put('global_nagruzka_filter', $scope.filter_distinct.global_nagruzka_filter);
 
@@ -1254,27 +1191,6 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
     return isEmpty(nagruzka_type) || nagruzka_type == 'all' || type == nagruzka_type;
   }
 
-  // $scope.NagruzkaRowClick = function(nagruzka_row)
-  // {
-  //   CL('NagruzkaRowClick');
-  //   // CL(nagruzka_row);
-
-  //   const dialogScope = $scope.$new();
-  //   dialogScope.nagruzka_row = nagruzka_row;
-
-  //   dialogScope.nagruzka_history = $resource('ajax/get/get_nagruzka_history.php?load_base_UID=' + nagruzka_row.base_uid).query();
-
-  //   ngDialog.open({
-  //                   template: "nagruzka_history.tpl.html" + "?" + getRandom(10000, 99999),
-  //                   scope: dialogScope,
-  //                   plain: false,
-  //                   disableAnimation: true,
-  //                   className: 'ngdialog-theme-default history'
-  //                 });
-  // }
-
-  // CL($scope.filter_distinct.global_nagruzka_filter);
-
 })
 
 .controller ('UOUPNagruzkaCtrl', function($rootScope, $scope, $http, DTOptionsBuilder, DTColumnBuilder, DTColumnDefBuilder, ngDialog, $templateCache, $resource, uoup_nagruzka, nagruzka_uoup_stat, page)
@@ -1307,7 +1223,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
         name: 'department_name',
         type: 'select',
         bRegex: false,
-        values: $scope.filter_distinct['department_name']
+        // values: $scope.filter_distinct['department_name']
         // bSmart: true
       }, 
       // кафедра
@@ -1346,6 +1262,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
     // .withColVisStateChange(stateChange)
     // Exclude the last column from the list
     // .withColVisOption('aiExclude', [])
+    // Т.к. на этой странице нет скрытия столбцов, то нет проблемы съезжания фильтров, поэтому используем штатный механизм
     .withColumnFilter({
         aoColumns: columns
     })
@@ -1361,32 +1278,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
     // DTColumnDefBuilder.newColumnDef(7).notVisible().notSortable(),
   ];
 
-  /*
   
-  $scope.filter_distinct['language'] = [];
-  $scope.filter_distinct['department_name'] = [];
-  $scope.filter_distinct['education_level'] = [];
-
-  angular.forEach($scope.nagruzka, function(row)
-  {
-    if (!$scope.filter_distinct['language'].includes(row.language))
-    {
-      $scope.filter_distinct['language'].push(row.language);
-    }
-
-    if (!$scope.filter_distinct['department_name'].includes(row.language))
-    {
-      $scope.filter_distinct['department_name'].push(row.language);
-    }
-
-    if (!$scope.filter_distinct['education_level'].includes(row.language))
-    {
-      $scope.filter_distinct['education_level'].push(row.language);
-    }
-  });
-
-  */
-
   // УОУП открывает на просмотр нагрузку кафедры
   $scope.UOUPOpenChairNagruzka = function(chair_id)
   {
@@ -1463,7 +1355,6 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
         name: 'department_name',
         type: 'select',
         bRegex: false,
-        values: $scope.filter_distinct['department_name']
         // bSmart: true
       }, 
       // кафедра
@@ -1490,7 +1381,6 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
         name: 'education_level',
         type: 'select',
         bRegex: false,
-        values: $scope.filter_distinct['education_level'] // ['бакалавриат', 'специалитет', 'магистратура', 'ординатура', 'аспирантура']
       },
       // направление подготовки
       {
@@ -1503,7 +1393,6 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
         name: 'language',
         type: 'select',
         bRegex: false,
-        values: $scope.filter_distinct['language']
       },
       // форма обучения
       {
@@ -1665,7 +1554,6 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
         name: 'department_name',
         type: 'select',
         bRegex: false,
-        values: $scope.filter_distinct['department_name']
         // bSmart: true
       }, 
       // кафедра
@@ -1692,7 +1580,6 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
         name: 'education_level',
         type: 'select',
         bRegex: false,
-        values: $scope.filter_distinct['education_level'] // ['бакалавриат', 'специалитет', 'магистратура', 'ординатура', 'аспирантура']
       },
       // направление подготовки
       {
@@ -1705,7 +1592,6 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
         name: 'language',
         type: 'select',
         bRegex: false,
-        values: $scope.filter_distinct['language']
       },
       // форма обучения
       {
@@ -1932,20 +1818,6 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
         .withColVisStateChange(stateChange)
         // Exclude the last column from the list
         // .withColVisOption('aiExclude', [2])
-        .withColumnFilter({
-            aoColumns: [null, {
-                type: 'select',
-                bRegex: false,
-                values: ['Superman', 'Louis', 'Zed', 'Batman', 'Luke', 'Cartman', 'Test']
-                // bSmart: true
-            }
-            , {
-                type: 'select',
-                bRegex: false,
-                values: ['Whateveryournameis', 'Test', 'Yoda', 'Titi', 'Kyle', 'Bar', 'Whateveryournameis']
-            }
-          ]
-        })
         .withOption('initComplete', function(settings, json) {
           // Скрываем индикатор когда загрузка завершена);
           $scope.$apply(function() {

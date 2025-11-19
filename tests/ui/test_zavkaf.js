@@ -6,6 +6,7 @@ const LOG_FILE = path.resolve(__dirname, 'log.txt');
 const ERR_FILE = path.resolve(__dirname, 'errors.txt');
 const TEST_USER = { login: 'natalya.grigoreva', role: 'Заведующий кафедрой' };
 const WAIT_AFTER_IDLE_MS = Number(process.env.WAIT_AFTER_IDLE_MS || 500);
+const HEADLESS = (process.env.PLAYWRIGHT_HEADLESS || 'false').toLowerCase() === 'true';
 
 const formatTimestamp = () => new Intl.DateTimeFormat('ru-RU', {
   timeZone: 'Europe/Moscow',
@@ -32,7 +33,7 @@ const logError = (message) => {
 
 (async () => {
   const browser = await chromium.launch({
-    headless: false,
+    headless: HEADLESS,
     args: ['--start-maximized']
   });
 
