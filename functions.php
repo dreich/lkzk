@@ -321,7 +321,8 @@ function Authorize($login, $password)
               // EchoLog($clean_login);
               // EchoLog($Person);
               $podrazdelenia_table_name = "podrazdelenia" . date('Y');
-              $ChairsWithThisChief = GetTable($podrazdelenia_table_name, "`chief_id` = $Person[id] AND `pname` LIKE ('Кафедра%')");
+              // has_real_chief означает, что chief действительно является руководителем этого подразделения, а не прописан здесь руководитель вышестоящий
+              $ChairsWithThisChief = GetTable($podrazdelenia_table_name, "`chief_id` = $Person[id] AND `pname` LIKE ('Кафедра%') AND `has_real_chief` = '1'");
 
               include 'connect.php';
 
