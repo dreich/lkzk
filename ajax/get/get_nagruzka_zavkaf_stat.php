@@ -49,6 +49,7 @@ if ($c_roles)
   //       GROUP BY sotrudniki.person_id
   //       "); 
 
+  
 
   $sql = "SELECT `lecturer_fio`, xml_content_of_load.Amount
           FROM `nagruzka` 
@@ -66,21 +67,20 @@ if ($c_roles)
         ]
     ];
     
-    foreach ($Nagruzka as $item) {
-        $fio = $item['lecturer_fio'];
-        
-        if ($fio === 'Вакансия') {
-            $stats['discipline']['assigned_on_vacancy'] += $item['Amount'];
-        }
-
-        if ($fio == '') {
-            $stats['discipline']['not_assigned'] += $item['Amount'];
-        } else {
-            $stats['discipline']['assigned'] += $item['Amount'];
-        }
-
-        $stats['discipline']['total'] += $item['Amount'];
+foreach ($Nagruzka as $item) {
+    $fio = $item['lecturer_fio'];
+    
+    if ($fio === 'Вакансия') {
+        $stats['discipline']['assigned_on_vacancy'] += $item['Amount'];
+    } elseif (!$fio) {
+        $stats['discipline']['not_assigned'] += $item['Amount'];
+    } else {
+        $stats['discipline']['assigned'] += $item['Amount'];
     }
+    
+    $stats['discipline']['total'] += $item['Amount'];
+}
+
   
 }
 

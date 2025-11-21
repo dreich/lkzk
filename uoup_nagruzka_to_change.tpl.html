@@ -1,6 +1,144 @@
+<style>
+  .admin-change-cards-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .admin-change-card {
+    flex: 1 1 260px;
+    min-width: 220px;
+    background: #f9fafc;
+    border: 1px solid #dfe3ea;
+    border-radius: 10px;
+    padding: 16px;
+
+    cursor: pointer;
+    transition: box-shadow 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .admin-change-card:hover {
+    box-shadow: 0 6px 18px rgba(25, 59, 104, 0.12);
+    border-color: #b7c4d8;
+    transform: translateY(-2px);
+  }
+
+  .admin-change-card.active {
+    border-color: #2f74ff;
+    box-shadow: 0 0 0 2px rgba(47, 116, 255, 0.2);
+    background: #f4f8ff;
+  }
+
+  .admin-change-card__title {
+    font-weight: 600;
+    color: #20304a;
+    margin-bottom: 8px;
+  }
+
+  .admin-change-card__count {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: #4c5c74;
+  }
+
+  .admin-change-card__count-bubble {
+    background: #e7edfb;
+    color: #2f4c9c;
+    padding: 2px 10px;
+    border-radius: 20px;
+    font-weight: 600;
+  }
+
+  .chair-comments-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-bottom: 20px;
+    border: 1px solid #dfe3ea;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .chair-comments-table th,
+  .chair-comments-table td {
+    padding: 10px 12px;
+    font-size: 14px;
+  }
+
+  .chair-comments-table thead {
+    background: #f3f6fb;
+    color: #2f4c9c;
+    text-transform: uppercase;
+    font-size: 12px;
+    letter-spacing: 0.04em;
+  }
+
+  .chair-comments-table tbody tr {
+    cursor: pointer;
+    transition: background 0.15s ease;
+  }
+
+  .chair-comments-table tbody tr:hover {
+    background: #f9fbff;
+  }
+
+  .chair-comments-table tr.active {
+    background: #f0f6ff;
+  }
+
+  @media (max-width: 768px) {
+    .admin-change-card {
+      flex: 1 1 100%;
+    }
+  }
+</style>
+
+<div class="admin-change-cards-wrapper" ng-if="adminChangeChairs.length">
+  <div class="admin-change-card"
+       ng-repeat="chair in adminChangeChairs"
+       ng-class="{'active': selectedAdminChangeChair && selectedAdminChangeChair.chair_id === chair.chair_id}"
+       ng-click="toggleAdminChangeChair(chair)">
+    <div class="admin-change-card__title">{{chair.chair_name}}</div>
+    <div class="admin-change-card__count">
+      <span>Запросов:</span>
+      <span class="admin-change-card__count-bubble">{{chair.count}}</span>
+    </div>
+  </div>
+</div>
+
+<div ng-if="selectedAdminChangeChair && !chairComments.length" class="alert alert-info py-2">
+  Для выбранной кафедры нет сохранённых комментариев.
+</div>
+
+<div ng-if="chairComments.length">
+  <table class="chair-comments-table">
+    <thead>
+      <tr>
+        <th>Дата</th>
+        <th>Комментарий / сообщение</th>
+        <th style="width:90px">Строк</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="comment in chairComments"
+          ng-class="{'active': selectedChairComment && selectedChairComment.key === comment.key}"
+          ng-click="toggleChairComment(comment)">
+        <td>{{comment.dateFormatted}}</td>
+        <td>{{comment.messageRaw || 'Комментарий не указан'}}</td>
+        <td>{{comment.count}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
 <table id="DataTables_Table_nagruzka_to_change" datatable="ng" dt-options="dtOptions"  dt-column-defs="dtColumnDefs" dt-instance="dtInstance" class="dataTable row-border hover display table "  style='margin: 0 0 ;width:100%; '>
   <thead>
-
     <tr>
       <th style="width: 20px" ng-if="system_mode != 'mode_archive'"></th>
       <th>Факультет</th>
@@ -25,10 +163,9 @@
     </tr>
   </thead>
 
-  <tbody>
-     <!-- ng-click="ShowPopup(person)" -->
+  <tbody ng-hide="isFiltering">
+    <tr ng-repeat="row in filteredNagruzka" ng-show="row.status == 'require_admin_change'" >
       <!-- | orderBy:['-selected', 'type', 'fio'] -->
-    <tr ng-repeat="row in nagruzka" ng-show="row.status == 'require_admin_change'" >
       <td ng-if="system_mode != 'mode_archive'">
         <button class="btn btn-primary btn-xs" ng-click="UOUPDeclineToChange(row)">Отклонить</button>
         <button class="btn btn-success btn-xs mt-1" ng-click="UOUPDoneToChange(row)">Выполнено</button>

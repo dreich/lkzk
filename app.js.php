@@ -119,35 +119,23 @@ function createSelectFilter(column, footerCell)
 // columns - описание столбцов таблицы
 function createCustomFilters(table_id, table, columns) 
 {
-  CL('createCustomFilters');
-
-  // const table = $scope.dtInstance.dataTable.DataTable();
-
-  // Очистить все фильтры в футере
+  // Очищаем старые фильтры перед созданием новых
   $('#' + table_id + ' tfoot th').each(function() {
     $(this).find('select, input').remove();
   });
 
-  // Создать фильтры для видимых столбцов
   table.columns(':visible').every(function(columnIndex) {
     const column = this;
-
-    // возьмём th с ind = columnIndex
     const footerCell = $('#' + table_id + ' tfoot th[ind="' + columnIndex + '"]');
     const colSettings = columns[columnIndex];
 
-    // if (columnIndex == 0)
-    // {
-    //   CL(colSettings)
-    // }
-    if (colSettings && colSettings.type === 'select') // && colSettings.values) 
+    if (colSettings && colSettings.type === 'select')
     {
       createSelectFilter(column, footerCell);
     } 
     else if (colSettings && colSettings.type === 'input')
     {
-      // Создаем input для остальных типов или если не select тип
-      const input = $('<input class="search_init text_filter form-control" type="text"  />')
+      const input = $('<input class="search_init text_filter form-control" type="text" />')
         .appendTo(footerCell)
         .on('keyup change', function() {
           if(column.search() !== this.value) {
@@ -1449,6 +1437,10 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
             $scope.isLoading = false;
         });
       })
+    .withOption('drawCallback', function(settings) {
+        const table = angular.element('#DataTables_Table_uoup_chairs_refused').dataTable().api();
+        createCustomFilters('DataTables_Table_uoup_chairs_refused', table, columns);
+      })
     ;
 
   // Возможность отключить сортировку и видимость столбцов по-умолчанию
@@ -1525,7 +1517,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
   
 })
 
-.controller ('UOUPNagruzkaToChangeCtrl', function($rootScope, $scope, $http, DTOptionsBuilder, DTColumnBuilder, DTColumnDefBuilder, ngDialog, $templateCache, $resource, uoup_nagruzka, system_mode)
+.controller ('UOUPNagruzkaToChangeCtrl', function($rootScope, $scope, $http, $filter, DTOptionsBuilder, DTColumnBuilder, DTColumnDefBuilder, ngDialog, $templateCache, $resource, uoup_nagruzka, system_mode)
 {
   CL('UOUPNagruzkaToChangeCtrl');
 
@@ -1542,10 +1534,177 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
   $scope.dtInstance = {};
   // заглушка
   $scope.filter_distinct = {};
-  // $scope.group_action = {};
-  $scope.nagruzka = uoup_nagruzka.data;
 
-  // CL($scope.nagruzka);
+  $scope.allNagruzka = Array.isArray(uoup_nagruzka.data) ? angular.copy(uoup_nagruzka.data) : [];
+  $scope.filteredNagruzka = angular.copy($scope.allNagruzka);
+  $scope.adminChangeChairs = buildAdminChangeChairs($scope.allNagruzka);
+  $scope.selectedAdminChangeChair = null;
+  $scope.selectedChairComment = null;
+  $scope.chairComments = [];
+  $scope.isFiltering = false;
+
+  function buildAdminChangeChairs(rows)
+  {
+    if (!Array.isArray(rows) || !rows.length) return [];
+
+    const chairs = {};
+
+    rows.forEach(function(row)
+    {
+      const chairId = (row.chair_id || '').toString();
+      if (!chairId) return;
+
+      if (!chairs[chairId])
+      {
+        const chairTitle = (row.chair_name || '').replace(/<br\s*\/?\>/gi, ', ');
+        chairs[chairId] = {
+          chair_id: chairId,
+          chair_name: chairTitle || 'Кафедра не указана',
+          count: 0
+        };
+      }
+
+      chairs[chairId].count += 1;
+    });
+
+    return Object.values(chairs).sort(function(a, b)
+    {
+      return a.chair_name.localeCompare(b.chair_name, 'ru');
+    });
+  }
+
+  function buildChairComments(rows)
+  {
+    if (!Array.isArray(rows) || !rows.length) return [];
+
+    const comments = {};
+
+    rows.forEach(function(row)
+    {
+      const dateRaw = row.require_admin_change_date || '';
+      const messageRaw = row.require_admin_change_message || '';
+      const key = dateRaw + '__' + messageRaw;
+
+      if (!comments[key])
+      {
+        comments[key] = {
+          key: key,
+          dateRaw: dateRaw,
+          dateFormatted: dateRaw ? $filter('jsDate')(dateRaw) : 'Дата не указана',
+          messageRaw: messageRaw,
+          count: 0
+        };
+      }
+
+      comments[key].count += 1;
+    });
+
+    return Object.values(comments).sort(function(a, b)
+    {
+      if (a.dateRaw === b.dateRaw)
+      {
+        return a.messageRaw.localeCompare(b.messageRaw, 'ru');
+      }
+
+      return (b.dateRaw || '').localeCompare(a.dateRaw || '');
+    });
+  }
+
+  function applyFilters()
+  {
+    let filtered = angular.copy($scope.allNagruzka);
+
+    if ($scope.selectedAdminChangeChair)
+    {
+      filtered = filtered.filter(function(row)
+      {
+        return row.chair_id == $scope.selectedAdminChangeChair.chair_id;
+      });
+    }
+
+    if ($scope.selectedChairComment)
+    {
+      filtered = filtered.filter(function(row)
+      {
+        return row.require_admin_change_date === $scope.selectedChairComment.dateRaw &&
+               row.require_admin_change_message === $scope.selectedChairComment.messageRaw;
+      });
+    }
+
+    $scope.filteredNagruzka = filtered;
+  }
+
+  function rerenderDataTable() {
+    if ($scope.dtInstance && $scope.dtInstance.rerender) {
+      $scope.dtInstance.rerender();
+    }
+  }
+
+$scope.toggleAdminChangeChair = function(chair)
+{
+  if (!chair) return;
+
+  $scope.ClearGreenTableFilters($scope.dtInstance, $scope.filter_distinct);
+
+  // Очищаем фильтры перед сменой данных
+  $('#DataTables_Table_nagruzka_to_change tfoot th').each(function() {
+    $(this).find('select, input').remove();
+  });
+
+  $scope.isFiltering = true;
+  $scope.$evalAsync(function() {
+    if ($scope.selectedAdminChangeChair && $scope.selectedAdminChangeChair.chair_id === chair.chair_id)
+    {
+      $scope.selectedAdminChangeChair = null;
+      $scope.selectedChairComment = null;
+      $scope.chairComments = [];
+    }
+    else
+    {
+      $scope.selectedAdminChangeChair = chair;
+      $scope.selectedChairComment = null;
+      $scope.chairComments = buildChairComments(
+        $scope.allNagruzka.filter(function(row)
+        {
+          return row.chair_id == chair.chair_id;
+        })
+      );
+    }
+    applyFilters();
+    $scope.isFiltering = false;
+
+    // Перерисовываем таблицу, чтобы сработал drawCallback
+    if ($scope.dtInstance.DataTable) {
+      $scope.dtInstance.DataTable.draw();
+    }
+  });
+};
+
+$scope.toggleChairComment = function(comment)
+{
+  if (!comment || !$scope.selectedAdminChangeChair) return;
+
+  $scope.ClearGreenTableFilters($scope.dtInstance, $scope.filter_distinct);
+
+  $scope.isFiltering = true;
+  $scope.$evalAsync(function() {
+    if ($scope.selectedChairComment && $scope.selectedChairComment.key === comment.key)
+    {
+      $scope.selectedChairComment = null;
+    }
+    else
+    {
+      $scope.selectedChairComment = comment;
+    }
+    applyFilters();
+    $scope.isFiltering = false;
+
+    if ($scope.dtInstance.DataTable) {
+      $scope.dtInstance.DataTable.columns.adjust().draw();
+      angular.element('#DataTables_Table_nagruzka_to_change').trigger('column-visibility.dt');
+    }
+  });
+};
 
   const columns = [
       null, 
@@ -1629,52 +1788,29 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
 
   // $scope.persons = $resource('data.json').query();
 
-  $scope.dtOptions = DTOptionsBuilder //.fromSource('data.json')
-    .newOptions()
+  $scope.dtOptions = DTOptionsBuilder.newOptions()
     .withOption('stateSave', true)
-    // .withOption('aoColumns', [{bVisible': false}])
     .withPaginationType('full_numbers')
     .withColVis()
-    // Add a state change function
-    // .withColVisStateChange(stateChange)
-    // Exclude the last column from the list
     .withColVisOption('aiExclude', [0])
-    // .withColumnFilter({
-    //     aoColumns: columns
-    // })
     .withOption('initComplete', function(settings, json) {
-      // Скрываем индикатор когда загрузка завершена);
       $scope.$apply(function() {
-          $scope.isLoading = false;
+        $scope.isLoading = false;
       });
-    })
-    ;
+
+      const table = this.api();
+      createCustomFilters('DataTables_Table_nagruzka_to_change', table, columns);
+
+      table.on('column-visibility.dt', function() {
+        createCustomFilters('DataTables_Table_nagruzka_to_change', table, columns);
+      });
+    });
 
   // Возможность отключить сортировку и видимость столбцов по-умолчанию
   $scope.dtColumnDefs = [
     DTColumnDefBuilder.newColumnDef(0).notSortable(), // notVisible()
   ];
 
-  // Наблюдение за изменением dtInstance, чтобы сделать некоторые инициализации
-  $scope.$watch('dtInstance', function(newValue) 
-  {
-    if (newValue && newValue.DataTable) 
-    {
-      const table = newValue.DataTable;
-
-      // CL(table);
-      // These are the same
-      // CL($scope.dtInstance.dataTable.DataTable());
-
-      // Инициализация фильтров при старте
-      createCustomFilters('DataTables_Table_nagruzka_to_change', table, columns);
-
-      // Сброс и пересоздание фильтров при изменении видимости столбцов
-      table.on('column-visibility.dt', function() {
-        createCustomFilters('DataTables_Table_nagruzka_to_change', table, columns);
-      });
-    }
-  });
 
   // Отклонить запрос зав. каф. на изменение
   // комментарий обязателен

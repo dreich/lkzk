@@ -2371,7 +2371,7 @@ function GetNagruzkaBaseQuery($dop_sql)
   //   $chair_sql = "xml_content_of_load.UID_Chair = '$chair_uid' AND";
   // }
 
-  return $_nagruzka_base_query = 
+  $_nagruzka_base_query = 
   "
   SELECT 
   xml_content_of_load.UID as original_uid,
@@ -2402,7 +2402,8 @@ function GetNagruzkaBaseQuery($dop_sql)
   FROM xml_content_of_load
   JOIN xml_content_of_load_staff ON 
   # SUBSTRING(xml_content_of_load.UID, 1, LENGTH(xml_content_of_load.UID) - LOCATE('.', REVERSE(xml_content_of_load.UID))) = xml_content_of_load_staff.UID_ContentOfLoad
-  xml_content_of_load.base_uid = xml_content_of_load_staff.UID_ContentOfLoad
+  #xml_content_of_load.base_uid = xml_content_of_load_staff.UID_ContentOfLoad
+  xml_content_of_load.UID = xml_content_of_load_staff.UID_ContentOfLoad
   LEFT JOIN xml_group ON xml_group.`UID` = xml_content_of_load_staff.`UID_Group`
   LEFT JOIN xml_discipline ON xml_discipline.UID = xml_content_of_load.UID_Discipline
   LEFT JOIN xml_faculty ON xml_faculty.UID = xml_content_of_load_staff.`UID_FacultyOwner`
@@ -2417,6 +2418,10 @@ function GetNagruzkaBaseQuery($dop_sql)
     $dop_sql
     #LIMIT 1000
   ";
+
+  EchoLog($_nagruzka_base_query);
+
+  return $_nagruzka_base_query;
 
 }
 

@@ -42,6 +42,19 @@ if ($c_roles['uoup'])
   
 }
 
+// Получим из лога последнее собщения action_name = 'require_admin_change'
+if ($Nagruzka)
+{
+  foreach ($Nagruzka as &$nagruzka)
+  {
+    $History = GetSQL("SELECT * FROM `log` WHERE `action_name` = 'require_admin_change' AND `load_base_UID` = '$nagruzka[base_uid]' ORDER BY `id` DESC LIMIT 1");
+
+    $nagruzka['require_admin_change_message'] = $History[0]['message'];
+    // оставить дату без времени
+    $nagruzka['require_admin_change_date'] = date('Y-m-d', strtotime($History[0]['datetime']));
+
+  }
+}
 
 
 
