@@ -1517,7 +1517,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
   
 })
 
-.controller ('UOUPNagruzkaToChangeCtrl', function($rootScope, $scope, $http, $filter, DTOptionsBuilder, DTColumnBuilder, DTColumnDefBuilder, ngDialog, $templateCache, $resource, uoup_nagruzka, system_mode)
+.controller ('UOUPNagruzkaToChangeCtrl', function($rootScope, $scope, $http, $filter, DTOptionsBuilder, DTColumnBuilder, DTColumnDefBuilder, ngDialog, $templateCache, $resource, $timeout, uoup_nagruzka, system_mode)
 {
   CL('UOUPNagruzkaToChangeCtrl');
 
@@ -1642,6 +1642,8 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
 
 $scope.toggleAdminChangeChair = function(chair)
 {
+  $scope.chairComments = [];
+  
   if (!chair) return;
 
   $scope.ClearGreenTableFilters($scope.dtInstance, $scope.filter_distinct);
@@ -1652,7 +1654,11 @@ $scope.toggleAdminChangeChair = function(chair)
   });
 
   $scope.isFiltering = true;
-  $scope.$evalAsync(function() {
+
+  $timeout(function() {
+    CL('evalAsync');
+    CL($scope.isFiltering);
+
     if ($scope.selectedAdminChangeChair && $scope.selectedAdminChangeChair.chair_id === chair.chair_id)
     {
       $scope.selectedAdminChangeChair = null;
@@ -1677,7 +1683,7 @@ $scope.toggleAdminChangeChair = function(chair)
     if ($scope.dtInstance.DataTable) {
       $scope.dtInstance.DataTable.draw();
     }
-  });
+  }, 0);
 };
 
 $scope.toggleChairComment = function(comment)
