@@ -110,7 +110,7 @@
           <th>Курс</th>
           <th>Количество часов</th>
           <th>Преподаватель</th>
-          <!-- <th></th> -->
+          <th>Комментарий</th>
           <!-- <th></th> -->
 
         </tr>
@@ -131,13 +131,13 @@
           <td ng-bind-html="row.group_name" ng-click="NagruzkaRowClick(row)">
           </td>
           <td ng-click="NagruzkaRowClick(row)">{{row.education_level}}</td>
-          <td ng-click="NagruzkaRowClick(row)">{{row.napravlenie}}</td>
+          <td ng-bind-html="row.napravlenie" ng-click="NagruzkaRowClick(row)"></td>
           <td ng-click="NagruzkaRowClick(row)">{{row.language}}</td>
           <td ng-click="NagruzkaRowClick(row)">{{row.form_obuchenia}}</td>
           <td ng-click="NagruzkaRowClick(row)">{{row.UID_Semester}}</td>
           <td ng-click="NagruzkaRowClick(row)">{{row.StudentAmount}}</td>
           <td ng-click="NagruzkaRowClick(row)">{{row.kind_of_work}}</td>
-          <td ng-click="NagruzkaRowClick(row)">{{row.napravlennost}}</td>
+          <td ng-bind-html="row.napravlennost" ng-click="NagruzkaRowClick(row)"></td>
           <td ng-click="NagruzkaRowClick(row)">{{row.UID_Course}}</td>
           <td ng-click="NagruzkaRowClick(row)">{{row.amount}}</td>
           <td>
@@ -166,9 +166,9 @@
               </div>
             </div>
           </td>
-    <!--         <td>
-
-          </td> -->
+          <td>
+            {{row.comment_to_admin}}
+          </td>
         </tr>
 
       </tbody>
@@ -198,6 +198,7 @@
             <th ind="13"></th>
             <th ind="14"></th>
             <th ind="15"></th>
+            <th ind="16"></th>
           </tr>
         </tfoot>
 
@@ -220,7 +221,7 @@
     </div>
     
     Укажите, что сделать с выбранными строками:
-    <select class="form-select w-25" ng-model="group_action.action" >
+    <select class="form-select w-25" ng-model="group_action.action" ng-change="ChangeGroupAction()">
       <option value="assign_to_sotrudnik">Распределить всё на одного сотрудника</option>
       <option value="assign_to_vacancy">Распределить всё на «вакансию»</option>
       <option value="refuse_nagruzka">Отказаться от выбранной нагрузки</option>

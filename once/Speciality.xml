@@ -13,6 +13,15 @@
 					<prop_value prop_name="UID_KindOfEducaion" value="0"></prop_value>
 				</Collection>
 			</Object>
+			<Object uid="25031.281474976710719" name="Информационные системы и технологии" class_id="Speciality">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976710719"></prop_value>
+					<prop_value prop_name="Name" value="Информационные системы и технологии"></prop_value>
+					<prop_value prop_name="Abbr" value="+"></prop_value>
+					<prop_value prop_name="Code" value="09.03.02"></prop_value>
+					<prop_value prop_name="UID_KindOfEducaion" value="0"></prop_value>
+				</Collection>
+			</Object>
 			<Object uid="25031.281474976710720" name="Математика" class_id="Speciality">
 				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
 					<prop_value prop_name="UID" value="25031.281474976710720"></prop_value>
@@ -118,6 +127,15 @@
 					<prop_value prop_name="Name" value="Туризм"></prop_value>
 					<prop_value prop_name="Abbr" value="+"></prop_value>
 					<prop_value prop_name="Code" value="43.03.02"></prop_value>
+					<prop_value prop_name="UID_KindOfEducaion" value="0"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976710742" name="История" class_id="Speciality">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976710742"></prop_value>
+					<prop_value prop_name="Name" value="История"></prop_value>
+					<prop_value prop_name="Abbr" value="+"></prop_value>
+					<prop_value prop_name="Code" value="46.03.01"></prop_value>
 					<prop_value prop_name="UID_KindOfEducaion" value="0"></prop_value>
 				</Collection>
 			</Object>

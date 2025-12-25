@@ -140,6 +140,14 @@
 					<prop_value prop_name="Complexity" value="1"></prop_value>
 				</Collection>
 			</Object>
+			<Object uid="26003.281474976710667" name="Курсовой проект" class_id="KindOfWork">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26003.281474976710667"></prop_value>
+					<prop_value prop_name="Name" value="Курсовой проект"></prop_value>
+					<prop_value prop_name="Unit" value="1"></prop_value>
+					<prop_value prop_name="Complexity" value="1"></prop_value>
+				</Collection>
+			</Object>
 			<Object uid="26003.281474976710691" name="Курсовой проект СПО" class_id="KindOfWork">
 				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
 					<prop_value prop_name="UID" value="26003.281474976710691"></prop_value>
@@ -208,6 +216,14 @@
 				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
 					<prop_value prop_name="UID" value="26003.281474976710748"></prop_value>
 					<prop_value prop_name="Name" value="Руководство курсовой работой (проектом)"></prop_value>
+					<prop_value prop_name="Unit" value="0"></prop_value>
+					<prop_value prop_name="Complexity" value="1"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26003.281474976710754" name="Руководство соискателем" class_id="KindOfWork">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26003.281474976710754"></prop_value>
+					<prop_value prop_name="Name" value="Руководство соискателем"></prop_value>
 					<prop_value prop_name="Unit" value="0"></prop_value>
 					<prop_value prop_name="Complexity" value="1"></prop_value>
 				</Collection>

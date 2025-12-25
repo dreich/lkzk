@@ -558,7 +558,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="11"></prop_value>
-					<prop_value prop_name="Amount" value="11"></prop_value>
+					<prop_value prop_name="Amount" value="10"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2021"></prop_value>
 					<prop_value prop_name="KindEducation" value="0"></prop_value>
@@ -578,7 +578,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="2"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="15"></prop_value>
-					<prop_value prop_name="Amount" value="15"></prop_value>
+					<prop_value prop_name="Amount" value="14"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2021"></prop_value>
 					<prop_value prop_name="KindEducation" value="0"></prop_value>
@@ -818,7 +818,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="1"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="15"></prop_value>
-					<prop_value prop_name="Amount" value="17"></prop_value>
+					<prop_value prop_name="Amount" value="16"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2021"></prop_value>
 					<prop_value prop_name="KindEducation" value="0"></prop_value>
@@ -978,7 +978,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="26"></prop_value>
-					<prop_value prop_name="Amount" value="27"></prop_value>
+					<prop_value prop_name="Amount" value="26"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2021"></prop_value>
 					<prop_value prop_name="KindEducation" value="0"></prop_value>
@@ -1084,6 +1084,46 @@
 					<prop_value prop_name="KindEducation" value="0"></prop_value>
 					<prop_value prop_name="UID_Speciality" value="25031.281474976743767"></prop_value>
 					<prop_value prop_name="UID_Specialization" value="26001.281474976711551"></prop_value>
+					<prop_value prop_name="Kind" value="0"></prop_value>
+					<prop_value prop_name="Archive" value="0"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26007.281474976732221" name="0522Б1ИС1" class_id="Group">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26007.281474976732221"></prop_value>
+					<prop_value prop_name="Name" value="0522Б1ИС1"></prop_value>
+					<prop_value prop_name="Number" value="0522Б1ИС1"></prop_value>
+					<prop_value prop_name="UID_Course" value="4 курс"></prop_value>
+					<prop_value prop_name="UID_Faculty" value="25031.281474976710966"></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="0"></prop_value>
+					<prop_value prop_name="Amount" value="0"></prop_value>
+					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
+					<prop_value prop_name="YearOfEntry" value="2022"></prop_value>
+					<prop_value prop_name="KindEducation" value="0"></prop_value>
+					<prop_value prop_name="UID_Speciality" value="25031.281474976710719"></prop_value>
+					<prop_value prop_name="UID_Specialization" value="26001.281474976711431"></prop_value>
+					<prop_value prop_name="Kind" value="0"></prop_value>
+					<prop_value prop_name="Archive" value="0"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26007.281474976732222" name="0522Б1ИС2" class_id="Group">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26007.281474976732222"></prop_value>
+					<prop_value prop_name="Name" value="0522Б1ИС2"></prop_value>
+					<prop_value prop_name="Number" value="0522Б1ИС2"></prop_value>
+					<prop_value prop_name="UID_Course" value="4 курс"></prop_value>
+					<prop_value prop_name="UID_Faculty" value="25031.281474976710966"></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="0"></prop_value>
+					<prop_value prop_name="Amount" value="0"></prop_value>
+					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
+					<prop_value prop_name="YearOfEntry" value="2022"></prop_value>
+					<prop_value prop_name="KindEducation" value="0"></prop_value>
+					<prop_value prop_name="UID_Speciality" value="25031.281474976710719"></prop_value>
+					<prop_value prop_name="UID_Specialization" value="26001.281474976711431"></prop_value>
 					<prop_value prop_name="Kind" value="0"></prop_value>
 					<prop_value prop_name="Archive" value="0"></prop_value>
 				</Collection>
@@ -1278,7 +1318,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="20"></prop_value>
-					<prop_value prop_name="Amount" value="24"></prop_value>
+					<prop_value prop_name="Amount" value="22"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2022"></prop_value>
 					<prop_value prop_name="KindEducation" value="0"></prop_value>
@@ -1398,7 +1438,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="2"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="25"></prop_value>
-					<prop_value prop_name="Amount" value="23"></prop_value>
+					<prop_value prop_name="Amount" value="22"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2022"></prop_value>
 					<prop_value prop_name="KindEducation" value="0"></prop_value>
@@ -1458,7 +1498,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="16"></prop_value>
-					<prop_value prop_name="Amount" value="17"></prop_value>
+					<prop_value prop_name="Amount" value="15"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2022"></prop_value>
 					<prop_value prop_name="KindEducation" value="0"></prop_value>
@@ -1758,7 +1798,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="18"></prop_value>
-					<prop_value prop_name="Amount" value="28"></prop_value>
+					<prop_value prop_name="Amount" value="27"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2022"></prop_value>
 					<prop_value prop_name="KindEducation" value="0"></prop_value>
@@ -2178,7 +2218,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="2"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="25"></prop_value>
-					<prop_value prop_name="Amount" value="25"></prop_value>
+					<prop_value prop_name="Amount" value="24"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2022"></prop_value>
 					<prop_value prop_name="KindEducation" value="0"></prop_value>
@@ -2478,7 +2518,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="11"></prop_value>
-					<prop_value prop_name="Amount" value="29"></prop_value>
+					<prop_value prop_name="Amount" value="28"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2022"></prop_value>
 					<prop_value prop_name="KindEducation" value="1"></prop_value>
@@ -2498,7 +2538,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="11"></prop_value>
-					<prop_value prop_name="Amount" value="17"></prop_value>
+					<prop_value prop_name="Amount" value="16"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2022"></prop_value>
 					<prop_value prop_name="KindEducation" value="1"></prop_value>
@@ -2738,7 +2778,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="16"></prop_value>
-					<prop_value prop_name="Amount" value="17"></prop_value>
+					<prop_value prop_name="Amount" value="13"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2022"></prop_value>
 					<prop_value prop_name="KindEducation" value="0"></prop_value>
@@ -3078,7 +3118,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="27"></prop_value>
-					<prop_value prop_name="Amount" value="27"></prop_value>
+					<prop_value prop_name="Amount" value="25"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2023"></prop_value>
 					<prop_value prop_name="KindEducation" value="0"></prop_value>
@@ -3098,7 +3138,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="29"></prop_value>
-					<prop_value prop_name="Amount" value="28"></prop_value>
+					<prop_value prop_name="Amount" value="27"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2023"></prop_value>
 					<prop_value prop_name="KindEducation" value="0"></prop_value>
@@ -3418,7 +3458,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="1"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="23"></prop_value>
-					<prop_value prop_name="Amount" value="20"></prop_value>
+					<prop_value prop_name="Amount" value="21"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2023"></prop_value>
 					<prop_value prop_name="KindEducation" value="0"></prop_value>
@@ -3478,7 +3518,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="1"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="25"></prop_value>
-					<prop_value prop_name="Amount" value="27"></prop_value>
+					<prop_value prop_name="Amount" value="26"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2023"></prop_value>
 					<prop_value prop_name="KindEducation" value="1"></prop_value>
@@ -3618,7 +3658,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="1"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="13"></prop_value>
-					<prop_value prop_name="Amount" value="12"></prop_value>
+					<prop_value prop_name="Amount" value="11"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2023"></prop_value>
 					<prop_value prop_name="KindEducation" value="1"></prop_value>
@@ -3778,7 +3818,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="18"></prop_value>
-					<prop_value prop_name="Amount" value="18"></prop_value>
+					<prop_value prop_name="Amount" value="17"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2023"></prop_value>
 					<prop_value prop_name="KindEducation" value="0"></prop_value>
@@ -3818,7 +3858,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="1"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="12"></prop_value>
-					<prop_value prop_name="Amount" value="13"></prop_value>
+					<prop_value prop_name="Amount" value="12"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2023"></prop_value>
 					<prop_value prop_name="KindEducation" value="1"></prop_value>
@@ -4158,7 +4198,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="17"></prop_value>
-					<prop_value prop_name="Amount" value="14"></prop_value>
+					<prop_value prop_name="Amount" value="13"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2022"></prop_value>
 					<prop_value prop_name="KindEducation" value="0"></prop_value>
@@ -4298,7 +4338,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="11"></prop_value>
-					<prop_value prop_name="Amount" value="13"></prop_value>
+					<prop_value prop_name="Amount" value="12"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2022"></prop_value>
 					<prop_value prop_name="KindEducation" value="0"></prop_value>
@@ -4338,7 +4378,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="12"></prop_value>
-					<prop_value prop_name="Amount" value="12"></prop_value>
+					<prop_value prop_name="Amount" value="11"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2022"></prop_value>
 					<prop_value prop_name="KindEducation" value="0"></prop_value>
@@ -4418,7 +4458,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="15"></prop_value>
-					<prop_value prop_name="Amount" value="15"></prop_value>
+					<prop_value prop_name="Amount" value="14"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2021"></prop_value>
 					<prop_value prop_name="KindEducation" value="0"></prop_value>
@@ -4458,7 +4498,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="13"></prop_value>
-					<prop_value prop_name="Amount" value="12"></prop_value>
+					<prop_value prop_name="Amount" value="11"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2021"></prop_value>
 					<prop_value prop_name="KindEducation" value="0"></prop_value>
@@ -4898,7 +4938,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="16"></prop_value>
-					<prop_value prop_name="Amount" value="15"></prop_value>
+					<prop_value prop_name="Amount" value="14"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2022"></prop_value>
 					<prop_value prop_name="KindEducation" value="0"></prop_value>
@@ -4938,7 +4978,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="14"></prop_value>
-					<prop_value prop_name="Amount" value="15"></prop_value>
+					<prop_value prop_name="Amount" value="14"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2022"></prop_value>
 					<prop_value prop_name="KindEducation" value="0"></prop_value>
@@ -4958,7 +4998,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="15"></prop_value>
-					<prop_value prop_name="Amount" value="15"></prop_value>
+					<prop_value prop_name="Amount" value="14"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2022"></prop_value>
 					<prop_value prop_name="KindEducation" value="0"></prop_value>
@@ -5718,7 +5758,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="15"></prop_value>
-					<prop_value prop_name="Amount" value="13"></prop_value>
+					<prop_value prop_name="Amount" value="12"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2023"></prop_value>
 					<prop_value prop_name="KindEducation" value="0"></prop_value>
@@ -5818,7 +5858,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="21"></prop_value>
-					<prop_value prop_name="Amount" value="25"></prop_value>
+					<prop_value prop_name="Amount" value="24"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2023"></prop_value>
 					<prop_value prop_name="KindEducation" value="0"></prop_value>
@@ -5978,7 +6018,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="14"></prop_value>
-					<prop_value prop_name="Amount" value="15"></prop_value>
+					<prop_value prop_name="Amount" value="14"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2023"></prop_value>
 					<prop_value prop_name="KindEducation" value="0"></prop_value>
@@ -6158,7 +6198,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="14"></prop_value>
-					<prop_value prop_name="Amount" value="14"></prop_value>
+					<prop_value prop_name="Amount" value="13"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2023"></prop_value>
 					<prop_value prop_name="KindEducation" value="0"></prop_value>
@@ -6398,7 +6438,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="30"></prop_value>
-					<prop_value prop_name="Amount" value="21"></prop_value>
+					<prop_value prop_name="Amount" value="19"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2023"></prop_value>
 					<prop_value prop_name="KindEducation" value="1"></prop_value>
@@ -6798,7 +6838,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="25"></prop_value>
-					<prop_value prop_name="Amount" value="27"></prop_value>
+					<prop_value prop_name="Amount" value="25"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2023"></prop_value>
 					<prop_value prop_name="KindEducation" value="0"></prop_value>
@@ -6818,7 +6858,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="19"></prop_value>
-					<prop_value prop_name="Amount" value="16"></prop_value>
+					<prop_value prop_name="Amount" value="15"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2023"></prop_value>
 					<prop_value prop_name="KindEducation" value="0"></prop_value>
@@ -7177,7 +7217,7 @@
 					<prop_value prop_name="UID_Faculty" value="25031.281474976757685"></prop_value>
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
-					<prop_value prop_name="PlannedAmount" value="1"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="2"></prop_value>
 					<prop_value prop_name="Amount" value="1"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2023"></prop_value>
@@ -7298,7 +7338,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="7"></prop_value>
-					<prop_value prop_name="Amount" value="7"></prop_value>
+					<prop_value prop_name="Amount" value="6"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2023"></prop_value>
 					<prop_value prop_name="KindEducation" value="3"></prop_value>
@@ -7398,7 +7438,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="9"></prop_value>
-					<prop_value prop_name="Amount" value="9"></prop_value>
+					<prop_value prop_name="Amount" value="7"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2023"></prop_value>
 					<prop_value prop_name="KindEducation" value="3"></prop_value>
@@ -7498,7 +7538,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="6"></prop_value>
-					<prop_value prop_name="Amount" value="7"></prop_value>
+					<prop_value prop_name="Amount" value="6"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2024"></prop_value>
 					<prop_value prop_name="KindEducation" value="1"></prop_value>
@@ -7538,7 +7578,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="7"></prop_value>
-					<prop_value prop_name="Amount" value="7"></prop_value>
+					<prop_value prop_name="Amount" value="6"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2024"></prop_value>
 					<prop_value prop_name="KindEducation" value="1"></prop_value>
@@ -7578,7 +7618,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="7"></prop_value>
-					<prop_value prop_name="Amount" value="7"></prop_value>
+					<prop_value prop_name="Amount" value="4"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2024"></prop_value>
 					<prop_value prop_name="KindEducation" value="1"></prop_value>
@@ -7658,7 +7698,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="18"></prop_value>
-					<prop_value prop_name="Amount" value="18"></prop_value>
+					<prop_value prop_name="Amount" value="17"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2024"></prop_value>
 					<prop_value prop_name="KindEducation" value="1"></prop_value>
@@ -7918,7 +7958,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="10"></prop_value>
-					<prop_value prop_name="Amount" value="9"></prop_value>
+					<prop_value prop_name="Amount" value="8"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2024"></prop_value>
 					<prop_value prop_name="KindEducation" value="1"></prop_value>
@@ -7938,7 +7978,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="12"></prop_value>
-					<prop_value prop_name="Amount" value="11"></prop_value>
+					<prop_value prop_name="Amount" value="10"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2024"></prop_value>
 					<prop_value prop_name="KindEducation" value="1"></prop_value>
@@ -8258,7 +8298,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="29"></prop_value>
-					<prop_value prop_name="Amount" value="29"></prop_value>
+					<prop_value prop_name="Amount" value="28"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2024"></prop_value>
 					<prop_value prop_name="KindEducation" value="0"></prop_value>
@@ -8278,7 +8318,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="26"></prop_value>
-					<prop_value prop_name="Amount" value="25"></prop_value>
+					<prop_value prop_name="Amount" value="24"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2024"></prop_value>
 					<prop_value prop_name="KindEducation" value="0"></prop_value>
@@ -8358,7 +8398,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="1"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="13"></prop_value>
-					<prop_value prop_name="Amount" value="17"></prop_value>
+					<prop_value prop_name="Amount" value="19"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2024"></prop_value>
 					<prop_value prop_name="KindEducation" value="0"></prop_value>
@@ -8578,11 +8618,31 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="14"></prop_value>
-					<prop_value prop_name="Amount" value="14"></prop_value>
+					<prop_value prop_name="Amount" value="12"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2024"></prop_value>
 					<prop_value prop_name="KindEducation" value="0"></prop_value>
 					<prop_value prop_name="UID_Speciality" value="25031.281474976711233"></prop_value>
+					<prop_value prop_name="UID_Specialization" value="26001.0"></prop_value>
+					<prop_value prop_name="Kind" value="0"></prop_value>
+					<prop_value prop_name="Archive" value="0"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26007.281474976736794" name="3424Б1ИО1" class_id="Group">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26007.281474976736794"></prop_value>
+					<prop_value prop_name="Name" value="3424Б1ИО1"></prop_value>
+					<prop_value prop_name="Number" value="3424Б1ИО1"></prop_value>
+					<prop_value prop_name="UID_Course" value="2 курс"></prop_value>
+					<prop_value prop_name="UID_Faculty" value="25031.281474976710801"></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="30"></prop_value>
+					<prop_value prop_name="Amount" value="24"></prop_value>
+					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
+					<prop_value prop_name="YearOfEntry" value="2024"></prop_value>
+					<prop_value prop_name="KindEducation" value="0"></prop_value>
+					<prop_value prop_name="UID_Speciality" value="25031.281474976710742"></prop_value>
 					<prop_value prop_name="UID_Specialization" value="26001.0"></prop_value>
 					<prop_value prop_name="Kind" value="0"></prop_value>
 					<prop_value prop_name="Archive" value="0"></prop_value>
@@ -8698,7 +8758,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="30"></prop_value>
-					<prop_value prop_name="Amount" value="23"></prop_value>
+					<prop_value prop_name="Amount" value="22"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2024"></prop_value>
 					<prop_value prop_name="KindEducation" value="0"></prop_value>
@@ -8718,7 +8778,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="28"></prop_value>
-					<prop_value prop_name="Amount" value="29"></prop_value>
+					<prop_value prop_name="Amount" value="28"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2024"></prop_value>
 					<prop_value prop_name="KindEducation" value="0"></prop_value>
@@ -8738,7 +8798,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="27"></prop_value>
-					<prop_value prop_name="Amount" value="22"></prop_value>
+					<prop_value prop_name="Amount" value="21"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2024"></prop_value>
 					<prop_value prop_name="KindEducation" value="0"></prop_value>
@@ -8758,7 +8818,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="1"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="28"></prop_value>
-					<prop_value prop_name="Amount" value="29"></prop_value>
+					<prop_value prop_name="Amount" value="28"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2024"></prop_value>
 					<prop_value prop_name="KindEducation" value="0"></prop_value>
@@ -8938,7 +8998,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="27"></prop_value>
-					<prop_value prop_name="Amount" value="24"></prop_value>
+					<prop_value prop_name="Amount" value="23"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2024"></prop_value>
 					<prop_value prop_name="KindEducation" value="0"></prop_value>
@@ -8958,7 +9018,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="28"></prop_value>
-					<prop_value prop_name="Amount" value="27"></prop_value>
+					<prop_value prop_name="Amount" value="26"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2024"></prop_value>
 					<prop_value prop_name="KindEducation" value="0"></prop_value>
@@ -8978,7 +9038,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="21"></prop_value>
-					<prop_value prop_name="Amount" value="18"></prop_value>
+					<prop_value prop_name="Amount" value="17"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2024"></prop_value>
 					<prop_value prop_name="KindEducation" value="0"></prop_value>
@@ -9058,7 +9118,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="28"></prop_value>
-					<prop_value prop_name="Amount" value="24"></prop_value>
+					<prop_value prop_name="Amount" value="20"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2024"></prop_value>
 					<prop_value prop_name="KindEducation" value="0"></prop_value>
@@ -9078,7 +9138,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="29"></prop_value>
-					<prop_value prop_name="Amount" value="26"></prop_value>
+					<prop_value prop_name="Amount" value="24"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2024"></prop_value>
 					<prop_value prop_name="KindEducation" value="0"></prop_value>
@@ -9098,7 +9158,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="24"></prop_value>
-					<prop_value prop_name="Amount" value="17"></prop_value>
+					<prop_value prop_name="Amount" value="16"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2024"></prop_value>
 					<prop_value prop_name="KindEducation" value="0"></prop_value>
@@ -9158,12 +9218,32 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="29"></prop_value>
-					<prop_value prop_name="Amount" value="27"></prop_value>
+					<prop_value prop_name="Amount" value="26"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2024"></prop_value>
 					<prop_value prop_name="KindEducation" value="0"></prop_value>
 					<prop_value prop_name="UID_Speciality" value="25031.281474976710746"></prop_value>
 					<prop_value prop_name="UID_Specialization" value="26001.281474976711504"></prop_value>
+					<prop_value prop_name="Kind" value="0"></prop_value>
+					<prop_value prop_name="Archive" value="0"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26007.281474976737166" name="3424Б1ИО2" class_id="Group">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26007.281474976737166"></prop_value>
+					<prop_value prop_name="Name" value="3424Б1ИО2"></prop_value>
+					<prop_value prop_name="Number" value="3424Б1ИО2"></prop_value>
+					<prop_value prop_name="UID_Course" value="2 курс"></prop_value>
+					<prop_value prop_name="UID_Faculty" value="25031.281474976710801"></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="30"></prop_value>
+					<prop_value prop_name="Amount" value="27"></prop_value>
+					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
+					<prop_value prop_name="YearOfEntry" value="2024"></prop_value>
+					<prop_value prop_name="KindEducation" value="0"></prop_value>
+					<prop_value prop_name="UID_Speciality" value="25031.281474976710742"></prop_value>
+					<prop_value prop_name="UID_Specialization" value="26001.0"></prop_value>
 					<prop_value prop_name="Kind" value="0"></prop_value>
 					<prop_value prop_name="Archive" value="0"></prop_value>
 				</Collection>
@@ -9218,7 +9298,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="25"></prop_value>
-					<prop_value prop_name="Amount" value="22"></prop_value>
+					<prop_value prop_name="Amount" value="21"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2024"></prop_value>
 					<prop_value prop_name="KindEducation" value="0"></prop_value>
@@ -9258,7 +9338,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="13"></prop_value>
-					<prop_value prop_name="Amount" value="14"></prop_value>
+					<prop_value prop_name="Amount" value="13"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2024"></prop_value>
 					<prop_value prop_name="KindEducation" value="1"></prop_value>
@@ -9318,7 +9398,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="8"></prop_value>
-					<prop_value prop_name="Amount" value="7"></prop_value>
+					<prop_value prop_name="Amount" value="6"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2024"></prop_value>
 					<prop_value prop_name="KindEducation" value="1"></prop_value>
@@ -9358,7 +9438,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="15"></prop_value>
-					<prop_value prop_name="Amount" value="13"></prop_value>
+					<prop_value prop_name="Amount" value="12"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2024"></prop_value>
 					<prop_value prop_name="KindEducation" value="1"></prop_value>
@@ -9518,7 +9598,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="17"></prop_value>
-					<prop_value prop_name="Amount" value="17"></prop_value>
+					<prop_value prop_name="Amount" value="16"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2024"></prop_value>
 					<prop_value prop_name="KindEducation" value="0"></prop_value>
@@ -9718,7 +9798,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="2"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="29"></prop_value>
-					<prop_value prop_name="Amount" value="29"></prop_value>
+					<prop_value prop_name="Amount" value="30"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2024"></prop_value>
 					<prop_value prop_name="KindEducation" value="0"></prop_value>
@@ -9998,7 +10078,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="23"></prop_value>
-					<prop_value prop_name="Amount" value="24"></prop_value>
+					<prop_value prop_name="Amount" value="23"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2024"></prop_value>
 					<prop_value prop_name="KindEducation" value="1"></prop_value>
@@ -10018,7 +10098,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="11"></prop_value>
-					<prop_value prop_name="Amount" value="11"></prop_value>
+					<prop_value prop_name="Amount" value="10"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2024"></prop_value>
 					<prop_value prop_name="KindEducation" value="1"></prop_value>
@@ -10058,7 +10138,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="21"></prop_value>
-					<prop_value prop_name="Amount" value="19"></prop_value>
+					<prop_value prop_name="Amount" value="18"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2024"></prop_value>
 					<prop_value prop_name="KindEducation" value="1"></prop_value>
@@ -10078,7 +10158,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="18"></prop_value>
-					<prop_value prop_name="Amount" value="18"></prop_value>
+					<prop_value prop_name="Amount" value="17"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2024"></prop_value>
 					<prop_value prop_name="KindEducation" value="1"></prop_value>
@@ -10198,7 +10278,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="15"></prop_value>
-					<prop_value prop_name="Amount" value="22"></prop_value>
+					<prop_value prop_name="Amount" value="21"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2024"></prop_value>
 					<prop_value prop_name="KindEducation" value="0"></prop_value>
@@ -10218,7 +10298,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="22"></prop_value>
-					<prop_value prop_name="Amount" value="23"></prop_value>
+					<prop_value prop_name="Amount" value="22"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2024"></prop_value>
 					<prop_value prop_name="KindEducation" value="0"></prop_value>
@@ -10238,7 +10318,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="21"></prop_value>
-					<prop_value prop_name="Amount" value="18"></prop_value>
+					<prop_value prop_name="Amount" value="19"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2024"></prop_value>
 					<prop_value prop_name="KindEducation" value="0"></prop_value>
@@ -10278,7 +10358,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="24"></prop_value>
-					<prop_value prop_name="Amount" value="28"></prop_value>
+					<prop_value prop_name="Amount" value="27"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2024"></prop_value>
 					<prop_value prop_name="KindEducation" value="0"></prop_value>
@@ -10298,7 +10378,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="29"></prop_value>
-					<prop_value prop_name="Amount" value="28"></prop_value>
+					<prop_value prop_name="Amount" value="27"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2024"></prop_value>
 					<prop_value prop_name="KindEducation" value="0"></prop_value>
@@ -10438,7 +10518,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="16"></prop_value>
-					<prop_value prop_name="Amount" value="13"></prop_value>
+					<prop_value prop_name="Amount" value="14"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2024"></prop_value>
 					<prop_value prop_name="KindEducation" value="0"></prop_value>
@@ -10478,7 +10558,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="16"></prop_value>
-					<prop_value prop_name="Amount" value="18"></prop_value>
+					<prop_value prop_name="Amount" value="17"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2024"></prop_value>
 					<prop_value prop_name="KindEducation" value="0"></prop_value>
@@ -10898,7 +10978,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="17"></prop_value>
-					<prop_value prop_name="Amount" value="16"></prop_value>
+					<prop_value prop_name="Amount" value="15"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2022"></prop_value>
 					<prop_value prop_name="KindEducation" value="0"></prop_value>
@@ -10998,7 +11078,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="2"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="13"></prop_value>
-					<prop_value prop_name="Amount" value="14"></prop_value>
+					<prop_value prop_name="Amount" value="13"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2022"></prop_value>
 					<prop_value prop_name="KindEducation" value="0"></prop_value>
@@ -11098,7 +11178,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="11"></prop_value>
-					<prop_value prop_name="Amount" value="11"></prop_value>
+					<prop_value prop_name="Amount" value="10"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2023"></prop_value>
 					<prop_value prop_name="KindEducation" value="0"></prop_value>
@@ -11198,7 +11278,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="0"></prop_value>
-					<prop_value prop_name="Amount" value="27"></prop_value>
+					<prop_value prop_name="Amount" value="25"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2024"></prop_value>
 					<prop_value prop_name="KindEducation" value="1"></prop_value>
@@ -11358,7 +11438,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="16"></prop_value>
-					<prop_value prop_name="Amount" value="17"></prop_value>
+					<prop_value prop_name="Amount" value="15"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2024"></prop_value>
 					<prop_value prop_name="KindEducation" value="0"></prop_value>
@@ -11438,7 +11518,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="22"></prop_value>
-					<prop_value prop_name="Amount" value="13"></prop_value>
+					<prop_value prop_name="Amount" value="12"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2024"></prop_value>
 					<prop_value prop_name="KindEducation" value="0"></prop_value>
@@ -11688,6 +11768,26 @@
 					<prop_value prop_name="Archive" value="0"></prop_value>
 				</Collection>
 			</Object>
+			<Object uid="26007.281474976738255" name="3424Б1ИО3" class_id="Group">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26007.281474976738255"></prop_value>
+					<prop_value prop_name="Name" value="3424Б1ИО3"></prop_value>
+					<prop_value prop_name="Number" value="3424Б1ИО3"></prop_value>
+					<prop_value prop_name="UID_Course" value="2 курс"></prop_value>
+					<prop_value prop_name="UID_Faculty" value="25031.281474976710801"></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="13"></prop_value>
+					<prop_value prop_name="Amount" value="8"></prop_value>
+					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
+					<prop_value prop_name="YearOfEntry" value="2024"></prop_value>
+					<prop_value prop_name="KindEducation" value="0"></prop_value>
+					<prop_value prop_name="UID_Speciality" value="25031.281474976710742"></prop_value>
+					<prop_value prop_name="UID_Specialization" value="26001.281474976711421"></prop_value>
+					<prop_value prop_name="Kind" value="0"></prop_value>
+					<prop_value prop_name="Archive" value="0"></prop_value>
+				</Collection>
+			</Object>
 			<Object uid="26007.281474976738310" name="3523П1СЦ3" class_id="Group">
 				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
 					<prop_value prop_name="UID" value="26007.281474976738310"></prop_value>
@@ -11908,6 +12008,26 @@
 					<prop_value prop_name="Archive" value="0"></prop_value>
 				</Collection>
 			</Object>
+			<Object uid="26007.281474976738382" name="0522Б1ИСфи1" class_id="Group">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26007.281474976738382"></prop_value>
+					<prop_value prop_name="Name" value="0522Б1ИСфи1"></prop_value>
+					<prop_value prop_name="Number" value="0522Б1ИСфи1"></prop_value>
+					<prop_value prop_name="UID_Course" value="4 курс"></prop_value>
+					<prop_value prop_name="UID_Faculty" value="25031.281474976710966"></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="8"></prop_value>
+					<prop_value prop_name="Amount" value="8"></prop_value>
+					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
+					<prop_value prop_name="YearOfEntry" value="2022"></prop_value>
+					<prop_value prop_name="KindEducation" value="0"></prop_value>
+					<prop_value prop_name="UID_Speciality" value="25031.281474976710719"></prop_value>
+					<prop_value prop_name="UID_Specialization" value="26001.281474976711431"></prop_value>
+					<prop_value prop_name="Kind" value="0"></prop_value>
+					<prop_value prop_name="Archive" value="0"></prop_value>
+				</Collection>
+			</Object>
 			<Object uid="26007.281474976738415" name="3524А1ЭКэу" class_id="Group">
 				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
 					<prop_value prop_name="UID" value="26007.281474976738415"></prop_value>
@@ -11998,7 +12118,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="9"></prop_value>
-					<prop_value prop_name="Amount" value="9"></prop_value>
+					<prop_value prop_name="Amount" value="8"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2024"></prop_value>
 					<prop_value prop_name="KindEducation" value="3"></prop_value>
@@ -12038,7 +12158,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="4"></prop_value>
-					<prop_value prop_name="Amount" value="4"></prop_value>
+					<prop_value prop_name="Amount" value="3"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2024"></prop_value>
 					<prop_value prop_name="KindEducation" value="3"></prop_value>
@@ -12078,7 +12198,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="6"></prop_value>
-					<prop_value prop_name="Amount" value="5"></prop_value>
+					<prop_value prop_name="Amount" value="3"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2024"></prop_value>
 					<prop_value prop_name="KindEducation" value="3"></prop_value>
@@ -12178,7 +12298,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="1"></prop_value>
-					<prop_value prop_name="Amount" value="1"></prop_value>
+					<prop_value prop_name="Amount" value="0"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2024"></prop_value>
 					<prop_value prop_name="KindEducation" value="3"></prop_value>
@@ -12518,7 +12638,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="18"></prop_value>
-					<prop_value prop_name="Amount" value="18"></prop_value>
+					<prop_value prop_name="Amount" value="17"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2024"></prop_value>
 					<prop_value prop_name="KindEducation" value="0"></prop_value>
@@ -12558,14 +12678,14 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="2"></prop_value>
-					<prop_value prop_name="Amount" value="1"></prop_value>
+					<prop_value prop_name="Amount" value="0"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2024"></prop_value>
 					<prop_value prop_name="KindEducation" value="0"></prop_value>
 					<prop_value prop_name="UID_Speciality" value="25031.281474976712737"></prop_value>
 					<prop_value prop_name="UID_Specialization" value="26001.281474976711183"></prop_value>
 					<prop_value prop_name="Kind" value="0"></prop_value>
-					<prop_value prop_name="Archive" value="0"></prop_value>
+					<prop_value prop_name="Archive" value="1"></prop_value>
 				</Collection>
 			</Object>
 			<Object uid="26007.281474976738986" name="3825Б1МА1" class_id="Group">
@@ -12578,7 +12698,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="47"></prop_value>
-					<prop_value prop_name="Amount" value="24"></prop_value>
+					<prop_value prop_name="Amount" value="21"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2025"></prop_value>
 					<prop_value prop_name="KindEducation" value="0"></prop_value>
@@ -12605,7 +12725,7 @@
 					<prop_value prop_name="UID_Speciality" value="25031.281474976710721"></prop_value>
 					<prop_value prop_name="UID_Specialization" value="26001.281474976711065"></prop_value>
 					<prop_value prop_name="Kind" value="0"></prop_value>
-					<prop_value prop_name="Archive" value="0"></prop_value>
+					<prop_value prop_name="Archive" value="1"></prop_value>
 				</Collection>
 			</Object>
 			<Object uid="26007.281474976738988" name="3825Б1ПМ2" class_id="Group">
@@ -12705,7 +12825,7 @@
 					<prop_value prop_name="UID_Speciality" value="25031.281474976710711"></prop_value>
 					<prop_value prop_name="UID_Specialization" value="26001.0"></prop_value>
 					<prop_value prop_name="Kind" value="0"></prop_value>
-					<prop_value prop_name="Archive" value="0"></prop_value>
+					<prop_value prop_name="Archive" value="1"></prop_value>
 				</Collection>
 			</Object>
 			<Object uid="26007.281474976738995" name="3825Б1ФИип2" class_id="Group">
@@ -12765,7 +12885,7 @@
 					<prop_value prop_name="UID_Speciality" value="25031.281474976710726"></prop_value>
 					<prop_value prop_name="UID_Specialization" value="26001.281474976711093"></prop_value>
 					<prop_value prop_name="Kind" value="0"></prop_value>
-					<prop_value prop_name="Archive" value="0"></prop_value>
+					<prop_value prop_name="Archive" value="1"></prop_value>
 				</Collection>
 			</Object>
 			<Object uid="26007.281474976738998" name="3825Б1ПР2" class_id="Group">
@@ -12785,7 +12905,7 @@
 					<prop_value prop_name="UID_Speciality" value="25031.281474976710726"></prop_value>
 					<prop_value prop_name="UID_Specialization" value="26001.281474976711093"></prop_value>
 					<prop_value prop_name="Kind" value="0"></prop_value>
-					<prop_value prop_name="Archive" value="0"></prop_value>
+					<prop_value prop_name="Archive" value="1"></prop_value>
 				</Collection>
 			</Object>
 			<Object uid="26007.281474976738999" name="3825Б1ПР3" class_id="Group">
@@ -12858,7 +12978,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="20"></prop_value>
-					<prop_value prop_name="Amount" value="20"></prop_value>
+					<prop_value prop_name="Amount" value="21"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2025"></prop_value>
 					<prop_value prop_name="KindEducation" value="0"></prop_value>
@@ -13018,7 +13138,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="28"></prop_value>
-					<prop_value prop_name="Amount" value="28"></prop_value>
+					<prop_value prop_name="Amount" value="27"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2025"></prop_value>
 					<prop_value prop_name="KindEducation" value="0"></prop_value>
@@ -13038,7 +13158,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="18"></prop_value>
-					<prop_value prop_name="Amount" value="18"></prop_value>
+					<prop_value prop_name="Amount" value="17"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2023"></prop_value>
 					<prop_value prop_name="KindEducation" value="0"></prop_value>
@@ -13058,7 +13178,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="14"></prop_value>
-					<prop_value prop_name="Amount" value="14"></prop_value>
+					<prop_value prop_name="Amount" value="13"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2023"></prop_value>
 					<prop_value prop_name="KindEducation" value="0"></prop_value>
@@ -13078,7 +13198,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="15"></prop_value>
-					<prop_value prop_name="Amount" value="12"></prop_value>
+					<prop_value prop_name="Amount" value="10"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2023"></prop_value>
 					<prop_value prop_name="KindEducation" value="0"></prop_value>
@@ -13118,7 +13238,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="14"></prop_value>
-					<prop_value prop_name="Amount" value="14"></prop_value>
+					<prop_value prop_name="Amount" value="10"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2023"></prop_value>
 					<prop_value prop_name="KindEducation" value="0"></prop_value>
@@ -13238,7 +13358,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="24"></prop_value>
-					<prop_value prop_name="Amount" value="24"></prop_value>
+					<prop_value prop_name="Amount" value="22"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2025"></prop_value>
 					<prop_value prop_name="KindEducation" value="0"></prop_value>
@@ -13577,7 +13697,7 @@
 					<prop_value prop_name="UID_Faculty" value="25031.281474976710980"></prop_value>
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
-					<prop_value prop_name="PlannedAmount" value="23"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="14"></prop_value>
 					<prop_value prop_name="Amount" value="14"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2025"></prop_value>
@@ -13597,7 +13717,7 @@
 					<prop_value prop_name="UID_Faculty" value="25031.281474976710980"></prop_value>
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
-					<prop_value prop_name="PlannedAmount" value="18"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="9"></prop_value>
 					<prop_value prop_name="Amount" value="9"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2025"></prop_value>
@@ -13617,7 +13737,7 @@
 					<prop_value prop_name="UID_Faculty" value="25031.281474976710980"></prop_value>
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
-					<prop_value prop_name="PlannedAmount" value="23"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="15"></prop_value>
 					<prop_value prop_name="Amount" value="15"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2025"></prop_value>
@@ -13637,7 +13757,7 @@
 					<prop_value prop_name="UID_Faculty" value="25031.281474976710980"></prop_value>
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
-					<prop_value prop_name="PlannedAmount" value="23"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="15"></prop_value>
 					<prop_value prop_name="Amount" value="15"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2025"></prop_value>
@@ -13657,7 +13777,7 @@
 					<prop_value prop_name="UID_Faculty" value="25031.281474976710980"></prop_value>
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
-					<prop_value prop_name="PlannedAmount" value="23"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="12"></prop_value>
 					<prop_value prop_name="Amount" value="12"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2025"></prop_value>
@@ -13677,7 +13797,7 @@
 					<prop_value prop_name="UID_Faculty" value="25031.281474976710980"></prop_value>
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
-					<prop_value prop_name="PlannedAmount" value="22"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="11"></prop_value>
 					<prop_value prop_name="Amount" value="11"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2025"></prop_value>
@@ -13697,7 +13817,7 @@
 					<prop_value prop_name="UID_Faculty" value="25031.281474976710980"></prop_value>
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
-					<prop_value prop_name="PlannedAmount" value="25"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="13"></prop_value>
 					<prop_value prop_name="Amount" value="13"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2025"></prop_value>
@@ -13718,7 +13838,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="30"></prop_value>
-					<prop_value prop_name="Amount" value="30"></prop_value>
+					<prop_value prop_name="Amount" value="29"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2025"></prop_value>
 					<prop_value prop_name="KindEducation" value="1"></prop_value>
@@ -13757,7 +13877,7 @@
 					<prop_value prop_name="UID_Faculty" value="25031.281474976710980"></prop_value>
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
-					<prop_value prop_name="PlannedAmount" value="29"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="13"></prop_value>
 					<prop_value prop_name="Amount" value="13"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2025"></prop_value>
@@ -13777,7 +13897,7 @@
 					<prop_value prop_name="UID_Faculty" value="25031.281474976710980"></prop_value>
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
-					<prop_value prop_name="PlannedAmount" value="21"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="13"></prop_value>
 					<prop_value prop_name="Amount" value="12"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2025"></prop_value>
@@ -13797,7 +13917,7 @@
 					<prop_value prop_name="UID_Faculty" value="25031.281474976710980"></prop_value>
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
-					<prop_value prop_name="PlannedAmount" value="30"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="27"></prop_value>
 					<prop_value prop_name="Amount" value="27"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2025"></prop_value>
@@ -13918,7 +14038,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="12"></prop_value>
-					<prop_value prop_name="Amount" value="11"></prop_value>
+					<prop_value prop_name="Amount" value="9"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2025"></prop_value>
 					<prop_value prop_name="KindEducation" value="1"></prop_value>
@@ -14138,7 +14258,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="30"></prop_value>
-					<prop_value prop_name="Amount" value="30"></prop_value>
+					<prop_value prop_name="Amount" value="29"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2025"></prop_value>
 					<prop_value prop_name="KindEducation" value="0"></prop_value>
@@ -14158,7 +14278,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="25"></prop_value>
-					<prop_value prop_name="Amount" value="25"></prop_value>
+					<prop_value prop_name="Amount" value="24"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2025"></prop_value>
 					<prop_value prop_name="KindEducation" value="0"></prop_value>
@@ -14238,7 +14358,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="30"></prop_value>
-					<prop_value prop_name="Amount" value="30"></prop_value>
+					<prop_value prop_name="Amount" value="29"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2025"></prop_value>
 					<prop_value prop_name="KindEducation" value="1"></prop_value>
@@ -14398,7 +14518,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="15"></prop_value>
-					<prop_value prop_name="Amount" value="18"></prop_value>
+					<prop_value prop_name="Amount" value="16"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2025"></prop_value>
 					<prop_value prop_name="KindEducation" value="0"></prop_value>
@@ -14438,7 +14558,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="15"></prop_value>
-					<prop_value prop_name="Amount" value="20"></prop_value>
+					<prop_value prop_name="Amount" value="17"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2025"></prop_value>
 					<prop_value prop_name="KindEducation" value="0"></prop_value>
@@ -14518,7 +14638,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="30"></prop_value>
-					<prop_value prop_name="Amount" value="30"></prop_value>
+					<prop_value prop_name="Amount" value="29"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2025"></prop_value>
 					<prop_value prop_name="KindEducation" value="0"></prop_value>
@@ -14538,7 +14658,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="2"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="30"></prop_value>
-					<prop_value prop_name="Amount" value="29"></prop_value>
+					<prop_value prop_name="Amount" value="28"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2025"></prop_value>
 					<prop_value prop_name="KindEducation" value="0"></prop_value>
@@ -14558,7 +14678,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="26"></prop_value>
-					<prop_value prop_name="Amount" value="26"></prop_value>
+					<prop_value prop_name="Amount" value="25"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2025"></prop_value>
 					<prop_value prop_name="KindEducation" value="0"></prop_value>
@@ -14578,7 +14698,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="2"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="22"></prop_value>
-					<prop_value prop_name="Amount" value="22"></prop_value>
+					<prop_value prop_name="Amount" value="21"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2025"></prop_value>
 					<prop_value prop_name="KindEducation" value="0"></prop_value>
@@ -14698,7 +14818,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="1"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="29"></prop_value>
-					<prop_value prop_name="Amount" value="30"></prop_value>
+					<prop_value prop_name="Amount" value="18"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2025"></prop_value>
 					<prop_value prop_name="KindEducation" value="0"></prop_value>
@@ -14918,7 +15038,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="30"></prop_value>
-					<prop_value prop_name="Amount" value="30"></prop_value>
+					<prop_value prop_name="Amount" value="29"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2025"></prop_value>
 					<prop_value prop_name="KindEducation" value="1"></prop_value>
@@ -15098,7 +15218,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="30"></prop_value>
-					<prop_value prop_name="Amount" value="16"></prop_value>
+					<prop_value prop_name="Amount" value="15"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2025"></prop_value>
 					<prop_value prop_name="KindEducation" value="1"></prop_value>
@@ -15318,7 +15438,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="31"></prop_value>
-					<prop_value prop_name="Amount" value="15"></prop_value>
+					<prop_value prop_name="Amount" value="18"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2025"></prop_value>
 					<prop_value prop_name="KindEducation" value="0"></prop_value>
@@ -15338,7 +15458,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="9"></prop_value>
-					<prop_value prop_name="Amount" value="9"></prop_value>
+					<prop_value prop_name="Amount" value="7"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2025"></prop_value>
 					<prop_value prop_name="KindEducation" value="0"></prop_value>
@@ -15378,7 +15498,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="15"></prop_value>
-					<prop_value prop_name="Amount" value="22"></prop_value>
+					<prop_value prop_name="Amount" value="18"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2025"></prop_value>
 					<prop_value prop_name="KindEducation" value="0"></prop_value>
@@ -15398,7 +15518,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="39"></prop_value>
-					<prop_value prop_name="Amount" value="13"></prop_value>
+					<prop_value prop_name="Amount" value="11"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2025"></prop_value>
 					<prop_value prop_name="KindEducation" value="0"></prop_value>
@@ -15417,8 +15537,8 @@
 					<prop_value prop_name="UID_Faculty" value="25031.281474976710980"></prop_value>
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
-					<prop_value prop_name="PlannedAmount" value="23"></prop_value>
-					<prop_value prop_name="Amount" value="14"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="14"></prop_value>
+					<prop_value prop_name="Amount" value="13"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2025"></prop_value>
 					<prop_value prop_name="KindEducation" value="1"></prop_value>
@@ -15538,7 +15658,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="14"></prop_value>
-					<prop_value prop_name="Amount" value="14"></prop_value>
+					<prop_value prop_name="Amount" value="15"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2025"></prop_value>
 					<prop_value prop_name="KindEducation" value="1"></prop_value>
@@ -15658,7 +15778,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="3"></prop_value>
-					<prop_value prop_name="Amount" value="3"></prop_value>
+					<prop_value prop_name="Amount" value="4"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2025"></prop_value>
 					<prop_value prop_name="KindEducation" value="1"></prop_value>
@@ -15718,7 +15838,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="30"></prop_value>
-					<prop_value prop_name="Amount" value="24"></prop_value>
+					<prop_value prop_name="Amount" value="23"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2025"></prop_value>
 					<prop_value prop_name="KindEducation" value="1"></prop_value>
@@ -15918,7 +16038,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="28"></prop_value>
-					<prop_value prop_name="Amount" value="26"></prop_value>
+					<prop_value prop_name="Amount" value="23"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2023"></prop_value>
 					<prop_value prop_name="KindEducation" value="0"></prop_value>
@@ -16058,7 +16178,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="74"></prop_value>
-					<prop_value prop_name="Amount" value="21"></prop_value>
+					<prop_value prop_name="Amount" value="20"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2025"></prop_value>
 					<prop_value prop_name="KindEducation" value="0"></prop_value>
@@ -16078,7 +16198,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="17"></prop_value>
-					<prop_value prop_name="Amount" value="19"></prop_value>
+					<prop_value prop_name="Amount" value="16"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2025"></prop_value>
 					<prop_value prop_name="KindEducation" value="0"></prop_value>
@@ -16157,7 +16277,7 @@
 					<prop_value prop_name="UID_Faculty" value="25031.281474976710980"></prop_value>
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
-					<prop_value prop_name="PlannedAmount" value="21"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="20"></prop_value>
 					<prop_value prop_name="Amount" value="20"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2025"></prop_value>
@@ -16258,7 +16378,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="28"></prop_value>
-					<prop_value prop_name="Amount" value="28"></prop_value>
+					<prop_value prop_name="Amount" value="29"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2025"></prop_value>
 					<prop_value prop_name="KindEducation" value="0"></prop_value>
@@ -16278,7 +16398,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="29"></prop_value>
-					<prop_value prop_name="Amount" value="29"></prop_value>
+					<prop_value prop_name="Amount" value="28"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2025"></prop_value>
 					<prop_value prop_name="KindEducation" value="0"></prop_value>
@@ -16338,14 +16458,14 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="1"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="18"></prop_value>
-					<prop_value prop_name="Amount" value="18"></prop_value>
+					<prop_value prop_name="Amount" value="0"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2025"></prop_value>
 					<prop_value prop_name="KindEducation" value="0"></prop_value>
 					<prop_value prop_name="UID_Speciality" value="25031.281474976721240"></prop_value>
 					<prop_value prop_name="UID_Specialization" value="26001.281474976711220"></prop_value>
 					<prop_value prop_name="Kind" value="0"></prop_value>
-					<prop_value prop_name="Archive" value="0"></prop_value>
+					<prop_value prop_name="Archive" value="1"></prop_value>
 				</Collection>
 			</Object>
 			<Object uid="26007.281474976740127" name="4525С1ЛД_а3" class_id="Group">
@@ -16357,8 +16477,8 @@
 					<prop_value prop_name="UID_Faculty" value="25031.281474976751459"></prop_value>
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
-					<prop_value prop_name="PlannedAmount" value="46"></prop_value>
-					<prop_value prop_name="Amount" value="29"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="30"></prop_value>
+					<prop_value prop_name="Amount" value="36"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2025"></prop_value>
 					<prop_value prop_name="KindEducation" value="0"></prop_value>
@@ -16398,7 +16518,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="5"></prop_value>
-					<prop_value prop_name="Amount" value="4"></prop_value>
+					<prop_value prop_name="Amount" value="3"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2025"></prop_value>
 					<prop_value prop_name="KindEducation" value="1"></prop_value>
@@ -16465,7 +16585,7 @@
 					<prop_value prop_name="UID_Speciality" value="25031.281474976753287"></prop_value>
 					<prop_value prop_name="UID_Specialization" value="26001.281474976711706"></prop_value>
 					<prop_value prop_name="Kind" value="0"></prop_value>
-					<prop_value prop_name="Archive" value="0"></prop_value>
+					<prop_value prop_name="Archive" value="1"></prop_value>
 				</Collection>
 			</Object>
 			<Object uid="26007.281474976740203" name="4525Б3АФ2" class_id="Group">
@@ -16478,7 +16598,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="1"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="36"></prop_value>
-					<prop_value prop_name="Amount" value="16"></prop_value>
+					<prop_value prop_name="Amount" value="17"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2025"></prop_value>
 					<prop_value prop_name="KindEducation" value="0"></prop_value>
@@ -16518,7 +16638,7 @@
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="34"></prop_value>
-					<prop_value prop_name="Amount" value="10"></prop_value>
+					<prop_value prop_name="Amount" value="9"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2025"></prop_value>
 					<prop_value prop_name="KindEducation" value="0"></prop_value>
@@ -16628,6 +16748,26 @@
 					<prop_value prop_name="Archive" value="0"></prop_value>
 				</Collection>
 			</Object>
+			<Object uid="26007.281474976740372" name="3825М1сФИ1" class_id="Group">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26007.281474976740372"></prop_value>
+					<prop_value prop_name="Name" value="3825М1сФИ1"></prop_value>
+					<prop_value prop_name="Number" value="3825М1сФИ1"></prop_value>
+					<prop_value prop_name="UID_Course" value="1 курс"></prop_value>
+					<prop_value prop_name="UID_Faculty" value="25031.281474976710980"></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="10"></prop_value>
+					<prop_value prop_name="Amount" value="10"></prop_value>
+					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
+					<prop_value prop_name="YearOfEntry" value="2025"></prop_value>
+					<prop_value prop_name="KindEducation" value="1"></prop_value>
+					<prop_value prop_name="UID_Speciality" value="25031.281474976711220"></prop_value>
+					<prop_value prop_name="UID_Specialization" value="26001.281474976711575"></prop_value>
+					<prop_value prop_name="Kind" value="0"></prop_value>
+					<prop_value prop_name="Archive" value="0"></prop_value>
+				</Collection>
+			</Object>
 			<Object uid="26007.281474976740373" name="3825М1ФИ3" class_id="Group">
 				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
 					<prop_value prop_name="UID" value="26007.281474976740373"></prop_value>
@@ -16637,13 +16777,33 @@
 					<prop_value prop_name="UID_Faculty" value="25031.281474976710980"></prop_value>
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
-					<prop_value prop_name="PlannedAmount" value="17"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="5"></prop_value>
 					<prop_value prop_name="Amount" value="5"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 					<prop_value prop_name="YearOfEntry" value="2025"></prop_value>
 					<prop_value prop_name="KindEducation" value="1"></prop_value>
 					<prop_value prop_name="UID_Speciality" value="25031.281474976711220"></prop_value>
 					<prop_value prop_name="UID_Specialization" value="26001.281474976711575"></prop_value>
+					<prop_value prop_name="Kind" value="0"></prop_value>
+					<prop_value prop_name="Archive" value="0"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26007.281474976740403" name="3825Б1ФИсп1" class_id="Group">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26007.281474976740403"></prop_value>
+					<prop_value prop_name="Name" value="3825Б1ФИсп1"></prop_value>
+					<prop_value prop_name="Number" value="3825Б1ФИсп1"></prop_value>
+					<prop_value prop_name="UID_Course" value="1 курс"></prop_value>
+					<prop_value prop_name="UID_Faculty" value="25031.281474976710980"></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="29"></prop_value>
+					<prop_value prop_name="Amount" value="29"></prop_value>
+					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
+					<prop_value prop_name="YearOfEntry" value="2025"></prop_value>
+					<prop_value prop_name="KindEducation" value="0"></prop_value>
+					<prop_value prop_name="UID_Speciality" value="25031.281474976710711"></prop_value>
+					<prop_value prop_name="UID_Specialization" value="26001.281474976711811"></prop_value>
 					<prop_value prop_name="Kind" value="0"></prop_value>
 					<prop_value prop_name="Archive" value="0"></prop_value>
 				</Collection>
@@ -16668,6 +16828,66 @@
 					<prop_value prop_name="Archive" value="0"></prop_value>
 				</Collection>
 			</Object>
+			<Object uid="26007.281474976740464" name="3825Б1ПМии1" class_id="Group">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26007.281474976740464"></prop_value>
+					<prop_value prop_name="Name" value="3825Б1ПМии1"></prop_value>
+					<prop_value prop_name="Number" value="3825Б1ПМии1"></prop_value>
+					<prop_value prop_name="UID_Course" value="1 курс"></prop_value>
+					<prop_value prop_name="UID_Faculty" value="25031.281474976710980"></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="28"></prop_value>
+					<prop_value prop_name="Amount" value="28"></prop_value>
+					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
+					<prop_value prop_name="YearOfEntry" value="2025"></prop_value>
+					<prop_value prop_name="KindEducation" value="0"></prop_value>
+					<prop_value prop_name="UID_Speciality" value="25031.281474976710721"></prop_value>
+					<prop_value prop_name="UID_Specialization" value="26001.281474976711810"></prop_value>
+					<prop_value prop_name="Kind" value="0"></prop_value>
+					<prop_value prop_name="Archive" value="0"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26007.281474976740490" name="3825Б1ПРпп1" class_id="Group">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26007.281474976740490"></prop_value>
+					<prop_value prop_name="Name" value="3825Б1ПРпп1"></prop_value>
+					<prop_value prop_name="Number" value="3825Б1ПРпп1"></prop_value>
+					<prop_value prop_name="UID_Course" value="1 курс"></prop_value>
+					<prop_value prop_name="UID_Faculty" value="25031.281474976710980"></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="30"></prop_value>
+					<prop_value prop_name="Amount" value="30"></prop_value>
+					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
+					<prop_value prop_name="YearOfEntry" value="2025"></prop_value>
+					<prop_value prop_name="KindEducation" value="0"></prop_value>
+					<prop_value prop_name="UID_Speciality" value="25031.281474976710726"></prop_value>
+					<prop_value prop_name="UID_Specialization" value="26001.281474976711812"></prop_value>
+					<prop_value prop_name="Kind" value="0"></prop_value>
+					<prop_value prop_name="Archive" value="0"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26007.281474976740491" name="3825Б1ПРпп2" class_id="Group">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26007.281474976740491"></prop_value>
+					<prop_value prop_name="Name" value="3825Б1ПРпп2"></prop_value>
+					<prop_value prop_name="Number" value="3825Б1ПРпп2"></prop_value>
+					<prop_value prop_name="UID_Course" value="1 курс"></prop_value>
+					<prop_value prop_name="UID_Faculty" value="25031.281474976710980"></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="29"></prop_value>
+					<prop_value prop_name="Amount" value="29"></prop_value>
+					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
+					<prop_value prop_name="YearOfEntry" value="2025"></prop_value>
+					<prop_value prop_name="KindEducation" value="0"></prop_value>
+					<prop_value prop_name="UID_Speciality" value="25031.281474976710726"></prop_value>
+					<prop_value prop_name="UID_Specialization" value="26001.281474976711812"></prop_value>
+					<prop_value prop_name="Kind" value="0"></prop_value>
+					<prop_value prop_name="Archive" value="0"></prop_value>
+				</Collection>
+			</Object>
 			<Object uid="26007.281474976740553" name="3525П1ЮР4" class_id="Group">
 				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
 					<prop_value prop_name="UID" value="26007.281474976740553"></prop_value>
@@ -16684,6 +16904,146 @@
 					<prop_value prop_name="KindEducation" value="1"></prop_value>
 					<prop_value prop_name="UID_Speciality" value="25031.281474976753286"></prop_value>
 					<prop_value prop_name="UID_Specialization" value="26001.281474976711796"></prop_value>
+					<prop_value prop_name="Kind" value="0"></prop_value>
+					<prop_value prop_name="Archive" value="1"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26007.281474976740597" name="4525С5ЛД_а_и4" class_id="Group">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26007.281474976740597"></prop_value>
+					<prop_value prop_name="Name" value="4525С5ЛД_а_и4"></prop_value>
+					<prop_value prop_name="Number" value="4525С5ЛД_а_и4"></prop_value>
+					<prop_value prop_name="UID_Course" value="1 курс"></prop_value>
+					<prop_value prop_name="UID_Faculty" value="25031.281474976751459"></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="1"></prop_value>
+					<prop_value prop_name="Amount" value="1"></prop_value>
+					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
+					<prop_value prop_name="YearOfEntry" value="2025"></prop_value>
+					<prop_value prop_name="KindEducation" value="0"></prop_value>
+					<prop_value prop_name="UID_Speciality" value="25031.281474976737639"></prop_value>
+					<prop_value prop_name="UID_Specialization" value="26001.281474976711750"></prop_value>
+					<prop_value prop_name="Kind" value="0"></prop_value>
+					<prop_value prop_name="Archive" value="0"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26007.281474976740604" name="4525С5ЛД_и1" class_id="Group">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26007.281474976740604"></prop_value>
+					<prop_value prop_name="Name" value="4525С5ЛД_и1"></prop_value>
+					<prop_value prop_name="Number" value="4525С5ЛД_и1"></prop_value>
+					<prop_value prop_name="UID_Course" value="1 курс"></prop_value>
+					<prop_value prop_name="UID_Faculty" value="25031.281474976751459"></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="1"></prop_value>
+					<prop_value prop_name="Amount" value="1"></prop_value>
+					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
+					<prop_value prop_name="YearOfEntry" value="2025"></prop_value>
+					<prop_value prop_name="KindEducation" value="0"></prop_value>
+					<prop_value prop_name="UID_Speciality" value="25031.281474976737639"></prop_value>
+					<prop_value prop_name="UID_Specialization" value="26001.281474976711750"></prop_value>
+					<prop_value prop_name="Kind" value="0"></prop_value>
+					<prop_value prop_name="Archive" value="0"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26007.281474976740624" name="3825Б5ФИоп_а1" class_id="Group">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26007.281474976740624"></prop_value>
+					<prop_value prop_name="Name" value="3825Б5ФИоп_а1"></prop_value>
+					<prop_value prop_name="Number" value="3825Б5ФИоп_а1"></prop_value>
+					<prop_value prop_name="UID_Course" value="1 курс"></prop_value>
+					<prop_value prop_name="UID_Faculty" value="25031.281474976710980"></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="1"></prop_value>
+					<prop_value prop_name="Amount" value="1"></prop_value>
+					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
+					<prop_value prop_name="YearOfEntry" value="2025"></prop_value>
+					<prop_value prop_name="KindEducation" value="0"></prop_value>
+					<prop_value prop_name="UID_Speciality" value="25031.281474976710711"></prop_value>
+					<prop_value prop_name="UID_Specialization" value="26001.281474976711357"></prop_value>
+					<prop_value prop_name="Kind" value="0"></prop_value>
+					<prop_value prop_name="Archive" value="0"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26007.281474976740707" name="4525С5ЛД_а_и3" class_id="Group">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26007.281474976740707"></prop_value>
+					<prop_value prop_name="Name" value="4525С5ЛД_а_и3"></prop_value>
+					<prop_value prop_name="Number" value="4525С5ЛД_а_и3"></prop_value>
+					<prop_value prop_name="UID_Course" value="1 курс"></prop_value>
+					<prop_value prop_name="UID_Faculty" value="25031.281474976751459"></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="1"></prop_value>
+					<prop_value prop_name="Amount" value="1"></prop_value>
+					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
+					<prop_value prop_name="YearOfEntry" value="2025"></prop_value>
+					<prop_value prop_name="KindEducation" value="0"></prop_value>
+					<prop_value prop_name="UID_Speciality" value="25031.281474976737639"></prop_value>
+					<prop_value prop_name="UID_Specialization" value="26001.281474976711750"></prop_value>
+					<prop_value prop_name="Kind" value="0"></prop_value>
+					<prop_value prop_name="Archive" value="0"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26007.281474976740711" name="4525С5ЛД_и2" class_id="Group">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26007.281474976740711"></prop_value>
+					<prop_value prop_name="Name" value="4525С5ЛД_и2"></prop_value>
+					<prop_value prop_name="Number" value="4525С5ЛД_и2"></prop_value>
+					<prop_value prop_name="UID_Course" value="1 курс"></prop_value>
+					<prop_value prop_name="UID_Faculty" value="25031.281474976751459"></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="1"></prop_value>
+					<prop_value prop_name="Amount" value="1"></prop_value>
+					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
+					<prop_value prop_name="YearOfEntry" value="2025"></prop_value>
+					<prop_value prop_name="KindEducation" value="0"></prop_value>
+					<prop_value prop_name="UID_Speciality" value="25031.281474976737639"></prop_value>
+					<prop_value prop_name="UID_Specialization" value="26001.281474976711750"></prop_value>
+					<prop_value prop_name="Kind" value="0"></prop_value>
+					<prop_value prop_name="Archive" value="0"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26007.281474976740722" name="4525С5ЛД_а_и5" class_id="Group">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26007.281474976740722"></prop_value>
+					<prop_value prop_name="Name" value="4525С5ЛД_а_и5"></prop_value>
+					<prop_value prop_name="Number" value="4525С5ЛД_а_и5"></prop_value>
+					<prop_value prop_name="UID_Course" value="1 курс"></prop_value>
+					<prop_value prop_name="UID_Faculty" value="25031.281474976751459"></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="1"></prop_value>
+					<prop_value prop_name="Amount" value="1"></prop_value>
+					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
+					<prop_value prop_name="YearOfEntry" value="2025"></prop_value>
+					<prop_value prop_name="KindEducation" value="0"></prop_value>
+					<prop_value prop_name="UID_Speciality" value="25031.281474976737639"></prop_value>
+					<prop_value prop_name="UID_Specialization" value="26001.281474976711750"></prop_value>
+					<prop_value prop_name="Kind" value="0"></prop_value>
+					<prop_value prop_name="Archive" value="0"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26007.281474976740772" name="4525С1ЛД_а4" class_id="Group">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26007.281474976740772"></prop_value>
+					<prop_value prop_name="Name" value="4525С1ЛД_а4"></prop_value>
+					<prop_value prop_name="Number" value="4525С1ЛД_а4"></prop_value>
+					<prop_value prop_name="UID_Course" value="1 курс"></prop_value>
+					<prop_value prop_name="UID_Faculty" value="25031.281474976751459"></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="16"></prop_value>
+					<prop_value prop_name="Amount" value="0"></prop_value>
+					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
+					<prop_value prop_name="YearOfEntry" value="2025"></prop_value>
+					<prop_value prop_name="KindEducation" value="0"></prop_value>
+					<prop_value prop_name="UID_Speciality" value="25031.281474976737639"></prop_value>
+					<prop_value prop_name="UID_Specialization" value="26001.281474976711750"></prop_value>
 					<prop_value prop_name="Kind" value="0"></prop_value>
 					<prop_value prop_name="Archive" value="0"></prop_value>
 				</Collection>

@@ -6,8 +6,6 @@ include '../connect/opop2.php';
 
 EchoLog("Start cron");
 
-$LOAD_NEW_DATA = true;
-
 $Napravlenia = GetTable('napravlenia', "", "", "napravlenie");
 
 include '../connect.php';
@@ -41,16 +39,6 @@ function hash_column_values_only($data, $columns)
 
 // нагрузка до обновления
 $XMLContentOfLoadPrev = GetTable('xml_content_of_load', "", "", "UID", "UID, base_uid, hash");
-
-$XMLContentOfLoadPrevByBaseUID = [];
-
-if ($XMLContentOfLoadPrev)
-{
-  foreach ($XMLContentOfLoadPrev as $row)
-  {
-    $XMLContentOfLoadPrevByBaseUID[$row['base_uid']][$row['UID']] = $row;
-  }
-}
 
 $_XMLContentOfLoadStaffPrev = GetTable('xml_content_of_load_staff', "", "", null, "UID, UID_ContentOfLoad, hash");
 
@@ -97,7 +85,7 @@ function GetChairSotrudniki($year, $dop_sql = "", $actual = null /*, $qualify_ca
   }
 
   $query = "
-              SELECT person.`id` as person_id, person.`surname`, person.`name`, person.`patronymic`, $position_table_name.`dolzhnost`, `$position_table_name`.podrazdelenie_id, `$position_table_name`.ukrup_code as department_id, $position_table_name.`podrazdelenia_chain`, $podrazdelenia_table_name.`id` as chair_id, $position_table_name.`position_category`, $position_table_name.`type`, $position_table_name.`qualify_category`, $position_table_name.`stavka`, $position_table_name.`pkg`, $position_table_name.`pku`
+              SELECT person.`id` as person_id, person.`surname`, person.`name`, person.`patronymic`, $position_table_name.`dolzhnost`, `$position_table_name`.podrazdelenie_id, `$position_table_name`.ukrup_code as department_id, $position_table_name.`podrazdelenia_chain`, $podrazdelenia_table_name.`id` as chair_id, $position_table_name.`position_category`, $position_table_name.`type`, $position_table_name.`qualify_category`
               FROM `$position_table_name`
               JOIN `person` ON `$position_table_name`.person_id = `person`.id
               JOIN `$podrazdelenia_table_name` ON  `$position_table_name`.podrazdelenia_chain LIKE CONCAT('%|', $podrazdelenia_table_name.`id`, '|%')
@@ -166,9 +154,6 @@ function LoadXML($filename, $table_name)
     
     if ($table_name == 'xml_content_of_load_staff')
     {
-      $base_uid = get_base_uid($arr['UID_ContentOfLoad']);
-      $sql_arr[] = "`base_uid` = '$base_uid'";
-
       $hash = hash_column_values_only($arr, $xml_content_of_load_staff_columns_for_hash);
       $sql_arr[] = "`hash` = '$hash'";
     }
@@ -191,48 +176,54 @@ function LoadXML($filename, $table_name)
 
 include '../connect.php';
 
-if ($LOAD_NEW_DATA)
-{
-  file_put_contents('ContentOfLoad.xml', file_get_contents('http://192.168.59.100/nagruzka/ContentOfLoad.xml'));
-  file_put_contents('ContentOfLoadStaff.xml', file_get_contents('http://192.168.59.100/nagruzka/ContentOfLoadStaff.xml'));
-  file_put_contents('SubGroup.xml', file_get_contents('http://192.168.59.100/nagruzka/SubGroup.xml'));
-  file_put_contents('Group.xml', file_get_contents('http://192.168.59.100/nagruzka/Group.xml'));
-  file_put_contents('Stream.xml', file_get_contents('http://192.168.59.100/nagruzka/Stream.xml'));
-  file_put_contents('KindOfWork.xml', file_get_contents('http://192.168.59.100/nagruzka/KindOfWork.xml'));
-  file_put_contents('Discipline.xml', file_get_contents('http://192.168.59.100/nagruzka/Discipline.xml'));
-  file_put_contents('Chair.xml', file_get_contents('http://192.168.59.100/nagruzka/Chair.xml'));
-  file_put_contents('SubGroup.xml', file_get_contents('http://192.168.59.100/nagruzka/SubGroup.xml'));
-  file_put_contents('FormOfEducation.xml', file_get_contents('http://192.168.59.100/nagruzka/FormOfEducation.xml'));
-  file_put_contents('Speciality.xml', file_get_contents('http://192.168.59.100/nagruzka/Speciality.xml'));
-  file_put_contents('Specialization.xml', file_get_contents('http://192.168.59.100/nagruzka/Specialization.xml'));
-  file_put_contents('Language.xml', file_get_contents('http://192.168.59.100/nagruzka/Language.xml'));
-  file_put_contents('Faculty.xml', file_get_contents('http://192.168.59.100/nagruzka/Faculty.xml'));
-  file_put_contents('Lecturer.xml', file_get_contents('http://192.168.59.100/nagruzka/Lecturer.xml'));
-  file_put_contents('Post.xml', file_get_contents('http://192.168.59.100/nagruzka/Post.xml'));
 
-  LoadXML('Stream.xml', 'xml_stream');
-  LoadXML('Faculty.xml', 'xml_faculty');
-  LoadXML('Language.xml', 'xml_language');
-  LoadXML('Specialization.xml', 'xml_specialization');
-  LoadXML('Speciality.xml', 'xml_speciality');
-  LoadXML('SubGroup.xml', 'xml_subgroup');
-  LoadXML('Chair.xml', 'xml_chair');
-  LoadXML('KindOfWork.xml', 'xml_kind_of_work');
-  LoadXML('Group.xml', 'xml_group');
-  LoadXML('Discipline.xml', 'xml_discipline');
-  LoadXML('Lecturer.xml', 'xml_lecturer');
-  LoadXML('Post.xml', 'xml_post');
+file_put_contents('ContentOfLoad.xml', file_get_contents('http://192.168.59.100/nagruzka/ContentOfLoad.xml'));
+file_put_contents('ContentOfLoadStaff.xml', file_get_contents('http://192.168.59.100/nagruzka/ContentOfLoadStaff.xml'));
+file_put_contents('SubGroup.xml', file_get_contents('http://192.168.59.100/nagruzka/SubGroup.xml'));
+file_put_contents('Group.xml', file_get_contents('http://192.168.59.100/nagruzka/Group.xml'));
+file_put_contents('Stream.xml', file_get_contents('http://192.168.59.100/nagruzka/Stream.xml'));
+file_put_contents('KindOfWork.xml', file_get_contents('http://192.168.59.100/nagruzka/KindOfWork.xml'));
+file_put_contents('Discipline.xml', file_get_contents('http://192.168.59.100/nagruzka/Discipline.xml'));
+file_put_contents('Chair.xml', file_get_contents('http://192.168.59.100/nagruzka/Chair.xml'));
+file_put_contents('SubGroup.xml', file_get_contents('http://192.168.59.100/nagruzka/SubGroup.xml'));
+file_put_contents('FormOfEducation.xml', file_get_contents('http://192.168.59.100/nagruzka/FormOfEducation.xml'));
+file_put_contents('Speciality.xml', file_get_contents('http://192.168.59.100/nagruzka/Speciality.xml'));
+file_put_contents('Specialization.xml', file_get_contents('http://192.168.59.100/nagruzka/Specialization.xml'));
+file_put_contents('Language.xml', file_get_contents('http://192.168.59.100/nagruzka/Language.xml'));
+file_put_contents('Faculty.xml', file_get_contents('http://192.168.59.100/nagruzka/Faculty.xml'));
+file_put_contents('Lecturer.xml', file_get_contents('http://192.168.59.100/nagruzka/Lecturer.xml'));
+file_put_contents('Post.xml', file_get_contents('http://192.168.59.100/nagruzka/Post.xml'));
 
-  LoadXML('ContentOfLoadStaff.xml', 'xml_content_of_load_staff');
-  LoadXML('ContentOfLoad.xml', 'xml_content_of_load');
+// exit;
 
 
-  // Получим данные кандидатов; они нам нужны, чтобы получить id кандидата = будущего сотрудника; он мог быть уже сотрудником прежде, тогда его id является прежним id сотрудника
-  $url = 'http://www:nahuheti9@ip.unn.ru/integration/rest/base/getChangedObjects?map=nngu.ais.employees.add';
-  file_put_contents('nngu.ais.employees.add.xml', file_get_contents($url));
-}
+/*
+LoadXML('Stream.xml', 'xml_stream');
+LoadXML('Faculty.xml', 'xml_faculty');
+LoadXML('Language.xml', 'xml_language');
+LoadXML('Specialization.xml', 'xml_specialization');
+LoadXML('Speciality.xml', 'xml_speciality');
+LoadXML('SubGroup.xml', 'xml_subgroup');
+LoadXML('Chair.xml', 'xml_chair');
+LoadXML('KindOfWork.xml', 'xml_kind_of_work');
+LoadXML('Group.xml', 'xml_group');
+LoadXML('Discipline.xml', 'xml_discipline');
+LoadXML('Lecturer.xml', 'xml_lecturer');
+LoadXML('Post.xml', 'xml_post');
+
+LoadXML('ContentOfLoadStaff.xml', 'xml_content_of_load_staff');
+LoadXML('ContentOfLoad.xml', 'xml_content_of_load');
 
 
+
+
+// Получим данные кандидатов; они нам нужны, чтобы получить id кандидата = будущего сотрудника; он мог быть уже сотрудником прежде, тогда его id является прежним id сотрудника
+$url = 'http://www:nahuheti9@ip.unn.ru/integration/rest/base/getChangedObjects?map=nngu.ais.employees.add';
+file_put_contents('nngu.ais.employees.add.xml', file_get_contents($url));
+
+// exit;
+
+*/
 
 $kandidats_xml = simplexml_load_string(file_get_contents('nngu.ais.employees.add.xml'));
 
@@ -579,11 +570,7 @@ if ($SotrudnikiItogoByKey)
               INSERT INTO `sotrudniki` 
               SET `person_id` = '$chair_sotrudnik[person_id]', `lecturer_uid` = '$lecturer[UID]', `lecturer_login` = '$login',
               `fio` = '$chair_sotrudnik[fio]', `chair_id` = '$chair_sotrudnik[chair_id]', `department_id` = '$chair_sotrudnik[department_id]',
-              `podrazdelenie_id` = '$chair_sotrudnik[podrazdelenie_id]', `dolzhnost` = '$chair_sotrudnik[dolzhnost]', `type` = '$chair_sotrudnik[type]', `selected` = '$selected', `stavka` = '$chair_sotrudnik[stavka]', `pku` = '$chair_sotrudnik[pku]', `pkg` = '$chair_sotrudnik[pkg]', `date_add` = NOW()
-              ON DUPLICATE KEY UPDATE
-              `pku` = VALUES(`pku`),
-              `pkg` = VALUES(`pkg`),
-              `stavka` = VALUES(`stavka`)
+              `podrazdelenie_id` = '$chair_sotrudnik[podrazdelenie_id]', `dolzhnost` = '$chair_sotrudnik[dolzhnost]', `type` = '$chair_sotrudnik[type]', `selected` = '$selected', `date_add` = NOW()
             ";
 
       // echo $query . '<br><br>';
@@ -592,26 +579,12 @@ if ($SotrudnikiItogoByKey)
 
       if (!$Result)
       {
-        EchoLog("Error #573 in cron.php:<br>" . $mysqli->error . "<br><br>$query", "file mail");
+        EchoLog($mysqli->error);
       }
     }
-    // updating
     else
     {
-      $query = "
-              UPDATE `sotrudniki` 
-              SET `fio` = '$chair_sotrudnik[fio]', `dolzhnost` = '$chair_sotrudnik[dolzhnost]', `type` = '$chair_sotrudnik[type]', `stavka` = '$chair_sotrudnik[stavka]', `pku` = '$chair_sotrudnik[pku]', `pkg` = '$chair_sotrudnik[pkg]'
-              WHERE `person_id` = '$chair_sotrudnik[person_id]' AND `chair_id` = '$chair_sotrudnik[chair_id]'
-            ";
 
-      // echo $query . '<br><br>';
-
-      $Result = $mysqli->query($query);
-
-      if (!$Result)
-      {
-        EchoLog("Error #683 in cron.php:<br>" . $mysqli->error . "<br><br>$query", "file mail");
-      }
     }
 
     
@@ -628,8 +601,7 @@ $XMLLecturer = GetTable('xml_lecturer', "", "", "UID");
 $XMLPost = GetTable('xml_post', "", "", "Name");
 $XMLChairByCode = GetTable('xml_chair', "", "", "Code");
 $XMLChairByUID = GetTable('xml_chair', "", "", "UID");
-$XMLContentOfLoad = GetTable('xml_content_of_load', "", "", "UID", "UID, UID_Chair, base_uid, hash, UID_Lecturer");
-// $XMLContentOfLoadByBaseUID = GetTable('xml_content_of_load', "", "", "base_uid", "UID, UID_Chair, base_uid, hash, UID_Lecturer");
+$XMLContentOfLoad = GetTable('xml_content_of_load', "", "", "base_uid", "UID, UID_Chair, base_uid, hash, UID_Lecturer");
 $_XMLContentOfLoadStaff = GetTable('xml_content_of_load_staff', "", "", null, "UID, UID_ContentOfLoad, hash");
 
 $XMLContentOfLoadStaff = [];
@@ -640,17 +612,6 @@ if ($_XMLContentOfLoadStaff)
   {
     // UID_ContentOfLoad соотв. base_uid
     $XMLContentOfLoadStaff[$row['UID_ContentOfLoad']][$row['UID']] = $row;
-  }
-}
-
-$XMLContentOfLoadByBaseUID = [];
-
-if ($XMLContentOfLoad)
-{
-  foreach ($XMLContentOfLoad as $row)
-  {
-    // в этой таблице из-за споточенности для одного base_uid может быть несколько UID с разными суффиксами
-    $XMLContentOfLoadByBaseUID[$row['base_uid']][$row['UID']] = $row;
   }
 }
 
@@ -758,61 +719,32 @@ if ($XMLContentOfLoad)
     {
       // сравниваем всё на базе base_uid
       $base_uid = $xml_content_of_load_prev_row['base_uid'];
-      $xml_content_of_load_UID = $xml_content_of_load_prev_row['UID'];
 
-      // прежняя нагрузка не обнаружена в текущем справочнике нагрузок по base_UID,
-      // т.е. нет такой нагрузки независимо от споточенности
-      // т.к. в цикле идём по UID, и base_uid может повторяться, то код в скобках может повториться
-      if (!$XMLContentOfLoadByBaseUID[$base_uid])
+      // прежняя нагрузка не обнаружена в текущем справочнике нагрузок
+      if (!$XMLContentOfLoad[$base_uid])
       {
-        EchoLog("Прежняя нагрузка (base_uid=$base_uid, content_uid=$xml_content_of_load_UID) не обнаружена в текущем справочнике xml_content_of_load, удаляем");
-
+        EchoLog("Прежняя нагрузка $base_uid не обнаружена в текущем справочнике xml_content_of_load, удаляем");
         $mysqli->query("DELETE FROM `nagruzka` WHERE `load_base_UID` = '$base_uid'");
-
         continue;
       }
       // прежняя нагрузка есть в текущем справочнике нагрузок
-      // [позже] проверим, поменялось ли хотя бы одно поле в строке нагрузки и в ContentOfLoadStaff
+      // проверим, поменялось ли хотя бы одно поле в строке нагрузки и в ContentOfLoadStaff
       else
       {
+        $new_nagr_row = $XMLContentOfLoad[$base_uid];
         $some_changed = false;
 
-        // Проверим, изменилось ли количество строк в xml_content_of_load для конкретного base_UID (а, значит, для строки таблица nagruzka) - это означает изменение споточенности (суффиксов)
-        // Если это изменилось, то нужно очистить привязанного преподавателя
-        if (sizeof($XMLContentOfLoadPrevByBaseUID[$base_uid]) != sizeof($XMLContentOfLoadByBaseUID[$base_uid]))
+        if ($xml_content_of_load_prev_row['hash'] != $new_nagr_row['hash']) $some_changed = true;
+
+        if ($base_uid === '26589.281474976786399' && $some_changed)
         {
-          $some_changed = true;
-          EchoLog("Для base_uid = $base_uid (uid = $xml_content_of_load_UID) изменилось количество строк в таблице xml_content_of_load, очистим преподавателя {$NagruzkaPrev[$base_uid]['lecturer_fio']}");
+          EchoLog("base_uid: $base_uid");
+          EchoLog("UID: $xml_content_of_load_prev_row[UID]");
+          EchoLog("Prev hash: $xml_content_of_load_prev_row[hash]");
+          EchoLog("New hash: $new_nagr_row[hash]");
+          EchoLog($some_changed);
+          EchoLog("Хеши 1 изменились");
         }
-
-        // если изменился UID в таблице 1 (споточенность-суффикс или суффикс стал юидом привязанного в Галактике лектора),
-        // то здесь строка не найдётся по прежнему UID, тогда тоже очистим лектора
-        $new_nagr_row = $XMLContentOfLoad[$xml_content_of_load_UID];
-        
-        if (!$new_nagr_row)
-        {
-          $some_changed = true;
-          EchoLog("Для uid = $xml_content_of_load_UID не найдена строка в таблице xml_content_of_load, очистим преподавателя");
-        }
-
-        if ($new_nagr_row && $xml_content_of_load_prev_row['hash'] != $new_nagr_row['hash'])
-        {
-          $some_changed = true;
-
-          EchoLog("Для uid = $xml_content_of_load_UID (base_uid = $base_uid) в таблице xml_content_of_load изменился хеш ($xml_content_of_load_prev_row[hash] => $new_nagr_row[hash]), очистим преподавателя {$NagruzkaPrev[$base_uid]['lecturer_fio']}");
-
-          if ($base_uid === '26589.281474976786399')
-          {
-            EchoLog("base_uid: $base_uid");
-            EchoLog("UID: xml_content_of_load_UID");
-            EchoLog("Prev hash: $xml_content_of_load_prev_row[hash]");
-            EchoLog("New hash: $new_nagr_row[hash]");
-            // EchoLog($some_changed);
-            EchoLog("Хеши 1 изменились");
-          }
-        }
-
-        
 
         // сделаем сравнение строк load_staff: 
 
@@ -835,13 +767,13 @@ if ($XMLContentOfLoad)
                 {
                   $some_changed = true;
 
-                  if ($base_uid === '26589.281474976786399')
+                  if ($base_uid === '26589.281474976786399' && $some_changed)
                   {
                     EchoLog("base_uid: $base_uid");
                     // EchoLog("UID: $xml_content_of_load_prev_row[UID]");
-                    EchoLog("Prev hash: {$XMLContentOfLoadStaffPrev[$base_uid][$load_staff_UID]['hash']}"); 
+                    EchoLog("Prev hash: {$XMLContentOfLoadStaffPrev[$base_uid][$load_staff_UID]['hash']}");
                     EchoLog("New hash: {$load_staff_new_row['hash']}");
-                    // EchoLog($some_changed);
+                    EchoLog($some_changed);
                     EchoLog("Хеши 2 изменились");
                   }
                   
@@ -881,10 +813,8 @@ if ($XMLContentOfLoad)
 
           if ($Result)
           {
-            $NagruzkaPrev[$base_uid]['lecturer_fio'] = '';
-
             // выведем только если лектор был
-            if ($base_uid === '26589.281474976786399' || $NagruzkaPrev[$base_uid]['lecturer_fio'])
+            if ($base_uid == '26589.281474976786399' || $NagruzkaPrev[$base_uid]['lecturer_fio'])
             EchoLog("Очистили лектора кафедры {$XMLChairByUID[$new_nagr_row['UID_Chair']]['Name']} ($chair_id) у нагрузки $base_uid");
           }
           else
@@ -982,7 +912,7 @@ if ($XMLContentOfLoad)
             // признак актуальности подразделения в Сотруднике
             if (!$Podrazdelenia[$chair_id]['deleted'])
             {
-              // EchoLog("base_uid = $xml_content_of_load_row[base_uid], chair_id = $chair_id кафедра актуальна");
+              EchoLog("base_uid = $xml_content_of_load_row[base_uid], chair_id = $chair_id кафедра актуальна");
 
               $query = "INSERT IGNORE INTO `nagruzka` SET `chair_id` = '$chair_id', `chair_name` = '$chair_name', `department_id` = '$department_id', `department_name` = '$department_name',  `lecturer_fio` = '$lecturer[FIO]', `lecturer_uid` = '$xml_content_of_load_row[UID_Lecturer]', `lecturer_person_id` = '$lecturer[Tab_number]', `load_base_UID` = '$xml_content_of_load_row[base_uid]', `valid` = '1' $zavkaf_sql";
             }
@@ -1066,7 +996,7 @@ if ($XMLContentOfLoad)
           // Если у нагрузки в Галактике указан преподаватель, то его взять, но только если система в режиме выверки
           if ($xml_content_of_load_row['UID_Lecturer'] && $xml_content_of_load_row['UID_Lecturer'] != '-1' && $NagruzkaPrev[$xml_content_of_load_row['base_uid']]['lecturer_uid'] != $xml_content_of_load_row['UID_Lecturer'] && $_system_mode == 'mode_verification')
           {
-            // EchoLog('here');
+            EchoLog('here');
             $lecturer = $XMLLecturer[$xml_content_of_load_row['UID_Lecturer']];
 
             // ? МЕНЯТЬ ЛИ СТАТУС ?

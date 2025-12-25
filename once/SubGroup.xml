@@ -587,24 +587,24 @@
 					<prop_value prop_name="PlannedAmount" value="15"></prop_value>
 				</Collection>
 			</Object>
-			<Object uid="26026.281474976715558" name="3822Б1ПИпр2-1ИЯ" class_id="SubGroup">
+			<Object uid="26026.281474976715558" name="" class_id="SubGroup">
 				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
 					<prop_value prop_name="UID" value="26026.281474976715558"></prop_value>
-					<prop_value prop_name="Name" value="3822Б1ПИпр2-1ИЯ"></prop_value>
-					<prop_value prop_name="Number" value="3822Б1ПИпр2-1ИЯ"></prop_value>
+					<prop_value prop_name="Name" value=""></prop_value>
+					<prop_value prop_name="Number" value=""></prop_value>
 					<prop_value prop_name="UID_Group" value="26007.281474976733455"></prop_value>
-					<prop_value prop_name="Abbr" value="3822Б1ПИпр2-1ИЯ"></prop_value>
+					<prop_value prop_name="Abbr" value=""></prop_value>
 					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="15"></prop_value>
 				</Collection>
 			</Object>
-			<Object uid="26026.281474976715559" name="3822Б1ПИпр2-2ИЯ" class_id="SubGroup">
+			<Object uid="26026.281474976715559" name="" class_id="SubGroup">
 				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
 					<prop_value prop_name="UID" value="26026.281474976715559"></prop_value>
-					<prop_value prop_name="Name" value="3822Б1ПИпр2-2ИЯ"></prop_value>
-					<prop_value prop_name="Number" value="3822Б1ПИпр2-2ИЯ"></prop_value>
+					<prop_value prop_name="Name" value=""></prop_value>
+					<prop_value prop_name="Number" value=""></prop_value>
 					<prop_value prop_name="UID_Group" value="26007.281474976733455"></prop_value>
-					<prop_value prop_name="Abbr" value="3822Б1ПИпр2-2ИЯ"></prop_value>
+					<prop_value prop_name="Abbr" value=""></prop_value>
 					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="15"></prop_value>
 				</Collection>
@@ -631,24 +631,24 @@
 					<prop_value prop_name="PlannedAmount" value="15"></prop_value>
 				</Collection>
 			</Object>
-			<Object uid="26026.281474976715562" name="3822Б1ПР2-1ИЯ" class_id="SubGroup">
+			<Object uid="26026.281474976715562" name="" class_id="SubGroup">
 				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
 					<prop_value prop_name="UID" value="26026.281474976715562"></prop_value>
-					<prop_value prop_name="Name" value="3822Б1ПР2-1ИЯ"></prop_value>
-					<prop_value prop_name="Number" value="3822Б1ПР2-1ИЯ"></prop_value>
+					<prop_value prop_name="Name" value=""></prop_value>
+					<prop_value prop_name="Number" value=""></prop_value>
 					<prop_value prop_name="UID_Group" value="26007.281474976732254"></prop_value>
-					<prop_value prop_name="Abbr" value="3822Б1ПР2-1ИЯ"></prop_value>
+					<prop_value prop_name="Abbr" value=""></prop_value>
 					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="15"></prop_value>
 				</Collection>
 			</Object>
-			<Object uid="26026.281474976715563" name="3822Б1ПР2-2ИЯ" class_id="SubGroup">
+			<Object uid="26026.281474976715563" name="" class_id="SubGroup">
 				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
 					<prop_value prop_name="UID" value="26026.281474976715563"></prop_value>
-					<prop_value prop_name="Name" value="3822Б1ПР2-2ИЯ"></prop_value>
-					<prop_value prop_name="Number" value="3822Б1ПР2-2ИЯ"></prop_value>
+					<prop_value prop_name="Name" value=""></prop_value>
+					<prop_value prop_name="Number" value=""></prop_value>
 					<prop_value prop_name="UID_Group" value="26007.281474976732254"></prop_value>
-					<prop_value prop_name="Abbr" value="3822Б1ПР2-2ИЯ"></prop_value>
+					<prop_value prop_name="Abbr" value=""></prop_value>
 					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="15"></prop_value>
 				</Collection>
@@ -851,26 +851,70 @@
 					<prop_value prop_name="PlannedAmount" value="15"></prop_value>
 				</Collection>
 			</Object>
-			<Object uid="26026.281474976716313" name="3822Б1ПР2-1 (Основы программирования)" class_id="SubGroup">
+			<Object uid="26026.281474976716313" name="" class_id="SubGroup">
 				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
 					<prop_value prop_name="UID" value="26026.281474976716313"></prop_value>
-					<prop_value prop_name="Name" value="3822Б1ПР2-1 (Основы программирования)"></prop_value>
-					<prop_value prop_name="Number" value="3822Б1ПР2-1 (Основы программирования)"></prop_value>
+					<prop_value prop_name="Name" value=""></prop_value>
+					<prop_value prop_name="Number" value=""></prop_value>
 					<prop_value prop_name="UID_Group" value="26007.281474976732254"></prop_value>
-					<prop_value prop_name="Abbr" value="3822Б1ПР2-1 (Основы программирования)"></prop_value>
+					<prop_value prop_name="Abbr" value=""></prop_value>
 					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="15"></prop_value>
 				</Collection>
 			</Object>
-			<Object uid="26026.281474976716314" name="3822Б1ПР2-2 (Основы программирования)" class_id="SubGroup">
+			<Object uid="26026.281474976716314" name="" class_id="SubGroup">
 				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
 					<prop_value prop_name="UID" value="26026.281474976716314"></prop_value>
-					<prop_value prop_name="Name" value="3822Б1ПР2-2 (Основы программирования)"></prop_value>
-					<prop_value prop_name="Number" value="3822Б1ПР2-2 (Основы программирования)"></prop_value>
+					<prop_value prop_name="Name" value=""></prop_value>
+					<prop_value prop_name="Number" value=""></prop_value>
 					<prop_value prop_name="UID_Group" value="26007.281474976732254"></prop_value>
-					<prop_value prop_name="Abbr" value="3822Б1ПР2-2 (Основы программирования)"></prop_value>
+					<prop_value prop_name="Abbr" value=""></prop_value>
 					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="15"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26026.281474976716367" name="0522Б1ИС1-Лаб1" class_id="SubGroup">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26026.281474976716367"></prop_value>
+					<prop_value prop_name="Name" value="0522Б1ИС1-Лаб1"></prop_value>
+					<prop_value prop_name="Number" value="0522Б1ИС1-Лаб1"></prop_value>
+					<prop_value prop_name="UID_Group" value="26007.281474976732221"></prop_value>
+					<prop_value prop_name="Abbr" value="0522Б1ИС1-Лаб1"></prop_value>
+					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="12"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26026.281474976716368" name="0522Б1ИС1-Лаб2В" class_id="SubGroup">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26026.281474976716368"></prop_value>
+					<prop_value prop_name="Name" value="0522Б1ИС1-Лаб2В"></prop_value>
+					<prop_value prop_name="Number" value="0522Б1ИС1-Лаб2В"></prop_value>
+					<prop_value prop_name="UID_Group" value="26007.281474976732221"></prop_value>
+					<prop_value prop_name="Abbr" value="0522Б1ИС1-Лаб2В"></prop_value>
+					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="10"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26026.281474976716369" name="0522Б1ИС2-Лаб1" class_id="SubGroup">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26026.281474976716369"></prop_value>
+					<prop_value prop_name="Name" value="0522Б1ИС2-Лаб1"></prop_value>
+					<prop_value prop_name="Number" value="0522Б1ИС2-Лаб1"></prop_value>
+					<prop_value prop_name="UID_Group" value="26007.281474976732222"></prop_value>
+					<prop_value prop_name="Abbr" value="0522Б1ИС2-Лаб1"></prop_value>
+					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="9"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26026.281474976716370" name="0522Б1ИС2-Лаб2В" class_id="SubGroup">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26026.281474976716370"></prop_value>
+					<prop_value prop_name="Name" value="0522Б1ИС2-Лаб2В"></prop_value>
+					<prop_value prop_name="Number" value="0522Б1ИС2-Лаб2В"></prop_value>
+					<prop_value prop_name="UID_Group" value="26007.281474976732222"></prop_value>
+					<prop_value prop_name="Abbr" value="0522Б1ИС2-Лаб2В"></prop_value>
+					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="10"></prop_value>
 				</Collection>
 			</Object>
 			<Object uid="26026.281474976716456" name="3822Б1ФИ_а1-1(Иностранный язык)" class_id="SubGroup">
@@ -1841,24 +1885,24 @@
 					<prop_value prop_name="PlannedAmount" value="15"></prop_value>
 				</Collection>
 			</Object>
-			<Object uid="26026.281474976718129" name="3822Б1ПР2-1 (Алгоритмы и структуры данных)" class_id="SubGroup">
+			<Object uid="26026.281474976718129" name="" class_id="SubGroup">
 				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
 					<prop_value prop_name="UID" value="26026.281474976718129"></prop_value>
-					<prop_value prop_name="Name" value="3822Б1ПР2-1 (Алгоритмы и структуры данных)"></prop_value>
-					<prop_value prop_name="Number" value="3822Б1ПР2-1 (Алгоритмы и структуры данных)"></prop_value>
+					<prop_value prop_name="Name" value=""></prop_value>
+					<prop_value prop_name="Number" value=""></prop_value>
 					<prop_value prop_name="UID_Group" value="26007.281474976732254"></prop_value>
-					<prop_value prop_name="Abbr" value="3822Б1ПР2-1 (Алгоритмы и структуры данных)"></prop_value>
+					<prop_value prop_name="Abbr" value=""></prop_value>
 					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="15"></prop_value>
 				</Collection>
 			</Object>
-			<Object uid="26026.281474976718130" name="3822Б1ПР2-2 (Алгоритмы и структуры данных)" class_id="SubGroup">
+			<Object uid="26026.281474976718130" name="" class_id="SubGroup">
 				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
 					<prop_value prop_name="UID" value="26026.281474976718130"></prop_value>
-					<prop_value prop_name="Name" value="3822Б1ПР2-2 (Алгоритмы и структуры данных)"></prop_value>
-					<prop_value prop_name="Number" value="3822Б1ПР2-2 (Алгоритмы и структуры данных)"></prop_value>
+					<prop_value prop_name="Name" value=""></prop_value>
+					<prop_value prop_name="Number" value=""></prop_value>
 					<prop_value prop_name="UID_Group" value="26007.281474976732254"></prop_value>
-					<prop_value prop_name="Abbr" value="3822Б1ПР2-2 (Алгоритмы и структуры данных)"></prop_value>
+					<prop_value prop_name="Abbr" value=""></prop_value>
 					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="15"></prop_value>
 				</Collection>
@@ -2281,24 +2325,24 @@
 					<prop_value prop_name="PlannedAmount" value="15"></prop_value>
 				</Collection>
 			</Object>
-			<Object uid="26026.281474976718266" name="3822Б1ПИпр2-1 Дифференциальные уравнения" class_id="SubGroup">
+			<Object uid="26026.281474976718266" name="" class_id="SubGroup">
 				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
 					<prop_value prop_name="UID" value="26026.281474976718266"></prop_value>
-					<prop_value prop_name="Name" value="3822Б1ПИпр2-1 Дифференциальные уравнения"></prop_value>
-					<prop_value prop_name="Number" value="3822Б1ПИпр2-1 Дифференциальные уравнения"></prop_value>
+					<prop_value prop_name="Name" value=""></prop_value>
+					<prop_value prop_name="Number" value=""></prop_value>
 					<prop_value prop_name="UID_Group" value="26007.281474976733455"></prop_value>
-					<prop_value prop_name="Abbr" value="3822Б1ПИпр2-1 Дифференциальные уравнения"></prop_value>
+					<prop_value prop_name="Abbr" value=""></prop_value>
 					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="10"></prop_value>
 				</Collection>
 			</Object>
-			<Object uid="26026.281474976718267" name="3822Б1ПИпр2-2 Дифференциальные уравнения" class_id="SubGroup">
+			<Object uid="26026.281474976718267" name="" class_id="SubGroup">
 				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
 					<prop_value prop_name="UID" value="26026.281474976718267"></prop_value>
-					<prop_value prop_name="Name" value="3822Б1ПИпр2-2 Дифференциальные уравнения"></prop_value>
-					<prop_value prop_name="Number" value="3822Б1ПИпр2-2 Дифференциальные уравнения"></prop_value>
+					<prop_value prop_name="Name" value=""></prop_value>
+					<prop_value prop_name="Number" value=""></prop_value>
 					<prop_value prop_name="UID_Group" value="26007.281474976733455"></prop_value>
-					<prop_value prop_name="Abbr" value="3822Б1ПИпр2-2 Дифференциальные уравнения"></prop_value>
+					<prop_value prop_name="Abbr" value=""></prop_value>
 					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="11"></prop_value>
 				</Collection>
@@ -5944,24 +5988,24 @@
 					<prop_value prop_name="PlannedAmount" value="25"></prop_value>
 				</Collection>
 			</Object>
-			<Object uid="26026.281474976721090" name="3822Б1ПР2-Программирование мобильных систем" class_id="SubGroup">
+			<Object uid="26026.281474976721090" name="" class_id="SubGroup">
 				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
 					<prop_value prop_name="UID" value="26026.281474976721090"></prop_value>
-					<prop_value prop_name="Name" value="3822Б1ПР2-Программирование мобильных систем"></prop_value>
-					<prop_value prop_name="Number" value="3822Б1ПР2-Программирование мобильных систем"></prop_value>
+					<prop_value prop_name="Name" value=""></prop_value>
+					<prop_value prop_name="Number" value=""></prop_value>
 					<prop_value prop_name="UID_Group" value="26007.281474976732254"></prop_value>
-					<prop_value prop_name="Abbr" value="3822Б1ПР2-Программирование мобильных систем"></prop_value>
+					<prop_value prop_name="Abbr" value=""></prop_value>
 					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="16"></prop_value>
 				</Collection>
 			</Object>
-			<Object uid="26026.281474976721091" name="3822Б1ПР2-Системы поддержки принятия решений" class_id="SubGroup">
+			<Object uid="26026.281474976721091" name="" class_id="SubGroup">
 				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
 					<prop_value prop_name="UID" value="26026.281474976721091"></prop_value>
-					<prop_value prop_name="Name" value="3822Б1ПР2-Системы поддержки принятия решений"></prop_value>
-					<prop_value prop_name="Number" value="3822Б1ПР2-Системы поддержки принятия решений"></prop_value>
+					<prop_value prop_name="Name" value=""></prop_value>
+					<prop_value prop_name="Number" value=""></prop_value>
 					<prop_value prop_name="UID_Group" value="26007.281474976732254"></prop_value>
-					<prop_value prop_name="Abbr" value="3822Б1ПР2-Системы поддержки принятия решений"></prop_value>
+					<prop_value prop_name="Abbr" value=""></prop_value>
 					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="20"></prop_value>
 				</Collection>
@@ -6604,13 +6648,13 @@
 					<prop_value prop_name="PlannedAmount" value="1"></prop_value>
 				</Collection>
 			</Object>
-			<Object uid="26026.281474976721330" name="3822Б1ПР2-Управление системами телекоммуникаций" class_id="SubGroup">
+			<Object uid="26026.281474976721330" name="" class_id="SubGroup">
 				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
 					<prop_value prop_name="UID" value="26026.281474976721330"></prop_value>
-					<prop_value prop_name="Name" value="3822Б1ПР2-Управление системами телекоммуникаций"></prop_value>
-					<prop_value prop_name="Number" value="3822Б1ПР2-Управление системами телекоммуникаций"></prop_value>
+					<prop_value prop_name="Name" value=""></prop_value>
+					<prop_value prop_name="Number" value=""></prop_value>
 					<prop_value prop_name="UID_Group" value="26007.281474976732254"></prop_value>
-					<prop_value prop_name="Abbr" value="3822Б1ПР2-Управление системами телекоммуникаций"></prop_value>
+					<prop_value prop_name="Abbr" value=""></prop_value>
 					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="29"></prop_value>
 				</Collection>
@@ -6670,6 +6714,72 @@
 					<prop_value prop_name="PlannedAmount" value="0"></prop_value>
 				</Collection>
 			</Object>
+			<Object uid="26026.281474976721396" name="3424Б1ИО1-Полозова Физическая культура и спорт (элективная дисцилина): юноши" class_id="SubGroup">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26026.281474976721396"></prop_value>
+					<prop_value prop_name="Name" value="3424Б1ИО1-Полозова Физическая культура и спорт (элективная дисцилина): юноши"></prop_value>
+					<prop_value prop_name="Number" value="3424Б1ИО1-Полозова Физическая культура и спорт (элективная дисцилина): юноши"></prop_value>
+					<prop_value prop_name="UID_Group" value="26007.281474976736794"></prop_value>
+					<prop_value prop_name="Abbr" value="3424Б1ИО1-Полозова Физическая культура и спорт (элективная дисцилина): юноши"></prop_value>
+					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="0"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26026.281474976721397" name="3424Б1ИО1-Кононенко Физическая культура (элективная дисциплина): девушки" class_id="SubGroup">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26026.281474976721397"></prop_value>
+					<prop_value prop_name="Name" value="3424Б1ИО1-Кононенко Физическая культура (элективная дисциплина): девушки"></prop_value>
+					<prop_value prop_name="Number" value="3424Б1ИО1-Кононенко Физическая культура (элективная дисциплина): девушки"></prop_value>
+					<prop_value prop_name="UID_Group" value="26007.281474976736794"></prop_value>
+					<prop_value prop_name="Abbr" value="3424Б1ИО1-Кононенко Физическая культура (элективная дисциплина): девушки"></prop_value>
+					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="0"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26026.281474976721398" name="3424Б1ИО2-Полозова Физическая культура и спорт (элективная дисциплина): юноши" class_id="SubGroup">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26026.281474976721398"></prop_value>
+					<prop_value prop_name="Name" value="3424Б1ИО2-Полозова Физическая культура и спорт (элективная дисциплина): юноши"></prop_value>
+					<prop_value prop_name="Number" value="3424Б1ИО2-Полозова Физическая культура и спорт (элективная дисциплина): юноши"></prop_value>
+					<prop_value prop_name="UID_Group" value="26007.281474976737166"></prop_value>
+					<prop_value prop_name="Abbr" value="3424Б1ИО2-Полозова Физическая культура и спорт (элективная дисциплина): юноши"></prop_value>
+					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="0"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26026.281474976721399" name="3424Б1ИО2-Кононенко Физическая культура и спорт (элективная дисциплина): девушки" class_id="SubGroup">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26026.281474976721399"></prop_value>
+					<prop_value prop_name="Name" value="3424Б1ИО2-Кононенко Физическая культура и спорт (элективная дисциплина): девушки"></prop_value>
+					<prop_value prop_name="Number" value="3424Б1ИО2-Кононенко Физическая культура и спорт (элективная дисциплина): девушки"></prop_value>
+					<prop_value prop_name="UID_Group" value="26007.281474976737166"></prop_value>
+					<prop_value prop_name="Abbr" value="3424Б1ИО2-Кононенко Физическая культура и спорт (элективная дисциплина): девушки"></prop_value>
+					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="0"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26026.281474976721403" name="3424Б1ИО2-Щуров Физическая культура и спорт" class_id="SubGroup">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26026.281474976721403"></prop_value>
+					<prop_value prop_name="Name" value="3424Б1ИО2-Щуров Физическая культура и спорт"></prop_value>
+					<prop_value prop_name="Number" value="3424Б1ИО2-Щуров Физическая культура и спорт"></prop_value>
+					<prop_value prop_name="UID_Group" value="26007.281474976737166"></prop_value>
+					<prop_value prop_name="Abbr" value="3424Б1ИО2-Щуров Физическая культура и спорт"></prop_value>
+					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="0"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26026.281474976721404" name="3424Б1ИО1-Щуров Физическая культура и спорт" class_id="SubGroup">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26026.281474976721404"></prop_value>
+					<prop_value prop_name="Name" value="3424Б1ИО1-Щуров Физическая культура и спорт"></prop_value>
+					<prop_value prop_name="Number" value="3424Б1ИО1-Щуров Физическая культура и спорт"></prop_value>
+					<prop_value prop_name="UID_Group" value="26007.281474976736794"></prop_value>
+					<prop_value prop_name="Abbr" value="3424Б1ИО1-Щуров Физическая культура и спорт"></prop_value>
+					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="0"></prop_value>
+				</Collection>
+			</Object>
 			<Object uid="26026.281474976721405" name="3424Б1ДА1-Щуров Физическая культура и спорт " class_id="SubGroup">
 				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
 					<prop_value prop_name="UID" value="26026.281474976721405"></prop_value>
@@ -6677,6 +6787,94 @@
 					<prop_value prop_name="Number" value="3424Б1ДА1-Щуров Физическая культура и спорт "></prop_value>
 					<prop_value prop_name="UID_Group" value="26007.281474976736793"></prop_value>
 					<prop_value prop_name="Abbr" value="3424Б1ДА1-Щуров Физическая культура и спорт "></prop_value>
+					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="0"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26026.281474976721440" name="3424Б1ИО1-Егорская (англ)" class_id="SubGroup">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26026.281474976721440"></prop_value>
+					<prop_value prop_name="Name" value="3424Б1ИО1-Егорская (англ)"></prop_value>
+					<prop_value prop_name="Number" value="3424Б1ИО1-Егорская (англ)"></prop_value>
+					<prop_value prop_name="UID_Group" value="26007.281474976736794"></prop_value>
+					<prop_value prop_name="Abbr" value="3424Б1ИО1-Егорская (англ)"></prop_value>
+					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="0"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26026.281474976721441" name="3424Б1ИО1-Глазунова (англ)" class_id="SubGroup">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26026.281474976721441"></prop_value>
+					<prop_value prop_name="Name" value="3424Б1ИО1-Глазунова (англ)"></prop_value>
+					<prop_value prop_name="Number" value="3424Б1ИО1-Глазунова (англ)"></prop_value>
+					<prop_value prop_name="UID_Group" value="26007.281474976736794"></prop_value>
+					<prop_value prop_name="Abbr" value="3424Б1ИО1-Глазунова (англ)"></prop_value>
+					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="0"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26026.281474976721442" name="3424Б1ИО1-Куклина (англ)" class_id="SubGroup">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26026.281474976721442"></prop_value>
+					<prop_value prop_name="Name" value="3424Б1ИО1-Куклина (англ)"></prop_value>
+					<prop_value prop_name="Number" value="3424Б1ИО1-Куклина (англ)"></prop_value>
+					<prop_value prop_name="UID_Group" value="26007.281474976736794"></prop_value>
+					<prop_value prop_name="Abbr" value="3424Б1ИО1-Куклина (англ)"></prop_value>
+					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="0"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26026.281474976721443" name="3424Б1ИО1-Карнаухова (англ)" class_id="SubGroup">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26026.281474976721443"></prop_value>
+					<prop_value prop_name="Name" value="3424Б1ИО1-Карнаухова (англ)"></prop_value>
+					<prop_value prop_name="Number" value="3424Б1ИО1-Карнаухова (англ)"></prop_value>
+					<prop_value prop_name="UID_Group" value="26007.281474976736794"></prop_value>
+					<prop_value prop_name="Abbr" value="3424Б1ИО1-Карнаухова (англ)"></prop_value>
+					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="0"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26026.281474976721444" name="3424Б1ИО2-Егорская (англ)" class_id="SubGroup">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26026.281474976721444"></prop_value>
+					<prop_value prop_name="Name" value="3424Б1ИО2-Егорская (англ)"></prop_value>
+					<prop_value prop_name="Number" value="3424Б1ИО2-Егорская (англ)"></prop_value>
+					<prop_value prop_name="UID_Group" value="26007.281474976737166"></prop_value>
+					<prop_value prop_name="Abbr" value="3424Б1ИО2-Егорская (англ)"></prop_value>
+					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="0"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26026.281474976721445" name="3424Б1ИО2-Глазунова (англ)" class_id="SubGroup">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26026.281474976721445"></prop_value>
+					<prop_value prop_name="Name" value="3424Б1ИО2-Глазунова (англ)"></prop_value>
+					<prop_value prop_name="Number" value="3424Б1ИО2-Глазунова (англ)"></prop_value>
+					<prop_value prop_name="UID_Group" value="26007.281474976737166"></prop_value>
+					<prop_value prop_name="Abbr" value="3424Б1ИО2-Глазунова (англ)"></prop_value>
+					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="0"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26026.281474976721446" name="3424Б1ИО2-Куклина (англ)" class_id="SubGroup">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26026.281474976721446"></prop_value>
+					<prop_value prop_name="Name" value="3424Б1ИО2-Куклина (англ)"></prop_value>
+					<prop_value prop_name="Number" value="3424Б1ИО2-Куклина (англ)"></prop_value>
+					<prop_value prop_name="UID_Group" value="26007.281474976737166"></prop_value>
+					<prop_value prop_name="Abbr" value="3424Б1ИО2-Куклина (англ)"></prop_value>
+					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="0"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26026.281474976721447" name="3424Б1ИО2-Карнаухова (англ)" class_id="SubGroup">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26026.281474976721447"></prop_value>
+					<prop_value prop_name="Name" value="3424Б1ИО2-Карнаухова (англ)"></prop_value>
+					<prop_value prop_name="Number" value="3424Б1ИО2-Карнаухова (англ)"></prop_value>
+					<prop_value prop_name="UID_Group" value="26007.281474976737166"></prop_value>
+					<prop_value prop_name="Abbr" value="3424Б1ИО2-Карнаухова (англ)"></prop_value>
 					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="0"></prop_value>
 				</Collection>
@@ -6732,6 +6930,17 @@
 					<prop_value prop_name="Number" value="3424Б1ДА1-Основы НИР в вузе"></prop_value>
 					<prop_value prop_name="UID_Group" value="26007.281474976736793"></prop_value>
 					<prop_value prop_name="Abbr" value="3424Б1ДА1-Основы НИР в вузе"></prop_value>
+					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="0"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26026.281474976721601" name="3424Б1ИО3-Иностранный язык (русский)" class_id="SubGroup">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26026.281474976721601"></prop_value>
+					<prop_value prop_name="Name" value="3424Б1ИО3-Иностранный язык (русский)"></prop_value>
+					<prop_value prop_name="Number" value="3424Б1ИО3-Иностранный язык (русский)"></prop_value>
+					<prop_value prop_name="UID_Group" value="26007.281474976738255"></prop_value>
+					<prop_value prop_name="Abbr" value="3424Б1ИО3-Иностранный язык (русский)"></prop_value>
 					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="0"></prop_value>
 				</Collection>
@@ -6945,6 +7154,28 @@
 					<prop_value prop_name="PlannedAmount" value="9"></prop_value>
 				</Collection>
 			</Object>
+			<Object uid="26026.281474976721844" name="0522Б1ИСфи1-1" class_id="SubGroup">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26026.281474976721844"></prop_value>
+					<prop_value prop_name="Name" value="0522Б1ИСфи1-1"></prop_value>
+					<prop_value prop_name="Number" value="0522Б1ИСфи1-1"></prop_value>
+					<prop_value prop_name="UID_Group" value="26007.281474976738382"></prop_value>
+					<prop_value prop_name="Abbr" value="0522Б1ИСфи1-1"></prop_value>
+					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="3"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26026.281474976721845" name="0522Б1ИСфи1-2" class_id="SubGroup">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26026.281474976721845"></prop_value>
+					<prop_value prop_name="Name" value="0522Б1ИСфи1-2"></prop_value>
+					<prop_value prop_name="Number" value="0522Б1ИСфи1-2"></prop_value>
+					<prop_value prop_name="UID_Group" value="26007.281474976738382"></prop_value>
+					<prop_value prop_name="Abbr" value="0522Б1ИСфи1-2"></prop_value>
+					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="3"></prop_value>
+				</Collection>
+			</Object>
 			<Object uid="26026.281474976721846" name="3822Б1ФИ1-Алгоритмы распознавания образов" class_id="SubGroup">
 				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
 					<prop_value prop_name="UID" value="26026.281474976721846"></prop_value>
@@ -7031,6 +7262,39 @@
 					<prop_value prop_name="Abbr" value="3822Б1МА1-Группы и алгебры Ли"></prop_value>
 					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="14"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26026.281474976721859" name="3424Б1ИО3-Щуров физическая культура и спорт" class_id="SubGroup">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26026.281474976721859"></prop_value>
+					<prop_value prop_name="Name" value="3424Б1ИО3-Щуров физическая культура и спорт"></prop_value>
+					<prop_value prop_name="Number" value="3424Б1ИО3-Щуров физическая культура и спорт"></prop_value>
+					<prop_value prop_name="UID_Group" value="26007.281474976738255"></prop_value>
+					<prop_value prop_name="Abbr" value="3424Б1ИО3-Щуров физическая культура и спорт"></prop_value>
+					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="0"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26026.281474976721860" name="3424Б1ИО3- Кононенко физ-ра(элективная): девушки" class_id="SubGroup">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26026.281474976721860"></prop_value>
+					<prop_value prop_name="Name" value="3424Б1ИО3- Кононенко физ-ра(элективная): девушки"></prop_value>
+					<prop_value prop_name="Number" value="3424Б1ИО3- Кононенко физ-ра(элективная): девушки"></prop_value>
+					<prop_value prop_name="UID_Group" value="26007.281474976738255"></prop_value>
+					<prop_value prop_name="Abbr" value="3424Б1ИО3- Кононенко физ-ра(элективная): девушки"></prop_value>
+					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="0"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26026.281474976721861" name="3424Б1ИО3-Полозова физ-ра (элективная): юноши" class_id="SubGroup">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26026.281474976721861"></prop_value>
+					<prop_value prop_name="Name" value="3424Б1ИО3-Полозова физ-ра (элективная): юноши"></prop_value>
+					<prop_value prop_name="Number" value="3424Б1ИО3-Полозова физ-ра (элективная): юноши"></prop_value>
+					<prop_value prop_name="UID_Group" value="26007.281474976738255"></prop_value>
+					<prop_value prop_name="Abbr" value="3424Б1ИО3-Полозова физ-ра (элективная): юноши"></prop_value>
+					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="0"></prop_value>
 				</Collection>
 			</Object>
 			<Object uid="26026.281474976721869" name="3822Б1ПМоп3-Дополнительные главы теории вероятностей" class_id="SubGroup">
@@ -8155,13 +8419,13 @@
 					<prop_value prop_name="PlannedAmount" value="3"></prop_value>
 				</Collection>
 			</Object>
-			<Object uid="26026.281474976722124" name="3822Б1ПР2-Проектирование операционных систем" class_id="SubGroup">
+			<Object uid="26026.281474976722124" name="" class_id="SubGroup">
 				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
 					<prop_value prop_name="UID" value="26026.281474976722124"></prop_value>
-					<prop_value prop_name="Name" value="3822Б1ПР2-Проектирование операционных систем"></prop_value>
-					<prop_value prop_name="Number" value="3822Б1ПР2-Проектирование операционных систем"></prop_value>
+					<prop_value prop_name="Name" value=""></prop_value>
+					<prop_value prop_name="Number" value=""></prop_value>
 					<prop_value prop_name="UID_Group" value="26007.281474976732254"></prop_value>
-					<prop_value prop_name="Abbr" value="3822Б1ПР2-Проектирование операционных систем"></prop_value>
+					<prop_value prop_name="Abbr" value=""></prop_value>
 					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="2"></prop_value>
 				</Collection>
@@ -8540,46 +8804,46 @@
 					<prop_value prop_name="PlannedAmount" value="3"></prop_value>
 				</Collection>
 			</Object>
-			<Object uid="26026.281474976722166" name="3822Б1ПР2-Основы компьютерного зрения" class_id="SubGroup">
+			<Object uid="26026.281474976722166" name="" class_id="SubGroup">
 				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
 					<prop_value prop_name="UID" value="26026.281474976722166"></prop_value>
-					<prop_value prop_name="Name" value="3822Б1ПР2-Основы компьютерного зрения"></prop_value>
-					<prop_value prop_name="Number" value="3822Б1ПР2-Основы компьютерного зрения"></prop_value>
+					<prop_value prop_name="Name" value=""></prop_value>
+					<prop_value prop_name="Number" value=""></prop_value>
 					<prop_value prop_name="UID_Group" value="26007.281474976732254"></prop_value>
-					<prop_value prop_name="Abbr" value="3822Б1ПР2-Основы компьютерного зрения"></prop_value>
+					<prop_value prop_name="Abbr" value=""></prop_value>
 					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="15"></prop_value>
 				</Collection>
 			</Object>
-			<Object uid="26026.281474976722167" name="3822Б1ПР2-Программирование на новых архитектурах" class_id="SubGroup">
+			<Object uid="26026.281474976722167" name="" class_id="SubGroup">
 				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
 					<prop_value prop_name="UID" value="26026.281474976722167"></prop_value>
-					<prop_value prop_name="Name" value="3822Б1ПР2-Программирование на новых архитектурах"></prop_value>
-					<prop_value prop_name="Number" value="3822Б1ПР2-Программирование на новых архитектурах"></prop_value>
+					<prop_value prop_name="Name" value=""></prop_value>
+					<prop_value prop_name="Number" value=""></prop_value>
 					<prop_value prop_name="UID_Group" value="26007.281474976732254"></prop_value>
-					<prop_value prop_name="Abbr" value="3822Б1ПР2-Программирование на новых архитектурах"></prop_value>
+					<prop_value prop_name="Abbr" value=""></prop_value>
 					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
-					<prop_value prop_name="PlannedAmount" value="14"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="19"></prop_value>
 				</Collection>
 			</Object>
-			<Object uid="26026.281474976722168" name="3822Б1ПР2-Наглядный вероятностно-статистический анализ данных" class_id="SubGroup">
+			<Object uid="26026.281474976722168" name="" class_id="SubGroup">
 				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
 					<prop_value prop_name="UID" value="26026.281474976722168"></prop_value>
-					<prop_value prop_name="Name" value="3822Б1ПР2-Наглядный вероятностно-статистический анализ данных"></prop_value>
-					<prop_value prop_name="Number" value="3822Б1ПР2-Наглядный вероятностно-статистический анализ данных"></prop_value>
+					<prop_value prop_name="Name" value=""></prop_value>
+					<prop_value prop_name="Number" value=""></prop_value>
 					<prop_value prop_name="UID_Group" value="26007.281474976732254"></prop_value>
-					<prop_value prop_name="Abbr" value="3822Б1ПР2-Наглядный вероятностно-статистический анализ данных"></prop_value>
+					<prop_value prop_name="Abbr" value=""></prop_value>
 					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="14"></prop_value>
 				</Collection>
 			</Object>
-			<Object uid="26026.281474976722169" name="3822Б1ПР2-Теория выбора и принятия решений" class_id="SubGroup">
+			<Object uid="26026.281474976722169" name="" class_id="SubGroup">
 				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
 					<prop_value prop_name="UID" value="26026.281474976722169"></prop_value>
-					<prop_value prop_name="Name" value="3822Б1ПР2-Теория выбора и принятия решений"></prop_value>
-					<prop_value prop_name="Number" value="3822Б1ПР2-Теория выбора и принятия решений"></prop_value>
+					<prop_value prop_name="Name" value=""></prop_value>
+					<prop_value prop_name="Number" value=""></prop_value>
 					<prop_value prop_name="UID_Group" value="26007.281474976732254"></prop_value>
-					<prop_value prop_name="Abbr" value="3822Б1ПР2-Теория выбора и принятия решений"></prop_value>
+					<prop_value prop_name="Abbr" value=""></prop_value>
 					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="14"></prop_value>
 				</Collection>
@@ -9747,7 +10011,7 @@
 					<prop_value prop_name="UID_Group" value="26007.281474976734414"></prop_value>
 					<prop_value prop_name="Abbr" value="3823Б1ФИ3-Оптимизация производительности программ"></prop_value>
 					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
-					<prop_value prop_name="PlannedAmount" value="22"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="23"></prop_value>
 				</Collection>
 			</Object>
 			<Object uid="26026.281474976722290" name="3823Б1ФИ3-Профессиональный C++" class_id="SubGroup">
@@ -9758,7 +10022,7 @@
 					<prop_value prop_name="UID_Group" value="26007.281474976734414"></prop_value>
 					<prop_value prop_name="Abbr" value="3823Б1ФИ3-Профессиональный C++"></prop_value>
 					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
-					<prop_value prop_name="PlannedAmount" value="23"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="24"></prop_value>
 				</Collection>
 			</Object>
 			<Object uid="26026.281474976722291" name="3823Б1ФИ3-Целочисленное программирование" class_id="SubGroup">
@@ -12280,50 +12544,6 @@
 					<prop_value prop_name="PlannedAmount" value="13"></prop_value>
 				</Collection>
 			</Object>
-			<Object uid="26026.281474976722563" name="3825Б1ПР1-1п/грОсновы программирования" class_id="SubGroup">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26026.281474976722563"></prop_value>
-					<prop_value prop_name="Name" value="3825Б1ПР1-1п/грОсновы программирования"></prop_value>
-					<prop_value prop_name="Number" value="3825Б1ПР1-1п/грОсновы программирования"></prop_value>
-					<prop_value prop_name="UID_Group" value="26007.281474976738997"></prop_value>
-					<prop_value prop_name="Abbr" value="3825Б1ПР1-1п/грОсновы программирования"></prop_value>
-					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
-					<prop_value prop_name="PlannedAmount" value="15"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26026.281474976722564" name="3825Б1ПР1--2 п/грОсновы программирования" class_id="SubGroup">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26026.281474976722564"></prop_value>
-					<prop_value prop_name="Name" value="3825Б1ПР1--2 п/грОсновы программирования"></prop_value>
-					<prop_value prop_name="Number" value="3825Б1ПР1--2 п/грОсновы программирования"></prop_value>
-					<prop_value prop_name="UID_Group" value="26007.281474976738997"></prop_value>
-					<prop_value prop_name="Abbr" value="3825Б1ПР1--2 п/грОсновы программирования"></prop_value>
-					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
-					<prop_value prop_name="PlannedAmount" value="15"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26026.281474976722565" name="3825Б1ПР2--1п/грОсновы программирования" class_id="SubGroup">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26026.281474976722565"></prop_value>
-					<prop_value prop_name="Name" value="3825Б1ПР2--1п/грОсновы программирования"></prop_value>
-					<prop_value prop_name="Number" value="3825Б1ПР2--1п/грОсновы программирования"></prop_value>
-					<prop_value prop_name="UID_Group" value="26007.281474976738998"></prop_value>
-					<prop_value prop_name="Abbr" value="3825Б1ПР2--1п/грОсновы программирования"></prop_value>
-					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
-					<prop_value prop_name="PlannedAmount" value="15"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26026.281474976722566" name="3825Б1ПР2--2п/грОсновы программирования" class_id="SubGroup">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26026.281474976722566"></prop_value>
-					<prop_value prop_name="Name" value="3825Б1ПР2--2п/грОсновы программирования"></prop_value>
-					<prop_value prop_name="Number" value="3825Б1ПР2--2п/грОсновы программирования"></prop_value>
-					<prop_value prop_name="UID_Group" value="26007.281474976738998"></prop_value>
-					<prop_value prop_name="Abbr" value="3825Б1ПР2--2п/грОсновы программирования"></prop_value>
-					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
-					<prop_value prop_name="PlannedAmount" value="15"></prop_value>
-				</Collection>
-			</Object>
 			<Object uid="26026.281474976722567" name="3825Б1ПР3--1п/грОсновы программирования" class_id="SubGroup">
 				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
 					<prop_value prop_name="UID" value="26026.281474976722567"></prop_value>
@@ -12412,28 +12632,6 @@
 					<prop_value prop_name="PlannedAmount" value="12"></prop_value>
 				</Collection>
 			</Object>
-			<Object uid="26026.281474976722575" name="3825Б1ФИип1--1п/грОсновы программирования" class_id="SubGroup">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26026.281474976722575"></prop_value>
-					<prop_value prop_name="Name" value="3825Б1ФИип1--1п/грОсновы программирования"></prop_value>
-					<prop_value prop_name="Number" value="3825Б1ФИип1--1п/грОсновы программирования"></prop_value>
-					<prop_value prop_name="UID_Group" value="26007.281474976738994"></prop_value>
-					<prop_value prop_name="Abbr" value="3825Б1ФИип1--1п/грОсновы программирования"></prop_value>
-					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
-					<prop_value prop_name="PlannedAmount" value="15"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26026.281474976722576" name="3825Б1ФИип1--2п/грОсновы программирования" class_id="SubGroup">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26026.281474976722576"></prop_value>
-					<prop_value prop_name="Name" value="3825Б1ФИип1--2п/грОсновы программирования"></prop_value>
-					<prop_value prop_name="Number" value="3825Б1ФИип1--2п/грОсновы программирования"></prop_value>
-					<prop_value prop_name="UID_Group" value="26007.281474976738994"></prop_value>
-					<prop_value prop_name="Abbr" value="3825Б1ФИип1--2п/грОсновы программирования"></prop_value>
-					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
-					<prop_value prop_name="PlannedAmount" value="15"></prop_value>
-				</Collection>
-			</Object>
 			<Object uid="26026.281474976722577" name="3825Б1ФИип2--1п/грОсновы программирования" class_id="SubGroup">
 				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
 					<prop_value prop_name="UID" value="26026.281474976722577"></prop_value>
@@ -12442,7 +12640,7 @@
 					<prop_value prop_name="UID_Group" value="26007.281474976738995"></prop_value>
 					<prop_value prop_name="Abbr" value="3825Б1ФИип2--1п/грОсновы программирования"></prop_value>
 					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
-					<prop_value prop_name="PlannedAmount" value="15"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="16"></prop_value>
 				</Collection>
 			</Object>
 			<Object uid="26026.281474976722578" name="3825Б1ФИип2--2 п/грОсновы программирования" class_id="SubGroup">
@@ -12608,28 +12806,6 @@
 					<prop_value prop_name="Abbr" value="4525О1ДВ1-2"></prop_value>
 					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="8"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26026.281474976722593" name="3825Б1ПМ1-1п/гр Языки и методы программирования" class_id="SubGroup">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26026.281474976722593"></prop_value>
-					<prop_value prop_name="Name" value="3825Б1ПМ1-1п/гр Языки и методы программирования"></prop_value>
-					<prop_value prop_name="Number" value="3825Б1ПМ1-1п/гр Языки и методы программирования"></prop_value>
-					<prop_value prop_name="UID_Group" value="26007.281474976738987"></prop_value>
-					<prop_value prop_name="Abbr" value="3825Б1ПМ1-1п/гр Языки и методы программирования"></prop_value>
-					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
-					<prop_value prop_name="PlannedAmount" value="15"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26026.281474976722594" name="3825Б1ПМ1-2п/гр  Языки и методы программирования" class_id="SubGroup">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26026.281474976722594"></prop_value>
-					<prop_value prop_name="Name" value="3825Б1ПМ1-2п/гр  Языки и методы программирования"></prop_value>
-					<prop_value prop_name="Number" value="3825Б1ПМ1-2п/гр  Языки и методы программирования"></prop_value>
-					<prop_value prop_name="UID_Group" value="26007.281474976738987"></prop_value>
-					<prop_value prop_name="Abbr" value="3825Б1ПМ1-2п/гр  Языки и методы программирования"></prop_value>
-					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
-					<prop_value prop_name="PlannedAmount" value="15"></prop_value>
 				</Collection>
 			</Object>
 			<Object uid="26026.281474976722595" name="3825Б1ПМ2- 1 п/гр Языки и методы программирования" class_id="SubGroup">
@@ -13842,6 +14018,105 @@
 					<prop_value prop_name="PlannedAmount" value="14"></prop_value>
 				</Collection>
 			</Object>
+			<Object uid="26026.281474976722823" name=" Б1.В.ДВ.3 - Александр Македонский: история и традиции" class_id="SubGroup">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26026.281474976722823"></prop_value>
+					<prop_value prop_name="Name" value=" Б1.В.ДВ.3 - Александр Македонский: история и традиции"></prop_value>
+					<prop_value prop_name="Number" value=" Б1.В.ДВ.3 - Александр Македонский: история и традиции"></prop_value>
+					<prop_value prop_name="UID_Group" value="26007.281474976736794"></prop_value>
+					<prop_value prop_name="Abbr" value=" Б1.В.ДВ.3 - Александр Македонский: история и традиции"></prop_value>
+					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="0"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26026.281474976722824" name=" Б1.В.ДВ.1 - Великие крепости России. Русское оборонное зодчество в 13-17 веках" class_id="SubGroup">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26026.281474976722824"></prop_value>
+					<prop_value prop_name="Name" value=" Б1.В.ДВ.1 - Великие крепости России. Русское оборонное зодчество в 13-17 веках"></prop_value>
+					<prop_value prop_name="Number" value=" Б1.В.ДВ.1 - Великие крепости России. Русское оборонное зодчество в 13-17 веках"></prop_value>
+					<prop_value prop_name="UID_Group" value="26007.281474976736794"></prop_value>
+					<prop_value prop_name="Abbr" value=" Б1.В.ДВ.1 - Великие крепости России. Русское оборонное зодчество в 13-17 веках"></prop_value>
+					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="0"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26026.281474976722825" name=" Б1.В.ДВ.2 - Восприятие античности и античной культуры на средневековом Западе" class_id="SubGroup">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26026.281474976722825"></prop_value>
+					<prop_value prop_name="Name" value=" Б1.В.ДВ.2 - Восприятие античности и античной культуры на средневековом Западе"></prop_value>
+					<prop_value prop_name="Number" value=" Б1.В.ДВ.2 - Восприятие античности и античной культуры на средневековом Западе"></prop_value>
+					<prop_value prop_name="UID_Group" value="26007.281474976736794"></prop_value>
+					<prop_value prop_name="Abbr" value=" Б1.В.ДВ.2 - Восприятие античности и античной культуры на средневековом Западе"></prop_value>
+					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="0"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26026.281474976722826" name=" Б1.В.ДВ.3 - История Православной церкви" class_id="SubGroup">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26026.281474976722826"></prop_value>
+					<prop_value prop_name="Name" value=" Б1.В.ДВ.3 - История Православной церкви"></prop_value>
+					<prop_value prop_name="Number" value=" Б1.В.ДВ.3 - История Православной церкви"></prop_value>
+					<prop_value prop_name="UID_Group" value="26007.281474976736794"></prop_value>
+					<prop_value prop_name="Abbr" value=" Б1.В.ДВ.3 - История Православной церкви"></prop_value>
+					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="0"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26026.281474976722827" name=" Б1.В.ДВ.2 - История русской армии" class_id="SubGroup">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26026.281474976722827"></prop_value>
+					<prop_value prop_name="Name" value=" Б1.В.ДВ.2 - История русской армии"></prop_value>
+					<prop_value prop_name="Number" value=" Б1.В.ДВ.2 - История русской армии"></prop_value>
+					<prop_value prop_name="UID_Group" value="26007.281474976736794"></prop_value>
+					<prop_value prop_name="Abbr" value=" Б1.В.ДВ.2 - История русской армии"></prop_value>
+					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="0"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26026.281474976722828" name=" Б1.В.ДВ.1 - История эллинистической Греции" class_id="SubGroup">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26026.281474976722828"></prop_value>
+					<prop_value prop_name="Name" value=" Б1.В.ДВ.1 - История эллинистической Греции"></prop_value>
+					<prop_value prop_name="Number" value=" Б1.В.ДВ.1 - История эллинистической Греции"></prop_value>
+					<prop_value prop_name="UID_Group" value="26007.281474976736794"></prop_value>
+					<prop_value prop_name="Abbr" value=" Б1.В.ДВ.1 - История эллинистической Греции"></prop_value>
+					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="0"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26026.281474976722829" name=" Б1.В.ДВ.4 - Международные отношения на Дальнем Востоке" class_id="SubGroup">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26026.281474976722829"></prop_value>
+					<prop_value prop_name="Name" value=" Б1.В.ДВ.4 - Международные отношения на Дальнем Востоке"></prop_value>
+					<prop_value prop_name="Number" value=" Б1.В.ДВ.4 - Международные отношения на Дальнем Востоке"></prop_value>
+					<prop_value prop_name="UID_Group" value="26007.281474976736794"></prop_value>
+					<prop_value prop_name="Abbr" value=" Б1.В.ДВ.4 - Международные отношения на Дальнем Востоке"></prop_value>
+					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="0"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26026.281474976722830" name=" Б1.В.ДВ.4 - Римская империя в эпоху принципата: политика, идеология, культура" class_id="SubGroup">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26026.281474976722830"></prop_value>
+					<prop_value prop_name="Name" value=" Б1.В.ДВ.4 - Римская империя в эпоху принципата: политика, идеология, культура"></prop_value>
+					<prop_value prop_name="Number" value=" Б1.В.ДВ.4 - Римская империя в эпоху принципата: политика, идеология, культура"></prop_value>
+					<prop_value prop_name="UID_Group" value="26007.281474976736794"></prop_value>
+					<prop_value prop_name="Abbr" value=" Б1.В.ДВ.4 - Римская империя в эпоху принципата: политика, идеология, культура"></prop_value>
+					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="0"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26026.281474976722831" name=" Б1.В.ДВ.1 - Россия и Восток: особенности межцивилизационных отношений" class_id="SubGroup">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26026.281474976722831"></prop_value>
+					<prop_value prop_name="Name" value=" Б1.В.ДВ.1 - Россия и Восток: особенности межцивилизационных отношений"></prop_value>
+					<prop_value prop_name="Number" value=" Б1.В.ДВ.1 - Россия и Восток: особенности межцивилизационных отношений"></prop_value>
+					<prop_value prop_name="UID_Group" value="26007.281474976736794"></prop_value>
+					<prop_value prop_name="Abbr" value=" Б1.В.ДВ.1 - Россия и Восток: особенности межцивилизационных отношений"></prop_value>
+					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="0"></prop_value>
+				</Collection>
+			</Object>
 			<Object uid="26026.281474976722832" name="3824Б1ПМ5-1п/гр Иностранный язык" class_id="SubGroup">
 				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
 					<prop_value prop_name="UID" value="26026.281474976722832"></prop_value>
@@ -13862,50 +14137,6 @@
 					<prop_value prop_name="Abbr" value="3824Б1ПМ5-2 п/гр Иностранный язык"></prop_value>
 					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="13"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26026.281474976722834" name="3825Б1ПР1-1п/гр Иностранный язык" class_id="SubGroup">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26026.281474976722834"></prop_value>
-					<prop_value prop_name="Name" value="3825Б1ПР1-1п/гр Иностранный язык"></prop_value>
-					<prop_value prop_name="Number" value="3825Б1ПР1-1п/гр Иностранный язык"></prop_value>
-					<prop_value prop_name="UID_Group" value="26007.281474976738997"></prop_value>
-					<prop_value prop_name="Abbr" value="3825Б1ПР1-1п/гр Иностранный язык"></prop_value>
-					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
-					<prop_value prop_name="PlannedAmount" value="15"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26026.281474976722835" name="3825Б1ПР1-2п/гр Иностранный язык" class_id="SubGroup">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26026.281474976722835"></prop_value>
-					<prop_value prop_name="Name" value="3825Б1ПР1-2п/гр Иностранный язык"></prop_value>
-					<prop_value prop_name="Number" value="3825Б1ПР1-2п/гр Иностранный язык"></prop_value>
-					<prop_value prop_name="UID_Group" value="26007.281474976738997"></prop_value>
-					<prop_value prop_name="Abbr" value="3825Б1ПР1-2п/гр Иностранный язык"></prop_value>
-					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
-					<prop_value prop_name="PlannedAmount" value="15"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26026.281474976722836" name="3825Б1ПР2-1п/гр Иностранный язык" class_id="SubGroup">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26026.281474976722836"></prop_value>
-					<prop_value prop_name="Name" value="3825Б1ПР2-1п/гр Иностранный язык"></prop_value>
-					<prop_value prop_name="Number" value="3825Б1ПР2-1п/гр Иностранный язык"></prop_value>
-					<prop_value prop_name="UID_Group" value="26007.281474976738998"></prop_value>
-					<prop_value prop_name="Abbr" value="3825Б1ПР2-1п/гр Иностранный язык"></prop_value>
-					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
-					<prop_value prop_name="PlannedAmount" value="15"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26026.281474976722837" name="3825Б1ПР2-2п/гр Иностранный язык" class_id="SubGroup">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26026.281474976722837"></prop_value>
-					<prop_value prop_name="Name" value="3825Б1ПР2-2п/гр Иностранный язык"></prop_value>
-					<prop_value prop_name="Number" value="3825Б1ПР2-2п/гр Иностранный язык"></prop_value>
-					<prop_value prop_name="UID_Group" value="26007.281474976738998"></prop_value>
-					<prop_value prop_name="Abbr" value="3825Б1ПР2-2п/гр Иностранный язык"></prop_value>
-					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
-					<prop_value prop_name="PlannedAmount" value="15"></prop_value>
 				</Collection>
 			</Object>
 			<Object uid="26026.281474976722838" name="3825Б1ПР3-1п/гр Иностранный язык" class_id="SubGroup">
@@ -14018,6 +14249,204 @@
 					<prop_value prop_name="PlannedAmount" value="10"></prop_value>
 				</Collection>
 			</Object>
+			<Object uid="26026.281474976722848" name=" Б1.В.ДВ.3 - Александр Македонский: история и традиции" class_id="SubGroup">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26026.281474976722848"></prop_value>
+					<prop_value prop_name="Name" value=" Б1.В.ДВ.3 - Александр Македонский: история и традиции"></prop_value>
+					<prop_value prop_name="Number" value=" Б1.В.ДВ.3 - Александр Македонский: история и традиции"></prop_value>
+					<prop_value prop_name="UID_Group" value="26007.281474976737166"></prop_value>
+					<prop_value prop_name="Abbr" value=" Б1.В.ДВ.3 - Александр Македонский: история и традиции"></prop_value>
+					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="0"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26026.281474976722849" name=" Б1.В.ДВ.1 - Великие крепости России. Русское оборонное зодчество в 13-17 веках" class_id="SubGroup">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26026.281474976722849"></prop_value>
+					<prop_value prop_name="Name" value=" Б1.В.ДВ.1 - Великие крепости России. Русское оборонное зодчество в 13-17 веках"></prop_value>
+					<prop_value prop_name="Number" value=" Б1.В.ДВ.1 - Великие крепости России. Русское оборонное зодчество в 13-17 веках"></prop_value>
+					<prop_value prop_name="UID_Group" value="26007.281474976737166"></prop_value>
+					<prop_value prop_name="Abbr" value=" Б1.В.ДВ.1 - Великие крепости России. Русское оборонное зодчество в 13-17 веках"></prop_value>
+					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="0"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26026.281474976722850" name=" Б1.В.ДВ.2 - Восприятие античности и античной культуры на средневековом Западе" class_id="SubGroup">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26026.281474976722850"></prop_value>
+					<prop_value prop_name="Name" value=" Б1.В.ДВ.2 - Восприятие античности и античной культуры на средневековом Западе"></prop_value>
+					<prop_value prop_name="Number" value=" Б1.В.ДВ.2 - Восприятие античности и античной культуры на средневековом Западе"></prop_value>
+					<prop_value prop_name="UID_Group" value="26007.281474976737166"></prop_value>
+					<prop_value prop_name="Abbr" value=" Б1.В.ДВ.2 - Восприятие античности и античной культуры на средневековом Западе"></prop_value>
+					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="0"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26026.281474976722851" name=" Б1.В.ДВ.3 - История Православной церкви" class_id="SubGroup">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26026.281474976722851"></prop_value>
+					<prop_value prop_name="Name" value=" Б1.В.ДВ.3 - История Православной церкви"></prop_value>
+					<prop_value prop_name="Number" value=" Б1.В.ДВ.3 - История Православной церкви"></prop_value>
+					<prop_value prop_name="UID_Group" value="26007.281474976737166"></prop_value>
+					<prop_value prop_name="Abbr" value=" Б1.В.ДВ.3 - История Православной церкви"></prop_value>
+					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="0"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26026.281474976722852" name=" Б1.В.ДВ.2 - История русской армии" class_id="SubGroup">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26026.281474976722852"></prop_value>
+					<prop_value prop_name="Name" value=" Б1.В.ДВ.2 - История русской армии"></prop_value>
+					<prop_value prop_name="Number" value=" Б1.В.ДВ.2 - История русской армии"></prop_value>
+					<prop_value prop_name="UID_Group" value="26007.281474976737166"></prop_value>
+					<prop_value prop_name="Abbr" value=" Б1.В.ДВ.2 - История русской армии"></prop_value>
+					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="0"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26026.281474976722853" name=" Б1.В.ДВ.1 - История эллинистической Греции" class_id="SubGroup">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26026.281474976722853"></prop_value>
+					<prop_value prop_name="Name" value=" Б1.В.ДВ.1 - История эллинистической Греции"></prop_value>
+					<prop_value prop_name="Number" value=" Б1.В.ДВ.1 - История эллинистической Греции"></prop_value>
+					<prop_value prop_name="UID_Group" value="26007.281474976737166"></prop_value>
+					<prop_value prop_name="Abbr" value=" Б1.В.ДВ.1 - История эллинистической Греции"></prop_value>
+					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="0"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26026.281474976722854" name=" Б1.В.ДВ.4 - Международные отношения на Дальнем Востоке" class_id="SubGroup">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26026.281474976722854"></prop_value>
+					<prop_value prop_name="Name" value=" Б1.В.ДВ.4 - Международные отношения на Дальнем Востоке"></prop_value>
+					<prop_value prop_name="Number" value=" Б1.В.ДВ.4 - Международные отношения на Дальнем Востоке"></prop_value>
+					<prop_value prop_name="UID_Group" value="26007.281474976737166"></prop_value>
+					<prop_value prop_name="Abbr" value=" Б1.В.ДВ.4 - Международные отношения на Дальнем Востоке"></prop_value>
+					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="0"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26026.281474976722855" name=" Б1.В.ДВ.4 - Римская империя в эпоху принципата: политика, идеология, культура" class_id="SubGroup">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26026.281474976722855"></prop_value>
+					<prop_value prop_name="Name" value=" Б1.В.ДВ.4 - Римская империя в эпоху принципата: политика, идеология, культура"></prop_value>
+					<prop_value prop_name="Number" value=" Б1.В.ДВ.4 - Римская империя в эпоху принципата: политика, идеология, культура"></prop_value>
+					<prop_value prop_name="UID_Group" value="26007.281474976737166"></prop_value>
+					<prop_value prop_name="Abbr" value=" Б1.В.ДВ.4 - Римская империя в эпоху принципата: политика, идеология, культура"></prop_value>
+					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="0"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26026.281474976722856" name=" Б1.В.ДВ.1 - Россия и Восток: особенности межцивилизационных отношений" class_id="SubGroup">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26026.281474976722856"></prop_value>
+					<prop_value prop_name="Name" value=" Б1.В.ДВ.1 - Россия и Восток: особенности межцивилизационных отношений"></prop_value>
+					<prop_value prop_name="Number" value=" Б1.В.ДВ.1 - Россия и Восток: особенности межцивилизационных отношений"></prop_value>
+					<prop_value prop_name="UID_Group" value="26007.281474976737166"></prop_value>
+					<prop_value prop_name="Abbr" value=" Б1.В.ДВ.1 - Россия и Восток: особенности межцивилизационных отношений"></prop_value>
+					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="0"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26026.281474976722857" name=" Б1.В.ДВ.3 - Александр Македонский: история и традиции" class_id="SubGroup">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26026.281474976722857"></prop_value>
+					<prop_value prop_name="Name" value=" Б1.В.ДВ.3 - Александр Македонский: история и традиции"></prop_value>
+					<prop_value prop_name="Number" value=" Б1.В.ДВ.3 - Александр Македонский: история и традиции"></prop_value>
+					<prop_value prop_name="UID_Group" value="26007.281474976738255"></prop_value>
+					<prop_value prop_name="Abbr" value=" Б1.В.ДВ.3 - Александр Македонский: история и традиции"></prop_value>
+					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="0"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26026.281474976722858" name=" Б1.В.ДВ.1 - Великие крепости России. Русское оборонное зодчество в 13-17 веках" class_id="SubGroup">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26026.281474976722858"></prop_value>
+					<prop_value prop_name="Name" value=" Б1.В.ДВ.1 - Великие крепости России. Русское оборонное зодчество в 13-17 веках"></prop_value>
+					<prop_value prop_name="Number" value=" Б1.В.ДВ.1 - Великие крепости России. Русское оборонное зодчество в 13-17 веках"></prop_value>
+					<prop_value prop_name="UID_Group" value="26007.281474976738255"></prop_value>
+					<prop_value prop_name="Abbr" value=" Б1.В.ДВ.1 - Великие крепости России. Русское оборонное зодчество в 13-17 веках"></prop_value>
+					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="0"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26026.281474976722859" name=" Б1.В.ДВ.2 - Восприятие античности и античной культуры на средневековом Западе" class_id="SubGroup">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26026.281474976722859"></prop_value>
+					<prop_value prop_name="Name" value=" Б1.В.ДВ.2 - Восприятие античности и античной культуры на средневековом Западе"></prop_value>
+					<prop_value prop_name="Number" value=" Б1.В.ДВ.2 - Восприятие античности и античной культуры на средневековом Западе"></prop_value>
+					<prop_value prop_name="UID_Group" value="26007.281474976738255"></prop_value>
+					<prop_value prop_name="Abbr" value=" Б1.В.ДВ.2 - Восприятие античности и античной культуры на средневековом Западе"></prop_value>
+					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="0"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26026.281474976722860" name=" Б1.В.ДВ.3 - История Православной церкви" class_id="SubGroup">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26026.281474976722860"></prop_value>
+					<prop_value prop_name="Name" value=" Б1.В.ДВ.3 - История Православной церкви"></prop_value>
+					<prop_value prop_name="Number" value=" Б1.В.ДВ.3 - История Православной церкви"></prop_value>
+					<prop_value prop_name="UID_Group" value="26007.281474976738255"></prop_value>
+					<prop_value prop_name="Abbr" value=" Б1.В.ДВ.3 - История Православной церкви"></prop_value>
+					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="0"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26026.281474976722861" name=" Б1.В.ДВ.2 - История русской армии" class_id="SubGroup">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26026.281474976722861"></prop_value>
+					<prop_value prop_name="Name" value=" Б1.В.ДВ.2 - История русской армии"></prop_value>
+					<prop_value prop_name="Number" value=" Б1.В.ДВ.2 - История русской армии"></prop_value>
+					<prop_value prop_name="UID_Group" value="26007.281474976738255"></prop_value>
+					<prop_value prop_name="Abbr" value=" Б1.В.ДВ.2 - История русской армии"></prop_value>
+					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="0"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26026.281474976722862" name=" Б1.В.ДВ.1 - История эллинистической Греции" class_id="SubGroup">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26026.281474976722862"></prop_value>
+					<prop_value prop_name="Name" value=" Б1.В.ДВ.1 - История эллинистической Греции"></prop_value>
+					<prop_value prop_name="Number" value=" Б1.В.ДВ.1 - История эллинистической Греции"></prop_value>
+					<prop_value prop_name="UID_Group" value="26007.281474976738255"></prop_value>
+					<prop_value prop_name="Abbr" value=" Б1.В.ДВ.1 - История эллинистической Греции"></prop_value>
+					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="0"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26026.281474976722863" name=" Б1.В.ДВ.4 - Международные отношения на Дальнем Востоке" class_id="SubGroup">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26026.281474976722863"></prop_value>
+					<prop_value prop_name="Name" value=" Б1.В.ДВ.4 - Международные отношения на Дальнем Востоке"></prop_value>
+					<prop_value prop_name="Number" value=" Б1.В.ДВ.4 - Международные отношения на Дальнем Востоке"></prop_value>
+					<prop_value prop_name="UID_Group" value="26007.281474976738255"></prop_value>
+					<prop_value prop_name="Abbr" value=" Б1.В.ДВ.4 - Международные отношения на Дальнем Востоке"></prop_value>
+					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="0"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26026.281474976722864" name=" Б1.В.ДВ.4 - Римская империя в эпоху принципата: политика, идеология, культура" class_id="SubGroup">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26026.281474976722864"></prop_value>
+					<prop_value prop_name="Name" value=" Б1.В.ДВ.4 - Римская империя в эпоху принципата: политика, идеология, культура"></prop_value>
+					<prop_value prop_name="Number" value=" Б1.В.ДВ.4 - Римская империя в эпоху принципата: политика, идеология, культура"></prop_value>
+					<prop_value prop_name="UID_Group" value="26007.281474976738255"></prop_value>
+					<prop_value prop_name="Abbr" value=" Б1.В.ДВ.4 - Римская империя в эпоху принципата: политика, идеология, культура"></prop_value>
+					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="0"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26026.281474976722865" name=" Б1.В.ДВ.1 - Россия и Восток: особенности межцивилизационных отношений" class_id="SubGroup">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26026.281474976722865"></prop_value>
+					<prop_value prop_name="Name" value=" Б1.В.ДВ.1 - Россия и Восток: особенности межцивилизационных отношений"></prop_value>
+					<prop_value prop_name="Number" value=" Б1.В.ДВ.1 - Россия и Восток: особенности межцивилизационных отношений"></prop_value>
+					<prop_value prop_name="UID_Group" value="26007.281474976738255"></prop_value>
+					<prop_value prop_name="Abbr" value=" Б1.В.ДВ.1 - Россия и Восток: особенности межцивилизационных отношений"></prop_value>
+					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="0"></prop_value>
+				</Collection>
+			</Object>
 			<Object uid="26026.281474976722866" name=" Б1.В.ДВ.04 - Документация Русской православной церкви: история и современность" class_id="SubGroup">
 				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
 					<prop_value prop_name="UID" value="26026.281474976722866"></prop_value>
@@ -14082,6 +14511,28 @@
 					<prop_value prop_name="Abbr" value="3521С1ТД1-2-Основы технических средств таможенного контроля"></prop_value>
 					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="8"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26026.281474976723138" name="ФТД.01 - Древние языки" class_id="SubGroup">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26026.281474976723138"></prop_value>
+					<prop_value prop_name="Name" value="ФТД.01 - Древние языки"></prop_value>
+					<prop_value prop_name="Number" value="ФТД.01 - Древние языки"></prop_value>
+					<prop_value prop_name="UID_Group" value="26007.281474976736794"></prop_value>
+					<prop_value prop_name="Abbr" value="ФТД.01 - Древние языки"></prop_value>
+					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="0"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26026.281474976723139" name="ФТД.01 - Древние языки" class_id="SubGroup">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26026.281474976723139"></prop_value>
+					<prop_value prop_name="Name" value="ФТД.01 - Древние языки"></prop_value>
+					<prop_value prop_name="Number" value="ФТД.01 - Древние языки"></prop_value>
+					<prop_value prop_name="UID_Group" value="26007.281474976737166"></prop_value>
+					<prop_value prop_name="Abbr" value="ФТД.01 - Древние языки"></prop_value>
+					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="0"></prop_value>
 				</Collection>
 			</Object>
 			<Object uid="26026.281474976723140" name="3523С1ТД1-1-Организация таможенного контроля товаров и транспортных средств" class_id="SubGroup">
@@ -14212,7 +14663,7 @@
 					<prop_value prop_name="Number" value="3525П1БД1-2"></prop_value>
 					<prop_value prop_name="UID_Group" value="26007.281474976739366"></prop_value>
 					<prop_value prop_name="Abbr" value="3525П1БД1-2"></prop_value>
-					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
+					<prop_value prop_name="isLanguageGroup" value="1"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="15"></prop_value>
 				</Collection>
 			</Object>
@@ -14590,46 +15041,46 @@
 					<prop_value prop_name="PlannedAmount" value="15"></prop_value>
 				</Collection>
 			</Object>
-			<Object uid="26026.281474976723222" name="3524П1ТГгу1-1" class_id="SubGroup">
+			<Object uid="26026.281474976723222" name="3524П1ТГгу1-1(Иностранный язык в профессиональной деятельности)" class_id="SubGroup">
 				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
 					<prop_value prop_name="UID" value="26026.281474976723222"></prop_value>
-					<prop_value prop_name="Name" value="3524П1ТГгу1-1"></prop_value>
-					<prop_value prop_name="Number" value="3524П1ТГгу1-1"></prop_value>
+					<prop_value prop_name="Name" value="3524П1ТГгу1-1(Иностранный язык в профессиональной деятельности)"></prop_value>
+					<prop_value prop_name="Number" value="3524П1ТГгу1-1(Иностранный язык в профессиональной деятельности)"></prop_value>
 					<prop_value prop_name="UID_Group" value="26007.281474976737784"></prop_value>
-					<prop_value prop_name="Abbr" value="3524П1ТГгу1-1"></prop_value>
+					<prop_value prop_name="Abbr" value="3524П1ТГгу1-1(Иностранный язык в профессиональной деятельности)"></prop_value>
 					<prop_value prop_name="isLanguageGroup" value="1"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="15"></prop_value>
 				</Collection>
 			</Object>
-			<Object uid="26026.281474976723223" name="3524П1ТГгу1-2" class_id="SubGroup">
+			<Object uid="26026.281474976723223" name="3524П1ТГгу1-2(Иностранный язык в профессиональной деятельности)" class_id="SubGroup">
 				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
 					<prop_value prop_name="UID" value="26026.281474976723223"></prop_value>
-					<prop_value prop_name="Name" value="3524П1ТГгу1-2"></prop_value>
-					<prop_value prop_name="Number" value="3524П1ТГгу1-2"></prop_value>
+					<prop_value prop_name="Name" value="3524П1ТГгу1-2(Иностранный язык в профессиональной деятельности)"></prop_value>
+					<prop_value prop_name="Number" value="3524П1ТГгу1-2(Иностранный язык в профессиональной деятельности)"></prop_value>
 					<prop_value prop_name="UID_Group" value="26007.281474976737784"></prop_value>
-					<prop_value prop_name="Abbr" value="3524П1ТГгу1-2"></prop_value>
+					<prop_value prop_name="Abbr" value="3524П1ТГгу1-2(Иностранный язык в профессиональной деятельности)"></prop_value>
 					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="15"></prop_value>
 				</Collection>
 			</Object>
-			<Object uid="26026.281474976723224" name="3524П1ТГту1-1" class_id="SubGroup">
+			<Object uid="26026.281474976723224" name="3524П1ТГту1-1(Иностранный язык в профессиональной деятельности)" class_id="SubGroup">
 				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
 					<prop_value prop_name="UID" value="26026.281474976723224"></prop_value>
-					<prop_value prop_name="Name" value="3524П1ТГту1-1"></prop_value>
-					<prop_value prop_name="Number" value="3524П1ТГту1-1"></prop_value>
+					<prop_value prop_name="Name" value="3524П1ТГту1-1(Иностранный язык в профессиональной деятельности)"></prop_value>
+					<prop_value prop_name="Number" value="3524П1ТГту1-1(Иностранный язык в профессиональной деятельности)"></prop_value>
 					<prop_value prop_name="UID_Group" value="26007.281474976737785"></prop_value>
-					<prop_value prop_name="Abbr" value="3524П1ТГту1-1"></prop_value>
+					<prop_value prop_name="Abbr" value="3524П1ТГту1-1(Иностранный язык в профессиональной деятельности)"></prop_value>
 					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="15"></prop_value>
 				</Collection>
 			</Object>
-			<Object uid="26026.281474976723225" name="3524П1ТГту1-2" class_id="SubGroup">
+			<Object uid="26026.281474976723225" name="3524П1ТГту1-2(Иностранный язык в профессиональной деятельности)" class_id="SubGroup">
 				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
 					<prop_value prop_name="UID" value="26026.281474976723225"></prop_value>
-					<prop_value prop_name="Name" value="3524П1ТГту1-2"></prop_value>
-					<prop_value prop_name="Number" value="3524П1ТГту1-2"></prop_value>
+					<prop_value prop_name="Name" value="3524П1ТГту1-2(Иностранный язык в профессиональной деятельности)"></prop_value>
+					<prop_value prop_name="Number" value="3524П1ТГту1-2(Иностранный язык в профессиональной деятельности)"></prop_value>
 					<prop_value prop_name="UID_Group" value="26007.281474976737785"></prop_value>
-					<prop_value prop_name="Abbr" value="3524П1ТГту1-2"></prop_value>
+					<prop_value prop_name="Abbr" value="3524П1ТГту1-2(Иностранный язык в профессиональной деятельности)"></prop_value>
 					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="15"></prop_value>
 				</Collection>
@@ -15074,6 +15525,17 @@
 					<prop_value prop_name="PlannedAmount" value="2"></prop_value>
 				</Collection>
 			</Object>
+			<Object uid="26026.281474976723646" name="3825М1сФИ1-Практикум по компьютерной графике и искусственному интеллекту" class_id="SubGroup">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26026.281474976723646"></prop_value>
+					<prop_value prop_name="Name" value="3825М1сФИ1-Практикум по компьютерной графике и искусственному интеллекту"></prop_value>
+					<prop_value prop_name="Number" value="3825М1сФИ1-Практикум по компьютерной графике и искусственному интеллекту"></prop_value>
+					<prop_value prop_name="UID_Group" value="26007.281474976740372"></prop_value>
+					<prop_value prop_name="Abbr" value="3825М1сФИ1-Практикум по компьютерной графике и искусственному интеллекту"></prop_value>
+					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="2"></prop_value>
+				</Collection>
+			</Object>
 			<Object uid="26026.281474976723647" name="3825М1ФИ1-Компьютерное зрение" class_id="SubGroup">
 				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
 					<prop_value prop_name="UID" value="26026.281474976723647"></prop_value>
@@ -15105,6 +15567,17 @@
 					<prop_value prop_name="Abbr" value="3825М1ФИ3-Компьютерное зрение"></prop_value>
 					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="3"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26026.281474976723650" name="3825М1сФИ1-Компьютерное зрение" class_id="SubGroup">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26026.281474976723650"></prop_value>
+					<prop_value prop_name="Name" value="3825М1сФИ1-Компьютерное зрение"></prop_value>
+					<prop_value prop_name="Number" value="3825М1сФИ1-Компьютерное зрение"></prop_value>
+					<prop_value prop_name="UID_Group" value="26007.281474976740372"></prop_value>
+					<prop_value prop_name="Abbr" value="3825М1сФИ1-Компьютерное зрение"></prop_value>
+					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="5"></prop_value>
 				</Collection>
 			</Object>
 			<Object uid="26026.281474976723651" name="3825М1ФИ1-Анализ производительности и оптимизация программного обеспечения" class_id="SubGroup">
@@ -15140,6 +15613,17 @@
 					<prop_value prop_name="PlannedAmount" value="2"></prop_value>
 				</Collection>
 			</Object>
+			<Object uid="26026.281474976723654" name="3825М1сФИ1-Анализ производительности и оптимизация программного обеспечения" class_id="SubGroup">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26026.281474976723654"></prop_value>
+					<prop_value prop_name="Name" value="3825М1сФИ1-Анализ производительности и оптимизация программного обеспечения"></prop_value>
+					<prop_value prop_name="Number" value="3825М1сФИ1-Анализ производительности и оптимизация программного обеспечения"></prop_value>
+					<prop_value prop_name="UID_Group" value="26007.281474976740372"></prop_value>
+					<prop_value prop_name="Abbr" value="3825М1сФИ1-Анализ производительности и оптимизация программного обеспечения"></prop_value>
+					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="3"></prop_value>
+				</Collection>
+			</Object>
 			<Object uid="26026.281474976723669" name="3825М1ФИ1-Научное программирование " class_id="SubGroup">
 				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
 					<prop_value prop_name="UID" value="26026.281474976723669"></prop_value>
@@ -15148,7 +15632,7 @@
 					<prop_value prop_name="UID_Group" value="26007.281474976739116"></prop_value>
 					<prop_value prop_name="Abbr" value="3825М1ФИ1-Научное программирование "></prop_value>
 					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
-					<prop_value prop_name="PlannedAmount" value="13"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="15"></prop_value>
 				</Collection>
 			</Object>
 			<Object uid="26026.281474976723670" name="3825М1ФИ1-Функциональное программирование" class_id="SubGroup">
@@ -15192,7 +15676,7 @@
 					<prop_value prop_name="UID_Group" value="26007.281474976739116"></prop_value>
 					<prop_value prop_name="Abbr" value="3825М1ФИ1-Системное и низкоуровневое программирование"></prop_value>
 					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
-					<prop_value prop_name="PlannedAmount" value="6"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="8"></prop_value>
 				</Collection>
 			</Object>
 			<Object uid="26026.281474976723674" name="3825М1ФИ2-Анализ и разработка алгоритмов" class_id="SubGroup">
@@ -15360,6 +15844,50 @@
 					<prop_value prop_name="PlannedAmount" value="2"></prop_value>
 				</Collection>
 			</Object>
+			<Object uid="26026.281474976723689" name="3825М1сФИ1-Научное программирование" class_id="SubGroup">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26026.281474976723689"></prop_value>
+					<prop_value prop_name="Name" value="3825М1сФИ1-Научное программирование"></prop_value>
+					<prop_value prop_name="Number" value="3825М1сФИ1-Научное программирование"></prop_value>
+					<prop_value prop_name="UID_Group" value="26007.281474976740372"></prop_value>
+					<prop_value prop_name="Abbr" value="3825М1сФИ1-Научное программирование"></prop_value>
+					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="9"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26026.281474976723690" name="3825М1сФИ1-Программирование на С++. Часть 1" class_id="SubGroup">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26026.281474976723690"></prop_value>
+					<prop_value prop_name="Name" value="3825М1сФИ1-Программирование на С++. Часть 1"></prop_value>
+					<prop_value prop_name="Number" value="3825М1сФИ1-Программирование на С++. Часть 1"></prop_value>
+					<prop_value prop_name="UID_Group" value="26007.281474976740372"></prop_value>
+					<prop_value prop_name="Abbr" value="3825М1сФИ1-Программирование на С++. Часть 1"></prop_value>
+					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="1"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26026.281474976723691" name="3825М1сФИ1-Программирование на С++. Часть 2" class_id="SubGroup">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26026.281474976723691"></prop_value>
+					<prop_value prop_name="Name" value="3825М1сФИ1-Программирование на С++. Часть 2"></prop_value>
+					<prop_value prop_name="Number" value="3825М1сФИ1-Программирование на С++. Часть 2"></prop_value>
+					<prop_value prop_name="UID_Group" value="26007.281474976740372"></prop_value>
+					<prop_value prop_name="Abbr" value="3825М1сФИ1-Программирование на С++. Часть 2"></prop_value>
+					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="3"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26026.281474976723692" name="3825М1сФИ1-Системное и низкоуровневое программирование" class_id="SubGroup">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26026.281474976723692"></prop_value>
+					<prop_value prop_name="Name" value="3825М1сФИ1-Системное и низкоуровневое программирование"></prop_value>
+					<prop_value prop_name="Number" value="3825М1сФИ1-Системное и низкоуровневое программирование"></prop_value>
+					<prop_value prop_name="UID_Group" value="26007.281474976740372"></prop_value>
+					<prop_value prop_name="Abbr" value="3825М1сФИ1-Системное и низкоуровневое программирование"></prop_value>
+					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="7"></prop_value>
+				</Collection>
+			</Object>
 			<Object uid="26026.281474976723693" name="3825М1ПМвм1-Современная компьютерная графика" class_id="SubGroup">
 				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
 					<prop_value prop_name="UID" value="26026.281474976723693"></prop_value>
@@ -15413,6 +15941,50 @@
 					<prop_value prop_name="Abbr" value="3825М1ФИ3-2 п/гр Английский язык"></prop_value>
 					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="3"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26026.281474976723700" name="3825М1сФИ1-1п/гр Английский язык" class_id="SubGroup">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26026.281474976723700"></prop_value>
+					<prop_value prop_name="Name" value="3825М1сФИ1-1п/гр Английский язык"></prop_value>
+					<prop_value prop_name="Number" value="3825М1сФИ1-1п/гр Английский язык"></prop_value>
+					<prop_value prop_name="UID_Group" value="26007.281474976740372"></prop_value>
+					<prop_value prop_name="Abbr" value="3825М1сФИ1-1п/гр Английский язык"></prop_value>
+					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="5"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26026.281474976723701" name="3825М1сФИ1-2п/гр Английский язык" class_id="SubGroup">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26026.281474976723701"></prop_value>
+					<prop_value prop_name="Name" value="3825М1сФИ1-2п/гр Английский язык"></prop_value>
+					<prop_value prop_name="Number" value="3825М1сФИ1-2п/гр Английский язык"></prop_value>
+					<prop_value prop_name="UID_Group" value="26007.281474976740372"></prop_value>
+					<prop_value prop_name="Abbr" value="3825М1сФИ1-2п/гр Английский язык"></prop_value>
+					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="5"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26026.281474976723708" name="3825Б1ФИсп1-1п/гр Основы программирования" class_id="SubGroup">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26026.281474976723708"></prop_value>
+					<prop_value prop_name="Name" value="3825Б1ФИсп1-1п/гр Основы программирования"></prop_value>
+					<prop_value prop_name="Number" value="3825Б1ФИсп1-1п/гр Основы программирования"></prop_value>
+					<prop_value prop_name="UID_Group" value="26007.281474976740403"></prop_value>
+					<prop_value prop_name="Abbr" value="3825Б1ФИсп1-1п/гр Основы программирования"></prop_value>
+					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="15"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26026.281474976723709" name="3825Б1ФИсп1-2п/гр Основы программирования" class_id="SubGroup">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26026.281474976723709"></prop_value>
+					<prop_value prop_name="Name" value="3825Б1ФИсп1-2п/гр Основы программирования"></prop_value>
+					<prop_value prop_name="Number" value="3825Б1ФИсп1-2п/гр Основы программирования"></prop_value>
+					<prop_value prop_name="UID_Group" value="26007.281474976740403"></prop_value>
+					<prop_value prop_name="Abbr" value="3825Б1ФИсп1-2п/гр Основы программирования"></prop_value>
+					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="15"></prop_value>
 				</Collection>
 			</Object>
 			<Object uid="26026.281474976723743" name="3525Б1дГД1-Китайский язык" class_id="SubGroup">
@@ -15712,6 +16284,72 @@
 					<prop_value prop_name="PlannedAmount" value="26"></prop_value>
 				</Collection>
 			</Object>
+			<Object uid="26026.281474976723772" name="3825Б1ПМии1-1п/гр Языки и методы программирования" class_id="SubGroup">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26026.281474976723772"></prop_value>
+					<prop_value prop_name="Name" value="3825Б1ПМии1-1п/гр Языки и методы программирования"></prop_value>
+					<prop_value prop_name="Number" value="3825Б1ПМии1-1п/гр Языки и методы программирования"></prop_value>
+					<prop_value prop_name="UID_Group" value="26007.281474976740464"></prop_value>
+					<prop_value prop_name="Abbr" value="3825Б1ПМии1-1п/гр Языки и методы программирования"></prop_value>
+					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="15"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26026.281474976723773" name="3825Б1ПМии1-2п/гр Языки и методы программирования" class_id="SubGroup">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26026.281474976723773"></prop_value>
+					<prop_value prop_name="Name" value="3825Б1ПМии1-2п/гр Языки и методы программирования"></prop_value>
+					<prop_value prop_name="Number" value="3825Б1ПМии1-2п/гр Языки и методы программирования"></prop_value>
+					<prop_value prop_name="UID_Group" value="26007.281474976740464"></prop_value>
+					<prop_value prop_name="Abbr" value="3825Б1ПМии1-2п/гр Языки и методы программирования"></prop_value>
+					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="15"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26026.281474976723804" name="3825Б1ПРпп1-1п/гр Основы программирования" class_id="SubGroup">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26026.281474976723804"></prop_value>
+					<prop_value prop_name="Name" value="3825Б1ПРпп1-1п/гр Основы программирования"></prop_value>
+					<prop_value prop_name="Number" value="3825Б1ПРпп1-1п/гр Основы программирования"></prop_value>
+					<prop_value prop_name="UID_Group" value="26007.281474976740490"></prop_value>
+					<prop_value prop_name="Abbr" value="3825Б1ПРпп1-1п/гр Основы программирования"></prop_value>
+					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="15"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26026.281474976723805" name="3825Б1ПРпп1-2п/гр Основы программирования" class_id="SubGroup">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26026.281474976723805"></prop_value>
+					<prop_value prop_name="Name" value="3825Б1ПРпп1-2п/гр Основы программирования"></prop_value>
+					<prop_value prop_name="Number" value="3825Б1ПРпп1-2п/гр Основы программирования"></prop_value>
+					<prop_value prop_name="UID_Group" value="26007.281474976740490"></prop_value>
+					<prop_value prop_name="Abbr" value="3825Б1ПРпп1-2п/гр Основы программирования"></prop_value>
+					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="15"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26026.281474976723806" name="3825Б1ПРпп2-1п/гр Основы программирования" class_id="SubGroup">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26026.281474976723806"></prop_value>
+					<prop_value prop_name="Name" value="3825Б1ПРпп2-1п/гр Основы программирования"></prop_value>
+					<prop_value prop_name="Number" value="3825Б1ПРпп2-1п/гр Основы программирования"></prop_value>
+					<prop_value prop_name="UID_Group" value="26007.281474976740491"></prop_value>
+					<prop_value prop_name="Abbr" value="3825Б1ПРпп2-1п/гр Основы программирования"></prop_value>
+					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="15"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26026.281474976723807" name="3825Б1ПРпп2-2п/гр Основы программирования" class_id="SubGroup">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26026.281474976723807"></prop_value>
+					<prop_value prop_name="Name" value="3825Б1ПРпп2-2п/гр Основы программирования"></prop_value>
+					<prop_value prop_name="Number" value="3825Б1ПРпп2-2п/гр Основы программирования"></prop_value>
+					<prop_value prop_name="UID_Group" value="26007.281474976740491"></prop_value>
+					<prop_value prop_name="Abbr" value="3825Б1ПРпп2-2п/гр Основы программирования"></prop_value>
+					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="15"></prop_value>
+				</Collection>
+			</Object>
 			<Object uid="26026.281474976723808" name="3825М1ФИ2-Основы программирования AI акселераторов" class_id="SubGroup">
 				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
 					<prop_value prop_name="UID" value="26026.281474976723808"></prop_value>
@@ -15721,6 +16359,61 @@
 					<prop_value prop_name="Abbr" value="3825М1ФИ2-Основы программирования AI акселераторов"></prop_value>
 					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="5"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26026.281474976723809" name="3825М1сФИ1-Основы программирования AI акселераторов" class_id="SubGroup">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26026.281474976723809"></prop_value>
+					<prop_value prop_name="Name" value="3825М1сФИ1-Основы программирования AI акселераторов"></prop_value>
+					<prop_value prop_name="Number" value="3825М1сФИ1-Основы программирования AI акселераторов"></prop_value>
+					<prop_value prop_name="UID_Group" value="26007.281474976740372"></prop_value>
+					<prop_value prop_name="Abbr" value="3825М1сФИ1-Основы программирования AI акселераторов"></prop_value>
+					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="8"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26026.281474976723827" name="3825Б1ПРпп1-1п/гр  Иностранный язык" class_id="SubGroup">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26026.281474976723827"></prop_value>
+					<prop_value prop_name="Name" value="3825Б1ПРпп1-1п/гр  Иностранный язык"></prop_value>
+					<prop_value prop_name="Number" value="3825Б1ПРпп1-1п/гр  Иностранный язык"></prop_value>
+					<prop_value prop_name="UID_Group" value="26007.281474976740490"></prop_value>
+					<prop_value prop_name="Abbr" value="3825Б1ПРпп1-1п/гр  Иностранный язык"></prop_value>
+					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="15"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26026.281474976723828" name="3825Б1ПРпп1-2п/гр  Иностранный язык" class_id="SubGroup">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26026.281474976723828"></prop_value>
+					<prop_value prop_name="Name" value="3825Б1ПРпп1-2п/гр  Иностранный язык"></prop_value>
+					<prop_value prop_name="Number" value="3825Б1ПРпп1-2п/гр  Иностранный язык"></prop_value>
+					<prop_value prop_name="UID_Group" value="26007.281474976740490"></prop_value>
+					<prop_value prop_name="Abbr" value="3825Б1ПРпп1-2п/гр  Иностранный язык"></prop_value>
+					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="15"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26026.281474976723829" name="3825Б1ПРпп2-1п/гр  Иностранный язык" class_id="SubGroup">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26026.281474976723829"></prop_value>
+					<prop_value prop_name="Name" value="3825Б1ПРпп2-1п/гр  Иностранный язык"></prop_value>
+					<prop_value prop_name="Number" value="3825Б1ПРпп2-1п/гр  Иностранный язык"></prop_value>
+					<prop_value prop_name="UID_Group" value="26007.281474976740491"></prop_value>
+					<prop_value prop_name="Abbr" value="3825Б1ПРпп2-1п/гр  Иностранный язык"></prop_value>
+					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="15"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26026.281474976723830" name="3825Б1ПРпп2-2п/гр  Иностранный язык" class_id="SubGroup">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26026.281474976723830"></prop_value>
+					<prop_value prop_name="Name" value="3825Б1ПРпп2-2п/гр  Иностранный язык"></prop_value>
+					<prop_value prop_name="Number" value="3825Б1ПРпп2-2п/гр  Иностранный язык"></prop_value>
+					<prop_value prop_name="UID_Group" value="26007.281474976740491"></prop_value>
+					<prop_value prop_name="Abbr" value="3825Б1ПРпп2-2п/гр  Иностранный язык"></prop_value>
+					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="15"></prop_value>
 				</Collection>
 			</Object>
 			<Object uid="26026.281474976723850" name="3524П1ТГту1-1" class_id="SubGroup">
@@ -15831,6 +16524,149 @@
 					<prop_value prop_name="Abbr" value="3825М1ФИ2-Двумерная графика и обработка видео"></prop_value>
 					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="5"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26026.281474976723885" name="3825М1сФИ1-Двумерная графика и обработка видео" class_id="SubGroup">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26026.281474976723885"></prop_value>
+					<prop_value prop_name="Name" value="3825М1сФИ1-Двумерная графика и обработка видео"></prop_value>
+					<prop_value prop_name="Number" value="3825М1сФИ1-Двумерная графика и обработка видео"></prop_value>
+					<prop_value prop_name="UID_Group" value="26007.281474976740372"></prop_value>
+					<prop_value prop_name="Abbr" value="3825М1сФИ1-Двумерная графика и обработка видео"></prop_value>
+					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="5"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26026.281474976723912" name="3823Б1ФИ3-Программирование для гетерогенных вычислительных систем" class_id="SubGroup">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26026.281474976723912"></prop_value>
+					<prop_value prop_name="Name" value="3823Б1ФИ3-Программирование для гетерогенных вычислительных систем"></prop_value>
+					<prop_value prop_name="Number" value="3823Б1ФИ3-Программирование для гетерогенных вычислительных систем"></prop_value>
+					<prop_value prop_name="UID_Group" value="26007.281474976734414"></prop_value>
+					<prop_value prop_name="Abbr" value="3823Б1ФИ3-Программирование для гетерогенных вычислительных систем"></prop_value>
+					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="23"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26026.281474976723946" name="3822Б1ФИ3-Программирование на новых архитектурах" class_id="SubGroup">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26026.281474976723946"></prop_value>
+					<prop_value prop_name="Name" value="3822Б1ФИ3-Программирование на новых архитектурах"></prop_value>
+					<prop_value prop_name="Number" value="3822Б1ФИ3-Программирование на новых архитектурах"></prop_value>
+					<prop_value prop_name="UID_Group" value="26007.281474976732242"></prop_value>
+					<prop_value prop_name="Abbr" value="3822Б1ФИ3-Программирование на новых архитектурах"></prop_value>
+					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="15"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26026.281474976723951" name="3823Б1ПМмм1-1п/гр Теория вероятностей и математическая статистика" class_id="SubGroup">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26026.281474976723951"></prop_value>
+					<prop_value prop_name="Name" value="3823Б1ПМмм1-1п/гр Теория вероятностей и математическая статистика"></prop_value>
+					<prop_value prop_name="Number" value="3823Б1ПМмм1-1п/гр Теория вероятностей и математическая статистика"></prop_value>
+					<prop_value prop_name="UID_Group" value="26007.281474976739637"></prop_value>
+					<prop_value prop_name="Abbr" value="3823Б1ПМмм1-1п/гр Теория вероятностей и математическая статистика"></prop_value>
+					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="14"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26026.281474976723952" name="3823Б1ПМмм1-2 п/гр Теория вероятностей и математическая статистика" class_id="SubGroup">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26026.281474976723952"></prop_value>
+					<prop_value prop_name="Name" value="3823Б1ПМмм1-2 п/гр Теория вероятностей и математическая статистика"></prop_value>
+					<prop_value prop_name="Number" value="3823Б1ПМмм1-2 п/гр Теория вероятностей и математическая статистика"></prop_value>
+					<prop_value prop_name="UID_Group" value="26007.281474976739637"></prop_value>
+					<prop_value prop_name="Abbr" value="3823Б1ПМмм1-2 п/гр Теория вероятностей и математическая статистика"></prop_value>
+					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="14"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26026.281474976723953" name="3823Б1ПМоп1-1п/гр Теория вероятностей и математическая статистика" class_id="SubGroup">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26026.281474976723953"></prop_value>
+					<prop_value prop_name="Name" value="3823Б1ПМоп1-1п/гр Теория вероятностей и математическая статистика"></prop_value>
+					<prop_value prop_name="Number" value="3823Б1ПМоп1-1п/гр Теория вероятностей и математическая статистика"></prop_value>
+					<prop_value prop_name="UID_Group" value="26007.281474976739634"></prop_value>
+					<prop_value prop_name="Abbr" value="3823Б1ПМоп1-1п/гр Теория вероятностей и математическая статистика"></prop_value>
+					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="12"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26026.281474976723954" name="3823Б1ПМоп1-2п/гр Теория вероятностей и математическая статистика" class_id="SubGroup">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26026.281474976723954"></prop_value>
+					<prop_value prop_name="Name" value="3823Б1ПМоп1-2п/гр Теория вероятностей и математическая статистика"></prop_value>
+					<prop_value prop_name="Number" value="3823Б1ПМоп1-2п/гр Теория вероятностей и математическая статистика"></prop_value>
+					<prop_value prop_name="UID_Group" value="26007.281474976739634"></prop_value>
+					<prop_value prop_name="Abbr" value="3823Б1ПМоп1-2п/гр Теория вероятностей и математическая статистика"></prop_value>
+					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="11"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26026.281474976723955" name="3823Б1ПМоп2-1п/гр Теория вероятностей и математическая статистика" class_id="SubGroup">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26026.281474976723955"></prop_value>
+					<prop_value prop_name="Name" value="3823Б1ПМоп2-1п/гр Теория вероятностей и математическая статистика"></prop_value>
+					<prop_value prop_name="Number" value="3823Б1ПМоп2-1п/гр Теория вероятностей и математическая статистика"></prop_value>
+					<prop_value prop_name="UID_Group" value="26007.281474976739635"></prop_value>
+					<prop_value prop_name="Abbr" value="3823Б1ПМоп2-1п/гр Теория вероятностей и математическая статистика"></prop_value>
+					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="11"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26026.281474976723956" name="3823Б1ПМоп2-2п/гр Теория вероятностей и математическая статистика" class_id="SubGroup">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26026.281474976723956"></prop_value>
+					<prop_value prop_name="Name" value="3823Б1ПМоп2-2п/гр Теория вероятностей и математическая статистика"></prop_value>
+					<prop_value prop_name="Number" value="3823Б1ПМоп2-2п/гр Теория вероятностей и математическая статистика"></prop_value>
+					<prop_value prop_name="UID_Group" value="26007.281474976739635"></prop_value>
+					<prop_value prop_name="Abbr" value="3823Б1ПМоп2-2п/гр Теория вероятностей и математическая статистика"></prop_value>
+					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="11"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26026.281474976723957" name="3823Б1ПМоп3-1п/гр Теория вероятностей и математическая статистика" class_id="SubGroup">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26026.281474976723957"></prop_value>
+					<prop_value prop_name="Name" value="3823Б1ПМоп3-1п/гр Теория вероятностей и математическая статистика"></prop_value>
+					<prop_value prop_name="Number" value="3823Б1ПМоп3-1п/гр Теория вероятностей и математическая статистика"></prop_value>
+					<prop_value prop_name="UID_Group" value="26007.281474976739636"></prop_value>
+					<prop_value prop_name="Abbr" value="3823Б1ПМоп3-1п/гр Теория вероятностей и математическая статистика"></prop_value>
+					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="13"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26026.281474976723958" name="3823Б1ПМоп3-2п/гр Теория вероятностей и математическая статистика" class_id="SubGroup">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26026.281474976723958"></prop_value>
+					<prop_value prop_name="Name" value="3823Б1ПМоп3-2п/гр Теория вероятностей и математическая статистика"></prop_value>
+					<prop_value prop_name="Number" value="3823Б1ПМоп3-2п/гр Теория вероятностей и математическая статистика"></prop_value>
+					<prop_value prop_name="UID_Group" value="26007.281474976739636"></prop_value>
+					<prop_value prop_name="Abbr" value="3823Б1ПМоп3-2п/гр Теория вероятностей и математическая статистика"></prop_value>
+					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="14"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26026.281474976723959" name="4525Б1АФ1-1(Анатомия человека)" class_id="SubGroup">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26026.281474976723959"></prop_value>
+					<prop_value prop_name="Name" value="4525Б1АФ1-1(Анатомия человека)"></prop_value>
+					<prop_value prop_name="Number" value="4525Б1АФ1-1(Анатомия человека)"></prop_value>
+					<prop_value prop_name="UID_Group" value="26007.281474976739049"></prop_value>
+					<prop_value prop_name="Abbr" value="4525Б1АФ1-1(Анатомия человека)"></prop_value>
+					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="12"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26026.281474976723960" name="4525Б1АФ1-2(Анатомия человека)" class_id="SubGroup">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26026.281474976723960"></prop_value>
+					<prop_value prop_name="Name" value="4525Б1АФ1-2(Анатомия человека)"></prop_value>
+					<prop_value prop_name="Number" value="4525Б1АФ1-2(Анатомия человека)"></prop_value>
+					<prop_value prop_name="UID_Group" value="26007.281474976739049"></prop_value>
+					<prop_value prop_name="Abbr" value="4525Б1АФ1-2(Анатомия человека)"></prop_value>
+					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="12"></prop_value>
 				</Collection>
 			</Object>
 		</Collection>

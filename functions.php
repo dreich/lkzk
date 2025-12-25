@@ -375,7 +375,7 @@ function Authorize($login, $password)
     
     if (!$result && is_array($attrs))
     {
-      $result = "У вас нет доступа в систему закупок";
+      $result = "У вас нет доступа в систему";
     }
     elseif (!$result && !is_array($attrs))
     {
@@ -2397,13 +2397,14 @@ function GetNagruzkaBaseQuery($dop_sql)
   xml_content_of_load.UID_Course,
   xml_content_of_load.amount,
   xml_lecturer.FIO as galaktika_lecturer_fio,
-  nagruzka.lecturer_fio, nagruzka.lecturer_uid, nagruzka.lecturer_person_id, nagruzka.status, nagruzka.chair_id, nagruzka.chair_name, nagruzka.zavkaf_fio, nagruzka.chair_name
+  nagruzka.lecturer_fio, nagruzka.lecturer_uid, nagruzka.lecturer_person_id, nagruzka.status, nagruzka.chair_id, nagruzka.chair_name, nagruzka.zavkaf_fio, nagruzka.chair_name, nagruzka.comment_to_admin
 
   FROM xml_content_of_load
   JOIN xml_content_of_load_staff ON 
   # SUBSTRING(xml_content_of_load.UID, 1, LENGTH(xml_content_of_load.UID) - LOCATE('.', REVERSE(xml_content_of_load.UID))) = xml_content_of_load_staff.UID_ContentOfLoad
-  #xml_content_of_load.base_uid = xml_content_of_load_staff.UID_ContentOfLoad
-  xml_content_of_load.UID = xml_content_of_load_staff.UID_ContentOfLoad
+  -- xml_content_of_load.base_uid = xml_content_of_load_staff.UID_ContentOfLoad
+  -- xml_content_of_load.UID = xml_content_of_load_staff.UID_ContentOfLoad
+  xml_content_of_load.base_uid = xml_content_of_load_staff.base_uid
   LEFT JOIN xml_group ON xml_group.`UID` = xml_content_of_load_staff.`UID_Group`
   LEFT JOIN xml_discipline ON xml_discipline.UID = xml_content_of_load.UID_Discipline
   LEFT JOIN xml_faculty ON xml_faculty.UID = xml_content_of_load_staff.`UID_FacultyOwner`
@@ -2415,11 +2416,12 @@ function GetNagruzkaBaseQuery($dop_sql)
   LEFT JOIN `nagruzka` ON nagruzka.load_base_UID = xml_content_of_load.base_uid
   WHERE 
   (xml_content_of_load_staff.`Abbr` LIKE ('Б1.%') OR xml_content_of_load_staff.`Abbr` LIKE ('Ф%') OR xml_content_of_load_staff.`Abbr` LIKE ('1.%') OR xml_content_of_load_staff.`Abbr` LIKE ('1.01%') OR xml_content_of_load_staff.`Abbr` LIKE ('2.1%') OR xml_content_of_load_staff.`Abbr` LIKE ('2.01%') OR xml_content_of_load_staff.`Abbr` LIKE ('С1%') OR xml_content_of_load_staff.`Abbr` LIKE ('С2%') OR xml_content_of_load_staff.`Abbr` LIKE ('С3%') OR xml_content_of_load_staff.`Abbr` LIKE ('С4%'))
+    #AND `base_uid` = '26589.281474976787058'
     $dop_sql
     #LIMIT 1000
   ";
 
-  EchoLog($_nagruzka_base_query);
+  // EchoLog($_nagruzka_base_query);
 
   return $_nagruzka_base_query;
 

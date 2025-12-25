@@ -1,4 +1,16 @@
-[21.11.2025 - 10:35.20] SELECT 
+[05.12.2025 - 10:19.26] SELECT `lecturer_fio`, xml_content_of_load.Amount
+          FROM `nagruzka` 
+          LEFT JOIN `xml_content_of_load` ON nagruzka.`load_base_UID` = xml_content_of_load.`base_uid`
+          WHERE 1 AND chair_id = '02896'[/ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=02896] [Chrome 143.0.0.0] [127.0.0.1]
+[05.12.2025 - 10:24.45] SELECT `lecturer_fio`, xml_content_of_load.Amount
+          FROM `nagruzka` 
+          LEFT JOIN `xml_content_of_load` ON nagruzka.`load_base_UID` = xml_content_of_load.`base_uid`
+          WHERE 1 AND chair_id = '02896'[/ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=02896] [Chrome 143.0.0.0] [127.0.0.1]
+[05.12.2025 - 10:25.12] SELECT `lecturer_fio`, xml_content_of_load.Amount
+          FROM `nagruzka` 
+          LEFT JOIN `xml_content_of_load` ON nagruzka.`load_base_UID` = xml_content_of_load.`base_uid`
+          WHERE 1 AND chair_id = '02896'[/ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=02896] [Chrome 143.0.0.0] [127.0.0.1]
+[05.12.2025 - 10:25.12] SELECT 
   xml_content_of_load.UID as original_uid,
   #SUBSTRING(xml_content_of_load.UID, 1, LENGTH(xml_content_of_load.UID) - LOCATE('.', REVERSE(xml_content_of_load.UID))) as base_uid,
   xml_content_of_load.base_uid,
@@ -27,8 +39,8 @@
   FROM xml_content_of_load
   JOIN xml_content_of_load_staff ON 
   # SUBSTRING(xml_content_of_load.UID, 1, LENGTH(xml_content_of_load.UID) - LOCATE('.', REVERSE(xml_content_of_load.UID))) = xml_content_of_load_staff.UID_ContentOfLoad
-  #xml_content_of_load.base_uid = xml_content_of_load_staff.UID_ContentOfLoad
-  xml_content_of_load.UID = xml_content_of_load_staff.UID_ContentOfLoad
+  xml_content_of_load.base_uid = xml_content_of_load_staff.UID_ContentOfLoad
+  -- xml_content_of_load.UID = xml_content_of_load_staff.UID_ContentOfLoad
   LEFT JOIN xml_group ON xml_group.`UID` = xml_content_of_load_staff.`UID_Group`
   LEFT JOIN xml_discipline ON xml_discipline.UID = xml_content_of_load.UID_Discipline
   LEFT JOIN xml_faculty ON xml_faculty.UID = xml_content_of_load_staff.`UID_FacultyOwner`
@@ -40,16 +52,23 @@
   LEFT JOIN `nagruzka` ON nagruzka.load_base_UID = xml_content_of_load.base_uid
   WHERE 
   (xml_content_of_load_staff.`Abbr` LIKE ('Б1.%') OR xml_content_of_load_staff.`Abbr` LIKE ('Ф%') OR xml_content_of_load_staff.`Abbr` LIKE ('1.%') OR xml_content_of_load_staff.`Abbr` LIKE ('1.01%') OR xml_content_of_load_staff.`Abbr` LIKE ('2.1%') OR xml_content_of_load_staff.`Abbr` LIKE ('2.01%') OR xml_content_of_load_staff.`Abbr` LIKE ('С1%') OR xml_content_of_load_staff.`Abbr` LIKE ('С2%') OR xml_content_of_load_staff.`Abbr` LIKE ('С3%') OR xml_content_of_load_staff.`Abbr` LIKE ('С4%'))
-    AND `status` = 'require_admin_change'
-              #AND xml_content_of_load.UID_Chair = ''
-              #AND `base_uid` = '26589.281474976773927'
-              ORDER BY `original_uid`
-              # TMP
-              #AND `UID_Discipline` = '26006.281474976725278'
-              #LIMIT 15
-  
-    #LIMIT 1000[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 142.0.0.0] [127.0.0.1]
-[21.11.2025 - 13:53.11] SELECT 
+    #AND `base_uid` = '26589.281474976787058'
+    AND xml_content_of_load.UID_Chair = '25031.281474976732017'
+            AND `lecturer_fio` <> '' AND `lecturer_fio` <> 'Вакансия' AND `lecturer_fio` IS NOT NULL
+            AND `chair_id` IS NOT NULL AND `valid` = '1'
+            #AND `status` NOT IN ('')
+            #AND `base_uid` = '26589.281474976773927'
+            # TMP
+            #AND `UID_Discipline` = '26006.281474976725278'
+            #ORDER BY `status`, ``
+            #LIMIT 150
+
+    #LIMIT 1000[/ajax/get/nagruzka_discipline.php?chair_id=02896] [Chrome 143.0.0.0] [127.0.0.1]
+[05.12.2025 - 10:34.24] SELECT `lecturer_fio`, xml_content_of_load.Amount
+          FROM `nagruzka` 
+          LEFT JOIN `xml_content_of_load` ON nagruzka.`load_base_UID` = xml_content_of_load.`base_uid`
+          WHERE 1 AND chair_id = '02896'[/ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=02896] [Chrome 143.0.0.0] [127.0.0.1]
+[05.12.2025 - 10:34.24] SELECT 
   xml_content_of_load.UID as original_uid,
   #SUBSTRING(xml_content_of_load.UID, 1, LENGTH(xml_content_of_load.UID) - LOCATE('.', REVERSE(xml_content_of_load.UID))) as base_uid,
   xml_content_of_load.base_uid,
@@ -78,7 +97,7 @@
   FROM xml_content_of_load
   JOIN xml_content_of_load_staff ON 
   # SUBSTRING(xml_content_of_load.UID, 1, LENGTH(xml_content_of_load.UID) - LOCATE('.', REVERSE(xml_content_of_load.UID))) = xml_content_of_load_staff.UID_ContentOfLoad
-  #xml_content_of_load.base_uid = xml_content_of_load_staff.UID_ContentOfLoad
+  -- xml_content_of_load.base_uid = xml_content_of_load_staff.UID_ContentOfLoad
   xml_content_of_load.UID = xml_content_of_load_staff.UID_ContentOfLoad
   LEFT JOIN xml_group ON xml_group.`UID` = xml_content_of_load_staff.`UID_Group`
   LEFT JOIN xml_discipline ON xml_discipline.UID = xml_content_of_load.UID_Discipline
@@ -91,16 +110,23 @@
   LEFT JOIN `nagruzka` ON nagruzka.load_base_UID = xml_content_of_load.base_uid
   WHERE 
   (xml_content_of_load_staff.`Abbr` LIKE ('Б1.%') OR xml_content_of_load_staff.`Abbr` LIKE ('Ф%') OR xml_content_of_load_staff.`Abbr` LIKE ('1.%') OR xml_content_of_load_staff.`Abbr` LIKE ('1.01%') OR xml_content_of_load_staff.`Abbr` LIKE ('2.1%') OR xml_content_of_load_staff.`Abbr` LIKE ('2.01%') OR xml_content_of_load_staff.`Abbr` LIKE ('С1%') OR xml_content_of_load_staff.`Abbr` LIKE ('С2%') OR xml_content_of_load_staff.`Abbr` LIKE ('С3%') OR xml_content_of_load_staff.`Abbr` LIKE ('С4%'))
-    AND `status` = 'require_admin_change'
-              #AND xml_content_of_load.UID_Chair = ''
-              #AND `base_uid` = '26589.281474976773927'
-              ORDER BY `original_uid`
-              # TMP
-              #AND `UID_Discipline` = '26006.281474976725278'
-              #LIMIT 15
-  
-    #LIMIT 1000[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 142.0.0.0] [127.0.0.1]
-[21.11.2025 - 14:00.28] SELECT 
+    #AND `base_uid` = '26589.281474976787058'
+    AND xml_content_of_load.UID_Chair = '25031.281474976732017'
+            AND `lecturer_fio` <> '' AND `lecturer_fio` <> 'Вакансия' AND `lecturer_fio` IS NOT NULL
+            AND `chair_id` IS NOT NULL AND `valid` = '1'
+            #AND `status` NOT IN ('')
+            #AND `base_uid` = '26589.281474976773927'
+            # TMP
+            #AND `UID_Discipline` = '26006.281474976725278'
+            #ORDER BY `status`, ``
+            #LIMIT 150
+
+    #LIMIT 1000[/ajax/get/nagruzka_discipline.php?chair_id=02896] [Chrome 143.0.0.0] [127.0.0.1]
+[05.12.2025 - 11:59.14] SELECT `lecturer_fio`, xml_content_of_load.Amount
+          FROM `nagruzka` 
+          LEFT JOIN `xml_content_of_load` ON nagruzka.`load_base_UID` = xml_content_of_load.`base_uid`
+          WHERE 1 AND chair_id = '02896'[/ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=02896] [Chrome 143.0.0.0] [127.0.0.1]
+[05.12.2025 - 11:59.14] SELECT 
   xml_content_of_load.UID as original_uid,
   #SUBSTRING(xml_content_of_load.UID, 1, LENGTH(xml_content_of_load.UID) - LOCATE('.', REVERSE(xml_content_of_load.UID))) as base_uid,
   xml_content_of_load.base_uid,
@@ -129,8 +155,9 @@
   FROM xml_content_of_load
   JOIN xml_content_of_load_staff ON 
   # SUBSTRING(xml_content_of_load.UID, 1, LENGTH(xml_content_of_load.UID) - LOCATE('.', REVERSE(xml_content_of_load.UID))) = xml_content_of_load_staff.UID_ContentOfLoad
-  #xml_content_of_load.base_uid = xml_content_of_load_staff.UID_ContentOfLoad
-  xml_content_of_load.UID = xml_content_of_load_staff.UID_ContentOfLoad
+  -- xml_content_of_load.base_uid = xml_content_of_load_staff.UID_ContentOfLoad
+  -- xml_content_of_load.UID = xml_content_of_load_staff.UID_ContentOfLoad
+  xml_content_of_load.base_uid = xml_content_of_load_staff.base_uid
   LEFT JOIN xml_group ON xml_group.`UID` = xml_content_of_load_staff.`UID_Group`
   LEFT JOIN xml_discipline ON xml_discipline.UID = xml_content_of_load.UID_Discipline
   LEFT JOIN xml_faculty ON xml_faculty.UID = xml_content_of_load_staff.`UID_FacultyOwner`
@@ -142,16 +169,23 @@
   LEFT JOIN `nagruzka` ON nagruzka.load_base_UID = xml_content_of_load.base_uid
   WHERE 
   (xml_content_of_load_staff.`Abbr` LIKE ('Б1.%') OR xml_content_of_load_staff.`Abbr` LIKE ('Ф%') OR xml_content_of_load_staff.`Abbr` LIKE ('1.%') OR xml_content_of_load_staff.`Abbr` LIKE ('1.01%') OR xml_content_of_load_staff.`Abbr` LIKE ('2.1%') OR xml_content_of_load_staff.`Abbr` LIKE ('2.01%') OR xml_content_of_load_staff.`Abbr` LIKE ('С1%') OR xml_content_of_load_staff.`Abbr` LIKE ('С2%') OR xml_content_of_load_staff.`Abbr` LIKE ('С3%') OR xml_content_of_load_staff.`Abbr` LIKE ('С4%'))
-    AND `status` = 'require_admin_change'
-              #AND xml_content_of_load.UID_Chair = ''
-              #AND `base_uid` = '26589.281474976773927'
-              ORDER BY `original_uid`
-              # TMP
-              #AND `UID_Discipline` = '26006.281474976725278'
-              #LIMIT 15
-  
-    #LIMIT 1000[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 142.0.0.0] [127.0.0.1]
-[21.11.2025 - 14:00.41] SELECT 
+    #AND `base_uid` = '26589.281474976787058'
+    AND xml_content_of_load.UID_Chair = '25031.281474976732017'
+            AND `lecturer_fio` <> '' AND `lecturer_fio` <> 'Вакансия' AND `lecturer_fio` IS NOT NULL
+            AND `chair_id` IS NOT NULL AND `valid` = '1'
+            #AND `status` NOT IN ('')
+            #AND `base_uid` = '26589.281474976773927'
+            # TMP
+            #AND `UID_Discipline` = '26006.281474976725278'
+            #ORDER BY `status`, ``
+            #LIMIT 150
+
+    #LIMIT 1000[/ajax/get/nagruzka_discipline.php?chair_id=02896] [Chrome 143.0.0.0] [127.0.0.1]
+[05.12.2025 - 11:59.28] SELECT `lecturer_fio`, xml_content_of_load.Amount
+          FROM `nagruzka` 
+          LEFT JOIN `xml_content_of_load` ON nagruzka.`load_base_UID` = xml_content_of_load.`base_uid`
+          WHERE 1 AND chair_id = '02896'[/ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=02896] [Chrome 143.0.0.0] [127.0.0.1]
+[05.12.2025 - 11:59.28] SELECT 
   xml_content_of_load.UID as original_uid,
   #SUBSTRING(xml_content_of_load.UID, 1, LENGTH(xml_content_of_load.UID) - LOCATE('.', REVERSE(xml_content_of_load.UID))) as base_uid,
   xml_content_of_load.base_uid,
@@ -180,8 +214,9 @@
   FROM xml_content_of_load
   JOIN xml_content_of_load_staff ON 
   # SUBSTRING(xml_content_of_load.UID, 1, LENGTH(xml_content_of_load.UID) - LOCATE('.', REVERSE(xml_content_of_load.UID))) = xml_content_of_load_staff.UID_ContentOfLoad
-  #xml_content_of_load.base_uid = xml_content_of_load_staff.UID_ContentOfLoad
-  xml_content_of_load.UID = xml_content_of_load_staff.UID_ContentOfLoad
+  -- xml_content_of_load.base_uid = xml_content_of_load_staff.UID_ContentOfLoad
+  -- xml_content_of_load.UID = xml_content_of_load_staff.UID_ContentOfLoad
+  xml_content_of_load.base_uid = xml_content_of_load_staff.base_uid
   LEFT JOIN xml_group ON xml_group.`UID` = xml_content_of_load_staff.`UID_Group`
   LEFT JOIN xml_discipline ON xml_discipline.UID = xml_content_of_load.UID_Discipline
   LEFT JOIN xml_faculty ON xml_faculty.UID = xml_content_of_load_staff.`UID_FacultyOwner`
@@ -193,16 +228,23 @@
   LEFT JOIN `nagruzka` ON nagruzka.load_base_UID = xml_content_of_load.base_uid
   WHERE 
   (xml_content_of_load_staff.`Abbr` LIKE ('Б1.%') OR xml_content_of_load_staff.`Abbr` LIKE ('Ф%') OR xml_content_of_load_staff.`Abbr` LIKE ('1.%') OR xml_content_of_load_staff.`Abbr` LIKE ('1.01%') OR xml_content_of_load_staff.`Abbr` LIKE ('2.1%') OR xml_content_of_load_staff.`Abbr` LIKE ('2.01%') OR xml_content_of_load_staff.`Abbr` LIKE ('С1%') OR xml_content_of_load_staff.`Abbr` LIKE ('С2%') OR xml_content_of_load_staff.`Abbr` LIKE ('С3%') OR xml_content_of_load_staff.`Abbr` LIKE ('С4%'))
-    AND `status` = 'require_admin_change'
-              #AND xml_content_of_load.UID_Chair = ''
-              #AND `base_uid` = '26589.281474976773927'
-              ORDER BY `original_uid`
-              # TMP
-              #AND `UID_Discipline` = '26006.281474976725278'
-              #LIMIT 15
-  
-    #LIMIT 1000[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 142.0.0.0] [127.0.0.1]
-[21.11.2025 - 14:01.49] SELECT 
+    #AND `base_uid` = '26589.281474976787058'
+    AND xml_content_of_load.UID_Chair = '25031.281474976732017'
+            AND (`lecturer_fio` = '' OR `lecturer_fio` IS NULL)
+            AND `chair_id` IS NOT NULL AND `valid` = '1'
+            #AND `status` NOT IN ('')
+            #AND `base_uid` = '26589.281474976773927'
+            # TMP
+            #AND `UID_Discipline` = '26006.281474976725278'
+            #ORDER BY `status`, ``
+            #LIMIT 150
+
+    #LIMIT 1000[/ajax/get/nagruzka_discipline.php?chair_id=02896] [Chrome 143.0.0.0] [127.0.0.1]
+[05.12.2025 - 11:59.34] SELECT `lecturer_fio`, xml_content_of_load.Amount
+          FROM `nagruzka` 
+          LEFT JOIN `xml_content_of_load` ON nagruzka.`load_base_UID` = xml_content_of_load.`base_uid`
+          WHERE 1 AND chair_id = '02896'[/ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=02896] [Chrome 143.0.0.0] [127.0.0.1]
+[05.12.2025 - 11:59.34] SELECT 
   xml_content_of_load.UID as original_uid,
   #SUBSTRING(xml_content_of_load.UID, 1, LENGTH(xml_content_of_load.UID) - LOCATE('.', REVERSE(xml_content_of_load.UID))) as base_uid,
   xml_content_of_load.base_uid,
@@ -231,8 +273,9 @@
   FROM xml_content_of_load
   JOIN xml_content_of_load_staff ON 
   # SUBSTRING(xml_content_of_load.UID, 1, LENGTH(xml_content_of_load.UID) - LOCATE('.', REVERSE(xml_content_of_load.UID))) = xml_content_of_load_staff.UID_ContentOfLoad
-  #xml_content_of_load.base_uid = xml_content_of_load_staff.UID_ContentOfLoad
-  xml_content_of_load.UID = xml_content_of_load_staff.UID_ContentOfLoad
+  -- xml_content_of_load.base_uid = xml_content_of_load_staff.UID_ContentOfLoad
+  -- xml_content_of_load.UID = xml_content_of_load_staff.UID_ContentOfLoad
+  xml_content_of_load.base_uid = xml_content_of_load_staff.base_uid
   LEFT JOIN xml_group ON xml_group.`UID` = xml_content_of_load_staff.`UID_Group`
   LEFT JOIN xml_discipline ON xml_discipline.UID = xml_content_of_load.UID_Discipline
   LEFT JOIN xml_faculty ON xml_faculty.UID = xml_content_of_load_staff.`UID_FacultyOwner`
@@ -244,16 +287,23 @@
   LEFT JOIN `nagruzka` ON nagruzka.load_base_UID = xml_content_of_load.base_uid
   WHERE 
   (xml_content_of_load_staff.`Abbr` LIKE ('Б1.%') OR xml_content_of_load_staff.`Abbr` LIKE ('Ф%') OR xml_content_of_load_staff.`Abbr` LIKE ('1.%') OR xml_content_of_load_staff.`Abbr` LIKE ('1.01%') OR xml_content_of_load_staff.`Abbr` LIKE ('2.1%') OR xml_content_of_load_staff.`Abbr` LIKE ('2.01%') OR xml_content_of_load_staff.`Abbr` LIKE ('С1%') OR xml_content_of_load_staff.`Abbr` LIKE ('С2%') OR xml_content_of_load_staff.`Abbr` LIKE ('С3%') OR xml_content_of_load_staff.`Abbr` LIKE ('С4%'))
-    AND `status` = 'require_admin_change'
-              #AND xml_content_of_load.UID_Chair = ''
-              #AND `base_uid` = '26589.281474976773927'
-              ORDER BY `original_uid`
-              # TMP
-              #AND `UID_Discipline` = '26006.281474976725278'
-              #LIMIT 15
-  
-    #LIMIT 1000[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 142.0.0.0] [127.0.0.1]
-[21.11.2025 - 14:01.57] SELECT 
+    #AND `base_uid` = '26589.281474976787058'
+    AND xml_content_of_load.UID_Chair = '25031.281474976732017'
+            AND `lecturer_fio` = 'Вакансия'
+            AND `chair_id` IS NOT NULL AND `valid` = '1'
+            #AND `status` NOT IN ('')
+            #AND `base_uid` = '26589.281474976773927'
+            # TMP
+            #AND `UID_Discipline` = '26006.281474976725278'
+            #ORDER BY `status`, ``
+            #LIMIT 150
+
+    #LIMIT 1000[/ajax/get/nagruzka_discipline.php?chair_id=02896] [Chrome 143.0.0.0] [127.0.0.1]
+[05.12.2025 - 11:59.40] SELECT `lecturer_fio`, xml_content_of_load.Amount
+          FROM `nagruzka` 
+          LEFT JOIN `xml_content_of_load` ON nagruzka.`load_base_UID` = xml_content_of_load.`base_uid`
+          WHERE 1 AND chair_id = '02896'[/ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=02896] [Chrome 143.0.0.0] [127.0.0.1]
+[05.12.2025 - 11:59.40] SELECT 
   xml_content_of_load.UID as original_uid,
   #SUBSTRING(xml_content_of_load.UID, 1, LENGTH(xml_content_of_load.UID) - LOCATE('.', REVERSE(xml_content_of_load.UID))) as base_uid,
   xml_content_of_load.base_uid,
@@ -282,8 +332,9 @@
   FROM xml_content_of_load
   JOIN xml_content_of_load_staff ON 
   # SUBSTRING(xml_content_of_load.UID, 1, LENGTH(xml_content_of_load.UID) - LOCATE('.', REVERSE(xml_content_of_load.UID))) = xml_content_of_load_staff.UID_ContentOfLoad
-  #xml_content_of_load.base_uid = xml_content_of_load_staff.UID_ContentOfLoad
-  xml_content_of_load.UID = xml_content_of_load_staff.UID_ContentOfLoad
+  -- xml_content_of_load.base_uid = xml_content_of_load_staff.UID_ContentOfLoad
+  -- xml_content_of_load.UID = xml_content_of_load_staff.UID_ContentOfLoad
+  xml_content_of_load.base_uid = xml_content_of_load_staff.base_uid
   LEFT JOIN xml_group ON xml_group.`UID` = xml_content_of_load_staff.`UID_Group`
   LEFT JOIN xml_discipline ON xml_discipline.UID = xml_content_of_load.UID_Discipline
   LEFT JOIN xml_faculty ON xml_faculty.UID = xml_content_of_load_staff.`UID_FacultyOwner`
@@ -295,16 +346,23 @@
   LEFT JOIN `nagruzka` ON nagruzka.load_base_UID = xml_content_of_load.base_uid
   WHERE 
   (xml_content_of_load_staff.`Abbr` LIKE ('Б1.%') OR xml_content_of_load_staff.`Abbr` LIKE ('Ф%') OR xml_content_of_load_staff.`Abbr` LIKE ('1.%') OR xml_content_of_load_staff.`Abbr` LIKE ('1.01%') OR xml_content_of_load_staff.`Abbr` LIKE ('2.1%') OR xml_content_of_load_staff.`Abbr` LIKE ('2.01%') OR xml_content_of_load_staff.`Abbr` LIKE ('С1%') OR xml_content_of_load_staff.`Abbr` LIKE ('С2%') OR xml_content_of_load_staff.`Abbr` LIKE ('С3%') OR xml_content_of_load_staff.`Abbr` LIKE ('С4%'))
-    AND `status` = 'require_admin_change'
-              #AND xml_content_of_load.UID_Chair = ''
-              #AND `base_uid` = '26589.281474976773927'
-              ORDER BY `original_uid`
-              # TMP
-              #AND `UID_Discipline` = '26006.281474976725278'
-              #LIMIT 15
-  
-    #LIMIT 1000[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 142.0.0.0] [127.0.0.1]
-[21.11.2025 - 14:03.12] SELECT 
+    #AND `base_uid` = '26589.281474976787058'
+    AND xml_content_of_load.UID_Chair = '25031.281474976732017'
+            AND `lecturer_fio` <> '' AND `lecturer_fio` <> 'Вакансия' AND `lecturer_fio` IS NOT NULL
+            AND `chair_id` IS NOT NULL AND `valid` = '1'
+            #AND `status` NOT IN ('')
+            #AND `base_uid` = '26589.281474976773927'
+            # TMP
+            #AND `UID_Discipline` = '26006.281474976725278'
+            #ORDER BY `status`, ``
+            #LIMIT 150
+
+    #LIMIT 1000[/ajax/get/nagruzka_discipline.php?chair_id=02896] [Chrome 143.0.0.0] [127.0.0.1]
+[05.12.2025 - 12:00.44] SELECT `lecturer_fio`, xml_content_of_load.Amount
+          FROM `nagruzka` 
+           JOIN `xml_content_of_load` ON nagruzka.`load_base_UID` = xml_content_of_load.`base_uid`
+          WHERE 1 AND chair_id = '02896'[/ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=02896] [Chrome 143.0.0.0] [127.0.0.1]
+[05.12.2025 - 12:00.44] SELECT 
   xml_content_of_load.UID as original_uid,
   #SUBSTRING(xml_content_of_load.UID, 1, LENGTH(xml_content_of_load.UID) - LOCATE('.', REVERSE(xml_content_of_load.UID))) as base_uid,
   xml_content_of_load.base_uid,
@@ -333,8 +391,9 @@
   FROM xml_content_of_load
   JOIN xml_content_of_load_staff ON 
   # SUBSTRING(xml_content_of_load.UID, 1, LENGTH(xml_content_of_load.UID) - LOCATE('.', REVERSE(xml_content_of_load.UID))) = xml_content_of_load_staff.UID_ContentOfLoad
-  #xml_content_of_load.base_uid = xml_content_of_load_staff.UID_ContentOfLoad
-  xml_content_of_load.UID = xml_content_of_load_staff.UID_ContentOfLoad
+  -- xml_content_of_load.base_uid = xml_content_of_load_staff.UID_ContentOfLoad
+  -- xml_content_of_load.UID = xml_content_of_load_staff.UID_ContentOfLoad
+  xml_content_of_load.base_uid = xml_content_of_load_staff.base_uid
   LEFT JOIN xml_group ON xml_group.`UID` = xml_content_of_load_staff.`UID_Group`
   LEFT JOIN xml_discipline ON xml_discipline.UID = xml_content_of_load.UID_Discipline
   LEFT JOIN xml_faculty ON xml_faculty.UID = xml_content_of_load_staff.`UID_FacultyOwner`
@@ -346,1185 +405,219 @@
   LEFT JOIN `nagruzka` ON nagruzka.load_base_UID = xml_content_of_load.base_uid
   WHERE 
   (xml_content_of_load_staff.`Abbr` LIKE ('Б1.%') OR xml_content_of_load_staff.`Abbr` LIKE ('Ф%') OR xml_content_of_load_staff.`Abbr` LIKE ('1.%') OR xml_content_of_load_staff.`Abbr` LIKE ('1.01%') OR xml_content_of_load_staff.`Abbr` LIKE ('2.1%') OR xml_content_of_load_staff.`Abbr` LIKE ('2.01%') OR xml_content_of_load_staff.`Abbr` LIKE ('С1%') OR xml_content_of_load_staff.`Abbr` LIKE ('С2%') OR xml_content_of_load_staff.`Abbr` LIKE ('С3%') OR xml_content_of_load_staff.`Abbr` LIKE ('С4%'))
-    AND `status` = 'require_admin_change'
-              #AND xml_content_of_load.UID_Chair = ''
-              #AND `base_uid` = '26589.281474976773927'
-              ORDER BY `original_uid`
-              # TMP
-              #AND `UID_Discipline` = '26006.281474976725278'
-              #LIMIT 15
-  
-    #LIMIT 1000[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 142.0.0.0] [127.0.0.1]
-[21.11.2025 - 14:03.33] SELECT 
-  xml_content_of_load.UID as original_uid,
-  #SUBSTRING(xml_content_of_load.UID, 1, LENGTH(xml_content_of_load.UID) - LOCATE('.', REVERSE(xml_content_of_load.UID))) as base_uid,
-  xml_content_of_load.base_uid,
-  xml_content_of_load.UID as xml_content_of_load_UID,
-  xml_content_of_load_staff.UID as xml_content_of_load_staff_UID,
-  xml_content_of_load.YearOfEducation,
-  xml_content_of_load_staff.Abbr, 
-  xml_group.Name as group_name,
-  xml_discipline.UID as discipline_UID,
-  xml_discipline.Name as discipline_name,
-  xml_faculty.Name as department_name,
-  xml_speciality.Name as napravlenie,
-  xml_speciality.Code as napravlenie_code,
-  xml_speciality.education_level,
-  xml_specialization.Name as napravlennost,
-  xml_language.Name as language,
-  xml_content_of_load_staff.UID_FormOfEducation,
-  xml_content_of_load.UID_Semester,
-  xml_content_of_load.StudentAmount,
-  xml_kind_of_work.Name as kind_of_work,
-  xml_content_of_load.UID_Course,
-  xml_content_of_load.amount,
-  xml_lecturer.FIO as galaktika_lecturer_fio,
-  nagruzka.lecturer_fio, nagruzka.lecturer_uid, nagruzka.lecturer_person_id, nagruzka.status, nagruzka.chair_id, nagruzka.chair_name, nagruzka.zavkaf_fio, nagruzka.chair_name
+    #AND `base_uid` = '26589.281474976787058'
+    AND xml_content_of_load.UID_Chair = '25031.281474976732017'
+            AND `lecturer_fio` <> '' AND `lecturer_fio` <> 'Вакансия' AND `lecturer_fio` IS NOT NULL
+            AND `chair_id` IS NOT NULL AND `valid` = '1'
+            #AND `status` NOT IN ('')
+            #AND `base_uid` = '26589.281474976773927'
+            # TMP
+            #AND `UID_Discipline` = '26006.281474976725278'
+            #ORDER BY `status`, ``
+            #LIMIT 150
 
-  FROM xml_content_of_load
-  JOIN xml_content_of_load_staff ON 
-  # SUBSTRING(xml_content_of_load.UID, 1, LENGTH(xml_content_of_load.UID) - LOCATE('.', REVERSE(xml_content_of_load.UID))) = xml_content_of_load_staff.UID_ContentOfLoad
-  #xml_content_of_load.base_uid = xml_content_of_load_staff.UID_ContentOfLoad
-  xml_content_of_load.UID = xml_content_of_load_staff.UID_ContentOfLoad
-  LEFT JOIN xml_group ON xml_group.`UID` = xml_content_of_load_staff.`UID_Group`
-  LEFT JOIN xml_discipline ON xml_discipline.UID = xml_content_of_load.UID_Discipline
-  LEFT JOIN xml_faculty ON xml_faculty.UID = xml_content_of_load_staff.`UID_FacultyOwner`
-  LEFT JOIN xml_speciality ON xml_speciality.UID = xml_content_of_load_staff.UID_Speciality
-  LEFT JOIN xml_specialization ON xml_specialization.UID = xml_content_of_load_staff.UID_Specialization
-  LEFT JOIN xml_language ON xml_language.UID = xml_content_of_load_staff.UID_Language
-  LEFT JOIN xml_kind_of_work ON xml_kind_of_work.UID = xml_content_of_load.UID_KindOfWork
-  LEFT JOIN xml_lecturer ON xml_lecturer.UID = xml_content_of_load.UID_Lecturer
-  LEFT JOIN `nagruzka` ON nagruzka.load_base_UID = xml_content_of_load.base_uid
-  WHERE 
-  (xml_content_of_load_staff.`Abbr` LIKE ('Б1.%') OR xml_content_of_load_staff.`Abbr` LIKE ('Ф%') OR xml_content_of_load_staff.`Abbr` LIKE ('1.%') OR xml_content_of_load_staff.`Abbr` LIKE ('1.01%') OR xml_content_of_load_staff.`Abbr` LIKE ('2.1%') OR xml_content_of_load_staff.`Abbr` LIKE ('2.01%') OR xml_content_of_load_staff.`Abbr` LIKE ('С1%') OR xml_content_of_load_staff.`Abbr` LIKE ('С2%') OR xml_content_of_load_staff.`Abbr` LIKE ('С3%') OR xml_content_of_load_staff.`Abbr` LIKE ('С4%'))
-    AND `status` = 'require_admin_change'
-              #AND xml_content_of_load.UID_Chair = ''
-              #AND `base_uid` = '26589.281474976773927'
-              ORDER BY `original_uid`
-              # TMP
-              #AND `UID_Discipline` = '26006.281474976725278'
-              #LIMIT 15
-  
-    #LIMIT 1000[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 142.0.0.0] [127.0.0.1]
-[21.11.2025 - 14:04.01] SELECT 
-  xml_content_of_load.UID as original_uid,
-  #SUBSTRING(xml_content_of_load.UID, 1, LENGTH(xml_content_of_load.UID) - LOCATE('.', REVERSE(xml_content_of_load.UID))) as base_uid,
-  xml_content_of_load.base_uid,
-  xml_content_of_load.UID as xml_content_of_load_UID,
-  xml_content_of_load_staff.UID as xml_content_of_load_staff_UID,
-  xml_content_of_load.YearOfEducation,
-  xml_content_of_load_staff.Abbr, 
-  xml_group.Name as group_name,
-  xml_discipline.UID as discipline_UID,
-  xml_discipline.Name as discipline_name,
-  xml_faculty.Name as department_name,
-  xml_speciality.Name as napravlenie,
-  xml_speciality.Code as napravlenie_code,
-  xml_speciality.education_level,
-  xml_specialization.Name as napravlennost,
-  xml_language.Name as language,
-  xml_content_of_load_staff.UID_FormOfEducation,
-  xml_content_of_load.UID_Semester,
-  xml_content_of_load.StudentAmount,
-  xml_kind_of_work.Name as kind_of_work,
-  xml_content_of_load.UID_Course,
-  xml_content_of_load.amount,
-  xml_lecturer.FIO as galaktika_lecturer_fio,
-  nagruzka.lecturer_fio, nagruzka.lecturer_uid, nagruzka.lecturer_person_id, nagruzka.status, nagruzka.chair_id, nagruzka.chair_name, nagruzka.zavkaf_fio, nagruzka.chair_name
-
-  FROM xml_content_of_load
-  JOIN xml_content_of_load_staff ON 
-  # SUBSTRING(xml_content_of_load.UID, 1, LENGTH(xml_content_of_load.UID) - LOCATE('.', REVERSE(xml_content_of_load.UID))) = xml_content_of_load_staff.UID_ContentOfLoad
-  #xml_content_of_load.base_uid = xml_content_of_load_staff.UID_ContentOfLoad
-  xml_content_of_load.UID = xml_content_of_load_staff.UID_ContentOfLoad
-  LEFT JOIN xml_group ON xml_group.`UID` = xml_content_of_load_staff.`UID_Group`
-  LEFT JOIN xml_discipline ON xml_discipline.UID = xml_content_of_load.UID_Discipline
-  LEFT JOIN xml_faculty ON xml_faculty.UID = xml_content_of_load_staff.`UID_FacultyOwner`
-  LEFT JOIN xml_speciality ON xml_speciality.UID = xml_content_of_load_staff.UID_Speciality
-  LEFT JOIN xml_specialization ON xml_specialization.UID = xml_content_of_load_staff.UID_Specialization
-  LEFT JOIN xml_language ON xml_language.UID = xml_content_of_load_staff.UID_Language
-  LEFT JOIN xml_kind_of_work ON xml_kind_of_work.UID = xml_content_of_load.UID_KindOfWork
-  LEFT JOIN xml_lecturer ON xml_lecturer.UID = xml_content_of_load.UID_Lecturer
-  LEFT JOIN `nagruzka` ON nagruzka.load_base_UID = xml_content_of_load.base_uid
-  WHERE 
-  (xml_content_of_load_staff.`Abbr` LIKE ('Б1.%') OR xml_content_of_load_staff.`Abbr` LIKE ('Ф%') OR xml_content_of_load_staff.`Abbr` LIKE ('1.%') OR xml_content_of_load_staff.`Abbr` LIKE ('1.01%') OR xml_content_of_load_staff.`Abbr` LIKE ('2.1%') OR xml_content_of_load_staff.`Abbr` LIKE ('2.01%') OR xml_content_of_load_staff.`Abbr` LIKE ('С1%') OR xml_content_of_load_staff.`Abbr` LIKE ('С2%') OR xml_content_of_load_staff.`Abbr` LIKE ('С3%') OR xml_content_of_load_staff.`Abbr` LIKE ('С4%'))
-    AND `status` = 'require_admin_change'
-              #AND xml_content_of_load.UID_Chair = ''
-              #AND `base_uid` = '26589.281474976773927'
-              ORDER BY `original_uid`
-              # TMP
-              #AND `UID_Discipline` = '26006.281474976725278'
-              #LIMIT 15
-  
-    #LIMIT 1000[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 142.0.0.0] [127.0.0.1]
-[21.11.2025 - 14:06.17] SELECT 
-  xml_content_of_load.UID as original_uid,
-  #SUBSTRING(xml_content_of_load.UID, 1, LENGTH(xml_content_of_load.UID) - LOCATE('.', REVERSE(xml_content_of_load.UID))) as base_uid,
-  xml_content_of_load.base_uid,
-  xml_content_of_load.UID as xml_content_of_load_UID,
-  xml_content_of_load_staff.UID as xml_content_of_load_staff_UID,
-  xml_content_of_load.YearOfEducation,
-  xml_content_of_load_staff.Abbr, 
-  xml_group.Name as group_name,
-  xml_discipline.UID as discipline_UID,
-  xml_discipline.Name as discipline_name,
-  xml_faculty.Name as department_name,
-  xml_speciality.Name as napravlenie,
-  xml_speciality.Code as napravlenie_code,
-  xml_speciality.education_level,
-  xml_specialization.Name as napravlennost,
-  xml_language.Name as language,
-  xml_content_of_load_staff.UID_FormOfEducation,
-  xml_content_of_load.UID_Semester,
-  xml_content_of_load.StudentAmount,
-  xml_kind_of_work.Name as kind_of_work,
-  xml_content_of_load.UID_Course,
-  xml_content_of_load.amount,
-  xml_lecturer.FIO as galaktika_lecturer_fio,
-  nagruzka.lecturer_fio, nagruzka.lecturer_uid, nagruzka.lecturer_person_id, nagruzka.status, nagruzka.chair_id, nagruzka.chair_name, nagruzka.zavkaf_fio, nagruzka.chair_name
-
-  FROM xml_content_of_load
-  JOIN xml_content_of_load_staff ON 
-  # SUBSTRING(xml_content_of_load.UID, 1, LENGTH(xml_content_of_load.UID) - LOCATE('.', REVERSE(xml_content_of_load.UID))) = xml_content_of_load_staff.UID_ContentOfLoad
-  #xml_content_of_load.base_uid = xml_content_of_load_staff.UID_ContentOfLoad
-  xml_content_of_load.UID = xml_content_of_load_staff.UID_ContentOfLoad
-  LEFT JOIN xml_group ON xml_group.`UID` = xml_content_of_load_staff.`UID_Group`
-  LEFT JOIN xml_discipline ON xml_discipline.UID = xml_content_of_load.UID_Discipline
-  LEFT JOIN xml_faculty ON xml_faculty.UID = xml_content_of_load_staff.`UID_FacultyOwner`
-  LEFT JOIN xml_speciality ON xml_speciality.UID = xml_content_of_load_staff.UID_Speciality
-  LEFT JOIN xml_specialization ON xml_specialization.UID = xml_content_of_load_staff.UID_Specialization
-  LEFT JOIN xml_language ON xml_language.UID = xml_content_of_load_staff.UID_Language
-  LEFT JOIN xml_kind_of_work ON xml_kind_of_work.UID = xml_content_of_load.UID_KindOfWork
-  LEFT JOIN xml_lecturer ON xml_lecturer.UID = xml_content_of_load.UID_Lecturer
-  LEFT JOIN `nagruzka` ON nagruzka.load_base_UID = xml_content_of_load.base_uid
-  WHERE 
-  (xml_content_of_load_staff.`Abbr` LIKE ('Б1.%') OR xml_content_of_load_staff.`Abbr` LIKE ('Ф%') OR xml_content_of_load_staff.`Abbr` LIKE ('1.%') OR xml_content_of_load_staff.`Abbr` LIKE ('1.01%') OR xml_content_of_load_staff.`Abbr` LIKE ('2.1%') OR xml_content_of_load_staff.`Abbr` LIKE ('2.01%') OR xml_content_of_load_staff.`Abbr` LIKE ('С1%') OR xml_content_of_load_staff.`Abbr` LIKE ('С2%') OR xml_content_of_load_staff.`Abbr` LIKE ('С3%') OR xml_content_of_load_staff.`Abbr` LIKE ('С4%'))
-    AND `status` = 'require_admin_change'
-              #AND xml_content_of_load.UID_Chair = ''
-              #AND `base_uid` = '26589.281474976773927'
-              ORDER BY `original_uid`
-              # TMP
-              #AND `UID_Discipline` = '26006.281474976725278'
-              #LIMIT 15
-  
-    #LIMIT 1000[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 142.0.0.0] [127.0.0.1]
-[21.11.2025 - 14:06.31] SELECT 
-  xml_content_of_load.UID as original_uid,
-  #SUBSTRING(xml_content_of_load.UID, 1, LENGTH(xml_content_of_load.UID) - LOCATE('.', REVERSE(xml_content_of_load.UID))) as base_uid,
-  xml_content_of_load.base_uid,
-  xml_content_of_load.UID as xml_content_of_load_UID,
-  xml_content_of_load_staff.UID as xml_content_of_load_staff_UID,
-  xml_content_of_load.YearOfEducation,
-  xml_content_of_load_staff.Abbr, 
-  xml_group.Name as group_name,
-  xml_discipline.UID as discipline_UID,
-  xml_discipline.Name as discipline_name,
-  xml_faculty.Name as department_name,
-  xml_speciality.Name as napravlenie,
-  xml_speciality.Code as napravlenie_code,
-  xml_speciality.education_level,
-  xml_specialization.Name as napravlennost,
-  xml_language.Name as language,
-  xml_content_of_load_staff.UID_FormOfEducation,
-  xml_content_of_load.UID_Semester,
-  xml_content_of_load.StudentAmount,
-  xml_kind_of_work.Name as kind_of_work,
-  xml_content_of_load.UID_Course,
-  xml_content_of_load.amount,
-  xml_lecturer.FIO as galaktika_lecturer_fio,
-  nagruzka.lecturer_fio, nagruzka.lecturer_uid, nagruzka.lecturer_person_id, nagruzka.status, nagruzka.chair_id, nagruzka.chair_name, nagruzka.zavkaf_fio, nagruzka.chair_name
-
-  FROM xml_content_of_load
-  JOIN xml_content_of_load_staff ON 
-  # SUBSTRING(xml_content_of_load.UID, 1, LENGTH(xml_content_of_load.UID) - LOCATE('.', REVERSE(xml_content_of_load.UID))) = xml_content_of_load_staff.UID_ContentOfLoad
-  #xml_content_of_load.base_uid = xml_content_of_load_staff.UID_ContentOfLoad
-  xml_content_of_load.UID = xml_content_of_load_staff.UID_ContentOfLoad
-  LEFT JOIN xml_group ON xml_group.`UID` = xml_content_of_load_staff.`UID_Group`
-  LEFT JOIN xml_discipline ON xml_discipline.UID = xml_content_of_load.UID_Discipline
-  LEFT JOIN xml_faculty ON xml_faculty.UID = xml_content_of_load_staff.`UID_FacultyOwner`
-  LEFT JOIN xml_speciality ON xml_speciality.UID = xml_content_of_load_staff.UID_Speciality
-  LEFT JOIN xml_specialization ON xml_specialization.UID = xml_content_of_load_staff.UID_Specialization
-  LEFT JOIN xml_language ON xml_language.UID = xml_content_of_load_staff.UID_Language
-  LEFT JOIN xml_kind_of_work ON xml_kind_of_work.UID = xml_content_of_load.UID_KindOfWork
-  LEFT JOIN xml_lecturer ON xml_lecturer.UID = xml_content_of_load.UID_Lecturer
-  LEFT JOIN `nagruzka` ON nagruzka.load_base_UID = xml_content_of_load.base_uid
-  WHERE 
-  (xml_content_of_load_staff.`Abbr` LIKE ('Б1.%') OR xml_content_of_load_staff.`Abbr` LIKE ('Ф%') OR xml_content_of_load_staff.`Abbr` LIKE ('1.%') OR xml_content_of_load_staff.`Abbr` LIKE ('1.01%') OR xml_content_of_load_staff.`Abbr` LIKE ('2.1%') OR xml_content_of_load_staff.`Abbr` LIKE ('2.01%') OR xml_content_of_load_staff.`Abbr` LIKE ('С1%') OR xml_content_of_load_staff.`Abbr` LIKE ('С2%') OR xml_content_of_load_staff.`Abbr` LIKE ('С3%') OR xml_content_of_load_staff.`Abbr` LIKE ('С4%'))
-    AND `status` = 'require_admin_change'
-              #AND xml_content_of_load.UID_Chair = ''
-              #AND `base_uid` = '26589.281474976773927'
-              ORDER BY `original_uid`
-              # TMP
-              #AND `UID_Discipline` = '26006.281474976725278'
-              #LIMIT 15
-  
-    #LIMIT 1000[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 142.0.0.0] [127.0.0.1]
-[21.11.2025 - 14:08.38] SELECT 
-  xml_content_of_load.UID as original_uid,
-  #SUBSTRING(xml_content_of_load.UID, 1, LENGTH(xml_content_of_load.UID) - LOCATE('.', REVERSE(xml_content_of_load.UID))) as base_uid,
-  xml_content_of_load.base_uid,
-  xml_content_of_load.UID as xml_content_of_load_UID,
-  xml_content_of_load_staff.UID as xml_content_of_load_staff_UID,
-  xml_content_of_load.YearOfEducation,
-  xml_content_of_load_staff.Abbr, 
-  xml_group.Name as group_name,
-  xml_discipline.UID as discipline_UID,
-  xml_discipline.Name as discipline_name,
-  xml_faculty.Name as department_name,
-  xml_speciality.Name as napravlenie,
-  xml_speciality.Code as napravlenie_code,
-  xml_speciality.education_level,
-  xml_specialization.Name as napravlennost,
-  xml_language.Name as language,
-  xml_content_of_load_staff.UID_FormOfEducation,
-  xml_content_of_load.UID_Semester,
-  xml_content_of_load.StudentAmount,
-  xml_kind_of_work.Name as kind_of_work,
-  xml_content_of_load.UID_Course,
-  xml_content_of_load.amount,
-  xml_lecturer.FIO as galaktika_lecturer_fio,
-  nagruzka.lecturer_fio, nagruzka.lecturer_uid, nagruzka.lecturer_person_id, nagruzka.status, nagruzka.chair_id, nagruzka.chair_name, nagruzka.zavkaf_fio, nagruzka.chair_name
-
-  FROM xml_content_of_load
-  JOIN xml_content_of_load_staff ON 
-  # SUBSTRING(xml_content_of_load.UID, 1, LENGTH(xml_content_of_load.UID) - LOCATE('.', REVERSE(xml_content_of_load.UID))) = xml_content_of_load_staff.UID_ContentOfLoad
-  #xml_content_of_load.base_uid = xml_content_of_load_staff.UID_ContentOfLoad
-  xml_content_of_load.UID = xml_content_of_load_staff.UID_ContentOfLoad
-  LEFT JOIN xml_group ON xml_group.`UID` = xml_content_of_load_staff.`UID_Group`
-  LEFT JOIN xml_discipline ON xml_discipline.UID = xml_content_of_load.UID_Discipline
-  LEFT JOIN xml_faculty ON xml_faculty.UID = xml_content_of_load_staff.`UID_FacultyOwner`
-  LEFT JOIN xml_speciality ON xml_speciality.UID = xml_content_of_load_staff.UID_Speciality
-  LEFT JOIN xml_specialization ON xml_specialization.UID = xml_content_of_load_staff.UID_Specialization
-  LEFT JOIN xml_language ON xml_language.UID = xml_content_of_load_staff.UID_Language
-  LEFT JOIN xml_kind_of_work ON xml_kind_of_work.UID = xml_content_of_load.UID_KindOfWork
-  LEFT JOIN xml_lecturer ON xml_lecturer.UID = xml_content_of_load.UID_Lecturer
-  LEFT JOIN `nagruzka` ON nagruzka.load_base_UID = xml_content_of_load.base_uid
-  WHERE 
-  (xml_content_of_load_staff.`Abbr` LIKE ('Б1.%') OR xml_content_of_load_staff.`Abbr` LIKE ('Ф%') OR xml_content_of_load_staff.`Abbr` LIKE ('1.%') OR xml_content_of_load_staff.`Abbr` LIKE ('1.01%') OR xml_content_of_load_staff.`Abbr` LIKE ('2.1%') OR xml_content_of_load_staff.`Abbr` LIKE ('2.01%') OR xml_content_of_load_staff.`Abbr` LIKE ('С1%') OR xml_content_of_load_staff.`Abbr` LIKE ('С2%') OR xml_content_of_load_staff.`Abbr` LIKE ('С3%') OR xml_content_of_load_staff.`Abbr` LIKE ('С4%'))
-    AND `status` = 'require_admin_change'
-              #AND xml_content_of_load.UID_Chair = ''
-              #AND `base_uid` = '26589.281474976773927'
-              ORDER BY `original_uid`
-              # TMP
-              #AND `UID_Discipline` = '26006.281474976725278'
-              #LIMIT 15
-  
-    #LIMIT 1000[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 142.0.0.0] [127.0.0.1]
-[21.11.2025 - 14:08.46] SELECT 
-  xml_content_of_load.UID as original_uid,
-  #SUBSTRING(xml_content_of_load.UID, 1, LENGTH(xml_content_of_load.UID) - LOCATE('.', REVERSE(xml_content_of_load.UID))) as base_uid,
-  xml_content_of_load.base_uid,
-  xml_content_of_load.UID as xml_content_of_load_UID,
-  xml_content_of_load_staff.UID as xml_content_of_load_staff_UID,
-  xml_content_of_load.YearOfEducation,
-  xml_content_of_load_staff.Abbr, 
-  xml_group.Name as group_name,
-  xml_discipline.UID as discipline_UID,
-  xml_discipline.Name as discipline_name,
-  xml_faculty.Name as department_name,
-  xml_speciality.Name as napravlenie,
-  xml_speciality.Code as napravlenie_code,
-  xml_speciality.education_level,
-  xml_specialization.Name as napravlennost,
-  xml_language.Name as language,
-  xml_content_of_load_staff.UID_FormOfEducation,
-  xml_content_of_load.UID_Semester,
-  xml_content_of_load.StudentAmount,
-  xml_kind_of_work.Name as kind_of_work,
-  xml_content_of_load.UID_Course,
-  xml_content_of_load.amount,
-  xml_lecturer.FIO as galaktika_lecturer_fio,
-  nagruzka.lecturer_fio, nagruzka.lecturer_uid, nagruzka.lecturer_person_id, nagruzka.status, nagruzka.chair_id, nagruzka.chair_name, nagruzka.zavkaf_fio, nagruzka.chair_name
-
-  FROM xml_content_of_load
-  JOIN xml_content_of_load_staff ON 
-  # SUBSTRING(xml_content_of_load.UID, 1, LENGTH(xml_content_of_load.UID) - LOCATE('.', REVERSE(xml_content_of_load.UID))) = xml_content_of_load_staff.UID_ContentOfLoad
-  #xml_content_of_load.base_uid = xml_content_of_load_staff.UID_ContentOfLoad
-  xml_content_of_load.UID = xml_content_of_load_staff.UID_ContentOfLoad
-  LEFT JOIN xml_group ON xml_group.`UID` = xml_content_of_load_staff.`UID_Group`
-  LEFT JOIN xml_discipline ON xml_discipline.UID = xml_content_of_load.UID_Discipline
-  LEFT JOIN xml_faculty ON xml_faculty.UID = xml_content_of_load_staff.`UID_FacultyOwner`
-  LEFT JOIN xml_speciality ON xml_speciality.UID = xml_content_of_load_staff.UID_Speciality
-  LEFT JOIN xml_specialization ON xml_specialization.UID = xml_content_of_load_staff.UID_Specialization
-  LEFT JOIN xml_language ON xml_language.UID = xml_content_of_load_staff.UID_Language
-  LEFT JOIN xml_kind_of_work ON xml_kind_of_work.UID = xml_content_of_load.UID_KindOfWork
-  LEFT JOIN xml_lecturer ON xml_lecturer.UID = xml_content_of_load.UID_Lecturer
-  LEFT JOIN `nagruzka` ON nagruzka.load_base_UID = xml_content_of_load.base_uid
-  WHERE 
-  (xml_content_of_load_staff.`Abbr` LIKE ('Б1.%') OR xml_content_of_load_staff.`Abbr` LIKE ('Ф%') OR xml_content_of_load_staff.`Abbr` LIKE ('1.%') OR xml_content_of_load_staff.`Abbr` LIKE ('1.01%') OR xml_content_of_load_staff.`Abbr` LIKE ('2.1%') OR xml_content_of_load_staff.`Abbr` LIKE ('2.01%') OR xml_content_of_load_staff.`Abbr` LIKE ('С1%') OR xml_content_of_load_staff.`Abbr` LIKE ('С2%') OR xml_content_of_load_staff.`Abbr` LIKE ('С3%') OR xml_content_of_load_staff.`Abbr` LIKE ('С4%'))
-    AND `status` = 'require_admin_change'
-              #AND xml_content_of_load.UID_Chair = ''
-              #AND `base_uid` = '26589.281474976773927'
-              ORDER BY `original_uid`
-              # TMP
-              #AND `UID_Discipline` = '26006.281474976725278'
-              #LIMIT 15
-  
-    #LIMIT 1000[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 142.0.0.0] [127.0.0.1]
-[21.11.2025 - 14:10.48] SELECT 
-  xml_content_of_load.UID as original_uid,
-  #SUBSTRING(xml_content_of_load.UID, 1, LENGTH(xml_content_of_load.UID) - LOCATE('.', REVERSE(xml_content_of_load.UID))) as base_uid,
-  xml_content_of_load.base_uid,
-  xml_content_of_load.UID as xml_content_of_load_UID,
-  xml_content_of_load_staff.UID as xml_content_of_load_staff_UID,
-  xml_content_of_load.YearOfEducation,
-  xml_content_of_load_staff.Abbr, 
-  xml_group.Name as group_name,
-  xml_discipline.UID as discipline_UID,
-  xml_discipline.Name as discipline_name,
-  xml_faculty.Name as department_name,
-  xml_speciality.Name as napravlenie,
-  xml_speciality.Code as napravlenie_code,
-  xml_speciality.education_level,
-  xml_specialization.Name as napravlennost,
-  xml_language.Name as language,
-  xml_content_of_load_staff.UID_FormOfEducation,
-  xml_content_of_load.UID_Semester,
-  xml_content_of_load.StudentAmount,
-  xml_kind_of_work.Name as kind_of_work,
-  xml_content_of_load.UID_Course,
-  xml_content_of_load.amount,
-  xml_lecturer.FIO as galaktika_lecturer_fio,
-  nagruzka.lecturer_fio, nagruzka.lecturer_uid, nagruzka.lecturer_person_id, nagruzka.status, nagruzka.chair_id, nagruzka.chair_name, nagruzka.zavkaf_fio, nagruzka.chair_name
-
-  FROM xml_content_of_load
-  JOIN xml_content_of_load_staff ON 
-  # SUBSTRING(xml_content_of_load.UID, 1, LENGTH(xml_content_of_load.UID) - LOCATE('.', REVERSE(xml_content_of_load.UID))) = xml_content_of_load_staff.UID_ContentOfLoad
-  #xml_content_of_load.base_uid = xml_content_of_load_staff.UID_ContentOfLoad
-  xml_content_of_load.UID = xml_content_of_load_staff.UID_ContentOfLoad
-  LEFT JOIN xml_group ON xml_group.`UID` = xml_content_of_load_staff.`UID_Group`
-  LEFT JOIN xml_discipline ON xml_discipline.UID = xml_content_of_load.UID_Discipline
-  LEFT JOIN xml_faculty ON xml_faculty.UID = xml_content_of_load_staff.`UID_FacultyOwner`
-  LEFT JOIN xml_speciality ON xml_speciality.UID = xml_content_of_load_staff.UID_Speciality
-  LEFT JOIN xml_specialization ON xml_specialization.UID = xml_content_of_load_staff.UID_Specialization
-  LEFT JOIN xml_language ON xml_language.UID = xml_content_of_load_staff.UID_Language
-  LEFT JOIN xml_kind_of_work ON xml_kind_of_work.UID = xml_content_of_load.UID_KindOfWork
-  LEFT JOIN xml_lecturer ON xml_lecturer.UID = xml_content_of_load.UID_Lecturer
-  LEFT JOIN `nagruzka` ON nagruzka.load_base_UID = xml_content_of_load.base_uid
-  WHERE 
-  (xml_content_of_load_staff.`Abbr` LIKE ('Б1.%') OR xml_content_of_load_staff.`Abbr` LIKE ('Ф%') OR xml_content_of_load_staff.`Abbr` LIKE ('1.%') OR xml_content_of_load_staff.`Abbr` LIKE ('1.01%') OR xml_content_of_load_staff.`Abbr` LIKE ('2.1%') OR xml_content_of_load_staff.`Abbr` LIKE ('2.01%') OR xml_content_of_load_staff.`Abbr` LIKE ('С1%') OR xml_content_of_load_staff.`Abbr` LIKE ('С2%') OR xml_content_of_load_staff.`Abbr` LIKE ('С3%') OR xml_content_of_load_staff.`Abbr` LIKE ('С4%'))
-    AND `status` = 'require_admin_change'
-              #AND xml_content_of_load.UID_Chair = ''
-              #AND `base_uid` = '26589.281474976773927'
-              ORDER BY `original_uid`
-              # TMP
-              #AND `UID_Discipline` = '26006.281474976725278'
-              #LIMIT 15
-  
-    #LIMIT 1000[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 142.0.0.0] [127.0.0.1]
-[21.11.2025 - 14:20.46] SELECT 
-  xml_content_of_load.UID as original_uid,
-  #SUBSTRING(xml_content_of_load.UID, 1, LENGTH(xml_content_of_load.UID) - LOCATE('.', REVERSE(xml_content_of_load.UID))) as base_uid,
-  xml_content_of_load.base_uid,
-  xml_content_of_load.UID as xml_content_of_load_UID,
-  xml_content_of_load_staff.UID as xml_content_of_load_staff_UID,
-  xml_content_of_load.YearOfEducation,
-  xml_content_of_load_staff.Abbr, 
-  xml_group.Name as group_name,
-  xml_discipline.UID as discipline_UID,
-  xml_discipline.Name as discipline_name,
-  xml_faculty.Name as department_name,
-  xml_speciality.Name as napravlenie,
-  xml_speciality.Code as napravlenie_code,
-  xml_speciality.education_level,
-  xml_specialization.Name as napravlennost,
-  xml_language.Name as language,
-  xml_content_of_load_staff.UID_FormOfEducation,
-  xml_content_of_load.UID_Semester,
-  xml_content_of_load.StudentAmount,
-  xml_kind_of_work.Name as kind_of_work,
-  xml_content_of_load.UID_Course,
-  xml_content_of_load.amount,
-  xml_lecturer.FIO as galaktika_lecturer_fio,
-  nagruzka.lecturer_fio, nagruzka.lecturer_uid, nagruzka.lecturer_person_id, nagruzka.status, nagruzka.chair_id, nagruzka.chair_name, nagruzka.zavkaf_fio, nagruzka.chair_name
-
-  FROM xml_content_of_load
-  JOIN xml_content_of_load_staff ON 
-  # SUBSTRING(xml_content_of_load.UID, 1, LENGTH(xml_content_of_load.UID) - LOCATE('.', REVERSE(xml_content_of_load.UID))) = xml_content_of_load_staff.UID_ContentOfLoad
-  #xml_content_of_load.base_uid = xml_content_of_load_staff.UID_ContentOfLoad
-  xml_content_of_load.UID = xml_content_of_load_staff.UID_ContentOfLoad
-  LEFT JOIN xml_group ON xml_group.`UID` = xml_content_of_load_staff.`UID_Group`
-  LEFT JOIN xml_discipline ON xml_discipline.UID = xml_content_of_load.UID_Discipline
-  LEFT JOIN xml_faculty ON xml_faculty.UID = xml_content_of_load_staff.`UID_FacultyOwner`
-  LEFT JOIN xml_speciality ON xml_speciality.UID = xml_content_of_load_staff.UID_Speciality
-  LEFT JOIN xml_specialization ON xml_specialization.UID = xml_content_of_load_staff.UID_Specialization
-  LEFT JOIN xml_language ON xml_language.UID = xml_content_of_load_staff.UID_Language
-  LEFT JOIN xml_kind_of_work ON xml_kind_of_work.UID = xml_content_of_load.UID_KindOfWork
-  LEFT JOIN xml_lecturer ON xml_lecturer.UID = xml_content_of_load.UID_Lecturer
-  LEFT JOIN `nagruzka` ON nagruzka.load_base_UID = xml_content_of_load.base_uid
-  WHERE 
-  (xml_content_of_load_staff.`Abbr` LIKE ('Б1.%') OR xml_content_of_load_staff.`Abbr` LIKE ('Ф%') OR xml_content_of_load_staff.`Abbr` LIKE ('1.%') OR xml_content_of_load_staff.`Abbr` LIKE ('1.01%') OR xml_content_of_load_staff.`Abbr` LIKE ('2.1%') OR xml_content_of_load_staff.`Abbr` LIKE ('2.01%') OR xml_content_of_load_staff.`Abbr` LIKE ('С1%') OR xml_content_of_load_staff.`Abbr` LIKE ('С2%') OR xml_content_of_load_staff.`Abbr` LIKE ('С3%') OR xml_content_of_load_staff.`Abbr` LIKE ('С4%'))
-    AND `status` = 'require_admin_change'
-              #AND xml_content_of_load.UID_Chair = ''
-              #AND `base_uid` = '26589.281474976773927'
-              ORDER BY `original_uid`
-              # TMP
-              #AND `UID_Discipline` = '26006.281474976725278'
-              #LIMIT 15
-  
-    #LIMIT 1000[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 142.0.0.0] [127.0.0.1]
-[21.11.2025 - 14:21.35] SELECT 
-  xml_content_of_load.UID as original_uid,
-  #SUBSTRING(xml_content_of_load.UID, 1, LENGTH(xml_content_of_load.UID) - LOCATE('.', REVERSE(xml_content_of_load.UID))) as base_uid,
-  xml_content_of_load.base_uid,
-  xml_content_of_load.UID as xml_content_of_load_UID,
-  xml_content_of_load_staff.UID as xml_content_of_load_staff_UID,
-  xml_content_of_load.YearOfEducation,
-  xml_content_of_load_staff.Abbr, 
-  xml_group.Name as group_name,
-  xml_discipline.UID as discipline_UID,
-  xml_discipline.Name as discipline_name,
-  xml_faculty.Name as department_name,
-  xml_speciality.Name as napravlenie,
-  xml_speciality.Code as napravlenie_code,
-  xml_speciality.education_level,
-  xml_specialization.Name as napravlennost,
-  xml_language.Name as language,
-  xml_content_of_load_staff.UID_FormOfEducation,
-  xml_content_of_load.UID_Semester,
-  xml_content_of_load.StudentAmount,
-  xml_kind_of_work.Name as kind_of_work,
-  xml_content_of_load.UID_Course,
-  xml_content_of_load.amount,
-  xml_lecturer.FIO as galaktika_lecturer_fio,
-  nagruzka.lecturer_fio, nagruzka.lecturer_uid, nagruzka.lecturer_person_id, nagruzka.status, nagruzka.chair_id, nagruzka.chair_name, nagruzka.zavkaf_fio, nagruzka.chair_name
-
-  FROM xml_content_of_load
-  JOIN xml_content_of_load_staff ON 
-  # SUBSTRING(xml_content_of_load.UID, 1, LENGTH(xml_content_of_load.UID) - LOCATE('.', REVERSE(xml_content_of_load.UID))) = xml_content_of_load_staff.UID_ContentOfLoad
-  #xml_content_of_load.base_uid = xml_content_of_load_staff.UID_ContentOfLoad
-  xml_content_of_load.UID = xml_content_of_load_staff.UID_ContentOfLoad
-  LEFT JOIN xml_group ON xml_group.`UID` = xml_content_of_load_staff.`UID_Group`
-  LEFT JOIN xml_discipline ON xml_discipline.UID = xml_content_of_load.UID_Discipline
-  LEFT JOIN xml_faculty ON xml_faculty.UID = xml_content_of_load_staff.`UID_FacultyOwner`
-  LEFT JOIN xml_speciality ON xml_speciality.UID = xml_content_of_load_staff.UID_Speciality
-  LEFT JOIN xml_specialization ON xml_specialization.UID = xml_content_of_load_staff.UID_Specialization
-  LEFT JOIN xml_language ON xml_language.UID = xml_content_of_load_staff.UID_Language
-  LEFT JOIN xml_kind_of_work ON xml_kind_of_work.UID = xml_content_of_load.UID_KindOfWork
-  LEFT JOIN xml_lecturer ON xml_lecturer.UID = xml_content_of_load.UID_Lecturer
-  LEFT JOIN `nagruzka` ON nagruzka.load_base_UID = xml_content_of_load.base_uid
-  WHERE 
-  (xml_content_of_load_staff.`Abbr` LIKE ('Б1.%') OR xml_content_of_load_staff.`Abbr` LIKE ('Ф%') OR xml_content_of_load_staff.`Abbr` LIKE ('1.%') OR xml_content_of_load_staff.`Abbr` LIKE ('1.01%') OR xml_content_of_load_staff.`Abbr` LIKE ('2.1%') OR xml_content_of_load_staff.`Abbr` LIKE ('2.01%') OR xml_content_of_load_staff.`Abbr` LIKE ('С1%') OR xml_content_of_load_staff.`Abbr` LIKE ('С2%') OR xml_content_of_load_staff.`Abbr` LIKE ('С3%') OR xml_content_of_load_staff.`Abbr` LIKE ('С4%'))
-    AND `status` = 'require_admin_change'
-              #AND xml_content_of_load.UID_Chair = ''
-              #AND `base_uid` = '26589.281474976773927'
-              ORDER BY `original_uid`
-              # TMP
-              #AND `UID_Discipline` = '26006.281474976725278'
-              #LIMIT 15
-  
-    #LIMIT 1000[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 142.0.0.0] [127.0.0.1]
-[21.11.2025 - 14:21.40] SELECT 
-  xml_content_of_load.UID as original_uid,
-  #SUBSTRING(xml_content_of_load.UID, 1, LENGTH(xml_content_of_load.UID) - LOCATE('.', REVERSE(xml_content_of_load.UID))) as base_uid,
-  xml_content_of_load.base_uid,
-  xml_content_of_load.UID as xml_content_of_load_UID,
-  xml_content_of_load_staff.UID as xml_content_of_load_staff_UID,
-  xml_content_of_load.YearOfEducation,
-  xml_content_of_load_staff.Abbr, 
-  xml_group.Name as group_name,
-  xml_discipline.UID as discipline_UID,
-  xml_discipline.Name as discipline_name,
-  xml_faculty.Name as department_name,
-  xml_speciality.Name as napravlenie,
-  xml_speciality.Code as napravlenie_code,
-  xml_speciality.education_level,
-  xml_specialization.Name as napravlennost,
-  xml_language.Name as language,
-  xml_content_of_load_staff.UID_FormOfEducation,
-  xml_content_of_load.UID_Semester,
-  xml_content_of_load.StudentAmount,
-  xml_kind_of_work.Name as kind_of_work,
-  xml_content_of_load.UID_Course,
-  xml_content_of_load.amount,
-  xml_lecturer.FIO as galaktika_lecturer_fio,
-  nagruzka.lecturer_fio, nagruzka.lecturer_uid, nagruzka.lecturer_person_id, nagruzka.status, nagruzka.chair_id, nagruzka.chair_name, nagruzka.zavkaf_fio, nagruzka.chair_name
-
-  FROM xml_content_of_load
-  JOIN xml_content_of_load_staff ON 
-  # SUBSTRING(xml_content_of_load.UID, 1, LENGTH(xml_content_of_load.UID) - LOCATE('.', REVERSE(xml_content_of_load.UID))) = xml_content_of_load_staff.UID_ContentOfLoad
-  #xml_content_of_load.base_uid = xml_content_of_load_staff.UID_ContentOfLoad
-  xml_content_of_load.UID = xml_content_of_load_staff.UID_ContentOfLoad
-  LEFT JOIN xml_group ON xml_group.`UID` = xml_content_of_load_staff.`UID_Group`
-  LEFT JOIN xml_discipline ON xml_discipline.UID = xml_content_of_load.UID_Discipline
-  LEFT JOIN xml_faculty ON xml_faculty.UID = xml_content_of_load_staff.`UID_FacultyOwner`
-  LEFT JOIN xml_speciality ON xml_speciality.UID = xml_content_of_load_staff.UID_Speciality
-  LEFT JOIN xml_specialization ON xml_specialization.UID = xml_content_of_load_staff.UID_Specialization
-  LEFT JOIN xml_language ON xml_language.UID = xml_content_of_load_staff.UID_Language
-  LEFT JOIN xml_kind_of_work ON xml_kind_of_work.UID = xml_content_of_load.UID_KindOfWork
-  LEFT JOIN xml_lecturer ON xml_lecturer.UID = xml_content_of_load.UID_Lecturer
-  LEFT JOIN `nagruzka` ON nagruzka.load_base_UID = xml_content_of_load.base_uid
-  WHERE 
-  (xml_content_of_load_staff.`Abbr` LIKE ('Б1.%') OR xml_content_of_load_staff.`Abbr` LIKE ('Ф%') OR xml_content_of_load_staff.`Abbr` LIKE ('1.%') OR xml_content_of_load_staff.`Abbr` LIKE ('1.01%') OR xml_content_of_load_staff.`Abbr` LIKE ('2.1%') OR xml_content_of_load_staff.`Abbr` LIKE ('2.01%') OR xml_content_of_load_staff.`Abbr` LIKE ('С1%') OR xml_content_of_load_staff.`Abbr` LIKE ('С2%') OR xml_content_of_load_staff.`Abbr` LIKE ('С3%') OR xml_content_of_load_staff.`Abbr` LIKE ('С4%'))
-    AND `status` = 'require_admin_change'
-              #AND xml_content_of_load.UID_Chair = ''
-              #AND `base_uid` = '26589.281474976773927'
-              ORDER BY `original_uid`
-              # TMP
-              #AND `UID_Discipline` = '26006.281474976725278'
-              #LIMIT 15
-  
-    #LIMIT 1000[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 142.0.0.0] [127.0.0.1]
-[21.11.2025 - 14:22.55] SELECT 
-  xml_content_of_load.UID as original_uid,
-  #SUBSTRING(xml_content_of_load.UID, 1, LENGTH(xml_content_of_load.UID) - LOCATE('.', REVERSE(xml_content_of_load.UID))) as base_uid,
-  xml_content_of_load.base_uid,
-  xml_content_of_load.UID as xml_content_of_load_UID,
-  xml_content_of_load_staff.UID as xml_content_of_load_staff_UID,
-  xml_content_of_load.YearOfEducation,
-  xml_content_of_load_staff.Abbr, 
-  xml_group.Name as group_name,
-  xml_discipline.UID as discipline_UID,
-  xml_discipline.Name as discipline_name,
-  xml_faculty.Name as department_name,
-  xml_speciality.Name as napravlenie,
-  xml_speciality.Code as napravlenie_code,
-  xml_speciality.education_level,
-  xml_specialization.Name as napravlennost,
-  xml_language.Name as language,
-  xml_content_of_load_staff.UID_FormOfEducation,
-  xml_content_of_load.UID_Semester,
-  xml_content_of_load.StudentAmount,
-  xml_kind_of_work.Name as kind_of_work,
-  xml_content_of_load.UID_Course,
-  xml_content_of_load.amount,
-  xml_lecturer.FIO as galaktika_lecturer_fio,
-  nagruzka.lecturer_fio, nagruzka.lecturer_uid, nagruzka.lecturer_person_id, nagruzka.status, nagruzka.chair_id, nagruzka.chair_name, nagruzka.zavkaf_fio, nagruzka.chair_name
-
-  FROM xml_content_of_load
-  JOIN xml_content_of_load_staff ON 
-  # SUBSTRING(xml_content_of_load.UID, 1, LENGTH(xml_content_of_load.UID) - LOCATE('.', REVERSE(xml_content_of_load.UID))) = xml_content_of_load_staff.UID_ContentOfLoad
-  #xml_content_of_load.base_uid = xml_content_of_load_staff.UID_ContentOfLoad
-  xml_content_of_load.UID = xml_content_of_load_staff.UID_ContentOfLoad
-  LEFT JOIN xml_group ON xml_group.`UID` = xml_content_of_load_staff.`UID_Group`
-  LEFT JOIN xml_discipline ON xml_discipline.UID = xml_content_of_load.UID_Discipline
-  LEFT JOIN xml_faculty ON xml_faculty.UID = xml_content_of_load_staff.`UID_FacultyOwner`
-  LEFT JOIN xml_speciality ON xml_speciality.UID = xml_content_of_load_staff.UID_Speciality
-  LEFT JOIN xml_specialization ON xml_specialization.UID = xml_content_of_load_staff.UID_Specialization
-  LEFT JOIN xml_language ON xml_language.UID = xml_content_of_load_staff.UID_Language
-  LEFT JOIN xml_kind_of_work ON xml_kind_of_work.UID = xml_content_of_load.UID_KindOfWork
-  LEFT JOIN xml_lecturer ON xml_lecturer.UID = xml_content_of_load.UID_Lecturer
-  LEFT JOIN `nagruzka` ON nagruzka.load_base_UID = xml_content_of_load.base_uid
-  WHERE 
-  (xml_content_of_load_staff.`Abbr` LIKE ('Б1.%') OR xml_content_of_load_staff.`Abbr` LIKE ('Ф%') OR xml_content_of_load_staff.`Abbr` LIKE ('1.%') OR xml_content_of_load_staff.`Abbr` LIKE ('1.01%') OR xml_content_of_load_staff.`Abbr` LIKE ('2.1%') OR xml_content_of_load_staff.`Abbr` LIKE ('2.01%') OR xml_content_of_load_staff.`Abbr` LIKE ('С1%') OR xml_content_of_load_staff.`Abbr` LIKE ('С2%') OR xml_content_of_load_staff.`Abbr` LIKE ('С3%') OR xml_content_of_load_staff.`Abbr` LIKE ('С4%'))
-    AND `status` = 'require_admin_change'
-              #AND xml_content_of_load.UID_Chair = ''
-              #AND `base_uid` = '26589.281474976773927'
-              ORDER BY `original_uid`
-              # TMP
-              #AND `UID_Discipline` = '26006.281474976725278'
-              #LIMIT 15
-  
-    #LIMIT 1000[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 142.0.0.0] [127.0.0.1]
-[21.11.2025 - 14:23.11] SELECT 
-  xml_content_of_load.UID as original_uid,
-  #SUBSTRING(xml_content_of_load.UID, 1, LENGTH(xml_content_of_load.UID) - LOCATE('.', REVERSE(xml_content_of_load.UID))) as base_uid,
-  xml_content_of_load.base_uid,
-  xml_content_of_load.UID as xml_content_of_load_UID,
-  xml_content_of_load_staff.UID as xml_content_of_load_staff_UID,
-  xml_content_of_load.YearOfEducation,
-  xml_content_of_load_staff.Abbr, 
-  xml_group.Name as group_name,
-  xml_discipline.UID as discipline_UID,
-  xml_discipline.Name as discipline_name,
-  xml_faculty.Name as department_name,
-  xml_speciality.Name as napravlenie,
-  xml_speciality.Code as napravlenie_code,
-  xml_speciality.education_level,
-  xml_specialization.Name as napravlennost,
-  xml_language.Name as language,
-  xml_content_of_load_staff.UID_FormOfEducation,
-  xml_content_of_load.UID_Semester,
-  xml_content_of_load.StudentAmount,
-  xml_kind_of_work.Name as kind_of_work,
-  xml_content_of_load.UID_Course,
-  xml_content_of_load.amount,
-  xml_lecturer.FIO as galaktika_lecturer_fio,
-  nagruzka.lecturer_fio, nagruzka.lecturer_uid, nagruzka.lecturer_person_id, nagruzka.status, nagruzka.chair_id, nagruzka.chair_name, nagruzka.zavkaf_fio, nagruzka.chair_name
-
-  FROM xml_content_of_load
-  JOIN xml_content_of_load_staff ON 
-  # SUBSTRING(xml_content_of_load.UID, 1, LENGTH(xml_content_of_load.UID) - LOCATE('.', REVERSE(xml_content_of_load.UID))) = xml_content_of_load_staff.UID_ContentOfLoad
-  #xml_content_of_load.base_uid = xml_content_of_load_staff.UID_ContentOfLoad
-  xml_content_of_load.UID = xml_content_of_load_staff.UID_ContentOfLoad
-  LEFT JOIN xml_group ON xml_group.`UID` = xml_content_of_load_staff.`UID_Group`
-  LEFT JOIN xml_discipline ON xml_discipline.UID = xml_content_of_load.UID_Discipline
-  LEFT JOIN xml_faculty ON xml_faculty.UID = xml_content_of_load_staff.`UID_FacultyOwner`
-  LEFT JOIN xml_speciality ON xml_speciality.UID = xml_content_of_load_staff.UID_Speciality
-  LEFT JOIN xml_specialization ON xml_specialization.UID = xml_content_of_load_staff.UID_Specialization
-  LEFT JOIN xml_language ON xml_language.UID = xml_content_of_load_staff.UID_Language
-  LEFT JOIN xml_kind_of_work ON xml_kind_of_work.UID = xml_content_of_load.UID_KindOfWork
-  LEFT JOIN xml_lecturer ON xml_lecturer.UID = xml_content_of_load.UID_Lecturer
-  LEFT JOIN `nagruzka` ON nagruzka.load_base_UID = xml_content_of_load.base_uid
-  WHERE 
-  (xml_content_of_load_staff.`Abbr` LIKE ('Б1.%') OR xml_content_of_load_staff.`Abbr` LIKE ('Ф%') OR xml_content_of_load_staff.`Abbr` LIKE ('1.%') OR xml_content_of_load_staff.`Abbr` LIKE ('1.01%') OR xml_content_of_load_staff.`Abbr` LIKE ('2.1%') OR xml_content_of_load_staff.`Abbr` LIKE ('2.01%') OR xml_content_of_load_staff.`Abbr` LIKE ('С1%') OR xml_content_of_load_staff.`Abbr` LIKE ('С2%') OR xml_content_of_load_staff.`Abbr` LIKE ('С3%') OR xml_content_of_load_staff.`Abbr` LIKE ('С4%'))
-    AND `status` = 'require_admin_change'
-              #AND xml_content_of_load.UID_Chair = ''
-              #AND `base_uid` = '26589.281474976773927'
-              ORDER BY `original_uid`
-              # TMP
-              #AND `UID_Discipline` = '26006.281474976725278'
-              #LIMIT 15
-  
-    #LIMIT 1000[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 142.0.0.0] [127.0.0.1]
-[21.11.2025 - 14:39.29] SELECT 
-  xml_content_of_load.UID as original_uid,
-  #SUBSTRING(xml_content_of_load.UID, 1, LENGTH(xml_content_of_load.UID) - LOCATE('.', REVERSE(xml_content_of_load.UID))) as base_uid,
-  xml_content_of_load.base_uid,
-  xml_content_of_load.UID as xml_content_of_load_UID,
-  xml_content_of_load_staff.UID as xml_content_of_load_staff_UID,
-  xml_content_of_load.YearOfEducation,
-  xml_content_of_load_staff.Abbr, 
-  xml_group.Name as group_name,
-  xml_discipline.UID as discipline_UID,
-  xml_discipline.Name as discipline_name,
-  xml_faculty.Name as department_name,
-  xml_speciality.Name as napravlenie,
-  xml_speciality.Code as napravlenie_code,
-  xml_speciality.education_level,
-  xml_specialization.Name as napravlennost,
-  xml_language.Name as language,
-  xml_content_of_load_staff.UID_FormOfEducation,
-  xml_content_of_load.UID_Semester,
-  xml_content_of_load.StudentAmount,
-  xml_kind_of_work.Name as kind_of_work,
-  xml_content_of_load.UID_Course,
-  xml_content_of_load.amount,
-  xml_lecturer.FIO as galaktika_lecturer_fio,
-  nagruzka.lecturer_fio, nagruzka.lecturer_uid, nagruzka.lecturer_person_id, nagruzka.status, nagruzka.chair_id, nagruzka.chair_name, nagruzka.zavkaf_fio, nagruzka.chair_name
-
-  FROM xml_content_of_load
-  JOIN xml_content_of_load_staff ON 
-  # SUBSTRING(xml_content_of_load.UID, 1, LENGTH(xml_content_of_load.UID) - LOCATE('.', REVERSE(xml_content_of_load.UID))) = xml_content_of_load_staff.UID_ContentOfLoad
-  #xml_content_of_load.base_uid = xml_content_of_load_staff.UID_ContentOfLoad
-  xml_content_of_load.UID = xml_content_of_load_staff.UID_ContentOfLoad
-  LEFT JOIN xml_group ON xml_group.`UID` = xml_content_of_load_staff.`UID_Group`
-  LEFT JOIN xml_discipline ON xml_discipline.UID = xml_content_of_load.UID_Discipline
-  LEFT JOIN xml_faculty ON xml_faculty.UID = xml_content_of_load_staff.`UID_FacultyOwner`
-  LEFT JOIN xml_speciality ON xml_speciality.UID = xml_content_of_load_staff.UID_Speciality
-  LEFT JOIN xml_specialization ON xml_specialization.UID = xml_content_of_load_staff.UID_Specialization
-  LEFT JOIN xml_language ON xml_language.UID = xml_content_of_load_staff.UID_Language
-  LEFT JOIN xml_kind_of_work ON xml_kind_of_work.UID = xml_content_of_load.UID_KindOfWork
-  LEFT JOIN xml_lecturer ON xml_lecturer.UID = xml_content_of_load.UID_Lecturer
-  LEFT JOIN `nagruzka` ON nagruzka.load_base_UID = xml_content_of_load.base_uid
-  WHERE 
-  (xml_content_of_load_staff.`Abbr` LIKE ('Б1.%') OR xml_content_of_load_staff.`Abbr` LIKE ('Ф%') OR xml_content_of_load_staff.`Abbr` LIKE ('1.%') OR xml_content_of_load_staff.`Abbr` LIKE ('1.01%') OR xml_content_of_load_staff.`Abbr` LIKE ('2.1%') OR xml_content_of_load_staff.`Abbr` LIKE ('2.01%') OR xml_content_of_load_staff.`Abbr` LIKE ('С1%') OR xml_content_of_load_staff.`Abbr` LIKE ('С2%') OR xml_content_of_load_staff.`Abbr` LIKE ('С3%') OR xml_content_of_load_staff.`Abbr` LIKE ('С4%'))
-    AND `status` = 'require_admin_change'
-              #AND xml_content_of_load.UID_Chair = ''
-              #AND `base_uid` = '26589.281474976773927'
-              ORDER BY `original_uid`
-              # TMP
-              #AND `UID_Discipline` = '26006.281474976725278'
-              #LIMIT 15
-  
-    #LIMIT 1000[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 142.0.0.0] [127.0.0.1]
-[21.11.2025 - 14:39.38] SELECT 
-  xml_content_of_load.UID as original_uid,
-  #SUBSTRING(xml_content_of_load.UID, 1, LENGTH(xml_content_of_load.UID) - LOCATE('.', REVERSE(xml_content_of_load.UID))) as base_uid,
-  xml_content_of_load.base_uid,
-  xml_content_of_load.UID as xml_content_of_load_UID,
-  xml_content_of_load_staff.UID as xml_content_of_load_staff_UID,
-  xml_content_of_load.YearOfEducation,
-  xml_content_of_load_staff.Abbr, 
-  xml_group.Name as group_name,
-  xml_discipline.UID as discipline_UID,
-  xml_discipline.Name as discipline_name,
-  xml_faculty.Name as department_name,
-  xml_speciality.Name as napravlenie,
-  xml_speciality.Code as napravlenie_code,
-  xml_speciality.education_level,
-  xml_specialization.Name as napravlennost,
-  xml_language.Name as language,
-  xml_content_of_load_staff.UID_FormOfEducation,
-  xml_content_of_load.UID_Semester,
-  xml_content_of_load.StudentAmount,
-  xml_kind_of_work.Name as kind_of_work,
-  xml_content_of_load.UID_Course,
-  xml_content_of_load.amount,
-  xml_lecturer.FIO as galaktika_lecturer_fio,
-  nagruzka.lecturer_fio, nagruzka.lecturer_uid, nagruzka.lecturer_person_id, nagruzka.status, nagruzka.chair_id, nagruzka.chair_name, nagruzka.zavkaf_fio, nagruzka.chair_name
-
-  FROM xml_content_of_load
-  JOIN xml_content_of_load_staff ON 
-  # SUBSTRING(xml_content_of_load.UID, 1, LENGTH(xml_content_of_load.UID) - LOCATE('.', REVERSE(xml_content_of_load.UID))) = xml_content_of_load_staff.UID_ContentOfLoad
-  #xml_content_of_load.base_uid = xml_content_of_load_staff.UID_ContentOfLoad
-  xml_content_of_load.UID = xml_content_of_load_staff.UID_ContentOfLoad
-  LEFT JOIN xml_group ON xml_group.`UID` = xml_content_of_load_staff.`UID_Group`
-  LEFT JOIN xml_discipline ON xml_discipline.UID = xml_content_of_load.UID_Discipline
-  LEFT JOIN xml_faculty ON xml_faculty.UID = xml_content_of_load_staff.`UID_FacultyOwner`
-  LEFT JOIN xml_speciality ON xml_speciality.UID = xml_content_of_load_staff.UID_Speciality
-  LEFT JOIN xml_specialization ON xml_specialization.UID = xml_content_of_load_staff.UID_Specialization
-  LEFT JOIN xml_language ON xml_language.UID = xml_content_of_load_staff.UID_Language
-  LEFT JOIN xml_kind_of_work ON xml_kind_of_work.UID = xml_content_of_load.UID_KindOfWork
-  LEFT JOIN xml_lecturer ON xml_lecturer.UID = xml_content_of_load.UID_Lecturer
-  LEFT JOIN `nagruzka` ON nagruzka.load_base_UID = xml_content_of_load.base_uid
-  WHERE 
-  (xml_content_of_load_staff.`Abbr` LIKE ('Б1.%') OR xml_content_of_load_staff.`Abbr` LIKE ('Ф%') OR xml_content_of_load_staff.`Abbr` LIKE ('1.%') OR xml_content_of_load_staff.`Abbr` LIKE ('1.01%') OR xml_content_of_load_staff.`Abbr` LIKE ('2.1%') OR xml_content_of_load_staff.`Abbr` LIKE ('2.01%') OR xml_content_of_load_staff.`Abbr` LIKE ('С1%') OR xml_content_of_load_staff.`Abbr` LIKE ('С2%') OR xml_content_of_load_staff.`Abbr` LIKE ('С3%') OR xml_content_of_load_staff.`Abbr` LIKE ('С4%'))
-    AND `status` = 'require_admin_change'
-              #AND xml_content_of_load.UID_Chair = ''
-              #AND `base_uid` = '26589.281474976773927'
-              ORDER BY `original_uid`
-              # TMP
-              #AND `UID_Discipline` = '26006.281474976725278'
-              #LIMIT 15
-  
-    #LIMIT 1000[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 142.0.0.0] [127.0.0.1]
-[21.11.2025 - 14:39.45] SELECT 
-  xml_content_of_load.UID as original_uid,
-  #SUBSTRING(xml_content_of_load.UID, 1, LENGTH(xml_content_of_load.UID) - LOCATE('.', REVERSE(xml_content_of_load.UID))) as base_uid,
-  xml_content_of_load.base_uid,
-  xml_content_of_load.UID as xml_content_of_load_UID,
-  xml_content_of_load_staff.UID as xml_content_of_load_staff_UID,
-  xml_content_of_load.YearOfEducation,
-  xml_content_of_load_staff.Abbr, 
-  xml_group.Name as group_name,
-  xml_discipline.UID as discipline_UID,
-  xml_discipline.Name as discipline_name,
-  xml_faculty.Name as department_name,
-  xml_speciality.Name as napravlenie,
-  xml_speciality.Code as napravlenie_code,
-  xml_speciality.education_level,
-  xml_specialization.Name as napravlennost,
-  xml_language.Name as language,
-  xml_content_of_load_staff.UID_FormOfEducation,
-  xml_content_of_load.UID_Semester,
-  xml_content_of_load.StudentAmount,
-  xml_kind_of_work.Name as kind_of_work,
-  xml_content_of_load.UID_Course,
-  xml_content_of_load.amount,
-  xml_lecturer.FIO as galaktika_lecturer_fio,
-  nagruzka.lecturer_fio, nagruzka.lecturer_uid, nagruzka.lecturer_person_id, nagruzka.status, nagruzka.chair_id, nagruzka.chair_name, nagruzka.zavkaf_fio, nagruzka.chair_name
-
-  FROM xml_content_of_load
-  JOIN xml_content_of_load_staff ON 
-  # SUBSTRING(xml_content_of_load.UID, 1, LENGTH(xml_content_of_load.UID) - LOCATE('.', REVERSE(xml_content_of_load.UID))) = xml_content_of_load_staff.UID_ContentOfLoad
-  #xml_content_of_load.base_uid = xml_content_of_load_staff.UID_ContentOfLoad
-  xml_content_of_load.UID = xml_content_of_load_staff.UID_ContentOfLoad
-  LEFT JOIN xml_group ON xml_group.`UID` = xml_content_of_load_staff.`UID_Group`
-  LEFT JOIN xml_discipline ON xml_discipline.UID = xml_content_of_load.UID_Discipline
-  LEFT JOIN xml_faculty ON xml_faculty.UID = xml_content_of_load_staff.`UID_FacultyOwner`
-  LEFT JOIN xml_speciality ON xml_speciality.UID = xml_content_of_load_staff.UID_Speciality
-  LEFT JOIN xml_specialization ON xml_specialization.UID = xml_content_of_load_staff.UID_Specialization
-  LEFT JOIN xml_language ON xml_language.UID = xml_content_of_load_staff.UID_Language
-  LEFT JOIN xml_kind_of_work ON xml_kind_of_work.UID = xml_content_of_load.UID_KindOfWork
-  LEFT JOIN xml_lecturer ON xml_lecturer.UID = xml_content_of_load.UID_Lecturer
-  LEFT JOIN `nagruzka` ON nagruzka.load_base_UID = xml_content_of_load.base_uid
-  WHERE 
-  (xml_content_of_load_staff.`Abbr` LIKE ('Б1.%') OR xml_content_of_load_staff.`Abbr` LIKE ('Ф%') OR xml_content_of_load_staff.`Abbr` LIKE ('1.%') OR xml_content_of_load_staff.`Abbr` LIKE ('1.01%') OR xml_content_of_load_staff.`Abbr` LIKE ('2.1%') OR xml_content_of_load_staff.`Abbr` LIKE ('2.01%') OR xml_content_of_load_staff.`Abbr` LIKE ('С1%') OR xml_content_of_load_staff.`Abbr` LIKE ('С2%') OR xml_content_of_load_staff.`Abbr` LIKE ('С3%') OR xml_content_of_load_staff.`Abbr` LIKE ('С4%'))
-    AND `status` = 'require_admin_change'
-              #AND xml_content_of_load.UID_Chair = ''
-              #AND `base_uid` = '26589.281474976773927'
-              ORDER BY `original_uid`
-              # TMP
-              #AND `UID_Discipline` = '26006.281474976725278'
-              #LIMIT 15
-  
-    #LIMIT 1000[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 142.0.0.0] [127.0.0.1]
-[21.11.2025 - 14:39.47] SELECT 
-  xml_content_of_load.UID as original_uid,
-  #SUBSTRING(xml_content_of_load.UID, 1, LENGTH(xml_content_of_load.UID) - LOCATE('.', REVERSE(xml_content_of_load.UID))) as base_uid,
-  xml_content_of_load.base_uid,
-  xml_content_of_load.UID as xml_content_of_load_UID,
-  xml_content_of_load_staff.UID as xml_content_of_load_staff_UID,
-  xml_content_of_load.YearOfEducation,
-  xml_content_of_load_staff.Abbr, 
-  xml_group.Name as group_name,
-  xml_discipline.UID as discipline_UID,
-  xml_discipline.Name as discipline_name,
-  xml_faculty.Name as department_name,
-  xml_speciality.Name as napravlenie,
-  xml_speciality.Code as napravlenie_code,
-  xml_speciality.education_level,
-  xml_specialization.Name as napravlennost,
-  xml_language.Name as language,
-  xml_content_of_load_staff.UID_FormOfEducation,
-  xml_content_of_load.UID_Semester,
-  xml_content_of_load.StudentAmount,
-  xml_kind_of_work.Name as kind_of_work,
-  xml_content_of_load.UID_Course,
-  xml_content_of_load.amount,
-  xml_lecturer.FIO as galaktika_lecturer_fio,
-  nagruzka.lecturer_fio, nagruzka.lecturer_uid, nagruzka.lecturer_person_id, nagruzka.status, nagruzka.chair_id, nagruzka.chair_name, nagruzka.zavkaf_fio, nagruzka.chair_name
-
-  FROM xml_content_of_load
-  JOIN xml_content_of_load_staff ON 
-  # SUBSTRING(xml_content_of_load.UID, 1, LENGTH(xml_content_of_load.UID) - LOCATE('.', REVERSE(xml_content_of_load.UID))) = xml_content_of_load_staff.UID_ContentOfLoad
-  #xml_content_of_load.base_uid = xml_content_of_load_staff.UID_ContentOfLoad
-  xml_content_of_load.UID = xml_content_of_load_staff.UID_ContentOfLoad
-  LEFT JOIN xml_group ON xml_group.`UID` = xml_content_of_load_staff.`UID_Group`
-  LEFT JOIN xml_discipline ON xml_discipline.UID = xml_content_of_load.UID_Discipline
-  LEFT JOIN xml_faculty ON xml_faculty.UID = xml_content_of_load_staff.`UID_FacultyOwner`
-  LEFT JOIN xml_speciality ON xml_speciality.UID = xml_content_of_load_staff.UID_Speciality
-  LEFT JOIN xml_specialization ON xml_specialization.UID = xml_content_of_load_staff.UID_Specialization
-  LEFT JOIN xml_language ON xml_language.UID = xml_content_of_load_staff.UID_Language
-  LEFT JOIN xml_kind_of_work ON xml_kind_of_work.UID = xml_content_of_load.UID_KindOfWork
-  LEFT JOIN xml_lecturer ON xml_lecturer.UID = xml_content_of_load.UID_Lecturer
-  LEFT JOIN `nagruzka` ON nagruzka.load_base_UID = xml_content_of_load.base_uid
-  WHERE 
-  (xml_content_of_load_staff.`Abbr` LIKE ('Б1.%') OR xml_content_of_load_staff.`Abbr` LIKE ('Ф%') OR xml_content_of_load_staff.`Abbr` LIKE ('1.%') OR xml_content_of_load_staff.`Abbr` LIKE ('1.01%') OR xml_content_of_load_staff.`Abbr` LIKE ('2.1%') OR xml_content_of_load_staff.`Abbr` LIKE ('2.01%') OR xml_content_of_load_staff.`Abbr` LIKE ('С1%') OR xml_content_of_load_staff.`Abbr` LIKE ('С2%') OR xml_content_of_load_staff.`Abbr` LIKE ('С3%') OR xml_content_of_load_staff.`Abbr` LIKE ('С4%'))
-    AND `status` = 'require_admin_change'
-              #AND xml_content_of_load.UID_Chair = ''
-              #AND `base_uid` = '26589.281474976773927'
-              ORDER BY `original_uid`
-              # TMP
-              #AND `UID_Discipline` = '26006.281474976725278'
-              #LIMIT 15
-  
-    #LIMIT 1000[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 142.0.0.0] [127.0.0.1]
-[21.11.2025 - 14:40.06] SELECT 
-  xml_content_of_load.UID as original_uid,
-  #SUBSTRING(xml_content_of_load.UID, 1, LENGTH(xml_content_of_load.UID) - LOCATE('.', REVERSE(xml_content_of_load.UID))) as base_uid,
-  xml_content_of_load.base_uid,
-  xml_content_of_load.UID as xml_content_of_load_UID,
-  xml_content_of_load_staff.UID as xml_content_of_load_staff_UID,
-  xml_content_of_load.YearOfEducation,
-  xml_content_of_load_staff.Abbr, 
-  xml_group.Name as group_name,
-  xml_discipline.UID as discipline_UID,
-  xml_discipline.Name as discipline_name,
-  xml_faculty.Name as department_name,
-  xml_speciality.Name as napravlenie,
-  xml_speciality.Code as napravlenie_code,
-  xml_speciality.education_level,
-  xml_specialization.Name as napravlennost,
-  xml_language.Name as language,
-  xml_content_of_load_staff.UID_FormOfEducation,
-  xml_content_of_load.UID_Semester,
-  xml_content_of_load.StudentAmount,
-  xml_kind_of_work.Name as kind_of_work,
-  xml_content_of_load.UID_Course,
-  xml_content_of_load.amount,
-  xml_lecturer.FIO as galaktika_lecturer_fio,
-  nagruzka.lecturer_fio, nagruzka.lecturer_uid, nagruzka.lecturer_person_id, nagruzka.status, nagruzka.chair_id, nagruzka.chair_name, nagruzka.zavkaf_fio, nagruzka.chair_name
-
-  FROM xml_content_of_load
-  JOIN xml_content_of_load_staff ON 
-  # SUBSTRING(xml_content_of_load.UID, 1, LENGTH(xml_content_of_load.UID) - LOCATE('.', REVERSE(xml_content_of_load.UID))) = xml_content_of_load_staff.UID_ContentOfLoad
-  #xml_content_of_load.base_uid = xml_content_of_load_staff.UID_ContentOfLoad
-  xml_content_of_load.UID = xml_content_of_load_staff.UID_ContentOfLoad
-  LEFT JOIN xml_group ON xml_group.`UID` = xml_content_of_load_staff.`UID_Group`
-  LEFT JOIN xml_discipline ON xml_discipline.UID = xml_content_of_load.UID_Discipline
-  LEFT JOIN xml_faculty ON xml_faculty.UID = xml_content_of_load_staff.`UID_FacultyOwner`
-  LEFT JOIN xml_speciality ON xml_speciality.UID = xml_content_of_load_staff.UID_Speciality
-  LEFT JOIN xml_specialization ON xml_specialization.UID = xml_content_of_load_staff.UID_Specialization
-  LEFT JOIN xml_language ON xml_language.UID = xml_content_of_load_staff.UID_Language
-  LEFT JOIN xml_kind_of_work ON xml_kind_of_work.UID = xml_content_of_load.UID_KindOfWork
-  LEFT JOIN xml_lecturer ON xml_lecturer.UID = xml_content_of_load.UID_Lecturer
-  LEFT JOIN `nagruzka` ON nagruzka.load_base_UID = xml_content_of_load.base_uid
-  WHERE 
-  (xml_content_of_load_staff.`Abbr` LIKE ('Б1.%') OR xml_content_of_load_staff.`Abbr` LIKE ('Ф%') OR xml_content_of_load_staff.`Abbr` LIKE ('1.%') OR xml_content_of_load_staff.`Abbr` LIKE ('1.01%') OR xml_content_of_load_staff.`Abbr` LIKE ('2.1%') OR xml_content_of_load_staff.`Abbr` LIKE ('2.01%') OR xml_content_of_load_staff.`Abbr` LIKE ('С1%') OR xml_content_of_load_staff.`Abbr` LIKE ('С2%') OR xml_content_of_load_staff.`Abbr` LIKE ('С3%') OR xml_content_of_load_staff.`Abbr` LIKE ('С4%'))
-    AND `status` = 'require_admin_change'
-              #AND xml_content_of_load.UID_Chair = ''
-              #AND `base_uid` = '26589.281474976773927'
-              ORDER BY `original_uid`
-              # TMP
-              #AND `UID_Discipline` = '26006.281474976725278'
-              #LIMIT 15
-  
-    #LIMIT 1000[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 142.0.0.0] [127.0.0.1]
-[21.11.2025 - 14:40.48] SELECT 
-  xml_content_of_load.UID as original_uid,
-  #SUBSTRING(xml_content_of_load.UID, 1, LENGTH(xml_content_of_load.UID) - LOCATE('.', REVERSE(xml_content_of_load.UID))) as base_uid,
-  xml_content_of_load.base_uid,
-  xml_content_of_load.UID as xml_content_of_load_UID,
-  xml_content_of_load_staff.UID as xml_content_of_load_staff_UID,
-  xml_content_of_load.YearOfEducation,
-  xml_content_of_load_staff.Abbr, 
-  xml_group.Name as group_name,
-  xml_discipline.UID as discipline_UID,
-  xml_discipline.Name as discipline_name,
-  xml_faculty.Name as department_name,
-  xml_speciality.Name as napravlenie,
-  xml_speciality.Code as napravlenie_code,
-  xml_speciality.education_level,
-  xml_specialization.Name as napravlennost,
-  xml_language.Name as language,
-  xml_content_of_load_staff.UID_FormOfEducation,
-  xml_content_of_load.UID_Semester,
-  xml_content_of_load.StudentAmount,
-  xml_kind_of_work.Name as kind_of_work,
-  xml_content_of_load.UID_Course,
-  xml_content_of_load.amount,
-  xml_lecturer.FIO as galaktika_lecturer_fio,
-  nagruzka.lecturer_fio, nagruzka.lecturer_uid, nagruzka.lecturer_person_id, nagruzka.status, nagruzka.chair_id, nagruzka.chair_name, nagruzka.zavkaf_fio, nagruzka.chair_name
-
-  FROM xml_content_of_load
-  JOIN xml_content_of_load_staff ON 
-  # SUBSTRING(xml_content_of_load.UID, 1, LENGTH(xml_content_of_load.UID) - LOCATE('.', REVERSE(xml_content_of_load.UID))) = xml_content_of_load_staff.UID_ContentOfLoad
-  #xml_content_of_load.base_uid = xml_content_of_load_staff.UID_ContentOfLoad
-  xml_content_of_load.UID = xml_content_of_load_staff.UID_ContentOfLoad
-  LEFT JOIN xml_group ON xml_group.`UID` = xml_content_of_load_staff.`UID_Group`
-  LEFT JOIN xml_discipline ON xml_discipline.UID = xml_content_of_load.UID_Discipline
-  LEFT JOIN xml_faculty ON xml_faculty.UID = xml_content_of_load_staff.`UID_FacultyOwner`
-  LEFT JOIN xml_speciality ON xml_speciality.UID = xml_content_of_load_staff.UID_Speciality
-  LEFT JOIN xml_specialization ON xml_specialization.UID = xml_content_of_load_staff.UID_Specialization
-  LEFT JOIN xml_language ON xml_language.UID = xml_content_of_load_staff.UID_Language
-  LEFT JOIN xml_kind_of_work ON xml_kind_of_work.UID = xml_content_of_load.UID_KindOfWork
-  LEFT JOIN xml_lecturer ON xml_lecturer.UID = xml_content_of_load.UID_Lecturer
-  LEFT JOIN `nagruzka` ON nagruzka.load_base_UID = xml_content_of_load.base_uid
-  WHERE 
-  (xml_content_of_load_staff.`Abbr` LIKE ('Б1.%') OR xml_content_of_load_staff.`Abbr` LIKE ('Ф%') OR xml_content_of_load_staff.`Abbr` LIKE ('1.%') OR xml_content_of_load_staff.`Abbr` LIKE ('1.01%') OR xml_content_of_load_staff.`Abbr` LIKE ('2.1%') OR xml_content_of_load_staff.`Abbr` LIKE ('2.01%') OR xml_content_of_load_staff.`Abbr` LIKE ('С1%') OR xml_content_of_load_staff.`Abbr` LIKE ('С2%') OR xml_content_of_load_staff.`Abbr` LIKE ('С3%') OR xml_content_of_load_staff.`Abbr` LIKE ('С4%'))
-    AND `status` = 'require_admin_change'
-              #AND xml_content_of_load.UID_Chair = ''
-              #AND `base_uid` = '26589.281474976773927'
-              ORDER BY `original_uid`
-              # TMP
-              #AND `UID_Discipline` = '26006.281474976725278'
-              #LIMIT 15
-  
-    #LIMIT 1000[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 142.0.0.0] [127.0.0.1]
-[21.11.2025 - 14:40.51] SELECT 
-  xml_content_of_load.UID as original_uid,
-  #SUBSTRING(xml_content_of_load.UID, 1, LENGTH(xml_content_of_load.UID) - LOCATE('.', REVERSE(xml_content_of_load.UID))) as base_uid,
-  xml_content_of_load.base_uid,
-  xml_content_of_load.UID as xml_content_of_load_UID,
-  xml_content_of_load_staff.UID as xml_content_of_load_staff_UID,
-  xml_content_of_load.YearOfEducation,
-  xml_content_of_load_staff.Abbr, 
-  xml_group.Name as group_name,
-  xml_discipline.UID as discipline_UID,
-  xml_discipline.Name as discipline_name,
-  xml_faculty.Name as department_name,
-  xml_speciality.Name as napravlenie,
-  xml_speciality.Code as napravlenie_code,
-  xml_speciality.education_level,
-  xml_specialization.Name as napravlennost,
-  xml_language.Name as language,
-  xml_content_of_load_staff.UID_FormOfEducation,
-  xml_content_of_load.UID_Semester,
-  xml_content_of_load.StudentAmount,
-  xml_kind_of_work.Name as kind_of_work,
-  xml_content_of_load.UID_Course,
-  xml_content_of_load.amount,
-  xml_lecturer.FIO as galaktika_lecturer_fio,
-  nagruzka.lecturer_fio, nagruzka.lecturer_uid, nagruzka.lecturer_person_id, nagruzka.status, nagruzka.chair_id, nagruzka.chair_name, nagruzka.zavkaf_fio, nagruzka.chair_name
-
-  FROM xml_content_of_load
-  JOIN xml_content_of_load_staff ON 
-  # SUBSTRING(xml_content_of_load.UID, 1, LENGTH(xml_content_of_load.UID) - LOCATE('.', REVERSE(xml_content_of_load.UID))) = xml_content_of_load_staff.UID_ContentOfLoad
-  #xml_content_of_load.base_uid = xml_content_of_load_staff.UID_ContentOfLoad
-  xml_content_of_load.UID = xml_content_of_load_staff.UID_ContentOfLoad
-  LEFT JOIN xml_group ON xml_group.`UID` = xml_content_of_load_staff.`UID_Group`
-  LEFT JOIN xml_discipline ON xml_discipline.UID = xml_content_of_load.UID_Discipline
-  LEFT JOIN xml_faculty ON xml_faculty.UID = xml_content_of_load_staff.`UID_FacultyOwner`
-  LEFT JOIN xml_speciality ON xml_speciality.UID = xml_content_of_load_staff.UID_Speciality
-  LEFT JOIN xml_specialization ON xml_specialization.UID = xml_content_of_load_staff.UID_Specialization
-  LEFT JOIN xml_language ON xml_language.UID = xml_content_of_load_staff.UID_Language
-  LEFT JOIN xml_kind_of_work ON xml_kind_of_work.UID = xml_content_of_load.UID_KindOfWork
-  LEFT JOIN xml_lecturer ON xml_lecturer.UID = xml_content_of_load.UID_Lecturer
-  LEFT JOIN `nagruzka` ON nagruzka.load_base_UID = xml_content_of_load.base_uid
-  WHERE 
-  (xml_content_of_load_staff.`Abbr` LIKE ('Б1.%') OR xml_content_of_load_staff.`Abbr` LIKE ('Ф%') OR xml_content_of_load_staff.`Abbr` LIKE ('1.%') OR xml_content_of_load_staff.`Abbr` LIKE ('1.01%') OR xml_content_of_load_staff.`Abbr` LIKE ('2.1%') OR xml_content_of_load_staff.`Abbr` LIKE ('2.01%') OR xml_content_of_load_staff.`Abbr` LIKE ('С1%') OR xml_content_of_load_staff.`Abbr` LIKE ('С2%') OR xml_content_of_load_staff.`Abbr` LIKE ('С3%') OR xml_content_of_load_staff.`Abbr` LIKE ('С4%'))
-    AND `status` = 'require_admin_change'
-              #AND xml_content_of_load.UID_Chair = ''
-              #AND `base_uid` = '26589.281474976773927'
-              ORDER BY `original_uid`
-              # TMP
-              #AND `UID_Discipline` = '26006.281474976725278'
-              #LIMIT 15
-  
-    #LIMIT 1000[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 142.0.0.0] [127.0.0.1]
-[21.11.2025 - 14:42.03] SELECT 
-  xml_content_of_load.UID as original_uid,
-  #SUBSTRING(xml_content_of_load.UID, 1, LENGTH(xml_content_of_load.UID) - LOCATE('.', REVERSE(xml_content_of_load.UID))) as base_uid,
-  xml_content_of_load.base_uid,
-  xml_content_of_load.UID as xml_content_of_load_UID,
-  xml_content_of_load_staff.UID as xml_content_of_load_staff_UID,
-  xml_content_of_load.YearOfEducation,
-  xml_content_of_load_staff.Abbr, 
-  xml_group.Name as group_name,
-  xml_discipline.UID as discipline_UID,
-  xml_discipline.Name as discipline_name,
-  xml_faculty.Name as department_name,
-  xml_speciality.Name as napravlenie,
-  xml_speciality.Code as napravlenie_code,
-  xml_speciality.education_level,
-  xml_specialization.Name as napravlennost,
-  xml_language.Name as language,
-  xml_content_of_load_staff.UID_FormOfEducation,
-  xml_content_of_load.UID_Semester,
-  xml_content_of_load.StudentAmount,
-  xml_kind_of_work.Name as kind_of_work,
-  xml_content_of_load.UID_Course,
-  xml_content_of_load.amount,
-  xml_lecturer.FIO as galaktika_lecturer_fio,
-  nagruzka.lecturer_fio, nagruzka.lecturer_uid, nagruzka.lecturer_person_id, nagruzka.status, nagruzka.chair_id, nagruzka.chair_name, nagruzka.zavkaf_fio, nagruzka.chair_name
-
-  FROM xml_content_of_load
-  JOIN xml_content_of_load_staff ON 
-  # SUBSTRING(xml_content_of_load.UID, 1, LENGTH(xml_content_of_load.UID) - LOCATE('.', REVERSE(xml_content_of_load.UID))) = xml_content_of_load_staff.UID_ContentOfLoad
-  #xml_content_of_load.base_uid = xml_content_of_load_staff.UID_ContentOfLoad
-  xml_content_of_load.UID = xml_content_of_load_staff.UID_ContentOfLoad
-  LEFT JOIN xml_group ON xml_group.`UID` = xml_content_of_load_staff.`UID_Group`
-  LEFT JOIN xml_discipline ON xml_discipline.UID = xml_content_of_load.UID_Discipline
-  LEFT JOIN xml_faculty ON xml_faculty.UID = xml_content_of_load_staff.`UID_FacultyOwner`
-  LEFT JOIN xml_speciality ON xml_speciality.UID = xml_content_of_load_staff.UID_Speciality
-  LEFT JOIN xml_specialization ON xml_specialization.UID = xml_content_of_load_staff.UID_Specialization
-  LEFT JOIN xml_language ON xml_language.UID = xml_content_of_load_staff.UID_Language
-  LEFT JOIN xml_kind_of_work ON xml_kind_of_work.UID = xml_content_of_load.UID_KindOfWork
-  LEFT JOIN xml_lecturer ON xml_lecturer.UID = xml_content_of_load.UID_Lecturer
-  LEFT JOIN `nagruzka` ON nagruzka.load_base_UID = xml_content_of_load.base_uid
-  WHERE 
-  (xml_content_of_load_staff.`Abbr` LIKE ('Б1.%') OR xml_content_of_load_staff.`Abbr` LIKE ('Ф%') OR xml_content_of_load_staff.`Abbr` LIKE ('1.%') OR xml_content_of_load_staff.`Abbr` LIKE ('1.01%') OR xml_content_of_load_staff.`Abbr` LIKE ('2.1%') OR xml_content_of_load_staff.`Abbr` LIKE ('2.01%') OR xml_content_of_load_staff.`Abbr` LIKE ('С1%') OR xml_content_of_load_staff.`Abbr` LIKE ('С2%') OR xml_content_of_load_staff.`Abbr` LIKE ('С3%') OR xml_content_of_load_staff.`Abbr` LIKE ('С4%'))
-    AND `status` = 'require_admin_change'
-              #AND xml_content_of_load.UID_Chair = ''
-              #AND `base_uid` = '26589.281474976773927'
-              ORDER BY `original_uid`
-              # TMP
-              #AND `UID_Discipline` = '26006.281474976725278'
-              #LIMIT 15
-  
-    #LIMIT 1000[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 142.0.0.0] [127.0.0.1]
-[21.11.2025 - 14:43.14] SELECT 
-  xml_content_of_load.UID as original_uid,
-  #SUBSTRING(xml_content_of_load.UID, 1, LENGTH(xml_content_of_load.UID) - LOCATE('.', REVERSE(xml_content_of_load.UID))) as base_uid,
-  xml_content_of_load.base_uid,
-  xml_content_of_load.UID as xml_content_of_load_UID,
-  xml_content_of_load_staff.UID as xml_content_of_load_staff_UID,
-  xml_content_of_load.YearOfEducation,
-  xml_content_of_load_staff.Abbr, 
-  xml_group.Name as group_name,
-  xml_discipline.UID as discipline_UID,
-  xml_discipline.Name as discipline_name,
-  xml_faculty.Name as department_name,
-  xml_speciality.Name as napravlenie,
-  xml_speciality.Code as napravlenie_code,
-  xml_speciality.education_level,
-  xml_specialization.Name as napravlennost,
-  xml_language.Name as language,
-  xml_content_of_load_staff.UID_FormOfEducation,
-  xml_content_of_load.UID_Semester,
-  xml_content_of_load.StudentAmount,
-  xml_kind_of_work.Name as kind_of_work,
-  xml_content_of_load.UID_Course,
-  xml_content_of_load.amount,
-  xml_lecturer.FIO as galaktika_lecturer_fio,
-  nagruzka.lecturer_fio, nagruzka.lecturer_uid, nagruzka.lecturer_person_id, nagruzka.status, nagruzka.chair_id, nagruzka.chair_name, nagruzka.zavkaf_fio, nagruzka.chair_name
-
-  FROM xml_content_of_load
-  JOIN xml_content_of_load_staff ON 
-  # SUBSTRING(xml_content_of_load.UID, 1, LENGTH(xml_content_of_load.UID) - LOCATE('.', REVERSE(xml_content_of_load.UID))) = xml_content_of_load_staff.UID_ContentOfLoad
-  #xml_content_of_load.base_uid = xml_content_of_load_staff.UID_ContentOfLoad
-  xml_content_of_load.UID = xml_content_of_load_staff.UID_ContentOfLoad
-  LEFT JOIN xml_group ON xml_group.`UID` = xml_content_of_load_staff.`UID_Group`
-  LEFT JOIN xml_discipline ON xml_discipline.UID = xml_content_of_load.UID_Discipline
-  LEFT JOIN xml_faculty ON xml_faculty.UID = xml_content_of_load_staff.`UID_FacultyOwner`
-  LEFT JOIN xml_speciality ON xml_speciality.UID = xml_content_of_load_staff.UID_Speciality
-  LEFT JOIN xml_specialization ON xml_specialization.UID = xml_content_of_load_staff.UID_Specialization
-  LEFT JOIN xml_language ON xml_language.UID = xml_content_of_load_staff.UID_Language
-  LEFT JOIN xml_kind_of_work ON xml_kind_of_work.UID = xml_content_of_load.UID_KindOfWork
-  LEFT JOIN xml_lecturer ON xml_lecturer.UID = xml_content_of_load.UID_Lecturer
-  LEFT JOIN `nagruzka` ON nagruzka.load_base_UID = xml_content_of_load.base_uid
-  WHERE 
-  (xml_content_of_load_staff.`Abbr` LIKE ('Б1.%') OR xml_content_of_load_staff.`Abbr` LIKE ('Ф%') OR xml_content_of_load_staff.`Abbr` LIKE ('1.%') OR xml_content_of_load_staff.`Abbr` LIKE ('1.01%') OR xml_content_of_load_staff.`Abbr` LIKE ('2.1%') OR xml_content_of_load_staff.`Abbr` LIKE ('2.01%') OR xml_content_of_load_staff.`Abbr` LIKE ('С1%') OR xml_content_of_load_staff.`Abbr` LIKE ('С2%') OR xml_content_of_load_staff.`Abbr` LIKE ('С3%') OR xml_content_of_load_staff.`Abbr` LIKE ('С4%'))
-    AND `status` = 'require_admin_change'
-              #AND xml_content_of_load.UID_Chair = ''
-              #AND `base_uid` = '26589.281474976773927'
-              ORDER BY `original_uid`
-              # TMP
-              #AND `UID_Discipline` = '26006.281474976725278'
-              #LIMIT 15
-  
-    #LIMIT 1000[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 142.0.0.0] [127.0.0.1]
-[21.11.2025 - 14:43.27] SELECT 
-  xml_content_of_load.UID as original_uid,
-  #SUBSTRING(xml_content_of_load.UID, 1, LENGTH(xml_content_of_load.UID) - LOCATE('.', REVERSE(xml_content_of_load.UID))) as base_uid,
-  xml_content_of_load.base_uid,
-  xml_content_of_load.UID as xml_content_of_load_UID,
-  xml_content_of_load_staff.UID as xml_content_of_load_staff_UID,
-  xml_content_of_load.YearOfEducation,
-  xml_content_of_load_staff.Abbr, 
-  xml_group.Name as group_name,
-  xml_discipline.UID as discipline_UID,
-  xml_discipline.Name as discipline_name,
-  xml_faculty.Name as department_name,
-  xml_speciality.Name as napravlenie,
-  xml_speciality.Code as napravlenie_code,
-  xml_speciality.education_level,
-  xml_specialization.Name as napravlennost,
-  xml_language.Name as language,
-  xml_content_of_load_staff.UID_FormOfEducation,
-  xml_content_of_load.UID_Semester,
-  xml_content_of_load.StudentAmount,
-  xml_kind_of_work.Name as kind_of_work,
-  xml_content_of_load.UID_Course,
-  xml_content_of_load.amount,
-  xml_lecturer.FIO as galaktika_lecturer_fio,
-  nagruzka.lecturer_fio, nagruzka.lecturer_uid, nagruzka.lecturer_person_id, nagruzka.status, nagruzka.chair_id, nagruzka.chair_name, nagruzka.zavkaf_fio, nagruzka.chair_name
-
-  FROM xml_content_of_load
-  JOIN xml_content_of_load_staff ON 
-  # SUBSTRING(xml_content_of_load.UID, 1, LENGTH(xml_content_of_load.UID) - LOCATE('.', REVERSE(xml_content_of_load.UID))) = xml_content_of_load_staff.UID_ContentOfLoad
-  #xml_content_of_load.base_uid = xml_content_of_load_staff.UID_ContentOfLoad
-  xml_content_of_load.UID = xml_content_of_load_staff.UID_ContentOfLoad
-  LEFT JOIN xml_group ON xml_group.`UID` = xml_content_of_load_staff.`UID_Group`
-  LEFT JOIN xml_discipline ON xml_discipline.UID = xml_content_of_load.UID_Discipline
-  LEFT JOIN xml_faculty ON xml_faculty.UID = xml_content_of_load_staff.`UID_FacultyOwner`
-  LEFT JOIN xml_speciality ON xml_speciality.UID = xml_content_of_load_staff.UID_Speciality
-  LEFT JOIN xml_specialization ON xml_specialization.UID = xml_content_of_load_staff.UID_Specialization
-  LEFT JOIN xml_language ON xml_language.UID = xml_content_of_load_staff.UID_Language
-  LEFT JOIN xml_kind_of_work ON xml_kind_of_work.UID = xml_content_of_load.UID_KindOfWork
-  LEFT JOIN xml_lecturer ON xml_lecturer.UID = xml_content_of_load.UID_Lecturer
-  LEFT JOIN `nagruzka` ON nagruzka.load_base_UID = xml_content_of_load.base_uid
-  WHERE 
-  (xml_content_of_load_staff.`Abbr` LIKE ('Б1.%') OR xml_content_of_load_staff.`Abbr` LIKE ('Ф%') OR xml_content_of_load_staff.`Abbr` LIKE ('1.%') OR xml_content_of_load_staff.`Abbr` LIKE ('1.01%') OR xml_content_of_load_staff.`Abbr` LIKE ('2.1%') OR xml_content_of_load_staff.`Abbr` LIKE ('2.01%') OR xml_content_of_load_staff.`Abbr` LIKE ('С1%') OR xml_content_of_load_staff.`Abbr` LIKE ('С2%') OR xml_content_of_load_staff.`Abbr` LIKE ('С3%') OR xml_content_of_load_staff.`Abbr` LIKE ('С4%'))
-    AND `status` = 'require_admin_change'
-              #AND xml_content_of_load.UID_Chair = ''
-              #AND `base_uid` = '26589.281474976773927'
-              ORDER BY `original_uid`
-              # TMP
-              #AND `UID_Discipline` = '26006.281474976725278'
-              #LIMIT 15
-  
-    #LIMIT 1000[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 142.0.0.0] [127.0.0.1]
-[21.11.2025 - 14:43.56] SELECT 
-  xml_content_of_load.UID as original_uid,
-  #SUBSTRING(xml_content_of_load.UID, 1, LENGTH(xml_content_of_load.UID) - LOCATE('.', REVERSE(xml_content_of_load.UID))) as base_uid,
-  xml_content_of_load.base_uid,
-  xml_content_of_load.UID as xml_content_of_load_UID,
-  xml_content_of_load_staff.UID as xml_content_of_load_staff_UID,
-  xml_content_of_load.YearOfEducation,
-  xml_content_of_load_staff.Abbr, 
-  xml_group.Name as group_name,
-  xml_discipline.UID as discipline_UID,
-  xml_discipline.Name as discipline_name,
-  xml_faculty.Name as department_name,
-  xml_speciality.Name as napravlenie,
-  xml_speciality.Code as napravlenie_code,
-  xml_speciality.education_level,
-  xml_specialization.Name as napravlennost,
-  xml_language.Name as language,
-  xml_content_of_load_staff.UID_FormOfEducation,
-  xml_content_of_load.UID_Semester,
-  xml_content_of_load.StudentAmount,
-  xml_kind_of_work.Name as kind_of_work,
-  xml_content_of_load.UID_Course,
-  xml_content_of_load.amount,
-  xml_lecturer.FIO as galaktika_lecturer_fio,
-  nagruzka.lecturer_fio, nagruzka.lecturer_uid, nagruzka.lecturer_person_id, nagruzka.status, nagruzka.chair_id, nagruzka.chair_name, nagruzka.zavkaf_fio, nagruzka.chair_name
-
-  FROM xml_content_of_load
-  JOIN xml_content_of_load_staff ON 
-  # SUBSTRING(xml_content_of_load.UID, 1, LENGTH(xml_content_of_load.UID) - LOCATE('.', REVERSE(xml_content_of_load.UID))) = xml_content_of_load_staff.UID_ContentOfLoad
-  #xml_content_of_load.base_uid = xml_content_of_load_staff.UID_ContentOfLoad
-  xml_content_of_load.UID = xml_content_of_load_staff.UID_ContentOfLoad
-  LEFT JOIN xml_group ON xml_group.`UID` = xml_content_of_load_staff.`UID_Group`
-  LEFT JOIN xml_discipline ON xml_discipline.UID = xml_content_of_load.UID_Discipline
-  LEFT JOIN xml_faculty ON xml_faculty.UID = xml_content_of_load_staff.`UID_FacultyOwner`
-  LEFT JOIN xml_speciality ON xml_speciality.UID = xml_content_of_load_staff.UID_Speciality
-  LEFT JOIN xml_specialization ON xml_specialization.UID = xml_content_of_load_staff.UID_Specialization
-  LEFT JOIN xml_language ON xml_language.UID = xml_content_of_load_staff.UID_Language
-  LEFT JOIN xml_kind_of_work ON xml_kind_of_work.UID = xml_content_of_load.UID_KindOfWork
-  LEFT JOIN xml_lecturer ON xml_lecturer.UID = xml_content_of_load.UID_Lecturer
-  LEFT JOIN `nagruzka` ON nagruzka.load_base_UID = xml_content_of_load.base_uid
-  WHERE 
-  (xml_content_of_load_staff.`Abbr` LIKE ('Б1.%') OR xml_content_of_load_staff.`Abbr` LIKE ('Ф%') OR xml_content_of_load_staff.`Abbr` LIKE ('1.%') OR xml_content_of_load_staff.`Abbr` LIKE ('1.01%') OR xml_content_of_load_staff.`Abbr` LIKE ('2.1%') OR xml_content_of_load_staff.`Abbr` LIKE ('2.01%') OR xml_content_of_load_staff.`Abbr` LIKE ('С1%') OR xml_content_of_load_staff.`Abbr` LIKE ('С2%') OR xml_content_of_load_staff.`Abbr` LIKE ('С3%') OR xml_content_of_load_staff.`Abbr` LIKE ('С4%'))
-    AND `status` = 'require_admin_change'
-              #AND xml_content_of_load.UID_Chair = ''
-              #AND `base_uid` = '26589.281474976773927'
-              ORDER BY `original_uid`
-              # TMP
-              #AND `UID_Discipline` = '26006.281474976725278'
-              #LIMIT 15
-  
-    #LIMIT 1000[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 142.0.0.0] [127.0.0.1]
+    #LIMIT 1000[/ajax/get/nagruzka_discipline.php?chair_id=02896] [Chrome 143.0.0.0] [127.0.0.1]
+[23.12.2025 - 11:41.23] SELECT `lecturer_fio`, xml_content_of_load.Amount
+          FROM `nagruzka` 
+          JOIN `xml_content_of_load` ON nagruzka.`load_base_UID` = xml_content_of_load.`base_uid`
+          WHERE 1 AND chair_id = '02896'[/ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=02896] [Chrome 143.0.0.0] [127.0.0.1]
+[23.12.2025 - 11:42.06] SELECT `lecturer_fio`, xml_content_of_load.Amount
+          FROM `nagruzka` 
+          JOIN `xml_content_of_load` ON nagruzka.`load_base_UID` = xml_content_of_load.`base_uid`
+          WHERE 1 AND chair_id = '02896'[/ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=02896] [Chrome 143.0.0.0] [127.0.0.1]
+[23.12.2025 - 11:50.28] SELECT `lecturer_fio`, xml_content_of_load.Amount
+          FROM `nagruzka` 
+          JOIN `xml_content_of_load` ON nagruzka.`load_base_UID` = xml_content_of_load.`base_uid`
+          WHERE 1 AND chair_id = '02896'[/ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=02896] [Chrome 143.0.0.0] [127.0.0.1]
+[23.12.2025 - 11:50.47] SELECT `lecturer_fio`, xml_content_of_load.Amount
+          FROM `nagruzka` 
+          JOIN `xml_content_of_load` ON nagruzka.`load_base_UID` = xml_content_of_load.`base_uid`
+          WHERE 1 AND chair_id = '02896'[/ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=02896] [Chrome 143.0.0.0] [127.0.0.1]
+[23.12.2025 - 11:51.38] SELECT `lecturer_fio`, xml_content_of_load.Amount
+          FROM `nagruzka` 
+          JOIN `xml_content_of_load` ON nagruzka.`load_base_UID` = xml_content_of_load.`base_uid`
+          WHERE 1 AND chair_id = '02896'[/ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=02896] [Chrome 143.0.0.0] [127.0.0.1]
+[23.12.2025 - 11:51.48] SELECT `lecturer_fio`, xml_content_of_load.Amount
+          FROM `nagruzka` 
+          JOIN `xml_content_of_load` ON nagruzka.`load_base_UID` = xml_content_of_load.`base_uid`
+          WHERE 1 AND chair_id = '02896'[/ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=02896] [Chrome 143.0.0.0] [127.0.0.1]
+[23.12.2025 - 11:52.48] SELECT `lecturer_fio`, xml_content_of_load.Amount
+          FROM `nagruzka` 
+          JOIN `xml_content_of_load` ON nagruzka.`load_base_UID` = xml_content_of_load.`base_uid`
+          WHERE 1 AND chair_id = '02896'[/ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=02896] [Chrome 143.0.0.0] [127.0.0.1]
+[23.12.2025 - 11:54.12] SELECT `lecturer_fio`, xml_content_of_load.Amount
+          FROM `nagruzka` 
+          JOIN `xml_content_of_load` ON nagruzka.`load_base_UID` = xml_content_of_load.`base_uid`
+          WHERE 1 AND chair_id = '02896'[/ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=02896] [Chrome 143.0.0.0] [127.0.0.1]
+[23.12.2025 - 11:56.10] SELECT `lecturer_fio`, xml_content_of_load.Amount
+          FROM `nagruzka` 
+          JOIN `xml_content_of_load` ON nagruzka.`load_base_UID` = xml_content_of_load.`base_uid`
+          WHERE 1 AND chair_id = '05263'[/ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=05263] [Chrome 143.0.0.0] [127.0.0.1]
+[23.12.2025 - 11:56.18] SELECT `lecturer_fio`, xml_content_of_load.Amount
+          FROM `nagruzka` 
+          JOIN `xml_content_of_load` ON nagruzka.`load_base_UID` = xml_content_of_load.`base_uid`
+          WHERE 1 AND chair_id = '05263'[/ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=05263] [Chrome 143.0.0.0] [127.0.0.1]
+[23.12.2025 - 12:15.18] SELECT `lecturer_fio`, xml_content_of_load.Amount
+          FROM `nagruzka` 
+          JOIN `xml_content_of_load` ON nagruzka.`load_base_UID` = xml_content_of_load.`base_uid`
+          WHERE 1 AND chair_id = '05263'[/ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=05263] [Chrome 143.0.0.0] [127.0.0.1]
+[23.12.2025 - 12:15.20] SELECT `lecturer_fio`, xml_content_of_load.Amount
+          FROM `nagruzka` 
+          JOIN `xml_content_of_load` ON nagruzka.`load_base_UID` = xml_content_of_load.`base_uid`
+          WHERE 1 AND chair_id = '05263'[/ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=05263] [Chrome 143.0.0.0] [127.0.0.1]
+[23.12.2025 - 12:21.21] SELECT `lecturer_fio`, xml_content_of_load.Amount
+          FROM `nagruzka` 
+          JOIN `xml_content_of_load` ON nagruzka.`load_base_UID` = xml_content_of_load.`base_uid`
+          WHERE 1 AND chair_id = '05263'[/ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=05263] [Chrome 143.0.0.0] [127.0.0.1]
+[23.12.2025 - 12:41.26] SELECT `lecturer_fio`, xml_content_of_load.Amount
+          FROM `nagruzka` 
+          JOIN `xml_content_of_load` ON nagruzka.`load_base_UID` = xml_content_of_load.`base_uid`
+          WHERE 1 AND chair_id = '05263'[/ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=05263] [Chrome 143.0.0.0] [127.0.0.1]
+[23.12.2025 - 12:42.39] SELECT `lecturer_fio`, xml_content_of_load.Amount
+          FROM `nagruzka` 
+          JOIN `xml_content_of_load` ON nagruzka.`load_base_UID` = xml_content_of_load.`base_uid`
+          WHERE 1 AND chair_id = '05263'[/ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=05263] [Chrome 143.0.0.0] [127.0.0.1]
+[23.12.2025 - 13:02.00] SELECT `lecturer_fio`, xml_content_of_load.Amount
+          FROM `nagruzka` 
+          JOIN `xml_content_of_load` ON nagruzka.`load_base_UID` = xml_content_of_load.`base_uid`
+          WHERE 1 AND chair_id = '05263'[/ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=05263] [Chrome 143.0.0.0] [127.0.0.1]
+[23.12.2025 - 13:02.39] SELECT `lecturer_fio`, xml_content_of_load.Amount
+          FROM `nagruzka` 
+          JOIN `xml_content_of_load` ON nagruzka.`load_base_UID` = xml_content_of_load.`base_uid`
+          WHERE 1 AND chair_id = '05263'[/ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=05263] [Chrome 143.0.0.0] [127.0.0.1]
+[23.12.2025 - 13:03.02] SELECT `lecturer_fio`, xml_content_of_load.Amount
+          FROM `nagruzka` 
+          JOIN `xml_content_of_load` ON nagruzka.`load_base_UID` = xml_content_of_load.`base_uid`
+          WHERE 1 AND chair_id = '05263'[/ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=05263] [Chrome 143.0.0.0] [127.0.0.1]
+[23.12.2025 - 13:06.32] SELECT `lecturer_fio`, xml_content_of_load.Amount
+          FROM `nagruzka` 
+          JOIN `xml_content_of_load` ON nagruzka.`load_base_UID` = xml_content_of_load.`base_uid`
+          WHERE 1 AND chair_id = '05263'[/ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=05263] [Chrome 143.0.0.0] [127.0.0.1]
+[25.12.2025 - 10:30.42] SELECT `lecturer_fio`, xml_content_of_load.Amount
+          FROM `nagruzka` 
+          JOIN `xml_content_of_load` ON nagruzka.`load_base_UID` = xml_content_of_load.`base_uid`
+          WHERE 1 AND chair_id = '05263'[/ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=05263] [Chrome 143.0.0.0] [127.0.0.1]
+[25.12.2025 - 10:31.43] SELECT `lecturer_fio`, xml_content_of_load.Amount
+          FROM `nagruzka` 
+          JOIN `xml_content_of_load` ON nagruzka.`load_base_UID` = xml_content_of_load.`base_uid`
+          WHERE 1 AND chair_id = '05263'[/ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=05263] [Chrome 143.0.0.0] [127.0.0.1]
+[25.12.2025 - 10:32.05] SELECT `lecturer_fio`, xml_content_of_load.Amount
+          FROM `nagruzka` 
+          JOIN `xml_content_of_load` ON nagruzka.`load_base_UID` = xml_content_of_load.`base_uid`
+          WHERE 1 AND chair_id = '05263'[/ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=05263] [Chrome 143.0.0.0] [127.0.0.1]
+[25.12.2025 - 10:33.58] SELECT `lecturer_fio`, xml_content_of_load.Amount
+          FROM `nagruzka` 
+          JOIN `xml_content_of_load` ON nagruzka.`load_base_UID` = xml_content_of_load.`base_uid`
+          WHERE 1 AND chair_id = '05263'[/ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=05263] [Chrome 143.0.0.0] [127.0.0.1]
+[25.12.2025 - 11:00.01] SELECT `lecturer_fio`, xml_content_of_load.Amount
+          FROM `nagruzka` 
+          JOIN `xml_content_of_load` ON nagruzka.`load_base_UID` = xml_content_of_load.`base_uid`
+          WHERE 1 AND chair_id = '05263'[/ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=05263] [Chrome 143.0.0.0] [127.0.0.1]
+[25.12.2025 - 11:36.17] SELECT `lecturer_fio`, xml_content_of_load.Amount
+          FROM `nagruzka` 
+          JOIN `xml_content_of_load` ON nagruzka.`load_base_UID` = xml_content_of_load.`base_uid`
+          WHERE 1 AND chair_id = '05263'[/ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=05263] [Chrome 143.0.0.0] [127.0.0.1]
+[25.12.2025 - 11:36.53] SELECT `lecturer_fio`, xml_content_of_load.Amount
+          FROM `nagruzka` 
+          JOIN `xml_content_of_load` ON nagruzka.`load_base_UID` = xml_content_of_load.`base_uid`
+          WHERE 1 AND chair_id = '05263'[/ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=05263] [Chrome 143.0.0.0] [127.0.0.1]
+[25.12.2025 - 11:40.24] SELECT `lecturer_fio`, xml_content_of_load.Amount
+          FROM `nagruzka` 
+          JOIN `xml_content_of_load` ON nagruzka.`load_base_UID` = xml_content_of_load.`base_uid`
+          WHERE 1 AND chair_id = '05263'[/ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=05263] [Chrome 143.0.0.0] [127.0.0.1]
+[25.12.2025 - 11:40.57] SELECT `lecturer_fio`, xml_content_of_load.Amount
+          FROM `nagruzka` 
+          JOIN `xml_content_of_load` ON nagruzka.`load_base_UID` = xml_content_of_load.`base_uid`
+          WHERE 1 AND chair_id = '05263'[/ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=05263] [Chrome 143.0.0.0] [127.0.0.1]
+[25.12.2025 - 11:43.06] SELECT `lecturer_fio`, xml_content_of_load.Amount
+          FROM `nagruzka` 
+          JOIN `xml_content_of_load` ON nagruzka.`load_base_UID` = xml_content_of_load.`base_uid`
+          WHERE 1 AND chair_id = '05263'[/ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=05263] [Chrome 143.0.0.0] [127.0.0.1]
+[25.12.2025 - 11:43.06] SELECT `lecturer_fio`, xml_content_of_load.Amount
+          FROM `nagruzka` 
+          JOIN `xml_content_of_load` ON nagruzka.`load_base_UID` = xml_content_of_load.`base_uid`
+          WHERE 1 AND chair_id = '05263'[/ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=05263] [Chrome 143.0.0.0] [127.0.0.1]
+[25.12.2025 - 11:43.06] SELECT `lecturer_fio`, xml_content_of_load.Amount
+          FROM `nagruzka` 
+          JOIN `xml_content_of_load` ON nagruzka.`load_base_UID` = xml_content_of_load.`base_uid`
+          WHERE 1 AND chair_id = '05263'[/ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=05263] [Chrome 143.0.0.0] [127.0.0.1]
+[25.12.2025 - 11:43.17] SELECT `lecturer_fio`, xml_content_of_load.Amount
+          FROM `nagruzka` 
+          JOIN `xml_content_of_load` ON nagruzka.`load_base_UID` = xml_content_of_load.`base_uid`
+          WHERE 1 AND chair_id = '05263'[/ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=05263] [Chrome 143.0.0.0] [127.0.0.1]
+[25.12.2025 - 11:43.17] SELECT `lecturer_fio`, xml_content_of_load.Amount
+          FROM `nagruzka` 
+          JOIN `xml_content_of_load` ON nagruzka.`load_base_UID` = xml_content_of_load.`base_uid`
+          WHERE 1 AND chair_id = '05263'[/ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=05263] [Chrome 143.0.0.0] [127.0.0.1]
+[25.12.2025 - 11:43.17] SELECT `lecturer_fio`, xml_content_of_load.Amount
+          FROM `nagruzka` 
+          JOIN `xml_content_of_load` ON nagruzka.`load_base_UID` = xml_content_of_load.`base_uid`
+          WHERE 1 AND chair_id = '05263'[/ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=05263] [Chrome 143.0.0.0] [127.0.0.1]
+[25.12.2025 - 11:46.25] SELECT `lecturer_fio`, xml_content_of_load.Amount
+          FROM `nagruzka` 
+          JOIN `xml_content_of_load` ON nagruzka.`load_base_UID` = xml_content_of_load.`base_uid`
+          WHERE 1 AND chair_id = '05263'[/ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=05263] [Chrome 143.0.0.0] [127.0.0.1]
+[25.12.2025 - 11:46.34] SELECT `lecturer_fio`, xml_content_of_load.Amount
+          FROM `nagruzka` 
+          JOIN `xml_content_of_load` ON nagruzka.`load_base_UID` = xml_content_of_load.`base_uid`
+          WHERE 1 AND chair_id = '05263'[/ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=05263] [Chrome 143.0.0.0] [127.0.0.1]
+[25.12.2025 - 11:46.34] SELECT `lecturer_fio`, xml_content_of_load.Amount
+          FROM `nagruzka` 
+          JOIN `xml_content_of_load` ON nagruzka.`load_base_UID` = xml_content_of_load.`base_uid`
+          WHERE 1 AND chair_id = '05263'[/ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=05263] [Chrome 143.0.0.0] [127.0.0.1]
+[25.12.2025 - 11:47.01] SELECT `lecturer_fio`, xml_content_of_load.Amount
+          FROM `nagruzka` 
+          JOIN `xml_content_of_load` ON nagruzka.`load_base_UID` = xml_content_of_load.`base_uid`
+          WHERE 1 AND chair_id = '05263'[/ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=05263] [Chrome 143.0.0.0] [127.0.0.1]
+[25.12.2025 - 11:47.04] SELECT `lecturer_fio`, xml_content_of_load.Amount
+          FROM `nagruzka` 
+          JOIN `xml_content_of_load` ON nagruzka.`load_base_UID` = xml_content_of_load.`base_uid`
+          WHERE 1 AND chair_id = '05263'[/ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=05263] [Chrome 143.0.0.0] [127.0.0.1]
+[25.12.2025 - 11:47.20] SELECT `lecturer_fio`, xml_content_of_load.Amount
+          FROM `nagruzka` 
+          JOIN `xml_content_of_load` ON nagruzka.`load_base_UID` = xml_content_of_load.`base_uid`
+          WHERE 1 AND chair_id = '05263'[/ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=05263] [Chrome 143.0.0.0] [127.0.0.1]
+[25.12.2025 - 11:47.20] SELECT `lecturer_fio`, xml_content_of_load.Amount
+          FROM `nagruzka` 
+          JOIN `xml_content_of_load` ON nagruzka.`load_base_UID` = xml_content_of_load.`base_uid`
+          WHERE 1 AND chair_id = '05263'[/ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=05263] [Chrome 143.0.0.0] [127.0.0.1]
+[25.12.2025 - 11:47.28] SELECT `lecturer_fio`, xml_content_of_load.Amount
+          FROM `nagruzka` 
+          JOIN `xml_content_of_load` ON nagruzka.`load_base_UID` = xml_content_of_load.`base_uid`
+          WHERE 1 AND chair_id = '05263'[/ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=05263] [Chrome 143.0.0.0] [127.0.0.1]
+[25.12.2025 - 11:47.41] SELECT `lecturer_fio`, xml_content_of_load.Amount
+          FROM `nagruzka` 
+          JOIN `xml_content_of_load` ON nagruzka.`load_base_UID` = xml_content_of_load.`base_uid`
+          WHERE 1 AND chair_id = '05263'[/ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=05263] [Chrome 143.0.0.0] [127.0.0.1]
+[25.12.2025 - 11:47.56] SELECT `lecturer_fio`, xml_content_of_load.Amount
+          FROM `nagruzka` 
+          JOIN `xml_content_of_load` ON nagruzka.`load_base_UID` = xml_content_of_load.`base_uid`
+          WHERE 1 AND chair_id = '05263'[/ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=05263] [Chrome 143.0.0.0] [127.0.0.1]
+[25.12.2025 - 11:49.27] SELECT `lecturer_fio`, xml_content_of_load.Amount
+          FROM `nagruzka` 
+          JOIN `xml_content_of_load` ON nagruzka.`load_base_UID` = xml_content_of_load.`base_uid`
+          WHERE 1 AND chair_id = '05263'[/ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=05263] [Chrome 143.0.0.0] [127.0.0.1]
+[25.12.2025 - 11:50.06] SELECT `lecturer_fio`, xml_content_of_load.Amount
+          FROM `nagruzka` 
+          JOIN `xml_content_of_load` ON nagruzka.`load_base_UID` = xml_content_of_load.`base_uid`
+          WHERE 1 AND chair_id = '05263'[/ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=05263] [Chrome 143.0.0.0] [127.0.0.1]
+[25.12.2025 - 11:50.47] SELECT `lecturer_fio`, xml_content_of_load.Amount
+          FROM `nagruzka` 
+          JOIN `xml_content_of_load` ON nagruzka.`load_base_UID` = xml_content_of_load.`base_uid`
+          WHERE 1 AND chair_id = '05263'[/ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=05263] [Chrome 143.0.0.0] [127.0.0.1]
+[25.12.2025 - 11:51.03] SELECT `lecturer_fio`, xml_content_of_load.Amount
+          FROM `nagruzka` 
+          JOIN `xml_content_of_load` ON nagruzka.`load_base_UID` = xml_content_of_load.`base_uid`
+          WHERE 1 AND chair_id = '05263'[/ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=05263] [Chrome 143.0.0.0] [127.0.0.1]
+[25.12.2025 - 12:35.31] SELECT `lecturer_fio`, xml_content_of_load.Amount
+          FROM `nagruzka` 
+          JOIN `xml_content_of_load` ON nagruzka.`load_base_UID` = xml_content_of_load.`base_uid`
+          WHERE 1 AND chair_id = '02896'[/ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=02896] [Chrome 143.0.0.0] [127.0.0.1]
+[25.12.2025 - 12:35.35] SELECT `lecturer_fio`, xml_content_of_load.Amount
+          FROM `nagruzka` 
+          JOIN `xml_content_of_load` ON nagruzka.`load_base_UID` = xml_content_of_load.`base_uid`
+          WHERE 1 AND chair_id = '02896'[/ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=02896] [Chrome 143.0.0.0] [127.0.0.1]
+[25.12.2025 - 12:39.50] SELECT `lecturer_fio`, xml_content_of_load.Amount
+          FROM `nagruzka` 
+          JOIN `xml_content_of_load` ON nagruzka.`load_base_UID` = xml_content_of_load.`base_uid`
+          WHERE 1 AND chair_id = '02896'[/ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=02896] [Chrome 143.0.0.0] [127.0.0.1]

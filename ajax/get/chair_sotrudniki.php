@@ -32,9 +32,17 @@ $chair_id = $_SESSION['c_chair_id'];
 //                 ");
 
 // $Sotrudniki = GetRows('sotrudniki', ['chair_id' => $chair_id]);
+// TypeWorkload Тип нагрузки:
+// 0 — аудиторная
+// 1 — неаудиторная
+// Amount - кол-во часов нагрузки
 
 $Sotrudniki = GetSQL("
-        SELECT sotrudniki.*, SUM(xml_content_of_load.Amount) as amount_sum
+        SELECT sotrudniki.*, 
+        ROUND(SUM(xml_content_of_load.Amount), 2) as amount_sum, 
+        ROUND(SUM(CASE WHEN xml_content_of_load.TypeWorkload = '0' 
+              THEN xml_content_of_load.Amount ELSE 0 END), 2) as amount_sum_auditorium,
+        xml_content_of_load.TypeWorkload
         FROM `sotrudniki`
         LEFT JOIN nagruzka ON sotrudniki.person_id = nagruzka.lecturer_person_id
         LEFT JOIN `xml_content_of_load` ON nagruzka.`load_base_UID` = xml_content_of_load.`base_uid`

@@ -119,6 +119,8 @@ function createSelectFilter(column, footerCell)
 // columns - описание столбцов таблицы
 function createCustomFilters(table_id, table, columns) 
 {
+  CL('createCustomFilters');
+  
   // Очищаем старые фильтры перед созданием новых
   $('#' + table_id + ' tfoot th').each(function() {
     $(this).find('select, input').remove();
@@ -543,7 +545,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
   $rootScope.NagruzkaRowClick = function(nagruzka_row)
   {
     CL('NagruzkaRowClick');
-    // CL(nagruzka_row);
+    CL(nagruzka_row);
 
     const dialogScope = $scope.$new();
     dialogScope.nagruzka_row = nagruzka_row;
@@ -591,8 +593,8 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
 .controller ('NagruzkaCtrl', function($rootScope, $scope, $http, $timeout, DTOptionsBuilder, DTColumnBuilder, DTColumnDefBuilder, ngDialog, $templateCache, nagruzka_type, nagruzka_selected_chair_id, $resource, $cookies, system_mode, nagruzka_stat, nagruzka)
 {
   CL('NagruzkaCtrl');
-  CL(nagruzka_type);
-  CL(nagruzka_selected_chair_id);
+  // CL(nagruzka_type);
+  // CL(nagruzka_selected_chair_id);
   
   $scope.nagruzka_selected_chair_id = nagruzka_selected_chair_id;
   $scope.system_mode = system_mode.data.mode;
@@ -604,7 +606,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
   // $scope.nagruzka = nagruzka.data;
   $scope.nagruzka = nagruzka ? nagruzka.data : null;
 
-  CL($scope.system_mode);
+  // CL($scope.system_mode);
   // CL($scope.nagruzka);
 
   if (c_roles.zavkaf && $scope.system_mode === 'mode_closed')
@@ -617,6 +619,12 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
   $scope.nagruzka_readonly = c_roles.uoup || $scope.system_mode === 'mode_verification' || $scope.system_mode === 'mode_archive';
 
   $templateCache.put('confirm_delete', '<p>Вы уверены, что хотите удалить?</p>\
+              <div class="ngdialog-buttons">\
+                  <button type="button" class="ngdialog-button ngdialog-button-secondary" ng-click="closeThisDialog(0)">Нет</button>\
+                  <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="confirm(1)">Да</button>\
+              </div>');
+
+  $templateCache.put('confirm_require_admin_change', '<p>Нагрузка распределена, при отправке на изменение, распределение будет удалено. Продолжить?</p>\
               <div class="ngdialog-buttons">\
                   <button type="button" class="ngdialog-button ngdialog-button-secondary" ng-click="closeThisDialog(0)">Нет</button>\
                   <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="confirm(1)">Да</button>\
@@ -662,7 +670,12 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
         type: 'input',
         bRegex: false,
       },
-      null,
+      // группа
+      {
+        name: 'group_name',
+        type: 'input',
+        bRegex: false,
+      },
       // уровень образования
       {
         name: 'education_level',
@@ -696,7 +709,12 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
         values: ['1', '2', '3', '4', '5', '6', '7'],
         width: '100'
       },
-      null,
+      // количество студентов
+      {
+        name: 'StudentAmount',
+        type: 'input',
+        bRegex: false,
+      },
       // вид работ
       {
         name: 'kind_of_work',
@@ -704,7 +722,13 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
         bRegex: false,
         // values: ['1', '2', '3', '4', '5', '6', '7']
       },
-      null,
+      // профиль/направленность
+      {
+        name: 'napravlennost',
+        type: 'input',
+        bRegex: false,
+        width: '100'
+      },
       // курс
       {
         name: 'UID_Course',
@@ -712,11 +736,21 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
         bRegex: false,
         values: ['1', '2', '3', '4', '5', '6', '7']
       },
+      // кол-во часов
+      null,
+      // преподаватель
+      {
+        name: 'lecturer_fio',
+        type: 'input',
+        bRegex: false,
+        width: '80'
+      },
+      null
   ];
 
   // function NagruzkaInit()
   {
-    CL('NagruzkaInit');
+    // CL('NagruzkaInit');
     // $scope.persons = $resource('data.json').query();
 
     $scope.dtOptions = DTOptionsBuilder //.fromSource('data.json')
@@ -739,7 +773,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
 
       .withOption('initComplete', function(settings, json) {
         // Скрываем индикатор когда загрузка завершена
-        CL("initComplete");
+        // CL("initComplete");
         $scope.$apply(function() {
             $scope.isLoading = false;
         });
@@ -780,7 +814,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
     $scope.onNagruzkaTableInstance = function(dtInstance) 
     {
       CL('onNagruzkaTableInstance');
-      CL(dtInstance);
+      // CL(dtInstance);
 
       $scope.dtInstance = dtInstance; // если нужно хранить ссылку
       const table = dtInstance.DataTable;
@@ -850,6 +884,8 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
                     toastr.success("Данные сохранены");
                     // Обновить статистику для ЗавКафа
                     LoadNagruzkaZavkafStat();
+
+                    nagruzka_row.selected = false;
                   }
                   else
                   {
@@ -1014,7 +1050,10 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
     // проставим выбор отфильтрованных строк нагрузки
     var filtered_nagruzka_rows = filtered_rows_indexes.map(function(i) 
     {
-      $scope.nagruzka[i].selected = true;
+      if ($scope.IsNagruzkaEditable($scope.nagruzka[i]))
+      {
+        $scope.nagruzka[i].selected = true;
+      }
       return $scope.nagruzka[i];
     });
 
@@ -1048,11 +1087,16 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
 
   }
 
+  $scope.ChangeGroupAction = function()
+  {
+    $scope.group_action.lecturer_fio = $scope.group_action.lecturer_uid = $scope.group_action.lecturer_person_id = undefined;
+  }
+
 
   $scope.DoGroupAction = function()
   {
     // Распределить всё на одного сотрудника
-    if ($scope.group_action.action == 'assign_to_sotrudnik')
+    if ($scope.group_action.action == 'assign_to_sotrudnik' && !isEmpty($scope.group_action.lecturer_fio))
     {
       $scope.nagruzka.forEach(nagruzka_row => 
       {
@@ -1076,7 +1120,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
         if (nagruzka_row.selected)
         {
           nagruzka_row.lecturer_fio = 'Вакансия';
-          nagruzka_row.lecturer_uid = '';
+          nagruzka_row.lecturer_uid = '26115.281474976893938';
           nagruzka_row.lecturer_person_id = '00000';
 
           SaveNagruzkaLecturer(nagruzka_row);
@@ -1093,12 +1137,12 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
       else
       {
         $scope.nagruzka.forEach(nagruzka_row => 
-      {
-        if (nagruzka_row.selected)
         {
-          SaveNagruzkaStatus(nagruzka_row, 'refused');
-        }
-      });
+          if (nagruzka_row.selected)
+          {
+            SaveNagruzkaStatus(nagruzka_row, 'refused');
+          }
+        });
       }
     }
     // Запрос администратору на внесение изменений
@@ -1110,13 +1154,24 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
       }
       else
       {
-        $scope.nagruzka.forEach(nagruzka_row => 
-      {
-        if (nagruzka_row.selected)
-        {
-          SaveNagruzkaStatus(nagruzka_row, 'require_admin_change');
-        }
-      });
+        ngDialog.openConfirm({
+                template: 'confirm_require_admin_change',
+                className: 'ngdialog-theme-default',
+                disableAnimation: true
+            }).then(function (value) {  // да
+
+                $scope.nagruzka.forEach(nagruzka_row => 
+                {
+                  if (nagruzka_row.selected)
+                  {
+                    SaveNagruzkaStatus(nagruzka_row, 'require_admin_change');
+
+                    nagruzka_row.lecturer_fio = nagruzka_row.lecturer_uid = nagruzka_row.lecturer_person_id = '';
+                  }
+                });
+            });
+
+        
       }
     }
     // Написать комментарий администратору
@@ -1132,11 +1187,15 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
         {
           if (nagruzka_row.selected)
           {
+            // CL(nagruzka_row);
             SaveNagruzkaStatus(nagruzka_row, 'write_admin_comment');
           }
         });
       }
     }
+    else return;
+
+    $scope.group_action.action = undefined;
   }
 
   function SaveNagruzkaStatus(nagruzka_row, new_status)
@@ -1145,9 +1204,14 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
                 .then(function(data)
                 {
                   if (data.data.result == 'success')
-
                   {
                     nagruzka_row.status = new_status;
+
+                    if (new_status == 'write_admin_comment')
+                    {
+                      nagruzka_row.comment_to_admin = $scope.group_action.message;
+                    }
+
                     toastr.success("Данные сохранены");
 
                     $scope.nagruzka.forEach(nagruzka_row => 
@@ -1156,6 +1220,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
                     });
 
                     $scope.group_action.action = undefined;
+                    $scope.group_action.message = '';
                   }
                   else
                   {
@@ -1542,6 +1607,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
   $scope.selectedChairComment = null;
   $scope.chairComments = [];
   $scope.isFiltering = false;
+  $scope.viewState = 'chairs'; // 'chairs' or 'table'
 
   function buildAdminChangeChairs(rows)
   {
@@ -1640,77 +1706,39 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
     }
   }
 
-$scope.toggleAdminChangeChair = function(chair)
-{
-  $scope.chairComments = [];
-  
-  if (!chair) return;
+  $scope.toggleAdminChangeChair = function(chair) {
+    if (!chair) return;
 
-  $scope.ClearGreenTableFilters($scope.dtInstance, $scope.filter_distinct);
-
-  // Очищаем фильтры перед сменой данных
-  $('#DataTables_Table_nagruzka_to_change tfoot th').each(function() {
-    $(this).find('select, input').remove();
-  });
-
-  $scope.isFiltering = true;
-
-  $timeout(function() {
-    CL('evalAsync');
-    CL($scope.isFiltering);
-
-    if ($scope.selectedAdminChangeChair && $scope.selectedAdminChangeChair.chair_id === chair.chair_id)
-    {
+    if ($scope.selectedAdminChangeChair && $scope.selectedAdminChangeChair.chair_id === chair.chair_id) {
       $scope.selectedAdminChangeChair = null;
-      $scope.selectedChairComment = null;
       $scope.chairComments = [];
-    }
-    else
-    {
+    } else {
       $scope.selectedAdminChangeChair = chair;
-      $scope.selectedChairComment = null;
       $scope.chairComments = buildChairComments(
-        $scope.allNagruzka.filter(function(row)
-        {
+        $scope.allNagruzka.filter(function(row) {
           return row.chair_id == chair.chair_id;
         })
       );
     }
+  };
+
+  $scope.toggleChairComment = function(comment) {
+
+    CL('toggleChairComment');
+
+    if (!comment || !$scope.selectedAdminChangeChair) return;
+
+    $scope.selectedChairComment = comment;
     applyFilters();
-    $scope.isFiltering = false;
+    $scope.viewState = 'table';
+  };
 
-    // Перерисовываем таблицу, чтобы сработал drawCallback
-    if ($scope.dtInstance.DataTable) {
-      $scope.dtInstance.DataTable.draw();
-    }
-  }, 0);
-};
-
-$scope.toggleChairComment = function(comment)
-{
-  if (!comment || !$scope.selectedAdminChangeChair) return;
-
-  $scope.ClearGreenTableFilters($scope.dtInstance, $scope.filter_distinct);
-
-  $scope.isFiltering = true;
-  $scope.$evalAsync(function() {
-    if ($scope.selectedChairComment && $scope.selectedChairComment.key === comment.key)
-    {
-      $scope.selectedChairComment = null;
-    }
-    else
-    {
-      $scope.selectedChairComment = comment;
-    }
+  $scope.showChairs = function() {
+    $scope.viewState = 'chairs';
+    $scope.selectedAdminChangeChair = null;
+    $scope.selectedChairComment = null;
     applyFilters();
-    $scope.isFiltering = false;
-
-    if ($scope.dtInstance.DataTable) {
-      $scope.dtInstance.DataTable.columns.adjust().draw();
-      angular.element('#DataTables_Table_nagruzka_to_change').trigger('column-visibility.dt');
-    }
-  });
-};
+  };
 
   const columns = [
       null, 
@@ -1800,15 +1828,22 @@ $scope.toggleChairComment = function(comment)
     .withColVis()
     .withColVisOption('aiExclude', [0])
     .withOption('initComplete', function(settings, json) {
+      CL('initComplete');
       $scope.$apply(function() {
         $scope.isLoading = false;
       });
 
-      const table = this.api();
-      createCustomFilters('DataTables_Table_nagruzka_to_change', table, columns);
+      const api = this.api();
+      
+      // Получаем legacy объект (jQuery с плагином) для ClearGreenTableFilters
+      const legacyTable = $(api.table().node()).dataTable();
+      const tempDtInstance = { dataTable: legacyTable };
+      $scope.ClearGreenTableFilters(tempDtInstance, $scope.filter_distinct);
 
-      table.on('column-visibility.dt', function() {
-        createCustomFilters('DataTables_Table_nagruzka_to_change', table, columns);
+      createCustomFilters('DataTables_Table_nagruzka_to_change', api, columns);
+      
+      api.on('column-visibility.dt', function() {
+        createCustomFilters('DataTables_Table_nagruzka_to_change', api, columns);
       });
     });
 

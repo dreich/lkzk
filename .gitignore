@@ -42,3 +42,7 @@ workspace_prefs.txt
 /js/*
 !/js/end.js
 !/js/end.css
+
+log.txt
+PHP_errors.log
+.backup

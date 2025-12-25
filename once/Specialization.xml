@@ -300,6 +300,14 @@
 					<prop_value prop_name="UID_Speciality" value="25031.281474976711227"></prop_value>
 				</Collection>
 			</Object>
+			<Object uid="26001.281474976711421" name="Всеобщая и отечественная история" class_id="Specialization">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26001.281474976711421"></prop_value>
+					<prop_value prop_name="Name" value="Всеобщая и отечественная история"></prop_value>
+					<prop_value prop_name="Code" value="46.03.01"></prop_value>
+					<prop_value prop_name="UID_Speciality" value="25031.281474976710742"></prop_value>
+				</Collection>
+			</Object>
 			<Object uid="26001.281474976711422" name="Мировая экономика" class_id="Specialization">
 				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
 					<prop_value prop_name="UID" value="26001.281474976711422"></prop_value>
@@ -330,6 +338,14 @@
 					<prop_value prop_name="Name" value="Менеджмент международного и внутреннего туризма"></prop_value>
 					<prop_value prop_name="Code" value="43.03.02"></prop_value>
 					<prop_value prop_name="UID_Speciality" value="25031.281474976710741"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26001.281474976711431" name="Информационные системы и технологии в физических исследованиях" class_id="Specialization">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26001.281474976711431"></prop_value>
+					<prop_value prop_name="Name" value="Информационные системы и технологии в физических исследованиях"></prop_value>
+					<prop_value prop_name="Code" value="09.03.02"></prop_value>
+					<prop_value prop_name="UID_Speciality" value="25031.281474976710719"></prop_value>
 				</Collection>
 			</Object>
 			<Object uid="26001.281474976711444" name="Управление бизнесом и финансами" class_id="Specialization">
@@ -1042,6 +1058,30 @@
 					<prop_value prop_name="Name" value="Финансы"></prop_value>
 					<prop_value prop_name="Code" value="38.02.06"></prop_value>
 					<prop_value prop_name="UID_Speciality" value="25031.281474976711507"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26001.281474976711810" name="Математическое моделирование и искусственный интеллект" class_id="Specialization">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26001.281474976711810"></prop_value>
+					<prop_value prop_name="Name" value="Математическое моделирование и искусственный интеллект"></prop_value>
+					<prop_value prop_name="Code" value="01.03.02"></prop_value>
+					<prop_value prop_name="UID_Speciality" value="25031.281474976710721"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26001.281474976711811" name="Системное программирование" class_id="Specialization">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26001.281474976711811"></prop_value>
+					<prop_value prop_name="Name" value="Системное программирование"></prop_value>
+					<prop_value prop_name="Code" value="02.03.02"></prop_value>
+					<prop_value prop_name="UID_Speciality" value="25031.281474976710711"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26001.281474976711812" name="Прикладное и индустриальное программирование" class_id="Specialization">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26001.281474976711812"></prop_value>
+					<prop_value prop_name="Name" value="Прикладное и индустриальное программирование"></prop_value>
+					<prop_value prop_name="Code" value="09.03.04"></prop_value>
+					<prop_value prop_name="UID_Speciality" value="25031.281474976710726"></prop_value>
 				</Collection>
 			</Object>
 		</Collection>

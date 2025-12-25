@@ -2147,3 +2147,7 @@ button.ColVis_Button
 {
   width: 100%;
 }
+
+.chair-comments-table tr {
+  background-color: #fff;
+}

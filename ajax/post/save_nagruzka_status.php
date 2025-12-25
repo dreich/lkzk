@@ -32,9 +32,15 @@ if ($data['status'] && $data['status'] != 'write_admin_comment')
 {
   $Nagruzka = GetRow('nagruzka', ['load_base_UID' => $data['load_base_UID']]);
 
+  if ($data['status'] == 'require_admin_change')
+  {
+    $lecturer_sql = ", `lecturer_fio` = NULL, `lecturer_uid` = NULL, `lecturer_person_id` = NULL";
+  }
+
   $Result = $mysqli->query("
                     UPDATE `nagruzka` 
                     SET `status` = '$data[status]'
+                    $lecturer_sql
                     WHERE `load_base_UID` = '$data[load_base_UID]'");
   // `chair_id` = '$chair_id' AND 
 
@@ -109,7 +115,7 @@ if ($Result)
   $result['result'] = 'success';
   // $result['id'] = $id;
 
-
+  $mysqli->query("UPDATE `nagruzka` SET `comment_to_admin` = '$data[message]' WHERE `load_base_UID` = '$data[load_base_UID]'");
 
   ActivityLog($data['load_base_UID'], $log, $data['message'], $data['status'], 0, $status_change);
 }

@@ -48,15 +48,16 @@ if ($c_roles)
   //       WHERE 1 AND sotrudniki.`chair_id` = '$chair_id'
   //       GROUP BY sotrudniki.person_id
   //       "); 
-
   
 
   $sql = "SELECT `lecturer_fio`, xml_content_of_load.Amount
           FROM `nagruzka` 
-          LEFT JOIN `xml_content_of_load` ON nagruzka.`load_base_UID` = xml_content_of_load.`base_uid`
+          JOIN `xml_content_of_load` ON nagruzka.`load_base_UID` = xml_content_of_load.`base_uid`
           WHERE 1 $dop_sql";
 
   $Nagruzka = GetSQL($sql);
+
+  EchoLog($sql);
 
    $stats = [
         'discipline' =>

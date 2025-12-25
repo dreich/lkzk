@@ -1,30 +1,22 @@
 <style>
   .admin-change-cards-wrapper {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
+    display: block;
     margin-bottom: 16px;
   }
 
   .admin-change-card {
-    flex: 1 1 260px;
-    min-width: 220px;
     background: #f9fafc;
     border: 1px solid #dfe3ea;
     border-radius: 10px;
-    padding: 16px;
-
+    padding: 8px;
     cursor: pointer;
-    transition: box-shadow 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+    transition: box-shadow 0.15s ease, border-color 0.15s ease;
+    margin-bottom: 6px;
   }
 
   .admin-change-card:hover {
     box-shadow: 0 6px 18px rgba(25, 59, 104, 0.12);
     border-color: #b7c4d8;
-    transform: translateY(-2px);
   }
 
   .admin-change-card.active {
@@ -33,18 +25,15 @@
     background: #f4f8ff;
   }
 
+  .admin-change-card-header {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+  }
+
   .admin-change-card__title {
     font-weight: 600;
     color: #20304a;
-    margin-bottom: 8px;
-  }
-
-  .admin-change-card__count {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 13px;
-    color: #4c5c74;
   }
 
   .admin-change-card__count-bubble {
@@ -59,7 +48,7 @@
     width: 100%;
     border-collapse: separate;
     border-spacing: 0;
-    margin-bottom: 20px;
+    margin-top: 16px;
     border: 1px solid #dfe3ea;
     border-radius: 8px;
     overflow: hidden;
@@ -91,59 +80,129 @@
   .chair-comments-table tr.active {
     background: #f0f6ff;
   }
-
-  @media (max-width: 768px) {
-    .admin-change-card {
-      flex: 1 1 100%;
-    }
-  }
 </style>
 
-<div class="admin-change-cards-wrapper" ng-if="adminChangeChairs.length">
-  <div class="admin-change-card"
-       ng-repeat="chair in adminChangeChairs"
-       ng-class="{'active': selectedAdminChangeChair && selectedAdminChangeChair.chair_id === chair.chair_id}"
-       ng-click="toggleAdminChangeChair(chair)">
-    <div class="admin-change-card__title">{{chair.chair_name}}</div>
-    <div class="admin-change-card__count">
-      <span>Запросов:</span>
-      <span class="admin-change-card__count-bubble">{{chair.count}}</span>
+<div ng-switch on="viewState">
+
+  <div ng-switch-when="chairs">
+    <div class="admin-change-cards-wrapper w-50" ng-if="adminChangeChairs.length">
+      <div class="admin-change-card"
+           ng-repeat="chair in adminChangeChairs"
+           ng-class="{'active': selectedAdminChangeChair && selectedAdminChangeChair.chair_id === chair.chair_id}"
+           ng-click="toggleAdminChangeChair(chair)">
+        <div class="admin-change-card-header">
+          <div class="admin-change-card__title">{{chair.chair_name}}</div>
+          <div class="admin-change-card__count-bubble">{{chair.count}}</div>
+        </div>
+
+        <div ng-if="selectedAdminChangeChair && selectedAdminChangeChair.chair_id === chair.chair_id">
+          <div ng-if="!chairComments.length" class="alert alert-info py-2 mt-3">
+            Для выбранной кафедры нет сохранённых комментариев.
+          </div>
+          <div ng-if="chairComments.length">
+            <table class="chair-comments-table">
+              <thead>
+                <tr>
+                  <th>Дата</th>
+                  <th>Комментарий</th>
+                  <th style="width:90px">Строк</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="comment in chairComments"
+                    ng-class="{'active': selectedChairComment && selectedChairComment.key === comment.key}"
+                    ng-click="toggleChairComment(comment); $event.stopPropagation();">
+                  <td>{{comment.dateFormatted}}</td>
+                  <td>{{comment.messageRaw || 'Комментарий не указан'}}</td>
+                  <td>{{comment.count}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
+
+  <div ng-switch-when="table">
+    <button class="btn btn-secondary mb-3" ng-click="showChairs()">Назад к списку кафедр</button>
+    <table id="DataTables_Table_nagruzka_to_change" datatable="ng" dt-options="dtOptions"  dt-column-defs="dtColumnDefs" dt-instance="dtInstance" class="dataTable row-border hover display table "  style='margin: 0 0 ;width:100%;'>
+      <thead>
+        <tr>
+          <th style="width: 20px" ng-if="system_mode != 'mode_archive'"></th>
+          <th>Факультет</th>
+          <th>Кафедра</th>
+          <th>Аббр</th>
+          <th>Дисциплина</th>
+          <th>Группа</th>
+          <th>Уровень образования</th>
+          <th>Направление подготовки</th>
+          <th>Язык программы</th>
+          <th>Форма обучения</th>
+          <th>Семестр</th>
+          <th>Количество студентов</th>
+          <th>Вид работ</th>
+          <th>Профиль/направленность программы</th>
+          <th>Курс</th>
+          <th>Количество часов</th>
+        </tr>
+      </thead>
+
+      <tbody ng-hide="isFiltering">
+        <tr ng-repeat="row in filteredNagruzka" ng-show="row.status == 'require_admin_change'" >
+          <td ng-if="system_mode != 'mode_archive'">
+            <button class="btn btn-primary btn-xs" ng-click="UOUPDeclineToChange(row)">Отклонить</button>
+            <button class="btn btn-success btn-xs mt-1" ng-click="UOUPDoneToChange(row)">Выполнено</button>
+          </td>
+          <td ng-click="NagruzkaRowClick(row); $event.stopPropagation()">{{row.department_name}}</td>
+          <td ng-click="NagruzkaRowClick(row); $event.stopPropagation()">{{row.chair_name}}</td>
+          <td ng-bind-html="row.Abbr" ng-click="NagruzkaRowClick(row); $event.stopPropagation()">
+          </td>
+          <td ng-bind-html="row.discipline_name" ng-click="NagruzkaRowClick(row); $event.stopPropagation()">
+          </td>
+          <td ng-bind-html="row.group_name" ng-click="NagruzkaRowClick(row); $event.stopPropagation()">
+          </td>
+          <td ng-click="NagruzkaRowClick(row); $event.stopPropagation()">{{row.education_level}}</td>
+          <td ng-click="NagruzkaRowClick(row); $event.stopPropagation()">{{row.napravlenie}}</td>
+          <td ng-click="NagruzkaRowClick(row); $event.stopPropagation()">{{row.language}}</td>
+          <td ng-click="NagruzkaRowClick(row); $event.stopPropagation()">{{row.form_obuchenia}}</td>
+          <td ng-click="NagruzkaRowClick(row); $event.stopPropagation()">{{row.UID_Semester}}</td>
+          <td ng-click="NagruzkaRowClick(row); $event.stopPropagation()">{{row.StudentAmount}}</td>
+          <td ng-click="NagruzkaRowClick(row); $event.stopPropagation()">{{row.kind_of_work}}</td>
+          <td ng-click="NagruzkaRowClick(row); $event.stopPropagation()">{{row.napravlennost}}</td>
+          <td ng-click="NagruzkaRowClick(row); $event.stopPropagation()">{{row.UID_Course}}</td>
+          <td ng-click="NagruzkaRowClick(row); $event.stopPropagation()">{{row.amount}}</td>
+        </tr>
+      </tbody>
+
+      <tfoot>
+        <tr>
+          <th ind="0"  ng-if="system_mode != 'mode_archive'">
+          </th>
+          <th ind="1"></th>
+          <th ind="2"></th>
+          <th ind="3"></th>
+          <th ind="4"></th>   
+          <th ind="5"></th>
+          <th ind="6"></th>
+          <th ind="7"></th>
+          <th ind="8"></th>
+          <th ind="9"></th>
+          <th ind="10"></th>
+          <th ind="11"></th>
+          <th ind="12"></th>
+          <th ind="13"></th>
+          <th ind="14"></th>
+          <th ind="15"></th>
+        </tr>
+      </tfoot>
+    </table>
+    <a ng-click="ClearGreenTableFilters(dtInstance, filter_distinct)" class="link pointer" style="float:right">сбросить фильтры</a>
   </div>
 </div>
 
-<div ng-if="selectedAdminChangeChair && !chairComments.length && !isFiltering" class="alert alert-info py-2">
-  Для выбранной кафедры нет сохранённых комментариев.
-</div>
+<!--
 
-<div ng-if="chairComments.length">
-  <table class="chair-comments-table w-50">
-    <thead>
-      <tr>
-        <th>Дата</th>
-        <th>Комментарий</th>
-        <th style="width:90px">Строк</th>
-      </tr>
-    </thead>
-    <tbody ng-hide="isFiltering">
-      <tr ng-repeat="comment in chairComments"
-          ng-class="{'active': selectedChairComment && selectedChairComment.key === comment.key}"
-          ng-click="toggleChairComment(comment)">
-        <td>{{comment.dateFormatted}}</td>
-        <td>{{comment.messageRaw || 'Комментарий не указан'}}</td>
-        <td>{{comment.count}}</td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-
-<table id="DataTables_Table_nagruzka_to_change" datatable="ng" dt-options="dtOptions"  dt-column-defs="dtColumnDefs" dt-instance="dtInstance" class="dataTable row-border hover display table "  style='margin: 0 0 ;width:100%; '  ng-hide="isFiltering">
-  <thead>
-    <tr>
-      <th style="width: 20px" ng-if="system_mode != 'mode_archive'"></th>
-      <th>Факультет</th>
-      <th>Кафедра</th>
-      <th>Аббр</th>
       <th>Дисциплина</th>
       <th>Группа</th>
       <th>Уровень образования</th>
@@ -156,20 +215,18 @@
       <th>Профиль/направленность программы</th>
       <th>Курс</th>
       <th>Количество часов</th>
-      <!-- <th>Преподаватель</th> -->
-      <!-- <th></th> -->
-      <!-- <th></th> -->
+
 
     </tr>
   </thead>
 
   <tbody ng-hide="isFiltering">
     <tr ng-repeat="row in filteredNagruzka" ng-show="row.status == 'require_admin_change'" >
-      <!-- | orderBy:['-selected', 'type', 'fio'] -->
+
       <td ng-if="system_mode != 'mode_archive'">
         <button class="btn btn-primary btn-xs" ng-click="UOUPDeclineToChange(row)">Отклонить</button>
         <button class="btn btn-success btn-xs mt-1" ng-click="UOUPDoneToChange(row)">Выполнено</button>
-        <!-- {{row.base_uid}} -->
+
       </td>
       <td ng-click="NagruzkaRowClick(row); $event.stopPropagation()">{{row.department_name}}</td>
       <td ng-click="NagruzkaRowClick(row); $event.stopPropagation()">{{row.chair_name}}</td>
@@ -189,9 +246,7 @@
       <td ng-click="NagruzkaRowClick(row); $event.stopPropagation()">{{row.napravlennost}}</td>
       <td ng-click="NagruzkaRowClick(row); $event.stopPropagation()">{{row.UID_Course}}</td>
       <td ng-click="NagruzkaRowClick(row); $event.stopPropagation()">{{row.amount}}</td>
-<!--       <td>
-        {{row.lecturer_fio}}
-      </td> -->
+
 
     </tr>
 
@@ -216,7 +271,7 @@
         <th ind="13"></th>
         <th ind="14"></th>
         <th ind="15"></th>
-        <!-- <th></th> -->
+
       </tr>
     </tfoot>
 
@@ -224,3 +279,5 @@
   </table>
 
   <a ng-click="ClearGreenTableFilters(dtInstance, filter_distinct)" class="link pointer" style="float:right">сбросить фильтры</a>
+
+-->

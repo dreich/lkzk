@@ -12,7 +12,10 @@
         <th>ФИО</th>
         <th>должность</th>
         <th>тип</th>
-        <th>нагрузка (сумма нагрузки на этого сотрудника)</th>
+        <th>ставка</th>
+        <th>ПКГ - ПКУ</th>
+        <th>нагрузка общая</th>
+        <th>нагрузка аудиторная</th>
       </tr>
     </thead>
 
@@ -41,8 +44,15 @@
             </select> -->
 
         </td>
+        <td>{{person.stavka}}</td>
+        <td>
+          <span ng-if="person.pku">{{person.pkg}} - {{person.pku}}</span>
+        </td>
         <td>
           {{person.amount_sum}}
+        </td>
+        <td>
+          {{person.amount_sum_auditorium > 0 ? person.amount_sum_auditorium : ''}}
         </td>
       </tr>
 
@@ -59,6 +69,9 @@
               <option value=""></option>
             </select> -->
           </th>
+          <th></th>
+          <th></th>
+          <th></th>
           <th></th>
           <th></th>
         </tr>
