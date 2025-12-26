@@ -621,3 +621,111 @@
           FROM `nagruzka` 
           JOIN `xml_content_of_load` ON nagruzka.`load_base_UID` = xml_content_of_load.`base_uid`
           WHERE 1 AND chair_id = '02896'[/ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=02896] [Chrome 143.0.0.0] [127.0.0.1]
+[25.12.2025 - 16:12.23] SELECT `lecturer_fio`, xml_content_of_load.Amount
+          FROM `nagruzka` 
+          JOIN `xml_content_of_load` ON nagruzka.`load_base_UID` = xml_content_of_load.`base_uid`
+          WHERE 1 AND chair_id = '02896'[/ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=02896] [Chrome 143.0.0.0] [127.0.0.1]
+[25.12.2025 - 16:13.10] SELECT `lecturer_fio`, xml_content_of_load.Amount
+          FROM `nagruzka` 
+          JOIN `xml_content_of_load` ON nagruzka.`load_base_UID` = xml_content_of_load.`base_uid`
+          WHERE 1 AND chair_id = '02896'[/ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=02896] [Chrome 143.0.0.0] [127.0.0.1]
+[25.12.2025 - 16:16.16] SELECT `lecturer_fio`, xml_content_of_load.Amount
+          FROM `nagruzka` 
+          JOIN `xml_content_of_load` ON nagruzka.`load_base_UID` = xml_content_of_load.`base_uid`
+          WHERE 1 AND chair_id = '02896'[/ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=02896] [Chrome 143.0.0.0] [127.0.0.1]
+[25.12.2025 - 16:17.38] SELECT `lecturer_fio`, xml_content_of_load.Amount
+          FROM `nagruzka` 
+          JOIN `xml_content_of_load` ON nagruzka.`load_base_UID` = xml_content_of_load.`base_uid`
+          WHERE 1 AND chair_id = '02896'[/ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=02896] [Chrome 143.0.0.0] [127.0.0.1]
+[25.12.2025 - 16:17.58] SELECT `lecturer_fio`, xml_content_of_load.Amount
+          FROM `nagruzka` 
+          JOIN `xml_content_of_load` ON nagruzka.`load_base_UID` = xml_content_of_load.`base_uid`
+          WHERE 1 AND chair_id = '02896'[/ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=02896] [Chrome 143.0.0.0] [127.0.0.1]
+[25.12.2025 - 16:18.22] SELECT `lecturer_fio`, xml_content_of_load.Amount
+          FROM `nagruzka` 
+          JOIN `xml_content_of_load` ON nagruzka.`load_base_UID` = xml_content_of_load.`base_uid`
+          WHERE 1 AND chair_id = '02896'[/ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=02896] [Chrome 143.0.0.0] [127.0.0.1]
+[25.12.2025 - 16:19.03] SELECT `lecturer_fio`, xml_content_of_load.Amount
+          FROM `nagruzka` 
+          JOIN `xml_content_of_load` ON nagruzka.`load_base_UID` = xml_content_of_load.`base_uid`
+          WHERE 1 AND chair_id = '02896'[/ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=02896] [Chrome 143.0.0.0] [127.0.0.1]
+[25.12.2025 - 16:19.18] SELECT `lecturer_fio`, xml_content_of_load.Amount
+          FROM `nagruzka` 
+          JOIN `xml_content_of_load` ON nagruzka.`load_base_UID` = xml_content_of_load.`base_uid`
+          WHERE 1 AND chair_id = '02896'[/ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=02896] [Chrome 143.0.0.0] [127.0.0.1]
+[25.12.2025 - 16:27.55] SELECT `lecturer_fio`, xml_content_of_load.Amount
+          FROM `nagruzka` 
+          JOIN `xml_content_of_load` ON nagruzka.`load_base_UID` = xml_content_of_load.`base_uid`
+          WHERE 1 AND chair_id = '02896'[/ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=02896] [Chrome 143.0.0.0] [127.0.0.1]
+[25.12.2025 - 17:09.24] SELECT `lecturer_fio`, xml_content_of_load.Amount
+          FROM `nagruzka` 
+          JOIN `xml_content_of_load` ON nagruzka.`load_base_UID` = xml_content_of_load.`base_uid`
+          WHERE 1 AND chair_id = '02896'[/ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=02896] [Chrome 143.0.0.0] [127.0.0.1]
+[25.12.2025 - 17:13.12] SELECT `lecturer_fio`, xml_content_of_load.Amount
+          FROM `nagruzka` 
+          JOIN `xml_content_of_load` ON nagruzka.`load_base_UID` = xml_content_of_load.`base_uid`
+          WHERE 1 AND chair_id = '02896'[/ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=02896] [Chrome 143.0.0.0] [127.0.0.1]
+[25.12.2025 - 17:13.24] SELECT `lecturer_fio`, xml_content_of_load.Amount
+          FROM `nagruzka` 
+          JOIN `xml_content_of_load` ON nagruzka.`load_base_UID` = xml_content_of_load.`base_uid`
+          WHERE 1 AND chair_id = '02896'[/ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=02896] [Chrome 143.0.0.0] [127.0.0.1]
+[25.12.2025 - 17:13.30] SELECT `lecturer_fio`, xml_content_of_load.Amount
+          FROM `nagruzka` 
+          JOIN `xml_content_of_load` ON nagruzka.`load_base_UID` = xml_content_of_load.`base_uid`
+          WHERE 1 AND chair_id = '02896'[/ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=02896] [Chrome 143.0.0.0] [127.0.0.1]
+[25.12.2025 - 17:16.09] SELECT `lecturer_fio`, xml_content_of_load.Amount
+          FROM `nagruzka` 
+          JOIN `xml_content_of_load` ON nagruzka.`load_base_UID` = xml_content_of_load.`base_uid`
+          WHERE 1 AND chair_id = '02896'[/ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=02896] [Chrome 143.0.0.0] [127.0.0.1]
+[25.12.2025 - 17:16.28] SELECT `lecturer_fio`, xml_content_of_load.Amount
+          FROM `nagruzka` 
+          JOIN `xml_content_of_load` ON nagruzka.`load_base_UID` = xml_content_of_load.`base_uid`
+          WHERE 1 AND chair_id = '02896'[/ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=02896] [Chrome 143.0.0.0] [127.0.0.1]
+[25.12.2025 - 17:17.04] SELECT `lecturer_fio`, xml_content_of_load.Amount
+          FROM `nagruzka` 
+          JOIN `xml_content_of_load` ON nagruzka.`load_base_UID` = xml_content_of_load.`base_uid`
+          WHERE 1 AND chair_id = '02896'[/ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=02896] [Chrome 143.0.0.0] [127.0.0.1]
+[26.12.2025 - 10:21.56] SELECT `lecturer_fio`, xml_content_of_load.Amount
+          FROM `nagruzka` 
+          JOIN `xml_content_of_load` ON nagruzka.`load_base_UID` = xml_content_of_load.`base_uid`
+          WHERE 1 AND chair_id = '02896'[/ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=02896] [Chrome 143.0.0.0] [127.0.0.1]
+[26.12.2025 - 10:22.07] SELECT `lecturer_fio`, xml_content_of_load.Amount
+          FROM `nagruzka` 
+          JOIN `xml_content_of_load` ON nagruzka.`load_base_UID` = xml_content_of_load.`base_uid`
+          WHERE 1 AND chair_id = '02896'[/ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=02896] [Chrome 143.0.0.0] [127.0.0.1]
+[26.12.2025 - 10:22.18] SELECT `lecturer_fio`, xml_content_of_load.Amount
+          FROM `nagruzka` 
+          JOIN `xml_content_of_load` ON nagruzka.`load_base_UID` = xml_content_of_load.`base_uid`
+          WHERE 1 AND chair_id = '02896'[/ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=02896] [Chrome 143.0.0.0] [127.0.0.1]
+[26.12.2025 - 10:28.49] SELECT `lecturer_fio`, xml_content_of_load.Amount
+          FROM `nagruzka` 
+          JOIN `xml_content_of_load` ON nagruzka.`load_base_UID` = xml_content_of_load.`base_uid`
+          WHERE 1 AND chair_id = '02896'[/ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=02896] [Chrome 143.0.0.0] [127.0.0.1]
+[26.12.2025 - 10:31.41] SELECT `lecturer_fio`, xml_content_of_load.Amount
+          FROM `nagruzka` 
+          JOIN `xml_content_of_load` ON nagruzka.`load_base_UID` = xml_content_of_load.`base_uid`
+          WHERE 1 AND chair_id = '02896'[/ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=02896] [Chrome 143.0.0.0] [127.0.0.1]
+[26.12.2025 - 10:45.35] SELECT `lecturer_fio`, xml_content_of_load.Amount
+          FROM `nagruzka` 
+          JOIN `xml_content_of_load` ON nagruzka.`load_base_UID` = xml_content_of_load.`base_uid`
+          WHERE 1 AND chair_id = '02896'[/ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=02896] [Chrome 143.0.0.0] [127.0.0.1]
+[26.12.2025 - 10:46.16] SELECT `lecturer_fio`, xml_content_of_load.Amount
+          FROM `nagruzka` 
+          JOIN `xml_content_of_load` ON nagruzka.`load_base_UID` = xml_content_of_load.`base_uid`
+          WHERE 1 AND chair_id = '02896'[/ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=02896] [Chrome 143.0.0.0] [127.0.0.1]
+[26.12.2025 - 10:46.35] SELECT `lecturer_fio`, xml_content_of_load.Amount
+          FROM `nagruzka` 
+          JOIN `xml_content_of_load` ON nagruzka.`load_base_UID` = xml_content_of_load.`base_uid`
+          WHERE 1 AND chair_id = '02896'[/ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=02896] [Chrome 143.0.0.0] [127.0.0.1]
+[26.12.2025 - 10:48.05] SELECT `lecturer_fio`, xml_content_of_load.Amount
+          FROM `nagruzka` 
+          JOIN `xml_content_of_load` ON nagruzka.`load_base_UID` = xml_content_of_load.`base_uid`
+          WHERE 1 AND chair_id = '02896'[/ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=02896] [Chrome 143.0.0.0] [127.0.0.1]
+[26.12.2025 - 10:48.42] SELECT `lecturer_fio`, xml_content_of_load.Amount
+          FROM `nagruzka` 
+          JOIN `xml_content_of_load` ON nagruzka.`load_base_UID` = xml_content_of_load.`base_uid`
+          WHERE 1 AND chair_id = '02896'[/ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=02896] [Chrome 143.0.0.0] [127.0.0.1]
+[26.12.2025 - 10:51.55] SELECT `lecturer_fio`, xml_content_of_load.Amount
+          FROM `nagruzka` 
+          JOIN `xml_content_of_load` ON nagruzka.`load_base_UID` = xml_content_of_load.`base_uid`
+          WHERE 1 AND chair_id = '02896'[/ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=02896] [Chrome 143.0.0.0] [127.0.0.1]

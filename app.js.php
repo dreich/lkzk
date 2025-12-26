@@ -117,6 +117,7 @@ function createSelectFilter(column, footerCell)
 }
 
 // columns - описание столбцов таблицы
+/*
 function createCustomFilters(table_id, table, columns) 
 {
   CL('createCustomFilters');
@@ -146,6 +147,63 @@ function createCustomFilters(table_id, table, columns)
         });
     }
   });
+}
+*/
+
+function createCustomFilters(table_id, table, columns) {
+    CL('createCustomFilters');
+    
+    // Очищаем старые фильтры
+    $('#' + table_id + ' tfoot th').each(function() {
+        $(this).find('select, input').remove();
+    });
+
+    // Получаем сохраненное состояние таблицы
+    const state = table.state.loaded();
+    
+    // Проходим по всем видимым колонкам
+    table.columns(':visible').every(function(columnIndex) {
+        const column = this;
+        const columnSettings = columns[columnIndex];
+        const footerCell = $('#' + table_id + ' tfoot th[ind="' + columnIndex + '"]');
+        
+        // Получаем сохраненное значение поиска для колонки
+        let savedSearch = '';
+        if (state && state.columns && state.columns[columnIndex]) {
+            savedSearch = state.columns[columnIndex].search.search || '';
+        }
+
+        if (columnSettings && columnSettings.type === 'select') 
+          {
+            // Создаем селект
+            const select = $('<select class="form-select" style=""></select>')
+                .appendTo(footerCell)
+                .on('change', function() {
+                    column.search(this.value).draw();
+                });
+
+                // Добавляем пустую опцию
+            $('<option value=""></option>').appendTo(select);
+            
+            // Заполняем опции из данных таблицы
+            column.data().unique().sort().each(function(d) {
+                if (d) {
+                    $('<option value="' + d + '">' + d + '</option>').appendTo(select);
+                }
+            });
+        } 
+        else if (columnSettings && columnSettings.type === 'input') {
+            // Для инпутов
+            const input = $('<input class="form-control" type="text" />')
+                .appendTo(footerCell)
+                .val(savedSearch) // Устанавливаем сохраненное значение
+                .on('keyup change', function() {
+                    if(column.search() !== this.value) {
+                        column.search(this.value).draw();
+                    }
+                });
+        }
+    });
 }
 
 
@@ -819,13 +877,50 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
       $scope.dtInstance = dtInstance; // если нужно хранить ссылку
       const table = dtInstance.DataTable;
       createCustomFilters('DataTables_Table_nagruzka', table, columns);
+
       table.on('column-visibility.dt', function () {
           createCustomFilters('DataTables_Table_nagruzka', table, columns);
       });
+
+      // Обработчик отрисовки таблицы (включая фильтрацию)
+      table.on('draw.dt', function() {
+        CL('draw.dt - table redrawn');
+        const filteredData = table.rows({ search: 'applied' }).data().toArray();
+        $scope.$applyAsync(() => {
+          $scope.filteredData = filteredData;
+          CL('Filtered data updated:', filteredData.length, 'items');
+          CL($scope.filteredData.length);
+        });
+      });
+      
+      // Инициализация filteredData при первой загрузке
+      $scope.$applyAsync(() => 
+      {
+        CL('applyAsync');
+        $scope.filteredData = table.rows({ search: 'applied' }).data().toArray();
+        
+      });
     };
 
-    
 
+
+  }
+
+  $scope.GetNagruzkaAmountSum = function()
+  {
+    if ($scope.filteredData)
+    {
+      
+      const filteredData = $scope.filteredData.map(item => parseFloat(item[14]));
+
+      // const filteredData = $scope.filteredData.filter(item => typeof item.amount === 'number');
+
+      // CL(filteredData);
+      
+      return roundToTwo(filteredData.reduce((sum, item) => sum + item, 0));
+
+
+    }
   }
 
   
