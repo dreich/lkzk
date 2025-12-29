@@ -21,6 +21,7 @@ include '../../functions.php';
 
 
 $chair_id = $_SESSION['c_chair_id'];
+$department_id = $_SESSION['c_department_id'];
 
 // $position_table_name = "position" . date('Y');
 
@@ -32,12 +33,16 @@ $chair_id = $_SESSION['c_chair_id'];
 //                 ");
 
 // $Sotrudniki = GetRows('sotrudniki', ['chair_id' => $chair_id]);
+
 // TypeWorkload Тип нагрузки:
 // 0 — аудиторная
 // 1 — неаудиторная
 // Amount - кол-во часов нагрузки
 
-$Sotrudniki = GetSQL("
+// Т.к. сотрудники ГПХ в таблице sotrudniki привязаны не к кафедре, а факультету, то будем их брать по факультету авторизованного завкафа,
+// а не ГПХ-шников будем искать по кафедре
+
+$query = "
         SELECT sotrudniki.*, 
         ROUND(SUM(xml_content_of_load.Amount), 2) as amount_sum, 
         ROUND(SUM(CASE WHEN xml_content_of_load.TypeWorkload = '0' 
@@ -46,9 +51,16 @@ $Sotrudniki = GetSQL("
         FROM `sotrudniki`
         LEFT JOIN nagruzka ON sotrudniki.person_id = nagruzka.lecturer_person_id
         LEFT JOIN `xml_content_of_load` ON nagruzka.`load_base_UID` = xml_content_of_load.`base_uid`
-        WHERE sotrudniki.`chair_id` = '$chair_id'
+        WHERE 
+        ((sotrudniki.`type` <> 'gph' AND sotrudniki.`chair_id` = '$chair_id') OR (sotrudniki.`type` = 'gph' AND sotrudniki.`department_id` = '$department_id'))
+        # sotrudniki.`chair_id` = '$chair_id' 
+        AND `date_remove` IS NULL
         GROUP BY sotrudniki.person_id
-        "); 
+        ";
+
+// EchoLog($query);
+
+$Sotrudniki = GetSQL($query); 
 
 
 if ($Sotrudniki)

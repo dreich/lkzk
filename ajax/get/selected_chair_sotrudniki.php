@@ -22,6 +22,7 @@ include '../../functions.php';
 
 
 $chair_id = $_SESSION['c_chair_id'];
+$department_id = $_SESSION['c_department_id'];
 $s = quote_smart($_GET['s']);
 // $fio_array = explode(' ', $s);
 // $fio_array = quote_smart($fio_array);
@@ -39,7 +40,10 @@ $s = quote_smart($_GET['s']);
 //                   WHERE $position_table_name.`podrazdelenia_chain` LIKE('%|$chair_id|%')
 //                 ");
 
-$Sotrudniki = GetTable('sotrudniki', "`chair_id` = '$chair_id' AND  `selected` = '1' AND `fio` LIKE ('%$s%')");
+// Т.к. сотрудники ГПХ в таблице sotrudniki привязаны не к кафедре, а факультету, то будем их брать по факультету авторизованного завкафа,
+// а не ГПХ-шников будем искать по кафедре
+
+$Sotrudniki = GetTable('sotrudniki', "((`type` <> 'gph' AND `chair_id` = '$chair_id') OR (`type` = 'gph' AND `department_id` = '$department_id')) AND  `selected` = '1' AND `date_remove` IS NULL AND `fio` LIKE ('%$s%')");
 
 if (mb_stripos($s, 'Вак') === 0)
 {

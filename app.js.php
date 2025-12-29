@@ -150,60 +150,126 @@ function createCustomFilters(table_id, table, columns)
 }
 */
 
-function createCustomFilters(table_id, table, columns) {
-    CL('createCustomFilters');
+// function createCustomFilters(table_id, table, columns) {
+//     CL('createCustomFilters');
     
-    // Очищаем старые фильтры
-    $('#' + table_id + ' tfoot th').each(function() {
-        $(this).find('select, input').remove();
-    });
+//     // Очищаем старые фильтры
+//     $('#' + table_id + ' tfoot th').each(function() {
+//         $(this).find('select, input').remove();
+//     });
 
-    // Получаем сохраненное состояние таблицы
-    const state = table.state.loaded();
+//     // Получаем сохраненное состояние таблицы
+//     const state = table.state.loaded();
     
-    // Проходим по всем видимым колонкам
-    table.columns(':visible').every(function(columnIndex) {
-        const column = this;
-        const columnSettings = columns[columnIndex];
-        const footerCell = $('#' + table_id + ' tfoot th[ind="' + columnIndex + '"]');
+//     // Проходим по всем видимым колонкам
+//     table.columns(':visible').every(function(columnIndex) {
+//         const column = this;
+//         const columnSettings = columns[columnIndex];
+//         const footerCell = $('#' + table_id + ' tfoot th[ind="' + columnIndex + '"]');
         
-        // Получаем сохраненное значение поиска для колонки
-        let savedSearch = '';
-        if (state && state.columns && state.columns[columnIndex]) {
-            savedSearch = state.columns[columnIndex].search.search || '';
-        }
+//         // Получаем сохраненное значение поиска для колонки
+//         let savedSearch = '';
+//         if (state && state.columns && state.columns[columnIndex]) {
+//             savedSearch = state.columns[columnIndex].search.search || '';
+//         }
 
-        if (columnSettings && columnSettings.type === 'select') 
-          {
-            // Создаем селект
-            const select = $('<select class="form-select" style=""></select>')
-                .appendTo(footerCell)
-                .on('change', function() {
-                    column.search(this.value).draw();
-                });
+//         if (columnSettings && columnSettings.type === 'select') 
+//         {
+//             // Создаем селект
+//             const select = $('<select class="form-select" style=""></select>')
+//                 .appendTo(footerCell)
+//                 .on('change', function() {
+//                     column.search(this.value).draw();
+//                 });
 
-                // Добавляем пустую опцию
-            $('<option value=""></option>').appendTo(select);
+//                 // Добавляем пустую опцию
+//             $('<option value=""></option>').appendTo(select);
             
-            // Заполняем опции из данных таблицы
-            column.data().unique().sort().each(function(d) {
-                if (d) {
-                    $('<option value="' + d + '">' + d + '</option>').appendTo(select);
-                }
-            });
-        } 
-        else if (columnSettings && columnSettings.type === 'input') {
-            // Для инпутов
-            const input = $('<input class="form-control" type="text" />')
-                .appendTo(footerCell)
-                .val(savedSearch) // Устанавливаем сохраненное значение
-                .on('keyup change', function() {
-                    if(column.search() !== this.value) {
-                        column.search(this.value).draw();
-                    }
-                });
+//             // Заполняем опции из данных таблицы
+//             column.data().unique().sort().each(function(d) {
+//                 if (d) {
+//                     $('<option value="' + d + '">' + d + '</option>').appendTo(select);
+//                 }
+//             });
+
+//             // Устанавливаем сохраненное значение
+//       if (savedSearch) {
+//         select.val(savedSearch);
+//       }
+//         } 
+//         else if (columnSettings && columnSettings.type === 'input') {
+//             // Для инпутов
+//             const input = $('<input class="form-control" type="text" />')
+//                 .appendTo(footerCell)
+//                 .val(savedSearch) // Устанавливаем сохраненное значение
+//                 .on('keyup change', function() {
+//                     if(column.search() !== this.value) {
+//                         column.search(this.value).draw();
+//                     }
+//                 });
+//         }
+//     });
+// }
+
+function createCustomFilters(table_id, table, columns) 
+{
+  CL('createCustomFilters');
+  
+  // Очищаем старые фильтры перед созданием новых
+  $('#' + table_id + ' tfoot th').each(function() {
+    $(this).find('select, input').remove();
+  });
+
+  // Получаем сохраненное состояние таблицы
+  const state = table.state.loaded();
+  
+  table.columns(':visible').every(function(columnIndex) {
+    const column = this;
+    const footerCell = $('#' + table_id + ' tfoot th[ind="' + columnIndex + '"]');
+    const colSettings = columns[columnIndex];
+
+    // Получаем сохраненное значение фильтра для колонки
+    let savedSearch = '';
+
+    if (state && state.columns && state.columns[columnIndex] && state.columns[columnIndex].search) {
+      savedSearch = state.columns[columnIndex].search.search || '';
+    }
+
+    if (colSettings && colSettings.type === 'select')
+    {
+      const select = $('<select class="form-select"></select>')
+        .appendTo(footerCell)
+        .on('change', function() {
+          column.search(this.value).draw();
+        });
+
+        // Добавляем пустую опцию
+        $('<option value=""></option>').appendTo(select);
+      
+      // Добавляем опции в селект
+      column.data().unique().sort().each(function(d) {
+        if (d) {
+          $('<option value="' + d + '">' + d + '</option>').appendTo(select);
         }
-    });
+      });
+      
+      // Устанавливаем сохраненное значение
+      if (savedSearch) {
+        select.val(savedSearch);
+      }
+    } 
+    else if (colSettings && colSettings.type === 'input')
+    {
+      const input = $('<input class="search_init text_filter form-control" type="text" />')
+        .appendTo(footerCell)
+        .val(savedSearch)  // Устанавливаем сохраненное значение
+        .on('keyup change', function() {
+          if(column.search() !== this.value) {
+            column.search(this.value).draw();
+          }
+        });
+    }
+  });
 }
 
 
