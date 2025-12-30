@@ -953,6 +953,14 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
         CL('draw.dt - table redrawn');
         const filteredData = table.rows({ search: 'applied' }).data().toArray();
         $scope.$applyAsync(() => {
+
+          // Сбрасываем все чекбоксы
+            if ($scope.nagruzka) {
+                $scope.nagruzka.forEach(item => {
+                    item.selected = false;
+                });
+            }
+            
           $scope.filteredData = filteredData;
           CL('Filtered data updated:', filteredData.length, 'items');
           CL($scope.filteredData.length);
