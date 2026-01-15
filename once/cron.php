@@ -6,7 +6,8 @@ include '../connect/opop2.php';
 
 EchoLog("Start cron");
 
-$LOAD_NEW_DATA = true;
+// $LOAD_NEW_DATA_FROM_NETWORK = true;
+$UPDATE_TABLES = true;
 
 $Napravlenia = GetTable('napravlenia', "", "", "napravlenie");
 
@@ -21,7 +22,7 @@ $xml_content_of_load_columns_for_hash = ['YearOfEducation', 'DateFrom', 'DateTo'
 
 $xml_content_of_load_staff_columns_for_hash = ['TypeOfContingent', 'UID_Group', 'UID_SubGroup', 'Abbr', 'UID_FormOfEducation', 'UID_Speciality', 'UID_Specialization', 'UID_Language', 'UID_FacultyOwner', 'UID_FacultyPerformer'];
 
-function hash_column_values_only($data, $columns) 
+function hash_column_values_only($data, $columns)
 {
   $values = [];
   
@@ -40,31 +41,32 @@ function hash_column_values_only($data, $columns)
 // $hash = hash_column_values_only($data, $xml_content_of_load_staff_columns_for_hash);
 
 // нагрузка до обновления
-$XMLContentOfLoadPrev = GetTable('xml_content_of_load', "", "", "UID", "UID, base_uid, hash");
+$XMLContentOfLoadPrev = GetTable('xml_content_of_load', "", "", "UID", "UID, base_uid, base_uid2, hash");
 
-$XMLContentOfLoadPrevByBaseUID = [];
+$XMLContentOfLoadPrevByBaseUID2 = [];
 
 if ($XMLContentOfLoadPrev)
 {
   foreach ($XMLContentOfLoadPrev as $row)
   {
-    $XMLContentOfLoadPrevByBaseUID[$row['base_uid']][$row['UID']] = $row;
+    $XMLContentOfLoadPrevByBaseUID2[$row['base_uid2']][$row['UID']] = $row;
   }
 }
 
-$_XMLContentOfLoadStaffPrev = GetTable('xml_content_of_load_staff', "", "", null, "UID, UID_ContentOfLoad, hash");
+$_XMLContentOfLoadStaffPrev = GetTable('xml_content_of_load_staff', "", "", null, "UID, base_uid2, UID_ContentOfLoad, hash");
 
 // нагрузка стафф до обновления
-$XMLContentOfLoadStaffPrev = [];
+$XMLContentOfLoadStaffPrevByBaseUID2 = [];
 
 foreach ($_XMLContentOfLoadStaffPrev as $row)
 {
-  $XMLContentOfLoadStaffPrev[$row['UID_ContentOfLoad']][$row['UID']] = $row;
+  // $XMLContentOfLoadStaffPrev[$row['UID_ContentOfLoad']][$row['UID']] = $row;
+  $XMLContentOfLoadStaffPrevByBaseUID2[$row['base_uid2']][$row['UID']] = $row;
 }
 
 unset($_XMLContentOfLoadStaffPrev);
 
-$NagruzkaPrev = GetTable('nagruzka', "", "", "load_base_UID");
+$NagruzkaPrev = GetTable('nagruzka', "", "", "load_base_UID2");
 
 // EchoLog($NagruzkaPrev['26589.281474976773927']);
 // без этой строки непонятный баг: ошибочно проваливаемся в if (!$NagruzkaPrev[$nagr['base_uid']])
@@ -96,8 +98,14 @@ function GetChairSotrudniki($year, $dop_sql = "", $actual = null /*, $qualify_ca
     $actual_sql = "AND `actual` = '$actual'";
   }
 
+  if ($year >= 2025)
+  {
+    $pkg_sql = ", $position_table_name.`pkg`, $position_table_name.`pku`";
+  }
+
   $query = "
-              SELECT person.`id` as person_id, person.`surname`, person.`name`, person.`patronymic`, $position_table_name.`dolzhnost`, `$position_table_name`.podrazdelenie_id, `$position_table_name`.ukrup_code as department_id, $position_table_name.`podrazdelenia_chain`, $podrazdelenia_table_name.`id` as chair_id, $position_table_name.`position_category`, $position_table_name.`type`, $position_table_name.`qualify_category`, $position_table_name.`stavka`, $position_table_name.`pkg`, $position_table_name.`pku`
+              SELECT person.`id` as person_id, person.`surname`, person.`name`, person.`patronymic`, $position_table_name.`dolzhnost`, `$position_table_name`.podrazdelenie_id, `$position_table_name`.ukrup_code as department_id, $position_table_name.`podrazdelenia_chain`, $podrazdelenia_table_name.`id` as chair_id, $position_table_name.`position_category`, $position_table_name.`type`, $position_table_name.`qualify_category`, $position_table_name.`stavka`
+              $pkg_sql
               FROM `$position_table_name`
               JOIN `person` ON `$position_table_name`.person_id = `person`.id
               JOIN `$podrazdelenia_table_name` ON  `$position_table_name`.podrazdelenia_chain LIKE CONCAT('%|', $podrazdelenia_table_name.`id`, '|%')
@@ -157,8 +165,11 @@ function LoadXML($filename, $table_name)
 
     if ($table_name == 'xml_content_of_load')
     {
-      $base_uid = get_base_uid($arr['UID']);
+      $base_uid = get_base_uid1($arr['UID']);
       $sql_arr[] = "`base_uid` = '$base_uid'";
+
+      $base_uid2 = get_base_uid2($arr['UID']);
+      $sql_arr[] = "`base_uid2` = '$base_uid2'";
 
       $hash = hash_column_values_only($arr, $xml_content_of_load_columns_for_hash);
       $sql_arr[] = "`hash` = '$hash'";
@@ -166,8 +177,11 @@ function LoadXML($filename, $table_name)
     
     if ($table_name == 'xml_content_of_load_staff')
     {
-      $base_uid = get_base_uid($arr['UID_ContentOfLoad']);
+      $base_uid = get_base_uid1($arr['UID_ContentOfLoad']);
       $sql_arr[] = "`base_uid` = '$base_uid'";
+
+      $base_uid2 = get_base_uid2($arr['UID_ContentOfLoad']);
+      $sql_arr[] = "`base_uid2` = '$base_uid2'";
 
       $hash = hash_column_values_only($arr, $xml_content_of_load_staff_columns_for_hash);
       $sql_arr[] = "`hash` = '$hash'";
@@ -191,7 +205,7 @@ function LoadXML($filename, $table_name)
 
 include '../connect.php';
 
-if ($LOAD_NEW_DATA)
+if ($LOAD_NEW_DATA_FROM_NETWORK)
 {
   file_put_contents('ContentOfLoad.xml', file_get_contents('http://192.168.59.100/nagruzka/ContentOfLoad.xml'));
   file_put_contents('ContentOfLoadStaff.xml', file_get_contents('http://192.168.59.100/nagruzka/ContentOfLoadStaff.xml'));
@@ -210,6 +224,14 @@ if ($LOAD_NEW_DATA)
   file_put_contents('Lecturer.xml', file_get_contents('http://192.168.59.100/nagruzka/Lecturer.xml'));
   file_put_contents('Post.xml', file_get_contents('http://192.168.59.100/nagruzka/Post.xml'));
 
+  // Получим данные кандидатов; они нам нужны, чтобы получить id кандидата = будущего сотрудника; он мог быть уже сотрудником прежде, тогда его id является прежним id сотрудника
+  $url = 'http://www:nahuheti9@ip.unn.ru/integration/rest/base/getChangedObjects?map=nngu.ais.employees.add';
+  file_put_contents('nngu.ais.employees.add.xml', file_get_contents($url));
+}
+
+
+if ($UPDATE_TABLES)
+{
   LoadXML('Stream.xml', 'xml_stream');
   LoadXML('Faculty.xml', 'xml_faculty');
   LoadXML('Language.xml', 'xml_language');
@@ -225,11 +247,6 @@ if ($LOAD_NEW_DATA)
 
   LoadXML('ContentOfLoadStaff.xml', 'xml_content_of_load_staff');
   LoadXML('ContentOfLoad.xml', 'xml_content_of_load');
-
-
-  // Получим данные кандидатов; они нам нужны, чтобы получить id кандидата = будущего сотрудника; он мог быть уже сотрудником прежде, тогда его id является прежним id сотрудника
-  $url = 'http://www:nahuheti9@ip.unn.ru/integration/rest/base/getChangedObjects?map=nngu.ais.employees.add';
-  file_put_contents('nngu.ais.employees.add.xml', file_get_contents($url));
 }
 
 
@@ -628,29 +645,30 @@ $XMLLecturer = GetTable('xml_lecturer', "", "", "UID");
 $XMLPost = GetTable('xml_post', "", "", "Name");
 $XMLChairByCode = GetTable('xml_chair', "", "", "Code");
 $XMLChairByUID = GetTable('xml_chair', "", "", "UID");
-$XMLContentOfLoad = GetTable('xml_content_of_load', "", "", "UID", "UID, UID_Chair, base_uid, hash, UID_Lecturer");
+$XMLContentOfLoad = GetTable('xml_content_of_load', "", "", "UID", "UID, UID_Chair, base_uid, base_uid2, hash, UID_Lecturer");
 // $XMLContentOfLoadByBaseUID = GetTable('xml_content_of_load', "", "", "base_uid", "UID, UID_Chair, base_uid, hash, UID_Lecturer");
-$_XMLContentOfLoadStaff = GetTable('xml_content_of_load_staff', "", "", null, "UID, UID_ContentOfLoad, hash");
+$_XMLContentOfLoadStaff = GetTable('xml_content_of_load_staff', "", "", null, "UID, base_uid2, UID_ContentOfLoad, hash");
 
-$XMLContentOfLoadStaff = [];
+$XMLContentOfLoadStaffByBaseUID2 = [];
 
 if ($_XMLContentOfLoadStaff)
 {
   foreach ($_XMLContentOfLoadStaff as $row)
   {
-    // UID_ContentOfLoad соотв. base_uid
-    $XMLContentOfLoadStaff[$row['UID_ContentOfLoad']][$row['UID']] = $row;
+    // UID_ContentOfLoad соотв. base_uid ?
+    // $XMLContentOfLoadStaff[$row['UID_ContentOfLoad']][$row['UID']] = $row;
+    $XMLContentOfLoadStaffByBaseUID2[$row['base_uid2']][$row['UID']] = $row;
   }
 }
 
-$XMLContentOfLoadByBaseUID = [];
+$XMLContentOfLoadByBaseUID2 = [];
 
 if ($XMLContentOfLoad)
 {
   foreach ($XMLContentOfLoad as $row)
   {
     // в этой таблице из-за споточенности для одного base_uid может быть несколько UID с разными суффиксами
-    $XMLContentOfLoadByBaseUID[$row['base_uid']][$row['UID']] = $row;
+    $XMLContentOfLoadByBaseUID2[$row['base_uid2']][$row['UID']] = $row;
   }
 }
 
@@ -665,9 +683,9 @@ unset($_XMLContentOfLoadStaff);
 
 // $mysqli->query("TRUNCATE `nagruzka`");
 
-if ($XMLContentOfLoadStaff)
+if ($XMLContentOfLoadStaffByBaseUID2)
 {
-  if (sizeof($XMLContentOfLoadStaff) < sizeof($XMLContentOfLoadStaffPrev) / 2)
+  if (sizeof($XMLContentOfLoadStaffByBaseUID2) < sizeof($XMLContentOfLoadStaffPrevByBaseUID2) / 2)
   {
     EchoLog("ЛК ЗК: В таблице 2 стало заметно меньше строк. Скрипт стоп.", 'file mail');
     exit;
@@ -691,7 +709,7 @@ if ($XMLContentOfLoad)
   foreach ($XMLContentOfLoadPrev as $xml_content_of_load_prev_row)
   {
     // прежняя нагрузка не обнаружена в текущем справочнике нагрузок
-    if (!$XMLContentOfLoad[$xml_content_of_load_prev_row['base_uid']])
+    if (!$XMLContentOfLoad[$xml_content_of_load_prev_row['UID']])
     {
       $rows_gone_counter++; 
     }
@@ -706,10 +724,12 @@ if ($XMLContentOfLoad)
 
     foreach ($XMLContentOfLoadPrev as $xml_content_of_load_prev_row)
     {
-      // сравниваем всё на базе base_uid
+      // -- сравниваем всё на базе base_uid
       $base_uid = $xml_content_of_load_prev_row['base_uid'];
+      $base_uid2 = $xml_content_of_load_prev_row['base_uid2'];
 
-      $new_nagr_row = $XMLContentOfLoad[$base_uid];
+      // $new_nagr_row = $XMLContentOfLoad[$base_uid];
+      $new_nagr_row = $XMLContentOfLoad[$xml_content_of_load_prev_row['UID']];
 
       // хеши таблицы 1
       if ($xml_content_of_load_prev_row['hash'] != $new_nagr_row['hash'])
@@ -718,14 +738,14 @@ if ($XMLContentOfLoad)
       }
 
       // хеши таблицы 2
-      if ($XMLContentOfLoadStaff[$base_uid])
+      if ($XMLContentOfLoadStaffByBaseUID2[$base_uid2])
       {
-        foreach ($XMLContentOfLoadStaff[$base_uid] as $load_staff_UID => $load_staff_new_row)
+        foreach ($XMLContentOfLoadStaffByBaseUID2[$base_uid2] as $load_staff_UID => $load_staff_new_row)
         {
-          if ($XMLContentOfLoadStaffPrev[$base_uid][$load_staff_UID])
+          if ($XMLContentOfLoadStaffPrevByBaseUID2[$base_uid2][$load_staff_UID])
           {
             // сравним хеши соотв. строк load_staff
-            if ($XMLContentOfLoadStaffPrev[$base_uid][$load_staff_UID]['hash'] != $load_staff_new_row['hash'])
+            if ($XMLContentOfLoadStaffPrevByBaseUID2[$base_uid2][$load_staff_UID]['hash'] != $load_staff_new_row['hash'])
             {
               $hash_changed_rows_count2++;
             }
@@ -756,18 +776,19 @@ if ($XMLContentOfLoad)
     // Если прежде бывшей нагрузки уже нет, удалим её в таблице nagruzka ЛК ЗК
     foreach ($XMLContentOfLoadPrev as $xml_content_of_load_prev_row)
     {
-      // сравниваем всё на базе base_uid
+      // -- сравниваем всё на базе base_uid
       $base_uid = $xml_content_of_load_prev_row['base_uid'];
+      $base_uid2 = $xml_content_of_load_prev_row['base_uid2'];
       $xml_content_of_load_UID = $xml_content_of_load_prev_row['UID'];
 
       // прежняя нагрузка не обнаружена в текущем справочнике нагрузок по base_UID,
       // т.е. нет такой нагрузки независимо от споточенности
       // т.к. в цикле идём по UID, и base_uid может повторяться, то код в скобках может повториться
-      if (!$XMLContentOfLoadByBaseUID[$base_uid])
+      if (!$XMLContentOfLoadByBaseUID2[$base_uid2])
       {
-        EchoLog("Прежняя нагрузка (base_uid=$base_uid, content_uid=$xml_content_of_load_UID) не обнаружена в текущем справочнике xml_content_of_load, удаляем");
+        EchoLog("Прежняя нагрузка (base_uid2=$base_uid2, content_uid=$xml_content_of_load_UID) не обнаружена в текущем справочнике xml_content_of_load, удаляем");
 
-        $mysqli->query("DELETE FROM `nagruzka` WHERE `load_base_UID` = '$base_uid'");
+        $mysqli->query("DELETE FROM `nagruzka` WHERE `load_base_UID2` = '$base_uid2'");
 
         continue;
       }
@@ -779,10 +800,10 @@ if ($XMLContentOfLoad)
 
         // Проверим, изменилось ли количество строк в xml_content_of_load для конкретного base_UID (а, значит, для строки таблица nagruzka) - это означает изменение споточенности (суффиксов)
         // Если это изменилось, то нужно очистить привязанного преподавателя
-        if (sizeof($XMLContentOfLoadPrevByBaseUID[$base_uid]) != sizeof($XMLContentOfLoadByBaseUID[$base_uid]))
+        if (sizeof($XMLContentOfLoadPrevByBaseUID2[$base_uid2]) != sizeof($XMLContentOfLoadByBaseUID2[$base_uid2]))
         {
           $some_changed = true;
-          EchoLog("Для base_uid = $base_uid (uid = $xml_content_of_load_UID) изменилось количество строк в таблице xml_content_of_load, очистим преподавателя {$NagruzkaPrev[$base_uid]['lecturer_fio']}");
+          EchoLog("Для base_uid2 = $base_uid2 (uid = $xml_content_of_load_UID) изменилось количество строк в таблице xml_content_of_load, очистим преподавателя {$NagruzkaPrev[$base_uid2]['lecturer_fio']}");
         }
 
         // если изменился UID в таблице 1 (споточенность-суффикс или суффикс стал юидом привязанного в Галактике лектора),
@@ -799,11 +820,12 @@ if ($XMLContentOfLoad)
         {
           $some_changed = true;
 
-          EchoLog("Для uid = $xml_content_of_load_UID (base_uid = $base_uid) в таблице xml_content_of_load изменился хеш ($xml_content_of_load_prev_row[hash] => $new_nagr_row[hash]), очистим преподавателя {$NagruzkaPrev[$base_uid]['lecturer_fio']}");
+          EchoLog("Для uid = $xml_content_of_load_UID (base_uid2 = $base_uid2) в таблице xml_content_of_load изменился хеш ($xml_content_of_load_prev_row[hash] => $new_nagr_row[hash]), очистим преподавателя {$NagruzkaPrev[$base_uid2]['lecturer_fio']}");
 
           if ($base_uid === '26589.281474976786399')
           {
             EchoLog("base_uid: $base_uid");
+            EchoLog("base_uid2: $base_uid2");
             EchoLog("UID: xml_content_of_load_UID");
             EchoLog("Prev hash: $xml_content_of_load_prev_row[hash]");
             EchoLog("New hash: $new_nagr_row[hash]");
@@ -812,34 +834,33 @@ if ($XMLContentOfLoad)
           }
         }
 
-        
-
         // сделаем сравнение строк load_staff: 
 
-        if (is_array($XMLContentOfLoadStaffPrev[$base_uid]) && is_array($XMLContentOfLoadStaff[$base_uid]) && sizeof($XMLContentOfLoadStaffPrev[$base_uid]) != sizeof($XMLContentOfLoadStaff[$base_uid]))
+        if (is_array($XMLContentOfLoadStaffPrevByBaseUID2[$base_uid2]) && is_array($XMLContentOfLoadStaffByBaseUID2[$base_uid2]) && sizeof($XMLContentOfLoadStaffPrevByBaseUID2[$base_uid2]) != sizeof($XMLContentOfLoadStaffByBaseUID2[$base_uid2]))
         {
           $some_changed = true;
-          EchoLog("Изменилось кол-во staff для base_uid = $base_uid");
+          EchoLog("Изменилось кол-во staff для base_uid2 = $base_uid2");
         }
         // если строк load_staff столько же, то сравним по каждой строке, изменились ли столбцы (соотв-но изменились хеши)
-        elseif (is_array($XMLContentOfLoadStaffPrev[$base_uid]) && is_array($XMLContentOfLoadStaff[$base_uid]))
+        elseif (is_array($XMLContentOfLoadStaffPrevByBaseUID2[$base_uid2]) && is_array($XMLContentOfLoadStaffByBaseUID2[$base_uid2]))
         {
-          if ($XMLContentOfLoadStaff[$base_uid])
+          if ($XMLContentOfLoadStaffByBaseUID2[$base_uid2])
           {
-            foreach ($XMLContentOfLoadStaff[$base_uid] as $load_staff_UID => $load_staff_new_row)
+            foreach ($XMLContentOfLoadStaffByBaseUID2[$base_uid2] as $load_staff_UID => $load_staff_new_row)
             {
-              if ($XMLContentOfLoadStaffPrev[$base_uid][$load_staff_UID])
+              if ($XMLContentOfLoadStaffPrevByBaseUID2[$base_uid2][$load_staff_UID])
               {
                 // сравним хеши соотв. строк load_staff
-                if ($XMLContentOfLoadStaffPrev[$base_uid][$load_staff_UID]['hash'] != $load_staff_new_row['hash'])
+                if ($XMLContentOfLoadStaffPrevByBaseUID2[$base_uid2][$load_staff_UID]['hash'] != $load_staff_new_row['hash'])
                 {
                   $some_changed = true;
 
                   if ($base_uid === '26589.281474976786399')
                   {
                     EchoLog("base_uid: $base_uid");
+                    EchoLog("base_uid2: $base_uid2");
                     // EchoLog("UID: $xml_content_of_load_prev_row[UID]");
-                    EchoLog("Prev hash: {$XMLContentOfLoadStaffPrev[$base_uid][$load_staff_UID]['hash']}"); 
+                    EchoLog("Prev hash: {$XMLContentOfLoadStaffPrevByBaseUID2[$base_uid2][$load_staff_UID]['hash']}"); 
                     EchoLog("New hash: {$load_staff_new_row['hash']}");
                     // EchoLog($some_changed);
                     EchoLog("Хеши 2 изменились");
@@ -875,21 +896,21 @@ if ($XMLContentOfLoad)
 
           $query = "
             UPDATE `nagruzka` SET `lecturer_fio` = NULL, `lecturer_uid` = NULL, `lecturer_person_id` = NULL, `prev_status` = `status`, `status` = 'initial'
-            WHERE `chair_id` = '$chair_id' AND `load_base_UID` = '$base_uid'";
+            WHERE `chair_id` = '$chair_id' AND `load_base_UID2` = '$base_uid2'";
 
           $Result = $mysqli->query($query);
 
           if ($Result)
           {
-            $NagruzkaPrev[$base_uid]['lecturer_fio'] = '';
+            $NagruzkaPrev[$base_uid2]['lecturer_fio'] = '';
 
             // выведем только если лектор был
-            if ($base_uid === '26589.281474976786399' || $NagruzkaPrev[$base_uid]['lecturer_fio'])
-            EchoLog("Очистили лектора кафедры {$XMLChairByUID[$new_nagr_row['UID_Chair']]['Name']} ($chair_id) у нагрузки $base_uid");
+            if ($base_uid2 === '26589.281474976786399' || $NagruzkaPrev[$base_uid2]['lecturer_fio'])
+            EchoLog("Очистили лектора кафедры {$XMLChairByUID[$new_nagr_row['UID_Chair']]['Name']} ($chair_id) у нагрузки $base_uid2");
           }
           else
           {
-            EchoLog("ОШИБКА очистки лектора кафедры {$XMLChairByUID[$new_nagr_row['UID_Chair']]['Name']} ({$new_nagr_row['UID_Chair']}, $chair_id) у нагрузки $base_uid");
+            EchoLog("ОШИБКА очистки лектора кафедры {$XMLChairByUID[$new_nagr_row['UID_Chair']]['Name']} ({$new_nagr_row['UID_Chair']}, $chair_id) у нагрузки $base_uid2");
             EchoLog($query);
           }
 
@@ -924,10 +945,8 @@ if ($XMLContentOfLoad)
         */
 
       }
-
       
     }
-
 
 
     foreach ($XMLContentOfLoad as $xml_content_of_load_row)
@@ -971,7 +990,7 @@ if ($XMLContentOfLoad)
       if ($xml_content_of_load_row['UID_Chair'])
       {
         // такой нагрузки на кафедре ещё не было
-        if (!$NagruzkaPrev[$xml_content_of_load_row['base_uid']])
+        if (!$NagruzkaPrev[$xml_content_of_load_row['base_uid2']])
         {
           // EchoLog($nagr['base_uid']);
 
@@ -984,7 +1003,14 @@ if ($XMLContentOfLoad)
             {
               // EchoLog("base_uid = $xml_content_of_load_row[base_uid], chair_id = $chair_id кафедра актуальна");
 
-              $query = "INSERT IGNORE INTO `nagruzka` SET `chair_id` = '$chair_id', `chair_name` = '$chair_name', `department_id` = '$department_id', `department_name` = '$department_name',  `lecturer_fio` = '$lecturer[FIO]', `lecturer_uid` = '$xml_content_of_load_row[UID_Lecturer]', `lecturer_person_id` = '$lecturer[Tab_number]', `load_base_UID` = '$xml_content_of_load_row[base_uid]', `valid` = '1' $zavkaf_sql";
+              $lecturer['FIO'] = str_replace('!_Вакансия_!', 'Вакансия', $lecturer['FIO']);
+
+              $query = "INSERT IGNORE INTO `nagruzka` SET `chair_id` = '$chair_id', `chair_name` = '$chair_name', `department_id` = '$department_id', `department_name` = '$department_name',  `lecturer_fio` = '$lecturer[FIO]', `lecturer_uid` = '$xml_content_of_load_row[UID_Lecturer]', `lecturer_person_id` = '$lecturer[Tab_number]', `load_base_UID2` = '$xml_content_of_load_row[base_uid2]', `valid` = '1' $zavkaf_sql";
+
+              if ($lecturer['FIO'] == 'Фомина Ирина Юрьевна')
+              {
+                EchoLog($query);
+              }
             }
             // Кафедра не актуальна в Сотруднике:
             // нагрузку пометим невалидной, а название кафедры возьмём в Сотруднике
@@ -994,7 +1020,9 @@ if ($XMLContentOfLoad)
               $chair_name = $Podrazdelenia[$chair_id]['pname'];
               $department_name = $Podrazdelenia[$chair_id]['ukrup_name'];
 
-              $query = "INSERT IGNORE INTO `nagruzka` SET `chair_id` = NULL, `chair_name` = '$chair_name', `department_id` = NULL, `department_name` = '$department_name', `lecturer_fio` = '$lecturer[FIO]', `lecturer_uid` = '$xml_content_of_load_row[UID_Lecturer]', `lecturer_person_id` = '$lecturer[Tab_number]', `load_base_UID` = '$xml_content_of_load_row[base_uid]', `valid` = '0', `zavkaf_login` = NULL, `zavkaf_id` = NULL, `zavkaf_fio` = NULL";
+              $lecturer['FIO'] = str_replace('!_Вакансия_!', 'Вакансия', $lecturer['FIO']);
+
+              $query = "INSERT IGNORE INTO `nagruzka` SET `chair_id` = NULL, `chair_name` = '$chair_name', `department_id` = NULL, `department_name` = '$department_name', `lecturer_fio` = '$lecturer[FIO]', `lecturer_uid` = '$xml_content_of_load_row[UID_Lecturer]', `lecturer_person_id` = '$lecturer[Tab_number]', `load_base_UID2` = '$xml_content_of_load_row[base_uid2]', `valid` = '0', `zavkaf_login` = NULL, `zavkaf_id` = NULL, `zavkaf_fio` = NULL";
             }
           }
 
@@ -1007,7 +1035,7 @@ if ($XMLContentOfLoad)
           }
           else
           {
-            ActivityLog($xml_content_of_load_row['base_uid'], ["Нагрузка добавлена на кафедру $chair_name", $chair_id, $xml_content_of_load_row['base_uid']], "", "initial", 0, 1);
+            ActivityLog($xml_content_of_load_row['base_uid2'], ["Нагрузка добавлена на кафедру $chair_name", $chair_id, $xml_content_of_load_row['base_uid2']], "", "initial", 0, 1);
           }
 
           
@@ -1018,9 +1046,9 @@ if ($XMLContentOfLoad)
           // Возьмём нагрузку в "очереди" в статусе done_change
           // Это когда зав. каф. подаёт заявку на изменение, а админ УОУП нажимает "Выполнено"
           // При этом комментарий идёт в публичную историю, а нагрузка становится initial
-          if ($NagruzkaPrev[$xml_content_of_load_row['base_uid']]['status'] == 'done_change')
+          if ($NagruzkaPrev[$xml_content_of_load_row['base_uid2']]['status'] == 'done_change')
           {
-            $Rows = GetRows('log', ['load_base_UID' => $xml_content_of_load_row['base_uid'], 'action_name' => 'done_change'], null, "`datetime` DESC");
+            $Rows = GetRows('log', ['load_base_UID2' => $xml_content_of_load_row['base_uid2'], 'action_name' => 'done_change'], null, "`datetime` DESC");
 
             if ($Rows)
             {
@@ -1031,9 +1059,9 @@ if ($XMLContentOfLoad)
 
               $mysqli->query("UPDATE `log` SET `internal` = '0' WHERE `id` = '$LastLogRow[id]'");
 
-              ActivityLog($xml_content_of_load_row['base_uid'], ['Разблокировка нагрузки в кроне из done_change', $chair_id, $chair_name, $zavkaf_fio], "", 'initial', 1, 1);
+              ActivityLog($xml_content_of_load_row['base_uid2'], ['Разблокировка нагрузки в кроне из done_change', $chair_id, $chair_name, $zavkaf_fio], "", 'initial', 1, 1);
 
-              $mysqli->query("UPDATE `nagruzka` SET `status` = 'initial' WHERE `load_base_UID` = '$xml_content_of_load_row[base_uid]'");
+              $mysqli->query("UPDATE `nagruzka` SET `status` = 'initial' WHERE `load_base_UID2` = '$xml_content_of_load_row[base_uid2]'");
             }
           }
 
@@ -1054,7 +1082,7 @@ if ($XMLContentOfLoad)
 
           $query = "
           UPDATE `nagruzka` SET `valid` = '$valid' $zavkaf_sql
-          WHERE `load_base_UID` = '$xml_content_of_load_row[base_uid]'";
+          WHERE `load_base_UID2` = '$xml_content_of_load_row[base_uid2]'";
           $mysqli->query($query);
 
 
@@ -1064,21 +1092,23 @@ if ($XMLContentOfLoad)
           }
 
           // Если у нагрузки в Галактике указан преподаватель, то его взять, но только если система в режиме выверки
-          if ($xml_content_of_load_row['UID_Lecturer'] && $xml_content_of_load_row['UID_Lecturer'] != '-1' && $NagruzkaPrev[$xml_content_of_load_row['base_uid']]['lecturer_uid'] != $xml_content_of_load_row['UID_Lecturer'] && $_system_mode == 'mode_verification')
+          if ($xml_content_of_load_row['UID_Lecturer'] && $xml_content_of_load_row['UID_Lecturer'] != '-1' && $NagruzkaPrev[$xml_content_of_load_row['base_uid2']]['lecturer_uid'] != $xml_content_of_load_row['UID_Lecturer'] && $_system_mode == 'mode_verification')
           {
             // EchoLog('here');
             $lecturer = $XMLLecturer[$xml_content_of_load_row['UID_Lecturer']];
 
+            $lecturer['FIO'] = str_replace('!_Вакансия_!', 'Вакансия', $lecturer['FIO']);
+
             // ? МЕНЯТЬ ЛИ СТАТУС ?
             $query = "
               UPDATE `nagruzka` SET `lecturer_fio` = '$lecturer[FIO]', `lecturer_uid` = '$xml_content_of_load_row[UID_Lecturer]', `lecturer_person_id` = '$lecturer[Tab_number]'
-              WHERE `load_base_UID` = '$xml_content_of_load_row[base_uid]'";
+              WHERE `load_base_UID2` = '$xml_content_of_load_row[base_uid2]'";
 
             $Result = $mysqli->query($query);
 
             if (!$Result)
             {
-              EchoLog("ОШИБКА простановки лектора кафедры (из Галактики) {$XMLChairByUID[$xml_content_of_load_row['UID_Chair']]['Name']} ({$xml_content_of_load_row['UID_Chair']}) у нагрузки $xml_content_of_load_row[base_uid]");
+              EchoLog("ОШИБКА простановки лектора кафедры (из Галактики) {$XMLChairByUID[$xml_content_of_load_row['UID_Chair']]['Name']} ({$xml_content_of_load_row['UID_Chair']}) у нагрузки $xml_content_of_load_row[base_uid2]");
               EchoLog($query);
               EchoLog($mysqli->error);
             }
@@ -1091,7 +1121,7 @@ if ($XMLContentOfLoad)
       // иначе нагрузка не распределена на кафедру, пометим как valid = 0 (чтобы не выдавать завкафам, но выдавать уоуп в разделе плохих нагрузок no_chairs)
       else
       {
-        $query = "INSERT IGNORE INTO `nagruzka` SET `chair_id` = NULL, `chair_name` = NULL, `department_id` = NULL, `department_name` = NULL, `zavkaf_login` = NULL, `zavkaf_id` = NULL, `zavkaf_fio` = NULL,  `load_base_UID` = '$xml_content_of_load_row[base_uid]', `valid` = '0'";
+        $query = "INSERT IGNORE INTO `nagruzka` SET `chair_id` = NULL, `chair_name` = NULL, `department_id` = NULL, `department_name` = NULL, `zavkaf_login` = NULL, `zavkaf_id` = NULL, `zavkaf_fio` = NULL, `load_base_UID2` = '$xml_content_of_load_row[base_uid2]', `valid` = '0'";
 
           $Result = $mysqli->query($query);
 

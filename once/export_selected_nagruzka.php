@@ -8,13 +8,14 @@ include '../connect.php';
 $query = "
           SELECT
             xml_content_of_load.base_uid,
+            xml_content_of_load.base_ui2,
             xml_content_of_load.LoadType,
             xml_content_of_load.Amount,
             xml_content_of_load.StudentAmount,
             nagruzka.lecturer_uid,
             nagruzka.lecturer_fio
           FROM `nagruzka`
-          JOIN `xml_content_of_load` ON xml_content_of_load.base_uid = nagruzka.load_base_UID
+          JOIN `xml_content_of_load` ON xml_content_of_load.base_uid = nagruzka.load_base_UID2
           WHERE nagruzka.valid = 1
             AND TRIM(IFNULL(nagruzka.lecturer_fio, '')) <> ''
         ";
@@ -49,7 +50,7 @@ while ($Row = $Result->fetch_assoc())
   }
   
   $node = $doc->createElement('ContentOfLoad');
-  $node->setAttribute('UID', $Row['base_uid']);
+  $node->setAttribute('UID', $Row['base_uid2']);
   $node->setAttribute('LoadType', $Row['LoadType']);
   $node->setAttribute('Amount', $Row['Amount']);
   $node->setAttribute('StudentAmount', $Row['StudentAmount']);

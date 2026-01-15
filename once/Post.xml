@@ -396,13 +396,6 @@
 					<prop_value prop_name="Abbr" value="начальник отдела"></prop_value>
 				</Collection>
 			</Object>
-			<Object uid="25031.281474976754236" name="руководитель" class_id="Post">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="25031.281474976754236"></prop_value>
-					<prop_value prop_name="Name" value="руководитель"></prop_value>
-					<prop_value prop_name="Abbr" value="руководитель"></prop_value>
-				</Collection>
-			</Object>
 			<Object uid="25031.281474976754249" name="инженер 1 категории" class_id="Post">
 				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
 					<prop_value prop_name="UID" value="25031.281474976754249"></prop_value>
@@ -527,13 +520,6 @@
 					<prop_value prop_name="UID" value="25031.281474976756403"></prop_value>
 					<prop_value prop_name="Name" value="начальник управления"></prop_value>
 					<prop_value prop_name="Abbr" value="начальник управления"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="25031.281474976756404" name="специалист по международным связям" class_id="Post">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="25031.281474976756404"></prop_value>
-					<prop_value prop_name="Name" value="специалист по международным связям"></prop_value>
-					<prop_value prop_name="Abbr" value="специалист по международным связям"></prop_value>
 				</Collection>
 			</Object>
 			<Object uid="25031.281474976756408" name="инженер" class_id="Post">
@@ -681,13 +667,6 @@
 					<prop_value prop_name="UID" value="25031.281474976756489"></prop_value>
 					<prop_value prop_name="Name" value="электромонтёр по ремонту и обслуживанию электрооборудования 6 разряда"></prop_value>
 					<prop_value prop_name="Abbr" value="электромонтёр по ремонту и обслуживанию электрооборудования 6 разряда"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="25031.281474976756491" name="заведующий научно-исследовательским сектором" class_id="Post">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="25031.281474976756491"></prop_value>
-					<prop_value prop_name="Name" value="заведующий научно-исследовательским сектором"></prop_value>
-					<prop_value prop_name="Abbr" value="заведующий научно-исследовательским сектором"></prop_value>
 				</Collection>
 			</Object>
 			<Object uid="25031.281474976756495" name="социальный педагог" class_id="Post">
@@ -970,13 +949,6 @@
 					<prop_value prop_name="Abbr" value="маляр 5 разряда"></prop_value>
 				</Collection>
 			</Object>
-			<Object uid="25031.281474976756707" name="документовед 1 категории" class_id="Post">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="25031.281474976756707"></prop_value>
-					<prop_value prop_name="Name" value="документовед 1 категории"></prop_value>
-					<prop_value prop_name="Abbr" value="документовед 1 категории"></prop_value>
-				</Collection>
-			</Object>
 			<Object uid="25031.281474976756708" name="начальник отделения" class_id="Post">
 				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
 					<prop_value prop_name="UID" value="25031.281474976756708"></prop_value>
@@ -989,13 +961,6 @@
 					<prop_value prop_name="UID" value="25031.281474976756711"></prop_value>
 					<prop_value prop_name="Name" value="начальник службы"></prop_value>
 					<prop_value prop_name="Abbr" value="начальник службы"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="25031.281474976756712" name="медицинская сестра" class_id="Post">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="25031.281474976756712"></prop_value>
-					<prop_value prop_name="Name" value="медицинская сестра"></prop_value>
-					<prop_value prop_name="Abbr" value="медицинская сестра"></prop_value>
 				</Collection>
 			</Object>
 			<Object uid="25031.281474976756726" name="ведущий специалист по аналитической работе" class_id="Post">

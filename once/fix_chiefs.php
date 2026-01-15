@@ -27,7 +27,7 @@ foreach ($Nagruzka as $nagruzka)
   {
     echo "$nagruzka[chair_name] zavkaf IS NOT real chief<br>";
 
-    $Result = $mysqli->query("UPDATE `nagruzka` SET `zavkaf_login` = '', `zavkaf_id` = '', `zavkaf_fio` = '' WHERE `load_base_UID` = '$nagruzka[load_base_UID]'");
+    $Result = $mysqli->query("UPDATE `nagruzka` SET `zavkaf_login` = '', `zavkaf_id` = '', `zavkaf_fio` = '' WHERE `load_base_UID2` = '$nagruzka[load_base_UID2]'");
 
     if (!$Result)
     {

@@ -1776,7 +1776,7 @@
 					<prop_value prop_name="UID_Course" value="2 курс"></prop_value>
 					<prop_value prop_name="UID_Faculty" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
-					<prop_value prop_name="Amount" value="30"></prop_value>
+					<prop_value prop_name="Amount" value="32"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 				</Collection>
 			</Object>
@@ -3372,7 +3372,7 @@
 					<prop_value prop_name="UID_Course" value="2 курс"></prop_value>
 					<prop_value prop_name="UID_Faculty" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
-					<prop_value prop_name="Amount" value="15"></prop_value>
+					<prop_value prop_name="Amount" value="17"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 				</Collection>
 			</Object>
@@ -3708,7 +3708,7 @@
 					<prop_value prop_name="UID_Course" value="5 курс"></prop_value>
 					<prop_value prop_name="UID_Faculty" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
-					<prop_value prop_name="Amount" value="19"></prop_value>
+					<prop_value prop_name="Amount" value="20"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 				</Collection>
 			</Object>
@@ -6865,6 +6865,90 @@
 					<prop_value prop_name="UID_Faculty" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
 					<prop_value prop_name="Amount" value="8"></prop_value>
+					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26535.281474976711685" name="Поток_()" class_id="Stream">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26535.281474976711685"></prop_value>
+					<prop_value prop_name="Name" value="Поток_()"></prop_value>
+					<prop_value prop_name="Abbr" value="Поток_()"></prop_value>
+					<prop_value prop_name="UID_Course" value="1 курс"></prop_value>
+					<prop_value prop_name="UID_Faculty" value="25031.0"></prop_value>
+					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
+					<prop_value prop_name="Amount" value="0"></prop_value>
+					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26535.281474976711686" name="Поток_()" class_id="Stream">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26535.281474976711686"></prop_value>
+					<prop_value prop_name="Name" value="Поток_()"></prop_value>
+					<prop_value prop_name="Abbr" value="Поток_()"></prop_value>
+					<prop_value prop_name="UID_Course" value="1 курс"></prop_value>
+					<prop_value prop_name="UID_Faculty" value="25031.0"></prop_value>
+					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
+					<prop_value prop_name="Amount" value="0"></prop_value>
+					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26535.281474976711687" name="Поток_()" class_id="Stream">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26535.281474976711687"></prop_value>
+					<prop_value prop_name="Name" value="Поток_()"></prop_value>
+					<prop_value prop_name="Abbr" value="Поток_()"></prop_value>
+					<prop_value prop_name="UID_Course" value="1 курс"></prop_value>
+					<prop_value prop_name="UID_Faculty" value="25031.0"></prop_value>
+					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
+					<prop_value prop_name="Amount" value="0"></prop_value>
+					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26535.281474976711688" name="Поток_1_02.46.00.00.00.00(3524С3ЭБ1;3525С7ЭБ1_и1)" class_id="Stream">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26535.281474976711688"></prop_value>
+					<prop_value prop_name="Name" value="Поток_1_02.46.00.00.00.00(3524С3ЭБ1;3525С7ЭБ1_и1)"></prop_value>
+					<prop_value prop_name="Abbr" value="Поток_1_02.46.00.00.00.00(3524С3ЭБ13525С7ЭБ1_и1)"></prop_value>
+					<prop_value prop_name="UID_Course" value="1 курс"></prop_value>
+					<prop_value prop_name="UID_Faculty" value="25031.0"></prop_value>
+					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
+					<prop_value prop_name="Amount" value="14"></prop_value>
+					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26535.281474976711689" name="Поток_1_02.46.00.00.00.00(3525С7ЭБ1_и1)" class_id="Stream">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26535.281474976711689"></prop_value>
+					<prop_value prop_name="Name" value="Поток_1_02.46.00.00.00.00(3525С7ЭБ1_и1)"></prop_value>
+					<prop_value prop_name="Abbr" value="Поток_1_02.46.00.00.00.00(3525С7ЭБ1_и1)"></prop_value>
+					<prop_value prop_name="UID_Course" value="1 курс"></prop_value>
+					<prop_value prop_name="UID_Faculty" value="25031.0"></prop_value>
+					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
+					<prop_value prop_name="Amount" value="1"></prop_value>
+					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26535.281474976711690" name="Поток_1_02.45.00.00.00.00(4525О1РВ1)" class_id="Stream">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26535.281474976711690"></prop_value>
+					<prop_value prop_name="Name" value="Поток_1_02.45.00.00.00.00(4525О1РВ1)"></prop_value>
+					<prop_value prop_name="Abbr" value="Поток_1_02.45.00.00.00.00(4525О1РВ1)"></prop_value>
+					<prop_value prop_name="UID_Course" value="1 курс"></prop_value>
+					<prop_value prop_name="UID_Faculty" value="25031.0"></prop_value>
+					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
+					<prop_value prop_name="Amount" value="12"></prop_value>
+					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26535.281474976711691" name="Поток_5_02.45.00.00.00.00(4521Б3АФ_Тест)" class_id="Stream">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26535.281474976711691"></prop_value>
+					<prop_value prop_name="Name" value="Поток_5_02.45.00.00.00.00(4521Б3АФ_Тест)"></prop_value>
+					<prop_value prop_name="Abbr" value="Поток_5_02.45.00.00.00.00(4521Б3АФ_Тест)"></prop_value>
+					<prop_value prop_name="UID_Course" value="5 курс"></prop_value>
+					<prop_value prop_name="UID_Faculty" value="25031.0"></prop_value>
+					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
+					<prop_value prop_name="Amount" value="12"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 				</Collection>
 			</Object>

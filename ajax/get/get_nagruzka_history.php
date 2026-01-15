@@ -19,12 +19,12 @@ if (empty($_SERVER['HTTP_X_REQUESTED_WITH']) || $_SERVER['HTTP_X_REQUESTED_WITH'
 include '../../functions.php';
 
 $c_roles = ExplodePalki($_SESSION['c_roles'], true);
-$load_base_UID = quote_smart($_GET['load_base_UID']);
+$load_base_UID2 = quote_smart($_GET['load_base_UID2']);
 
 if ($c_roles)
 {
 
-  $sql = "SELECT * FROM `log` WHERE `load_base_UID` = '$load_base_UID' AND `internal` = '0' ORDER BY `datetime` DESC";
+  $sql = "SELECT * FROM `log` WHERE `load_base_UID2` = '$load_base_UID2' AND `internal` = '0' ORDER BY `datetime` DESC";
 
   $History = GetSQL($sql);
 

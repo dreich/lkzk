@@ -24,19 +24,21 @@ $Nagruzka = [];
 if ($c_roles['uoup'])
 {
   $_Nagruzka = GetSQL("
-              SELECT nagruzka.*, xml_content_of_load.Amount, xml_content_of_load.base_uid
+              SELECT nagruzka.*, xml_content_of_load.Amount, xml_content_of_load.base_uid2
               FROM `nagruzka`
-              JOIN `xml_content_of_load` ON nagruzka.`load_base_UID` = xml_content_of_load.`base_uid`
+              JOIN `xml_content_of_load` ON nagruzka.`load_base_UID2` = xml_content_of_load.`base_uid2`
               WHERE `chair_id` IS NOT NULL AND `valid` = '1'
               #LIMIT 100
       ");
+
+  EchoLog(sizeof($_Nagruzka));
 
   // приведём к уникальному base_uid, потому что в таблице xml_content_of_load base_uid повторяются для xml_content_of_load.UID с цифрами после точки в конце ("споточенное")
   if ($_Nagruzka)
   {
     foreach ($_Nagruzka as $row)
     {
-      $Nagruzka[$row['base_uid']] = $row;
+      $Nagruzka[$row['base_uid2']] = $row;
     }
   }
 

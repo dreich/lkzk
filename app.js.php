@@ -674,7 +674,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
     const dialogScope = $scope.$new();
     dialogScope.nagruzka_row = nagruzka_row;
 
-    dialogScope.nagruzka_history = $resource('ajax/get/get_nagruzka_history.php?load_base_UID=' + nagruzka_row.base_uid).query();
+    dialogScope.nagruzka_history = $resource('ajax/get/get_nagruzka_history.php?load_base_UID2=' + nagruzka_row.base_uid2).query();
 
     ngDialog.open({
                     template: "nagruzka_history.tpl.html" + "?" + getRandom(10000, 99999),
@@ -960,7 +960,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
                     item.selected = false;
                 });
             }
-            
+
           $scope.filteredData = filteredData;
           CL('Filtered data updated:', filteredData.length, 'items');
           CL($scope.filteredData.length);
@@ -1045,7 +1045,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
 
   function SaveNagruzkaLecturer(nagruzka_row)
   {
-    $http({url: 'ajax/post/select_nagruzka_lecturer.php', method: 'POST', data: { lecturer_fio: nagruzka_row.lecturer_fio, lecturer_uid: nagruzka_row.lecturer_uid, lecturer_person_id: nagruzka_row.lecturer_person_id, disciplines_UIDs_chain_str: nagruzka_row.disciplines_UIDs_chain_str, disciplines_Names_chain_str: nagruzka_row.disciplines_Names_chain_str, load_base_UID: nagruzka_row.base_uid}})
+    $http({url: 'ajax/post/select_nagruzka_lecturer.php', method: 'POST', data: { lecturer_fio: nagruzka_row.lecturer_fio, lecturer_uid: nagruzka_row.lecturer_uid, lecturer_person_id: nagruzka_row.lecturer_person_id, disciplines_UIDs_chain_str: nagruzka_row.disciplines_UIDs_chain_str, disciplines_Names_chain_str: nagruzka_row.disciplines_Names_chain_str, load_base_UID2: nagruzka_row.base_uid2}})
                 .then(function(data)
                 {
                   if (data.data.result == 'success')
@@ -1279,6 +1279,8 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
           SaveNagruzkaLecturer(nagruzka_row);
         }
       });
+
+      $scope.group_action.action = undefined;
     }
     // Распределить всё на «вакансию»
     else if ($scope.group_action.action == 'assign_to_vacancy')
@@ -1290,11 +1292,13 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
         {
           nagruzka_row.lecturer_fio = 'Вакансия';
           nagruzka_row.lecturer_uid = '26115.281474976893938';
-          nagruzka_row.lecturer_person_id = '00000';
+          nagruzka_row.lecturer_person_id = '000000';
 
           SaveNagruzkaLecturer(nagruzka_row);
         }
       });
+
+      $scope.group_action.action = undefined;
     }
     // Отказаться от выбранной нагрузки
     else if ($scope.group_action.action == 'refuse_nagruzka')
@@ -1312,6 +1316,8 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
             SaveNagruzkaStatus(nagruzka_row, 'refused');
           }
         });
+
+        $scope.group_action.action = undefined;
       }
     }
     // Запрос администратору на внесение изменений
@@ -1338,6 +1344,8 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
                     nagruzka_row.lecturer_fio = nagruzka_row.lecturer_uid = nagruzka_row.lecturer_person_id = '';
                   }
                 });
+
+                $scope.group_action.action = undefined;
             });
 
         
@@ -1360,16 +1368,18 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
             SaveNagruzkaStatus(nagruzka_row, 'write_admin_comment');
           }
         });
+
+        $scope.group_action.action = undefined;
       }
     }
     else return;
 
-    $scope.group_action.action = undefined;
+    
   }
 
   function SaveNagruzkaStatus(nagruzka_row, new_status)
   {
-    $http({url: 'ajax/post/save_nagruzka_status.php', method: 'POST', data: {status: new_status, message: $scope.group_action.message, load_base_UID: nagruzka_row.base_uid}})
+    $http({url: 'ajax/post/save_nagruzka_status.php', method: 'POST', data: {status: new_status, message: $scope.group_action.message, load_base_UID2: nagruzka_row.base_uid2}})
                 .then(function(data)
                 {
                   if (data.data.result == 'success')
@@ -1728,7 +1738,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
             })
             .then(function (message) {  // да
 
-              $http({url: 'ajax/post/uoup_cancel.php', method: 'POST', data: {base_uid: nagruzka_row.base_uid, chair_id: nagruzka_row.chair_id, chair_name: nagruzka_row.chair_name, zavkaf_fio: nagruzka_row.zavkaf_fio, action: 'Администратор УОУП отклонил отказ кафедры от нагрузки', message: message}})
+              $http({url: 'ajax/post/uoup_cancel.php', method: 'POST', data: {load_base_UID2: nagruzka_row.base_uid2, chair_id: nagruzka_row.chair_id, chair_name: nagruzka_row.chair_name, zavkaf_fio: nagruzka_row.zavkaf_fio, action: 'Администратор УОУП отклонил отказ кафедры от нагрузки', message: message}})
                 .then(function(data)
                 {
                   if (data.data.result == 'success')
@@ -1778,6 +1788,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
   $scope.isFiltering = false;
   $scope.viewState = 'chairs'; // 'chairs' or 'table'
 
+  /*
   function buildAdminChangeChairs(rows)
   {
     if (!Array.isArray(rows) || !rows.length) return [];
@@ -1806,6 +1817,49 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
     {
       return a.chair_name.localeCompare(b.chair_name, 'ru');
     });
+  }
+
+  */
+
+  function buildAdminChangeChairs(rows) {
+    if (!Array.isArray(rows) || !rows.length) return [];
+
+    const departments = {};
+
+    rows.forEach(function(row) {
+      const deptName = row.department_name || 'Факультет не указан';
+      const chairId = (row.chair_id || '').toString();
+      const chairName = (row.chair_name || 'Кафедра не указана').replace(/<br\s*\/?>/gi, ', ');
+
+      if (!departments[deptName]) {
+        departments[deptName] = {
+          department_name: deptName,
+          chairs: {},
+          count: 0
+        };
+      }
+
+      if (!departments[deptName].chairs[chairId]) {
+        departments[deptName].chairs[chairId] = {
+          chair_id: chairId,
+          chair_name: chairName,
+          count: 0
+        };
+      }
+
+      departments[deptName].chairs[chairId].count += 1;
+      departments[deptName].count += 1;
+    });
+
+    // Convert to array and sort
+    return Object.values(departments).map(dept => {
+      dept.chairs = Object.values(dept.chairs).sort((a, b) => 
+        a.chair_name.localeCompare(b.chair_name, 'ru')
+      );
+      return dept;
+    }).sort((a, b) => 
+      a.department_name.localeCompare(b.department_name, 'ru')
+    );
   }
 
   function buildChairComments(rows)
@@ -1875,6 +1929,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
     }
   }
 
+  /*
   $scope.toggleAdminChangeChair = function(chair) {
     if (!chair) return;
 
@@ -1890,6 +1945,24 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
       );
     }
   };
+
+  */
+
+  $scope.toggleAdminChangeChair = function(chair) {
+      if (!chair) return;
+
+      if ($scope.selectedAdminChangeChair && $scope.selectedAdminChangeChair.chair_id === chair.chair_id) {
+        $scope.selectedAdminChangeChair = null;
+        $scope.chairComments = [];
+      } else {
+        $scope.selectedAdminChangeChair = chair;
+        $scope.chairComments = buildChairComments(
+          $scope.allNagruzka.filter(function(row) {
+            return row.chair_id == chair.chair_id;
+          })
+        );
+      }
+    };
 
   $scope.toggleChairComment = function(comment) {
 
@@ -2047,7 +2120,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
             })
             .then(function (message) {  // да
 
-              $http({url: 'ajax/post/uoup_cancel.php', method: 'POST', data: {base_uid: nagruzka_row.base_uid, chair_id: nagruzka_row.chair_id, chair_name: nagruzka_row.chair_name, zavkaf_fio: nagruzka_row.zavkaf_fio, action: 'Админ УОУП отклонил запрос кафедры на внесение изменений', message: message}})
+              $http({url: 'ajax/post/uoup_cancel.php', method: 'POST', data: {load_base_UID2: nagruzka_row.base_uid2, chair_id: nagruzka_row.chair_id, chair_name: nagruzka_row.chair_name, zavkaf_fio: nagruzka_row.zavkaf_fio, action: 'Админ УОУП отклонил запрос кафедры на внесение изменений', message: message}})
                 .then(function(response)
                 {
                   if (response.data.result == 'success')
@@ -2093,7 +2166,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
             })
             .then(function (message) {  // да
 
-              $http({url: 'ajax/post/uoup_done_change.php', method: 'POST', data: {base_uid: nagruzka_row.base_uid, chair_id: nagruzka_row.chair_id, chair_name: nagruzka_row.chair_name, zavkaf_fio: nagruzka_row.zavkaf_fio, message: message}})
+              $http({url: 'ajax/post/uoup_done_change.php', method: 'POST', data: {load_base_UID2: nagruzka_row.base_uid2, chair_id: nagruzka_row.chair_id, chair_name: nagruzka_row.chair_name, zavkaf_fio: nagruzka_row.zavkaf_fio, message: message}})
                 .then(function(data)
                 {
                   if (data.data.result == 'success')

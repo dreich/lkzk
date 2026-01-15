@@ -18,26 +18,26 @@ if (empty($_SERVER['HTTP_X_REQUESTED_WITH']) || $_SERVER['HTTP_X_REQUESTED_WITH'
     exit('Forbidden');
 }
 
-if ($data['base_uid'])
+if ($data['load_base_UID2'])
 {
-  $nagruzka = GetFullNagruzkaRow($data['base_uid']);
+  $nagruzka = GetFullNagruzkaRow($data['load_base_UID2']);
 
   $Result = $mysqli->query("
     UPDATE `nagruzka` SET `prev_status` = `status`, `status` = 'done_change'
-    WHERE `load_base_UID` = '$data[base_uid]'");
+    WHERE `load_base_UID2` = '$data[load_base_UID2]'");
 
   if (!$nagruzka)
   {
     EchoLog("nagruzka пустая в uoup_done_change.php", 'file mail');
   }
 
-  EchoLog($nagruzka);
+  // EchoLog($nagruzka);
 
   if ($Result && $nagruzka)
   {
     $result['result'] = 'success';
     
-    ActivityLog($data['base_uid'], ['Админ УОУП выполнил запрос кафедры на внесение изменений', $nagruzka['chair_id'], $nagruzka['chair_name'], $nagruzka['zavkaf_fio']], $data['message'], 'done_change', 1, 1);
+    ActivityLog($data['load_base_UID2'], ['Админ УОУП выполнил запрос кафедры на внесение изменений', $nagruzka['chair_id'], $nagruzka['chair_name'], $nagruzka['zavkaf_fio']], $data['message'], 'done_change', 1, 1);
   }
   else
   {

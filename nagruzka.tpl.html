@@ -122,6 +122,7 @@
         <tr ng-repeat="row in nagruzka" class="pointer" ng-class="{'readonly': !IsNagruzkaEditable(row)}">
           <td ng-click="SelectNagruzkaTDClick(row); $event.stopPropagation()" ng-show="!nagruzka_readonly">  
             <input type="checkbox" ng-model="row.selected" ng-click="$event.stopPropagation()" ng-disabled="!IsNagruzkaEditable(row)">
+            <!-- {{row.base_uid}} -->
           </td>
           <td ng-click="NagruzkaRowClick(row)">{{row.department_name}}</td>
           <td ng-bind-html="row.Abbr" ng-click="NagruzkaRowClick(row)">

@@ -2127,7 +2127,7 @@ function GetLdapAttrsByAdmin($login,  $attrs, $ou = 'unn_staff')
 *   дата события в человеческом формате (DE)
 */
 // В ФУНКЦИЮ НУЖНО ПЕРЕДАВАТЬ УЖЕ ЭКРАНИРОВАННЫЕ ДАННЫЕ
-function ActivityLog($load_base_UID, $log, $message = '', $action_name = '', $internal = 1, $status_change = 0)
+function ActivityLog($load_base_UID2, $log, $message = '', $action_name = '', $internal = 1, $status_change = 0)
 {
   global $_SERVER, $_SESSION, $mysqli;
 
@@ -2160,7 +2160,7 @@ function ActivityLog($load_base_UID, $log, $message = '', $action_name = '', $in
   }
   else $log0 = $log;
 
-  if ($load_base_UID) $load_base_UID_sql = ",`load_base_UID` = '$load_base_UID'";
+  if ($load_base_UID2) $load_base_UID2_sql = ", `load_base_UID2` = '$load_base_UID2'";
 
   $query = "INSERT INTO `log` SET `message` = '$message',
     `datetime` = NOW(), 
@@ -2177,7 +2177,7 @@ function ActivityLog($load_base_UID, $log, $message = '', $action_name = '', $in
     `browser` = '$user_browser',
     `status_change` = '$status_change',
     `log` = '$log0'
-    $load_base_UID_sql
+    $load_base_UID2_sql
     ";
 
 
@@ -2342,13 +2342,23 @@ function get_base_uid($uid) {
 */
 
 /**
+  // база
+  226589.28147497677397
+  // база.дисциплина
+  226589.28147497677397.1
+  // база.препод
+  26589.281474976773927.26115.281474976816519
+  // база.препод.дисциплина
+  26589.281474976773927.26115.281474976894467.1
+
+
  * Нормализует UID нагрузки - обрезает всё после второй точки (не включая вторую точку)
  * возвращает то, что до второй точки
  * 
  * @param string $uid UID из xml_content_of_load
  * @return string Базовый UID для JOIN с xml_content_of_load_staff
  */
-function get_base_uid($uid) {
+function get_base_uid1($uid) {
     $pos1 = strpos($uid, '.');
     if ($pos1 === false) {
         return $uid; // Точек нет
@@ -2358,6 +2368,37 @@ function get_base_uid($uid) {
         return $uid; // Только одна точка
     }
     return substr($uid, 0, $pos2);
+}
+
+
+/**
+  // база
+  226589.28147497677397
+  // база.дисциплина
+  226589.28147497677397.1
+  // база.препод
+  26589.281474976773927.26115.281474976816519
+  // база.препод.дисциплина
+  26589.281474976773927.26115.281474976894467.1
+
+
+ * если в строке $uid встречается три точки, то нужно вырезать и вернуть от начала строки до четвёртой точки либо конца строки. 
+ * В противном случае (если не встречается), то просто от $uid получить и вернуть get_base_uid()
+ * 
+ * @param string $uid UID из xml_content_of_load
+ * @return string Базовый UID для JOIN с xml_content_of_load_staff
+ */
+function get_base_uid2($uid) {
+    // Используем explode для разделения по точкам
+    $parts = explode('.', $uid);
+    
+    // Если частей меньше 4 (точек меньше 3), используем get_base_uid
+    if (count($parts) < 4) {
+        return get_base_uid1($uid);
+    }
+    
+    // Собираем первые 4 части обратно
+    return implode('.', array_slice($parts, 0, 4));
 }
 
 // Получить запрос к БД для получения строк нагрузки с доп. SQL фильтром $dop_sql
@@ -2377,6 +2418,7 @@ function GetNagruzkaBaseQuery($dop_sql)
   xml_content_of_load.UID as original_uid,
   #SUBSTRING(xml_content_of_load.UID, 1, LENGTH(xml_content_of_load.UID) - LOCATE('.', REVERSE(xml_content_of_load.UID))) as base_uid,
   xml_content_of_load.base_uid,
+  xml_content_of_load.base_uid2,
   xml_content_of_load.UID as xml_content_of_load_UID,
   xml_content_of_load_staff.UID as xml_content_of_load_staff_UID,
   xml_content_of_load.YearOfEducation,
@@ -2413,7 +2455,7 @@ function GetNagruzkaBaseQuery($dop_sql)
   LEFT JOIN xml_language ON xml_language.UID = xml_content_of_load_staff.UID_Language
   LEFT JOIN xml_kind_of_work ON xml_kind_of_work.UID = xml_content_of_load.UID_KindOfWork
   LEFT JOIN xml_lecturer ON xml_lecturer.UID = xml_content_of_load.UID_Lecturer
-  LEFT JOIN `nagruzka` ON nagruzka.load_base_UID = xml_content_of_load.base_uid
+  LEFT JOIN `nagruzka` ON nagruzka.load_base_UID2 = xml_content_of_load.base_uid2
   WHERE 
   (xml_content_of_load_staff.`Abbr` LIKE ('Б1.%') OR xml_content_of_load_staff.`Abbr` LIKE ('Ф%') OR xml_content_of_load_staff.`Abbr` LIKE ('1.%') OR xml_content_of_load_staff.`Abbr` LIKE ('1.01%') OR xml_content_of_load_staff.`Abbr` LIKE ('2.1%') OR xml_content_of_load_staff.`Abbr` LIKE ('2.01%') OR xml_content_of_load_staff.`Abbr` LIKE ('С1%') OR xml_content_of_load_staff.`Abbr` LIKE ('С2%') OR xml_content_of_load_staff.`Abbr` LIKE ('С3%') OR xml_content_of_load_staff.`Abbr` LIKE ('С4%'))
     #AND `base_uid` = '26589.281474976787058'
@@ -2428,7 +2470,7 @@ function GetNagruzkaBaseQuery($dop_sql)
 }
 
 // Данные от запроса GetNagruzkaBaseQuery() должны пропускаться через функцию PrepareNagruzka() для подготовки к выдаче в зелёную таблицу нагрузки
-// с уникализацией по base_uid
+// с уникализацией по base_uid2
 function PrepareNagruzka($_Nagruzka)
 {
   global $_forms_obuchenia;
@@ -2439,61 +2481,61 @@ function PrepareNagruzka($_Nagruzka)
   {
     foreach ($_Nagruzka as $nagruzka)
     {
-      if (/* $nagruzka['base_uid'] != $nagruzka['original_uid'] && */ $Nagruzka["$nagruzka[base_uid]"])
+      if (/* $nagruzka['base_uid'] != $nagruzka['original_uid'] && */ $Nagruzka["$nagruzka[base_uid2]"])
       {
-        if (!in_array($nagruzka['discipline_name'], $Nagruzka["$nagruzka[base_uid]"]['discipline_name_arr'], true))
+        if (!in_array($nagruzka['discipline_name'], $Nagruzka["$nagruzka[base_uid2]"]['discipline_name_arr'], true))
         {
-          $Nagruzka["$nagruzka[base_uid]"]['discipline_name_arr'][] = $nagruzka['discipline_name'];
+          $Nagruzka["$nagruzka[base_uid2]"]['discipline_name_arr'][] = $nagruzka['discipline_name'];
         }
 
-        if (!in_array($nagruzka['discipline_UID'], $Nagruzka["$nagruzka[base_uid]"]['discipline_UID_arr'], true))
+        if (!in_array($nagruzka['discipline_UID'], $Nagruzka["$nagruzka[base_uid2]"]['discipline_UID_arr'], true))
         {
-          $Nagruzka["$nagruzka[base_uid]"]['discipline_UID_arr'][] = $nagruzka['discipline_UID'];
+          $Nagruzka["$nagruzka[base_uid2]"]['discipline_UID_arr'][] = $nagruzka['discipline_UID'];
         }
 
-        if (!in_array($nagruzka['group_name'], $Nagruzka["$nagruzka[base_uid]"]['group_name_arr'], true))
+        if (!in_array($nagruzka['group_name'], $Nagruzka["$nagruzka[base_uid2]"]['group_name_arr'], true))
         {
-          $Nagruzka["$nagruzka[base_uid]"]['group_name_arr'][] = $nagruzka['group_name'];
+          $Nagruzka["$nagruzka[base_uid2]"]['group_name_arr'][] = $nagruzka['group_name'];
         }
 
-        if (!in_array($nagruzka['Abbr'], $Nagruzka["$nagruzka[base_uid]"]['Abbr_arr']))
+        if (!in_array($nagruzka['Abbr'], $Nagruzka["$nagruzka[base_uid2]"]['Abbr_arr']))
         {
-          $Nagruzka["$nagruzka[base_uid]"]['Abbr_arr'][] = $nagruzka['Abbr'];
+          $Nagruzka["$nagruzka[base_uid2]"]['Abbr_arr'][] = $nagruzka['Abbr'];
         }
 
-        if (!in_array($nagruzka['napravlenie'], $Nagruzka["$nagruzka[base_uid]"]['napravlenie_arr'], true))
+        if (!in_array($nagruzka['napravlenie'], $Nagruzka["$nagruzka[base_uid2]"]['napravlenie_arr'], true))
         {
-          $Nagruzka["$nagruzka[base_uid]"]['napravlenie_arr'][] = $nagruzka['napravlenie'];
+          $Nagruzka["$nagruzka[base_uid2]"]['napravlenie_arr'][] = $nagruzka['napravlenie'];
         }
 
-        if ($nagruzka['napravlennost'] && !in_array($nagruzka['napravlennost'], $Nagruzka["$nagruzka[base_uid]"]['napravlennost_arr'], true))
+        if ($nagruzka['napravlennost'] && !in_array($nagruzka['napravlennost'], $Nagruzka["$nagruzka[base_uid2]"]['napravlennost_arr'], true))
         {
-          $Nagruzka["$nagruzka[base_uid]"]['napravlennost_arr'][] = $nagruzka['napravlennost'];
+          $Nagruzka["$nagruzka[base_uid2]"]['napravlennost_arr'][] = $nagruzka['napravlennost'];
         }
 
-        if (!in_array($nagruzka['department_name'], $Nagruzka["$nagruzka[base_uid]"]['department_name_arr'], true))
+        if (!in_array($nagruzka['department_name'], $Nagruzka["$nagruzka[base_uid2]"]['department_name_arr'], true))
         {
-          $Nagruzka["$nagruzka[base_uid]"]['department_name_arr'][] = $nagruzka['department_name'];
+          $Nagruzka["$nagruzka[base_uid2]"]['department_name_arr'][] = $nagruzka['department_name'];
         }
         
       }
       else
       {
-        $Nagruzka["$nagruzka[base_uid]"] = $nagruzka;
+        $Nagruzka["$nagruzka[base_uid2]"] = $nagruzka;
 
-        $Nagruzka["$nagruzka[base_uid]"]['discipline_name_arr'] = [$nagruzka['discipline_name']];
-        $Nagruzka["$nagruzka[base_uid]"]['discipline_UID_arr'] = [$nagruzka['discipline_UID']];
+        $Nagruzka["$nagruzka[base_uid2]"]['discipline_name_arr'] = [$nagruzka['discipline_name']];
+        $Nagruzka["$nagruzka[base_uid2]"]['discipline_UID_arr'] = [$nagruzka['discipline_UID']];
         
-        $Nagruzka["$nagruzka[base_uid]"]['group_name_arr'] = [$nagruzka['group_name']];
-        $Nagruzka["$nagruzka[base_uid]"]['Abbr_arr'] = [$nagruzka['Abbr']];
-        $Nagruzka["$nagruzka[base_uid]"]['napravlenie_arr'] = [$nagruzka['napravlenie']];
+        $Nagruzka["$nagruzka[base_uid2]"]['group_name_arr'] = [$nagruzka['group_name']];
+        $Nagruzka["$nagruzka[base_uid2]"]['Abbr_arr'] = [$nagruzka['Abbr']];
+        $Nagruzka["$nagruzka[base_uid2]"]['napravlenie_arr'] = [$nagruzka['napravlenie']];
 
         
-        $Nagruzka["$nagruzka[base_uid]"]['napravlennost_arr'] = [];
+        $Nagruzka["$nagruzka[base_uid2]"]['napravlennost_arr'] = [];
 
-        if ($nagruzka['napravlennost']) $Nagruzka["$nagruzka[base_uid]"]['napravlennost_arr'][] = $nagruzka['napravlennost'];
+        if ($nagruzka['napravlennost']) $Nagruzka["$nagruzka[base_uid2]"]['napravlennost_arr'][] = $nagruzka['napravlennost'];
 
-        $Nagruzka["$nagruzka[base_uid]"]['department_name_arr'] = [$nagruzka['department_name']];
+        $Nagruzka["$nagruzka[base_uid2]"]['department_name_arr'] = [$nagruzka['department_name']];
       }
       
     }
@@ -2519,9 +2561,9 @@ function PrepareNagruzka($_Nagruzka)
 
 
 // Получить одну строку нагрузки по таблице 1 и таблице 2
-function GetFullNagruzkaRow($base_uid)
+function GetFullNagruzkaRow($base_uid2)
 {
-  $nagruzka_query = GetNagruzkaBaseQuery("AND `load_base_UID` = '$base_uid'");
+  $nagruzka_query = GetNagruzkaBaseQuery("AND `load_base_UID2` = '$base_uid2'");
   $_Nagruzka = GetSQL($nagruzka_query);
   return array_pop(PrepareNagruzka($_Nagruzka));
 }

@@ -19,15 +19,13 @@ if (empty($_SERVER['HTTP_X_REQUESTED_WITH']) || $_SERVER['HTTP_X_REQUESTED_WITH'
     exit('Forbidden');
 }
 
-if ($data['base_uid'])
+if ($data['load_base_UID2'])
 {
-  $nagruzka = GetFullNagruzkaRow($data['base_uid']);
-
-  // $nagruzka = GetRow('nagruzka', ['load_base_UID' => $data['base_uid']]);
+  $nagruzka = GetFullNagruzkaRow($data['load_base_UID2']);
 
   $Result = $mysqli->query("
     UPDATE `nagruzka` SET `prev_status` = `status`, `status` = 'initial'
-    WHERE `load_base_UID` = '$data[base_uid]'");
+    WHERE `load_base_UID2` = '$data[load_base_UID2]'");
 
   if (!$nagruzka)
   {
@@ -40,7 +38,7 @@ if ($data['base_uid'])
   {
     $result['result'] = 'success';
     
-    ActivityLog($data['base_uid'], [$data['action'], $nagruzka['chair_id'], $nagruzka['chair_name'], $nagruzka['zavkaf_fio']], $data['message'], 'initial', 0, 1);
+    ActivityLog($data['load_base_UID2'], [$data['action'], $nagruzka['chair_id'], $nagruzka['chair_name'], $nagruzka['zavkaf_fio']], $data['message'], 'initial', 0, 1);
 
     $message_subject = $data['action'];
     $message_text = GetNagruzkaFieldsForMail($nagruzka);

@@ -42,6 +42,7 @@ $department_id = $_SESSION['c_department_id'];
 // Т.к. сотрудники ГПХ в таблице sotrudniki привязаны не к кафедре, а факультету, то будем их брать по факультету авторизованного завкафа,
 // а не ГПХ-шников будем искать по кафедре
 
+
 $query = "
         SELECT sotrudniki.*, 
         ROUND(SUM(xml_content_of_load.Amount), 2) as amount_sum, 
@@ -50,7 +51,7 @@ $query = "
         xml_content_of_load.TypeWorkload
         FROM `sotrudniki`
         LEFT JOIN nagruzka ON sotrudniki.person_id = nagruzka.lecturer_person_id
-        LEFT JOIN `xml_content_of_load` ON nagruzka.`load_base_UID` = xml_content_of_load.`base_uid`
+        LEFT JOIN `xml_content_of_load` ON nagruzka.`load_base_UID2` = xml_content_of_load.`base_uid2`
         WHERE 
         ((sotrudniki.`type` <> 'gph' AND sotrudniki.`chair_id` = '$chair_id') OR (sotrudniki.`type` = 'gph' AND sotrudniki.`department_id` = '$department_id'))
         # sotrudniki.`chair_id` = '$chair_id' 
@@ -58,7 +59,9 @@ $query = "
         GROUP BY sotrudniki.person_id
         ";
 
-// EchoLog($query);
+
+// Без этого ругается версия MySQL на GROUP BY
+$mysqli->query("SET SESSION sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''))");
 
 $Sotrudniki = GetSQL($query); 
 

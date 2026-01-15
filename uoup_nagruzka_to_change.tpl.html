@@ -85,6 +85,61 @@
 <div ng-switch on="viewState">
 
   <div ng-switch-when="chairs">
+  <div class="admin-change-cards-wrapper w-50" ng-if="adminChangeChairs.length">
+    <div ng-repeat="department in adminChangeChairs" class="department-group mb-4">
+      <div class="department-header d-flex align-items-center mb-2 p-2" 
+           style="background-color: #f8f9fa; border-left: 4px solid #007bff;">
+        <h5 class="m-0">{{ department.department_name }}</h5>
+        <span class="badge badge-primary ml-2">{{ department.count }}</span>
+      </div>
+      
+      <div class="department-chairs">
+        <div class="admin-change-card"
+             ng-repeat="chair in department.chairs"
+             ng-class="{'active': selectedAdminChangeChair && selectedAdminChangeChair.chair_id === chair.chair_id}"
+             ng-click="toggleAdminChangeChair(chair)">
+          <div class="admin-change-card-header">
+            <div class="admin-change-card__title">{{chair.chair_name}}</div>
+            <div class="admin-change-card__count-bubble">{{chair.count}}</div>
+          </div>
+
+          <div ng-if="selectedAdminChangeChair && selectedAdminChangeChair.chair_id === chair.chair_id">
+            <div ng-if="!chairComments.length" class="alert alert-info py-2 mt-3">
+              Для выбранной кафедры нет сохранённых комментариев.
+            </div>
+            <div ng-if="chairComments.length">
+              <table class="chair-comments-table">
+                <thead>
+                  <tr>
+                    <th>Дата</th>
+                    <th>Комментарий</th>
+                    <th>Действия</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="comment in chairComments" 
+                      ng-class="{'active': selectedChairComment && selectedChairComment.key === comment.key}"
+                      ng-click="toggleChairComment(comment); $event.stopPropagation()">
+                    <td>{{comment.dateFormatted}}</td>
+                    <td>{{comment.messageRaw}}</td>
+                    <td>
+                      <button class="btn btn-sm btn-primary" 
+                              ng-click="toggleChairComment(comment); $event.stopPropagation()">
+                        Показать ({{comment.count}})
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <!-- <div ng-switch-when="chairs">
     <div class="admin-change-cards-wrapper w-50" ng-if="adminChangeChairs.length">
       <div class="admin-change-card"
            ng-repeat="chair in adminChangeChairs"
@@ -121,8 +176,9 @@
           </div>
         </div>
       </div>
+      
     </div>
-  </div>
+  </div> -->
 
   <div ng-switch-when="table">
     <button class="btn btn-secondary mb-3" ng-click="showChairs()">Назад к списку кафедр</button>

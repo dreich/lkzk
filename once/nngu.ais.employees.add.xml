@@ -82,33 +82,6 @@
         </Works>
     </Employee>
 <Employee>
-        <UID>70589</UID>
-        <FullName>Винокуров Алексей Викторович</FullName>
-        <BornDate>16.03.1998</BornDate>
-        <AcademicDegree/>
-        <AcademicRank>без степени </AcademicRank>
-        <Surname>Винокуров</Surname>
-        <Name>Алексей</Name>
-        <MiddleName>Викторович</MiddleName>
-        <Works>
-            <Work ID="99" Type="Договор ГПХ">
-                <Department1 ID="5470"/>
-                <Department2 ID="164"/>
-                <Department3 ID="255"/>
-                <Department4 ID="0"/>
-                <Department5 ID="0"/>
-                <Department6 ID="0"/>
-                <Duty ID="1ed022e79">преподаватель</Duty>
-                <Qualificationlevel> </Qualificationlevel>
-                <CountRate>1</CountRate>
-                <EmpCategory>ППС</EmpCategory>
-                <DeletionMark>false</DeletionMark>
-                <AppointDate>01.12.2025</AppointDate>
-                <ContractEndDate>30.06.2026</ContractEndDate>
-            </Work>
-        </Works>
-    </Employee>
-<Employee>
         <UID>70591</UID>
         <FullName>Пивина Наталья Васильевна</FullName>
         <BornDate>09.05.1985</BornDate>
@@ -130,7 +103,7 @@
                 <CountRate>1</CountRate>
                 <EmpCategory>ППС</EmpCategory>
                 <DeletionMark>false</DeletionMark>
-                <AppointDate>23.12.2025</AppointDate>
+                <AppointDate>12.01.2026</AppointDate>
                 <ContractEndDate>01.04.2026</ContractEndDate>
             </Work>
         </Works>
@@ -157,7 +130,7 @@
                 <CountRate>0,1</CountRate>
                 <EmpCategory>ППС</EmpCategory>
                 <DeletionMark>false</DeletionMark>
-                <AppointDate>23.12.2025</AppointDate>
+                <AppointDate>12.01.2026</AppointDate>
                 <ContractEndDate>30.06.2026</ContractEndDate>
             </Work>
         </Works>
@@ -238,7 +211,7 @@
                 <CountRate>1</CountRate>
                 <EmpCategory>ППС</EmpCategory>
                 <DeletionMark>false</DeletionMark>
-                <AppointDate>23.12.2025</AppointDate>
+                <AppointDate>14.01.2026</AppointDate>
                 <ContractEndDate>30.06.2026</ContractEndDate>
             </Work>
         </Works>
@@ -294,6 +267,141 @@
                 <DeletionMark>false</DeletionMark>
                 <AppointDate>01.09.2025</AppointDate>
                 <ContractEndDate>31.01.2026</ContractEndDate>
+            </Work>
+        </Works>
+    </Employee>
+<Employee>
+        <UID>52980</UID>
+        <FullName>Солодовников Алексей Геннадьевич</FullName>
+        <BornDate>29.04.1981</BornDate>
+        <AcademicDegree/>
+        <AcademicRank>без степени </AcademicRank>
+        <Surname>Солодовников</Surname>
+        <Name>Алексей</Name>
+        <MiddleName>Геннадьевич</MiddleName>
+        <Works>
+            <Work ID="99" Type="Договор ГПХ">
+                <Department1 ID="2843"/>
+                <Department2 ID="2835"/>
+                <Department3 ID="255"/>
+                <Department4 ID="0"/>
+                <Department5 ID="0"/>
+                <Department6 ID="0"/>
+                <Duty ID="1ed022e79">преподаватель</Duty>
+                <Qualificationlevel> </Qualificationlevel>
+                <CountRate>1</CountRate>
+                <EmpCategory>ППС</EmpCategory>
+                <DeletionMark>false</DeletionMark>
+                <AppointDate>01.09.2025</AppointDate>
+                <ContractEndDate>30.06.2026</ContractEndDate>
+            </Work>
+        </Works>
+    </Employee>
+<Employee>
+        <UID>52836</UID>
+        <FullName>Ювонин Владимир Юрьевич</FullName>
+        <BornDate>23.02.1963</BornDate>
+        <AcademicDegree/>
+        <AcademicRank>без степени </AcademicRank>
+        <Surname>Ювонин</Surname>
+        <Name>Владимир</Name>
+        <MiddleName>Юрьевич</MiddleName>
+        <Works>
+            <Work ID="99" Type="Договор ГПХ">
+                <Department1 ID="2419"/>
+                <Department2 ID="2324"/>
+                <Department3 ID="255"/>
+                <Department4 ID="0"/>
+                <Department5 ID="0"/>
+                <Department6 ID="0"/>
+                <Duty ID="1ed022e79">преподаватель</Duty>
+                <Qualificationlevel> </Qualificationlevel>
+                <CountRate>1</CountRate>
+                <EmpCategory>ППС</EmpCategory>
+                <DeletionMark>false</DeletionMark>
+                <AppointDate>01.10.2025</AppointDate>
+                <ContractEndDate>31.12.2025</ContractEndDate>
+            </Work>
+        </Works>
+    </Employee>
+<Employee>
+        <UID>70349</UID>
+        <FullName>Ясинская Яна Константиновна</FullName>
+        <BornDate>14.05.1994</BornDate>
+        <AcademicDegree/>
+        <AcademicRank>без степени </AcademicRank>
+        <Surname>Ясинская</Surname>
+        <Name>Яна</Name>
+        <MiddleName>Константиновна</MiddleName>
+        <Works>
+            <Work ID="99" Type="Договор ГПХ">
+                <Department1 ID="5311"/>
+                <Department2 ID="5231"/>
+                <Department3 ID="255"/>
+                <Department4 ID="0"/>
+                <Department5 ID="0"/>
+                <Department6 ID="0"/>
+                <Duty ID="1ed022e79">преподаватель</Duty>
+                <Qualificationlevel> </Qualificationlevel>
+                <CountRate>1</CountRate>
+                <EmpCategory>ППС</EmpCategory>
+                <DeletionMark>false</DeletionMark>
+                <AppointDate>01.09.2025</AppointDate>
+                <ContractEndDate>30.06.2026</ContractEndDate>
+            </Work>
+        </Works>
+    </Employee>
+<Employee>
+        <UID>70308</UID>
+        <FullName>Кадяев Владимир Владимирович</FullName>
+        <BornDate>16.10.1974</BornDate>
+        <AcademicDegree/>
+        <AcademicRank>без степени </AcademicRank>
+        <Surname>Кадяев</Surname>
+        <Name>Владимир</Name>
+        <MiddleName>Владимирович</MiddleName>
+        <Works>
+            <Work ID="99" Type="Договор ГПХ">
+                <Department1 ID="1966"/>
+                <Department2 ID="389"/>
+                <Department3 ID="255"/>
+                <Department4 ID="0"/>
+                <Department5 ID="0"/>
+                <Department6 ID="0"/>
+                <Duty ID="1ed022e79">преподаватель</Duty>
+                <Qualificationlevel> </Qualificationlevel>
+                <CountRate>1</CountRate>
+                <EmpCategory>ППС</EmpCategory>
+                <DeletionMark>false</DeletionMark>
+                <AppointDate>01.09.2025</AppointDate>
+                <ContractEndDate>30.06.2026</ContractEndDate>
+            </Work>
+        </Works>
+    </Employee>
+<Employee>
+        <UID>24311</UID>
+        <FullName>Щелина Тамара Тимофеевна</FullName>
+        <BornDate>27.08.1965</BornDate>
+        <AcademicDegree>профессор</AcademicDegree>
+        <AcademicRank>доктор педагогических наук</AcademicRank>
+        <Surname>Щелина</Surname>
+        <Name>Тамара</Name>
+        <MiddleName>Тимофеевна</MiddleName>
+        <Works>
+            <Work ID="99" Type="Договор ГПХ">
+                <Department1 ID="1989"/>
+                <Department2 ID="35"/>
+                <Department3 ID="255"/>
+                <Department4 ID="0"/>
+                <Department5 ID="0"/>
+                <Department6 ID="0"/>
+                <Duty ID="1ed022e79">преподаватель</Duty>
+                <Qualificationlevel> </Qualificationlevel>
+                <CountRate>1</CountRate>
+                <EmpCategory>ППС</EmpCategory>
+                <DeletionMark>false</DeletionMark>
+                <AppointDate>01.10.2025</AppointDate>
+                <ContractEndDate>30.09.2026</ContractEndDate>
             </Work>
         </Works>
     </Employee>
@@ -433,33 +541,6 @@
         </Works>
     </Employee>
 <Employee>
-        <UID>70575</UID>
-        <FullName>Гусева Юлия Александровна</FullName>
-        <BornDate>06.04.1982</BornDate>
-        <AcademicDegree/>
-        <AcademicRank>без степени </AcademicRank>
-        <Surname>Гусева</Surname>
-        <Name>Юлия</Name>
-        <MiddleName>Александровна</MiddleName>
-        <Works>
-            <Work ID="99" Type="Договор ГПХ">
-                <Department1 ID="5530"/>
-                <Department2 ID="2835"/>
-                <Department3 ID="255"/>
-                <Department4 ID="0"/>
-                <Department5 ID="0"/>
-                <Department6 ID="0"/>
-                <Duty ID="1ed022e79">преподаватель</Duty>
-                <Qualificationlevel> </Qualificationlevel>
-                <CountRate>1</CountRate>
-                <EmpCategory>ППС</EmpCategory>
-                <DeletionMark>false</DeletionMark>
-                <AppointDate>01.10.2025</AppointDate>
-                <ContractEndDate>30.06.2026</ContractEndDate>
-            </Work>
-        </Works>
-    </Employee>
-<Employee>
         <UID>70576</UID>
         <FullName>Мусина Наталья Ивановна</FullName>
         <BornDate>19.06.1976</BornDate>
@@ -481,7 +562,7 @@
                 <CountRate>0,25</CountRate>
                 <EmpCategory>ППС</EmpCategory>
                 <DeletionMark>false</DeletionMark>
-                <AppointDate>23.12.2025</AppointDate>
+                <AppointDate>14.01.2026</AppointDate>
                 <ContractEndDate>30.06.2026</ContractEndDate>
             </Work>
         </Works>
@@ -535,7 +616,7 @@
                 <CountRate>1</CountRate>
                 <EmpCategory>ППС</EmpCategory>
                 <DeletionMark>false</DeletionMark>
-                <AppointDate>23.12.2025</AppointDate>
+                <AppointDate>14.01.2026</AppointDate>
                 <ContractEndDate>30.06.2026</ContractEndDate>
             </Work>
         </Works>
@@ -564,33 +645,6 @@
                 <DeletionMark>false</DeletionMark>
                 <AppointDate>01.10.2025</AppointDate>
                 <ContractEndDate>30.09.2026</ContractEndDate>
-            </Work>
-        </Works>
-    </Employee>
-<Employee>
-        <UID>4646</UID>
-        <FullName>Миронос Алексей Андреевич</FullName>
-        <BornDate>21.02.1961</BornDate>
-        <AcademicDegree>доцент</AcademicDegree>
-        <AcademicRank>доктор исторических наук</AcademicRank>
-        <Surname>Миронос</Surname>
-        <Name>Алексей</Name>
-        <MiddleName>Андреевич</MiddleName>
-        <Works>
-            <Work ID="2" Type="Внутренний совместитель">
-                <Department1 ID="2019"/>
-                <Department2 ID="1986"/>
-                <Department3 ID="255"/>
-                <Department4 ID="0"/>
-                <Department5 ID="0"/>
-                <Department6 ID="0"/>
-                <Duty ID="d1212b82e">профессор</Duty>
-                <Qualificationlevel>ППС 4.2.</Qualificationlevel>
-                <CountRate>0,5</CountRate>
-                <EmpCategory>ППС</EmpCategory>
-                <DeletionMark>false</DeletionMark>
-                <AppointDate>23.12.2025</AppointDate>
-                <ContractEndDate>30.06.2026</ContractEndDate>
             </Work>
         </Works>
     </Employee>
@@ -751,7 +805,7 @@
                 <CountRate>0,3</CountRate>
                 <EmpCategory>ППС</EmpCategory>
                 <DeletionMark>false</DeletionMark>
-                <AppointDate>23.12.2025</AppointDate>
+                <AppointDate>12.01.2026</AppointDate>
                 <ContractEndDate>30.06.2026</ContractEndDate>
             </Work>
         </Works>
@@ -940,7 +994,7 @@
                 <CountRate>1</CountRate>
                 <EmpCategory>ППС</EmpCategory>
                 <DeletionMark>false</DeletionMark>
-                <AppointDate>23.12.2025</AppointDate>
+                <AppointDate>14.01.2026</AppointDate>
                 <ContractEndDate>30.06.2026</ContractEndDate>
             </Work>
         </Works>
@@ -973,60 +1027,6 @@
         </Works>
     </Employee>
 <Employee>
-        <UID>70586</UID>
-        <FullName>Неверова Лариса Валерьевна</FullName>
-        <BornDate>10.06.1978</BornDate>
-        <AcademicDegree/>
-        <AcademicRank>без степени </AcademicRank>
-        <Surname>Неверова</Surname>
-        <Name>Лариса</Name>
-        <MiddleName>Валерьевна</MiddleName>
-        <Works>
-            <Work ID="99" Type="Договор ГПХ">
-                <Department1 ID="5470"/>
-                <Department2 ID="164"/>
-                <Department3 ID="255"/>
-                <Department4 ID="0"/>
-                <Department5 ID="0"/>
-                <Department6 ID="0"/>
-                <Duty ID="1ed022e79">преподаватель</Duty>
-                <Qualificationlevel> </Qualificationlevel>
-                <CountRate>1</CountRate>
-                <EmpCategory>ППС</EmpCategory>
-                <DeletionMark>false</DeletionMark>
-                <AppointDate>01.12.2025</AppointDate>
-                <ContractEndDate>30.06.2026</ContractEndDate>
-            </Work>
-        </Works>
-    </Employee>
-<Employee>
-        <UID>70587</UID>
-        <FullName>Андреева Александра Николаевна</FullName>
-        <BornDate>04.07.1990</BornDate>
-        <AcademicDegree/>
-        <AcademicRank>без степени </AcademicRank>
-        <Surname>Андреева</Surname>
-        <Name>Александра</Name>
-        <MiddleName>Николаевна</MiddleName>
-        <Works>
-            <Work ID="99" Type="Договор ГПХ">
-                <Department1 ID="2678"/>
-                <Department2 ID="2324"/>
-                <Department3 ID="255"/>
-                <Department4 ID="0"/>
-                <Department5 ID="0"/>
-                <Department6 ID="0"/>
-                <Duty ID="1ed022e79">преподаватель</Duty>
-                <Qualificationlevel> </Qualificationlevel>
-                <CountRate>1</CountRate>
-                <EmpCategory>ППС</EmpCategory>
-                <DeletionMark>false</DeletionMark>
-                <AppointDate>24.11.2025</AppointDate>
-                <ContractEndDate>31.01.2026</ContractEndDate>
-            </Work>
-        </Works>
-    </Employee>
-<Employee>
         <UID>26845</UID>
         <FullName>Антипина Татьяна Викторовна</FullName>
         <BornDate>21.11.1983</BornDate>
@@ -1048,7 +1048,7 @@
                 <CountRate>1</CountRate>
                 <EmpCategory>ППС</EmpCategory>
                 <DeletionMark>false</DeletionMark>
-                <AppointDate>23.12.2025</AppointDate>
+                <AppointDate>01.01.2026</AppointDate>
                 <ContractEndDate>30.06.2026</ContractEndDate>
             </Work>
         </Works>
@@ -1102,35 +1102,8 @@
                 <CountRate>0,25</CountRate>
                 <EmpCategory>ППС</EmpCategory>
                 <DeletionMark>false</DeletionMark>
-                <AppointDate>23.12.2025</AppointDate>
+                <AppointDate>14.01.2026</AppointDate>
                 <ContractEndDate>30.06.2026</ContractEndDate>
-            </Work>
-        </Works>
-    </Employee>
-<Employee>
-        <UID>70551</UID>
-        <FullName>Пинигина Елена Павловна</FullName>
-        <BornDate>18.07.1973</BornDate>
-        <AcademicDegree/>
-        <AcademicRank>без степени </AcademicRank>
-        <Surname>Пинигина</Surname>
-        <Name>Елена</Name>
-        <MiddleName>Павловна</MiddleName>
-        <Works>
-            <Work ID="99" Type="Договор ГПХ">
-                <Department1 ID="2419"/>
-                <Department2 ID="2324"/>
-                <Department3 ID="255"/>
-                <Department4 ID="0"/>
-                <Department5 ID="0"/>
-                <Department6 ID="0"/>
-                <Duty ID="1ed022e79">преподаватель</Duty>
-                <Qualificationlevel> </Qualificationlevel>
-                <CountRate>1</CountRate>
-                <EmpCategory>ППС</EmpCategory>
-                <DeletionMark>false</DeletionMark>
-                <AppointDate>01.10.2025</AppointDate>
-                <ContractEndDate>31.12.2025</ContractEndDate>
             </Work>
         </Works>
     </Employee>

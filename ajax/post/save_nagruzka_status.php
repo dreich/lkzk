@@ -30,7 +30,7 @@ $logs = ['refused' => $_statuses['refused'], 'require_admin_change' => $_statuse
 
 if ($data['status'] && $data['status'] != 'write_admin_comment')
 {
-  $Nagruzka = GetRow('nagruzka', ['load_base_UID' => $data['load_base_UID']]);
+  $Nagruzka = GetRow('nagruzka', ['load_base_UID2' => $data['load_base_UID2']]);
 
   if ($data['status'] == 'require_admin_change')
   {
@@ -41,7 +41,7 @@ if ($data['status'] && $data['status'] != 'write_admin_comment')
                     UPDATE `nagruzka` 
                     SET `status` = '$data[status]'
                     $lecturer_sql
-                    WHERE `load_base_UID` = '$data[load_base_UID]'");
+                    WHERE `load_base_UID2` = '$data[load_base_UID2]'");
   // `chair_id` = '$chair_id' AND 
 
   if ($Nagruzka['status'] != $data['status'])
@@ -68,7 +68,7 @@ elseif ($data['message'] && $data['status'] == 'write_admin_comment')
 
   if ($AdminsUOUP)
   {
-    $dop_sql = "AND `base_uid` = '$data[load_base_UID]'";
+    $dop_sql = "AND `base_uid2` = '$data[load_base_UID2]'";
     $nagruzka_query = GetNagruzkaBaseQuery($dop_sql);
 
     $NagruzkaRows = GetSQL($nagruzka_query);
@@ -115,9 +115,9 @@ if ($Result)
   $result['result'] = 'success';
   // $result['id'] = $id;
 
-  $mysqli->query("UPDATE `nagruzka` SET `comment_to_admin` = '$data[message]' WHERE `load_base_UID` = '$data[load_base_UID]'");
+  $mysqli->query("UPDATE `nagruzka` SET `comment_to_admin` = '$data[message]' WHERE `load_base_UID2` = '$data[load_base_UID2]'");
 
-  ActivityLog($data['load_base_UID'], $log, $data['message'], $data['status'], 0, $status_change);
+  ActivityLog($data['load_base_UID2'], $log, $data['message'], $data['status'], 0, $status_change);
 }
 else
 {

@@ -17,7 +17,7 @@ if (empty($_SERVER['HTTP_X_REQUESTED_WITH']) || $_SERVER['HTTP_X_REQUESTED_WITH'
     exit('Forbidden');
 }
 
-EchoLog($data);
+// EchoLog($data);
 
 // от зав. кафа, который авторизован
 $chair_id = $_SESSION['c_chair_id'];
@@ -27,7 +27,7 @@ $result = [];
 $Result = $mysqli->query("
                   UPDATE `nagruzka` 
                   SET `lecturer_fio` = '$data[lecturer_fio]', `lecturer_uid` = '$data[lecturer_uid]' , `lecturer_person_id` = '$data[lecturer_person_id]', `disciplines_UIDs_chain_str` = '$data[disciplines_UIDs_chain_str]', `disciplines_Names_chain_str` = '$data[disciplines_Names_chain_str]', `date_update` = NOW()
-                  WHERE `chair_id` = '$chair_id' AND `load_base_UID` = '$data[load_base_UID]'");
+                  WHERE `chair_id` = '$chair_id' AND `load_base_UID2` = '$data[load_base_UID2]'");
 
                   // `chair_id` = '$chair_id' AND 
 
@@ -38,11 +38,11 @@ if ($Result)
 
   if (mb_strcasecmp($data['lecturer_fio'], 'Вакансия') == 0)
   {
-    ActivityLog($data['load_base_UID'], ["Нагрузка назначена на вакансию", $chair_id, "Вакансия"], "", "nagruzka_vacancy_assign", 0, 0);
+    ActivityLog($data['load_base_UID2'], ["Нагрузка назначена на вакансию", $chair_id, "Вакансия"], "", "nagruzka_vacancy_assign", 0, 0);
   }
   else
   {
-    ActivityLog($data['load_base_UID'], ["На нагрузку назначен $data[lecturer_fio]", $chair_id, $data['lecturer_fio'], $data['lecturer_uid'], $data['lecturer_person_id']], "", "nagruzka_lecturer_assign", 0, 0);
+    ActivityLog($data['load_base_UID2'], ["На нагрузку назначен $data[lecturer_fio]", $chair_id, $data['lecturer_fio'], $data['lecturer_uid'], $data['lecturer_person_id']], "", "nagruzka_lecturer_assign", 0, 0);
   }
 }
 else

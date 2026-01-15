@@ -204,11 +204,67 @@
 					<prop_value prop_name="Complexity" value="1"></prop_value>
 				</Collection>
 			</Object>
+			<Object uid="26003.281474976710763" name="Практика выездная" class_id="KindOfWork">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26003.281474976710763"></prop_value>
+					<prop_value prop_name="Name" value="Практика выездная"></prop_value>
+					<prop_value prop_name="Unit" value="0"></prop_value>
+					<prop_value prop_name="Complexity" value="1"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26003.281474976710761" name="Практика групповая в организации" class_id="KindOfWork">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26003.281474976710761"></prop_value>
+					<prop_value prop_name="Name" value="Практика групповая в организации"></prop_value>
+					<prop_value prop_name="Unit" value="0"></prop_value>
+					<prop_value prop_name="Complexity" value="1"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26003.281474976710757" name="Практика групповая в университете" class_id="KindOfWork">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26003.281474976710757"></prop_value>
+					<prop_value prop_name="Name" value="Практика групповая в университете"></prop_value>
+					<prop_value prop_name="Unit" value="0"></prop_value>
+					<prop_value prop_name="Complexity" value="1"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26003.281474976710762" name="Практика индивидуальная в организации" class_id="KindOfWork">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26003.281474976710762"></prop_value>
+					<prop_value prop_name="Name" value="Практика индивидуальная в организации"></prop_value>
+					<prop_value prop_name="Unit" value="0"></prop_value>
+					<prop_value prop_name="Complexity" value="1"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26003.281474976710758" name="Практика индивидуальная в университете" class_id="KindOfWork">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26003.281474976710758"></prop_value>
+					<prop_value prop_name="Name" value="Практика индивидуальная в университете"></prop_value>
+					<prop_value prop_name="Unit" value="0"></prop_value>
+					<prop_value prop_name="Complexity" value="1"></prop_value>
+				</Collection>
+			</Object>
 			<Object uid="26003.281474976710727" name="Производственная практика" class_id="KindOfWork">
 				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
 					<prop_value prop_name="UID" value="26003.281474976710727"></prop_value>
 					<prop_value prop_name="Name" value="Производственная практика"></prop_value>
 					<prop_value prop_name="Unit" value="2"></prop_value>
+					<prop_value prop_name="Complexity" value="1"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26003.281474976710769" name="Промежуточная аттестация по курсовой работе (проекту)" class_id="KindOfWork">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26003.281474976710769"></prop_value>
+					<prop_value prop_name="Name" value="Промежуточная аттестация по курсовой работе (проекту)"></prop_value>
+					<prop_value prop_name="Unit" value="1"></prop_value>
+					<prop_value prop_name="Complexity" value="1"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26003.281474976710767" name="Руководство ВКР" class_id="KindOfWork">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26003.281474976710767"></prop_value>
+					<prop_value prop_name="Name" value="Руководство ВКР"></prop_value>
+					<prop_value prop_name="Unit" value="0"></prop_value>
 					<prop_value prop_name="Complexity" value="1"></prop_value>
 				</Collection>
 			</Object>
@@ -240,6 +296,14 @@
 				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
 					<prop_value prop_name="UID" value="26003.281474976710684"></prop_value>
 					<prop_value prop_name="Name" value="Участие в комиссии"></prop_value>
+					<prop_value prop_name="Unit" value="0"></prop_value>
+					<prop_value prop_name="Complexity" value="1"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26003.281474976710768" name="Участие в комиссии (председатель)" class_id="KindOfWork">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26003.281474976710768"></prop_value>
+					<prop_value prop_name="Name" value="Участие в комиссии (председатель)"></prop_value>
 					<prop_value prop_name="Unit" value="0"></prop_value>
 					<prop_value prop_name="Complexity" value="1"></prop_value>
 				</Collection>

@@ -44,7 +44,7 @@ if ($c_roles)
   //       SELECT sotrudniki.*, SUM(xml_content_of_load.Amount) as amount_sum
   //       FROM `sotrudniki`
   //       LEFT JOIN nagruzka ON sotrudniki.person_id = nagruzka.lecturer_person_id
-  //       LEFT JOIN `xml_content_of_load` ON nagruzka.`load_base_UID` = xml_content_of_load.`base_uid`
+  //       LEFT JOIN `xml_content_of_load` ON nagruzka.`load_base_UID2` = xml_content_of_load.`base_uid`
   //       WHERE 1 AND sotrudniki.`chair_id` = '$chair_id'
   //       GROUP BY sotrudniki.person_id
   //       "); 
@@ -52,12 +52,12 @@ if ($c_roles)
 
   $sql = "SELECT `lecturer_fio`, xml_content_of_load.Amount
           FROM `nagruzka` 
-          JOIN `xml_content_of_load` ON nagruzka.`load_base_UID` = xml_content_of_load.`base_uid`
+          JOIN `xml_content_of_load` ON nagruzka.`load_base_UID2` = xml_content_of_load.`base_uid2`
           WHERE 1 $dop_sql";
 
   $Nagruzka = GetSQL($sql);
 
-  EchoLog($sql);
+  // EchoLog($sql);
 
    $stats = [
         'discipline' =>
