@@ -79,7 +79,7 @@ $dop_sql = "$chair_id_sql
             #LIMIT 150
 ";
 
-$nagruzka_query = GetNagruzkaBaseQuery($dop_sql);
+$nagruzka_query = GetNagruzkaBaseQuery($dop_sql, false);
 
 // EchoLog($nagruzka_query);
 

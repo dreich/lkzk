@@ -31,7 +31,7 @@ if ($c_roles['uoup'])
               #LIMIT 100
       ");
 
-  EchoLog(sizeof($_Nagruzka));
+  // EchoLog(sizeof($_Nagruzka));
 
   // приведём к уникальному base_uid, потому что в таблице xml_content_of_load base_uid повторяются для xml_content_of_load.UID с цифрами после точки в конце ("споточенное")
   if ($_Nagruzka)

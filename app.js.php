@@ -1559,7 +1559,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
 })
 
 // Админ УОУП просматривает отказы зав. кафедрами от нагрузки и отменяет отказы
-.controller ('UOUPChairsRefusedCtrl', function($rootScope, $scope, $http, DTOptionsBuilder, DTColumnBuilder, DTColumnDefBuilder, ngDialog, $templateCache, $resource, uoup_nagruzka, system_mode)
+.controller ('UOUPChairsRefusedCtrl', function($rootScope, $scope, $http, DTOptionsBuilder, DTColumnBuilder, DTColumnDefBuilder, ngDialog, $templateCache, $resource, uoup_nagruzka, system_mode, $filter)
 {
   CL('UOUPChairsRefusedCtrl');
 
@@ -1579,6 +1579,224 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
   $scope.filter_distinct = {};
   // $scope.group_action = {};
   $scope.nagruzka = uoup_nagruzka.data;
+
+  // 1. Add these variables after $scope.nagruzka = uoup_nagruzka.data;
+  $scope.allNagruzka = Array.isArray(uoup_nagruzka.data) ? angular.copy(uoup_nagruzka.data) : [];
+  $scope.filteredNagruzka = angular.copy($scope.allNagruzka);
+  $scope.adminChangeChairs = buildAdminChangeChairs($scope.allNagruzka);
+  // CL($scope.adminChangeChairs);
+  $scope.selectedAdminChangeChair = null;
+  $scope.chairComments = [];
+  $scope.viewState = 'chairs'; // 'chairs' or 'table'
+
+  // 2. Add these functions before the controller ends
+  function buildAdminChangeChairs(rows) {
+  const departmentsMap = {};
+
+  // Use the new field names
+  const commentField = 'refused_change_message';
+  const dateField = 'refused_date';
+
+  // console.log('Using fields:', { commentField, dateField });
+
+  // First pass: build the structure
+  rows.forEach(row => {
+    if (row.status !== 'refused') return;
+
+    const deptKey = row.department_name || 'Без факультета';
+    const chairKey = row.chair_id || 'no_chair';
+    const chairName = row.chair_name || 'Без кафедры';
+    const comment = row[commentField];
+    
+    // Get date from the new refused_date field
+    let commentDate;
+    if (row[dateField]) {
+      commentDate = new Date(row[dateField]);
+      // Set to noon to avoid timezone issues
+      commentDate.setHours(12, 0, 0, 0);
+    } else {
+      // Fallback to current date if no date is available
+      commentDate = new Date();
+      commentDate.setHours(12, 0, 0, 0);
+    }
+
+    // Format date for grouping (just date, no time)
+    const formattedDate = $filter('date')(commentDate, 'yyyy-MM-dd');
+    const commentKey = comment ? `${comment}|${formattedDate}` : `no_comment|${formattedDate}`;
+
+    // Skip if no comment or empty comment
+    if (!comment || comment.trim() === '') {
+      return;
+    }
+
+    // Initialize department if not exists
+    if (!departmentsMap[deptKey]) {
+      departmentsMap[deptKey] = {
+        department_name: deptKey,
+        chairs: [],
+        count: 0,
+        chairMap: {}
+      };
+    }
+
+    // Initialize chair if not exists
+    if (!departmentsMap[deptKey].chairMap[chairKey]) {
+      const newChair = {
+        chair_id: chairKey,
+        chair_name: chairName,
+        count: 0,
+        comments: [],
+        commentMap: {}
+      };
+      
+      departmentsMap[deptKey].chairs.push(newChair);
+      departmentsMap[deptKey].chairMap[chairKey] = newChair;
+    }
+
+    const chair = departmentsMap[deptKey].chairMap[chairKey];
+    chair.count++;
+    departmentsMap[deptKey].count++;
+
+    // Initialize comment group if not exists
+    if (!chair.commentMap[commentKey]) {
+      const commentGroup = {
+        key: commentKey,
+        message: comment,
+        date: commentDate.toISOString(),
+        dateFormatted: $filter('date')(commentDate, 'dd.MM.yyyy'),
+        count: 0,
+        rows: []
+      };
+      
+      chair.comments.push(commentGroup);
+      chair.commentMap[commentKey] = commentGroup;
+    }
+
+    // Add this row to the comment group
+    chair.commentMap[commentKey].count++;
+    chair.commentMap[commentKey].rows.push(row);
+  });
+
+  // Sort comments by date (newest first)
+  Object.values(departmentsMap).forEach(dept => {
+    dept.chairs.forEach(chair => {
+      chair.comments.sort((a, b) => new Date(b.date) - new Date(a.date));
+    });
+  });
+
+  // Clean up internal maps before returning
+  const result = Object.values(departmentsMap).map(dept => {
+    const { chairMap, ...deptRest } = dept;
+    const chairs = deptRest.chairs.map(chair => {
+      const { commentMap, ...chairRest } = chair;
+      return chairRest;
+    });
+    return { ...deptRest, chairs };
+  });
+
+  // console.log('Built adminChangeChairs:', result);
+  return result;
+}
+
+/*
+
+// Add this to your controller and click the debug button
+$scope.debugDateFields = function() {
+  console.log('=== DEBUG DATE FIELDS ===');
+  const sampleRow = $scope.allNagruzka.find(row => row.status === 'refused');
+  if (sampleRow) {
+    console.log('Available date fields in row:', {
+      date: sampleRow.date,
+      comment_date: sampleRow.comment_date,
+      created_at: sampleRow.created_at,
+      updated_at: sampleRow.updated_at
+    });
+    console.log('All row fields:', Object.keys(sampleRow));
+  } else {
+    console.log('No rows with status "refused" found');
+  }
+};
+
+// Add this to your controller
+$scope.debugChairData = function(chair) {
+  console.log('=== DEBUG CHAIR DATA ===');
+  console.log('Chair ID:', chair.chair_id);
+  console.log('Chair name:', chair.chair_name);
+  console.log('Comments array:', chair.comments);
+  
+  const chairRows = $scope.allNagruzka
+    .filter(r => r.chair_id === chair.chair_id && r.status === 'refused');
+  
+  console.log('Total rows for chair:', chairRows.length);
+  
+  if (chairRows.length > 0) {
+    const firstRow = chairRows[0];
+    console.log('Available fields in row:', Object.keys(firstRow));
+    
+    console.log('Comment fields in rows:');
+    chairRows.slice(0, 5).forEach((row, i) => {
+      console.log(`Row ${i}:`, {
+        comment_to_admin: row.comment_to_admin,  // Added this line
+        comment: row.comment,
+        Comment: row.Comment,
+        comment_text: row.comment_text,
+        status: row.status,
+        chair_id: row.chair_id
+      });
+    });
+  }
+  
+  console.log('Sample rows (first 3):', chairRows.slice(0, 3));
+  console.log('========================');
+};
+
+*/
+
+
+$scope.toggleAdminChangeChair = function(chair) {
+  // console.log('Toggling chair:', chair);
+  
+  if ($scope.selectedAdminChangeChair && $scope.selectedAdminChangeChair.chair_id === chair.chair_id) {
+    $scope.selectedAdminChangeChair = null;
+  } else {
+    $scope.selectedAdminChangeChair = chair;
+  }
+};
+  
+
+  $scope.selectChairComment = function(comment) {
+    $scope.selectedChairComment = $scope.selectedChairComment && 
+                                $scope.selectedChairComment.key === comment.key ? 
+                                null : comment;
+  };
+
+  $scope.showTable = function(comment) {
+  // console.log('Showing table for comment:', comment);
+  
+  if (!comment || !comment.rows || !comment.rows.length) {
+    console.error('No rows to show for comment:', comment);
+    return;
+  }
+
+  // Update the filtered data with all rows that have this comment
+  $scope.filteredNagruzka = comment.rows;
+  $scope.viewState = 'table';
+  
+  // Force table redraw
+  $scope.$evalAsync(() => {
+    if ($scope.dtInstance && $scope.dtInstance.rerender) {
+      $scope.dtInstance.rerender();
+    }
+  });
+};
+
+  $scope.showChairs = function() {
+    $scope.viewState = 'chairs';
+    $scope.filteredNagruzka = angular.copy($scope.allNagruzka);
+  };
+
+
+
 
   const columns = [
       null, 
@@ -1664,6 +1882,9 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
 
   $scope.dtOptions = DTOptionsBuilder //.fromSource('data.json')
     .newOptions()
+    .withOption('order', [0, 'asc'])
+    .withOption('pageLength', 25)
+    .withOption('responsive', true)
     .withOption('stateSave', true)
     // .withOption('aoColumns', [{bVisible': false}])
     .withPaginationType('full_numbers')

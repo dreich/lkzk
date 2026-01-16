@@ -2405,18 +2405,24 @@ function get_base_uid2($uid) {
 // В результате запроса получается join двух таблиц нагрузки
 // Данные от запроса должны пропускаться через функцию PrepareNagruzka() для подготовки к выдаче в зелёную таблицу нагрузки
 // с уникализацией по base_uid
-function GetNagruzkaBaseQuery($dop_sql)
+function GetNagruzkaBaseQuery($dop_sql, $department_from_first_table = true)
 {
   // if ($chair_uid)
   // {
   //   $chair_sql = "xml_content_of_load.UID_Chair = '$chair_uid' AND";
   // }
 
+  if ($department_from_first_table)
+  {
+    $department_sql = ", nagruzka.department_name";
+  }
+  // в противном случае возьмётся из джоина по второй таблице
+  // (xml_faculty.Name as department_name,)
+
   $_nagruzka_base_query = 
   "
   SELECT 
   xml_content_of_load.UID as original_uid,
-  #SUBSTRING(xml_content_of_load.UID, 1, LENGTH(xml_content_of_load.UID) - LOCATE('.', REVERSE(xml_content_of_load.UID))) as base_uid,
   xml_content_of_load.base_uid,
   xml_content_of_load.base_uid2,
   xml_content_of_load.UID as xml_content_of_load_UID,
@@ -2439,13 +2445,10 @@ function GetNagruzkaBaseQuery($dop_sql)
   xml_content_of_load.UID_Course,
   xml_content_of_load.amount,
   xml_lecturer.FIO as galaktika_lecturer_fio,
-  nagruzka.lecturer_fio, nagruzka.lecturer_uid, nagruzka.lecturer_person_id, nagruzka.status, nagruzka.chair_id, nagruzka.chair_name, nagruzka.zavkaf_fio, nagruzka.chair_name, nagruzka.comment_to_admin
+  nagruzka.lecturer_fio, nagruzka.lecturer_uid, nagruzka.lecturer_person_id, nagruzka.status, nagruzka.chair_id, nagruzka.chair_name, nagruzka.zavkaf_fio, nagruzka.comment_to_admin $department_sql
 
   FROM xml_content_of_load
   JOIN xml_content_of_load_staff ON 
-  # SUBSTRING(xml_content_of_load.UID, 1, LENGTH(xml_content_of_load.UID) - LOCATE('.', REVERSE(xml_content_of_load.UID))) = xml_content_of_load_staff.UID_ContentOfLoad
-  -- xml_content_of_load.base_uid = xml_content_of_load_staff.UID_ContentOfLoad
-  -- xml_content_of_load.UID = xml_content_of_load_staff.UID_ContentOfLoad
   xml_content_of_load.base_uid = xml_content_of_load_staff.base_uid
   LEFT JOIN xml_group ON xml_group.`UID` = xml_content_of_load_staff.`UID_Group`
   LEFT JOIN xml_discipline ON xml_discipline.UID = xml_content_of_load.UID_Discipline
@@ -2460,7 +2463,6 @@ function GetNagruzkaBaseQuery($dop_sql)
   (xml_content_of_load_staff.`Abbr` LIKE ('Б1.%') OR xml_content_of_load_staff.`Abbr` LIKE ('Ф%') OR xml_content_of_load_staff.`Abbr` LIKE ('1.%') OR xml_content_of_load_staff.`Abbr` LIKE ('1.01%') OR xml_content_of_load_staff.`Abbr` LIKE ('2.1%') OR xml_content_of_load_staff.`Abbr` LIKE ('2.01%') OR xml_content_of_load_staff.`Abbr` LIKE ('С1%') OR xml_content_of_load_staff.`Abbr` LIKE ('С2%') OR xml_content_of_load_staff.`Abbr` LIKE ('С3%') OR xml_content_of_load_staff.`Abbr` LIKE ('С4%'))
     #AND `base_uid` = '26589.281474976787058'
     $dop_sql
-    #LIMIT 1000
   ";
 
   // EchoLog($_nagruzka_base_query);
