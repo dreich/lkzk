@@ -53217,3 +53217,69 @@
   'disciplines_Names_chain_str' => '|Психофармакология|',
   'load_base_UID' => '26589.281474976762231',
 )[/ajax/post/select_nagruzka_lecturer.php] [Chrome 143.0.0.0] [127.0.0.1]
+[19.01.2026 - 12:47.05] Пустой unnmail зав.кафедрой (логин: ) в uoup_cancel.php[/ajax/post/uoup_cancel.php] [Chrome 143.0.0.0] [127.0.0.1]
+[19.01.2026 - 12:47.05] mail_utf8: wwwlab@unn.ru,  lkzk.unn.ru, wwwlab@unn.ru[/ajax/post/uoup_cancel.php] [Chrome 143.0.0.0] [127.0.0.1]
+[19.01.2026 - 12:47.05] mail_utf8: wwwlab@unn.ru,  lkzk.unn.ru, lkzk@unn.ru[/ajax/post/uoup_cancel.php] [Chrome 143.0.0.0] [127.0.0.1]
+[19.01.2026 - 12:56.51] Пустой unnmail зав.кафедрой (логин: ) в uoup_cancel.php[/ajax/post/uoup_cancel.php] [Chrome 143.0.0.0] [127.0.0.1]
+[19.01.2026 - 12:56.51] mail_utf8: wwwlab@unn.ru,  lkzk.unn.ru, wwwlab@unn.ru[/ajax/post/uoup_cancel.php] [Chrome 143.0.0.0] [127.0.0.1]
+[19.01.2026 - 12:56.51] mail_utf8: wwwlab@unn.ru,  lkzk.unn.ru, lkzk@unn.ru[/ajax/post/uoup_cancel.php] [Chrome 143.0.0.0] [127.0.0.1]
+[19.01.2026 - 12:56.51] Пустой unnmail зав.кафедрой (логин: ) в uoup_cancel.php[/ajax/post/uoup_cancel.php] [Chrome 143.0.0.0] [127.0.0.1]
+[19.01.2026 - 12:56.51] mail_utf8: wwwlab@unn.ru,  lkzk.unn.ru, wwwlab@unn.ru[/ajax/post/uoup_cancel.php] [Chrome 143.0.0.0] [127.0.0.1]
+[19.01.2026 - 12:56.51] mail_utf8: wwwlab@unn.ru,  lkzk.unn.ru, lkzk@unn.ru[/ajax/post/uoup_cancel.php] [Chrome 143.0.0.0] [127.0.0.1]
+[19.01.2026 - 12:59.21] Пустой unnmail зав.кафедрой (логин: ) в uoup_cancel.php[/ajax/post/uoup_cancel.php] [Chrome 143.0.0.0] [127.0.0.1]
+[19.01.2026 - 12:59.21] mail_utf8: wwwlab@unn.ru,  lkzk.unn.ru, wwwlab@unn.ru[/ajax/post/uoup_cancel.php] [Chrome 143.0.0.0] [127.0.0.1]
+[19.01.2026 - 12:59.21] mail_utf8: wwwlab@unn.ru,  lkzk.unn.ru, lkzk@unn.ru[/ajax/post/uoup_cancel.php] [Chrome 143.0.0.0] [127.0.0.1]
+[19.01.2026 - 12:59.21] Пустой unnmail зав.кафедрой (логин: ) в uoup_cancel.php[/ajax/post/uoup_cancel.php] [Chrome 143.0.0.0] [127.0.0.1]
+[19.01.2026 - 12:59.21] mail_utf8: wwwlab@unn.ru,  lkzk.unn.ru, wwwlab@unn.ru[/ajax/post/uoup_cancel.php] [Chrome 143.0.0.0] [127.0.0.1]
+[19.01.2026 - 12:59.21] mail_utf8: wwwlab@unn.ru,  lkzk.unn.ru, lkzk@unn.ru[/ajax/post/uoup_cancel.php] [Chrome 143.0.0.0] [127.0.0.1]
+[19.01.2026 - 13:02.56] Пустой unnmail зав.кафедрой (логин: ) в uoup_cancel.php[/ajax/post/uoup_cancel.php] [Chrome 143.0.0.0] [127.0.0.1]
+[19.01.2026 - 13:02.56] mail_utf8: wwwlab@unn.ru,  lkzk.unn.ru, wwwlab@unn.ru[/ajax/post/uoup_cancel.php] [Chrome 143.0.0.0] [127.0.0.1]
+[19.01.2026 - 13:02.56] mail_utf8: wwwlab@unn.ru,  lkzk.unn.ru, lkzk@unn.ru[/ajax/post/uoup_cancel.php] [Chrome 143.0.0.0] [127.0.0.1]
+[21.01.2026 - 12:32.05] Error in GetSQL(): Column 'base_uid2' in where clause is ambiguous[/ajax/post/save_nagruzka_status.php] [Chrome 143.0.0.0] [127.0.0.1]
+[21.01.2026 - 12:32.05] SELECT 
+  xml_content_of_load.UID as original_uid,
+  xml_content_of_load.base_uid,
+  xml_content_of_load.base_uid2,
+  xml_content_of_load.UID as xml_content_of_load_UID,
+  xml_content_of_load_staff.UID as xml_content_of_load_staff_UID,
+  xml_content_of_load.YearOfEducation,
+  xml_content_of_load_staff.Abbr, 
+  xml_group.Name as group_name,
+  xml_discipline.UID as discipline_UID,
+  xml_discipline.Name as discipline_name,
+  xml_faculty.Name as department_name,
+  xml_speciality.Name as napravlenie,
+  xml_speciality.Code as napravlenie_code,
+  xml_speciality.education_level,
+  xml_specialization.Name as napravlennost,
+  xml_language.Name as language,
+  xml_content_of_load_staff.UID_FormOfEducation,
+  xml_content_of_load.UID_Semester,
+  xml_content_of_load.StudentAmount,
+  xml_kind_of_work.Name as kind_of_work,
+  xml_content_of_load.UID_Course,
+  xml_content_of_load.amount,
+  xml_lecturer.FIO as galaktika_lecturer_fio,
+  nagruzka.lecturer_fio, nagruzka.lecturer_uid, nagruzka.lecturer_person_id, nagruzka.status, nagruzka.chair_id, nagruzka.chair_name, nagruzka.zavkaf_fio, nagruzka.comment_to_admin , nagruzka.department_name
+
+  FROM xml_content_of_load
+  JOIN xml_content_of_load_staff ON 
+  xml_content_of_load.base_uid = xml_content_of_load_staff.base_uid
+  LEFT JOIN xml_group ON xml_group.`UID` = xml_content_of_load_staff.`UID_Group`
+  LEFT JOIN xml_discipline ON xml_discipline.UID = xml_content_of_load.UID_Discipline
+  LEFT JOIN xml_faculty ON xml_faculty.UID = xml_content_of_load_staff.`UID_FacultyOwner`
+  LEFT JOIN xml_speciality ON xml_speciality.UID = xml_content_of_load_staff.UID_Speciality
+  LEFT JOIN xml_specialization ON xml_specialization.UID = xml_content_of_load_staff.UID_Specialization
+  LEFT JOIN xml_language ON xml_language.UID = xml_content_of_load_staff.UID_Language
+  LEFT JOIN xml_kind_of_work ON xml_kind_of_work.UID = xml_content_of_load.UID_KindOfWork
+  LEFT JOIN xml_lecturer ON xml_lecturer.UID = xml_content_of_load.UID_Lecturer
+  LEFT JOIN `nagruzka` ON nagruzka.load_base_UID2 = xml_content_of_load.base_uid2
+  WHERE 
+  (xml_content_of_load_staff.`Abbr` LIKE ('Б1.%') OR xml_content_of_load_staff.`Abbr` LIKE ('Ф%') OR xml_content_of_load_staff.`Abbr` LIKE ('1.%') OR xml_content_of_load_staff.`Abbr` LIKE ('1.01%') OR xml_content_of_load_staff.`Abbr` LIKE ('2.1%') OR xml_content_of_load_staff.`Abbr` LIKE ('2.01%') OR xml_content_of_load_staff.`Abbr` LIKE ('С1%') OR xml_content_of_load_staff.`Abbr` LIKE ('С2%') OR xml_content_of_load_staff.`Abbr` LIKE ('С3%') OR xml_content_of_load_staff.`Abbr` LIKE ('С4%'))
+    #AND `base_uid` = '26589.281474976787058'
+    AND `base_uid2` = '26589.281474976763944.26115.281474976866589'[/ajax/post/save_nagruzka_status.php] [Chrome 143.0.0.0] [127.0.0.1]
+[21.01.2026 - 12:32.05] Не найдена нагрузка в save_nagruzka_status.php[/ajax/post/save_nagruzka_status.php] [Chrome 143.0.0.0] [127.0.0.1]
+[21.01.2026 - 12:32.05] mail_utf8: wwwlab@unn.ru,  lkzk.unn.ru, wwwlab@unn.ru[/ajax/post/save_nagruzka_status.php] [Chrome 143.0.0.0] [127.0.0.1]
+[21.01.2026 - 12:33.34] Пустой unnmail зав.кафедрой (логин: ) в uoup_cancel.php[/ajax/post/uoup_cancel.php] [Chrome 143.0.0.0] [127.0.0.1]
+[21.01.2026 - 12:33.34] mail_utf8: wwwlab@unn.ru,  lkzk.unn.ru, wwwlab@unn.ru[/ajax/post/uoup_cancel.php] [Chrome 143.0.0.0] [127.0.0.1]
+[21.01.2026 - 12:33.34] mail_utf8: wwwlab@unn.ru,  lkzk.unn.ru, lkzk@unn.ru[/ajax/post/uoup_cancel.php] [Chrome 143.0.0.0] [127.0.0.1]

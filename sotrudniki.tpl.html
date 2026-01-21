@@ -16,16 +16,17 @@
         <th>ПКГ - ПКУ</th>
         <th>нагрузка общая</th>
         <th>нагрузка аудиторная</th>
+        <th>нагрузка на английском языке</th>
       </tr>
     </thead>
 
     <tbody>
        <!-- ng-click="ShowPopup(person)" -->
         <!-- | orderBy:['-selected', 'type', 'fio'] -->
-      <tr ng-repeat="person in persons">
+      <tr ng-repeat="person in persons" ng-click="navigateToNagruzka(person)" ng-class="{'pointer': person.amount_sum > 0}" >
         <td>  
           <!-- sotrudniki_readonly -->
-          <input type="checkbox" ng-model="person.selected" ng-disabled="person.type == 'sotrudnik' || sotrudniki_readonly" ng-change="SelectSotrudnik(person)">
+          <input type="checkbox" ng-model="person.selected" ng-change="SelectSotrudnik(person)" ng-click="$event.stopPropagation()" ng-disabled="person.type == 'sotrudnik' || sotrudniki_readonly">
         </td>
         <td>
           {{person.fio}}
@@ -48,12 +49,25 @@
         <td>
           <span ng-if="person.pku">{{person.pkg}} - {{person.pku}}</span>
         </td>
+
         <td>
-          {{person.amount_sum}}
+          {{person.amount_sum | formatHours}}
+        </td>
+        <td>
+          {{person.amount_sum_auditorium | formatHours}}
+        </td>
+        <td>
+          {{person.amount_sum_eng | formatHours}}
+        </td>
+        <!-- <td>
+          {{person.amount_sum > 0 ? person.amount_sum : ''}}
         </td>
         <td>
           {{person.amount_sum_auditorium > 0 ? person.amount_sum_auditorium : ''}}
         </td>
+        <td>
+          {{person.amount_sum_eng > 0 ? person.amount_sum_eng : ''}}
+        </td> -->
       </tr>
 
     </tbody>
@@ -69,6 +83,7 @@
               <option value=""></option>
             </select> -->
           </th>
+          <th></th>
           <th></th>
           <th></th>
           <th></th>

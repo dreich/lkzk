@@ -6,7 +6,7 @@ include '../connect/opop2.php';
 
 EchoLog("Start cron");
 
-// $LOAD_NEW_DATA_FROM_NETWORK = true;
+$LOAD_NEW_DATA_FROM_NETWORK = true;
 $UPDATE_TABLES = true;
 
 $Napravlenia = GetTable('napravlenia', "", "", "napravlenie");
@@ -103,13 +103,26 @@ function GetChairSotrudniki($year, $dop_sql = "", $actual = null /*, $qualify_ca
     $pkg_sql = ", $position_table_name.`pkg`, $position_table_name.`pku`";
   }
 
+  // Ищем ГПХ-шников
+  if (mb_stripos($dop_sql, 'ГПХ') !== false)
+  {
+    $kaf_sql = "";
+  }
+  else
+  // не ГПХ-шники
+  {
+    $kaf_sql = "AND $podrazdelenia_table_name.`pname` LIKE('Кафедра%') ";
+  }
+
+  // AND $podrazdelenia_table_name.`parent_id` <> '00255'
   $query = "
               SELECT person.`id` as person_id, person.`surname`, person.`name`, person.`patronymic`, $position_table_name.`dolzhnost`, `$position_table_name`.podrazdelenie_id, `$position_table_name`.ukrup_code as department_id, $position_table_name.`podrazdelenia_chain`, $podrazdelenia_table_name.`id` as chair_id, $position_table_name.`position_category`, $position_table_name.`type`, $position_table_name.`qualify_category`, $position_table_name.`stavka`
               $pkg_sql
               FROM `$position_table_name`
               JOIN `person` ON `$position_table_name`.person_id = `person`.id
-              JOIN `$podrazdelenia_table_name` ON  `$position_table_name`.podrazdelenia_chain LIKE CONCAT('%|', $podrazdelenia_table_name.`id`, '|%')
-              WHERE $podrazdelenia_table_name.`pname` LIKE('Кафедра%')
+              JOIN `$podrazdelenia_table_name` ON `$position_table_name`.podrazdelenia_chain LIKE CONCAT('%|', $podrazdelenia_table_name.`id`, '|%')
+              WHERE $podrazdelenia_table_name.`id` <> '00255'  AND $podrazdelenia_table_name.`parent_id` <> ''
+              $kaf_sql
               AND `position_category` = 'ППС'
               $actual_sql
               $dop_sql
@@ -248,6 +261,44 @@ if ($UPDATE_TABLES)
   LoadXML('ContentOfLoadStaff.xml', 'xml_content_of_load_staff');
   LoadXML('ContentOfLoad.xml', 'xml_content_of_load');
 }
+
+
+// Данные после текущего импорта
+$XMLLecturer = GetTable('xml_lecturer', "", "", "UID");
+$XMLPost = GetTable('xml_post', "", "", "Name");
+$XMLChairByCode = GetTable('xml_chair', "", "", "Code");
+$XMLFacultyByCode = GetTable('xml_faculty', "", "", "Code");
+$XMLChairByUID = GetTable('xml_chair', "", "", "UID");
+$XMLContentOfLoad = GetTable('xml_content_of_load', "", "", "UID", "UID, UID_Chair, base_uid, base_uid2, hash, UID_Lecturer");
+// $XMLContentOfLoadByBaseUID = GetTable('xml_content_of_load', "", "", "base_uid", "UID, UID_Chair, base_uid, hash, UID_Lecturer");
+$_XMLContentOfLoadStaff = GetTable('xml_content_of_load_staff', "", "", null, "UID, base_uid2, UID_ContentOfLoad, hash");
+
+$XMLContentOfLoadStaffByBaseUID2 = [];
+
+if ($_XMLContentOfLoadStaff)
+{
+  foreach ($_XMLContentOfLoadStaff as $row)
+  {
+    // UID_ContentOfLoad соотв. base_uid ?
+    // $XMLContentOfLoadStaff[$row['UID_ContentOfLoad']][$row['UID']] = $row;
+    $XMLContentOfLoadStaffByBaseUID2[$row['base_uid2']][$row['UID']] = $row;
+  }
+}
+
+$XMLContentOfLoadByBaseUID2 = [];
+
+if ($XMLContentOfLoad)
+{
+  foreach ($XMLContentOfLoad as $row)
+  {
+    // в этой таблице из-за споточенности для одного base_uid может быть несколько UID с разными суффиксами
+    $XMLContentOfLoadByBaseUID2[$row['base_uid2']][$row['UID']] = $row;
+  }
+}
+
+unset($_XMLContentOfLoadStaff);
+
+
 
 
 
@@ -518,6 +569,14 @@ if ($Sotrudniki)
 }
 
 
+
+
+
+
+
+
+
+
 // $mysqli->query("UPDATE `sotrudniki` SET `actual` = '0'");
 
 if ($SotrudnikiItogoByKey)
@@ -565,18 +624,38 @@ if ($SotrudnikiItogoByKey)
     if ($adding)
     {
       // uid должности из Галактики
+      // EchoLog($chair_sotrudnik['dolzhnost']);
+
       $post_uid = $XMLPost[$chair_sotrudnik['dolzhnost']]['UID'];
       // EchoLog($post_uid);
+      // EchoLog($chair_sotrudnik['chair_id']);
       $chair_uid = $XMLChairByCode[$chair_sotrudnik['chair_id']]['UID'];
+      $department_uid = $XMLFacultyByCode[$chair_sotrudnik['department_id']]['UID'];
       // EchoLog($chair_uid);
 
       // $lecturer = GetRow('xml_lecturer', ['Tab_number' => $chair_sotrudnik['person_id'], 'UID_Post' => $post_uid, 'UID_Chair' => $chair_uid]);
 
+      // У некоторых ГПХ-шников указана кафедра, сначала поищем с кафедрой
       $lecturer_rows = GetRows('xml_lecturer', ['Tab_number' => $chair_sotrudnik['person_id'], 'UID_Post' => $post_uid, 'UID_Chair' => $chair_uid], null, "`Archive` ASC, `DateContractEnd` DESC");
 
       if ($lecturer_rows)
       {
+        // EchoLog(sizeof($lecturer_rows));
+      }
+
+      if ($lecturer_rows)
+      {
         $lecturer = $lecturer_rows[0];
+      }
+      elseif ($chair_sotrudnik['type'] == 'gph')
+      {
+        // у тех, кто без кафедры, в UID_Chair прописан факультет
+        $lecturer_rows = GetRows('xml_lecturer', ['Tab_number' => $chair_sotrudnik['person_id'], 'UID_Post' => $post_uid, 'UID_Chair' => $department_uid], null, "`Archive` ASC, `DateContractEnd` DESC");
+
+        if ($lecturer_rows)
+        {
+          $lecturer = $lecturer_rows[0];
+        }
       }
 
       // EchoLog($lecturer);
@@ -591,6 +670,8 @@ if ($SotrudnikiItogoByKey)
       }
 
       $login = $Person[$chair_sotrudnik['person_id']]['alias'];
+
+      // if ($sotrudnik['type'])
 
       $query = "
               INSERT INTO `sotrudniki` 
@@ -640,39 +721,7 @@ unset($SotrudnikiInLKByKey);
 unset($SotrudnikiItogoByKey);
 
 
-// Данные после текущего импорта
-$XMLLecturer = GetTable('xml_lecturer', "", "", "UID");
-$XMLPost = GetTable('xml_post', "", "", "Name");
-$XMLChairByCode = GetTable('xml_chair', "", "", "Code");
-$XMLChairByUID = GetTable('xml_chair', "", "", "UID");
-$XMLContentOfLoad = GetTable('xml_content_of_load', "", "", "UID", "UID, UID_Chair, base_uid, base_uid2, hash, UID_Lecturer");
-// $XMLContentOfLoadByBaseUID = GetTable('xml_content_of_load', "", "", "base_uid", "UID, UID_Chair, base_uid, hash, UID_Lecturer");
-$_XMLContentOfLoadStaff = GetTable('xml_content_of_load_staff', "", "", null, "UID, base_uid2, UID_ContentOfLoad, hash");
 
-$XMLContentOfLoadStaffByBaseUID2 = [];
-
-if ($_XMLContentOfLoadStaff)
-{
-  foreach ($_XMLContentOfLoadStaff as $row)
-  {
-    // UID_ContentOfLoad соотв. base_uid ?
-    // $XMLContentOfLoadStaff[$row['UID_ContentOfLoad']][$row['UID']] = $row;
-    $XMLContentOfLoadStaffByBaseUID2[$row['base_uid2']][$row['UID']] = $row;
-  }
-}
-
-$XMLContentOfLoadByBaseUID2 = [];
-
-if ($XMLContentOfLoad)
-{
-  foreach ($XMLContentOfLoad as $row)
-  {
-    // в этой таблице из-за споточенности для одного base_uid может быть несколько UID с разными суффиксами
-    $XMLContentOfLoadByBaseUID2[$row['base_uid2']][$row['UID']] = $row;
-  }
-}
-
-unset($_XMLContentOfLoadStaff);
 
 // echo sizeof($XMLContentOfLoadStaff);
 // print_r(array_pop($XMLContentOfLoadStaff));
@@ -1009,7 +1058,7 @@ if ($XMLContentOfLoad)
 
               if ($lecturer['FIO'] == 'Фомина Ирина Юрьевна')
               {
-                EchoLog($query);
+                // EchoLog($query);
               }
             }
             // Кафедра не актуальна в Сотруднике:

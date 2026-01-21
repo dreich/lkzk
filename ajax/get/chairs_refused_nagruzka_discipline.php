@@ -51,8 +51,8 @@ if ($Nagruzka)
     $History = GetSQL("SELECT * FROM `log` WHERE `action_name` = 'refused' AND `load_base_UID2` = '$nagruzka[base_uid2]' ORDER BY `id` DESC LIMIT 1");
 
     $nagruzka['refused_change_message'] = $History[0]['message'];
-    // оставить дату без времени
-    $nagruzka['refused_date'] = date('Y-m-d', strtotime($History[0]['datetime']));
+    // оставить дату с временем
+    $nagruzka['refused_date'] = $History[0]['datetime']; // date('Y-m-d', strtotime($History[0]['datetime']));
 
   }
 }

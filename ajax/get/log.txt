@@ -1,19 +1,70 @@
-[15.01.2026 - 11:12.48] 34400[/ajax/get/uoup_nagruzka.php] [Chrome 143.0.0.0] [127.0.0.1]
-[15.01.2026 - 11:20.57] Error in GetSQL(): Server shutdown in progress[/ajax/get/get_nagruzka_uoup_stat.php] [Chrome 143.0.0.0] [127.0.0.1]
-[15.01.2026 - 11:20.57] SELECT `lecturer_fio`, xml_content_of_load.Amount, chair_id, chair_name
-          FROM `nagruzka` 
-          LEFT JOIN `xml_content_of_load` ON nagruzka.`load_base_UID2` = xml_content_of_load.`base_uid2`
-          WHERE 1[/ajax/get/get_nagruzka_uoup_stat.php] [Chrome 143.0.0.0] [127.0.0.1]
-[15.01.2026 - 11:21.01] Error in GetSQL():[/ajax/get/uoup_nagruzka.php] [Chrome 143.0.0.0] [127.0.0.1]
-[15.01.2026 - 11:21.01] SELECT nagruzka.*, xml_content_of_load.Amount, xml_content_of_load.base_uid2
-              FROM `nagruzka`
-              JOIN `xml_content_of_load` ON nagruzka.`load_base_UID2` = xml_content_of_load.`base_uid2`
-              WHERE `chair_id` IS NOT NULL AND `valid` = '1'
-              #LIMIT 100[/ajax/get/uoup_nagruzka.php] [Chrome 143.0.0.0] [127.0.0.1]
-[15.01.2026 - 11:21.01] 1[/ajax/get/uoup_nagruzka.php] [Chrome 143.0.0.0] [127.0.0.1]
-[15.01.2026 - 11:24.50] 34400[/ajax/get/uoup_nagruzka.php] [Chrome 143.0.0.0] [127.0.0.1]
-[15.01.2026 - 11:44.54] 34400[/ajax/get/uoup_nagruzka.php] [Chrome 143.0.0.0] [127.0.0.1]
-[15.01.2026 - 11:53.07] 34400[/ajax/get/uoup_nagruzka.php] [Chrome 143.0.0.0] [127.0.0.1]
-[15.01.2026 - 11:55.16] 34400[/ajax/get/uoup_nagruzka.php] [Chrome 143.0.0.0] [127.0.0.1]
-[15.01.2026 - 15:49.40] 34400[/ajax/get/uoup_nagruzka.php] [Chrome 143.0.0.0] [127.0.0.1]
-[15.01.2026 - 16:02.21] 34400[/ajax/get/uoup_nagruzka.php] [Chrome 143.0.0.0] [127.0.0.1]
+[20.01.2026 - 11:37.48] SELECT 
+    sotrudniki.*, 
+    ROUND(SUM(x.Amount), 2) as amount_sum, 
+    ROUND(SUM(CASE WHEN x.TypeWorkload = '0' THEN x.Amount ELSE 0 END), 2) as amount_sum_auditorium,
+    -- Для eng используем отдельную логику
+    ROUND((
+        SELECT SUM(CASE WHEN s.UID_Language = '25031.945' THEN x2.Amount ELSE 0 END)
+        FROM nagruzka n2
+        JOIN xml_content_of_load x2 ON n2.load_base_UID2 = x2.base_uid2
+        LEFT JOIN xml_content_of_load_staff s ON x2.base_uid2 = s.base_uid2
+        WHERE n2.lecturer_person_id = sotrudniki.person_id
+          AND n2.load_base_UID2 = n.load_base_UID2
+    ), 2) as amount_sum_eng,
+    x.TypeWorkload
+FROM `sotrudniki`
+LEFT JOIN nagruzka n ON sotrudniki.person_id = n.lecturer_person_id
+LEFT JOIN `xml_content_of_load` x ON n.`load_base_UID2` = x.`base_uid2`
+WHERE 
+    ((sotrudniki.`type` <> 'gph' AND sotrudniki.`chair_id` = '02843') 
+     OR (sotrudniki.`type` = 'gph' AND sotrudniki.`department_id` = ''))
+    AND `date_remove` IS NULL
+GROUP BY sotrudniki.person_id[/ajax/get/chair_sotrudniki.php] [Chrome 143.0.0.0] [127.0.0.1]
+[20.01.2026 - 11:38.21] [/ajax/get/chair_sotrudniki.php] [Chrome 143.0.0.0] [127.0.0.1]
+[20.01.2026 - 11:40.36] 02835[/ajax/get/chair_sotrudniki.php] [Chrome 143.0.0.0] [127.0.0.1]
+[20.01.2026 - 11:41.01] 02835[/ajax/get/chair_sotrudniki.php] [Chrome 143.0.0.0] [127.0.0.1]
+[20.01.2026 - 11:41.01] SELECT 
+    sotrudniki.*, 
+    ROUND(SUM(x.Amount), 2) as amount_sum, 
+    ROUND(SUM(CASE WHEN x.TypeWorkload = '0' THEN x.Amount ELSE 0 END), 2) as amount_sum_auditorium,
+    -- Для eng используем отдельную логику
+    ROUND((
+        SELECT SUM(CASE WHEN s.UID_Language = '25031.945' THEN x2.Amount ELSE 0 END)
+        FROM nagruzka n2
+        JOIN xml_content_of_load x2 ON n2.load_base_UID2 = x2.base_uid2
+        LEFT JOIN xml_content_of_load_staff s ON x2.base_uid2 = s.base_uid2
+        WHERE n2.lecturer_person_id = sotrudniki.person_id
+          AND n2.load_base_UID2 = n.load_base_UID2
+    ), 2) as amount_sum_eng,
+    x.TypeWorkload
+FROM `sotrudniki`
+LEFT JOIN nagruzka n ON sotrudniki.person_id = n.lecturer_person_id
+LEFT JOIN `xml_content_of_load` x ON n.`load_base_UID2` = x.`base_uid2`
+WHERE 
+    ((sotrudniki.`type` <> 'gph' AND sotrudniki.`chair_id` = '02843') 
+     OR (sotrudniki.`type` = 'gph' AND sotrudniki.`department_id` = '02835'))
+    AND `date_remove` IS NULL
+GROUP BY sotrudniki.person_id[/ajax/get/chair_sotrudniki.php] [Chrome 143.0.0.0] [127.0.0.1]
+[20.01.2026 - 13:02.22] 02835[/ajax/get/chair_sotrudniki.php] [Chrome 143.0.0.0] [127.0.0.1]
+[20.01.2026 - 13:02.22] SELECT 
+    sotrudniki.*, 
+    ROUND(SUM(x.Amount), 2) as amount_sum, 
+    ROUND(SUM(CASE WHEN x.TypeWorkload = '0' THEN x.Amount ELSE 0 END), 2) as amount_sum_auditorium,
+    -- Для eng используем отдельную логику
+    ROUND((
+        SELECT SUM(CASE WHEN s.UID_Language = '25031.945' THEN x2.Amount ELSE 0 END)
+        FROM nagruzka n2
+        JOIN xml_content_of_load x2 ON n2.load_base_UID2 = x2.base_uid2
+        LEFT JOIN xml_content_of_load_staff s ON x2.base_uid2 = s.base_uid2
+        WHERE n2.lecturer_person_id = sotrudniki.person_id
+          AND n2.load_base_UID2 = n.load_base_UID2
+    ), 2) as amount_sum_eng,
+    x.TypeWorkload
+FROM `sotrudniki`
+LEFT JOIN nagruzka n ON sotrudniki.person_id = n.lecturer_person_id
+LEFT JOIN `xml_content_of_load` x ON n.`load_base_UID2` = x.`base_uid2`
+WHERE 
+    ((sotrudniki.`type` <> 'gph' AND sotrudniki.`chair_id` = '02843') 
+     OR (sotrudniki.`type` = 'gph' AND sotrudniki.`department_id` = '02835'))
+    AND `date_remove` IS NULL
+GROUP BY sotrudniki.person_id[/ajax/get/chair_sotrudniki.php] [Chrome 143.0.0.0] [127.0.0.1]

@@ -268,6 +268,14 @@
 					<prop_value prop_name="Code" value="05416"></prop_value>
 				</Collection>
 			</Object>
+			<Object uid="25031.281474976762091" name="Центр исследований науки и развития аспирантского образования" class_id="Faculty">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976762091"></prop_value>
+					<prop_value prop_name="Name" value="Центр исследований науки и развития аспирантского образования"></prop_value>
+					<prop_value prop_name="Abbr" value="ЦИНиРАО"></prop_value>
+					<prop_value prop_name="Code" value="05528"></prop_value>
+				</Collection>
+			</Object>
 		</Collection>
 	</Data>
 </Data_Root>

@@ -147,11 +147,15 @@
     <button class="btn btn-secondary mb-3" ng-click="showChairs()">
       <i class="fas fa-arrow-left"></i> Назад к списку кафедр
     </button>
+
+    <div>
+      <button class="btn btn-primary btn-sm mb-3" ng-click="UOUPCancelRefuseBulk()">Отклонить</button>
+    </div>
     
     <table id="DataTables_Table_uoup_chairs_refused" datatable="ng" dt-options="dtOptions" dt-column-defs="dtColumnDefs" dt-instance="dtInstance" class="dataTable row-border hover display table" style="margin: 0 0; width:100%;">
       <thead>
         <tr>
-          <th style="width: 20px" ng-show="system_mode != 'mode_archive'"></th>
+          <!-- <th style="width: 20px" ng-show="system_mode != 'mode_archive'"></th> -->
           <th>Факультет</th>
           <th>Кафедра</th>
           <th>Аббр</th>
@@ -171,11 +175,11 @@
       </thead>
       <tbody>
         <tr ng-repeat="row in filteredNagruzka">
-          <td ng-show="system_mode != 'mode_archive'">
-            <button class="btn btn-primary btn-xs" ng-click="UOUPCancelRefuse(row)">Отклонить</button>
-          </td>
+          <!-- <td ng-show="system_mode != 'mode_archive'">
+            <button class="btn btn-primary btn-xs" ng-click="UOUPCancelRefuseBulk()">Отклонить</button>
+          </td> -->
           <td>{{row.department_name}}</td>
-          <td>{{row.chair_name}}</td>
+          <td>{{row.chair_name}}</td> 
           <td ng-bind-html="row.Abbr"></td>
           <td ng-bind-html="row.discipline_name"></td>
           <td ng-bind-html="row.group_name"></td>
@@ -193,7 +197,7 @@
       </tbody>
       <tfoot>
         <tr>
-          <th ng-show="system_mode != 'mode_archive'"></th>
+          <!-- <th ng-show="system_mode != 'mode_archive'"></th> -->
           <th></th>
           <th></th>
           <th></th>

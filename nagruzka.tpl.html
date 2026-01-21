@@ -1,11 +1,15 @@
 <div ng-if="system_mode == 'mode_filling' || system_mode == 'mode_verification' || system_mode == 'mode_archive'">
+
+  <h3 ng-if="lecturer_uid">
+    {{lecturer_fio}}
+  </h3>
     
-  <div ng-if="nagruzka_stat.chair_name">
+  <div ng-if="nagruzka_stat.chair_name && !lecturer_uid">
     <h5>{{nagruzka_stat.chair_name}}</h5>
   </div>
 
   <!-- c_roles.zavkaf -->
-  <table class="widefat mb-3" ng-if="true">
+  <table class="widefat mb-3" ng-if="!lecturer_uid">
 
     <thead>
       <tr>
@@ -82,12 +86,15 @@
 
   <div ng-show="nagruzka_type && nagruzka_type != 'all' && !isLoading">
 
-    <select class="form-select mb-2" style="width: 300px" ng-model="filter_distinct.global_nagruzka_filter" ng-change="onNagruzkaGlobalFilterChange()">
+    <select class="form-select mb-2" style="width: 300px" ng-model="filter_distinct.global_nagruzka_filter" ng-change="onNagruzkaGlobalFilterChange()" ng-if="!lecturer_uid">
       <option value="">Вся нагрузка</option>
       <option value="assigned">распределена</option>
       <option value="not_assigned">не распределена</option>
       <option value="assigned_to_vancancy">распределена на вакансию</option>
     </select>
+
+
+
 
     <table id="DataTables_Table_nagruzka" datatable="ng" dt-options="dtOptions"  dt-column-defs="dtColumnDefs" dt-instance="onNagruzkaTableInstance" class="dataTable row-border hover display table "  style='margin: 0 0 ;width:100%; ' >
       <!-- ng-show="nagruzka_type" -->
@@ -120,8 +127,8 @@
         <!-- ng-click="ShowPopup(person)" -->
           <!-- | orderBy:['-selected', 'type', 'fio'] -->
         <tr ng-repeat="row in nagruzka" class="pointer" ng-class="{'readonly': !IsNagruzkaEditable(row)}">
-          <td ng-click="SelectNagruzkaTDClick(row); $event.stopPropagation()" ng-show="!nagruzka_readonly">  
-            <input type="checkbox" ng-model="row.selected" ng-click="$event.stopPropagation()" ng-disabled="!IsNagruzkaEditable(row)">
+          <td ng-click="IsNagruzkaEditable(row) && SelectNagruzkaTDClick(row); $event.stopPropagation()" ng-show="!nagruzka_readonly">  
+            <input type="checkbox" ng-model="row.selected" ng-click="$event.stopPropagation()" ng-show="IsNagruzkaEditable(row)">
             <!-- {{row.base_uid}} -->
           </td>
           <td ng-click="NagruzkaRowClick(row)">{{row.department_name}}</td>
@@ -202,11 +209,9 @@
             <th ind="16"></th>
           </tr>
         </tfoot>
-
-
       </table>
 
-      <a ng-click="ClearGreenTableFilters(dtInstance, filter_distinct)" class="link pointer" style="float:right">сбросить фильтры</a>
+      <a ng-click="ClearGreenTableFilters(dtInstance, filter_distinct, lecturer_uid, nagruzka_type, nagruzka_selected_chair_id)" class="link pointer" style="float:right">сбросить фильтры</a>
 
     </div>
 

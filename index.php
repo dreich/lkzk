@@ -60,13 +60,16 @@ if ($u && IsGoodInclude($u))
 }
 
 
-/* // обработка возможных переходов
-if ($main == '')
+// обработка возможных переходов
+if ($main == 'uoup_chairs_refused')
 {
-
+  header("Location: /#/uoup_chairs_refused");
+}
+elseif ($main == 'uoup_nagruzka_to_change')
+{
+  header("Location: /#/uoup_nagruzka_to_change");
 }
 else
-*/
 // если после .htaccess пришли сюда, то это 404
 if ($u)
 {

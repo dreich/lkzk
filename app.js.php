@@ -211,7 +211,7 @@ function createCustomFilters(table_id, table, columns)
 //     });
 // }
 
-function createCustomFilters(table_id, table, columns) 
+function createCustomFilters(table_id, table, columns, scope) 
 {
   CL('createCustomFilters');
   
@@ -222,6 +222,9 @@ function createCustomFilters(table_id, table, columns)
 
   // Получаем сохраненное состояние таблицы
   const state = table.state.loaded();
+  
+  // If scope is not provided, use a dummy object to prevent errors
+  const $scope = scope || { $apply: (fn) => fn() };
   
   table.columns(':visible').every(function(columnIndex) {
     const column = this;
@@ -240,6 +243,14 @@ function createCustomFilters(table_id, table, columns)
       const select = $('<select class="form-select"></select>')
         .appendTo(footerCell)
         .on('change', function() {
+          // Clear all checkboxes when filter changes
+          if ($scope.nagruzka && $scope.nagruzka.length > 0) {
+            $scope.$apply(function() {
+              $scope.nagruzka.forEach(function(row) {
+                row.selected = false;
+              });
+            });
+          }
           column.search(this.value).draw();
         });
 
@@ -265,6 +276,14 @@ function createCustomFilters(table_id, table, columns)
         .val(savedSearch)  // Устанавливаем сохраненное значение
         .on('keyup change', function() {
           if(column.search() !== this.value) {
+            // Clear all checkboxes when filter changes
+            if ($scope.nagruzka && $scope.nagruzka.length > 0) {
+              $scope.$apply(function() {
+                $scope.nagruzka.forEach(function(row) {
+                  row.selected = false;
+                });
+              });
+            }
             column.search(this.value).draw();
           }
         });
@@ -343,10 +362,49 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
         nagruzka: function($http)
         {
           return null;//$http({url: 'ajax/get/nagruzka_discipline.php?chair_id=' + c_chair_id, method: 'GET'});
+        },
+        lecturer_uid: function($route)
+        {
+          return null;
         }
 
       }
     })
+    // фильтрация по преподавателю
+    /*
+    .when('/nagruzka/discipline/:lecturer_uid',
+    {
+      templateUrl: 'nagruzka.tpl.html?' + getRandom(10000, 99999),
+      controller: 'NagruzkaCtrl',
+      resolve:
+      {
+        nagruzka_type: function()
+        {
+          return 'discipline';
+        },
+        lecturer_uid: function($route)
+        {
+          return $route.current.params.lecturer_uid;
+        },
+        system_mode: function($http)
+        {
+          return $http({url: 'ajax/get/get_system_mode.php', method: 'GET'});
+        },
+        nagruzka_stat: function($http)
+        {
+          return $http({url: 'ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=' + c_chair_id, method: 'GET'});
+        },
+        nagruzka: function($http, $route)
+        {
+          const lecturer_uid = $route.current.params.lecturer_uid;
+          return $http({
+            url: 'ajax/get/nagruzka_discipline.php?chair_id=' + c_chair_id + '&lecturer_uid=' + encodeURIComponent(lecturer_uid), 
+            method: 'GET'
+          });
+        }
+      }
+    })
+      */
     // Интерфейс завкафа
     .when('/nagruzka/:type',
     {
@@ -395,6 +453,10 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
           //   return $http({url: 'ajax/get/nagruzka_aspirant.php?chair_id=' + c_chair_id, method: 'GET'});
           // }
           return null;
+        },
+        lecturer_uid: function($route)
+        {
+          return null;
         }
         /*
         if (!isEmpty(nagruzka_selected_chair_id)) chair_str = "?chair_id=" + nagruzka_selected_chair_id;
@@ -404,7 +466,8 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
         */
       }
     })
-    // Интерфейс УОУП, как у завкафа, но readonly
+    // Интерфейс Завкафа - нагрузка
+    // Интерфейс УОУП, как у завкафа, но readonly (для УОУП нет в меню)
     .when('/nagruzka/:type/:nagruzka_selected_chair_id',
     {
       templateUrl: 'nagruzka.tpl.html?' + getRandom(10000, 99999),
@@ -454,6 +517,72 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
           //   return $http({url: 'ajax/get/nagruzka_aspirant.php?chair_id=' + c_chair_id, method: 'GET'});
           // }
           return null;
+        },
+        lecturer_uid: function($route)
+        {
+          return null;
+        }
+      }
+    })
+    // Интерфейс Завкафа - нагрузка по преподавателю (переход из таблицы пункта меню Сотрудники)
+    .when('/nagruzka/:type/:nagruzka_selected_chair_id/:lecturer_uid',
+    {
+      templateUrl: 'nagruzka.tpl.html?' + getRandom(10000, 99999),
+      controller: 'NagruzkaCtrl',
+      resolve:
+      {
+        nagruzka_type: function($route)
+        {
+          return $route.current.params.type
+        },
+        // Параметр только для УОУП для выбора кафедры
+        nagruzka_selected_chair_id: function($route)
+        {
+          return $route.current.params.nagruzka_selected_chair_id
+        },
+        system_mode: function($http)
+        {
+          return $http({url: 'ajax/get/get_system_mode.php', method: 'GET'});
+        },
+        nagruzka_stat: function($http, $route)
+        {
+          return $http({url: 'ajax/get/get_nagruzka_zavkaf_stat.php?chair_id=' + ($route.current.params.nagruzka_selected_chair_id ? $route.current.params.nagruzka_selected_chair_id : c_chair_id), method: 'GET'});
+        },
+        nagruzka: function($http, $route)
+        {
+          const nagruzka_type = $route.current.params.type;
+          const chair_id = $route.current.params.nagruzka_selected_chair_id;
+          const lecturer_uid = $route.current.params.lecturer_uid;
+
+          if (nagruzka_type == 'discipline')
+          {
+            let url = 'ajax/get/nagruzka_discipline.php?chair_id=' + (chair_id ? chair_id : c_chair_id);
+            if (lecturer_uid) {
+                url += '&lecturer_uid=' + encodeURIComponent(lecturer_uid);
+            }
+            return $http({url: url, method: 'GET'});
+          }
+          // else if (nagruzka_type == 'vkr')
+          // {
+          //   return $http({url: 'ajax/get/nagruzka_vkr.php?chair_id=' + c_chair_id, method: 'GET'});
+          // }
+          // else if (nagruzka_type == 'ksro')
+          // {
+          //   return $http({url: 'ajax/get/nagruzka_ksro.php?chair_id=' + c_chair_id, method: 'GET'});
+          // }
+          // else if (nagruzka_type == 'gia')
+          // {
+          //   return $http({url: 'ajax/get/nagruzka_gia.php?chair_id=' + c_chair_id, method: 'GET'});
+          // }
+          // else if (nagruzka_type == 'aspirant')
+          // {
+          //   return $http({url: 'ajax/get/nagruzka_aspirant.php?chair_id=' + c_chair_id, method: 'GET'});
+          // }
+          return null;
+        },
+        lecturer_uid: function($route)
+        {
+          return $route.current.params.lecturer_uid;
         }
       }
     })
@@ -633,38 +762,41 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
   clearInterval($rootScope.checkSessionInterval);
   $rootScope.checkSessionInterval = setInterval(checkSession, 60000, $http, $scope, ngDialog);
 
-  $rootScope.ClearGreenTableFilters = function(dtInstance, filter_distinct) // table,  global_nagruzka_filter)
-  {
-    CL('ClearGreenTableFilters');
+ $rootScope.ClearGreenTableFilters = function(dtInstance, filter_distinct, lecturer_uid, nagruzka_type, nagruzka_selected_chair_id) {
+  CL('ClearGreenTableFilters');
+  const table = dtInstance.DataTable; // Changed from dataTable to DataTable
 
-    const table = dtInstance.dataTable;
-    // CL(global_nagruzka_filter);
-
-    filter_distinct.global_nagruzka_filter = undefined;
-
-    // Сброс глобального поиска
-    table.fnFilter('');
-
-    // Сброс фильтров для всех столбцов
-    for (let i = 0; i < table.fnSettings().aoColumns.length; i++) {
-        table.fnFilter('', i);
+  // Check if we're on a page with a lecturer_uid
+  if (lecturer_uid) {
+    // Build the target URL
+    const basePath = `#/nagruzka/${nagruzka_type}`;
+    const chairParam = nagruzka_selected_chair_id ? `/${nagruzka_selected_chair_id}` : '';
+    const targetUrl = basePath + chairParam;
+    
+    // Clear all filters
+    if (table) {
+      table.search('').columns().search('').draw();
     }
-
-    // CL(table);
-
-    // const dt = table;//.DataTable();
-
-    // $('#DataTables_Table_1').find('tfoot tr select').val('').trigger('change');
-    // $('#DataTables_Table_1').find('tfoot tr input').val('').trigger('change');
-
-    table.fnSort([]); // Сбрасываем сортировку
-
-    table.find('tfoot tr select').val('').trigger('change');
-    table.find('tfoot tr input').val('').trigger('change');
-
-    // Перерисовка таблицы
-    table.fnDraw();
+    
+    // Force a full page reload with the new URL
+    window.location.href = window.location.origin + window.location.pathname + targetUrl;
+    return;
   }
+
+  // Original filter clearing logic
+  if (filter_distinct) {
+    filter_distinct.global_nagruzka_filter = undefined;
+  }
+  
+  if (table) {
+    table.search('').draw(); // Clear global search
+    // Clear individual column searches
+    table.columns().every(function() {
+      this.search(''); // Clear search for each column
+    });
+    table.draw();
+  }
+};
 
   $rootScope.NagruzkaRowClick = function(nagruzka_row)
   {
@@ -714,13 +846,14 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
 })
 
 
-.controller ('NagruzkaCtrl', function($rootScope, $scope, $http, $timeout, DTOptionsBuilder, DTColumnBuilder, DTColumnDefBuilder, ngDialog, $templateCache, nagruzka_type, nagruzka_selected_chair_id, $resource, $cookies, system_mode, nagruzka_stat, nagruzka)
+.controller ('NagruzkaCtrl', function($rootScope, $scope, $http, DTOptionsBuilder, DTColumnBuilder, DTColumnDefBuilder, ngDialog, $templateCache, nagruzka_type, nagruzka_selected_chair_id, $resource, $cookies, system_mode, nagruzka_stat, nagruzka, lecturer_uid)
 {
   CL('NagruzkaCtrl');
   // CL(nagruzka_type);
   // CL(nagruzka_selected_chair_id);
   
   $scope.nagruzka_selected_chair_id = nagruzka_selected_chair_id;
+  $scope.lecturer_uid = lecturer_uid; // Store the lecturer_uid from the route
   $scope.system_mode = system_mode.data.mode;
   $rootScope.page = 'nagruzka';
   $scope.$_forms_obuchenia = $_forms_obuchenia;
@@ -729,6 +862,11 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
   // Строка для проверки, что тесты работают. Должна быть ошибка.
   // $scope.nagruzka = nagruzka.data;
   $scope.nagruzka = nagruzka ? nagruzka.data : null;
+
+  if ($scope.nagruzka)
+  { 
+    $scope.lecturer_fio = $scope.nagruzka[0].lecturer_fio;
+  }
 
   // CL($scope.system_mode);
   // CL($scope.nagruzka);
@@ -925,84 +1063,159 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
         // CL($scope.dtInstance.dataTable.DataTable());
 
         // Инициализация фильтров при старте
-        createCustomFilters('DataTables_Table_nagruzka', table, columns);
+        createCustomFilters('DataTables_Table_nagruzka', table, columns, $scope);
 
         // Сброс и пересоздание фильтров при изменении видимости столбцов
         table.on('column-visibility.dt', function() {
-          createCustomFilters('DataTables_Table_nagruzka', table, columns);
+          createCustomFilters('DataTables_Table_nagruzka', table, columns, $scope);
         });
       }
     }, true);
     */
 
-    $scope.onNagruzkaTableInstance = function(dtInstance) 
-    {
-      CL('onNagruzkaTableInstance');
-      // CL(dtInstance);
+    $scope.onNagruzkaTableInstance = function(dtInstance) {
+  CL('onNagruzkaTableInstance');
+  $scope.dtInstance = dtInstance;
+  const table = dtInstance.DataTable;
+  const lecturerColumnIndex = 15; // Index of the "Преподаватель" column
+  let filtersInitialized = false;
 
-      $scope.dtInstance = dtInstance; // если нужно хранить ссылку
-      const table = dtInstance.DataTable;
-      createCustomFilters('DataTables_Table_nagruzka', table, columns);
-
-      table.on('column-visibility.dt', function () {
-          createCustomFilters('DataTables_Table_nagruzka', table, columns);
-      });
-
-      // Обработчик отрисовки таблицы (включая фильтрацию)
-      table.on('draw.dt', function() {
-        CL('draw.dt - table redrawn');
-        const filteredData = table.rows({ search: 'applied' }).data().toArray();
-        $scope.$applyAsync(() => {
-
-          // Сбрасываем все чекбоксы
-            if ($scope.nagruzka) {
-                $scope.nagruzka.forEach(item => {
-                    item.selected = false;
-                });
-            }
-
-          $scope.filteredData = filteredData;
-          CL('Filtered data updated:', filteredData.length, 'items');
-          CL($scope.filteredData.length);
-        });
-      });
-      
-      // Инициализация filteredData при первой загрузке
-      $scope.$applyAsync(() => 
-      {
-        CL('applyAsync');
-        $scope.filteredData = table.rows({ search: 'applied' }).data().toArray();
-        
-      });
-    };
-
-
-
-  }
-
-  $scope.GetNagruzkaAmountSum = function()
-  {
-    if ($scope.filteredData)
-    {
-      
-      const filteredData = $scope.filteredData.map(item => parseFloat(item[14]));
-
-      // const filteredData = $scope.filteredData.filter(item => typeof item.amount === 'number');
-
-      // CL(filteredData);
-      
-      return roundToTwo(filteredData.reduce((sum, item) => sum + item, 0));
-
-
+  // Function to initialize filters only once
+  const initializeFiltersOnce = () => {
+    if (!filtersInitialized) {
+      createCustomFilters('DataTables_Table_nagruzka', table, columns, $scope);
+      filtersInitialized = true;
     }
+  };
+
+  // Function to apply lecturer filter
+  /*
+  const applyLecturerFilter = () => {
+    // Ensure filters are initialized
+    initializeFiltersOnce();
+
+    const lecturerColumn = table.column(lecturerColumnIndex);
+    const filterInput = document.querySelector(`#DataTables_Table_nagruzka thead th:nth-child(${lecturerColumnIndex + 1}) input[type=search]`);
+
+    if ($scope.lecturer_uid) 
+    {
+      // const lecturerRow = $scope.nagruzka?.find(row => 
+      //   row.lecturer_uid === $scope.lecturer_uid
+      // );
+
+      // if (lecturerRow?.lecturer_fio) {
+      //   // Apply the filter using DataTables API
+      //   lecturerColumn.search(lecturerRow.lecturer_fio).draw('page');
+        
+      //   // Update the input value if it exists
+      //   if (filterInput) {
+      //     filterInput.value = lecturerRow.lecturer_fio;
+      //     const event = new Event('input', { bubbles: true });
+      //     filterInput.dispatchEvent(event);
+      //   }
+      // }
+    } 
+    else 
+    {
+      // Clear the filter
+      lecturerColumn.search('').draw('page');
+      if (filterInput) {
+        filterInput.value = '';
+        const event = new Event('input', { bubbles: true });
+        filterInput.dispatchEvent(event);
+      }
+    }
+  };
+
+  */
+
+  // Initialize filters immediately
+  initializeFiltersOnce();
+
+  // Apply filter after a short delay to ensure the table is ready
+  // const initialApply = () => {
+  //   if (document.readyState === 'complete') {
+  //     setTimeout(applyLecturerFilter, 100);
+  //   } else {
+  //     document.addEventListener('DOMContentLoaded', () => {
+  //       setTimeout(applyLecturerFilter, 100);
+  //     });
+  //   }
+  // };
+
+  // Start the initial application
+  // initialApply();
+
+  // Handle table redraws - use one() instead of on() to prevent multiple handlers
+  // table.one('draw.dt', applyLecturerFilter);
+
+  // Handle column visibility changes
+  table.on('column-visibility.dt', () => {
+    // Only reinitialize filters if they haven't been initialized yet
+    if (!filtersInitialized) {
+      initializeFiltersOnce();
+    }
+    // applyLecturerFilter();
+  });
+
+  // Watch for lecturer_uid changes
+  // $scope.$watch('lecturer_uid', (newVal, oldVal) => {
+  //   if (newVal !== oldVal) {
+  //     requestAnimationFrame(applyLecturerFilter);
+  //   }
+  // });
+};
+
+
+
   }
 
+  // $scope.GetNagruzkaAmountSum = function()
+  // {
+  //   CL('GetNagruzkaAmountSum');
+  //   CL($scope.filteredData);
+  //   if ($scope.filteredData)
+  //   {
+      
+  //     const filteredData = $scope.filteredData.map(item => parseFloat(item[14]));
+
+  //     // const filteredData = $scope.filteredData.filter(item => typeof item.amount === 'number');
+
+  //     // CL(filteredData);
+      
+  //     return roundToTwo(filteredData.reduce((sum, item) => sum + item, 0));
+
+
+  //   }
+  // }
+
+$scope.GetNagruzkaAmountSum = function() {
+    // Check if DataTable is initialized
+    if (!$.fn.DataTable || !$.fn.DataTable.isDataTable('.dataTable')) {
+        return 0;
+    }
+    
+    const table = $('.dataTable').DataTable();
+    if (!table) return 0;
+    
+    const filteredData = table.rows({ filter: 'applied' }).data().toArray();
+    if (!filteredData.length) return 0;
+    
+    return roundToTwo(
+        filteredData.reduce((sum, row) => 
+            sum + (parseFloat(row[14]) || 0), 
+        0)
+    );
+};
   
   $scope.GetNagruzkaTypesRowLink = function(nagruzka_type)
   {
     var link = '#/nagruzka/' + nagruzka_type;
 
+    // УОУП
     if (!isEmpty($scope.nagruzka_selected_chair_id)) link += '/' + $scope.nagruzka_selected_chair_id;
+    // ЗавКаф
+    if (!isEmpty(c_chair_id)) link += '/' + c_chair_id;
 
     return link;
   }
@@ -1024,7 +1237,12 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
   {
     CL('onNagruzkaGlobalFilterChange');
 
-    // CL($scope.filter_distinct.global_nagruzka_filter);
+    // Deselect all checkboxes before applying the filter
+    if ($scope.nagruzka && $scope.nagruzka.length > 0) {
+      $scope.nagruzka.forEach(function(row) {
+        row.selected = false;
+      });
+    }
 
     $cookies.put('global_nagruzka_filter', $scope.filter_distinct.global_nagruzka_filter);
 
@@ -1329,13 +1547,16 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
       }
       else
       {
-        ngDialog.openConfirm({
-                template: 'confirm_require_admin_change',
-                className: 'ngdialog-theme-default',
-                disableAnimation: true
-            }).then(function (value) {  // да
+        // Проверим, распределена ли хотя бы одна из выбранных строк нагрузки (есть преподаватель)
 
-                $scope.nagruzka.forEach(nagruzka_row => 
+        let atLeastOneRowHasLecturer = $scope.nagruzka.some(nagruzka_row => 
+        {
+          return nagruzka_row.selected && !isEmpty(nagruzka_row.lecturer_uid);
+        });
+
+        function doRequireAdminChange()
+        {
+          $scope.nagruzka.forEach(nagruzka_row => 
                 {
                   if (nagruzka_row.selected)
                   {
@@ -1346,8 +1567,24 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
                 });
 
                 $scope.group_action.action = undefined;
-            });
+        }
 
+        if (atLeastOneRowHasLecturer)
+        {
+          ngDialog.openConfirm({
+                template: 'confirm_require_admin_change',
+                className: 'ngdialog-theme-default',
+                disableAnimation: true
+            }).then(function (value) {  // да
+
+              doRequireAdminChange()
+                
+            });
+        }
+        else
+        {
+          doRequireAdminChange();
+        }
         
       }
     }
@@ -1559,7 +1796,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
 })
 
 // Админ УОУП просматривает отказы зав. кафедрами от нагрузки и отменяет отказы
-.controller ('UOUPChairsRefusedCtrl', function($rootScope, $scope, $http, DTOptionsBuilder, DTColumnBuilder, DTColumnDefBuilder, ngDialog, $templateCache, $resource, uoup_nagruzka, system_mode, $filter)
+.controller ('UOUPChairsRefusedCtrl', function($rootScope, $scope, $http, DTOptionsBuilder, DTColumnBuilder, DTColumnDefBuilder, ngDialog, $templateCache, $resource, uoup_nagruzka, system_mode, $filter, $timeout)
 {
   CL('UOUPChairsRefusedCtrl');
 
@@ -1591,112 +1828,118 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
 
   // 2. Add these functions before the controller ends
   function buildAdminChangeChairs(rows) {
-  const departmentsMap = {};
+    const departmentsMap = {};
 
-  // Use the new field names
-  const commentField = 'refused_change_message';
-  const dateField = 'refused_date';
+    // Use the new field names
+    const commentField = 'refused_change_message';
+    const dateField = 'refused_date';
 
-  // console.log('Using fields:', { commentField, dateField });
+    // console.log('Using fields:', { commentField, dateField });
 
-  // First pass: build the structure
-  rows.forEach(row => {
-    if (row.status !== 'refused') return;
+    // First pass: build the structure
+    rows.forEach(row => {
+      if (row.status !== 'refused') return;
 
-    const deptKey = row.department_name || 'Без факультета';
-    const chairKey = row.chair_id || 'no_chair';
-    const chairName = row.chair_name || 'Без кафедры';
-    const comment = row[commentField];
-    
-    // Get date from the new refused_date field
-    let commentDate;
-    if (row[dateField]) {
-      commentDate = new Date(row[dateField]);
-      // Set to noon to avoid timezone issues
-      commentDate.setHours(12, 0, 0, 0);
-    } else {
-      // Fallback to current date if no date is available
-      commentDate = new Date();
-      commentDate.setHours(12, 0, 0, 0);
-    }
-
-    // Format date for grouping (just date, no time)
-    const formattedDate = $filter('date')(commentDate, 'yyyy-MM-dd');
-    const commentKey = comment ? `${comment}|${formattedDate}` : `no_comment|${formattedDate}`;
-
-    // Skip if no comment or empty comment
-    if (!comment || comment.trim() === '') {
-      return;
-    }
-
-    // Initialize department if not exists
-    if (!departmentsMap[deptKey]) {
-      departmentsMap[deptKey] = {
-        department_name: deptKey,
-        chairs: [],
-        count: 0,
-        chairMap: {}
-      };
-    }
-
-    // Initialize chair if not exists
-    if (!departmentsMap[deptKey].chairMap[chairKey]) {
-      const newChair = {
-        chair_id: chairKey,
-        chair_name: chairName,
-        count: 0,
-        comments: [],
-        commentMap: {}
-      };
+      const deptKey = row.department_name || 'Без факультета';
+      const chairKey = row.chair_id || 'no_chair';
+      const chairName = row.chair_name || 'Без кафедры';
+      const comment = row[commentField];
       
-      departmentsMap[deptKey].chairs.push(newChair);
-      departmentsMap[deptKey].chairMap[chairKey] = newChair;
-    }
+      // Get date from the new refused_date field
+      let commentDate;
+      if (row[dateField]) {
+        commentDate = new Date(row[dateField]);
+        // Set to noon to avoid timezone issues
+        commentDate.setHours(12, 0, 0, 0);
+      } else {
+        // Fallback to current date if no date is available
+        commentDate = new Date();
+        commentDate.setHours(12, 0, 0, 0);
+      }
 
-    const chair = departmentsMap[deptKey].chairMap[chairKey];
-    chair.count++;
-    departmentsMap[deptKey].count++;
+      // Format date for grouping (just date, no time)
+      // const formattedDate = $filter('date')(commentDate, 'yyyy-MM-dd');
+      // Keep the original date with full precision (including seconds)
+      let commentDateTime = row[dateField] ? new Date(row[dateField]) : new Date();
+      const commentKey = commentDateTime.getTime() + '|' + comment;
 
-    // Initialize comment group if not exists
-    if (!chair.commentMap[commentKey]) {
-      const commentGroup = {
-        key: commentKey,
-        message: comment,
-        date: commentDate.toISOString(),
-        dateFormatted: $filter('date')(commentDate, 'dd.MM.yyyy'),
-        count: 0,
-        rows: []
-      };
       
-      chair.comments.push(commentGroup);
-      chair.commentMap[commentKey] = commentGroup;
-    }
+      // Create a key that includes both date (with seconds) and comment
+      // const dateCommentKey = commentDateTime.getTime() + '|' + comment;
 
-    // Add this row to the comment group
-    chair.commentMap[commentKey].count++;
-    chair.commentMap[commentKey].rows.push(row);
-  });
+      // Skip if no comment or empty comment
+      if (!comment || comment.trim() === '') {
+        return;
+      }
 
-  // Sort comments by date (newest first)
-  Object.values(departmentsMap).forEach(dept => {
-    dept.chairs.forEach(chair => {
-      chair.comments.sort((a, b) => new Date(b.date) - new Date(a.date));
+      // Initialize department if not exists
+      if (!departmentsMap[deptKey]) {
+        departmentsMap[deptKey] = {
+          department_name: deptKey,
+          chairs: [],
+          count: 0,
+          chairMap: {}
+        };
+      }
+
+      // Initialize chair if not exists
+      if (!departmentsMap[deptKey].chairMap[chairKey]) {
+        const newChair = {
+          chair_id: chairKey,
+          chair_name: chairName,
+          count: 0,
+          comments: [],
+          commentMap: {}
+        };
+        
+        departmentsMap[deptKey].chairs.push(newChair);
+        departmentsMap[deptKey].chairMap[chairKey] = newChair;
+      }
+
+      const chair = departmentsMap[deptKey].chairMap[chairKey];
+      chair.count++;
+      departmentsMap[deptKey].count++;
+
+      // Initialize comment group if not exists
+      if (!chair.commentMap[commentKey]) {
+        const commentGroup = {
+          key: commentKey,
+          message: comment,
+          date: commentDateTime.toISOString(),
+          dateFormatted: $filter('date')(commentDateTime, 'dd.MM.yyyy HH:mm:ss'),
+          count: 0,
+          rows: []
+        };
+        
+        chair.comments.push(commentGroup);
+        chair.commentMap[commentKey] = commentGroup;
+      }
+
+      // Add this row to the comment group
+      chair.commentMap[commentKey].count++;
+      chair.commentMap[commentKey].rows.push(row);
     });
-  });
 
-  // Clean up internal maps before returning
-  const result = Object.values(departmentsMap).map(dept => {
-    const { chairMap, ...deptRest } = dept;
-    const chairs = deptRest.chairs.map(chair => {
-      const { commentMap, ...chairRest } = chair;
-      return chairRest;
+    // Sort comments by date (newest first)
+    Object.values(departmentsMap).forEach(dept => {
+      dept.chairs.forEach(chair => {
+        chair.comments.sort((a, b) => new Date(b.date) - new Date(a.date));
+      });
     });
-    return { ...deptRest, chairs };
-  });
 
-  // console.log('Built adminChangeChairs:', result);
-  return result;
-}
+    // Clean up internal maps before returning
+    const result = Object.values(departmentsMap).map(dept => {
+      const { chairMap, ...deptRest } = dept;
+      const chairs = deptRest.chairs.map(chair => {
+        const { commentMap, ...chairRest } = chair;
+        return chairRest;
+      });
+      return { ...deptRest, chairs };
+    });
+
+    // console.log('Built adminChangeChairs:', result);
+    return result;
+  }
 
 /*
 
@@ -1904,7 +2147,7 @@ $scope.toggleAdminChangeChair = function(chair) {
       })
     .withOption('drawCallback', function(settings) {
         const table = angular.element('#DataTables_Table_uoup_chairs_refused').dataTable().api();
-        createCustomFilters('DataTables_Table_uoup_chairs_refused', table, columns);
+        createCustomFilters('DataTables_Table_uoup_chairs_refused', table, columns, $scope);
       })
     ;
 
@@ -1925,25 +2168,77 @@ $scope.toggleAdminChangeChair = function(chair) {
       // CL($scope.dtInstance.dataTable.DataTable());
 
       // Инициализация фильтров при старте
-      createCustomFilters('DataTables_Table_uoup_chairs_refused', table, columns);
+      createCustomFilters('DataTables_Table_uoup_chairs_refused', table, columns, $scope);
 
       // Сброс и пересоздание фильтров при изменении видимости столбцов
       table.on('column-visibility.dt', function() {
-        createCustomFilters('DataTables_Table_uoup_chairs_refused', table, columns);
+        createCustomFilters('DataTables_Table_uoup_chairs_refused', table, columns, $scope);
       });
     }
   });
 
-
-  // Отклонить отказ зав. каф. от нагрузки
-  $scope.UOUPCancelRefuse = function(nagruzka_row)
-  {
+  $scope.UOUPCancelRefuseBulk = function()
+  {``
     $templateCache.put('comment_and_cancel_refuse', '<p>Введите причину отказа:</p>\
               <div><textarea ng-model="message" class="form-control w-100 mb-2" style="height: 100px"></textarea></div>\
               <div class="ngdialog-buttons">\
                   <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="confirm(message)" ng-disabled="!message.length">Отменить отказ</button>\
                   <button type="button" class="ngdialog-button ngdialog-button-secondary" ng-click="closeThisDialog(0)">Закрыть</button>\
               </div>');
+
+    var dialogScope = $scope.$new();
+
+    ngDialog.openConfirm({
+                template: 'comment_and_cancel_refuse',
+                scope: dialogScope,
+                className: 'ngdialog-theme-default', //  ngdialog-positions
+                disableAnimation: true,
+                preCloseCallback: function(value)
+                {
+                  return true;
+                }
+            })
+            .then(function (message) 
+            {
+              // да
+              $scope.filteredNagruzka.forEach(function(nagruzka_row)
+              {
+                $http({url: 'ajax/post/uoup_cancel.php', method: 'POST', data: {load_base_UID2: nagruzka_row.base_uid2, chair_id: nagruzka_row.chair_id, chair_name: nagruzka_row.chair_name, zavkaf_fio: nagruzka_row.zavkaf_fio, action: 'Администратор УОУП отклонил отказ кафедры от нагрузки', message: message}})
+                .then(function(data)
+                {
+                  if (data.data.result == 'success')
+                  {
+                    nagruzka_row.status = 'initial';
+                  }
+                  else
+                  {
+                    toastr.error("Ошибка");
+                  }
+                });
+                
+              });
+
+              toastr.success("Данные сохранены");
+
+              $timeout(function() {
+
+                window.location = "/uoup_chairs_refused";
+                
+              }, 1000);
+
+            })
+            .catch(function dialogCloseErrorCallback(reason) {
+                    // ngDialog v1.4.0 throws an exception, when closing the dialog with reason “undefined”.
+            });
+    
+  }
+
+
+  // Отклонить отказ зав. каф. от нагрузки
+  /*
+  $scope.UOUPCancelRefuse = function(nagruzka_row)
+  {
+    
 
     var dialogScope = $scope.$new();
 
@@ -1978,7 +2273,7 @@ $scope.toggleAdminChangeChair = function(chair) {
                     // ngDialog v1.4.0 throws an exception, when closing the dialog with reason “undefined”.
             });
   }
-
+  */
   
 })
 
@@ -2122,6 +2417,8 @@ $scope.toggleAdminChangeChair = function(chair) {
 
   function applyFilters()
   {
+    CL('applyFilters');
+
     let filtered = angular.copy($scope.allNagruzka);
 
     if ($scope.selectedAdminChangeChair)
@@ -2303,10 +2600,10 @@ $scope.toggleAdminChangeChair = function(chair) {
       const tempDtInstance = { dataTable: legacyTable };
       $scope.ClearGreenTableFilters(tempDtInstance, $scope.filter_distinct);
 
-      createCustomFilters('DataTables_Table_nagruzka_to_change', api, columns);
+      createCustomFilters('DataTables_Table_nagruzka_to_change', api, columns, $scope);
       
       api.on('column-visibility.dt', function() {
-        createCustomFilters('DataTables_Table_nagruzka_to_change', api, columns);
+        createCustomFilters('DataTables_Table_nagruzka_to_change', api, columns, $scope);
       });
     });
 
@@ -2315,9 +2612,117 @@ $scope.toggleAdminChangeChair = function(chair) {
     DTColumnDefBuilder.newColumnDef(0).notSortable(), // notVisible()
   ];
 
-
   // Отклонить запрос зав. каф. на изменение
   // комментарий обязателен
+  $scope.UOUPDeclineToChangeBulk = function()
+  {
+    $templateCache.put('comment_and_cancel_to_change', '<p>Введите причину отказа:</p>\
+              <div><textarea ng-model="message" class="form-control w-100 mb-2" style="height: 100px"></textarea></div>\
+              <div class="ngdialog-buttons">\
+                  <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="confirm(message)" ng-disabled="!message.length">Отклонить</button>\
+                  <button type="button" class="ngdialog-button ngdialog-button-secondary" ng-click="closeThisDialog(0)">Закрыть</button>\
+              </div>');
+
+    var dialogScope = $scope.$new();
+
+    ngDialog.openConfirm({
+                template: 'comment_and_cancel_to_change',
+                scope: dialogScope,
+                className: 'ngdialog-theme-default', //  ngdialog-positions
+                disableAnimation: true,
+                preCloseCallback: function(value)
+                {
+                  return true;
+                }
+            })
+            .then(function (message) {  // да
+
+              $scope.filteredNagruzka.forEach(function(nagruzka_row)
+              {
+                $http({url: 'ajax/post/uoup_cancel.php', method: 'POST', data: {load_base_UID2: nagruzka_row.base_uid2, chair_id: nagruzka_row.chair_id, chair_name: nagruzka_row.chair_name, zavkaf_fio: nagruzka_row.zavkaf_fio, action: 'Админ УОУП отклонил запрос кафедры на внесение изменений', message: message}})
+                .then(function(response)
+                {
+                  if (response.data.result == 'success')
+                  {
+                    nagruzka_row.status = 'initial';
+                  }
+                  else
+                  {
+                    toastr.error("Ошибка");
+                  }
+                });
+              });
+
+              toastr.success("Данные сохранены");
+              
+              $timeout(function() {
+                window.location = "/uoup_nagruzka_to_change";
+              }, 1000);
+
+            })
+            .catch(function dialogCloseErrorCallback(reason) {
+                    // ngDialog v1.4.0 throws an exception, when closing the dialog with reason “undefined”.
+            });
+
+  }
+
+  // Выполнить запрос зав. каф. на изменение
+  // комментарий НЕ обязателен
+  $scope.UOUPDoneToChangeBulk = function()
+  {
+    $templateCache.put('comment_and_done_change', '<p>Комментарий:</p>\
+              <div><textarea ng-model="message" class="form-control w-100 mb-2" style="height: 100px"></textarea></div>\
+              <div class="ngdialog-buttons">\
+                  <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="confirm(message)" >Выполнено</button>\
+                  <button type="button" class="ngdialog-button ngdialog-button-secondary" ng-click="closeThisDialog(0)">Закрыть</button>\
+              </div>');
+
+    var dialogScope = $scope.$new();
+
+    ngDialog.openConfirm({
+                template: 'comment_and_done_change',
+                scope: dialogScope,
+                className: 'ngdialog-theme-default', //  ngdialog-positions
+                disableAnimation: true,
+                preCloseCallback: function(value)
+                {
+                  return true;
+                }
+            })
+            .then(function (message) {  // да
+
+              $scope.filteredNagruzka.forEach(function(nagruzka_row)
+              {
+                $http({url: 'ajax/post/uoup_done_change.php', method: 'POST', data: {load_base_UID2: nagruzka_row.base_uid2, chair_id: nagruzka_row.chair_id, chair_name: nagruzka_row.chair_name, zavkaf_fio: nagruzka_row.zavkaf_fio, message: message}})
+                .then(function(data)
+                {
+                  if (data.data.result == 'success')
+                  {
+                    
+                    nagruzka_row.status = 'cancelling_to_change';
+                  }
+                  else
+                  {
+                    toastr.error("Ошибка");
+                  }
+                });
+              });
+              
+              toastr.success("Данные сохранены");
+
+              $timeout(function() {
+                window.location = "/uoup_nagruzka_to_change";
+              }, 1000);
+
+            })
+            .catch(function dialogCloseErrorCallback(reason) {
+                    // ngDialog v1.4.0 throws an exception, when closing the dialog with reason “undefined”.
+            });
+
+  }
+
+
+  /*
   $scope.UOUPDeclineToChange = function(nagruzka_row)
   {
     $templateCache.put('comment_and_cancel_to_change', '<p>Введите причину отказа:</p>\
@@ -2360,53 +2765,7 @@ $scope.toggleAdminChangeChair = function(chair) {
                     // ngDialog v1.4.0 throws an exception, when closing the dialog with reason “undefined”.
             });
   }
-
-
-  // Выполнить запрос зав. каф. на изменение
-  // комментарий НЕ обязателен
-  $scope.UOUPDoneToChange = function(nagruzka_row)
-  {
-    $templateCache.put('comment_and_done_change', '<p>Комментарий:</p>\
-              <div><textarea ng-model="message" class="form-control w-100 mb-2" style="height: 100px"></textarea></div>\
-              <div class="ngdialog-buttons">\
-                  <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="confirm(message)" >Выполнено</button>\
-                  <button type="button" class="ngdialog-button ngdialog-button-secondary" ng-click="closeThisDialog(0)">Закрыть</button>\
-              </div>');
-
-    var dialogScope = $scope.$new();
-
-    ngDialog.openConfirm({
-                template: 'comment_and_done_change',
-                scope: dialogScope,
-                className: 'ngdialog-theme-default', //  ngdialog-positions
-                disableAnimation: true,
-                preCloseCallback: function(value)
-                {
-                  return true;
-                }
-            })
-            .then(function (message) {  // да
-
-              $http({url: 'ajax/post/uoup_done_change.php', method: 'POST', data: {load_base_UID2: nagruzka_row.base_uid2, chair_id: nagruzka_row.chair_id, chair_name: nagruzka_row.chair_name, zavkaf_fio: nagruzka_row.zavkaf_fio, message: message}})
-                .then(function(data)
-                {
-                  if (data.data.result == 'success')
-                  {
-                    toastr.success("Данные сохранены");
-                    nagruzka_row.status = 'cancelling_to_change';
-                  }
-                  else
-                  {
-                    toastr.error("Ошибка");
-                  }
-                });
-
-            })
-            .catch(function dialogCloseErrorCallback(reason) {
-                    // ngDialog v1.4.0 throws an exception, when closing the dialog with reason “undefined”.
-            });
-  }
-
+  */
   
 })
 
@@ -2439,13 +2798,13 @@ $scope.toggleAdminChangeChair = function(chair) {
     {
       if (Array.isArray($scope.persons))
       {
-        angular.forEach($scope.persons, function(person)
-        {
-          if (person.type == 'sotrudnik')
-          {
-            person.selected = true;
-          }
-        });
+        // angular.forEach($scope.persons, function(person)
+        // {
+        //   if (person.type == 'sotrudnik')
+        //   {
+        //     person.selected = true;
+        //   }
+        // });
       }
     });
 
@@ -2558,6 +2917,18 @@ $scope.toggleAdminChangeChair = function(chair) {
                   }
                 });
     }
+
+    $scope.navigateToNagruzka = function(person) 
+    {
+      CL('navigateToNagruzka');
+      // Only navigate if the person has a lecturer_uid
+      if (person.lecturer_uid && person.amount_sum > 0) {
+        // Get the current chair ID (c_chair_id is a global variable)
+        const chairId = c_chair_id || '';
+        // Navigate to the nagruzka page filtered by this lecturer
+        window.location.href = `#/nagruzka/discipline/${chairId}/${person.lecturer_uid}`;
+      }
+    };
 
 })
 
@@ -2867,6 +3238,24 @@ $scope.toggleAdminChangeChair = function(chair) {
       return (a.value > b.value ? 1 : -1) * (reverse ? -1 : 1);
     });
     return filtered;
+  };
+})
+
+.filter('formatHours', function() {
+  return function(value) {
+    if (value === null || value === undefined || value === '' || value === 0) return '';
+    
+    // Convert to number if it's a string
+    const num = parseFloat(value);
+    if (isNaN(num) || num === 0) return ''; // Return empty string for NaN or zero
+    
+    // If it's an integer, return without decimals
+    if (num % 1 === 0) {
+      return num.toString();
+    }
+    
+    // Otherwise, remove trailing zeros and return as string
+    return num.toString().replace(/(\.0*|(?<=\.\d+?)0+)$/, '');
   };
 })
 ;

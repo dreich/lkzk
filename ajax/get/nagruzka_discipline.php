@@ -29,6 +29,9 @@ if ($_GET['chair_id'])
 
 }
 
+$lecturer_uid = isset($_GET['lecturer_uid']) ? quote_smart($_GET['lecturer_uid']) : '';
+
+
 if ($c_roles['zavkaf'])
 {
   $c_chair_id = $_SESSION['c_chair_id'];
@@ -78,6 +81,10 @@ $dop_sql = "$chair_id_sql
             #ORDER BY `status`, ``
             #LIMIT 150
 ";
+
+if ($lecturer_uid) {
+    $dop_sql .= " AND nagruzka.lecturer_uid = '$lecturer_uid'";
+}
 
 $nagruzka_query = GetNagruzkaBaseQuery($dop_sql, false);
 

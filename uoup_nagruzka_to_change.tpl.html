@@ -182,10 +182,16 @@
 
   <div ng-switch-when="table">
     <button class="btn btn-secondary mb-3" ng-click="showChairs()">Назад к списку кафедр</button>
-    <table id="DataTables_Table_nagruzka_to_change" datatable="ng" dt-options="dtOptions"  dt-column-defs="dtColumnDefs" dt-instance="dtInstance" class="dataTable row-border hover display table "  style='margin: 0 0 ;width:100%;'>
+
+    <div ng-if="system_mode != 'mode_archive'" class="mb-3">
+      <button class="btn btn-primary btn-sm" ng-click="UOUPDeclineToChangeBulk()">Отклонить</button>
+      <button class="btn btn-success btn-sm" ng-click="UOUPDoneToChangeBulk()">Выполнено</button>
+    </div>
+
+    <table id="DataTables_Table_nagruzka_to_change" datatable="ng" dt-options="dtOptions"  dt-column-defs="dtColumnDefs" dt-instance="dtInstance" class="dataTable row-border hover display table" style='margin: 0 0 ;width:100%;'>
       <thead>
         <tr>
-          <th style="width: 20px" ng-if="system_mode != 'mode_archive'"></th>
+          <!-- <th style="width: 20px" ng-if="system_mode != 'mode_archive'"></th> -->
           <th>Факультет</th>
           <th>Кафедра</th>
           <th>Аббр</th>
@@ -206,10 +212,10 @@
 
       <tbody ng-hide="isFiltering">
         <tr ng-repeat="row in filteredNagruzka" ng-show="row.status == 'require_admin_change'" >
-          <td ng-if="system_mode != 'mode_archive'">
-            <button class="btn btn-primary btn-xs" ng-click="UOUPDeclineToChange(row)">Отклонить</button>
-            <button class="btn btn-success btn-xs mt-1" ng-click="UOUPDoneToChange(row)">Выполнено</button>
-          </td>
+          <!-- <td ng-if="system_mode != 'mode_archive'">
+            <button class="btn btn-primary btn-xs" ng-click="UOUPDeclineToChangeBulk()">Отклонить</button>
+            <button class="btn btn-success btn-xs mt-1" ng-click="UOUPDoneToChangeBulk()">Выполнено</button>
+          </td> -->
           <td ng-click="NagruzkaRowClick(row); $event.stopPropagation()">{{row.department_name}}</td>
           <td ng-click="NagruzkaRowClick(row); $event.stopPropagation()">{{row.chair_name}}</td>
           <td ng-bind-html="row.Abbr" ng-click="NagruzkaRowClick(row); $event.stopPropagation()">
@@ -233,8 +239,8 @@
 
       <tfoot>
         <tr>
-          <th ind="0"  ng-if="system_mode != 'mode_archive'">
-          </th>
+          <!-- <th ind="0"  ng-if="system_mode != 'mode_archive'">
+          </th> -->
           <th ind="1"></th>
           <th ind="2"></th>
           <th ind="3"></th>

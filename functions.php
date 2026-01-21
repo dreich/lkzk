@@ -336,6 +336,7 @@ function Authorize($login, $password)
                 // $_SESSION['c_cfo_science'] = $CFO['science'];
                 $_SESSION['c_fio'] = $attrs['displayname'];
                 $_SESSION['c_chair_id'] = $ChairsWithThisChief[0]['id'];
+                $_SESSION['c_department_id'] = $ChairsWithThisChief[0]['ukrup_code'];
                 $_SESSION['c_chair_name'] = $ChairsWithThisChief[0]['pname'];
                 // необходимо для  работы с источниками финансирования, т.к. источники привязываются к ЦФО, а не у всех ЦФО есть cfo_podrazdelenie_id
                 // $_SESSION['c_cfo_id'] = $CFO['id'];
