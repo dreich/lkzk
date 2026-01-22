@@ -322,6 +322,16 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
               $templateCache.remove(current.templateUrl);
           }
       });
+
+    $(document).on('init.dt', function() {
+      // Скрываем сразу
+      $('.dt-loading').hide();
+      
+      // И еще раз через секунду на всякий случай
+      setTimeout(function() {
+          $('.dt-loading').hide();
+      }, 1000);
+  });
 })
 
 .config(['$routeProvider', '$locationProvider', '$httpProvider', function ($routeProvider, $locationProvider, $httpProvider) 

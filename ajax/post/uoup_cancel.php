@@ -24,7 +24,7 @@ if ($data['load_base_UID2'])
   $nagruzka = GetFullNagruzkaRow($data['load_base_UID2']);
 
   $Result = $mysqli->query("
-    UPDATE `nagruzka` SET `prev_status` = `status`, `status` = 'initial'
+    UPDATE `nagruzka` SET `prev_status` = `status`, `status` = 'initial', `comment_to_admin` = '$data[message]'
     WHERE `load_base_UID2` = '$data[load_base_UID2]'");
 
   if (!$nagruzka)
