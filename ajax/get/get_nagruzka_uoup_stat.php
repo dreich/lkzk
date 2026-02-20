@@ -56,7 +56,7 @@ if ($c_roles)
    $stats = [
         'discipline' =>
         [
-          'assigned_on_vacancy' => 0,   // 'Вакансия'
+          'assigned_to_vacancy' => 0,   // 'Вакансия'
           'not_assigned' => 0,     // пустые
           'assigned' => 0  // непустые (кроме 'Вакансия')
         ]
@@ -66,7 +66,7 @@ if ($c_roles)
         $fio = $item['lecturer_fio'];
         
         if ($fio === 'Вакансия') {
-            $stats['discipline']['assigned_on_vacancy'] += $item['Amount'];
+            $stats['discipline']['assigned_to_vacancy'] += $item['Amount'];
         }
 
         if ($fio == '') {

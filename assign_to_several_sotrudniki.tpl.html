@@ -1,0 +1,77 @@
+<!-- [{{GetNagruzkaLectorsInitialLength(nagruzka_row.lectors)}}] -->
+
+<table class="widefat mb-3">
+  <thead>
+    <tr>
+      <th>Дисциплина(ы)</th>
+      <th>Вид работ</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr>
+      <td ng-bind-html="nagruzka_row.lectors[0].discipline_name"></td>
+      <td>{{nagruzka_row.lectors[0].kind_of_work}}</td>
+    </tr>
+  </tbody>
+</table>
+
+Общая нагрузка: {{nagruzka_row.Amount}} час. <span ng-if="nagruzka_row.LoadType == '0'">({{nagruzka_row.StudentAmount}} студ.)</span>
+<!-- {{GetNagruzkaUnits(nagruzka_row)}} -->
+
+ <!-- ng-if="GetNagruzkaLectorsInitialLength(nagruzka_row.lectors) >= 1" -->
+<div>
+
+  <table class="widefat mb-3">
+    <thead>
+      <tr>
+        <th>Преподаватель</th>
+        <th>{{GetNagruzkaUnitsFull(nagruzka_row)}}</th>
+        <th ng-if="nagruzka_row.LoadType == '0'">Часы</th>
+        <th></th>
+      </tr>
+    </thead>
+
+    <tbody>
+
+      <tr ng-repeat="lector in nagruzka_row.lectors" ng-if="!lector.delete">
+        <td>
+          <span>{{lector.lecturer_fio}}</span>
+          <span ng-if="!lector.lecturer_fio">нет</span>
+        </td>
+        <td>
+          <!-- {{nagruzka_row.LoadType}} -->
+          <!-- Часы -->
+          <input type="text" ng-model="lector.Amount" ng-if="nagruzka_row.LoadType == '1'" number-input>
+          <!-- Студенты -->
+          <input type="text" ng-model="lector.StudentAmount" ng-if="nagruzka_row.LoadType == '0'" number-input>
+        </td>
+        <td ng-if="nagruzka_row.LoadType == '0'">
+          {{(nagruzka_row.Amount / nagruzka_row['StudentAmount'] * lector['StudentAmount']) | toFixed:2}}
+        </td>
+        <td>
+          <span class="glyphicon glyphicon-trash pointer" ng-click="RemoveNagruzkaSubRow(nagruzka_row, $index)" ng-if="$index > 0"></span>
+        </td>
+      </tr>
+
+      <tr>
+        <td colspan="1">Сумма</td>
+        <td ng-class="{'text-danger': !IsNagruzkaLectorsSumCorrect(nagruzka_row)}">
+          {{GetNagruzkaLectorsAmountSum(nagruzka_row)}}
+        </td>
+        <td></td>
+      </tr>
+
+    </tbody>
+  </table>
+
+</div>
+
+<div ng-if="GetNagruzkaLectorsInitialLength(nagruzka_row.lectors) > 1">
+</div>
+
+<button class="btn btn-primary btn-xs" ng-click="AddNagruzkaSubRow(nagruzka_row.lectors)">Добавить</button>
+<br>
+<button class="btn btn-success mt-5" ng-click="SaveNagruzkaSubRows(nagruzka_row) && closeThisDialog('save')">Сохранить распределение</button>
+
+<button class="btn btn-secondary mt-5" ng-click="closeThisDialog()">Отмена</button>

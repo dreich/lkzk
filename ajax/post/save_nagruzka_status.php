@@ -32,10 +32,12 @@ if ($data['status'] && $data['status'] != 'write_admin_comment')
 {
   $Nagruzka = GetRow('nagruzka', ['load_base_UID2' => $data['load_base_UID2']]);
 
+  /*
   if ($data['status'] == 'require_admin_change')
   {
     $lecturer_sql = ", `lecturer_fio` = NULL, `lecturer_uid` = NULL, `lecturer_person_id` = NULL";
   }
+  */
 
   $Result = $mysqli->query("
                     UPDATE `nagruzka` 

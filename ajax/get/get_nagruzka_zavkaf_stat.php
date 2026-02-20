@@ -53,7 +53,9 @@ if ($c_roles)
   $sql = "SELECT `lecturer_fio`, xml_content_of_load.Amount
           FROM `nagruzka` 
           JOIN `xml_content_of_load` ON nagruzka.`load_base_UID2` = xml_content_of_load.`base_uid2`
-          WHERE 1 $dop_sql";
+          WHERE 1 $dop_sql
+          AND xml_content_of_load.base_uid = '26589.281474976763945'
+          ";
 
   $Nagruzka = GetSQL($sql);
 
@@ -62,7 +64,7 @@ if ($c_roles)
    $stats = [
         'discipline' =>
         [
-          'assigned_on_vacancy' => 0,   // 'Вакансия'
+          'assigned_to_vacancy' => 0,   // 'Вакансия'
           'not_assigned' => 0,     // пустые
           'assigned' => 0  // непустые (кроме 'Вакансия')
         ]
@@ -72,7 +74,7 @@ foreach ($Nagruzka as $item) {
     $fio = $item['lecturer_fio'];
     
     if ($fio === 'Вакансия') {
-        $stats['discipline']['assigned_on_vacancy'] += $item['Amount'];
+        $stats['discipline']['assigned_to_vacancy'] += $item['Amount'];
     } elseif (!$fio) {
         $stats['discipline']['not_assigned'] += $item['Amount'];
     } else {

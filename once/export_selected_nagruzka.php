@@ -5,20 +5,24 @@ include '../connect.php';
 
 // EchoLog('Start export of selected nagruzka rows');
 
-$query = "
-          SELECT
-            xml_content_of_load.base_uid,
-            xml_content_of_load.base_ui2,
-            xml_content_of_load.LoadType,
-            xml_content_of_load.Amount,
-            xml_content_of_load.StudentAmount,
-            nagruzka.lecturer_uid,
-            nagruzka.lecturer_fio
-          FROM `nagruzka`
-          JOIN `xml_content_of_load` ON xml_content_of_load.base_uid = nagruzka.load_base_UID2
-          WHERE nagruzka.valid = 1
-            AND TRIM(IFNULL(nagruzka.lecturer_fio, '')) <> ''
-        ";
+// $query = "
+//           SELECT
+//             xml_content_of_load.base_uid,
+//             xml_content_of_load.base_uid2,
+//             xml_content_of_load.LoadType,
+//             xml_content_of_load.Amount,
+//             xml_content_of_load.StudentAmount,
+//             nagruzka.lecturer_uid,
+//             nagruzka.lecturer_fio
+//           FROM `nagruzka`
+//           JOIN `xml_content_of_load` ON xml_content_of_load.base_uid = nagruzka.load_base_UID2
+//           WHERE nagruzka.valid = 1
+//             AND TRIM(IFNULL(nagruzka.lecturer_fio, '')) <> ''
+//         ";
+
+$query = "SELECT * FROM `zavkaf_splits`
+
+          ";
 
 $Result = $mysqli->query($query);
 
@@ -36,10 +40,8 @@ $doc->appendChild($root);
 
 $rows_count = 0;
 
-
 while ($Row = $Result->fetch_assoc())
 {
-  
   if ($Row['LoadType'] == 1)
   {
     $Row['StudentAmount'] = '';
@@ -55,6 +57,7 @@ while ($Row = $Result->fetch_assoc())
   $node->setAttribute('Amount', $Row['Amount']);
   $node->setAttribute('StudentAmount', $Row['StudentAmount']);
   $node->setAttribute('UID_Lecturer', $Row['lecturer_uid']);
+  $node->setAttribute('delete', $Row['delete']);
   $root->appendChild($node);
   $rows_count++;
 }

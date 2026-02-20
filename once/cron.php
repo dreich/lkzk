@@ -6,7 +6,7 @@ include '../connect/opop2.php';
 
 EchoLog("Start cron");
 
-$LOAD_NEW_DATA_FROM_NETWORK = true;
+$LOAD_NEW_DATA_FROM_NETWORK = false;
 $UPDATE_TABLES = true;
 
 $Napravlenia = GetTable('napravlenia', "", "", "napravlenie");
@@ -122,6 +122,7 @@ function GetChairSotrudniki($year, $dop_sql = "", $actual = null /*, $qualify_ca
               JOIN `person` ON `$position_table_name`.person_id = `person`.id
               JOIN `$podrazdelenia_table_name` ON `$position_table_name`.podrazdelenia_chain LIKE CONCAT('%|', $podrazdelenia_table_name.`id`, '|%')
               WHERE $podrazdelenia_table_name.`id` <> '00255'  AND $podrazdelenia_table_name.`parent_id` <> ''
+              AND $podrazdelenia_table_name.`ukrup_code` <> '03037' # УВЦ
               $kaf_sql
               AND `position_category` = 'ППС'
               $actual_sql
@@ -140,13 +141,13 @@ $Person = GetTable('person', '', '', 'id', 'id, alias');
 
 function LoadXML($filename, $table_name)
 {
-  global $mysqli, $Napravlenia, $xml_content_of_load_columns_for_hash, $xml_content_of_load_staff_columns_for_hash;
+  global $mysqli, $Napravlenia, $xml_content_of_load_columns_for_hash, $xml_content_of_load_staff_columns_for_hash, $XMLKindOfWorkGIA, $XMLKindOfWorkVKR, $XMLKindOfWorkKurs, $_XMLContentOfLoadStaffByBaseUID1;
 
   EchoLog("LoadXML: $table_name", 'file screen');
 
   $XML = simplexml_load_string(file_get_contents($filename));
 
-  $mysqli->query("TRUNCATE `$table_name`");
+  $mysqli->query("DELETE FROM `$table_name`");
 
   foreach ($XML->Data->Collection->Object as $s)
   {
@@ -161,6 +162,11 @@ function LoadXML($filename, $table_name)
       // var_dump($attrs);
       $prop = (string) $attrs['prop_name'];
       $value = quote_smart((string) $attrs['value']);
+
+      if ($table_name == 'xml_lecturer' && $prop == 'FIO')
+      {
+        $value = str_replace('!_Вакансия_!', 'Вакансия', $value);
+      }
 
       $arr[$prop] = $value;
 
@@ -186,6 +192,31 @@ function LoadXML($filename, $table_name)
 
       $hash = hash_column_values_only($arr, $xml_content_of_load_columns_for_hash);
       $sql_arr[] = "`hash` = '$hash'";
+
+      if ($XMLKindOfWorkGIA[$arr['UID_KindOfWork']])
+      {
+        $sql_arr[] = "`nagruzka_type` = 'gia'";
+      }
+      elseif ($XMLKindOfWorkVKR[$arr['UID_KindOfWork']])
+      {
+        $sql_arr[] = "`nagruzka_type` = 'ruk_vkr'";
+      }
+      elseif ($XMLKindOfWorkKurs[$arr['UID_KindOfWork']])
+      {
+        $sql_arr[] = "`nagruzka_type` = 'ruk_kurs'";
+      }
+      elseif (IsNagruzkaDiscipline($_XMLContentOfLoadStaffByBaseUID1[$base_uid]['Abbr']))
+      {
+        $sql_arr[] = "`nagruzka_type` = 'discipline'";
+      }
+      elseif (IsNagruzkaRukPractice($_XMLContentOfLoadStaffByBaseUID1[$base_uid]['Abbr']))
+      {
+        $sql_arr[] = "`nagruzka_type` = 'ruk_practice'";
+      }
+      else
+      {
+        $sql_arr[] = "`nagruzka_type` = ''";
+      }
     }
     
     if ($table_name == 'xml_content_of_load_staff')
@@ -199,6 +230,8 @@ function LoadXML($filename, $table_name)
       $hash = hash_column_values_only($arr, $xml_content_of_load_staff_columns_for_hash);
       $sql_arr[] = "`hash` = '$hash'";
     }
+
+
 
     $sql = JoinArrayElements($sql_arr, ', ');
     // echo $sql;
@@ -253,53 +286,37 @@ if ($UPDATE_TABLES)
   LoadXML('SubGroup.xml', 'xml_subgroup');
   LoadXML('Chair.xml', 'xml_chair');
   LoadXML('KindOfWork.xml', 'xml_kind_of_work');
+  // понадобится в LoadXML('ContentOfLoad.xml', 'xml_content_of_load')
+  // ГИА
+  $XMLKindOfWorkGIA = GetTable('xml_kind_of_work', "`Name` LIKE('Участие в комиссии%')", "", "UID");
+  // Руководство ВКР
+  $XMLKindOfWorkVKR = GetTable('xml_kind_of_work', "`Name` LIKE('Руководство ВКР%')", "", "UID");
+  // Руководство курсовыми работами
+  $XMLKindOfWorkKurs = GetTable('xml_kind_of_work', "`Name` LIKE('%курсовой работ%')", "", "UID");
+
+  // + Руководство практикой...
+
   LoadXML('Group.xml', 'xml_group');
   LoadXML('Discipline.xml', 'xml_discipline');
   LoadXML('Lecturer.xml', 'xml_lecturer');
   LoadXML('Post.xml', 'xml_post');
 
   LoadXML('ContentOfLoadStaff.xml', 'xml_content_of_load_staff');
+
+  // Чтобы определеить, является ли нагрузка xml_content_of_load типом Руководство практикой (определяется по аббревиатуре в xml_content_of_load_staff), получим по одной любой строке из xml_content_of_load_staff
+  $_XMLContentOfLoadStaffByBaseUID1 = GetTable('xml_content_of_load_staff', "", "", 'base_uid', "base_uid, Abbr");
+
   LoadXML('ContentOfLoad.xml', 'xml_content_of_load');
 }
 
 
 // Данные после текущего импорта
+
 $XMLLecturer = GetTable('xml_lecturer', "", "", "UID");
 $XMLPost = GetTable('xml_post', "", "", "Name");
 $XMLChairByCode = GetTable('xml_chair', "", "", "Code");
 $XMLFacultyByCode = GetTable('xml_faculty', "", "", "Code");
 $XMLChairByUID = GetTable('xml_chair', "", "", "UID");
-$XMLContentOfLoad = GetTable('xml_content_of_load', "", "", "UID", "UID, UID_Chair, base_uid, base_uid2, hash, UID_Lecturer");
-// $XMLContentOfLoadByBaseUID = GetTable('xml_content_of_load', "", "", "base_uid", "UID, UID_Chair, base_uid, hash, UID_Lecturer");
-$_XMLContentOfLoadStaff = GetTable('xml_content_of_load_staff', "", "", null, "UID, base_uid2, UID_ContentOfLoad, hash");
-
-$XMLContentOfLoadStaffByBaseUID2 = [];
-
-if ($_XMLContentOfLoadStaff)
-{
-  foreach ($_XMLContentOfLoadStaff as $row)
-  {
-    // UID_ContentOfLoad соотв. base_uid ?
-    // $XMLContentOfLoadStaff[$row['UID_ContentOfLoad']][$row['UID']] = $row;
-    $XMLContentOfLoadStaffByBaseUID2[$row['base_uid2']][$row['UID']] = $row;
-  }
-}
-
-$XMLContentOfLoadByBaseUID2 = [];
-
-if ($XMLContentOfLoad)
-{
-  foreach ($XMLContentOfLoad as $row)
-  {
-    // в этой таблице из-за споточенности для одного base_uid может быть несколько UID с разными суффиксами
-    $XMLContentOfLoadByBaseUID2[$row['base_uid2']][$row['UID']] = $row;
-  }
-}
-
-unset($_XMLContentOfLoadStaff);
-
-
-
 
 
 $kandidats_xml = simplexml_load_string(file_get_contents('nngu.ais.employees.add.xml'));
@@ -349,7 +366,7 @@ $SotrudnikiItogoByKey = [];
 
 // 1. «сотрудник» - ППС кафедры, трудоустроенные на текущий момент
 
-$SotrudnikiActual = GetChairSotrudniki($cur_year, "", true);
+$SotrudnikiActual = GetChairSotrudniki($cur_year, "", 1);
 
 if ($SotrudnikiActual)
 {
@@ -619,46 +636,37 @@ if ($SotrudnikiItogoByKey)
     //   $type = 'kandidat';
     // }
 
+    $post_uid = $XMLPost[mb_strtolower($chair_sotrudnik['dolzhnost'])]['UID'];
+    // EchoLog($post_uid);
+    
+    $chair_uid = $XMLChairByCode[$chair_sotrudnik['chair_id']]['UID'];
+    $department_uid = $XMLFacultyByCode[$chair_sotrudnik['department_id']]['UID'];
+    $person_id = $chair_sotrudnik['person_id'];
+    $person_type = $chair_sotrudnik['type'];
+    // EchoLog($chair_uid);
 
+    $lecturer = GetLecturer($person_id, $post_uid, $chair_uid, $department_uid, $person_type);
+
+    // Если не нашли, то не добавляем сотрудника и не обновляем
+    if (!$lecturer || !$lecturer['UID'])
+    {
+      continue;
+    }
 
     if ($adding)
     {
       // uid должности из Галактики
       // EchoLog($chair_sotrudnik['dolzhnost']);
 
-      $post_uid = $XMLPost[$chair_sotrudnik['dolzhnost']]['UID'];
-      // EchoLog($post_uid);
-      // EchoLog($chair_sotrudnik['chair_id']);
-      $chair_uid = $XMLChairByCode[$chair_sotrudnik['chair_id']]['UID'];
-      $department_uid = $XMLFacultyByCode[$chair_sotrudnik['department_id']]['UID'];
-      // EchoLog($chair_uid);
-
       // $lecturer = GetRow('xml_lecturer', ['Tab_number' => $chair_sotrudnik['person_id'], 'UID_Post' => $post_uid, 'UID_Chair' => $chair_uid]);
 
-      // У некоторых ГПХ-шников указана кафедра, сначала поищем с кафедрой
-      $lecturer_rows = GetRows('xml_lecturer', ['Tab_number' => $chair_sotrudnik['person_id'], 'UID_Post' => $post_uid, 'UID_Chair' => $chair_uid], null, "`Archive` ASC, `DateContractEnd` DESC");
-
-      if ($lecturer_rows)
-      {
-        // EchoLog(sizeof($lecturer_rows));
-      }
-
-      if ($lecturer_rows)
-      {
-        $lecturer = $lecturer_rows[0];
-      }
-      elseif ($chair_sotrudnik['type'] == 'gph')
-      {
-        // у тех, кто без кафедры, в UID_Chair прописан факультет
-        $lecturer_rows = GetRows('xml_lecturer', ['Tab_number' => $chair_sotrudnik['person_id'], 'UID_Post' => $post_uid, 'UID_Chair' => $department_uid], null, "`Archive` ASC, `DateContractEnd` DESC");
-
-        if ($lecturer_rows)
-        {
-          $lecturer = $lecturer_rows[0];
-        }
-      }
-
       // EchoLog($lecturer);
+
+      // if ((!$lecturer || !$lecturer['UID']) && $person_type != 'worked')
+      // {
+      //   EchoLog("$chair_sotrudnik[chair_id] $chair_sotrudnik[department_id]");
+      //   EchoLog("! НЕ НАЙДЕН ЛЕКТОР ДЛЯ $person_id, $post_uid ($chair_sotrudnik[dolzhnost]), $chair_uid, $department_uid, $person_type)");
+      // }
 
       if ($chair_sotrudnik['type'] == 'sotrudnik')
       {
@@ -698,7 +706,9 @@ if ($SotrudnikiItogoByKey)
     {
       $query = "
               UPDATE `sotrudniki` 
-              SET `fio` = '$chair_sotrudnik[fio]', `dolzhnost` = '$chair_sotrudnik[dolzhnost]', `type` = '$chair_sotrudnik[type]', `stavka` = '$chair_sotrudnik[stavka]', `pku` = '$chair_sotrudnik[pku]', `pkg` = '$chair_sotrudnik[pkg]'
+              SET `fio` = '$chair_sotrudnik[fio]', `dolzhnost` = '$chair_sotrudnik[dolzhnost]', `type` = '$chair_sotrudnik[type]', `stavka` = '$chair_sotrudnik[stavka]', `pku` = '$chair_sotrudnik[pku]', `pkg` = '$chair_sotrudnik[pkg]', 
+              # !! обновление lecturer_uid
+              `lecturer_uid` = '$lecturer[UID]'
               WHERE `person_id` = '$chair_sotrudnik[person_id]' AND `chair_id` = '$chair_sotrudnik[chair_id]'
             ";
 
@@ -723,6 +733,332 @@ unset($SotrudnikiItogoByKey);
 
 
 
+
+
+
+// Перед тем как использовать nagruzka, xml_content_of_load, xml_content_of_load_staff
+// Произведём ЗАМЕНЫ lecturer_uid на более подходящие
+// Выше в таблице sotrudniki замены уже сделали, получим сотрудников с обновлёнными uid
+// TODO: ограничить конкретным этапом??
+$Sotrudniki = GetTable('sotrudniki');
+$SotrudnikiByPersonChair = [];
+
+foreach ($Sotrudniki as $sotrudnik)
+{
+  $SotrudnikiByPersonChair["$sotrudnik[person_id]-$sotrudnik[chair_id]"] = $sotrudnik;
+}
+
+
+// $ZavkafSplits = GetTable('zavkaf_splits');
+
+foreach ($SotrudnikiByPersonChair as $sotrudnik)
+{
+  $post_uid = $XMLPost[mb_strtolower($sotrudnik['dolzhnost'])]['UID'];
+  $chair_uid = $XMLChairByCode[$sotrudnik['chair_id']]['UID'];
+  $department_uid = $XMLFacultyByCode[$sotrudnik['department_id']]['UID'];
+  $person_type = $sotrudnik['type'];
+
+  $lecturer = GetLecturer($sotrudnik['person_id'], $post_uid, $chair_uid, $department_uid, $person_type);
+
+  $SplitsForSotrudnik = GetRows('zavkaf_splits', ['lecturer_person_id' => $sotrudnik['person_id']]);
+
+  if ($SplitsForSotrudnik)
+  {
+    foreach ($SplitsForSotrudnik as $split_row)
+    {
+      if ($split_row['lecturer_uid'] != $lecturer['UID'])
+      {
+        // if ($sotrudnik['person_id'] == 51586)
+        EchoLog("Заменяем в сплите для $sotrudnik[person_id] для $split_row[content_of_load_uid_new]: $split_row[lecturer_uid] != $lecturer[UID]");
+
+        // content_of_load_uid не правим, т.к. считается, что завкаф разбивает "с нуля", т.е. из Галактики нет разбиений, значит uid не содержит сотрудников
+        $base_uid2_obj = parseNagruzkaBaseUid2($split_row['content_of_load_uid_new']);
+
+        // заменяем суффикс лектора на новый
+        $base_uid2_obj['lector_suffix'] = $lecturer['UID'];
+
+        // склеиваем в обновлённый base_uid2
+        $new_content_of_load_uid_new = glueNagruzkaBaseUid2Parts($base_uid2_obj);
+
+        $base_uid2_obj = parseNagruzkaBaseUid2($split_row['base_uid2_new']);
+
+        // заменяем суффикс лектора на новый
+        $base_uid2_obj['lector_suffix'] = $lecturer['UID'];
+
+        // склеиваем в обновлённый base_uid2
+        $new_base_uid2_new = glueNagruzkaBaseUid2Parts($base_uid2_obj);
+
+
+        $query = "UPDATE `zavkaf_splits` 
+          SET `content_of_load_uid_new` = '$new_content_of_load_uid_new', 
+          `base_uid2_new` = '$new_base_uid2_new',
+          `lecturer_uid` = '$lecturer[UID]' 
+          WHERE  `id` = '$split_row[id]'";
+
+        $Result = $mysqli->query($query);
+
+        if (!$Result)
+        {
+          EchoLog($mysqli->error);
+          EchoLog($query);
+        }
+      }
+    }
+  }
+
+  
+}
+
+/*
+КОД ЗАКОММЕНТИРОВАН, ПОТОМУ ЧТО В СООТВ. ЭТАПЕ ЭТИ ДВЕ ТАБЛИЦЫ ПРИХОДЯТ БЕЗ РАСПРЕДЕЛЕНИЯ, ПОЭТОМУ ЗАМЕНЯТЬ НЕЧЕГО
+
+$DeletedOrChangedNagruzka = [];
+$ChangedXmlContentOfLoad[] = [];
+
+$Nagruzka = GetTable('nagruzka', "`valid` = '1' AND `lecturer_fio` IS NOT NULL AND `lecturer_fio` <> 'Вакансия' AND `lecturer_fio` <> ''");
+$NagruzkaByLecturer = [];
+
+foreach ($Nagruzka as $nagruzka)
+{
+  if ($nagruzka['lecturer_person_id'] == 51586)
+  {
+    // EchoLog($nagruzka);
+  }
+
+  $sotrudnik = $SotrudnikiByPersonChair["$nagruzka[lecturer_person_id]-$nagruzka[chair_id]"];
+
+  if ($sotrudnik)
+  {
+    // $NagruzkaByLecturer[$nagruzka['lecturer_uid']][] = $nagruzka;
+    $post_uid = $XMLPost[mb_strtolower($sotrudnik['dolzhnost'])]['UID'];
+    $chair_uid = $XMLChairByCode[$sotrudnik['chair_id']]['UID'];
+    $department_uid = $XMLFacultyByCode[$sotrudnik['department_id']]['UID'];
+    $person_type = $sotrudnik['type'];
+
+    $lecturer = GetLecturer($sotrudnik['person_id'], $post_uid, $chair_uid, $department_uid, $person_type);
+
+    if ($sotrudnik['person_id'] == 51586)
+    {
+      // EchoLog($lecturer);
+    }
+
+    if ($lecturer && $lecturer['UID'])
+    {
+      // $nagruzka_base_uid2_obj = parseNagruzkaBaseUid2($nagruzka['load_base_UID2']);
+      $nagruzka_lecturer_uid = $nagruzka['lecturer_uid'];
+
+      // В таблице nagruzka load_base_UID2 должен содержать lecturer_uid (если он не пуст)
+      // удалим некорректные строки, если не содержит
+      if ($nagruzka['lecturer_uid'] && strpos($nagruzka['load_base_UID2'], $nagruzka['lecturer_uid']) === false)
+      {
+        $query = "DELETE FROM `nagruzka` WHERE `load_base_UID2` = '$nagruzka[load_base_UID2]'";
+        EchoLog($query);
+        $mysqli->query($query);
+        $DeletedOrChangedNagruzka[$nagruzka['load_base_UID2']] = true;
+        continue;
+      }
+
+      // есть лектор в нагрузке, но мы по приоритетам нашли более подходящий UID лектора, заменим на него в таблицах БД
+      if ($nagruzka_lecturer_uid && $nagruzka_lecturer_uid != $lecturer['UID'])
+      {
+        $base_uid2_obj = parseNagruzkaBaseUid2($nagruzka['load_base_UID2']);
+
+        // if ($sotrudnik['person_id'] == 51586)
+        {
+          EchoLog("Заменяем для $nagruzka[load_base_UID2]: $nagruzka_lecturer_uid != $lecturer[UID]");
+        }
+
+        // заменяем суффикс лектора на новый
+        $base_uid2_obj['lector_suffix'] = $lecturer['UID'];
+
+        // склеиваем в обновлённый base_uid2
+        $new_base_uid2 = glueNagruzkaBaseUid2Parts($base_uid2_obj);
+
+        $query = "UPDATE `nagruzka` SET `load_base_UID2` = '$new_base_uid2', `lecturer_uid` = '$lecturer[UID]' 
+          WHERE  `load_base_UID2` = '$nagruzka[load_base_UID2]'";
+
+        $Result = $mysqli->query($query);
+
+        if (!$Result)
+        {
+          if ($mysqli->errno == 1062) 
+          { 
+            // Код ошибки дубликата
+            // Это ошибка DUPLICATE ENTRY
+            $query = "DELETE FROM `nagruzka` WHERE `load_base_UID2` = '$nagruzka[load_base_UID2]'";
+            $Result = $mysqli->query($query);
+
+            EchoLog("Некритичная ошибка дубликата в nagruzka, удаляем строку, т.к. более правильная уже есть");
+
+            if (!$Result)
+            {
+              EchoLog($mysqli->error);
+              EchoLog($query);
+            }
+
+          }
+          // другая критичная ошибка
+          else
+          {
+            $db_error = true;
+          }
+
+          EchoLog($mysqli->error);
+          EchoLog($query);
+        }
+        else
+        {
+          $DeletedOrChangedNagruzka[$nagruzka['load_base_UID2']] = true;
+        }
+
+        // Сделаем замены в zavkaf_splits
+
+
+
+        // Сделаем замены в xml_content_of_load
+        $xml_content_of_load_rows = GetRows('xml_content_of_load', ['base_uid2' => $nagruzka['load_base_UID2']]);
+
+        if ($xml_content_of_load_rows)
+        {
+          foreach ($xml_content_of_load_rows as $xml_content_of_load_row)
+          {
+            $uid_obj = parseNagruzkaBaseUid2($xml_content_of_load_row['UID']);
+
+            if ($uid_obj['lector_suffix'] == $nagruzka_lecturer_uid)
+            {
+              // заменяем суффикс лектора на новый
+              $uid_obj['lector_suffix'] = $lecturer['UID'];
+              $new_uid = glueNagruzkaBaseUid2Parts($base_uid2_obj);
+            }
+            else
+            {
+              $new_uid = $xml_content_of_load_row['UID'];
+            }
+
+            $query = "UPDATE `xml_content_of_load` SET `UID` = '$new_uid', `base_uid2` = '$new_base_uid2', `UID_Lecturer` = '$lecturer[UID]' WHERE `UID` = '$xml_content_of_load_row[UID]'";
+
+            $Result = $mysqli->query($query);
+
+            if (!$Result)
+            {
+              EchoLog($mysqli->error);
+              EchoLog($query);
+              $db_error = true;
+            }
+            else
+            {
+              $ChangedXmlContentOfLoad[$xml_content_of_load_row['UID']] = true;
+            }
+          }
+        }
+
+        // Сделаем замены в xml_content_of_load_staff
+        $xml_content_of_load_staff_rows = GetRows('xml_content_of_load_staff', ['base_uid2' => $nagruzka['load_base_UID2']]);
+
+        if ($xml_content_of_load_staff_rows)
+        {
+          foreach ($xml_content_of_load_staff_rows as $xml_content_of_load_staff_row)
+          {
+            $uid_obj = parseNagruzkaBaseUid2($xml_content_of_load_staff_row['UID']);
+
+            if ($uid_obj['lector_suffix'] == $nagruzka_lecturer_uid)
+            {
+              // заменяем суффикс лектора на новый
+              $uid_obj['lector_suffix'] = $lecturer['UID'];
+              $new_uid = glueNagruzkaBaseUid2Parts($uid_obj);
+            }
+            else
+            {
+              $new_uid = $xml_content_of_load_row['UID'];
+            }
+
+
+            $uid_content_of_load_staff_obj = parseNagruzkaBaseUid2($xml_content_of_load_staff_row['UID_ContentOfLoad']);
+
+            if ($uid_content_of_load_staff_obj['lector_suffix'] == $nagruzka_lecturer_uid)
+            {
+              // заменяем суффикс лектора на новый
+              $uid_content_of_load_staff_obj['lector_suffix'] = $lecturer['UID'];
+              $new_uid_content_of_load = glueNagruzkaBaseUid2Parts($uid_content_of_load_staff_obj);
+            }
+            else
+            {
+              $new_uid_content_of_load = $xml_content_of_load_row['UID_ContentOfLoad'];
+            }
+
+            $query = "
+                      UPDATE `xml_content_of_load_staff` 
+                      SET `UID` = '$new_uid', `UID_ContentOfLoad` = '$new_uid_content_of_load', `base_uid2` = '$new_base_uid2', 
+                      `ContentOfLoadUID` = '$new_uid_content_of_load' 
+                      WHERE `UID` = '$xml_content_of_load_staff_row[UID]'";
+
+            $Result = $mysqli->query($query);
+
+            if (!$Result)
+            {
+              EchoLog($mysqli->error);
+              EchoLog($query);
+              $db_error = true;
+            }
+          }
+        }
+
+
+        
+
+      }
+
+    }
+
+  }
+
+  
+}
+
+*/
+
+// foreach ($NagruzkaByLecturer as $lecturer_uid => $nagruzka_rows)
+{
+  // 
+  // GetLecturer($person_id, $post_uid, $chair_uid, $department_uid, $person_type)
+}
+
+
+
+
+
+
+$XMLContentOfLoad = GetTable('xml_content_of_load', "", "", "UID", "UID, UID_Chair, base_uid, base_uid2, hash, UID_Lecturer");
+// $XMLContentOfLoadByBaseUID = GetTable('xml_content_of_load', "", "", "base_uid", "UID, UID_Chair, base_uid, hash, UID_Lecturer");
+$_XMLContentOfLoadStaff = GetTable('xml_content_of_load_staff', "", "", null, "UID, base_uid2, UID_ContentOfLoad, hash");
+
+$XMLContentOfLoadStaffByBaseUID2 = [];
+
+if ($_XMLContentOfLoadStaff)
+{
+  foreach ($_XMLContentOfLoadStaff as $row)
+  {
+    // UID_ContentOfLoad соотв. base_uid ?
+    // $XMLContentOfLoadStaff[$row['UID_ContentOfLoad']][$row['UID']] = $row;
+    $XMLContentOfLoadStaffByBaseUID2[$row['base_uid2']][$row['UID']] = $row;
+  }
+}
+
+$XMLContentOfLoadByBaseUID2 = [];
+
+if ($XMLContentOfLoad)
+{
+  foreach ($XMLContentOfLoad as $row)
+  {
+    // в этой таблице из-за споточенности для одного base_uid может быть несколько UID с разными суффиксами
+    $XMLContentOfLoadByBaseUID2[$row['base_uid2']][$row['UID']] = $row;
+  }
+}
+
+unset($_XMLContentOfLoadStaff);
+
+
+
 // echo sizeof($XMLContentOfLoadStaff);
 // print_r(array_pop($XMLContentOfLoadStaff));
 // exit;
@@ -737,12 +1073,14 @@ if ($XMLContentOfLoadStaffByBaseUID2)
   if (sizeof($XMLContentOfLoadStaffByBaseUID2) < sizeof($XMLContentOfLoadStaffPrevByBaseUID2) / 2)
   {
     EchoLog("ЛК ЗК: В таблице 2 стало заметно меньше строк. Скрипт стоп.", 'file mail');
+    $mysqli->query("ROLLBACK");
     exit;
   }
 }
 else
 {
   EchoLog("ЛК ЗК: Пустая таблица нагрузки 2. Скрипт стоп.", 'file mail');
+  $mysqli->query("ROLLBACK");
   exit;
 }
 
@@ -817,6 +1155,7 @@ if ($XMLContentOfLoad)
       mail_utf8($_admin_mail, $_site_domain, $_from_mail, $message_subject, $message_text);
 
       EchoLog($message_text . " Остановка скрипта.");
+      $mysqli->query("ROLLBACK");
 
       exit;
     }
@@ -833,6 +1172,7 @@ if ($XMLContentOfLoad)
       // прежняя нагрузка не обнаружена в текущем справочнике нагрузок по base_UID,
       // т.е. нет такой нагрузки независимо от споточенности
       // т.к. в цикле идём по UID, и base_uid может повторяться, то код в скобках может повториться
+      // -- в случае, если выше уже не удалили эту нагрузку / не заменили base_uid2
       if (!$XMLContentOfLoadByBaseUID2[$base_uid2])
       {
         EchoLog("Прежняя нагрузка (base_uid2=$base_uid2, content_uid=$xml_content_of_load_UID) не обнаружена в текущем справочнике xml_content_of_load, удаляем");
@@ -859,6 +1199,7 @@ if ($XMLContentOfLoad)
         // то здесь строка не найдётся по прежнему UID, тогда тоже очистим лектора
         $new_nagr_row = $XMLContentOfLoad[$xml_content_of_load_UID];
         
+        // -- если не заменяли uid выше
         if (!$new_nagr_row)
         {
           $some_changed = true;
@@ -871,16 +1212,15 @@ if ($XMLContentOfLoad)
 
           EchoLog("Для uid = $xml_content_of_load_UID (base_uid2 = $base_uid2) в таблице xml_content_of_load изменился хеш ($xml_content_of_load_prev_row[hash] => $new_nagr_row[hash]), очистим преподавателя {$NagruzkaPrev[$base_uid2]['lecturer_fio']}");
 
-          if ($base_uid === '26589.281474976786399')
-          {
-            EchoLog("base_uid: $base_uid");
-            EchoLog("base_uid2: $base_uid2");
-            EchoLog("UID: xml_content_of_load_UID");
-            EchoLog("Prev hash: $xml_content_of_load_prev_row[hash]");
-            EchoLog("New hash: $new_nagr_row[hash]");
-            // EchoLog($some_changed);
-            EchoLog("Хеши 1 изменились");
-          }
+          // if ($base_uid === '26589.281474976786399')
+          // {
+          //   EchoLog("base_uid: $base_uid");
+          //   EchoLog("base_uid2: $base_uid2");
+          //   EchoLog("UID: xml_content_of_load_UID");
+          //   EchoLog("Prev hash: $xml_content_of_load_prev_row[hash]");
+          //   EchoLog("New hash: $new_nagr_row[hash]");
+          //   EchoLog("Хеши 1 изменились");
+          // }
         }
 
         // сделаем сравнение строк load_staff: 
@@ -904,16 +1244,16 @@ if ($XMLContentOfLoad)
                 {
                   $some_changed = true;
 
-                  if ($base_uid === '26589.281474976786399')
-                  {
-                    EchoLog("base_uid: $base_uid");
-                    EchoLog("base_uid2: $base_uid2");
-                    // EchoLog("UID: $xml_content_of_load_prev_row[UID]");
-                    EchoLog("Prev hash: {$XMLContentOfLoadStaffPrevByBaseUID2[$base_uid2][$load_staff_UID]['hash']}"); 
-                    EchoLog("New hash: {$load_staff_new_row['hash']}");
-                    // EchoLog($some_changed);
-                    EchoLog("Хеши 2 изменились");
-                  }
+                  // if ($base_uid === '26589.281474976786399')
+                  // {
+                  //   EchoLog("base_uid: $base_uid");
+                  //   EchoLog("base_uid2: $base_uid2");
+                  //   // EchoLog("UID: $xml_content_of_load_prev_row[UID]");
+                  //   EchoLog("Prev hash: {$XMLContentOfLoadStaffPrevByBaseUID2[$base_uid2][$load_staff_UID]['hash']}"); 
+                  //   EchoLog("New hash: {$load_staff_new_row['hash']}");
+                  //   // EchoLog($some_changed);
+                  //   EchoLog("Хеши 2 изменились");
+                  // }
                   
                 }
               }
@@ -939,12 +1279,13 @@ if ($XMLContentOfLoad)
         }
 
         // Что-то изменилось, нужно сбросить в нагрузке назначенного преподавателя
+        // TODO ! в других таблицах надо
         if ($some_changed)
         {
           $chair_id = $XMLChairByUID[$new_nagr_row['UID_Chair']]['Code'];
 
           $query = "
-            UPDATE `nagruzka` SET `lecturer_fio` = NULL, `lecturer_uid` = NULL, `lecturer_person_id` = NULL, `prev_status` = `status`, `status` = 'initial'
+            UPDATE `nagruzka` SET `lecturer_fio` = NULL, `lecturer_uid` = NULL, `lecturer_person_id` = NULL, `prev_status` = `status`, `status` = 'initial', `date_update` = NOW()
             WHERE `chair_id` = '$chair_id' AND `load_base_UID2` = '$base_uid2'";
 
           $Result = $mysqli->query($query);
@@ -1033,7 +1374,7 @@ if ($XMLContentOfLoad)
 
       // echo "$chair_id<br>";
       // Кафедра у нагрузки не пустая
-      /* TG 13.11.25: если пришла нагрузка и там есть кафедра, то она точно есть в Chairs.xml.. но сама кафедра в Chairs.xml может быть неактуальной уже.. для этого надо проверить по коду подразделения что это актуальное подразделение.. и если такого подразделения реально уже нет, то такую нагрузку надо помечать как невалидную.. также как и отсутсвие кафедры (код 25031.0)
+      /* TG 13.11.25: если пришла нагрузка и там есть кафедра, то она точно есть в Chairs.xml.. но сама кафедра в Chairs.xml может быть неактуальной уже.. для этого надо проверить по коду подразделения что это актуальное подразделение.. и если такого подразделения реально уже нет, то такую нагрузку надо помечать как невалидную.. также как и отсутствие кафедры (код 25031.0)
         название кафедры (если есть UID) всегда берем из Chairs.xml
       */
       if ($xml_content_of_load_row['UID_Chair'])
@@ -1047,6 +1388,12 @@ if ($XMLContentOfLoad)
           {
             $lecturer = $XMLLecturer[$xml_content_of_load_row['UID_Lecturer']];
 
+            // Определим, является ли нагрузка "Руководством практики"
+            // Возьмём первую попавшуюся соотв. строку из 2й таблицы
+            // $some_xml_content_of_load_staff = array_values($XMLContentOfLoadStaffByBaseUID2[$xml_content_of_load_row['base_uid2']])[0];
+
+            // IsNagruzkaRukPractice($some_xml_content_of_load_staff['Abbr']);
+
             // признак актуальности подразделения в Сотруднике
             if (!$Podrazdelenia[$chair_id]['deleted'])
             {
@@ -1054,7 +1401,7 @@ if ($XMLContentOfLoad)
 
               $lecturer['FIO'] = str_replace('!_Вакансия_!', 'Вакансия', $lecturer['FIO']);
 
-              $query = "INSERT IGNORE INTO `nagruzka` SET `chair_id` = '$chair_id', `chair_name` = '$chair_name', `department_id` = '$department_id', `department_name` = '$department_name',  `lecturer_fio` = '$lecturer[FIO]', `lecturer_uid` = '$xml_content_of_load_row[UID_Lecturer]', `lecturer_person_id` = '$lecturer[Tab_number]', `load_base_UID2` = '$xml_content_of_load_row[base_uid2]', `valid` = '1' $zavkaf_sql";
+              $query = "INSERT IGNORE INTO `nagruzka` SET `chair_id` = '$chair_id', `chair_name` = '$chair_name', `department_id` = '$department_id', `department_name` = '$department_name', `load_base_UID2` = '$xml_content_of_load_row[base_uid2]', `valid` = '1' $zavkaf_sql";
 
               if ($lecturer['FIO'] == 'Фомина Ирина Юрьевна')
               {
@@ -1071,7 +1418,7 @@ if ($XMLContentOfLoad)
 
               $lecturer['FIO'] = str_replace('!_Вакансия_!', 'Вакансия', $lecturer['FIO']);
 
-              $query = "INSERT IGNORE INTO `nagruzka` SET `chair_id` = NULL, `chair_name` = '$chair_name', `department_id` = NULL, `department_name` = '$department_name', `lecturer_fio` = '$lecturer[FIO]', `lecturer_uid` = '$xml_content_of_load_row[UID_Lecturer]', `lecturer_person_id` = '$lecturer[Tab_number]', `load_base_UID2` = '$xml_content_of_load_row[base_uid2]', `valid` = '0', `zavkaf_login` = NULL, `zavkaf_id` = NULL, `zavkaf_fio` = NULL";
+              $query = "INSERT IGNORE INTO `nagruzka` SET `chair_id` = NULL, `chair_name` = '$chair_name', `department_id` = NULL, `department_name` = '$department_name', `load_base_UID2` = '$xml_content_of_load_row[base_uid2]', `valid` = '0', `zavkaf_login` = NULL, `zavkaf_id` = NULL, `zavkaf_fio` = NULL";
             }
           }
 
@@ -1110,7 +1457,7 @@ if ($XMLContentOfLoad)
 
               ActivityLog($xml_content_of_load_row['base_uid2'], ['Разблокировка нагрузки в кроне из done_change', $chair_id, $chair_name, $zavkaf_fio], "", 'initial', 1, 1);
 
-              $mysqli->query("UPDATE `nagruzka` SET `status` = 'initial' WHERE `load_base_UID2` = '$xml_content_of_load_row[base_uid2]'");
+              $mysqli->query("UPDATE `nagruzka` SET `status` = 'initial', `date_update` = NOW() WHERE `load_base_UID2` = '$xml_content_of_load_row[base_uid2]'");
             }
           }
 
@@ -1130,7 +1477,7 @@ if ($XMLContentOfLoad)
           }
 
           $query = "
-          UPDATE `nagruzka` SET `valid` = '$valid' $zavkaf_sql
+          UPDATE `nagruzka` SET `valid` = '$valid', `date_update` = NOW() $zavkaf_sql
           WHERE `load_base_UID2` = '$xml_content_of_load_row[base_uid2]'";
           $mysqli->query($query);
 
@@ -1141,6 +1488,7 @@ if ($XMLContentOfLoad)
           }
 
           // Если у нагрузки в Галактике указан преподаватель, то его взять, но только если система в режиме выверки
+          // TODO ! в nagruzka нет преподов
           if ($xml_content_of_load_row['UID_Lecturer'] && $xml_content_of_load_row['UID_Lecturer'] != '-1' && $NagruzkaPrev[$xml_content_of_load_row['base_uid2']]['lecturer_uid'] != $xml_content_of_load_row['UID_Lecturer'] && $_system_mode == 'mode_verification')
           {
             // EchoLog('here');
@@ -1150,7 +1498,7 @@ if ($XMLContentOfLoad)
 
             // ? МЕНЯТЬ ЛИ СТАТУС ?
             $query = "
-              UPDATE `nagruzka` SET `lecturer_fio` = '$lecturer[FIO]', `lecturer_uid` = '$xml_content_of_load_row[UID_Lecturer]', `lecturer_person_id` = '$lecturer[Tab_number]'
+              UPDATE `nagruzka` SET `lecturer_fio` = '$lecturer[FIO]', `lecturer_uid` = '$xml_content_of_load_row[UID_Lecturer]', `lecturer_person_id` = '$lecturer[Tab_number]', `date_update` = NOW()
               WHERE `load_base_UID2` = '$xml_content_of_load_row[base_uid2]'";
 
             $Result = $mysqli->query($query);
@@ -1167,7 +1515,7 @@ if ($XMLContentOfLoad)
 
         }
       }
-      // иначе нагрузка не распределена на кафедру, пометим как valid = 0 (чтобы не выдавать завкафам, но выдавать уоуп в разделе плохих нагрузок no_chairs)
+      // иначе нагрузка не распределена на кафедру, пометим как valid = 0 (чтобы не выдавать завкафам, но выдавать УОУП в разделе плохих нагрузок no_chairs)
       else
       {
         $query = "INSERT IGNORE INTO `nagruzka` SET `chair_id` = NULL, `chair_name` = NULL, `department_id` = NULL, `department_name` = NULL, `zavkaf_login` = NULL, `zavkaf_id` = NULL, `zavkaf_fio` = NULL, `load_base_UID2` = '$xml_content_of_load_row[base_uid2]', `valid` = '0'";
@@ -1203,7 +1551,23 @@ else
 
 
 
-$mysqli->query("COMMIT");
+
+
+
+
+
+if ($db_error)
+{
+  EchoLog('ROLLBACK все запросы');
+  $mysqli->query("ROLLBACK");
+}
+else
+{
+  EchoLog('COMMIT все запросы');
+  $mysqli->query("COMMIT");
+}
+
+
 
 EchoLog("END cron");
 echo "<br>Конец скрипта<br>";

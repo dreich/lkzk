@@ -133,7 +133,7 @@ if ($_SESSION['c_login'])
         <a href="#/uoup" class="nav-link" ng-class="{active: page == 'uoup'}"><span class="glyphicon glyphicon-user"></span> Администраторы УОУП</a>
       </li> -->
 
-      <li class="nav-item" ng-if="c_roles.zavkaf">
+      <li class="nav-item" ng-if="c_roles.zavkaf || c_roles.sotrudnik">
         <a href="#/nagruzka" class="nav-link" ng-class="{active: page == 'nagruzka'}" ><span class="glyphicon glyphicon-list"></span> Нагрузка</a>
       </li>
 
@@ -161,7 +161,9 @@ if ($_SESSION['c_login'])
         <a href="#/sotrudniki" class="nav-link" ng-class="{active: page == 'sotrudniki'}" ><span class="glyphicon glyphicon-user"></span> Сотрудники</a>
       </li>
 
-
+<!--       <li class="nav-item" ng-if="c_roles.zavkaf">
+        <a href="#/nagruzka_columns" class="nav-link" ng-class="{active: page == 'nagruzka_columns'}" ><span class="glyphicon glyphicon-th-list"></span> Порядок столбцов</a>
+      </li> -->
 
       <? if ($_SESSION['c_access'] == 'full' || $_SESSION['c_access'] == 'lite'): ?>
 

@@ -3,6 +3,7 @@
 
 <!-- dt-columns="dtColumns" -->
   <div >
+    <!-- {{sotrudniki.length}} -->
     <!-- datatable="ng" dt-options="dtOptions"  dt-column-defs="dtColumnDefs" dt-instance="dtInstance"  -->
     <table id="DataTables_Table_1" class="dataTable row-border hover display table "  style='margin: 0 0 ;width:100%'>
 
@@ -23,7 +24,8 @@
     <tbody>
        <!-- ng-click="ShowPopup(person)" -->
         <!-- | orderBy:['-selected', 'type', 'fio'] -->
-      <tr ng-repeat="person in persons" ng-click="navigateToNagruzka(person)" ng-class="{'pointer': person.amount_sum > 0}" >
+
+      <tr ng-repeat="person in sotrudniki" ng-click="navigateToNagruzka(person)" ng-class="{'pointer': person.amount_sum > 0}" >
         <td>  
           <!-- sotrudniki_readonly -->
           <input type="checkbox" ng-model="person.selected" ng-change="SelectSotrudnik(person)" ng-click="$event.stopPropagation()" ng-disabled="person.type == 'sotrudnik' || sotrudniki_readonly">

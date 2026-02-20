@@ -37,7 +37,7 @@ if ($c_roles['uoup'])
               #LIMIT 15
   ";
 
-  $Nagruzka = PrepareNagruzka(GetSQL(GetNagruzkaBaseQuery($dop_sql, true)));
+  $Nagruzka = PrepareNagruzka(GetSQL(GetNagruzkaBaseQuery($dop_sql, 'discipline', true)));
 
   
 }

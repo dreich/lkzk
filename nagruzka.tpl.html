@@ -1,28 +1,29 @@
 <div ng-if="system_mode == 'mode_filling' || system_mode == 'mode_verification' || system_mode == 'mode_archive'">
 
-  <h3 ng-if="lecturer_uid">
+  <h3 ng-if="_lecturer_uid">
     {{lecturer_fio}}
   </h3>
     
-  <div ng-if="nagruzka_stat.chair_name && !lecturer_uid">
+  <div ng-if="nagruzka_stat.chair_name && !_lecturer_uid">
     <h5>{{nagruzka_stat.chair_name}}</h5>
   </div>
 
   <!-- c_roles.zavkaf -->
-  <table class="widefat mb-3" ng-if="!lecturer_uid">
+  <table class="widefat mb-3" ng-if="true">
 
     <thead>
       <tr>
         <th>тип нагрузки</th>
-        <th>всего нагрузки</th>
-        <th>не распределено</th>
+        <th ng-if="!_lecturer_uid">всего нагрузки</th>
+        <th ng-if="!_lecturer_uid">не распределено</th>
         <th>распределено</th>
-        <th>на вакансию</th>
+        <th ng-if="!_lecturer_uid">на вакансию</th>
       </tr>
     </thead>
 
     <tbody>
-      <tr ng-if="ShowNagruzkaZavkafTypeRow('discipline')">
+
+<!--       <tr ng-if="ShowNagruzkaZavkafTypeRow('discipline')">
         <td>
           <span ng-if="ShowNagruzkaTypeLinkNotText()"><a href="{{GetNagruzkaTypesRowLink('discipline')}}">Дисциплины</a></span>
           <span ng-if="!ShowNagruzkaTypeLinkNotText()">Дисциплины</span>
@@ -30,47 +31,83 @@
         <td>{{nagruzka_stat['discipline']['total'] | toFixed:1}}</td>
         <td>{{nagruzka_stat['discipline']['not_assigned'] | toFixed:1}}</td>
         <td>{{nagruzka_stat['discipline']['assigned'] | toFixed:1}}</td>
-        <td>{{nagruzka_stat['discipline']['assigned_on_vacancy'] | toFixed:1}}</td>
-      </tr>
-      <tr ng-if="ShowNagruzkaZavkafTypeRow('vkr')">
+        <td>{{nagruzka_stat['discipline']['assigned_to_vacancy'] | toFixed:1}}</td>
+      </tr> -->
+
+      <tr ng-if="ShowNagruzkaZavkafTypeRow('discipline')">
         <td>
-          <span ng-if="ShowNagruzkaTypeLinkNotText()"><a href="{{GetNagruzkaTypesRowLink('vkr')}}">Руководство (ВКР, курсовые работы, практики)</a></span>
-          <span ng-if="!ShowNagruzkaTypeLinkNotText()">Руководство (ВКР, курсовые работы, практики)</span>
+          <span ng-if="ShowNagruzkaTypeLinkNotText()"><a href="{{GetNagruzkaTypesRowLink('discipline')}}">Дисциплины</a></span>
+          <span ng-if="!ShowNagruzkaTypeLinkNotText()">Дисциплины</span>
         </td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td ng-if="!_lecturer_uid">{{nagruzka_stat['discipline']['total']['sum'] | toFixed:1}}</td>
+        <td ng-if="!_lecturer_uid">{{nagruzka_stat['discipline']['not_assigned']['sum'] | toFixed:1}}</td>
+        <td>{{nagruzka_stat['discipline']['assigned']['sum'] | toFixed:1}}</td>
+        <td ng-if="!_lecturer_uid">{{nagruzka_stat['discipline']['assigned_to_vacancy']['sum'] | toFixed:1}}</td>
       </tr>
+
+      <tr ng-if="ShowNagruzkaZavkafTypeRow('ruk_vkr')">
+        <td>
+          <span ng-if="ShowNagruzkaTypeLinkNotText()"><a href="{{GetNagruzkaTypesRowLink('ruk_vkr')}}">Руководство ВКР</a></span>
+          <span ng-if="!ShowNagruzkaTypeLinkNotText()">Руководство ВКР</span>
+        </td>
+        <td ng-if="!_lecturer_uid">{{nagruzka_stat['ruk_vkr']['total']['sum'] | toFixed:1}}</td>
+        <td ng-if="!_lecturer_uid">{{nagruzka_stat['ruk_vkr']['not_assigned']['sum'] | toFixed:1}}</td>
+        <td>{{nagruzka_stat['ruk_vkr']['assigned']['sum'] | toFixed:1}}</td>
+        <td ng-if="!_lecturer_uid">{{nagruzka_stat['ruk_vkr']['assigned_to_vacancy']['sum'] | toFixed:1}}</td>
+      </tr>
+
+      <tr ng-if="ShowNagruzkaZavkafTypeRow('ruk_kurs')">
+        <td>
+          <span ng-if="ShowNagruzkaTypeLinkNotText()"><a href="{{GetNagruzkaTypesRowLink('ruk_kurs')}}">Руководство курсовыми работами</a></span>
+          <span ng-if="!ShowNagruzkaTypeLinkNotText()">Руководство курсовыми работами</span>
+        </td>
+        <td ng-if="!_lecturer_uid">{{nagruzka_stat['ruk_kurs']['total']['sum'] | toFixed:1}}</td>
+        <td ng-if="!_lecturer_uid">{{nagruzka_stat['ruk_kurs']['not_assigned']['sum'] | toFixed:1}}</td>
+        <td>{{nagruzka_stat['ruk_kurs']['assigned']['sum'] | toFixed:1}}</td>
+        <td ng-if="!_lecturer_uid">{{nagruzka_stat['ruk_kurs']['assigned_to_vacancy']['sum'] | toFixed:1}}</td>
+      </tr>
+
+      <tr ng-if="ShowNagruzkaZavkafTypeRow('ruk_practice')">
+        <td>
+          <span ng-if="ShowNagruzkaTypeLinkNotText()"><a href="{{GetNagruzkaTypesRowLink('ruk_practice')}}">Руководство практикой</a></span>
+          <span ng-if="!ShowNagruzkaTypeLinkNotText()">Руководство практикой</span>
+        </td>
+        <td ng-if="!_lecturer_uid">{{nagruzka_stat['ruk_practice']['total']['sum'] | toFixed:1}}</td>
+        <td ng-if="!_lecturer_uid">{{nagruzka_stat['ruk_practice']['not_assigned']['sum'] | toFixed:1}}</td>
+        <td>{{nagruzka_stat['ruk_practice']['assigned']['sum'] | toFixed:1}}</td>
+        <td ng-if="!_lecturer_uid">{{nagruzka_stat['ruk_practice']['assigned_to_vacancy']['sum'] | toFixed:1}}</td>
+      </tr>
+
+
       <tr ng-if="ShowNagruzkaZavkafTypeRow('ksro')">
         <td>
           <span ng-if="ShowNagruzkaTypeLinkNotText()"><a href="{{GetNagruzkaTypesRowLink('ksro')}}">Индивидуальные консультации и КСРО</a></span>
           <span ng-if="!ShowNagruzkaTypeLinkNotText()">Индивидуальные консультации и КСРО</span>
         </td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td ng-if="!_lecturer_uid">{{nagruzka_stat['ksro']['total']['sum'] | toFixed:1}}</td>
+        <td ng-if="!_lecturer_uid">{{nagruzka_stat['ksro']['not_assigned']['sum'] | toFixed:1}}</td>
+        <td>{{nagruzka_stat['ksro']['assigned']['sum'] | toFixed:1}}</td>
+        <td ng-if="!_lecturer_uid">{{nagruzka_stat['ksro']['assigned_to_vacancy']['sum'] | toFixed:1}}</td>
       </tr>
       <tr ng-if="ShowNagruzkaZavkafTypeRow('gia')">
         <td>
           <span ng-if="ShowNagruzkaTypeLinkNotText()"><a href="{{GetNagruzkaTypesRowLink('gia')}}">ГИА</a></span>
           <span ng-if="!ShowNagruzkaTypeLinkNotText()">ГИА</span>
         </td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td ng-if="!_lecturer_uid">{{nagruzka_stat['gia']['total']['sum'] | toFixed:1}}</td>
+        <td ng-if="!_lecturer_uid">{{nagruzka_stat['gia']['not_assigned']['sum'] | toFixed:1}}</td>
+        <td>{{nagruzka_stat['gia']['assigned']['sum'] | toFixed:1}}</td>
+        <td ng-if="!_lecturer_uid">{{nagruzka_stat['gia']['assigned_to_vacancy']['sum'] | toFixed:1}}</td>
       </tr>
       <tr ng-if="ShowNagruzkaZavkafTypeRow('aspirant')">
         <td>
           <span ng-if="ShowNagruzkaTypeLinkNotText()"><a href="{{GetNagruzkaTypesRowLink('aspirant')}}">Руководство аспирантами и соискателями, кандидатские экзамены</a></span>
           <span ng-if="!ShowNagruzkaTypeLinkNotText()">Руководство аспирантами и соискателями, кандидатские экзамены</span>
         </td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td ng-if="!_lecturer_uid">{{nagruzka_stat['aspirant']['total']['sum'] | toFixed:1}}</td>
+        <td ng-if="!_lecturer_uid">{{nagruzka_stat['aspirant']['not_assigned']['sum'] | toFixed:1}}</td>
+        <td>{{nagruzka_stat['aspirant']['assigned']['sum'] | toFixed:1}}</td>
+        <td ng-if="!_lecturer_uid">{{nagruzka_stat['aspirant']['assigned_to_vacancy']['sum'] | toFixed:1}}</td>
       </tr>
     </tbody>
     
@@ -84,17 +121,14 @@
 
   <!-- {{filter_distinct.global_nagruzka_filter}} -->
 
-  <div ng-show="nagruzka_type && nagruzka_type != 'all' && !isLoading">
+  <div ng-show="_nagruzka_type && _nagruzka_type != 'all' && !isLoading">
 
-    <select class="form-select mb-2" style="width: 300px" ng-model="filter_distinct.global_nagruzka_filter" ng-change="onNagruzkaGlobalFilterChange()" ng-if="!lecturer_uid">
+    <select class="form-select mb-2" style="width: 300px" ng-model="filter_distinct.global_nagruzka_filter" ng-change="onNagruzkaGlobalFilterChange()" ng-if="!_lecturer_uid">
       <option value="">Вся нагрузка</option>
       <option value="assigned">распределена</option>
       <option value="not_assigned">не распределена</option>
-      <option value="assigned_to_vancancy">распределена на вакансию</option>
+      <option value="assigned_to_vacancy">распределена на вакансию</option>
     </select>
-
-
-
 
     <table id="DataTables_Table_nagruzka" datatable="ng" dt-options="dtOptions"  dt-column-defs="dtColumnDefs" dt-instance="onNagruzkaTableInstance" class="dataTable row-border hover display table "  style='margin: 0 0 ;width:100%; ' >
       <!-- ng-show="nagruzka_type" -->
@@ -129,7 +163,8 @@
         <tr ng-repeat="row in nagruzka" class="pointer" ng-class="{'readonly': !IsNagruzkaEditable(row)}">
           <td ng-click="IsNagruzkaEditable(row) && SelectNagruzkaTDClick(row); $event.stopPropagation()" ng-show="!nagruzka_readonly">  
             <input type="checkbox" ng-model="row.selected" ng-click="$event.stopPropagation()" ng-show="IsNagruzkaEditable(row)">
-            <!-- {{row.base_uid}} -->
+            <!-- {{row.base_uid}}<br> -->
+            {{row.LoadType}}
           </td>
           <td ng-click="NagruzkaRowClick(row)">{{row.department_name}}</td>
           <td ng-bind-html="row.Abbr" ng-click="NagruzkaRowClick(row)">
@@ -147,32 +182,47 @@
           <td ng-click="NagruzkaRowClick(row)">{{row.kind_of_work}}</td>
           <td ng-bind-html="row.napravlennost" ng-click="NagruzkaRowClick(row)"></td>
           <td ng-click="NagruzkaRowClick(row)">{{row.UID_Course}}</td>
-          <td ng-click="NagruzkaRowClick(row)">{{row.amount}}</td>
+          <td ng-click="NagruzkaRowClick(row)">{{row.Amount}}</td>
           <td>
-            {{row.lecturer_fio}}
-            <!-- <span class="glyphicon glyphicon-plus-sign"></span> -->
-            <div ng-if="!nagruzka_readonly">
 
-              <span ng-click="row.show_lecturer_autocomplete = true; $event.stopPropagation()" class="link glyphicon glyphicon-edit" ng-if="!row.show_lecturer_autocomplete && IsNagruzkaEditable(row)"></span>
-
-              <div ng-if="row.show_lecturer_autocomplete">
-                <angucomplete-alt id="lecturer_autocomplete_{{row.xml_content_of_load_UID}}_{{row.xml_content_of_load_staff_UID}}" input-name=""
-                    placeholder="Введите ФИО"
-                    pause="400"
-                    initial-value=""
-                    focus-out="focusOutLecturer()"
-                    selected-object="NagruzkaSelectedLecturer"
-                    selected-object-data="row"
-                    input-changed="inputChangedLecturer"
-                    remote-url="ajax/get/selected_chair_sotrudniki.php?callback=JSON_CALLBACK&s="
-                    title-field="fio"
-                    match-class="highlight"
-                    text-searching="Поиск..." 
-                    minlength="3"
-                    text-no-results="Не найдено"
-                    input-class="form-control autocomplete" style='width:50%' />
+            <!-- {{row.lectors.length}} -->
+            <div ng-repeat="lector in row.lectors" style="margin-bottom:3px" ng-if="!lector.delete">
+              <!-- <span style="vertical-align: middle;">{{lector.lecturer_fio}}</span> -->
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <div>
+                  <span ng-if="lector.lecturer_fio.length">{{lector.lecturer_fio | formatFio}}</span> 
+                  <span ng-if="!lector.lecturer_fio.length">[не&nbsp;распределено]</span> 
+                  <span ng-if="row.lectors.length > 1">({{lector.Amount | toFixed:2}})</span>
+                </div>
+                <!-- <span style="">{{lector.base_uid2}}</span> -->
+                <!-- <span style="">{{lector.delete}}</span> -->
+                <span ng-click="lector.show_lecturer_autocomplete = true; $event.stopPropagation()" class="link glyphicon glyphicon-edit" ng-if="!lector.show_lecturer_autocomplete && IsNagruzkaEditable(row)" style="display:inline-block"></span>
               </div>
+              <div ng-if="!nagruzka_readonly">
+
+                <div ng-if="lector.show_lecturer_autocomplete">
+                  <!-- {{row.xml_content_of_load_UID}}_{{row.xml_content_of_load_staff_UID}} -->
+                  <angucomplete-alt id="lecturer_autocomplete_{{row.base_uid2}}" input-name=""
+                      placeholder="Введите ФИО"
+                      pause="400"
+                      initial-value=""
+                      focus-out="focusOutLecturer()"
+                      selected-object="NagruzkaSelectedLecturer"
+                      selected-object-data="lector"
+                      input-changed="inputChangedLecturer"
+                      remote-url="ajax/get/selected_chair_sotrudniki.php?callback=JSON_CALLBACK&s="
+                      title-field="fio"
+                      match-class="highlight"
+                      text-searching="Поиск..." 
+                      minlength="3"
+                      text-no-results="Не найдено"
+                      input-class="form-control autocomplete" style='width:50%' />
+                </div>
+              </div>
+              
             </div>
+
+            
           </td>
           <td>
             {{row.comment_to_admin}}
@@ -211,7 +261,7 @@
         </tfoot>
       </table>
 
-      <a ng-click="ClearGreenTableFilters(dtInstance, filter_distinct, lecturer_uid, nagruzka_type, nagruzka_selected_chair_id)" class="link pointer" style="float:right">сбросить фильтры</a>
+      <a ng-click="ClearGreenTableFilters(dtInstance, filter_distinct, lecturer_uid, _nagruzka_type, nagruzka_selected_chair_id)" class="link pointer" style="float:right">сбросить фильтры</a>
 
     </div>
 
@@ -228,6 +278,8 @@
     
     Укажите, что сделать с выбранными строками:
     <select class="form-select w-25" ng-model="group_action.action" ng-change="ChangeGroupAction()">
+      <!-- TODO: вариант виден только если selected одна строка нагрузки -->
+      <option value="assign_to_several_sotrudniki" ng-if="GetNagruzkaSelectedCount() == 1">Распределение нагрузки на несколько сотрудников</option>
       <option value="assign_to_sotrudnik">Распределить всё на одного сотрудника</option>
       <option value="assign_to_vacancy">Распределить всё на «вакансию»</option>
       <option value="refuse_nagruzka">Отказаться от выбранной нагрузки</option>

@@ -1404,7 +1404,7 @@
 					<prop_value prop_name="UID_Course" value="2 курс"></prop_value>
 					<prop_value prop_name="UID_Faculty" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
-					<prop_value prop_name="Amount" value="13"></prop_value>
+					<prop_value prop_name="Amount" value="15"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 				</Collection>
 			</Object>
@@ -3372,7 +3372,7 @@
 					<prop_value prop_name="UID_Course" value="2 курс"></prop_value>
 					<prop_value prop_name="UID_Faculty" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
-					<prop_value prop_name="Amount" value="17"></prop_value>
+					<prop_value prop_name="Amount" value="19"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 				</Collection>
 			</Object>
@@ -4248,7 +4248,7 @@
 					<prop_value prop_name="UID_Course" value="1 курс"></prop_value>
 					<prop_value prop_name="UID_Faculty" value="25031.0"></prop_value>
 					<prop_value prop_name="UID_FormOfEducation" value="0"></prop_value>
-					<prop_value prop_name="Amount" value="45"></prop_value>
+					<prop_value prop_name="Amount" value="49"></prop_value>
 					<prop_value prop_name="YearOfEducation" value="2025"></prop_value>
 				</Collection>
 			</Object>

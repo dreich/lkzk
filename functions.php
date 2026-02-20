@@ -129,7 +129,6 @@ function UpdateSessionRolesStr()
 // возвращает "success" или "fail"
 function Authorize($login, $password)
 {
-
   global $_SESSION, $_COOKIE, $_full_admin_pass, $_full_admin_pass_mc, $_lite_admin_pass, $mysqli, $_roles;
   $result = false;
 
@@ -304,7 +303,6 @@ function Authorize($login, $password)
 
             */
 
-            // админы ЦФО
             // $result == 'fail'
             // Проверим, является ли сотрудник руководителем к-либо подразделения
             // Если да, то проверим, что такое подразделение есть в таблице ЦФО
@@ -326,6 +324,7 @@ function Authorize($login, $password)
 
               include 'connect.php';
 
+              // Сотрудник является зав. кафедрой
               if ($ChairsWithThisChief)
               {
                 $_SESSION['c_login'] = $clean_login;
@@ -356,6 +355,35 @@ function Authorize($login, $password)
                 // if (!substr_count($login, '#'))
                 {
                   ActivityLog(null, ['Вход заведующего кафедрой'], '', 'authorize zavkaf', 1);
+                }
+              }
+              // Это просто сотрудник (кафедры)
+              else
+              {
+                $SotrudnikRows = GetRows('sotrudniki', ['person_id' => $Person['id']]);
+
+                $chairs_ids = [];
+
+                if ($SotrudnikRows)
+                {
+                  foreach ($SotrudnikRows as $sotrudnik_row)
+                  {
+                    $chairs_ids[] = $sotrudnik_row['chair_id'];
+                  }
+
+                  $_SESSION['c_sotrudnik_chair_ids'] = ImplodePalki($chairs_ids);
+                  $_SESSION['c_login'] = $clean_login;
+                  $_SESSION['c_fio'] = $attrs['displayname'];
+                  $result = true;
+
+                  if ($_SESSION['c_roles'])
+                  {
+                    $_SESSION['c_roles'] .= 'sotrudnik|';
+                  }
+                  else
+                  {
+                    $_SESSION['c_roles'] = '|sotrudnik|';
+                  }
                 }
               }
 
@@ -2406,7 +2434,7 @@ function get_base_uid2($uid) {
 // В результате запроса получается join двух таблиц нагрузки
 // Данные от запроса должны пропускаться через функцию PrepareNagruzka() для подготовки к выдаче в зелёную таблицу нагрузки
 // с уникализацией по base_uid
-function GetNagruzkaBaseQuery($dop_sql, $department_from_first_table = true)
+function GetNagruzkaBaseQuery($dop_sql, $nagruzka_type = null, $department_from_first_table = true)
 {
   // if ($chair_uid)
   // {
@@ -2417,6 +2445,12 @@ function GetNagruzkaBaseQuery($dop_sql, $department_from_first_table = true)
   {
     $department_sql = ", nagruzka.department_name";
   }
+
+  if ($nagruzka_type && $nagruzka_type != 'all')
+  {
+    $nagruzka_type_sql = "AND `nagruzka_type` = '$nagruzka_type'";
+  }
+
   // в противном случае возьмётся из джоина по второй таблице
   // (xml_faculty.Name as department_name,)
 
@@ -2427,8 +2461,9 @@ function GetNagruzkaBaseQuery($dop_sql, $department_from_first_table = true)
   xml_content_of_load.base_uid,
   xml_content_of_load.base_uid2,
   xml_content_of_load.UID as xml_content_of_load_UID,
-  xml_content_of_load_staff.UID as xml_content_of_load_staff_UID,
+  -- xml_content_of_load_staff.UID as xml_content_of_load_staff_UID,
   xml_content_of_load.YearOfEducation,
+  xml_content_of_load.LoadType,
   xml_content_of_load_staff.Abbr, 
   xml_group.Name as group_name,
   xml_discipline.UID as discipline_UID,
@@ -2444,9 +2479,16 @@ function GetNagruzkaBaseQuery($dop_sql, $department_from_first_table = true)
   xml_content_of_load.StudentAmount,
   xml_kind_of_work.Name as kind_of_work,
   xml_content_of_load.UID_Course,
-  xml_content_of_load.amount,
-  xml_lecturer.FIO as galaktika_lecturer_fio,
-  nagruzka.lecturer_fio, nagruzka.lecturer_uid, nagruzka.lecturer_person_id, nagruzka.status, nagruzka.chair_id, nagruzka.chair_name, nagruzka.zavkaf_fio, nagruzka.comment_to_admin $department_sql
+  xml_content_of_load.Amount,
+  xml_lecturer.FIO as lecturer_fio,
+  #nagruzka.lecturer_fio, 
+  #nagruzka.lecturer_uid,
+  #nagruzka.lecturer_person_id,
+  xml_content_of_load.UID_Lecturer as lecturer_uid, 
+  xml_lecturer.Tab_number as lecturer_person_id,
+  
+  nagruzka.status, nagruzka.chair_id, nagruzka.chair_name, nagruzka.zavkaf_fio, nagruzka.comment_to_admin 
+  $department_sql
 
   FROM xml_content_of_load
   JOIN xml_content_of_load_staff ON 
@@ -2461,8 +2503,16 @@ function GetNagruzkaBaseQuery($dop_sql, $department_from_first_table = true)
   LEFT JOIN xml_lecturer ON xml_lecturer.UID = xml_content_of_load.UID_Lecturer
   LEFT JOIN `nagruzka` ON nagruzka.load_base_UID2 = xml_content_of_load.base_uid2
   WHERE 
-  (xml_content_of_load_staff.`Abbr` LIKE ('Б1.%') OR xml_content_of_load_staff.`Abbr` LIKE ('Ф%') OR xml_content_of_load_staff.`Abbr` LIKE ('1.%') OR xml_content_of_load_staff.`Abbr` LIKE ('1.01%') OR xml_content_of_load_staff.`Abbr` LIKE ('2.1%') OR xml_content_of_load_staff.`Abbr` LIKE ('2.01%') OR xml_content_of_load_staff.`Abbr` LIKE ('С1%') OR xml_content_of_load_staff.`Abbr` LIKE ('С2%') OR xml_content_of_load_staff.`Abbr` LIKE ('С3%') OR xml_content_of_load_staff.`Abbr` LIKE ('С4%'))
-    #AND `base_uid` = '26589.281474976787058'
+  1
+  $nagruzka_type_sql
+
+  -- AND (xml_content_of_load_staff.`Abbr` LIKE ('Б1.%') OR xml_content_of_load_staff.`Abbr` LIKE ('Ф%') OR xml_content_of_load_staff.`Abbr` LIKE ('1.%') OR xml_content_of_load_staff.`Abbr` LIKE ('1.01%') OR xml_content_of_load_staff.`Abbr` LIKE ('2.1%') OR xml_content_of_load_staff.`Abbr` LIKE ('2.01%') OR xml_content_of_load_staff.`Abbr` LIKE ('С1%') OR xml_content_of_load_staff.`Abbr` LIKE ('С2%') OR xml_content_of_load_staff.`Abbr` LIKE ('С3%') OR xml_content_of_load_staff.`Abbr` LIKE ('С4%'))
+  -- AND xml_content_of_load.UID_Lecturer = '26115.281474976866589'
+    -- AND xml_content_of_load.`base_uid` = '26589.281474976773929'
+    -- AND xml_content_of_load.`base_uid` = '26589.281474976787074'
+    -- AND xml_content_of_load.`base_uid` = '26589.281474976763950'
+    -- AND xml_content_of_load.`base_uid` = '26589.281474976764373'
+    -- AND LoadType = '0'
     $dop_sql
   ";
 
@@ -2572,6 +2622,7 @@ function GetFullNagruzkaRow($base_uid2)
 }
 
 // Принимает результат функции GetFullNagruzkaRow()
+// TODO: lecturer_fio - необходимо перечислить всех лекторов
 function GetNagruzkaFieldsForMail($nagruzka)
 {
   $abbr_str = implode(', ', $nagruzka['Abbr_arr']);
@@ -2596,7 +2647,7 @@ function GetNagruzkaFieldsForMail($nagruzka)
   $message_text .= "Вид работ: $nagruzka[kind_of_work]<br>";
   $message_text .= "Профиль/направленность программы: $napravlennost_str<br>";
   $message_text .= "Курс: $nagruzka[UID_Course]<br>";
-  $message_text .= "Количество часов: $nagruzka[amount]<br>";
+  $message_text .= "Количество часов: $nagruzka[Amount]<br>";
   $message_text .= "Преподаватель: $nagruzka[lecturer_fio]<br>";
 
   return $message_text;
@@ -2609,4 +2660,148 @@ function GetSystemParam($param)
   $param_row = GetRow('params', ['param' => $param]);
   return $param_row['value'];
 }
+
+
+// Разбить uid на base, lector_suffix и potok_suffix
+// Пример: 26589.281474976787058.26589.281474976787058.1
+function parseNagruzkaBaseUid2($uid) 
+{
+    $result = [
+        'base' => '',
+        'lector_suffix' => '',
+        'potok_suffix' => ''
+    ];
+    
+    $parts = explode('.', $uid);
+    $partCount = count($parts);
+    
+    // Base is always the first two parts
+    if ($partCount >= 2) {
+        $result['base'] = $parts[0] . '.' . $parts[1];
+    }
+
+    if ($partCount == 3)
+    {
+      // The last part is the potok suffix if it's a single number
+      $lastPart = end($parts);
+      if (is_numeric($lastPart) && strpos($lastPart, '.') === false) {
+          $result['potok_suffix'] = $lastPart;
+      }
+    }
+    
+    // If we have 4 or more parts, we have a lecturer suffix
+    if ($partCount >= 4) {
+        $result['lector_suffix'] = $parts[2] . '.' . $parts[3];
+    }
+
+    if ($partCount == 5)
+    {
+      // The last part is the potok suffix if it's a single number
+      $lastPart = end($parts);
+      if (is_numeric($lastPart) && strpos($lastPart, '.') === false) {
+          $result['potok_suffix'] = $lastPart;
+      }
+    }
+    return $result;
+}
+
+// склеить части base_uid2 объекта
+// вернуть строку - base_uid2
+function glueNagruzkaBaseUid2Parts($base_uid2_obj)
+{
+  $result = $base_uid2_obj['base'];
+
+  if ($base_uid2_obj['lector_suffix']) $result .= ".$base_uid2_obj[lector_suffix]";
+  if ($base_uid2_obj['potok_suffix']) $result .= ".$base_uid2_obj[potok_suffix]";
+
+
+  return $result;
+}
+
+
+function GetLecturer($person_id, $post_uid, $chair_uid, $department_uid, $person_type)
+{
+  // У некоторых ГПХ-шников указана кафедра, сначала поищем с кафедрой
+  $lecturer_rows = GetRows('xml_lecturer', ['Tab_number' => $person_id, 'UID_Post' => $post_uid, 'UID_Chair' => $chair_uid], null, "`Archive` ASC, `DateContractEnd` DESC");
+
+  if ($lecturer_rows)
+  {
+    $lecturer = $lecturer_rows[0];
+  }
+  elseif ($person_type == 'gph')
+  {
+    // у тех, кто без кафедры, в UID_Chair прописан факультет
+    $lecturer_rows = GetRows('xml_lecturer', ['Tab_number' => $person_id, 'UID_Post' => $post_uid, 'UID_Chair' => $department_uid], null, "`Archive` ASC, `DateContractEnd` DESC");
+
+    if ($lecturer_rows)
+    {
+      $lecturer = $lecturer_rows[0];
+    }
+  }
+
+  return $lecturer;
+}
+
+
+/**
+ * Проверяет, является ли аббревиатура дисциплиной по заданным шаблонам
+ * Соответствует SQL: LIKE ('Б1.%') OR LIKE ('Ф%') OR LIKE ('1.%') OR LIKE ('1.01%') 
+ * OR LIKE ('2.1%') OR LIKE ('2.01%') OR LIKE ('С1%') OR LIKE ('С2%') 
+ * OR LIKE ('С3%') OR LIKE ('С4%')
+ * 
+ * @param string $abbr Аббревиатура для проверки
+ * @return bool true если дисциплина, false если нет
+ */
+function IsNagruzkaDiscipline($abbr) {
+    // Все шаблоны из SQL запроса
+    $patterns = [
+        '/^Б1\./u',      // Б1.%
+        '/^Ф/u',         // Ф%
+        '/^1\./u',       // 1.%
+        '/^1\.01/u',     // 1.01%
+        '/^2\.1/u',      // 2.1%
+        '/^2\.01/u',     // 2.01%
+        '/^С1/u',        // С1%
+        '/^С2/u',        // С2%
+        '/^С3/u',        // С3%
+        '/^С4/u',        // С4%
+    ];
+    
+    foreach ($patterns as $pattern) {
+        if (preg_match($pattern, $abbr)) {
+            return true;
+        }
+    }
+    
+    return false;
+}
+
+/**
+ * Проверяет, соответствует ли аббревиатура одному из шаблонов:
+ * - "Б2.*" - начинается с "Б2."
+ * - "2.2.1(П)" - точное совпадение
+ * - "2.2.01(П)" - точное совпадение
+ * - "С5*" - начинается с "С5"
+ * 
+ * @param string $abbr Аббревиатура для проверки
+ * @return bool true если соответствует, false если нет
+ */
+function IsNagruzkaRukPractice($abbr) {
+    // Шаблоны для проверки
+    $patterns = [
+        '/^Б2\./u',           // Б2.* - начинается с "Б2."
+        '/^2\.2\.1\(П\)$/u',  // 2.2.1(П) - точное совпадение
+        '/^2\.2\.01\(П\)$/u', // 2.2.01(П) - точное совпадение
+        '/^С5/u',              // С5* - начинается с "С5"
+    ];
+    
+    foreach ($patterns as $pattern) {
+        if (preg_match($pattern, $abbr)) {
+            return true;
+        }
+    }
+    
+    return false;
+}
+
 ?>

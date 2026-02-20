@@ -1,0 +1,387 @@
+<?
+
+// Получить данные в таблицу нагрузки вида Дисциплина
+// 1) Завкаф просматривает/правит свою кафедру
+// 2) УОУП просматривает нагрузку кафедры
+
+session_name('lkzk');
+session_start();
+
+if (!$_SESSION['c_roles'])
+{
+  echo 'expired';
+  exit;
+}
+
+// Проверяем, что запрос пришел через AJAX
+if (empty($_SERVER['HTTP_X_REQUESTED_WITH']) || $_SERVER['HTTP_X_REQUESTED_WITH'] !== 'XMLHttpRequest') {
+    http_response_code(403);
+    exit('Forbidden');
+}
+
+include '../../functions.php';
+
+$c_roles = ExplodePalki($_SESSION['c_roles'], true);
+$_nagruzka_type = quote_smart($_GET['type']);
+
+// УОУП просматривает нагрузку кафедры
+if ($_GET['chair_id'])
+{
+
+}
+
+$lecturer_uid = isset($_GET['lecturer_uid']) ? quote_smart($_GET['lecturer_uid']) : '';
+
+
+if ($c_roles['zavkaf'])
+{
+  $c_chair_id = $_SESSION['c_chair_id'];
+  $XMLChair = GetRow('xml_chair', ['Code' => $c_chair_id]);
+  $chair_id_sql = "AND xml_content_of_load.UID_Chair = '$XMLChair[UID]'";
+}
+
+if ($c_roles['uoup'] && $_GET['chair_id'])
+{
+  $chair_id = quote_smart($_GET['chair_id']);
+  $XMLChair = GetRow('xml_chair', ['Code' => $chair_id]);
+  $chair_id_sql = "AND xml_content_of_load.UID_Chair = '$XMLChair[UID]'";
+}
+
+if ($c_roles['sotrudnik'])
+{
+  $chairs_ids_arr = ExplodePalki($_SESSION['c_sotrudnik_chair_ids']);
+  $chair_id = $chairs_ids_arr[0];
+  $XMLChair = GetRow('xml_chair', ['Code' => $chair_id]);
+  $chair_id_sql = "AND xml_content_of_load.UID_Chair = '$XMLChair[UID]'";
+}
+
+$global_nagruzka_filter = $_COOKIE['global_nagruzka_filter'];
+
+
+// EchoLog($global_nagruzka_filter);
+
+// if ($global_nagruzka_filter)
+// {
+//   if ($global_nagruzka_filter == 'assigned')
+//   {
+//     $global_nagruzka_filter_sql = "AND `lecturer_fio` <> '' AND `lecturer_fio` <> 'Вакансия' AND `lecturer_fio` IS NOT NULL";
+//   }
+//   elseif ($global_nagruzka_filter == 'not_assigned')
+//   {
+//     $global_nagruzka_filter_sql = "AND (`lecturer_fio` = '' OR `lecturer_fio` IS NULL)";
+//   }
+//   elseif ($global_nagruzka_filter == 'assigned_to_vancancy')
+//   {
+//     $global_nagruzka_filter_sql = "AND `lecturer_fio` = 'Вакансия'";
+//   }
+// }
+  
+
+// $XMLContentOfLoad = GetRows('xml_content_of_load', ['UID_Chair' => $XMLChair['UID']]);
+
+$dop_sql = "$chair_id_sql
+            $global_nagruzka_filter_sql
+            AND `chair_id` IS NOT NULL AND `valid` = '1'
+            #AND `status` NOT IN ('')
+            #AND `base_uid` = '26589.281474976773927'
+            # TMP
+            #AND `UID_Discipline` = '26006.281474976725278'
+            #ORDER BY `status`, ``
+            #LIMIT 150
+";
+
+// if ($lecturer_uid) {
+//     $dop_sql .= " AND nagruzka.lecturer_uid = '$lecturer_uid'";
+// }
+
+$nagruzka_query = GetNagruzkaBaseQuery($dop_sql, $_nagruzka_type, false);
+
+// EchoLog($nagruzka_query);
+
+// $_Nagruzka = GetSQL($nagruzka_query);
+
+// массив индексирован по base_uid2
+$Nagruzka = PrepareNagruzka(GetSQL($nagruzka_query));
+
+// EchoLog($Nagruzka);
+
+$ZavkafSplits = GetTable('zavkaf_splits');
+
+$ZavkafSplitsByBaseUID1ByBaseUID2New = [];
+$ZavkafSplitsByBaseUID1ByBaseUID2 = [];
+$ZavkafSplitsByBaseUID1ByBaseUID2NewSplitted = [];
+
+if ($ZavkafSplits)
+{
+  foreach ($ZavkafSplits as $zs)
+  {
+    // $ZavkafSplitsByBaseUID1ByBaseUID2New[$zs['base_uid']][$zs['base_uid2_new']] = $zs;
+    // в случае споточенности будет более одной строки, ниже будем брать первую (в content_of_load_uid_new)
+    $ZavkafSplitsByBaseUID1ByBaseUID2New[$zs['base_uid']][$zs['base_uid2_new']][$zs['content_of_load_uid']][] = $zs;
+    // $ZavkafSplitsByBaseUID1ByBaseUID2[$zs['base_uid']][$zs['base_uid2']][] = $zs; // -- with overrides
+    $ZavkafSplitsByBaseUID1ByBaseUID2[$zs['base_uid']][$zs['base_uid2']][$zs['content_of_load_uid']][] = $zs; // -- with overrides
+  }
+}
+
+
+$NagruzkaByBaseUID1 = [];
+
+if ($Nagruzka)
+{
+  // EchoLog($ZavkafSplitsByBaseUID1ByBaseUID2['26589.281474976764373']);
+
+  // Формируем строки зелёной таблицы, с подстроками lectors для столбца Преподаватели (распределение нагрузки)
+  foreach ($Nagruzka as $nagruzka)
+  {
+    // EchoLog($nagruzka);
+
+    if (!$NagruzkaByBaseUID1[$nagruzka['base_uid']])
+    {
+      $NagruzkaByBaseUID1[$nagruzka['base_uid']] = $nagruzka;
+    }
+    else
+    {
+      $NagruzkaByBaseUID1[$nagruzka['base_uid']]['Amount'] += $nagruzka['Amount'];
+    }
+
+    // Данные распределения (разбивки нагрузки) от завкафа, ещё не интегрированные в Галактику
+    if ($ZavkafSplitsByBaseUID1ByBaseUID2[$nagruzka['base_uid']])
+    {
+      // Если такое распределение (по base_uid2, возможно, из Галактики..), уже есть, то в этой строке перезапишем данные
+      if ($ZavkafSplitsByBaseUID1ByBaseUID2[$nagruzka['base_uid']][$nagruzka['base_uid2']])
+      {
+        
+        // $zavkaf_raspred_row = $ZavkafSplitsByBaseUID1ByBaseUID2New[$nagruzka['base_uid']][$nagruzka['base_uid2']];
+        // если есть споточивание, то возьмётся одна строка (первая) - все лекторы по content_of_load_uid_new, например по 26589.281474976773929.1
+        $zavkaf_raspred_rows = array_values($ZavkafSplitsByBaseUID1ByBaseUID2[$nagruzka['base_uid']][$nagruzka['base_uid2']])[0];
+
+        // EchoLog($zavkaf_raspred_rows);
+        
+        if ($zavkaf_raspred_rows)
+        {
+          foreach ($zavkaf_raspred_rows as $zavkaf_raspred_row)
+          {
+            // $nagruzka['amount'] = $zavkaf_raspred_row['amount'];
+            $nagruzka['lecturer_login'] = $zavkaf_raspred_row['lecturer_login'];
+            $nagruzka['lecturer_person_id'] = $zavkaf_raspred_row['lecturer_person_id'];
+            $nagruzka['lecturer_uid'] = $zavkaf_raspred_row['lecturer_uid'];
+            $nagruzka['lecturer_fio'] = $zavkaf_raspred_row['lecturer_fio'];
+
+            if (!empty($zavkaf_raspred_row['LoadType']))
+            $nagruzka['LoadType'] = $zavkaf_raspred_row['LoadType'];
+
+            if (!empty($zavkaf_raspred_row['StudentAmount']))
+            $nagruzka['StudentAmount'] = $zavkaf_raspred_row['StudentAmount'];
+
+            if (!empty($zavkaf_raspred_row['Amount']))
+            $nagruzka['Amount'] = $zavkaf_raspred_row['Amount'];
+          
+            $nagruzka['delete'] = $zavkaf_raspred_row['delete'];
+            $nagruzka['zs'] = true;
+
+            // $ZavkafSplitsByBaseUID1ByBaseUID2New[$nagruzka['base_uid']][$nagruzka['base_uid2']]['used'] = true;
+            $ZavkafSplitsByBaseUID1ByBaseUID2NewSplitted[$nagruzka['base_uid']][$nagruzka['base_uid2']] = true;
+
+            // if ($lecturer_uid && $nagruzka['lecturer_uid'] === $lecturer_uid || !$lecturer_uid)
+            {
+              $NagruzkaByBaseUID1[$nagruzka['base_uid']]['lectors'][] = $nagruzka;
+            }
+
+            if ($nagruzka['base_uid'] === '26589.281474976764368')
+            {
+              // EchoLog($nagruzka);
+            }
+
+            // EchoLog($nagruzka);
+
+            // $ZavkafSplitsByBaseUID1ByBaseUID2New[$nagruzka['base_uid']][$nagruzka['base_uid2']]['zs'] = true;
+          }
+
+          continue;
+        }
+        
+      }
+    }
+
+    // проверка на то, что нагрузка из Галактики без преподавателя вида 26589.281474976773929[._]
+    // есть (распределена) в таблице zavkaf_splits по преподавателям, её добавлять не нужно, она "исходная"
+    $base_uid2_obj = parseNagruzkaBaseUid2($nagruzka['base_uid2']);
+
+    // EchoLog($base_uid2_obj);
+    // EchoLog($nagruzka);
+
+    // if (!$ZavkafSplitsByBaseUID1ByBaseUID2New[$nagruzka['base_uid']] && !$base_uid2_obj['lector_suffix'] 
+    //     || $ZavkafSplitsByBaseUID1ByBaseUID2New[$nagruzka['base_uid']] && $base_uid2_obj['lector_suffix'] )
+
+    if ( // !$ZavkafSplitsByBaseUID1ByBaseUID2[$nagruzka['base_uid']][$nagruzka['base_uid2']] || 
+        // true ||
+        // $ZavkafSplitsByBaseUID1ByBaseUID2New[$nagruzka['base_uid']][$nagruzka['base_uid2']]['used']
+      !$ZavkafSplitsByBaseUID1ByBaseUID2NewSplitted[$nagruzka['base_uid']][$nagruzka['base_uid2']]
+      )
+    {
+      // EchoLog('here');
+      // $NagruzkaByBaseUID1[$nagruzka['base_uid']]['lectors'][$nagruzka['base_uid2']] = $nagruzka;
+
+      // if ($lecturer_uid && $nagruzka['lecturer_uid'] === $lecturer_uid || !$lecturer_uid)
+      {
+        $NagruzkaByBaseUID1[$nagruzka['base_uid']]['lectors'][] = $nagruzka;
+      }
+
+      if ($nagruzka['base_uid'] === '26589.281474976764368')
+      {
+        // EchoLog($nagruzka);
+      }
+      
+    }
+  }
+
+  // EchoLog($ZavkafSplitsByBaseUID1ByBaseUID2New);
+  /*
+  foreach ($ZavkafSplitsByBaseUID1ByBaseUID2New as $base_uid => $zs_array)
+  {
+    // EchoLog($base_uid);
+    // EchoLog($zs_array);
+
+    foreach ($zs_array as $zs)
+    {
+      // if (!$zs['used'] && 
+      if ($NagruzkaByBaseUID1[$base_uid])
+      {
+        $zs['zs'] = true;
+        // $NagruzkaByBaseUID1[$base_uid]['lectors'][$zs['base_uid2_new']] = $zs;
+        $NagruzkaByBaseUID1[$base_uid]['lectors'][] = $zs;
+
+        EchoLog($zs);
+      }
+    }
+  }
+  */
+}
+
+$Stat = [];
+
+
+
+if ($NagruzkaByBaseUID1)
+{
+  foreach ($NagruzkaByBaseUID1 as $base_uid => $lectors_arr)
+  {
+    // EchoLog($base_uid);
+
+    if ($NagruzkaByBaseUID1[$base_uid]['lectors'])
+    {
+      // Filter lectors to only include those with matching lecturer_uid
+      if ($lecturer_uid)
+      {
+        $NagruzkaByBaseUID1[$base_uid]['lectors'] = array_filter($NagruzkaByBaseUID1[$base_uid]['lectors'], function($lector) use ($lecturer_uid) {
+            return $lector['lecturer_uid'] === $lecturer_uid;
+        });
+      }
+
+      $NagruzkaByBaseUID1[$base_uid]['lectors'] = array_values($NagruzkaByBaseUID1[$base_uid]['lectors']);
+
+      $NagruzkaByBaseUID1[$base_uid]['assigned'] = false;
+      $NagruzkaByBaseUID1[$base_uid]['assigned_to_vacancy'] = false;
+      $NagruzkaByBaseUID1[$base_uid]['not_assigned'] = true;
+
+      foreach ($NagruzkaByBaseUID1[$base_uid]['lectors'] as &$lector)
+      {
+        // EchoLog($lector);
+        $lector['delete'] = !!$lector['delete'];
+
+        if ($lector['delete']) continue;
+
+        // Вакансия
+        if ($lector['lecturer_fio'] && mb_strcasecmp($lector['lecturer_fio'], 'Вакансия') === 0)
+        {
+          $NagruzkaByBaseUID1[$base_uid]['assigned_to_vacancy'] = true;
+          $Stat['assigned_to_vacancy']['sum'] += $lector['Amount'];
+
+          // $NagruzkaByBaseUID1[$base_uid]['assigned'] = true;
+          // $Stat['assigned']['sum'] += $lector['Amount'];
+
+          $NagruzkaByBaseUID1[$base_uid]['not_assigned'] = false;
+        }
+        // Не вакансия, а лектор
+        elseif ($lector['lecturer_fio'] && mb_strcasecmp($lector['lecturer_fio'], 'Вакансия') != 0)
+        {
+          $NagruzkaByBaseUID1[$base_uid]['assigned'] = true;
+          $Stat['assigned']['sum'] += $lector['Amount'];
+
+          $NagruzkaByBaseUID1[$base_uid]['not_assigned'] = false;
+        }
+        // пустой лектор - не распределено
+        elseif (!$lector['lecturer_fio'])
+        {
+          $Stat['not_assigned']['sum'] += $lector['Amount'];
+        }
+      }
+
+      // if ($NagruzkaByBaseUID1[$base_uid]['not_assigned'])
+      // {
+      //   $Stat['not_assigned']['sum'] += $NagruzkaByBaseUID1[$base_uid]['Amount'];
+      // }
+
+      $Stat['total']['sum'] += $NagruzkaByBaseUID1[$base_uid]['Amount'];
+    }
+    else
+    {
+      $NagruzkaByBaseUID1[$base_uid]['lectors'] = [];
+    }
+  }
+}
+
+// Filter NagruzkaByBaseUID1 based on lecturer_uid if provided
+if ($lecturer_uid) 
+{
+  foreach ($NagruzkaByBaseUID1 as $base_uid => &$nagruzka) 
+  {
+      // Filter lectors to only include those with matching lecturer_uid
+      $filtered_lectors = array_filter($nagruzka['lectors'], function($lector) use ($lecturer_uid) {
+          return $lector['lecturer_uid'] === $lecturer_uid;
+      });
+      
+      // If no matching lectors, remove this entry
+      if (empty($filtered_lectors)) {
+          unset($NagruzkaByBaseUID1[$base_uid]);
+      }
+  }
+  unset($nagruzka); // Break the reference
+}
+
+if ($global_nagruzka_filter)
+{
+  $NagruzkaByBaseUID1 = array_filter($NagruzkaByBaseUID1,
+    function($nagruzka_row)
+    {
+      global $global_nagruzka_filter;
+      return $nagruzka_row[$global_nagruzka_filter];
+    }
+  );
+
+
+  // if ($global_nagruzka_filter == 'assigned')
+  // {
+  //   $global_nagruzka_filter_sql = "AND `lecturer_fio` <> '' AND `lecturer_fio` <> 'Вакансия' AND `lecturer_fio` IS NOT NULL";
+  // }
+  // elseif ($global_nagruzka_filter == 'not_assigned')
+  // {
+  //   $global_nagruzka_filter_sql = "AND (`lecturer_fio` = '' OR `lecturer_fio` IS NULL)";
+  // }
+  // elseif ($global_nagruzka_filter == 'assigned_to_vancancy')
+  // {
+  //   $global_nagruzka_filter_sql = "AND `lecturer_fio` = 'Вакансия'";
+  // }
+}
+
+// EchoLog($Stat);
+
+
+header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
+header("Pragma: no-cache");
+header("Expires: 0");
+header('Content-Type: application/javascript; charset=UTF-8');
+echo json_encode(['nagruzka' => array_values($NagruzkaByBaseUID1), 'stat' => $Stat]);
+
+
+?>

@@ -41,124 +41,286 @@ $department_id = $_SESSION['c_department_id'];
 // Т.к. сотрудники ГПХ в таблице sotrudniki привязаны не к кафедре, а факультету, то будем их брать по факультету авторизованного завкафа,
 // а не ГПХ-шников будем искать по кафедре
 
-$query = "
-        SELECT sotrudniki.*, 
-        ROUND(SUM(xml_content_of_load.Amount), 2) as amount_sum, 
-        ROUND(SUM(CASE WHEN xml_content_of_load.TypeWorkload = '0' 
-              THEN xml_content_of_load.Amount ELSE 0 END), 2) as amount_sum_auditorium,
-        xml_content_of_load.TypeWorkload
-        FROM `sotrudniki`
-        LEFT JOIN nagruzka ON sotrudniki.person_id = nagruzka.lecturer_person_id
-        LEFT JOIN `xml_content_of_load` ON nagruzka.`load_base_UID2` = xml_content_of_load.`base_uid2`
-        -- LEFT JOIN `xml_content_of_load_staff` ON nagruzka.`load_base_UID2` = xml_content_of_load_staff.`base_uid2`
-        WHERE 
-        ((sotrudniki.`type` <> 'gph' AND sotrudniki.`chair_id` = '$chair_id') OR (sotrudniki.`type` = 'gph' AND sotrudniki.`department_id` = '$department_id'))
-        # sotrudniki.`chair_id` = '$chair_id' 
-        AND `date_remove` IS NULL
-        GROUP BY sotrudniki.person_id
-        ";
 
+// 1. Подключение к БД и проверка авторизации
 
-// Запрос от ИИ, чтобы считать и английскую нагрузку, которая указана во 2й таблице
- $query = 
- "
-SELECT 
-    sotrudniki.*, 
-    ROUND(SUM(x.Amount), 2) as amount_sum, 
-    ROUND(SUM(CASE WHEN x.TypeWorkload = '0' THEN x.Amount ELSE 0 END), 2) as amount_sum_auditorium,
-    -- Для eng используем отдельную логику
-    ROUND((
-        SELECT SUM(CASE WHEN s.UID_Language = '25031.945' THEN x2.Amount ELSE 0 END)
-        FROM nagruzka n2
-        JOIN xml_content_of_load x2 ON n2.load_base_UID2 = x2.base_uid2
-        LEFT JOIN xml_content_of_load_staff s ON x2.base_uid2 = s.base_uid2
-        WHERE n2.lecturer_person_id = sotrudniki.person_id
-          AND n2.load_base_UID2 = n.load_base_UID2
-    ), 2) as amount_sum_eng,
+// 2. Получаем оригинальную нагрузку из Галактики
+$originalLoads = [];
+$query = "SELECT 
+    xml_lecturer.Tab_number,
+    x.UID_Lecturer,
+    x.base_uid2,
+    x.Amount,
     x.TypeWorkload
-FROM `sotrudniki`
-LEFT JOIN nagruzka n ON sotrudniki.person_id = n.lecturer_person_id
-LEFT JOIN `xml_content_of_load` x ON n.`load_base_UID2` = x.`base_uid2`
-WHERE 
-    ((sotrudniki.`type` <> 'gph' AND sotrudniki.`chair_id` = '$chair_id') 
-     OR (sotrudniki.`type` = 'gph' AND sotrudniki.`department_id` = '$department_id'))
-    AND `date_remove` IS NULL
-GROUP BY sotrudniki.person_id
+    -- n.type
+FROM nagruzka n
+JOIN xml_content_of_load x ON n.load_base_UID2 = x.base_uid2
+JOIN xml_lecturer ON x.UID_Lecturer = xml_lecturer.UID
+WHERE xml_lecturer.Tab_number IS NOT NULL";
 
+$rows = GetSQL($query) ?: [];
+foreach ($rows as $row) 
+{
+    $originalLoads[$row['Tab_number']][$row['base_uid2']] = 
+    [
+      'UID_Lecturer' => $row['UID_Lecturer'],
+      'amount' => (float)$row['Amount'],
+      'type_workload' => $row['TypeWorkload'],
+    ];
+}
 
-";
-
+// 3. Получаем английскую нагрузку из оригинальных данных
+$englishLoads = [];
 $query = "SELECT 
-    s.*,
-    COALESCE(loads.total_amount, 0) as amount_sum,
-    COALESCE(loads.auditorium_amount, 0) as amount_sum_auditorium,
-    COALESCE(loads.eng_amount, 0) as amount_sum_eng,
-    loads.TypeWorkload
-FROM `sotrudniki` s
-LEFT JOIN (
-    SELECT 
-        n.lecturer_person_id,
-        SUM(x.Amount) as total_amount,
-        SUM(CASE WHEN x.TypeWorkload = '0' THEN x.Amount ELSE 0 END) as auditorium_amount,
-        SUM(CASE WHEN s.UID_Language = '25031.945' THEN x.Amount ELSE 0 END) as eng_amount,
-        MAX(x.TypeWorkload) as TypeWorkload
-    FROM nagruzka n
-    JOIN xml_content_of_load x ON n.load_base_UID2 = x.base_uid2
-    LEFT JOIN xml_content_of_load_staff s ON x.base_uid2 = s.base_uid2
-    GROUP BY n.lecturer_person_id
-) loads ON s.person_id = loads.lecturer_person_id
-WHERE 
-    ((s.`type` <> 'gph' AND s.`chair_id` = '$chair_id') 
-     OR (s.`type` = 'gph' AND s.`department_id` = '$department_id'))
-    AND s.`date_remove` IS NULL";
+    xml_lecturer.Tab_number,
+    x.UID_Lecturer,
+    x.base_uid2,
+    x.Amount,
+    x.TypeWorkload
+FROM nagruzka n
+JOIN xml_content_of_load x ON n.load_base_UID2 = x.base_uid2
+JOIN xml_content_of_load_staff s ON x.base_uid2 = s.base_uid2
+JOIN xml_lecturer ON x.UID_Lecturer = xml_lecturer.UID
+WHERE s.UID_Language = '25031.945'";
+ 
+$rows = GetSQL($query) ?: [];
+foreach ($rows as $row) 
+{
+    if (!isset($englishLoads[$row['Tab_number']])) {
+        $englishLoads[$row['Tab_number']] = [];
+    }
+    $englishLoads[$row['Tab_number']][] = [
+        'UID_Lecturer' => $row['UID_Lecturer'],
+        'amount' => (float)$row['Amount'],
+        'type_workload' => $row['TypeWorkload']
+    ];
+}
 
+// EchoLog($englishLoads);
 
+// 4. Получаем переопределенную нагрузку из zavkaf_splits
+$splitsLoads = [];
 $query = "SELECT 
-    s.*, 
-    ROUND(COALESCE(loads.total_amount, 0), 2) as amount_sum, 
-    ROUND(COALESCE(loads.auditorium_amount, 0), 2) as amount_sum_auditorium,
-    ROUND(COALESCE(eng.eng_amount, 0), 2) as amount_sum_eng,
-    COALESCE(loads.TypeWorkload, '') as TypeWorkload
-FROM `sotrudniki` s
-LEFT JOIN (
-    -- ТОЛЬКО xml_content_of_load (без staff!)
-    SELECT 
-        n.lecturer_person_id,
-        SUM(x.Amount) as total_amount,
-        SUM(CASE WHEN x.TypeWorkload = '0' THEN x.Amount ELSE 0 END) as auditorium_amount,
-        MAX(x.TypeWorkload) as TypeWorkload
-    FROM nagruzka n
-    JOIN xml_content_of_load x ON n.load_base_UID2 = x.base_uid2
-    GROUP BY n.lecturer_person_id
-) loads ON s.person_id = loads.lecturer_person_id
-LEFT JOIN (
-    -- ОТДЕЛЬНО для английской нагрузки
-    SELECT 
-        n.lecturer_person_id,
-        SUM(x.Amount) as eng_amount
-    FROM nagruzka n
-    JOIN xml_content_of_load x ON n.load_base_UID2 = x.base_uid2
-    JOIN xml_content_of_load_staff s ON x.base_uid2 = s.base_uid2
-    WHERE s.UID_Language = '25031.945'  -- фильтр здесь
-    GROUP BY n.lecturer_person_id
-) eng ON s.person_id = eng.lecturer_person_id
-WHERE 
-    ((s.`type` <> 'gph' AND s.`chair_id` = '$chair_id') 
-     OR (s.`type` = 'gph' AND s.`department_id` = '$department_id'))
-    AND s.`date_remove` IS NULL";
+    zs.lecturer_person_id,
+    zs.base_uid2,
+    zs.base_uid2_new,
+    zs.Amount,
+    zs.LoadType,
+    zs.`delete`,
+    x.TypeWorkload,
+    zs.lecturer_uid as UID_Lecturer
+FROM zavkaf_splits zs
+JOIN xml_content_of_load x ON zs.content_of_load_uid = x.UID
+WHERE zs.`delete` = 0";
 
-// EchoLog($department_id);
-// EchoLog($query);
+// Debug: Log the query
+// EchoLog("Executing query: " . $query);
+
+// Initialize empty array to prevent errors
+$splitsLoads = [];
+// признак того, что оригинальная нагрузка переразбита, такие оригинальные часы плюсовать не будем
+$splitsLoadsByBaseUID2 = [];
+
+$rows = GetSQL($query) ?: [];
+
+foreach ($rows as $row) 
+{
+  $splitsLoadsByBaseUID2[$row['base_uid2']] = true;
+
+  $splitsLoads[$row['lecturer_person_id']][$row['base_uid2_new']] = 
+  [
+    'UID_Lecturer' => $row['UID_Lecturer'],
+    'amount' => (float)$row['Amount'],
+    'base_uid2_new' => $row['base_uid2_new'],
+    'type_workload' => $row['TypeWorkload']
+  ];
+}
+
+// EchoLog($splitsLoads);
+
+// 5. Получаем английскую нагрузку из zavkaf_splits
+$query = "SELECT 
+    zs.lecturer_person_id,
+    zs.lecturer_uid as UID_Lecturer,
+    zs.Amount,
+    zs.base_uid2,
+    zs.base_uid2_new,
+    x.TypeWorkload
+FROM zavkaf_splits zs
+JOIN xml_content_of_load x ON zs.content_of_load_uid = x.UID
+#JOIN xml_lecturer ON x.UID_Lecturer = xml_lecturer.UID
+WHERE zs.delete = 0
+  AND x.base_uid2 IN (
+      SELECT DISTINCT base_uid2 
+      FROM xml_content_of_load_staff 
+      WHERE UID_Language = '25031.945'
+  )";
+
+$englishSplits = [];
+$rows = GetSQL($query) ?: [];
+
+foreach ($rows as $row) 
+{
+  $splitsLoadsByBaseUID2[$row['base_uid2']] = true;
+
+  if (!isset($englishSplits[$row['lecturer_person_id']])) {
+      $englishSplits[$row['lecturer_person_id']] = [];
+  }
+
+  $englishSplits[$row['lecturer_person_id']][] = [
+      'UID_Lecturer' => $row['UID_Lecturer'],
+      'amount' => (float)$row['Amount'],
+      'type_workload' => $row['TypeWorkload']
+  ];
+}
+// EchoLog($englishSplits);
+
+// 6. Получаем список сотрудников
+$employees = [];
+$query = "SELECT * FROM `sotrudniki` 
+WHERE ((`type` <> 'gph' AND `chair_id` = ?) 
+       OR (`type` = 'gph' AND `department_id` = ?))
+  AND `date_remove` IS NULL";
+$stmt = $mysqli->prepare($query);
+$stmt->bind_param('ss', $chair_id, $department_id);
+$stmt->execute();
+$result = $stmt->get_result();
+while ($row = $result->fetch_assoc()) {
+    $employees[$row['person_id']] = $row;
+}
+
+// Батаков
+// EchoLog($splitsLoads[51586]);
+// EchoLog($originalLoads[51586]);
+// Суворов
+// EchoLog($splitsLoads[51972]);
+// EchoLog($originalLoads[51972]);
+// EchoLog($englishSplits[51972]);
+// EchoLog($englishLoads[51972]);
+// Фомина
+// EchoLog($splitsLoads[70297]);
+EchoLog($originalLoads[70297]);
+// EchoLog($englishSplits[70297]);
+// EchoLog($englishLoads[70297]);
+
+// 7. Объединяем данные
+foreach ($employees as &$employee) {
+    $personId = $employee['person_id'];
+    
+    // EchoLog($employee['lecturer_uid']);
+
+    // Инициализируем счетчики
+    $totalAmount = 0;
+    $auditoriumAmount = 0;
+    $engAmount = 0;
+    $typeWorkload = '';
+    
+    // Обрабатываем английскую нагрузку из zavkaf_splits
+    if (isset($englishSplits[$personId])) {
+        foreach ($englishSplits[$personId] as $engLoad) {
+            if (empty($engLoad['UID_Lecturer'])) {
+                EchoLog($engLoad);
+                continue;
+            }
+            if ($engLoad['UID_Lecturer'] != $employee['lecturer_uid']) {
+                continue;
+            }
+            
+            $engAmount += $engLoad['amount'];
+            // Не добавляем в общую аудиторную нагрузку здесь, т.к. это будет сделано в основном цикле
+        }
+    }
+    // Если нет английской нагрузки из zavkaf_splits, проверяем оригинальную английскую нагрузку
+    elseif (isset($englishLoads[$personId])) {
+        foreach ($englishLoads[$personId] as $engLoad) {
+            if (empty($engLoad['UID_Lecturer'])) {
+                EchoLog($engLoad);
+                continue;
+            }
+            if ($engLoad['UID_Lecturer'] != $employee['lecturer_uid']) {
+                continue;
+            }
+            
+            $engAmount += $engLoad['amount'];
+            // Не добавляем в общую аудиторную нагрузку здесь, т.к. это будет сделано в основном цикле
+        }
+    }
+    
+    // Обрабатываем переопределенную нагрузку (русскую)
+    if (isset($splitsLoads[$personId])) {
+        foreach ($splitsLoads[$personId] as $baseUid2 => $load) {
+            if (empty($load['UID_Lecturer'])) {
+                EchoLog($load);
+                continue;
+            }
+            if ($load['UID_Lecturer'] != $employee['lecturer_uid']) {
+                continue;
+            }
+            
+            // Проверяем, что это не английская нагрузка
+            $isEnglish = false;
+            if (isset($englishSplits[$personId])) {
+                foreach ($englishSplits[$personId] as $engLoad) {
+                    if ($engLoad['UID_Lecturer'] == $load['UID_Lecturer'] && 
+                        $engLoad['amount'] == $load['amount']) {
+                        $isEnglish = true;
+                        break;
+                    }
+                }
+            }
+            
+            if (!$isEnglish) 
+            {
+                $totalAmount += $load['amount'];
+                if ($load['type_workload'] == '0') {
+                    $auditoriumAmount += $load['amount'];
+                }
+            }
+            
+            $typeWorkload = $load['type_workload'] ?: $typeWorkload;
+            
+            // Удаляем из оригинальной нагрузки, если была переопределена
+            if (isset($originalLoads[$personId][$baseUid2])) {
+                unset($originalLoads[$personId][$baseUid2]);
+            }
+        }
+    }
+    
+    // Добавляем оставшуюся оригинальную нагрузку
+    if (isset($originalLoads[$personId])) 
+    {
+        foreach ($originalLoads[$personId] as $base_uid2 => $load) 
+        {
+          if (empty($load['UID_Lecturer'])) EchoLog($load);
+          if ($load['UID_Lecturer'] != $employee['lecturer_uid']) continue;
+
+          // Если оригинальная (Галактика) нагрузка была перераспределена
+          if ($splitsLoadsByBaseUID2[$base_uid2]) continue;
+
+          $totalAmount += $load['amount'];
+          if ($personId == 70297)
+          {
+            EchoLog($load['amount']);
+        }
+          if ($load['type_workload'] == '0') {
+              $auditoriumAmount += $load['amount'];
+          }
+          $typeWorkload = $load['type_workload'] ?: $typeWorkload;
+        }
+    }
+    
+    // Добавляем результаты к данным сотрудника
+    $employee['amount_sum'] = round($totalAmount, 2);
+    $employee['amount_sum_auditorium'] = round($auditoriumAmount, 2);
+    $employee['amount_sum_eng'] = round($engAmount, 2);
+    $employee['TypeWorkload'] = $typeWorkload ?: '';
+}
 
 
-// Без этого ругается версия MySQL на GROUP BY
-$mysqli->query("SET SESSION sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''))");
-
-$Sotrudniki = GetSQL($query); 
 
 
-if ($Sotrudniki)
-foreach ($Sotrudniki as &$sotrudnik)
+if ($employees)
+foreach ($employees as &$sotrudnik)
 {
   if ($sotrudnik['type'] == 'sotrudnik')
   {
@@ -170,7 +332,7 @@ foreach ($Sotrudniki as &$sotrudnik)
 
 // $c_roles = ExplodePalki($_SESSION['c_roles'], true);
 
-usort($Sotrudniki, function($a, $b) 
+usort($employees, function($a, $b) 
 {
   // Define custom order for types
   $typeOrder = [
@@ -195,11 +357,12 @@ usort($Sotrudniki, function($a, $b)
 });
 
 
+
 header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
 header("Pragma: no-cache");
 header("Expires: 0");
 header('Content-Type: application/javascript; charset=UTF-8');
-echo json_encode(array_values($Sotrudniki));
+echo json_encode(array_values($employees));
 
 ?>
 

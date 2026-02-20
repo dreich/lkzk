@@ -2831,28 +2831,6 @@
 					<prop_value prop_name="PlannedAmount" value="15"></prop_value>
 				</Collection>
 			</Object>
-			<Object uid="26026.281474976719481" name="3523М2МЖкм-Бизнес-проектирование" class_id="SubGroup">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26026.281474976719481"></prop_value>
-					<prop_value prop_name="Name" value="3523М2МЖкм-Бизнес-проектирование"></prop_value>
-					<prop_value prop_name="Number" value="3523М2МЖкм-Бизнес-проектирование"></prop_value>
-					<prop_value prop_name="UID_Group" value="26007.281474976735703"></prop_value>
-					<prop_value prop_name="Abbr" value="3523М2МЖкм-Бизнес-проектирование"></prop_value>
-					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
-					<prop_value prop_name="PlannedAmount" value="7"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26026.281474976719482" name="3523М2МЖкм-Развитие стартапов" class_id="SubGroup">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26026.281474976719482"></prop_value>
-					<prop_value prop_name="Name" value="3523М2МЖкм-Развитие стартапов"></prop_value>
-					<prop_value prop_name="Number" value="3523М2МЖкм-Развитие стартапов"></prop_value>
-					<prop_value prop_name="UID_Group" value="26007.281474976735703"></prop_value>
-					<prop_value prop_name="Abbr" value="3523М2МЖкм-Развитие стартапов"></prop_value>
-					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
-					<prop_value prop_name="PlannedAmount" value="6"></prop_value>
-				</Collection>
-			</Object>
 			<Object uid="26026.281474976719639" name="3822Б1ММ1-1 (Механика материалов)" class_id="SubGroup">
 				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
 					<prop_value prop_name="UID" value="26026.281474976719639"></prop_value>
@@ -8900,7 +8878,7 @@
 					<prop_value prop_name="UID_Group" value="26007.281474976732240"></prop_value>
 					<prop_value prop_name="Abbr" value="3822Б1ФИ1-Программирование на новых архитектурах"></prop_value>
 					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
-					<prop_value prop_name="PlannedAmount" value="19"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="23"></prop_value>
 				</Collection>
 			</Object>
 			<Object uid="26026.281474976722175" name="3822Б1ФИ1-Проективная геометрия в компьютерном зрении" class_id="SubGroup">
@@ -9857,7 +9835,7 @@
 					<prop_value prop_name="UID_Group" value="26007.281474976734413"></prop_value>
 					<prop_value prop_name="Abbr" value="3823Б1ФИ2-Алгоритмы распознавания образов"></prop_value>
 					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
-					<prop_value prop_name="PlannedAmount" value="17"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="19"></prop_value>
 				</Collection>
 			</Object>
 			<Object uid="26026.281474976722276" name="3823Б1ПР5-Проектирование операционных систем" class_id="SubGroup">
@@ -9890,7 +9868,7 @@
 					<prop_value prop_name="UID_Group" value="26007.281474976734413"></prop_value>
 					<prop_value prop_name="Abbr" value="3823Б1ФИ2-Информационная нейродинамика. Распределенные системы"></prop_value>
 					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
-					<prop_value prop_name="PlannedAmount" value="15"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="17"></prop_value>
 				</Collection>
 			</Object>
 			<Object uid="26026.281474976722279" name="3823Б1ФИ2-Качественные методы нелинейной динамики" class_id="SubGroup">
@@ -10099,7 +10077,7 @@
 					<prop_value prop_name="UID_Group" value="26007.281474976734414"></prop_value>
 					<prop_value prop_name="Abbr" value="3823Б1ФИ3-Прикладная математическая статистика"></prop_value>
 					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
-					<prop_value prop_name="PlannedAmount" value="6"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="7"></prop_value>
 				</Collection>
 			</Object>
 			<Object uid="26026.281474976722298" name="3823Б1ФИ3-Разработка сетевых приложений на Java" class_id="SubGroup">
@@ -17041,6 +17019,116 @@
 					<prop_value prop_name="Abbr" value="3825Б1ПМ5-2п/гр Иностранный язык"></prop_value>
 					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
 					<prop_value prop_name="PlannedAmount" value="5"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26026.281474976724054" name="3825Б1ПМ5-1п/гр Языки и методы программирования" class_id="SubGroup">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26026.281474976724054"></prop_value>
+					<prop_value prop_name="Name" value="3825Б1ПМ5-1п/гр Языки и методы программирования"></prop_value>
+					<prop_value prop_name="Number" value="3825Б1ПМ5-1п/гр Языки и методы программирования"></prop_value>
+					<prop_value prop_name="UID_Group" value="26007.281474976740233"></prop_value>
+					<prop_value prop_name="Abbr" value="3825Б1ПМ5-1п/гр Языки и методы программирования"></prop_value>
+					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="4"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26026.281474976724055" name="3825Б1ПМ5-2п/гр Языки и методы программирования" class_id="SubGroup">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26026.281474976724055"></prop_value>
+					<prop_value prop_name="Name" value="3825Б1ПМ5-2п/гр Языки и методы программирования"></prop_value>
+					<prop_value prop_name="Number" value="3825Б1ПМ5-2п/гр Языки и методы программирования"></prop_value>
+					<prop_value prop_name="UID_Group" value="26007.281474976740233"></prop_value>
+					<prop_value prop_name="Abbr" value="3825Б1ПМ5-2п/гр Языки и методы программирования"></prop_value>
+					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="5"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26026.281474976724065" name="3823Б1ФИ1-Глубокое обучение" class_id="SubGroup">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26026.281474976724065"></prop_value>
+					<prop_value prop_name="Name" value="3823Б1ФИ1-Глубокое обучение"></prop_value>
+					<prop_value prop_name="Number" value="3823Б1ФИ1-Глубокое обучение"></prop_value>
+					<prop_value prop_name="UID_Group" value="26007.281474976734412"></prop_value>
+					<prop_value prop_name="Abbr" value="3823Б1ФИ1-Глубокое обучение"></prop_value>
+					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="13"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26026.281474976724066" name="3823Б1ФИ3-Глубокое обучение" class_id="SubGroup">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26026.281474976724066"></prop_value>
+					<prop_value prop_name="Name" value="3823Б1ФИ3-Глубокое обучение"></prop_value>
+					<prop_value prop_name="Number" value="3823Б1ФИ3-Глубокое обучение"></prop_value>
+					<prop_value prop_name="UID_Group" value="26007.281474976734414"></prop_value>
+					<prop_value prop_name="Abbr" value="3823Б1ФИ3-Глубокое обучение"></prop_value>
+					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="1"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26026.281474976724067" name="3823Б1ФИ1-Обработка сигналов" class_id="SubGroup">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26026.281474976724067"></prop_value>
+					<prop_value prop_name="Name" value="3823Б1ФИ1-Обработка сигналов"></prop_value>
+					<prop_value prop_name="Number" value="3823Б1ФИ1-Обработка сигналов"></prop_value>
+					<prop_value prop_name="UID_Group" value="26007.281474976734412"></prop_value>
+					<prop_value prop_name="Abbr" value="3823Б1ФИ1-Обработка сигналов"></prop_value>
+					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="13"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26026.281474976724068" name="3823Б1ФИ2-Обработка сигналов" class_id="SubGroup">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26026.281474976724068"></prop_value>
+					<prop_value prop_name="Name" value="3823Б1ФИ2-Обработка сигналов"></prop_value>
+					<prop_value prop_name="Number" value="3823Б1ФИ2-Обработка сигналов"></prop_value>
+					<prop_value prop_name="UID_Group" value="26007.281474976734413"></prop_value>
+					<prop_value prop_name="Abbr" value="3823Б1ФИ2-Обработка сигналов"></prop_value>
+					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="2"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26026.281474976724070" name="1425С1КП2 , 1425С1КП3 (1п/гр)-В" class_id="SubGroup">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26026.281474976724070"></prop_value>
+					<prop_value prop_name="Name" value="1425С1КП2 , 1425С1КП3 (1п/гр)-В"></prop_value>
+					<prop_value prop_name="Number" value="1425С1КП2 , 1425С1КП3 (1п/гр)-В"></prop_value>
+					<prop_value prop_name="UID_Group" value="26007.281474976739327"></prop_value>
+					<prop_value prop_name="Abbr" value="1425С1КП2 , 1425С1КП3 (1п/гр)-В"></prop_value>
+					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="17"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26026.281474976724071" name="1425С1КП2 , 1425С1КП3 (2п/гр)-В" class_id="SubGroup">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26026.281474976724071"></prop_value>
+					<prop_value prop_name="Name" value="1425С1КП2 , 1425С1КП3 (2п/гр)-В"></prop_value>
+					<prop_value prop_name="Number" value="1425С1КП2 , 1425С1КП3 (2п/гр)-В"></prop_value>
+					<prop_value prop_name="UID_Group" value="26007.281474976739327"></prop_value>
+					<prop_value prop_name="Abbr" value="1425С1КП2 , 1425С1КП3 (2п/гр)-В"></prop_value>
+					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="12"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26026.281474976724072" name="1425С1КП2 , 1425С1КП3 (2п/гр)-В" class_id="SubGroup">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26026.281474976724072"></prop_value>
+					<prop_value prop_name="Name" value="1425С1КП2 , 1425С1КП3 (2п/гр)-В"></prop_value>
+					<prop_value prop_name="Number" value="1425С1КП2 , 1425С1КП3 (2п/гр)-В"></prop_value>
+					<prop_value prop_name="UID_Group" value="26007.281474976740205"></prop_value>
+					<prop_value prop_name="Abbr" value="1425С1КП2 , 1425С1КП3 (2п/гр)-В"></prop_value>
+					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="0"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26026.281474976724097" name="3825М1ФИ1-Трехмерное компьютерное зрение" class_id="SubGroup">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26026.281474976724097"></prop_value>
+					<prop_value prop_name="Name" value="3825М1ФИ1-Трехмерное компьютерное зрение"></prop_value>
+					<prop_value prop_name="Number" value="3825М1ФИ1-Трехмерное компьютерное зрение"></prop_value>
+					<prop_value prop_name="UID_Group" value="26007.281474976739116"></prop_value>
+					<prop_value prop_name="Abbr" value="3825М1ФИ1-Трехмерное компьютерное зрение"></prop_value>
+					<prop_value prop_name="isLanguageGroup" value="0"></prop_value>
+					<prop_value prop_name="PlannedAmount" value="1"></prop_value>
 				</Collection>
 			</Object>
 		</Collection>
