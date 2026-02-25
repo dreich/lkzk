@@ -49,10 +49,17 @@ if ($c_roles['uoup'] && $_GET['chair_id'])
 
 if ($c_roles['sotrudnik'])
 {
-  $chairs_ids_arr = ExplodePalki($_SESSION['c_sotrudnik_chair_ids']);
-  $chair_id = $chairs_ids_arr[0];
+  // $chairs_ids_arr = ExplodePalki($_SESSION['c_sotrudnik_chairs_ids']);
+  // $chair_id = $chairs_ids_arr[0];
+  $chair_id = quote_smart($_GET['chair_id']);
   $XMLChair = GetRow('xml_chair', ['Code' => $chair_id]);
   $chair_id_sql = "AND xml_content_of_load.UID_Chair = '$XMLChair[UID]'";
+
+  if (!$lecturer_uid)
+  {
+    echo json_encode(['nagruzka' => [], 'stat' => []]);
+    exit;
+  }
 }
 
 $global_nagruzka_filter = $_COOKIE['global_nagruzka_filter'];

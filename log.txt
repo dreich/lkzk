@@ -1,3 +1,4 @@
 [19.01.2026 - 16:08.04] Error in GetTable('podrazdelenia2026'): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'AND `pname` LIKE ('Кафедра%') AND `has_real_chief` = '1'' at line 1[/] [Chrome 143.0.0.0] [127.0.0.1]
 [19.02.2026 - 16:53.56] Error in GetRows(SELECT * FROM `sotrudnik` WHERE 1 AND person_id = '36'  ): Table 'lkzk.sotrudnik' doesn't exist[/] [Chrome 144.0.0.0] [127.0.0.1]
 [19.02.2026 - 16:53.56] SELECT * FROM `sotrudnik` WHERE 1 AND person_id = '36'[/] [Chrome 144.0.0.0] [127.0.0.1]
+[20.02.2026 - 11:52.13] Error in GetTable('podrazdelenia2026'): Table 'lkzk.podrazdelenia2026' doesn't exist[/] [Chrome 144.0.0.0] [127.0.0.1]

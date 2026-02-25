@@ -1429,7 +1429,7 @@ if ($XMLContentOfLoad)
             EchoLog("Error #153 inserting into `nagruzka`: $query", "file mail");
             EchoLog($mysqli->error, "file mail");
           }
-          else
+          elseif ($mysqli->affected_rows)
           {
             ActivityLog($xml_content_of_load_row['base_uid2'], ["Нагрузка добавлена на кафедру $chair_name", $chair_id, $xml_content_of_load_row['base_uid2']], "", "initial", 0, 1);
           }

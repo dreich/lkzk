@@ -321,6 +321,7 @@ function Authorize($login, $password)
               $podrazdelenia_table_name = "podrazdelenia" . date('Y');
               // has_real_chief означает, что chief действительно является руководителем этого подразделения, а не прописан здесь руководитель вышестоящий
               $ChairsWithThisChief = GetTable($podrazdelenia_table_name, "`chief_id` = $Person[id] AND `pname` LIKE ('Кафедра%') AND `has_real_chief` = '1'");
+              $Podrazdelenia = GetTable($podrazdelenia_table_name, "", "", "id");
 
               include 'connect.php';
 
@@ -360,18 +361,27 @@ function Authorize($login, $password)
               // Это просто сотрудник (кафедры)
               else
               {
+                
                 $SotrudnikRows = GetRows('sotrudniki', ['person_id' => $Person['id']]);
 
                 $chairs_ids = [];
+                $chairs_titles = [];
+                $lecturer_uids = [];
+                
 
                 if ($SotrudnikRows)
                 {
                   foreach ($SotrudnikRows as $sotrudnik_row)
                   {
                     $chairs_ids[] = $sotrudnik_row['chair_id'];
+                    $chairs_titles[] = $Podrazdelenia[$sotrudnik_row['chair_id']]['pname'];
+                    $lecturer_uids[] = $sotrudnik_row['lecturer_uid'];
                   }
 
-                  $_SESSION['c_sotrudnik_chair_ids'] = ImplodePalki($chairs_ids);
+                  $_SESSION['c_sotrudnik_chairs_ids'] = ImplodePalki($chairs_ids);
+                  $_SESSION['c_sotrudnik_chairs_titles'] = ImplodePalki($chairs_titles);
+                  $_SESSION['c_sotrudnik_lecturer_uids'] = ImplodePalki($lecturer_uids);
+
                   $_SESSION['c_login'] = $clean_login;
                   $_SESSION['c_fio'] = $attrs['displayname'];
                   $result = true;

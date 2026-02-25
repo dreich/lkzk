@@ -1,14 +1,115 @@
 <div ng-if="system_mode == 'mode_filling' || system_mode == 'mode_verification' || system_mode == 'mode_archive'">
 
-  <h3 ng-if="_lecturer_uid">
-    {{lecturer_fio}}
+  <!-- {{_lecturer_uid}} -->
+  <h3 ng-if="_lecturer_uid && !c_roles.sotrudnik">
+    {{_lecturer_fio}}
   </h3>
     
   <div ng-if="nagruzka_stat.chair_name && !_lecturer_uid">
     <h5>{{nagruzka_stat.chair_name}}</h5>
   </div>
 
+  <div ng-repeat="chair_id in _chairs_ids" ng-if="!nagruzka_selected_chair_id || nagruzka_selected_chair_id && nagruzka_selected_chair_id == chair_id">
+    <!-- {{chair_id}} -->
+    <h5>{{_chairs_titles[$index]}}</h5>
+    <table class="widefat mb-3" ng-if="!nagruzka_selected_chair_id || nagruzka_selected_chair_id && nagruzka_selected_chair_id == chair_id && !c_roles.sotrudnik">
+
+      <thead>
+        <tr>
+          <th>тип нагрузки</th>
+          <th ng-if="!_lecturer_uid && !c_roles.sotrudnik">всего нагрузки</th>
+          <th ng-if="!_lecturer_uid && !c_roles.sotrudnik">не распределено</th>
+          <th>распределено</th>
+          <th ng-if="!_lecturer_uid && !c_roles.sotrudnik">на вакансию</th>
+        </tr>
+      </thead>
+
+      <tbody>
+
+        <tr ng-if="ShowNagruzkaZavkafTypeRow('discipline')">
+          <td>
+            <span ng-if="ShowNagruzkaTypeLinkNotText()"><a href="{{GetNagruzkaTypesRowLink('discipline', chair_id, _lecturer_uids[$index])}}">Дисциплины</a></span>
+            <span ng-if="!ShowNagruzkaTypeLinkNotText()">Дисциплины</span>
+          </td>
+          <td ng-if="!_lecturer_uid && !c_roles.sotrudnik">{{nagruzka_stat[chair_id]['discipline']['total']['sum'] | toFixed:1}}</td>
+          <td ng-if="!_lecturer_uid && !c_roles.sotrudnik">{{nagruzka_stat[chair_id]['discipline']['not_assigned']['sum'] | toFixed:1}}</td>
+          <td>{{nagruzka_stat[chair_id]['discipline']['assigned']['sum'] | toFixed:1}}</td>
+          <td ng-if="!_lecturer_uid && !c_roles.sotrudnik">{{nagruzka_stat[chair_id]['discipline']['assigned_to_vacancy']['sum'] | toFixed:1}}</td>
+        </tr>
+
+        <tr ng-if="ShowNagruzkaZavkafTypeRow('ruk_vkr')">
+          <td>
+            <span ng-if="ShowNagruzkaTypeLinkNotText()"><a href="{{GetNagruzkaTypesRowLink('ruk_vkr', chair_id, _lecturer_uids[$index])}}">Руководство ВКР</a></span>
+            <span ng-if="!ShowNagruzkaTypeLinkNotText()">Руководство ВКР</span>
+          </td>
+          <td ng-if="!_lecturer_uid && !c_roles.sotrudnik">{{nagruzka_stat[chair_id]['ruk_vkr']['total']['sum'] | toFixed:1}}</td>
+          <td ng-if="!_lecturer_uid && !c_roles.sotrudnik">{{nagruzka_stat[chair_id]['ruk_vkr']['not_assigned']['sum'] | toFixed:1}}</td>
+          <td>{{nagruzka_stat[chair_id]['ruk_vkr']['assigned']['sum'] | toFixed:1}}</td>
+          <td ng-if="!_lecturer_uid && !c_roles.sotrudnik">{{nagruzka_stat[chair_id]['ruk_vkr']['assigned_to_vacancy']['sum'] | toFixed:1}}</td>
+        </tr>
+
+        <tr ng-if="ShowNagruzkaZavkafTypeRow('ruk_kurs')">
+          <td>
+            <span ng-if="ShowNagruzkaTypeLinkNotText()"><a href="{{GetNagruzkaTypesRowLink('ruk_kurs', chair_id, _lecturer_uids[$index])}}">Руководство курсовыми работами</a></span>
+            <span ng-if="!ShowNagruzkaTypeLinkNotText()">Руководство курсовыми работами</span>
+          </td>
+          <td ng-if="!_lecturer_uid && !c_roles.sotrudnik">{{nagruzka_stat[chair_id]['ruk_kurs']['total']['sum'] | toFixed:1}}</td>
+          <td ng-if="!_lecturer_uid && !c_roles.sotrudnik">{{nagruzka_stat[chair_id]['ruk_kurs']['not_assigned']['sum'] | toFixed:1}}</td>
+          <td>{{nagruzka_stat[chair_id]['ruk_kurs']['assigned']['sum'] | toFixed:1}}</td>
+          <td ng-if="!_lecturer_uid && !c_roles.sotrudnik">{{nagruzka_stat[chair_id]['ruk_kurs']['assigned_to_vacancy']['sum'] | toFixed:1}}</td>
+        </tr>
+
+        <tr ng-if="ShowNagruzkaZavkafTypeRow('ruk_practice')">
+          <td>
+            <span ng-if="ShowNagruzkaTypeLinkNotText()"><a href="{{GetNagruzkaTypesRowLink('ruk_practice', chair_id, _lecturer_uids[$index])}}">Руководство практикой</a></span>
+            <span ng-if="!ShowNagruzkaTypeLinkNotText()">Руководство практикой</span>
+          </td>
+          <td ng-if="!_lecturer_uid && !c_roles.sotrudnik">{{nagruzka_stat[chair_id]['ruk_practice']['total']['sum'] | toFixed:1}}</td>
+          <td ng-if="!_lecturer_uid && !c_roles.sotrudnik">{{nagruzka_stat[chair_id]['ruk_practice']['not_assigned']['sum'] | toFixed:1}}</td>
+          <td>{{nagruzka_stat[chair_id]['ruk_practice']['assigned']['sum'] | toFixed:1}}</td>
+          <td ng-if="!_lecturer_uid && !c_roles.sotrudnik">{{nagruzka_stat[chair_id]['ruk_practice']['assigned_to_vacancy']['sum'] | toFixed:1}}</td>
+        </tr>
+
+
+        <tr ng-if="ShowNagruzkaZavkafTypeRow('ksro')">
+          <td>
+            <span ng-if="ShowNagruzkaTypeLinkNotText()"><a href="{{GetNagruzkaTypesRowLink('ksro', chair_id, _lecturer_uids[$index])}}">Индивидуальные консультации и КСРО</a></span>
+            <span ng-if="!ShowNagruzkaTypeLinkNotText()">Индивидуальные консультации и КСРО</span>
+          </td>
+          <td ng-if="!_lecturer_uid && !c_roles.sotrudnik">{{nagruzka_stat[chair_id]['ksro']['total']['sum'] | toFixed:1}}</td>
+          <td ng-if="!_lecturer_uid && !c_roles.sotrudnik">{{nagruzka_stat[chair_id]['ksro']['not_assigned']['sum'] | toFixed:1}}</td>
+          <td>{{nagruzka_stat[chair_id]['ksro']['assigned']['sum'] | toFixed:1}}</td>
+          <td ng-if="!_lecturer_uid && !c_roles.sotrudnik">{{nagruzka_stat[chair_id]['ksro']['assigned_to_vacancy']['sum'] | toFixed:1}}</td>
+        </tr>
+        <tr ng-if="ShowNagruzkaZavkafTypeRow('gia')">
+          <td>
+            <span ng-if="ShowNagruzkaTypeLinkNotText()"><a href="{{GetNagruzkaTypesRowLink('gia', chair_id, _lecturer_uids[$index])}}">ГИА</a></span>
+            <span ng-if="!ShowNagruzkaTypeLinkNotText()">ГИА</span>
+          </td>
+          <td ng-if="!_lecturer_uid && !c_roles.sotrudnik">{{nagruzka_stat[chair_id]['gia']['total']['sum'] | toFixed:1}}</td>
+          <td ng-if="!_lecturer_uid && !c_roles.sotrudnik">{{nagruzka_stat[chair_id]['gia']['not_assigned']['sum'] | toFixed:1}}</td>
+          <td>{{nagruzka_stat[chair_id]['gia']['assigned']['sum'] | toFixed:1}}</td>
+          <td ng-if="!_lecturer_uid && !c_roles.sotrudnik">{{nagruzka_stat[chair_id]['gia']['assigned_to_vacancy']['sum'] | toFixed:1}}</td>
+        </tr>
+        <tr ng-if="ShowNagruzkaZavkafTypeRow('aspirant')">
+          <td>
+            <span ng-if="ShowNagruzkaTypeLinkNotText()"><a href="{{GetNagruzkaTypesRowLink('aspirant', chair_id, _lecturer_uids[$index])}}">Руководство аспирантами и соискателями, кандидатские экзамены</a></span>
+            <span ng-if="!ShowNagruzkaTypeLinkNotText()">Руководство аспирантами и соискателями, кандидатские экзамены</span>
+          </td>
+          <td ng-if="!_lecturer_uid && !c_roles.sotrudnik">{{nagruzka_stat[chair_id]['aspirant']['total']['sum'] | toFixed:1}}</td>
+          <td ng-if="!_lecturer_uid && !c_roles.sotrudnik">{{nagruzka_stat[chair_id]['aspirant']['not_assigned']['sum'] | toFixed:1}}</td>
+          <td>{{nagruzka_stat[chair_id]['aspirant']['assigned']['sum'] | toFixed:1}}</td>
+          <td ng-if="!_lecturer_uid && !c_roles.sotrudnik">{{nagruzka_stat[chair_id]['aspirant']['assigned_to_vacancy']['sum'] | toFixed:1}}</td>
+        </tr>
+      </tbody>
+      
+    </table>
+  </div>
+
+
   <!-- c_roles.zavkaf -->
+
+<!--
   <table class="widefat mb-3" ng-if="true">
 
     <thead>
@@ -22,17 +123,6 @@
     </thead>
 
     <tbody>
-
-<!--       <tr ng-if="ShowNagruzkaZavkafTypeRow('discipline')">
-        <td>
-          <span ng-if="ShowNagruzkaTypeLinkNotText()"><a href="{{GetNagruzkaTypesRowLink('discipline')}}">Дисциплины</a></span>
-          <span ng-if="!ShowNagruzkaTypeLinkNotText()">Дисциплины</span>
-        </td>
-        <td>{{nagruzka_stat['discipline']['total'] | toFixed:1}}</td>
-        <td>{{nagruzka_stat['discipline']['not_assigned'] | toFixed:1}}</td>
-        <td>{{nagruzka_stat['discipline']['assigned'] | toFixed:1}}</td>
-        <td>{{nagruzka_stat['discipline']['assigned_to_vacancy'] | toFixed:1}}</td>
-      </tr> -->
 
       <tr ng-if="ShowNagruzkaZavkafTypeRow('discipline')">
         <td>
@@ -112,6 +202,8 @@
     </tbody>
     
   </table>
+-->
+
 
   <!-- {{nagruzka_type}} -->
 

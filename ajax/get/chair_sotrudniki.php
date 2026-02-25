@@ -199,7 +199,7 @@ while ($row = $result->fetch_assoc()) {
 // EchoLog($englishLoads[51972]);
 // Фомина
 // EchoLog($splitsLoads[70297]);
-EchoLog($originalLoads[70297]);
+// EchoLog($originalLoads[70297]);
 // EchoLog($englishSplits[70297]);
 // EchoLog($englishLoads[70297]);
 

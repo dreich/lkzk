@@ -21,11 +21,11 @@ if ($_POST['action'] == 'log-in')
     $_SESSION['error_message'] = $result; // "Вы ввели неправильный логин или пароль";
   }
 
-  if ($_SESSION['c_access'] == 'cfo' || $_SESSION['c_access'] == 'author')
-  {
-    header('Location: ./');
-  }
-  else
+  // if ($_SESSION['c_access'] == 'cfo' || $_SESSION['c_access'] == 'author')
+  // {
+  //   header('Location: ./');
+  // }
+  // else
   {
     header('Location: ./'); 
   }
