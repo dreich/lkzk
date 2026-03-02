@@ -4,6 +4,10 @@
   <h3 ng-if="_lecturer_uid && !c_roles.sotrudnik">
     {{_lecturer_fio}}
   </h3>
+
+  <h4>
+  {{$_nagruzka_types[_nagruzka_type]}}
+  </h4>
     
   <div ng-if="nagruzka_stat.chair_name && !_lecturer_uid">
     <h5>{{nagruzka_stat.chair_name}}</h5>

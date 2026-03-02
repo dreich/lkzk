@@ -2526,7 +2526,7 @@ function GetNagruzkaBaseQuery($dop_sql, $nagruzka_type = null, $department_from_
     $dop_sql
   ";
 
-  // EchoLog($_nagruzka_base_query);
+  EchoLog($_nagruzka_base_query);
 
   return $_nagruzka_base_query;
 
@@ -2606,8 +2606,8 @@ function PrepareNagruzka($_Nagruzka)
     unset($nagruzka);
     foreach ($Nagruzka as &$nagruzka)
     {
-      $nagruzka['disciplines_UIDs_chain_str'] = ImplodePalki($nagruzka['discipline_UID_arr']);
-      $nagruzka['disciplines_Names_chain_str'] = ImplodePalki($nagruzka['discipline_name_arr']);
+      // $nagruzka['disciplines_UIDs_chain_str'] = ImplodePalki($nagruzka['discipline_UID_arr']);
+      // $nagruzka['disciplines_Names_chain_str'] = ImplodePalki($nagruzka['discipline_name_arr']);
       $nagruzka['discipline_name'] = implode('<br>', $nagruzka['discipline_name_arr']);
       $nagruzka['group_name'] = implode('<br>', $nagruzka['group_name_arr']);
       $nagruzka['Abbr'] = implode('<br>', $nagruzka['Abbr_arr']);

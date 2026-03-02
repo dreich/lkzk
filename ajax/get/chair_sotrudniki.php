@@ -56,7 +56,8 @@ $query = "SELECT
 FROM nagruzka n
 JOIN xml_content_of_load x ON n.load_base_UID2 = x.base_uid2
 JOIN xml_lecturer ON x.UID_Lecturer = xml_lecturer.UID
-WHERE xml_lecturer.Tab_number IS NOT NULL";
+WHERE xml_lecturer.Tab_number IS NOT NULL AND xml_content_of_load.`nagruzka_type` <> ''
+";
 
 $rows = GetSQL($query) ?: [];
 foreach ($rows as $row) 
@@ -181,6 +182,7 @@ $query = "SELECT * FROM `sotrudniki`
 WHERE ((`type` <> 'gph' AND `chair_id` = ?) 
        OR (`type` = 'gph' AND `department_id` = ?))
   AND `date_remove` IS NULL";
+
 $stmt = $mysqli->prepare($query);
 $stmt->bind_param('ss', $chair_id, $department_id);
 $stmt->execute();
@@ -188,6 +190,8 @@ $result = $stmt->get_result();
 while ($row = $result->fetch_assoc()) {
     $employees[$row['person_id']] = $row;
 }
+
+// EchoLog($chair_id);
 
 // Батаков
 // EchoLog($splitsLoads[51586]);
@@ -219,7 +223,7 @@ foreach ($employees as &$employee) {
     if (isset($englishSplits[$personId])) {
         foreach ($englishSplits[$personId] as $engLoad) {
             if (empty($engLoad['UID_Lecturer'])) {
-                EchoLog($engLoad);
+                // EchoLog($engLoad);
                 continue;
             }
             if ($engLoad['UID_Lecturer'] != $employee['lecturer_uid']) {
@@ -248,11 +252,16 @@ foreach ($employees as &$employee) {
     
     // Обрабатываем переопределенную нагрузку (русскую)
     if (isset($splitsLoads[$personId])) {
-        foreach ($splitsLoads[$personId] as $baseUid2 => $load) {
-            if (empty($load['UID_Lecturer'])) {
+        foreach ($splitsLoads[$personId] as $baseUid2 => $load) 
+        {
+            
+
+            if (empty($load['UID_Lecturer'])) 
+            {
                 EchoLog($load);
                 continue;
             }
+
             if ($load['UID_Lecturer'] != $employee['lecturer_uid']) {
                 continue;
             }
@@ -267,6 +276,11 @@ foreach ($employees as &$employee) {
                         break;
                     }
                 }
+            }
+
+            if ($personId == 9058)
+            {
+              EchoLog($load);
             }
             
             if (!$isEnglish) 
@@ -301,7 +315,7 @@ foreach ($employees as &$employee) {
           if ($personId == 70297)
           {
             EchoLog($load['amount']);
-        }
+          }
           if ($load['type_workload'] == '0') {
               $auditoriumAmount += $load['amount'];
           }

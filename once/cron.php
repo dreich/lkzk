@@ -1285,7 +1285,8 @@ if ($XMLContentOfLoad)
           $chair_id = $XMLChairByUID[$new_nagr_row['UID_Chair']]['Code'];
 
           $query = "
-            UPDATE `nagruzka` SET `lecturer_fio` = NULL, `lecturer_uid` = NULL, `lecturer_person_id` = NULL, `prev_status` = `status`, `status` = 'initial', `date_update` = NOW()
+            UPDATE `nagruzka` SET # `lecturer_fio` = NULL, `lecturer_uid` = NULL, `lecturer_person_id` = NULL, 
+              `prev_status` = `status`, `status` = 'initial', `date_update` = NOW()
             WHERE `chair_id` = '$chair_id' AND `load_base_UID2` = '$base_uid2'";
 
           $Result = $mysqli->query($query);
@@ -1498,7 +1499,8 @@ if ($XMLContentOfLoad)
 
             // ? МЕНЯТЬ ЛИ СТАТУС ?
             $query = "
-              UPDATE `nagruzka` SET `lecturer_fio` = '$lecturer[FIO]', `lecturer_uid` = '$xml_content_of_load_row[UID_Lecturer]', `lecturer_person_id` = '$lecturer[Tab_number]', `date_update` = NOW()
+              UPDATE `nagruzka` SET #`lecturer_fio` = '$lecturer[FIO]', `lecturer_uid` = '$xml_content_of_load_row[UID_Lecturer]', `lecturer_person_id` = '$lecturer[Tab_number]', 
+                `date_update` = NOW()
               WHERE `load_base_UID2` = '$xml_content_of_load_row[base_uid2]'";
 
             $Result = $mysqli->query($query);

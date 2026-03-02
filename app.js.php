@@ -38,6 +38,17 @@ var MONTHS =
   'Декабрь'
 ];
 
+const $_nagruzka_types = 
+{
+  'discipline': 'Дисциплины',
+  'ruk_vkr': 'Руководство ВКР',
+  'ruk_kurs': 'Руководство курсовыми работами',
+  'ruk_practice': 'Руководство практикой',
+  'ksro': 'Индивидуальные консультации и КСРО',
+  'gia': 'ГИА',
+  'aspirant': 'Руководство аспирантами и соискателями, кандидатские экзамены',
+};
+
 
 const c_login = '<?=$c_login?>';
 const c_fio = '<?=$c_fio?>';
@@ -647,6 +658,25 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
         }
       }
     })
+    .when('/uoup_nagruzka_no_type',
+    {
+      templateUrl: 'uoup_nagruzka_no_type.tpl.html?' + getRandom(10000, 99999),
+      controller: 'UOUPNagruzkaCtrl',
+      resolve:
+      {
+        uoup_nagruzka: function($http)
+        {
+          return $http({url: 'ajax/get/uoup_nagruzka_no_type.php', method: 'GET'});
+        },
+        nagruzka_uoup_stat: function($http)
+        {
+          return {};
+        },
+        page: function($q) {
+          return $q.when('uoup_nagruzka_no_type');
+        }
+      }
+    })
     .when('/uoup_chairs_refused',
     {
       templateUrl: 'uoup_chairs_refused.tpl.html?' + getRandom(10000, 99999),
@@ -772,6 +802,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
 
   $scope.c_fio = c_fio;
 
+
   // $rootScope.CheckSystemMode = function(scope)
   // {
   //   // Получим режим работы
@@ -795,7 +826,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
               </div>');
 
   clearInterval($rootScope.checkSessionInterval);
-  $rootScope.checkSessionInterval = setInterval(checkSession, 60000, $http, $scope, ngDialog);
+  $rootScope.checkSessionInterval = setInterval(checkSession, 120000, $http, $scope, ngDialog);
 
  $rootScope.ClearGreenTableFilters = function(dtInstance, filter_distinct, lecturer_uid, nagruzka_type, nagruzka_selected_chair_id) {
   CL('ClearGreenTableFilters');
@@ -894,6 +925,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
   $rootScope.page = 'nagruzka';
 
   $scope.$_forms_obuchenia = $_forms_obuchenia;
+  $scope.$_nagruzka_types = $_nagruzka_types;
   $scope._nagruzka_type = nagruzka_type;
   // $scope.nagruzka_stat = nagruzka_stat.data;
   // Строка для проверки, что тесты работают. Должна быть ошибка.
@@ -914,7 +946,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
     $scope._lecturer_uids = c_sotrudnik_lecturer_uids;
     $scope._chairs_titles = c_sotrudnik_chairs_titles;
 
-    CL($scope._chairs_ids);
+    // CL($scope._chairs_ids);
   }
 
   if (c_roles.zavkaf)
@@ -960,7 +992,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
   $scope.UpdateNagruzkaStat = function(nagr_type, chair_id, lecturer_uid)
   {
     CL('UpdateNagruzkaStat');
-    CL(chair_id);
+    // CL(chair_id);
 
     var url = `ajax/get/nagruzka.php?chair_id=${chair_id}&type=${nagr_type}`;
 
@@ -983,7 +1015,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
           $scope.nagruzka_stat[chair_id][nagr_type] = response.data.stat;
 
           // CL($scope.nagruzka_stat);
-          CL(response.data.nagruzka);
+          // CL(response.data.nagruzka);
 
           // Если ограничены одним преподом, то нужно взять его ФИО (из первой же нагрузки)
           if ($scope._lecturer_uid && !isEmpty(response.data.nagruzka))
@@ -1164,7 +1196,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
 
       .withOption('initComplete', function(settings, json) {
         // Скрываем индикатор когда загрузка завершена
-        // CL("initComplete");
+        CL("initComplete");
         $scope.$apply(function() {
             $scope.isLoading = false;
         });
@@ -1202,98 +1234,102 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
     }, true);
     */
 
-    $scope.onNagruzkaTableInstance = function(dtInstance) {
-  CL('onNagruzkaTableInstance');
-  $scope.dtInstance = dtInstance;
-  const table = dtInstance.DataTable;
-  const lecturerColumnIndex = 15; // Index of the "Преподаватель" column
-  let filtersInitialized = false;
-
-  // Function to initialize filters only once
-  const initializeFiltersOnce = () => {
-    if (!filtersInitialized) {
-      createCustomFilters('DataTables_Table_nagruzka', table, columns, $scope);
-      filtersInitialized = true;
-    }
-  };
-
-  // Function to apply lecturer filter
-  /*
-  const applyLecturerFilter = () => {
-    // Ensure filters are initialized
-    initializeFiltersOnce();
-
-    const lecturerColumn = table.column(lecturerColumnIndex);
-    const filterInput = document.querySelector(`#DataTables_Table_nagruzka thead th:nth-child(${lecturerColumnIndex + 1}) input[type=search]`);
-
-    if ($scope.lecturer_uid) 
+    $scope.onNagruzkaTableInstance = function(dtInstance) 
     {
-      // const lecturerRow = $scope.nagruzka?.find(row => 
-      //   row.lecturer_uid === $scope.lecturer_uid
-      // );
+      CL('onNagruzkaTableInstance');
+      $scope.isLoading = true;
 
-      // if (lecturerRow?.lecturer_fio) {
-      //   // Apply the filter using DataTables API
-      //   lecturerColumn.search(lecturerRow.lecturer_fio).draw('page');
-        
-      //   // Update the input value if it exists
-      //   if (filterInput) {
-      //     filterInput.value = lecturerRow.lecturer_fio;
-      //     const event = new Event('input', { bubbles: true });
-      //     filterInput.dispatchEvent(event);
-      //   }
-      // }
-    } 
-    else 
-    {
-      // Clear the filter
-      lecturerColumn.search('').draw('page');
-      if (filterInput) {
-        filterInput.value = '';
-        const event = new Event('input', { bubbles: true });
-        filterInput.dispatchEvent(event);
-      }
-    }
-  };
+      $scope.dtInstance = dtInstance;
+      const table = dtInstance.DataTable;
+      const lecturerColumnIndex = 15; // Index of the "Преподаватель" column
+      let filtersInitialized = false;
 
-  */
+      // Function to initialize filters only once
+      const initializeFiltersOnce = () => 
+      {
+        if (!filtersInitialized) {
+          createCustomFilters('DataTables_Table_nagruzka', table, columns, $scope);
+          filtersInitialized = true;
+        }
+      };
 
-  // Initialize filters immediately
-  initializeFiltersOnce();
+      // Function to apply lecturer filter
+      /*
+      const applyLecturerFilter = () => {
+        // Ensure filters are initialized
+        initializeFiltersOnce();
 
-  // Apply filter after a short delay to ensure the table is ready
-  // const initialApply = () => {
-  //   if (document.readyState === 'complete') {
-  //     setTimeout(applyLecturerFilter, 100);
-  //   } else {
-  //     document.addEventListener('DOMContentLoaded', () => {
-  //       setTimeout(applyLecturerFilter, 100);
-  //     });
-  //   }
-  // };
+        const lecturerColumn = table.column(lecturerColumnIndex);
+        const filterInput = document.querySelector(`#DataTables_Table_nagruzka thead th:nth-child(${lecturerColumnIndex + 1}) input[type=search]`);
 
-  // Start the initial application
-  // initialApply();
+        if ($scope.lecturer_uid) 
+        {
+          // const lecturerRow = $scope.nagruzka?.find(row => 
+          //   row.lecturer_uid === $scope.lecturer_uid
+          // );
 
-  // Handle table redraws - use one() instead of on() to prevent multiple handlers
-  // table.one('draw.dt', applyLecturerFilter);
+          // if (lecturerRow?.lecturer_fio) {
+          //   // Apply the filter using DataTables API
+          //   lecturerColumn.search(lecturerRow.lecturer_fio).draw('page');
+            
+          //   // Update the input value if it exists
+          //   if (filterInput) {
+          //     filterInput.value = lecturerRow.lecturer_fio;
+          //     const event = new Event('input', { bubbles: true });
+          //     filterInput.dispatchEvent(event);
+          //   }
+          // }
+        } 
+        else 
+        {
+          // Clear the filter
+          lecturerColumn.search('').draw('page');
+          if (filterInput) {
+            filterInput.value = '';
+            const event = new Event('input', { bubbles: true });
+            filterInput.dispatchEvent(event);
+          }
+        }
+      };
 
-  // Handle column visibility changes
-  table.on('column-visibility.dt', () => {
-    // Only reinitialize filters if they haven't been initialized yet
-    if (!filtersInitialized) {
+      */
+
+      // Initialize filters immediately
       initializeFiltersOnce();
-    }
-    // applyLecturerFilter();
-  });
 
-  // Watch for lecturer_uid changes
-  // $scope.$watch('lecturer_uid', (newVal, oldVal) => {
-  //   if (newVal !== oldVal) {
-  //     requestAnimationFrame(applyLecturerFilter);
-  //   }
-  // });
-};
+      // Apply filter after a short delay to ensure the table is ready
+      // const initialApply = () => {
+      //   if (document.readyState === 'complete') {
+      //     setTimeout(applyLecturerFilter, 100);
+      //   } else {
+      //     document.addEventListener('DOMContentLoaded', () => {
+      //       setTimeout(applyLecturerFilter, 100);
+      //     });
+      //   }
+      // };
+
+      // Start the initial application
+      // initialApply();
+
+      // Handle table redraws - use one() instead of on() to prevent multiple handlers
+      // table.one('draw.dt', applyLecturerFilter);
+
+      // Handle column visibility changes
+      table.on('column-visibility.dt', () => {
+        // Only reinitialize filters if they haven't been initialized yet
+        if (!filtersInitialized) {
+          initializeFiltersOnce();
+        }
+        // applyLecturerFilter();
+      });
+
+      // Watch for lecturer_uid changes
+      // $scope.$watch('lecturer_uid', (newVal, oldVal) => {
+      //   if (newVal !== oldVal) {
+      //     requestAnimationFrame(applyLecturerFilter);
+      //   }
+      // });
+    };
 
 
 
@@ -1365,10 +1401,10 @@ $scope.GetNagruzkaAmountSum = function() {
   }
 
   // вычислить уровень образования по коду направления
-  $scope.GetEducationLevel = function(nagruzka_row)
-  {
+  // $scope.GetEducationLevel = function(nagruzka_row)
+  // {
 
-  }
+  // }
 
   $scope.onNagruzkaGlobalFilterChange = function() 
   {
@@ -1807,7 +1843,7 @@ $scope.GetNagruzkaAmountSum = function() {
       });
 
 
-      CL(nagruzka_row);
+      // CL(nagruzka_row);
 
       // Это значит, распределение
       // if (!nagruzka_row['lectors'][0].zs && !isEmpty(nagruzka_row['lectors'][0].lecturer_fio)) return;

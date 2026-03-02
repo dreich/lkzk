@@ -1,6 +1,6 @@
 <?
 
-// Получить данные в таблицу "Без кафедры" для УОУП
+// Получить данные в таблицу "Без типа" для УОУП
 session_name('lkzk');
 session_start();
 
@@ -22,13 +22,8 @@ $c_roles = ExplodePalki($_SESSION['c_roles'], true);
 
 if ($c_roles['uoup'])
 {
-  // $c_chair_id = $_SESSION['c_chair_id'];
 
-  // $XMLChair = GetRow('xml_chair', ['Code' => $c_chair_id]);
-
-  // $XMLContentOfLoad = GetRows('xml_content_of_load', ['UID_Chair' => $XMLChair['UID']]);
-
-  $dop_sql = "AND (`chair_id` IS NULL OR `valid` = '0')
+  $dop_sql = "AND (`nagruzka_type` IS NULL OR `nagruzka_type` = '')
               #AND xml_content_of_load.UID_Chair = '$XMLChair[UID]'
               #AND `base_uid` = '26589.281474976773927'
               ORDER BY `original_uid`
@@ -37,7 +32,7 @@ if ($c_roles['uoup'])
               #LIMIT 15
   ";
 
-  $Nagruzka = PrepareNagruzka(GetSQL(GetNagruzkaBaseQuery($dop_sql, 'discipline', false)));
+  $Nagruzka = PrepareNagruzka(GetSQL(GetNagruzkaBaseQuery($dop_sql, 'all', false)));
 
   
 }
