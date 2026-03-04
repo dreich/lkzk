@@ -2444,25 +2444,79 @@ function get_base_uid2($uid) {
 // В результате запроса получается join двух таблиц нагрузки
 // Данные от запроса должны пропускаться через функцию PrepareNagruzka() для подготовки к выдаче в зелёную таблицу нагрузки
 // с уникализацией по base_uid
-function GetNagruzkaBaseQuery($dop_sql, $nagruzka_type = null, $department_from_first_table = true)
+// $lite_query введён для uoup_nagruzka, где берётся вся нагрузка, что очень тяжело работает
+function GetNagruzkaBaseQuery($dop_sql, $nagruzka_type = null, $department_from_first_table = true, $lite_query = false)
 {
   // if ($chair_uid)
   // {
   //   $chair_sql = "xml_content_of_load.UID_Chair = '$chair_uid' AND";
   // }
 
-  if ($department_from_first_table)
-  {
-    $department_sql = ", nagruzka.department_name";
-  }
+  // if ($department_from_first_table)
+  // {
+  //   $department_sql = ", nagruzka.department_name";
+  // }
 
-  if ($nagruzka_type && $nagruzka_type != 'all')
+  if ($nagruzka_type)
   {
-    $nagruzka_type_sql = "AND `nagruzka_type` = '$nagruzka_type'";
+    if ($nagruzka_type == 'all')
+    {
+      $nagruzka_type_sql = "AND (`nagruzka_type` IS NOT NULL AND `nagruzka_type` <> '')";
+    }
+    elseif ($nagruzka_type == 'empty')
+    {
+      $nagruzka_type_sql = "AND (`nagruzka_type` IS NULL OR `nagruzka_type` = '')";
+    }
+    else
+    {
+      $nagruzka_type_sql = "AND `nagruzka_type` = '$nagruzka_type'";
+    }
+  }
+  else
+  {
+    EchoLog("GetNagruzkaBaseQuery() не используется без nagruzka_type");
+    return "";
   }
 
   // в противном случае возьмётся из джоина по второй таблице
   // (xml_faculty.Name as department_name,)
+
+  if (!$lite_query)
+  {
+    $sql_part1 = "
+      ,
+      nagruzka.status, 
+      nagruzka.comment_to_admin,
+      xml_content_of_load.YearOfEducation,
+      xml_content_of_load.LoadType,
+      xml_content_of_load_staff.Abbr, 
+      xml_group.Name as group_name,
+      xml_discipline.UID as discipline_UID,
+      xml_discipline.Name as discipline_name,
+      xml_faculty.Name as department_name,
+      xml_speciality.Name as napravlenie,
+      xml_speciality.Code as napravlenie_code,
+      xml_speciality.education_level,
+      xml_specialization.Name as napravlennost,
+      xml_language.Name as language,
+      xml_content_of_load_staff.UID_FormOfEducation,
+      xml_content_of_load.UID_Semester,
+      xml_content_of_load.StudentAmount,
+      xml_kind_of_work.Name as kind_of_work,
+      xml_content_of_load.UID_Course
+    ";
+
+    $sql_part2 = "
+      JOIN xml_content_of_load_staff ON xml_content_of_load.base_uid = xml_content_of_load_staff.base_uid
+      LEFT JOIN xml_group ON xml_group.`UID` = xml_content_of_load_staff.`UID_Group`
+      LEFT JOIN xml_discipline ON xml_discipline.UID = xml_content_of_load.UID_Discipline
+      LEFT JOIN xml_faculty ON xml_faculty.UID = xml_content_of_load_staff.`UID_FacultyOwner`
+      LEFT JOIN xml_speciality ON xml_speciality.UID = xml_content_of_load_staff.UID_Speciality
+      LEFT JOIN xml_specialization ON xml_specialization.UID = xml_content_of_load_staff.UID_Specialization
+      LEFT JOIN xml_language ON xml_language.UID = xml_content_of_load_staff.UID_Language
+      LEFT JOIN xml_kind_of_work ON xml_kind_of_work.UID = xml_content_of_load.UID_KindOfWork
+    ";
+  }
 
   $_nagruzka_base_query = 
   "
@@ -2471,47 +2525,20 @@ function GetNagruzkaBaseQuery($dop_sql, $nagruzka_type = null, $department_from_
   xml_content_of_load.base_uid,
   xml_content_of_load.base_uid2,
   xml_content_of_load.UID as xml_content_of_load_UID,
-  -- xml_content_of_load_staff.UID as xml_content_of_load_staff_UID,
-  xml_content_of_load.YearOfEducation,
-  xml_content_of_load.LoadType,
-  xml_content_of_load_staff.Abbr, 
-  xml_group.Name as group_name,
-  xml_discipline.UID as discipline_UID,
-  xml_discipline.Name as discipline_name,
-  xml_faculty.Name as department_name,
-  xml_speciality.Name as napravlenie,
-  xml_speciality.Code as napravlenie_code,
-  xml_speciality.education_level,
-  xml_specialization.Name as napravlennost,
-  xml_language.Name as language,
-  xml_content_of_load_staff.UID_FormOfEducation,
-  xml_content_of_load.UID_Semester,
-  xml_content_of_load.StudentAmount,
-  xml_kind_of_work.Name as kind_of_work,
-  xml_content_of_load.UID_Course,
   xml_content_of_load.Amount,
   xml_lecturer.FIO as lecturer_fio,
-  #nagruzka.lecturer_fio, 
-  #nagruzka.lecturer_uid,
-  #nagruzka.lecturer_person_id,
   xml_content_of_load.UID_Lecturer as lecturer_uid, 
   xml_lecturer.Tab_number as lecturer_person_id,
+  nagruzka.chair_id, nagruzka.chair_name, nagruzka.zavkaf_fio, nagruzka.department_name
+  $sql_part1
   
-  nagruzka.status, nagruzka.chair_id, nagruzka.chair_name, nagruzka.zavkaf_fio, nagruzka.comment_to_admin 
-  $department_sql
+  #$department_sql
 
   FROM xml_content_of_load
-  JOIN xml_content_of_load_staff ON 
-  xml_content_of_load.base_uid = xml_content_of_load_staff.base_uid
-  LEFT JOIN xml_group ON xml_group.`UID` = xml_content_of_load_staff.`UID_Group`
-  LEFT JOIN xml_discipline ON xml_discipline.UID = xml_content_of_load.UID_Discipline
-  LEFT JOIN xml_faculty ON xml_faculty.UID = xml_content_of_load_staff.`UID_FacultyOwner`
-  LEFT JOIN xml_speciality ON xml_speciality.UID = xml_content_of_load_staff.UID_Speciality
-  LEFT JOIN xml_specialization ON xml_specialization.UID = xml_content_of_load_staff.UID_Specialization
-  LEFT JOIN xml_language ON xml_language.UID = xml_content_of_load_staff.UID_Language
-  LEFT JOIN xml_kind_of_work ON xml_kind_of_work.UID = xml_content_of_load.UID_KindOfWork
   LEFT JOIN xml_lecturer ON xml_lecturer.UID = xml_content_of_load.UID_Lecturer
   LEFT JOIN `nagruzka` ON nagruzka.load_base_UID2 = xml_content_of_load.base_uid2
+  --
+  $sql_part2
   WHERE 
   1
   $nagruzka_type_sql
@@ -2526,7 +2553,7 @@ function GetNagruzkaBaseQuery($dop_sql, $nagruzka_type = null, $department_from_
     $dop_sql
   ";
 
-  EchoLog($_nagruzka_base_query);
+  // EchoLog($_nagruzka_base_query);
 
   return $_nagruzka_base_query;
 

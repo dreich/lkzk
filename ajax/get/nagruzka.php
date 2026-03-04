@@ -23,6 +23,8 @@ include '../../functions.php';
 
 $c_roles = ExplodePalki($_SESSION['c_roles'], true);
 $_nagruzka_type = quote_smart($_GET['type']);
+$_only_stat = $_GET['only_stat'];
+$_lite = $_GET['lite'];
 
 // УОУП просматривает нагрузку кафедры
 if ($_GET['chair_id'])
@@ -101,7 +103,8 @@ $dop_sql = "$chair_id_sql
 //     $dop_sql .= " AND nagruzka.lecturer_uid = '$lecturer_uid'";
 // }
 
-$nagruzka_query = GetNagruzkaBaseQuery($dop_sql, $_nagruzka_type, false);
+
+$nagruzka_query = GetNagruzkaBaseQuery($dop_sql, $_nagruzka_type ? $_nagruzka_type : 'all', false, $_lite ? true : false);
 
 // EchoLog($nagruzka_query);
 
@@ -266,7 +269,7 @@ if ($Nagruzka)
 }
 
 $Stat = [];
-
+$StatByChair = [];
 
 
 if ($NagruzkaByBaseUID1)
@@ -298,11 +301,17 @@ if ($NagruzkaByBaseUID1)
 
         if ($lector['delete']) continue;
 
+        if (!$lector['chair_id'])
+        {
+          EchoLog($lector['chair_id']);
+        }
+
         // Вакансия
         if ($lector['lecturer_fio'] && mb_strcasecmp($lector['lecturer_fio'], 'Вакансия') === 0)
         {
           $NagruzkaByBaseUID1[$base_uid]['assigned_to_vacancy'] = true;
           $Stat['assigned_to_vacancy']['sum'] += $lector['Amount'];
+          $StatByChair[$lector['chair_id']]['assigned_to_vacancy']['sum'] += $lector['Amount'];
 
           // $NagruzkaByBaseUID1[$base_uid]['assigned'] = true;
           // $Stat['assigned']['sum'] += $lector['Amount'];
@@ -314,6 +323,7 @@ if ($NagruzkaByBaseUID1)
         {
           $NagruzkaByBaseUID1[$base_uid]['assigned'] = true;
           $Stat['assigned']['sum'] += $lector['Amount'];
+          $StatByChair[$lector['chair_id']]['assigned']['sum'] += $lector['Amount'];
 
           $NagruzkaByBaseUID1[$base_uid]['not_assigned'] = false;
         }
@@ -321,6 +331,7 @@ if ($NagruzkaByBaseUID1)
         elseif (!$lector['lecturer_fio'])
         {
           $Stat['not_assigned']['sum'] += $lector['Amount'];
+          $StatByChair[$lector['chair_id']]['not_assigned']['sum'] += $lector['Amount'];
         }
       }
 
@@ -330,6 +341,12 @@ if ($NagruzkaByBaseUID1)
       // }
 
       $Stat['total']['sum'] += $NagruzkaByBaseUID1[$base_uid]['Amount'];
+      $StatByChair[$NagruzkaByBaseUID1[$base_uid]['chair_id']]['total']['sum'] += $NagruzkaByBaseUID1[$base_uid]['Amount'];
+
+      if (!$NagruzkaByBaseUID1[$base_uid]['chair_id'])
+      {
+        EchoLog($NagruzkaByBaseUID1[$base_uid]);
+      }
     }
     else
     {
@@ -344,17 +361,21 @@ if ($lecturer_uid)
   foreach ($NagruzkaByBaseUID1 as $base_uid => &$nagruzka) 
   {
       // Filter lectors to only include those with matching lecturer_uid
-      $filtered_lectors = array_filter($nagruzka['lectors'], function($lector) use ($lecturer_uid) {
+      $filtered_lectors = array_filter($nagruzka['lectors'], function($lector) use ($lecturer_uid) 
+      {
           return $lector['lecturer_uid'] === $lecturer_uid;
       });
       
       // If no matching lectors, remove this entry
-      if (empty($filtered_lectors)) {
+      if (empty($filtered_lectors)) 
+      {
           unset($NagruzkaByBaseUID1[$base_uid]);
       }
   }
+
   unset($nagruzka); // Break the reference
 }
+
 
 if ($global_nagruzka_filter)
 {
@@ -381,14 +402,82 @@ if ($global_nagruzka_filter)
   // }
 }
 
+// Для админа УОУП нужно данные сгруппировать по кафедрам
+
+$NagruzkaByChair = [];
+
+// просуммируем данные по кафедрам
+if ($NagruzkaByBaseUID1)
+{
+  foreach ($NagruzkaByBaseUID1 as $row)
+  {
+    if (!$NagruzkaByChair[$row['chair_id']])
+    {
+      $row['assigned_to_vacancy'] = $StatByChair[$row['chair_id']]['assigned_to_vacancy']['sum'];
+      $row['assigned'] = $StatByChair[$row['chair_id']]['assigned']['sum'];
+      $row['not_assigned'] = $StatByChair[$row['chair_id']]['not_assigned']['sum'];
+      $row['total'] = $StatByChair[$row['chair_id']]['total']['sum'];
+
+      // $row[''] = $StatByChair[$row['chair_id']]['assigned_to_vacancy']['sum'];
+
+      $NagruzkaByChair[$row['chair_id']] = $row;
+
+      
+      // $StatByChair[$row['chair_id']]['assigned']['sum']
+      // $StatByChair[$row['chair_id']]['not_assigned']['sum']
+      // $StatByChair[$row['chair_id']]['total']['sum']
+
+      // $NagruzkaByChair[$row['chair_id']]['amount_sum'] = $row['Amount'];
+      // $NagruzkaByChair[$row['chair_id']]['on_vacancy_num'] = $NagruzkaByChair[$row['chair_id']]['assigned_num'] = $NagruzkaByChair[$row['chair_id']]['not_assigned_num'] = 0;
+
+
+    }
+    else
+    {
+      $NagruzkaByChair[$row['chair_id']]['amount_sum'] += $row['Amount'];
+    }
+
+    // На вакансии
+    // if (mb_strcasecmp('Вакансия', $row['lecturer_fio']) == 0)
+    // {
+    //   $NagruzkaByChair[$row['chair_id']]['on_vacancy_num'] += $row['Amount'];
+    // }
+    // else
+    // {
+    //   // Выбран преподаватель
+    //   if ($row['lecturer_uid'])
+    //   {
+    //     $NagruzkaByChair[$row['chair_id']]['assigned_num'] += $row['Amount'];
+    //   }
+    //   // Ничего не выбрано
+    //   else
+    //   {
+    //     $NagruzkaByChair[$row['chair_id']]['not_assigned_num'] += $row['Amount'];
+    //   }
+    // }
+  }
+}
+
 // EchoLog($Stat);
 
+
+if ($c_roles['uoup'])
+{
+  $ReturnNagruzka = $NagruzkaByChair;
+}
+else
+{
+  $ReturnNagruzka = $NagruzkaByBaseUID1;
+}
+
+// для скорости, где достаточно только статистики
+if ($_only_stat) $ReturnNagruzka = [];
 
 header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
 header("Pragma: no-cache");
 header("Expires: 0");
 header('Content-Type: application/javascript; charset=UTF-8');
-echo json_encode(['nagruzka' => array_values($NagruzkaByBaseUID1), 'stat' => $Stat]);
+echo json_encode(['nagruzka' => array_values($ReturnNagruzka), 'stat' => $Stat ? $Stat : new stdClass]);
 
 
 ?>

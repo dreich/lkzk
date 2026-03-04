@@ -628,7 +628,8 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
       {
         uoup_nagruzka: function($http)
         {
-          return $http({url: 'ajax/get/uoup_nagruzka.php', method: 'GET'});
+        //   return $http({url: 'ajax/get/uoup_nagruzka.php', method: 'GET'});
+              return null;
         },
         nagruzka_uoup_stat: function($http)
         {
@@ -2243,7 +2244,7 @@ $scope.GetNagruzkaAmountSum = function() {
 
 })
 
-.controller ('UOUPNagruzkaCtrl', function($rootScope, $scope, $http, DTOptionsBuilder, DTColumnBuilder, DTColumnDefBuilder, ngDialog, $templateCache, $resource, uoup_nagruzka, nagruzka_uoup_stat, page)
+.controller ('UOUPNagruzkaCtrl', function($rootScope, $scope, $http, DTOptionsBuilder, DTColumnBuilder, DTColumnDefBuilder, ngDialog, $templateCache, $resource, uoup_nagruzka, nagruzka_uoup_stat, page) // 
 {
   CL('UOUPNagruzkaCtrl');
 
@@ -2259,10 +2260,13 @@ $scope.GetNagruzkaAmountSum = function() {
   $scope.dtInstance = {};
   $scope.filter_distinct = {};
   $scope.group_action = {};
-  $scope.uoup_nagruzka = uoup_nagruzka.data;
-  $scope.nagruzka_uoup_stat = nagruzka_uoup_stat.data;
+  $scope.uoup_nagruzka = uoup_nagruzka ? uoup_nagruzka.data : null;
+  $scope.nagruzka_uoup_stat = {}; //nagruzka_uoup_stat.data;
 
   $scope.isLoading = true;
+
+
+  // $scope.uoup_nagruzka = $resource('ajax/get/uoup_nagruzka.php').query();
 
   // LoadNagruzkaUOUPStat();
 
@@ -2319,7 +2323,8 @@ $scope.GetNagruzkaAmountSum = function() {
     .withOption('initComplete', function(settings, json) {
         // Скрываем индикатор когда загрузка завершена
         $scope.$apply(function() {
-            $scope.isLoading = false;
+          CL('initComplete');
+            // $scope.isLoading = false;
         });
       })
     ;
@@ -2327,6 +2332,15 @@ $scope.GetNagruzkaAmountSum = function() {
   $scope.dtColumnDefs = [
     // DTColumnDefBuilder.newColumnDef(7).notVisible().notSortable(),
   ];
+
+  $scope.onUOUPNagruzkaTableInstance = function(dtInstance) 
+  {
+    CL('onUOUPNagruzkaTableInstance');
+    $scope.isLoading = true;
+
+    $scope.dtInstance = dtInstance;
+    const table = dtInstance.DataTable;
+  }
 
   
   // УОУП открывает на просмотр нагрузку кафедры
@@ -2345,6 +2359,62 @@ $scope.GetNagruzkaAmountSum = function() {
   $scope.ShowNagruzkaUOUPTypeRow = function()
   {
     return true;
+  }
+
+  // $scope.nagruzka_stat = {};
+  // $scope.nagruzka = {};
+
+  $scope.UpdateUOUPNagruzkaStat = function(nagr_type)
+  {
+    CL('UpdateNagruzkaStat');
+    // CL(chair_id);
+
+    var url = `ajax/get/nagruzka.php?type=${nagr_type}&only_stat=1`;
+
+    // if (nagr_type == 'discipline')
+    {
+      $http({url: url, method: 'GET'})
+      .then(function (response) 
+      {
+        if (response.data)
+        {
+          // if (isEmpty($scope.nagruzka_stat[chair_id])) $scope.nagruzka_stat[chair_id] = {};
+          // if (isEmpty($scope.nagruzka[chair_id])) $scope.nagruzka[chair_id] = {};
+
+          // $scope.nagruzka = response.data.nagruzka;
+          $scope.nagruzka_uoup_stat[nagr_type] = response.data.stat;
+          $scope.isLoading = false;
+
+          // CL($scope.nagruzka_stat);
+          // CL(response.data.nagruzka);
+
+        }
+      })
+    }
+  }
+
+  // Нагрузка загружается либо до контроллера, либо здесь, в зависимости от страницы, где находимся
+  if (!$scope.uoup_nagruzka)
+  {
+    $scope.uoup_nagruzka = {};
+    
+    $http({url: "ajax/get/nagruzka.php?lite=1", method: 'GET'})
+        .then(function (response) 
+        {
+          if (response.data)
+          {
+            $scope.uoup_nagruzka = response.data.nagruzka;
+            // $scope.isLoading = false;
+          }
+        })
+
+    $scope.UpdateUOUPNagruzkaStat('discipline');
+    $scope.UpdateUOUPNagruzkaStat('ruk_vkr');
+    $scope.UpdateUOUPNagruzkaStat('ruk_kurs');
+    $scope.UpdateUOUPNagruzkaStat('ruk_practice');
+    $scope.UpdateUOUPNagruzkaStat('ksro');
+    $scope.UpdateUOUPNagruzkaStat('gia');
+    $scope.UpdateUOUPNagruzkaStat('aspirant');
   }
 
   
@@ -3020,6 +3090,8 @@ $scope.toggleAdminChangeChair = function(chair) {
     }
 
     $scope.filteredNagruzka = filtered;
+
+    CL($scope.filteredNagruzka);
   }
 
   function rerenderDataTable() {

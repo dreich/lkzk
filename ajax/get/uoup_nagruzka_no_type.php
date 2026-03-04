@@ -23,7 +23,7 @@ $c_roles = ExplodePalki($_SESSION['c_roles'], true);
 if ($c_roles['uoup'])
 {
 
-  $dop_sql = "AND (`nagruzka_type` IS NULL OR `nagruzka_type` = '')
+  $dop_sql = "#AND (`nagruzka_type` IS NULL OR `nagruzka_type` = '')
               #AND xml_content_of_load.UID_Chair = '$XMLChair[UID]'
               #AND `base_uid` = '26589.281474976773927'
               ORDER BY `original_uid`
@@ -32,7 +32,7 @@ if ($c_roles['uoup'])
               #LIMIT 15
   ";
 
-  $Nagruzka = PrepareNagruzka(GetSQL(GetNagruzkaBaseQuery($dop_sql, 'all', false)));
+  $Nagruzka = PrepareNagruzka(GetSQL(GetNagruzkaBaseQuery($dop_sql, 'empty', false)));
 
   
 }

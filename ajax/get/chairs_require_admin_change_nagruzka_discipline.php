@@ -49,6 +49,9 @@ if ($Nagruzka)
   {
     $History = GetSQL("SELECT * FROM `log` WHERE `action_name` = 'require_admin_change' AND `load_base_UID2` = '$nagruzka[base_uid2]' ORDER BY `id` DESC LIMIT 1");
 
+    EchoLog($nagruzka['base_uid2']);
+    EchoLog($History);
+
     $nagruzka['require_admin_change_message'] = $History[0]['message'];
     $nagruzka['require_admin_change_date'] = $History[0]['datetime']; //date('Y-m-d', strtotime($History[0]['datetime']));
 
