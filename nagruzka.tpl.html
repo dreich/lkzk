@@ -8,14 +8,17 @@
   <h4>
   {{$_nagruzka_types[_nagruzka_type]}}
   </h4>
-    
-  <div ng-if="nagruzka_stat.chair_name && !_lecturer_uid">
-    <h5>{{nagruzka_stat.chair_name}}</h5>
+    <!-- {{nagruzka_selected_chair_id}} -->
+  <div ng-if="nagruzka_stat[nagruzka_selected_chair_id][_nagruzka_type]['chair_name'] && !_lecturer_uid">
+    <h5 ng-if="!c_roles.uoup">{{nagruzka_stat[nagruzka_selected_chair_id][_nagruzka_type]['chair_name']}}</h5>
+    <h5 ng-if="c_roles.uoup"><a href="/#/nagruzka/all/{{nagruzka_selected_chair_id}}">{{nagruzka_stat[nagruzka_selected_chair_id][_nagruzka_type]['chair_name']}}</a></h5>
   </div>
 
   <div ng-repeat="chair_id in _chairs_ids" ng-if="!nagruzka_selected_chair_id || nagruzka_selected_chair_id && nagruzka_selected_chair_id == chair_id">
     <!-- {{chair_id}} -->
-    <h5>{{_chairs_titles[$index]}}</h5>
+    <h5 ng-if="!c_roles.uoup">{{_chairs_titles[$index]}}</h5>
+    <h5 ng-if="c_roles.uoup"><a href="/#/nagruzka/all/chair_id">{{_chairs_titles[$index]}}</a></h5>
+
     <table class="widefat mb-3" ng-if="!nagruzka_selected_chair_id || nagruzka_selected_chair_id && nagruzka_selected_chair_id == chair_id && !c_roles.sotrudnik">
 
       <thead>
@@ -113,8 +116,8 @@
 
   <!-- c_roles.zavkaf -->
 
-<!--
-  <table class="widefat mb-3" ng-if="true">
+
+  <table class="widefat mb-3" ng-if="false">
 
     <thead>
       <tr>
@@ -206,17 +209,17 @@
     </tbody>
     
   </table>
--->
+
 
 
   <!-- {{nagruzka_type}} -->
 
   <div ng-if="isLoading">
-    <img src="/images/hourglass.png" style='position:fixed; left: 47%; top: 47%;'>
+    <img src="/images/hourglass.png" style='position:fixed; left: 47%; top: 47%; z-index: 1000'>
   </div>
 
   <!-- {{filter_distinct.global_nagruzka_filter}} -->
-
+  <!-- && _nagruzka_type != 'all' -->
   <div ng-show="_nagruzka_type && _nagruzka_type != 'all' && !isLoading">
 
     <select class="form-select mb-2" style="width: 300px" ng-model="filter_distinct.global_nagruzka_filter" ng-change="onNagruzkaGlobalFilterChange()" ng-if="!_lecturer_uid">

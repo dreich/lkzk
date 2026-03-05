@@ -105,7 +105,7 @@ function UpdateSessionRolesStr()
 {
   global $_SESSION, $_roles;
 
-  session_name('zakupki');
+  session_name('lkzk');
   session_start();
 
   if ($_SESSION['c_roles'])
@@ -135,7 +135,7 @@ function Authorize($login, $password)
   // TODO CHANGE GREEN TABLE ID
   setcookie('SpryMedia_DataTables_t_', '', time()-999, '/');
 
-  session_name('zakupki');
+  session_name('lkzk');
   session_start();
 
   $login = strtolower($login);
@@ -2553,7 +2553,7 @@ function GetNagruzkaBaseQuery($dop_sql, $nagruzka_type = null, $department_from_
     $dop_sql
   ";
 
-  // EchoLog($_nagruzka_base_query);
+  EchoLog($_nagruzka_base_query);
 
   return $_nagruzka_base_query;
 

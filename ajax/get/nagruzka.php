@@ -23,13 +23,15 @@ include '../../functions.php';
 
 $c_roles = ExplodePalki($_SESSION['c_roles'], true);
 $_nagruzka_type = quote_smart($_GET['type']);
+// Флаг только у УОУП, чтобы не грузить очень много данных
 $_only_stat = $_GET['only_stat'];
+// Флаг только у УОУП, чтобы не грузить очень много данных
 $_lite = $_GET['lite'];
 
 // УОУП просматривает нагрузку кафедры
 if ($_GET['chair_id'])
 {
-
+  $_chair_id = quote_smart($_GET['chair_id']);
 }
 
 $lecturer_uid = isset($_GET['lecturer_uid']) ? quote_smart($_GET['lecturer_uid']) : '';
@@ -44,8 +46,8 @@ if ($c_roles['zavkaf'])
 
 if ($c_roles['uoup'] && $_GET['chair_id'])
 {
-  $chair_id = quote_smart($_GET['chair_id']);
-  $XMLChair = GetRow('xml_chair', ['Code' => $chair_id]);
+  // $chair_id = quote_smart($_GET['chair_id']);
+  $XMLChair = GetRow('xml_chair', ['Code' => $_chair_id]);
   $chair_id_sql = "AND xml_content_of_load.UID_Chair = '$XMLChair[UID]'";
 }
 
@@ -53,8 +55,8 @@ if ($c_roles['sotrudnik'])
 {
   // $chairs_ids_arr = ExplodePalki($_SESSION['c_sotrudnik_chairs_ids']);
   // $chair_id = $chairs_ids_arr[0];
-  $chair_id = quote_smart($_GET['chair_id']);
-  $XMLChair = GetRow('xml_chair', ['Code' => $chair_id]);
+  // $chair_id = quote_smart($_GET['chair_id']);
+  $XMLChair = GetRow('xml_chair', ['Code' => $_chair_id]);
   $chair_id_sql = "AND xml_content_of_load.UID_Chair = '$XMLChair[UID]'";
 
   if (!$lecturer_uid)
@@ -303,7 +305,7 @@ if ($NagruzkaByBaseUID1)
 
         if (!$lector['chair_id'])
         {
-          EchoLog($lector['chair_id']);
+          // EchoLog($lector['chair_id']);
         }
 
         // Вакансия
@@ -343,9 +345,15 @@ if ($NagruzkaByBaseUID1)
       $Stat['total']['sum'] += $NagruzkaByBaseUID1[$base_uid]['Amount'];
       $StatByChair[$NagruzkaByBaseUID1[$base_uid]['chair_id']]['total']['sum'] += $NagruzkaByBaseUID1[$base_uid]['Amount'];
 
+      if ($_chair_id)
+      {
+        $Stat['chair_name'] = $NagruzkaByBaseUID1[$base_uid]['chair_name'];
+      }
+      // $StatByChair[$NagruzkaByBaseUID1[$base_uid]['chair_id']]['chair_name'] = $NagruzkaByBaseUID1[$base_uid]['chair_name'];
+
       if (!$NagruzkaByBaseUID1[$base_uid]['chair_id'])
       {
-        EchoLog($NagruzkaByBaseUID1[$base_uid]);
+        // EchoLog($NagruzkaByBaseUID1[$base_uid]);
       }
     }
     else
@@ -460,11 +468,12 @@ if ($NagruzkaByBaseUID1)
 
 // EchoLog($Stat);
 
-
-if ($c_roles['uoup'])
+// #/uoup_nagruzka
+if ($c_roles['uoup'] && ($_only_stat || $_lite))
 {
   $ReturnNagruzka = $NagruzkaByChair;
 }
+// #/nagruzka
 else
 {
   $ReturnNagruzka = $NagruzkaByBaseUID1;

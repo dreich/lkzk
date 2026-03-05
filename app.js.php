@@ -851,7 +851,8 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
   }
 
   // Original filter clearing logic
-  if (filter_distinct) {
+  if (filter_distinct) 
+  {
     filter_distinct.global_nagruzka_filter = undefined;
   }
   
@@ -954,6 +955,10 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
   {
     $scope._chairs_ids = [c_chair_id];
   }
+  else if (c_roles.uoup)
+  {
+    $scope._chairs_ids = [nagruzka_selected_chair_id];
+  }
 
   // CL($scope.system_mode);
   // CL($scope.nagruzka);
@@ -1015,8 +1020,9 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
           $scope.nagruzka = response.data.nagruzka;
           $scope.nagruzka_stat[chair_id][nagr_type] = response.data.stat;
 
-          // CL($scope.nagruzka_stat);
-          // CL(response.data.nagruzka);
+          CL($scope.nagruzka_stat);
+          CL($scope.nagruzka);
+          $scope.isLoading = false;
 
           // Если ограничены одним преподом, то нужно взять его ФИО (из первой же нагрузки)
           if ($scope._lecturer_uid && !isEmpty(response.data.nagruzka))
@@ -1028,41 +1034,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
     }
   }
 
-  // для пути вида /#/nagruzka (без вида нагрузки) статистику подгрузим
-  // if (isEmpty($scope.nagruzka_stat))
-  {
-    angular.forEach($scope._chairs_ids, function(chair_id, ind)
-    {
-      var lecturer_uid;
-
-      // в URL`е выбран конкретный lecturer_uid, пропустим остальные
-      if (c_roles.sotrudnik && !isEmpty($scope._lecturer_uid) && $scope._lecturer_uid != c_sotrudnik_lecturer_uids[ind])
-      {
-        return;
-      }
-
-      if (c_roles.sotrudnik) lecturer_uid = c_sotrudnik_lecturer_uids[ind];
-      else if (c_roles.zavkaf && $scope._lecturer_uid) lecturer_uid = $scope._lecturer_uid;
-
-      if (!$scope._nagruzka_type || $scope._nagruzka_type == 'all')
-      {
-        $scope.UpdateNagruzkaStat('discipline', chair_id, lecturer_uid);
-        $scope.UpdateNagruzkaStat('ruk_vkr', chair_id, lecturer_uid);
-        $scope.UpdateNagruzkaStat('ruk_kurs', chair_id, lecturer_uid);
-        $scope.UpdateNagruzkaStat('ruk_practice', chair_id, lecturer_uid);
-        $scope.UpdateNagruzkaStat('ksro', chair_id, lecturer_uid);
-        $scope.UpdateNagruzkaStat('gia', chair_id, lecturer_uid);
-        $scope.UpdateNagruzkaStat('aspirant', chair_id, lecturer_uid);
-      }
-      else
-      {
-        $scope.UpdateNagruzkaStat($scope._nagruzka_type, chair_id, lecturer_uid);
-        
-      }
-    })
-    
-
-  }
+  
 
   // function LoadNagruzkaZavkafStat()
   // {
@@ -1240,6 +1212,59 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
       CL('onNagruzkaTableInstance');
       $scope.isLoading = true;
 
+
+      // для пути вида /#/nagruzka (без вида нагрузки) статистику подгрузим
+      // if (isEmpty($scope.nagruzka_stat))
+      if (!isEmpty($scope._chairs_ids))
+      {
+        angular.forEach($scope._chairs_ids, function(chair_id, ind)
+        {
+          // CL('HERE');
+
+          var lecturer_uid;
+
+          // в URL`е выбран конкретный lecturer_uid, пропустим остальные
+          if (c_roles.sotrudnik && !isEmpty($scope._lecturer_uid) && $scope._lecturer_uid != c_sotrudnik_lecturer_uids[ind])
+          {
+            return;
+          }
+
+          if (c_roles.sotrudnik) lecturer_uid = c_sotrudnik_lecturer_uids[ind];
+          else if (c_roles.zavkaf && $scope._lecturer_uid) lecturer_uid = $scope._lecturer_uid;
+
+          if (!$scope._nagruzka_type || $scope._nagruzka_type == 'all')
+          {
+            $scope.UpdateNagruzkaStat('discipline', chair_id, lecturer_uid);
+            $scope.UpdateNagruzkaStat('ruk_vkr', chair_id, lecturer_uid);
+            $scope.UpdateNagruzkaStat('ruk_kurs', chair_id, lecturer_uid);
+            $scope.UpdateNagruzkaStat('ruk_practice', chair_id, lecturer_uid);
+            $scope.UpdateNagruzkaStat('ksro', chair_id, lecturer_uid);
+            $scope.UpdateNagruzkaStat('gia', chair_id, lecturer_uid);
+            $scope.UpdateNagruzkaStat('aspirant', chair_id, lecturer_uid);
+          }
+          else
+          {
+            $scope.UpdateNagruzkaStat($scope._nagruzka_type, chair_id, lecturer_uid);
+            
+          }
+        })
+      }
+      // УОУП
+      else if (!isEmpty($scope.nagruzka_selected_chair_id))
+      {
+        $scope.UpdateNagruzkaStat($scope._nagruzka_type, $scope.nagruzka_selected_chair_id);
+        
+      }
+
+
+
+
+
+
+
+
+
+
       $scope.dtInstance = dtInstance;
       const table = dtInstance.DataTable;
       const lecturerColumnIndex = 15; // Index of the "Преподаватель" column
@@ -1355,24 +1380,98 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
   //   }
   // }
 
-$scope.GetNagruzkaAmountSum = function() {
-    // Check if DataTable is initialized
-    if (!$.fn.DataTable || !$.fn.DataTable.isDataTable('.dataTable')) {
-        return 0;
-    }
+  // $scope.GetNagruzkaAmountSum = function() {
+  //     // Check if DataTable is initialized
+  //     if (!$.fn.DataTable || !$.fn.DataTable.isDataTable('.dataTable')) {
+  //         return 0;
+  //     }
+      
+  //     const table = $('.dataTable').DataTable();
+  //     if (!table) return 0;
+      
+  //     const filteredData = table.rows({ filter: 'applied' }).data().toArray();
+  //     if (!filteredData.length) return 0;
+      
+  //     return roundToTwo(
+  //         filteredData.reduce((sum, row) => 
+  //             sum + (parseFloat(row[14]) || 0), 
+  //         0)
+  //     );
+  // };
+
+  $scope.GetNagruzkaAmountSum = function() 
+  {
+    CL($scope.filter_distinct.global_nagruzka_filter);
     
-    const table = $('.dataTable').DataTable();
-    if (!table) return 0;
-    
-    const filteredData = table.rows({ filter: 'applied' }).data().toArray();
-    if (!filteredData.length) return 0;
-    
-    return roundToTwo(
-        filteredData.reduce((sum, row) => 
-            sum + (parseFloat(row[14]) || 0), 
-        0)
-    );
+      if (!$.fn.DataTable || !$.fn.DataTable.isDataTable('.dataTable')) {
+          return 0;
+      }
+      
+      const table = $('.dataTable').DataTable();
+      if (!table) return 0;
+
+      // Use existing approach to get filtered nagruzka objects
+      const filtered_rows_indexes = $scope.GetFilteredNagruzkaRowsIndexes();
+      const visibleNagruzka = filtered_rows_indexes.map(function(i) {
+          return $scope.nagruzka[i];
+      });
+
+      // Log the filtered nagruzka objects
+      console.log('Filtered nagruzka objects:', visibleNagruzka);
+      
+      let totalSum = 0;
+      
+      // If lecturer_uid filter is applied, sum amounts for that lecturer only
+      if ($scope.lecturer_uid) {
+          console.log('Calculating sum for lecturer_uid:', $scope.lecturer_uid);
+          
+          visibleNagruzka.forEach(item => {
+              if (item.lectors && item.lectors.length > 0) {
+                  item.lectors.forEach(lector => {
+                      if (lector.lecturer_uid === $scope.lecturer_uid) {
+                          totalSum += parseFloat(lector.Amount) || 0;
+                      }
+                  });
+              }
+          });
+      } else if ($scope.filter_distinct.global_nagruzka_filter) {
+          console.log('Calculating sum for global_nagruzka_filter:', $scope.filter_distinct.global_nagruzka_filter);
+          
+          visibleNagruzka.forEach(item => {
+              if (item.lectors && item.lectors.length > 0) {
+                  item.lectors.forEach(lector => {
+                      let matches = false;
+                      if ($scope.filter_distinct.global_nagruzka_filter === 'assigned') {
+                          matches = !isEmpty(lector.lecturer_fio) && lector.lecturer_fio.toLowerCase() !== 'вакансия';
+                      } else if ($scope.filter_distinct.global_nagruzka_filter === 'not_assigned') {
+                          matches = isEmpty(lector.lecturer_fio);
+                      } else if ($scope.filter_distinct.global_nagruzka_filter === 'assigned_to_vacancy') {
+                          matches = !isEmpty(lector.lecturer_fio) && lector.lecturer_fio.toLowerCase() === 'вакансия';
+                      }
+                      if (matches) {
+                          totalSum += parseFloat(lector.Amount) || 0;
+                      }
+                  });
+              }
+          });
+      } else {
+          // No lecturer filter or global filter, sum all amounts
+          console.log('Calculating sum for all lecturers');
+          visibleNagruzka.forEach(item => {
+              if (item.lectors && item.lectors.length > 0) {
+                  item.lectors.forEach(lector => {
+                      totalSum += parseFloat(lector.Amount) || 0;
+                  });
+              }
+          });
+      }
+      
+      console.log('Calculated sum:', totalSum);
+      
+      return roundToTwo(totalSum);
 };
+  
+
   
   $scope.GetNagruzkaTypesRowLink = function(nagruzka_type, chair_id, lecturer_uid)
   {
@@ -2244,7 +2343,7 @@ $scope.GetNagruzkaAmountSum = function() {
 
 })
 
-.controller ('UOUPNagruzkaCtrl', function($rootScope, $scope, $http, DTOptionsBuilder, DTColumnBuilder, DTColumnDefBuilder, ngDialog, $templateCache, $resource, uoup_nagruzka, nagruzka_uoup_stat, page) // 
+.controller ('UOUPNagruzkaCtrl', function($rootScope, $scope, $http, DTOptionsBuilder, DTColumnBuilder, DTColumnDefBuilder, ngDialog, $templateCache, $resource, uoup_nagruzka, nagruzka_uoup_stat, page, $cookies) // 
 {
   CL('UOUPNagruzkaCtrl');
 
@@ -2265,6 +2364,9 @@ $scope.GetNagruzkaAmountSum = function() {
 
   $scope.isLoading = true;
 
+  // нужно очистить глобальный фильтр, иначе он может притащиться из /#/nagruzka, и здесь невидимо всё портить
+  // а он не используется по этому адресу
+  $cookies.put('global_nagruzka_filter', "");
 
   // $scope.uoup_nagruzka = $resource('ajax/get/uoup_nagruzka.php').query();
 
@@ -2383,6 +2485,8 @@ $scope.GetNagruzkaAmountSum = function() {
 
           // $scope.nagruzka = response.data.nagruzka;
           $scope.nagruzka_uoup_stat[nagr_type] = response.data.stat;
+
+          if (nagr_type != 'all')
           $scope.isLoading = false;
 
           // CL($scope.nagruzka_stat);
