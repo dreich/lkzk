@@ -66,6 +66,11 @@ if ($c_roles['sotrudnik'])
   }
 }
 
+// if ($XMLChair)
+// {
+//   $_chair_name = $XMLChair['Name'];
+// }
+
 $global_nagruzka_filter = $_COOKIE['global_nagruzka_filter'];
 
 
@@ -294,7 +299,7 @@ if ($NagruzkaByBaseUID1)
 
       $NagruzkaByBaseUID1[$base_uid]['assigned'] = false;
       $NagruzkaByBaseUID1[$base_uid]['assigned_to_vacancy'] = false;
-      $NagruzkaByBaseUID1[$base_uid]['not_assigned'] = true;
+      $NagruzkaByBaseUID1[$base_uid]['not_assigned'] = false;
 
       foreach ($NagruzkaByBaseUID1[$base_uid]['lectors'] as &$lector)
       {
@@ -318,7 +323,7 @@ if ($NagruzkaByBaseUID1)
           // $NagruzkaByBaseUID1[$base_uid]['assigned'] = true;
           // $Stat['assigned']['sum'] += $lector['Amount'];
 
-          $NagruzkaByBaseUID1[$base_uid]['not_assigned'] = false;
+          // $NagruzkaByBaseUID1[$base_uid]['not_assigned'] = false;
         }
         // Не вакансия, а лектор
         elseif ($lector['lecturer_fio'] && mb_strcasecmp($lector['lecturer_fio'], 'Вакансия') != 0)
@@ -327,13 +332,15 @@ if ($NagruzkaByBaseUID1)
           $Stat['assigned']['sum'] += $lector['Amount'];
           $StatByChair[$lector['chair_id']]['assigned']['sum'] += $lector['Amount'];
 
-          $NagruzkaByBaseUID1[$base_uid]['not_assigned'] = false;
+          // $NagruzkaByBaseUID1[$base_uid]['not_assigned'] = false;
         }
         // пустой лектор - не распределено
         elseif (!$lector['lecturer_fio'])
         {
           $Stat['not_assigned']['sum'] += $lector['Amount'];
           $StatByChair[$lector['chair_id']]['not_assigned']['sum'] += $lector['Amount'];
+
+          $NagruzkaByBaseUID1[$base_uid]['not_assigned'] = true;
         }
       }
 
@@ -345,10 +352,10 @@ if ($NagruzkaByBaseUID1)
       $Stat['total']['sum'] += $NagruzkaByBaseUID1[$base_uid]['Amount'];
       $StatByChair[$NagruzkaByBaseUID1[$base_uid]['chair_id']]['total']['sum'] += $NagruzkaByBaseUID1[$base_uid]['Amount'];
 
-      if ($_chair_id)
-      {
-        $Stat['chair_name'] = $NagruzkaByBaseUID1[$base_uid]['chair_name'];
-      }
+      // if ($_chair_id)
+      // {
+      //   $_chair_name = $Stat['chair_name'] = $NagruzkaByBaseUID1[$base_uid]['chair_name'];
+      // }
       // $StatByChair[$NagruzkaByBaseUID1[$base_uid]['chair_id']]['chair_name'] = $NagruzkaByBaseUID1[$base_uid]['chair_name'];
 
       if (!$NagruzkaByBaseUID1[$base_uid]['chair_id'])
@@ -486,7 +493,10 @@ header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
 header("Pragma: no-cache");
 header("Expires: 0");
 header('Content-Type: application/javascript; charset=UTF-8');
-echo json_encode(['nagruzka' => array_values($ReturnNagruzka), 'stat' => $Stat ? $Stat : new stdClass]);
+
+$ret_arr = ['nagruzka' => array_values($ReturnNagruzka), 'stat' => $Stat ? $Stat : new stdClass];
+
+echo json_encode($ret_arr);
 
 
 ?>

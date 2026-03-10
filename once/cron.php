@@ -38,6 +38,11 @@ function hash_column_values_only($data, $columns)
   return md5(implode('|', $values));
 }
 
+function IsEducationLevelVO($education_level)
+{
+  return in_array($education_level, ['бакалавриат', 'специалитет', 'магистратура', 'аспирантура']);
+}
+
 // $hash = hash_column_values_only($data, $xml_content_of_load_staff_columns_for_hash);
 
 // нагрузка до обновления
@@ -139,9 +144,14 @@ $Person = GetTable('person', '', '', 'id', 'id, alias');
 
 // print_r($Podrazdelenia);
 
+// т.к. сначала загружаем 2ю таблицу и пропускаем в ней строки не ВО, а признак не ВО определяется именно по 2й,
+// то нужно сохранить пропущенные base_uid, чтобы не грузить их и в 1ю таблицу
+$ContentOfLoadStaffBaseUID1sNotVo = [];
+
+
 function LoadXML($filename, $table_name)
 {
-  global $mysqli, $Napravlenia, $xml_content_of_load_columns_for_hash, $xml_content_of_load_staff_columns_for_hash, $XMLKindOfWorkGIA, $XMLKindOfWorkVKR, $XMLKindOfWorkKurs, $_XMLContentOfLoadStaffByBaseUID1;
+  global $mysqli, $Napravlenia, $xml_content_of_load_columns_for_hash, $xml_content_of_load_staff_columns_for_hash, $XMLKindOfWorkGIA, $XMLKindOfWorkVKR, $XMLKindOfWorkKurs, $_XMLContentOfLoadStaffByBaseUID1, $XMLSpeciality, $ContentOfLoadStaffBaseUID1sNotVo;
 
   EchoLog("LoadXML: $table_name", 'file screen');
 
@@ -182,9 +192,34 @@ function LoadXML($filename, $table_name)
       $sql_arr[] = "`education_level` = '{$Napravlenia[$arr['Code']]['education_level']}'";
     }
 
-    if ($table_name == 'xml_content_of_load')
+    if ($table_name === 'xml_content_of_load')
     {
       $base_uid = get_base_uid1($arr['UID']);
+      // EchoLog($_XMLContentOfLoadStaffByBaseUID1[$base_uid]['UID_Speciality']);
+      // EchoLog($XMLSpeciality[$_XMLContentOfLoadStaffByBaseUID1[$base_uid]['UID_Speciality']]['education_level']);
+
+      if ($arr['UID'] === '26589.281474976765788')
+      {
+        EchoLog($arr);
+        EchoLog($_XMLContentOfLoadStaffByBaseUID1[$base_uid]);
+        EchoLog($XMLSpeciality[$_XMLContentOfLoadStaffByBaseUID1[$base_uid]['UID_Speciality']]);
+        EchoLog(IsEducationLevelVO($XMLSpeciality[$_XMLContentOfLoadStaffByBaseUID1[$base_uid]['UID_Speciality']]['education_level']));
+      }
+
+      // Проверим уровень образования, будем загружать только ВО
+      // пропускаем, пропустим остальное
+      if ($_XMLContentOfLoadStaffByBaseUID1[$base_uid] && $XMLSpeciality[$_XMLContentOfLoadStaffByBaseUID1[$base_uid]['UID_Speciality']]['education_level'] && 
+          !IsEducationLevelVO($XMLSpeciality[$_XMLContentOfLoadStaffByBaseUID1[$base_uid]['UID_Speciality']]['education_level']) || $ContentOfLoadStaffBaseUID1sNotVo[$base_uid])
+      {
+        if ($arr['UID'] === '26589.281474976765788')
+        {
+          EchoLog("$arr[UID] $base_uid - {$XMLSpeciality[$_XMLContentOfLoadStaffByBaseUID1[$base_uid]['UID_Speciality']]['education_level']} НЕ ЗАГРУЖАЕМ");
+        }
+        continue;
+      }
+
+
+      
       $sql_arr[] = "`base_uid` = '$base_uid'";
 
       $base_uid2 = get_base_uid2($arr['UID']);
@@ -222,6 +257,22 @@ function LoadXML($filename, $table_name)
     if ($table_name == 'xml_content_of_load_staff')
     {
       $base_uid = get_base_uid1($arr['UID_ContentOfLoad']);
+
+      // Проверим уровень образования, будем загружать только ВО
+      // пропускаем, пропустим остальное
+      if ($XMLSpeciality[$arr['UID_Speciality']] && !IsEducationLevelVO($XMLSpeciality[$arr['UID_Speciality']]['education_level']))
+      {
+        if ($base_uid === '26589.281474976765788')
+        {
+          EchoLog("$arr[UID] $base_uid - {$XMLSpeciality[$_XMLContentOfLoadStaffByBaseUID1[$base_uid]['UID_Speciality']]['education_level']} НЕ ЗАГРУЖАЕМ");
+        }
+
+        $ContentOfLoadStaffBaseUID1sNotVo[$base_uid] = $base_uid;
+
+        continue;
+      }
+
+      
       $sql_arr[] = "`base_uid` = '$base_uid'";
 
       $base_uid2 = get_base_uid2($arr['UID_ContentOfLoad']);
@@ -281,8 +332,9 @@ if ($UPDATE_TABLES)
   LoadXML('Stream.xml', 'xml_stream');
   LoadXML('Faculty.xml', 'xml_faculty');
   LoadXML('Language.xml', 'xml_language');
-  LoadXML('Specialization.xml', 'xml_specialization');
+  // TMP comment, чтобы локально не загружалось, т.к. нет опоп2
   LoadXML('Speciality.xml', 'xml_speciality');
+  LoadXML('Specialization.xml', 'xml_specialization');
   LoadXML('SubGroup.xml', 'xml_subgroup');
   LoadXML('Chair.xml', 'xml_chair');
   LoadXML('KindOfWork.xml', 'xml_kind_of_work');
@@ -293,6 +345,8 @@ if ($UPDATE_TABLES)
   $XMLKindOfWorkVKR = GetTable('xml_kind_of_work', "`Name` LIKE('Руководство ВКР%')", "", "UID");
   // Руководство курсовыми работами
   $XMLKindOfWorkKurs = GetTable('xml_kind_of_work', "`Name` LIKE('%курсовой работ%')", "", "UID");
+  // Специальности (нужны для загрузки только нагрузки Высшего образования: xml_content_of_load_staff.UID_speciality ~ xml_speciality)
+  $XMLSpeciality = GetTable('xml_speciality', "", "", "UID");
 
   // + Руководство практикой...
 
@@ -304,7 +358,8 @@ if ($UPDATE_TABLES)
   LoadXML('ContentOfLoadStaff.xml', 'xml_content_of_load_staff');
 
   // Чтобы определеить, является ли нагрузка xml_content_of_load типом Руководство практикой (определяется по аббревиатуре в xml_content_of_load_staff), получим по одной любой строке из xml_content_of_load_staff
-  $_XMLContentOfLoadStaffByBaseUID1 = GetTable('xml_content_of_load_staff', "", "", 'base_uid', "base_uid, Abbr");
+  // Также это используется для получения уровня образования (указаны в xml_content_of_load_staff.UID_Speciality ~ xml_speciality), чтобы не загружать лишние
+  $_XMLContentOfLoadStaffByBaseUID1 = GetTable('xml_content_of_load_staff', "", "", 'base_uid', "base_uid, Abbr, UID_Speciality");
 
   LoadXML('ContentOfLoad.xml', 'xml_content_of_load');
 }

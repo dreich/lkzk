@@ -8,10 +8,11 @@
   <h4>
   {{$_nagruzka_types[_nagruzka_type]}}
   </h4>
-    <!-- {{nagruzka_selected_chair_id}} -->
-  <div ng-if="nagruzka_stat[nagruzka_selected_chair_id][_nagruzka_type]['chair_name'] && !_lecturer_uid">
-    <h5 ng-if="!c_roles.uoup">{{nagruzka_stat[nagruzka_selected_chair_id][_nagruzka_type]['chair_name']}}</h5>
-    <h5 ng-if="c_roles.uoup"><a href="/#/nagruzka/all/{{nagruzka_selected_chair_id}}">{{nagruzka_stat[nagruzka_selected_chair_id][_nagruzka_type]['chair_name']}}</a></h5>
+<!--     {{nagruzka_selected_chair_id}}
+    {{chairs_sprav[nagruzka_selected_chair_id]['Name']}} -->
+  <div ng-if="nagruzka_selected_chair_id && !_lecturer_uid">
+    <h5 ng-if="!c_roles.uoup || c_roles.uoup && _nagruzka_type == 'all'">{{chairs_sprav[nagruzka_selected_chair_id]['Name']}}</h5>
+    <h5 ng-if="c_roles.uoup && _nagruzka_type != 'all'"><a href="/#/nagruzka/all/{{nagruzka_selected_chair_id}}">{{chairs_sprav[nagruzka_selected_chair_id]['Name']}}</a></h5>
   </div>
 
   <div ng-repeat="chair_id in _chairs_ids" ng-if="!nagruzka_selected_chair_id || nagruzka_selected_chair_id && nagruzka_selected_chair_id == chair_id">
@@ -263,9 +264,12 @@
           <td ng-click="IsNagruzkaEditable(row) && SelectNagruzkaTDClick(row); $event.stopPropagation()" ng-show="!nagruzka_readonly">  
             <input type="checkbox" ng-model="row.selected" ng-click="$event.stopPropagation()" ng-show="IsNagruzkaEditable(row)">
             <!-- {{row.base_uid}}<br> -->
-            {{row.LoadType}}
+            <!-- {{row.LoadType}} -->
           </td>
-          <td ng-click="NagruzkaRowClick(row)">{{row.department_name}}</td>
+          <td ng-click="NagruzkaRowClick(row)">
+            <!-- {{row.base_uid}}<br> -->
+            {{row.department_name}}
+          </td>
           <td ng-bind-html="row.Abbr" ng-click="NagruzkaRowClick(row)">
           </td>
           <td ng-bind-html="row.discipline_name" ng-click="NagruzkaRowClick(row)">

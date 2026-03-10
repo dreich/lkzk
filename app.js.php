@@ -377,6 +377,10 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
       controller: 'NagruzkaCtrl',
       resolve:
       {
+        chairs_sprav : function($http)
+        {
+          return $http({url: 'ajax/get/get_chairs.php', method: 'GET'});
+        },
         nagruzka_type: function($route)
         {
           return null;
@@ -446,6 +450,10 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
       controller: 'NagruzkaCtrl',
       resolve:
       {
+        chairs_sprav : function($http)
+        {
+          return $http({url: 'ajax/get/get_chairs.php', method: 'GET'});
+        },
         nagruzka_type: function($route)
         {
           return $route.current.params.type
@@ -508,6 +516,10 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
       controller: 'NagruzkaCtrl',
       resolve:
       {
+        chairs_sprav: function($http)
+        {
+          return $http({url: 'ajax/get/get_chairs.php', method: 'GET'});
+        },
         nagruzka_type: function($route)
         {
           return $route.current.params.type
@@ -565,6 +577,10 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
       controller: 'NagruzkaCtrl',
       resolve:
       {
+        chairs_sprav: function($http)
+        {
+          return $http({url: 'ajax/get/get_chairs.php', method: 'GET'});
+        },
         nagruzka_type: function($route)
         {
           return $route.current.params.type
@@ -914,12 +930,13 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
 })
 
 
-.controller ('NagruzkaCtrl', function($rootScope, $scope, $http, DTOptionsBuilder, DTColumnBuilder, DTColumnDefBuilder, ngDialog, $templateCache, nagruzka_type, nagruzka_selected_chair_id, $resource, $cookies, system_mode, nagruzka_stat, nagruzka, lecturer_uid)
+.controller ('NagruzkaCtrl', function($rootScope, $scope, $http, DTOptionsBuilder, DTColumnBuilder, DTColumnDefBuilder, ngDialog, $templateCache, nagruzka_type, nagruzka_selected_chair_id, $resource, $cookies, system_mode, nagruzka_stat, nagruzka, lecturer_uid, chairs_sprav)
 {
   CL('NagruzkaCtrl');
   // CL(nagruzka_type);
   // CL(nagruzka_selected_chair_id);
   
+  $scope.chairs_sprav = chairs_sprav.data;
   $scope.nagruzka_selected_chair_id = nagruzka_selected_chair_id;
   $scope._lecturer_uid = lecturer_uid; // Store the lecturer_uid from the route
   CL(lecturer_uid);
@@ -1458,12 +1475,16 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
           // No lecturer filter or global filter, sum all amounts
           console.log('Calculating sum for all lecturers');
           visibleNagruzka.forEach(item => {
+              // totalSum += parseFloat(item.Amount) || 0;
+
               if (item.lectors && item.lectors.length > 0) {
                   item.lectors.forEach(lector => {
                       totalSum += parseFloat(lector.Amount) || 0;
                   });
               }
           });
+
+          
       }
       
       console.log('Calculated sum:', totalSum);

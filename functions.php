@@ -2493,7 +2493,7 @@ function GetNagruzkaBaseQuery($dop_sql, $nagruzka_type = null, $department_from_
       xml_group.Name as group_name,
       xml_discipline.UID as discipline_UID,
       xml_discipline.Name as discipline_name,
-      xml_faculty.Name as department_name,
+      #xml_faculty.Name as department_name,
       xml_speciality.Name as napravlenie,
       xml_speciality.Code as napravlenie_code,
       xml_speciality.education_level,
@@ -2507,10 +2507,11 @@ function GetNagruzkaBaseQuery($dop_sql, $nagruzka_type = null, $department_from_
     ";
 
     $sql_part2 = "
-      JOIN xml_content_of_load_staff ON xml_content_of_load.base_uid = xml_content_of_load_staff.base_uid
+      LEFT JOIN xml_content_of_load_staff ON xml_content_of_load.base_uid = xml_content_of_load_staff.base_uid
       LEFT JOIN xml_group ON xml_group.`UID` = xml_content_of_load_staff.`UID_Group`
       LEFT JOIN xml_discipline ON xml_discipline.UID = xml_content_of_load.UID_Discipline
-      LEFT JOIN xml_faculty ON xml_faculty.UID = xml_content_of_load_staff.`UID_FacultyOwner`
+      LEFT JOIN xml_chair ON xml_chair.UID = xml_content_of_load.`UID_Chair`
+      LEFT JOIN xml_faculty ON xml_faculty.UID = xml_chair.`UID_Faculty`
       LEFT JOIN xml_speciality ON xml_speciality.UID = xml_content_of_load_staff.UID_Speciality
       LEFT JOIN xml_specialization ON xml_specialization.UID = xml_content_of_load_staff.UID_Specialization
       LEFT JOIN xml_language ON xml_language.UID = xml_content_of_load_staff.UID_Language
@@ -2548,7 +2549,7 @@ function GetNagruzkaBaseQuery($dop_sql, $nagruzka_type = null, $department_from_
     -- AND xml_content_of_load.`base_uid` = '26589.281474976773929'
     -- AND xml_content_of_load.`base_uid` = '26589.281474976787074'
     -- AND xml_content_of_load.`base_uid` = '26589.281474976763950'
-    -- AND xml_content_of_load.`base_uid` = '26589.281474976764373'
+    -- AND xml_content_of_load.`base_uid` = '26589.281474976763950'
     -- AND LoadType = '0'
     $dop_sql
   ";

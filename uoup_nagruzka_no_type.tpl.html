@@ -28,7 +28,10 @@
      <!-- ng-click="ShowPopup(person)" -->
       <!-- | orderBy:['-selected', 'type', 'fio'] -->
     <tr ng-repeat="row in uoup_nagruzka">
-      <td>{{row.department_name}}</td>
+      <td>
+        <!-- {{row.base_uid}}<br> -->
+        {{row.department_name}}
+      </td>
       <td>{{row.chair_name}}</td>
       <td ng-bind-html="row.Abbr">
       </td>
