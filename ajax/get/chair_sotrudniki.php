@@ -340,6 +340,11 @@ foreach ($employees as &$sotrudnik)
   {
     $sotrudnik['selected'] = true;
   }
+
+  if ($sotrudnik['type'] == 'gph')
+  {
+    $sotrudnik['stavka'] = '-';
+  }
   
   $sotrudnik['selected'] = (boolean) $sotrudnik['selected'];
 }

@@ -1,0 +1,108 @@
+<table id="DataTables_Table_ksro" datatable="ng" dt-options="dtOptions"  dt-column-defs="dtColumnDefs" dt-instance="onKSROTableInstance" class="dataTable row-border hover display table "  style='margin: 0 0 ;width:100%; ' >
+  <thead>
+
+    <tr>
+      <th>ФИО преподавателя</th>
+      <th>Должность</th>
+      <th>Доля ставки</th>
+      <th>Язык программы</th>
+      <th>ИК осень</th>
+      <th>ИК весна</th>
+      <th>КСРО осень</th>
+      <th>КСРО весна</th>
+      </tr>
+  </thead>
+
+  <tbody>
+    <tr ng-repeat="row in ksro" class="pointer">
+      <td>{{row.lecturer_fio}}</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+
+
+<button class="btn btn-primary btn-sm" ng-click="data.show_add_ksro = true" ng-if="!data.show_add_ksro">Добавить</button>
+
+<div ng-if="data.show_add_ksro">
+  
+  <h4 ng-if="data.edit_ksro_id">Редактирование записи</h4>
+  <h4 ng-if="!data.edit_ksro_id">Добавление новой записи</h4>
+  
+  <div class="row mb-3">
+    <div class="col-md-6">
+      <label class="form-label">ФИО:</label>
+      <div>
+        <!-- {{row.xml_content_of_load_UID}}_{{row.xml_content_of_load_staff_UID}} -->
+        <angucomplete-alt id="lecturer_autocomplete" input-name=""
+            placeholder="Введите ФИО"
+            pause="400"
+            initial-value=""
+            focus-out="focusOutLecturer()"
+            selected-object="KSROSelectedLecturer"
+            selected-object-data=""
+            input-changed="inputChangedLecturerKSRO"
+            remote-url="ajax/get/selected_chair_sotrudniki.php?callback=JSON_CALLBACK&s="
+            title-field="fio"
+            match-class="highlight"
+            text-searching="Поиск..." 
+            minlength="3"
+            text-no-results="Не найдено"
+            input-class="form-control autocomplete" style='width:50%' />
+      </div>
+    </div>
+    <div class="col-md-3">
+      <label class="form-label">Должность:</label>
+      <input type="text" class="form-control" ng-model="edit_lecturer.lecturer_dolzhnost" readonly>
+    </div>
+    <div class="col-md-3">
+      <label class="form-label">Доля ставки:</label>
+      <input type="text" class="form-control" ng-model="edit_lecturer.lecturer_stavka" readonly>
+    </div>
+  </div>
+
+  <div class="row mb-3">
+    <div class="col-md-6">
+      <label class="form-label">Язык:</label>
+      <select class="form-select" ng-model="new_ksro.language_uid">
+        <option value="">Выберите язык</option>
+        <option value="25031.281474976715638">Русский</option>
+        <option value="25031.281474976715639">Английский</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="row mb-3">
+    <div class="col-md-6">
+      <label class="form-label">Индивидуальные консультации (осень):</label>
+      <input type="number" class="form-control" ng-model="new_ksro.ik_osen" step="0.1" min="0">
+    </div>
+    <div class="col-md-6">
+      <label class="form-label">Индивидуальные консультации (весна):</label>
+      <input type="number" class="form-control" ng-model="new_ksro.ik_vesna" step="0.1" min="0">
+    </div>
+  </div>
+
+  <div class="row mb-3">
+    <div class="col-md-6">
+      <label class="form-label">КСРО (осень):</label>
+      <input type="number" class="form-control" ng-model="new_ksro.ksro_osen" step="0.1" min="0">
+    </div>
+    <div class="col-md-6">
+      <label class="form-label">КСРО (весна):</label>
+      <input type="number" class="form-control" ng-model="new_ksro.ksro_vesna" step="0.1" min="0">
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <button class="btn btn-success btn-sm" ng-click="saveKSRO()">Сохранить</button>
+    <button class="btn btn-danger btn-sm" ng-click="deleteKSRO()" ng-if="edit_ksro_id">Удалить</button>
+    <button class="btn btn-secondary btn-sm" ng-click="cancelKSRO()">Отмена</button>
+  </div>
+</div>

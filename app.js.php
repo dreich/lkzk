@@ -20,8 +20,6 @@ foreach($_c_roles as $role)
 'use strict';
 
 
-
-
 var MONTHS = 
 [
   'Январь',
@@ -264,10 +262,32 @@ function createCustomFilters(table_id, table, columns, scope)
   // If scope is not provided, use a dummy object to prevent errors
   const $scope = scope || { $apply: (fn) => fn() };
   
-  table.columns(':visible').every(function(columnIndex) {
+  // Проверяем, существует ли footer
+  const footerExists = $('#' + table_id + ' tfoot').length > 0;
+  CL('Footer exists:', footerExists);
+  
+  if (!footerExists) {
+    CL('ERROR: Table footer not found!');
+    return;
+  }
+  
+  table.columns(':visible').every(function(columnIndex) 
+  {
+    // CL(columnIndex);
     const column = this;
     const footerCell = $('#' + table_id + ' tfoot th[ind="' + columnIndex + '"]');
     const colSettings = columns[columnIndex];
+    
+    // Отладочная информация
+    // console.log('Column index:', columnIndex, 'Type:', typeof columnIndex, 'Footer cell found:', footerCell.length > 0, 'Column settings:', colSettings);
+    // CL(columnIndex);
+    // console.log('Visible columns count:', table.columns(':visible').count());
+    // console.log('Total columns count:', table.columns().count());
+    
+    if (footerCell.length === 0) {
+      console.log('ERROR: Footer cell not found for column index:', columnIndex);
+      return;
+    }
 
     // Получаем сохраненное значение фильтра для колонки
     let savedSearch = '';
@@ -275,9 +295,13 @@ function createCustomFilters(table_id, table, columns, scope)
     if (state && state.columns && state.columns[columnIndex] && state.columns[columnIndex].search) {
       savedSearch = state.columns[columnIndex].search.search || '';
     }
+    
+    // console.log('Saved search for column', columnIndex, ':', savedSearch);
 
     if (colSettings && colSettings.type === 'select')
     {
+      // CL(footerCell);
+
       const select = $('<select class="form-select"></select>')
         .appendTo(footerCell)
         .on('change', function() {
@@ -301,10 +325,13 @@ function createCustomFilters(table_id, table, columns, scope)
           $('<option value="' + d + '">' + d + '</option>').appendTo(select);
         }
       });
+
+      // CL('Select filter created for column', columnIndex, 'with options:', select.find('option').length);
       
       // Устанавливаем сохраненное значение
       if (savedSearch) {
         select.val(savedSearch);
+        // CL('Applied saved value:', savedSearch, 'to column', columnIndex);
       }
     } 
     else if (colSettings && colSettings.type === 'input')
@@ -325,15 +352,23 @@ function createCustomFilters(table_id, table, columns, scope)
             column.search(this.value).draw();
           }
         });
+      
+      // CL('Input filter created for column', columnIndex, 'with saved value:', savedSearch);
+    }
+    else 
+    {
+      // CL('No filter type defined for column', columnIndex, '- skipping');
     }
   });
+  
+  // CL('createCustomFilters completed');
 }
 
 
 
 //****************************************
 // https://amsul.ca/pickadate.js/
-angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', 'angularSpinners', 'ui.mask', 'angularFileUpload', 'ngCookies', 'pickadate', 'datatables', 'datatables.columnfilter', 'datatables.colvis', 'ngResource', 'ngSanitize', 'ngCookies'])
+angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', 'angularSpinners', 'ui.mask', 'angularFileUpload', 'ngCookies', 'pickadate', 'datatables', 'datatables.columnfilter', 'datatables.colvis', 'datatables.buttons', 'ngResource', 'ngSanitize', 'ngCookies'])
 //    'ui.bootstrap.modal', 'ui.bootstrap', ,  'mgcrea.ngStrap',
 
 .constant('system_start_year', <?=$_system_start_year?$_system_start_year:2017?>)
@@ -797,6 +832,18 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
         }
       }
     })
+    .when('/ksro',
+    {
+      templateUrl: 'ksro.tpl.html?' + getRandom(10000, 99999),
+      controller: 'KSROCtrl',
+      resolve:
+      {
+        // admins_uoup: function($http)
+        // {
+        //   return $http({url: 'ajax/get/admins_uoup.php', method: 'GET'});
+        // }
+      }
+    })
     .otherwise(
     {
       template: 'Страница не найдена'
@@ -845,7 +892,8 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
   clearInterval($rootScope.checkSessionInterval);
   $rootScope.checkSessionInterval = setInterval(checkSession, 120000, $http, $scope, ngDialog);
 
- $rootScope.ClearGreenTableFilters = function(dtInstance, filter_distinct, lecturer_uid, nagruzka_type, nagruzka_selected_chair_id) {
+ $rootScope.ClearGreenTableFilters = function(dtInstance, filter_distinct, lecturer_uid, nagruzka_type, nagruzka_selected_chair_id) 
+ {
   CL('ClearGreenTableFilters');
   const table = dtInstance.DataTable; // Changed from dataTable to DataTable
 
@@ -1037,8 +1085,8 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
           $scope.nagruzka = response.data.nagruzka;
           $scope.nagruzka_stat[chair_id][nagr_type] = response.data.stat;
 
-          CL($scope.nagruzka_stat);
-          CL($scope.nagruzka);
+          // CL($scope.nagruzka_stat);
+          // CL($scope.nagruzka);
           $scope.isLoading = false;
 
           // Если ограничены одним преподом, то нужно взять его ФИО (из первой же нагрузки)
@@ -1190,6 +1238,10 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
         $scope.$apply(function() {
             $scope.isLoading = false;
         });
+
+        // Добавляем создание фильтров
+        const api = this.api();
+        createCustomFilters('DataTables_Table_nagruzka', api, columns, $scope);
       })
       // .withOption('processing', true)
       ;
@@ -1276,12 +1328,6 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
 
 
 
-
-
-
-
-
-
       $scope.dtInstance = dtInstance;
       const table = dtInstance.DataTable;
       const lecturerColumnIndex = 15; // Index of the "Преподаватель" column
@@ -1290,7 +1336,10 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
       // Function to initialize filters only once
       const initializeFiltersOnce = () => 
       {
-        if (!filtersInitialized) {
+        CL('initializeFiltersOnce');
+
+        if (!filtersInitialized) 
+        {
           createCustomFilters('DataTables_Table_nagruzka', table, columns, $scope);
           filtersInitialized = true;
         }
@@ -1337,8 +1386,8 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
 
       */
 
-      // Initialize filters immediately
-      initializeFiltersOnce();
+      // TMP comment Initialize filters immediately
+      // initializeFiltersOnce();
 
       // Apply filter after a short delay to ensure the table is ready
       // const initialApply = () => {
@@ -1358,9 +1407,12 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
       // table.one('draw.dt', applyLecturerFilter);
 
       // Handle column visibility changes
-      table.on('column-visibility.dt', () => {
+      table.on('column-visibility.dt', () => 
+      {
+        // CL('column-visibility.dt');
         // Only reinitialize filters if they haven't been initialized yet
-        if (!filtersInitialized) {
+        if (!filtersInitialized) 
+        {
           initializeFiltersOnce();
         }
         // applyLecturerFilter();
@@ -1418,7 +1470,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
 
   $scope.GetNagruzkaAmountSum = function() 
   {
-    CL($scope.filter_distinct.global_nagruzka_filter);
+    // CL($scope.filter_distinct.global_nagruzka_filter);
     
       if (!$.fn.DataTable || !$.fn.DataTable.isDataTable('.dataTable')) {
           return 0;
@@ -1434,13 +1486,13 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
       });
 
       // Log the filtered nagruzka objects
-      console.log('Filtered nagruzka objects:', visibleNagruzka);
+      // console.log('Filtered nagruzka objects:', visibleNagruzka);
       
       let totalSum = 0;
       
       // If lecturer_uid filter is applied, sum amounts for that lecturer only
       if ($scope.lecturer_uid) {
-          console.log('Calculating sum for lecturer_uid:', $scope.lecturer_uid);
+          // console.log('Calculating sum for lecturer_uid:', $scope.lecturer_uid);
           
           visibleNagruzka.forEach(item => {
               if (item.lectors && item.lectors.length > 0) {
@@ -1452,7 +1504,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
               }
           });
       } else if ($scope.filter_distinct.global_nagruzka_filter) {
-          console.log('Calculating sum for global_nagruzka_filter:', $scope.filter_distinct.global_nagruzka_filter);
+          // console.log('Calculating sum for global_nagruzka_filter:', $scope.filter_distinct.global_nagruzka_filter);
           
           visibleNagruzka.forEach(item => {
               if (item.lectors && item.lectors.length > 0) {
@@ -1473,7 +1525,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
           });
       } else {
           // No lecturer filter or global filter, sum all amounts
-          console.log('Calculating sum for all lecturers');
+          // console.log('Calculating sum for all lecturers');
           visibleNagruzka.forEach(item => {
               // totalSum += parseFloat(item.Amount) || 0;
 
@@ -1487,7 +1539,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
           
       }
       
-      console.log('Calculated sum:', totalSum);
+      // console.log('Calculated sum:', totalSum);
       
       return roundToTwo(totalSum);
 };
@@ -1984,6 +2036,8 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
       // чтобы иметь возможность отменить правку в диалоге, сделаем отдельный объект
       dialogScope.nagruzka_row = angular.copy(nagruzka_row);
 
+      CL(nagruzka_row.lectors);
+
       // dialogScope.nagruzka_row = nagruzka_row;
       // dialogScope.nagruzka_history = $resource('ajax/get/get_nagruzka_history.php?load_base_UID2=' + nagruzka_row.base_uid2).query();
 
@@ -2007,6 +2061,8 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
   // nagruzka_lectors - Подстроки строки нагрузки распределения по преподавателям
   $scope.AddNagruzkaSubRow = function(nagruzka_lectors)
   {
+    CL('AddNagruzkaSubRow');
+
     // CL(nagruzka_lectors[0]);
     const new_lector = angular.copy(nagruzka_lectors[0]);
     new_lector.zs = true;
@@ -2027,7 +2083,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
         $scope.$apply();
     }
 
-    // CL(nagruzka_lectors);
+    CL(nagruzka_lectors);
   }
 
   $scope.RemoveNagruzkaSubRow = function(nagruzka_row, index)
@@ -2038,7 +2094,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
 
     nagruzka_lectors[index].delete = true;
 
-    $scope.SaveNagruzkaSubRows(nagruzka_row);
+    // $scope.SaveNagruzkaSubRows(nagruzka_row);
   }
 
   $scope.GetNagruzkaAmountField = function(nagruzka_row)
@@ -2086,6 +2142,13 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
     return !Number.isNaN(sum) ? sum : 0;
   }
 
+  $scope.GetNagruzkaLectorsRemain = function(nagruzka_row)
+  {
+    const nagruzka_field_to_count = $scope.GetNagruzkaAmountField(nagruzka_row);
+    
+    return roundToTwo(nagruzka_row[nagruzka_field_to_count] - $scope.GetNagruzkaLectorsAmountSum(nagruzka_row));
+  }
+
   $scope.NagruzkaSelectedLecturer = function(data, lecturer_row)
   {
     CL('NagruzkaSelectedLecturer');
@@ -2109,8 +2172,8 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
       return String(row.base_uid).trim() == String(lecturer_row.base_uid).trim();
     });
 
-    CL('Before merging:');
-    CL(nagruzka_row.lectors);
+    // CL('Before merging:');
+    // CL(nagruzka_row.lectors);
 
     lecturer_row.show_lecturer_autocomplete = false;
 
@@ -2155,7 +2218,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
             }
         });
 
-        CL(uniqueLecturers);
+        // CL(uniqueLecturers);
         
         // Combine unique lecturers with those that didn't have UIDs
         nagruzka_row.lectors = [
@@ -2222,6 +2285,8 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
         lector.Amount = hours_per_student * lector['StudentAmount'];
       }
     });
+
+    CL(nagruzka_row.lectors);
 
     if (!$scope.IsNagruzkaLectorsSumCorrect(nagruzka_row))
     {
@@ -2429,6 +2494,21 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
 
   // $scope.persons = $resource('data.json').query();
 
+  var page_title;
+
+  if ($scope.page == 'uoup_nagruzka_no_type')
+  {
+    page_title = 'Нагрузка без типа';
+  }
+  else if ($scope.page == 'uoup_nagruzka_no_chair')
+  {
+    page_title = 'Нагрузка без кафедры';
+  }
+  else if ($scope.page == 'uoup_nagruzka')
+  {
+    page_title = 'Нагрузка';
+  }
+
   $scope.dtOptions = DTOptionsBuilder //.fromSource('data.json')
     .newOptions()
     .withOption('stateSave', true)
@@ -2443,6 +2523,31 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
     .withColumnFilter({
         aoColumns: columns
     })
+    // .withDOM('flrtip')
+    // .withDOM('flBrtip')
+    // .withDOM('<"pull-right"fB>rtip')
+    // .withDOM('<"top"f<"pull-right"B>>rtip')
+    .withButtons([
+            // 'columnsToggle',
+            // 'colvis',
+            // 'copy',
+            // 'print',
+            // 'excel',
+            // {
+            //     text: 'Some button',
+            //     key: '1',
+            //     action: function (e, dt, node, config) {
+            //         alert('Button activated');
+            //     }
+            // }
+            {
+              extend: 'excel',
+              text: 'Excel', // Текст на самой кнопке
+              filename: page_title, // Имя файла
+              title: page_title // Заголовок на первой строке листа
+            }
+
+        ])
     .withOption('initComplete', function(settings, json) {
         // Скрываем индикатор когда загрузка завершена
         $scope.$apply(function() {
@@ -3940,6 +4045,41 @@ $scope.toggleAdminChangeChair = function(chair) {
 
 }) 
 
+.controller ('KSROCtrl', function($templateCache, $scope, $rootScope, ngDialog, $http, $resource)
+{
+  CL('KSROCtrl');
+
+  $scope.c_login = c_login;
+  $rootScope.page = 'ksro';
+
+  CL(c_roles);
+ 
+  $scope.c_roles = c_roles;
+
+  $scope.ksro = $resource('ajax/get/ksro.php').query();
+
+  $scope.data = {show_add_ksro: true};
+
+  $scope.edit_lecturer = {};
+
+  $scope.KSROSelectedLecturer = function(data)
+  {
+    CL('KSROSelectedLecturer');
+    
+    CL(data);
+    // CL(lecturer_row);
+
+    if (!isEmpty(data))
+    {
+      $scope.edit_lecturer.lecturer_fio = data.originalObject.fio;
+      $scope.edit_lecturer.lecturer_uid = data.originalObject.lecturer_uid;
+      $scope.edit_lecturer.lecturer_person_id = data.originalObject.person_id;
+      $scope.edit_lecturer.lecturer_login = data.originalObject.lecturer_login;
+      $scope.edit_lecturer.lecturer_dolzhnost = data.originalObject.dolzhnost;
+      $scope.edit_lecturer.lecturer_stavka = data.originalObject.stavka;
+    }
+  }
+})
 
 // Add this with your other filters
 .filter('formatFio', function() {

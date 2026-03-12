@@ -2528,7 +2528,7 @@ function GetNagruzkaBaseQuery($dop_sql, $nagruzka_type = null, $department_from_
   xml_content_of_load.UID as xml_content_of_load_UID,
   xml_content_of_load.Amount,
   xml_lecturer.FIO as lecturer_fio,
-  xml_content_of_load.UID_Lecturer as lecturer_uid, 
+  xml_lecturer.UID as lecturer_uid, 
   xml_lecturer.Tab_number as lecturer_person_id,
   nagruzka.chair_id, nagruzka.chair_name, nagruzka.zavkaf_fio, nagruzka.department_name
   $sql_part1
@@ -2549,12 +2549,12 @@ function GetNagruzkaBaseQuery($dop_sql, $nagruzka_type = null, $department_from_
     -- AND xml_content_of_load.`base_uid` = '26589.281474976773929'
     -- AND xml_content_of_load.`base_uid` = '26589.281474976787074'
     -- AND xml_content_of_load.`base_uid` = '26589.281474976763950'
-    -- AND xml_content_of_load.`base_uid` = '26589.281474976763950'
+    -- AND xml_content_of_load.`base_uid` = '26589.281474976773565'
     -- AND LoadType = '0'
     $dop_sql
   ";
 
-  EchoLog($_nagruzka_base_query);
+  // EchoLog($_nagruzka_base_query);
 
   return $_nagruzka_base_query;
 

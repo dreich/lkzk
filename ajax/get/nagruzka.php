@@ -122,7 +122,7 @@ $Nagruzka = PrepareNagruzka(GetSQL($nagruzka_query));
 
 // EchoLog($Nagruzka);
 
-$ZavkafSplits = GetTable('zavkaf_splits');
+$ZavkafSplits = GetTable('zavkaf_splits', "`delete` <> '1'");
 
 $ZavkafSplitsByBaseUID1ByBaseUID2New = [];
 $ZavkafSplitsByBaseUID1ByBaseUID2 = [];
@@ -139,6 +139,9 @@ if ($ZavkafSplits)
     $ZavkafSplitsByBaseUID1ByBaseUID2[$zs['base_uid']][$zs['base_uid2']][$zs['content_of_load_uid']][] = $zs; // -- with overrides
   }
 }
+
+// EchoLog($ZavkafSplitsByBaseUID1ByBaseUID2New['26589.281474976773565']);
+// EchoLog($ZavkafSplitsByBaseUID1ByBaseUID2['26589.281474976773565']);
 
 
 $NagruzkaByBaseUID1 = [];
@@ -170,6 +173,7 @@ if ($Nagruzka)
         
         // $zavkaf_raspred_row = $ZavkafSplitsByBaseUID1ByBaseUID2New[$nagruzka['base_uid']][$nagruzka['base_uid2']];
         // если есть споточивание, то возьмётся одна строка (первая) - все лекторы по content_of_load_uid_new, например по 26589.281474976773929.1
+
         $zavkaf_raspred_rows = array_values($ZavkafSplitsByBaseUID1ByBaseUID2[$nagruzka['base_uid']][$nagruzka['base_uid2']])[0];
 
         // EchoLog($zavkaf_raspred_rows);
@@ -184,13 +188,13 @@ if ($Nagruzka)
             $nagruzka['lecturer_uid'] = $zavkaf_raspred_row['lecturer_uid'];
             $nagruzka['lecturer_fio'] = $zavkaf_raspred_row['lecturer_fio'];
 
-            if (!empty($zavkaf_raspred_row['LoadType']))
+            if (isset($zavkaf_raspred_row['LoadType']))
             $nagruzka['LoadType'] = $zavkaf_raspred_row['LoadType'];
 
-            if (!empty($zavkaf_raspred_row['StudentAmount']))
+            if (isset($zavkaf_raspred_row['StudentAmount']))
             $nagruzka['StudentAmount'] = $zavkaf_raspred_row['StudentAmount'];
 
-            if (!empty($zavkaf_raspred_row['Amount']))
+            if (isset($zavkaf_raspred_row['Amount']))
             $nagruzka['Amount'] = $zavkaf_raspred_row['Amount'];
           
             $nagruzka['delete'] = $zavkaf_raspred_row['delete'];
@@ -202,6 +206,8 @@ if ($Nagruzka)
             // if ($lecturer_uid && $nagruzka['lecturer_uid'] === $lecturer_uid || !$lecturer_uid)
             {
               $NagruzkaByBaseUID1[$nagruzka['base_uid']]['lectors'][] = $nagruzka;
+
+              // EchoLog($nagruzka);
             }
 
             if ($nagruzka['base_uid'] === '26589.281474976764368')

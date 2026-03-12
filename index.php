@@ -182,6 +182,10 @@ if ($_SESSION['c_login'])
 
       <? endif ?>
 
+      <li class="nav-item">
+        <a href="#/ksro" class="nav-link" ng-class="{active: page ==  'ksro'}"><span class="glyphicon glyphicon-list"></span> Индивидуальные консультации и КСРО</a>
+      </li>
+
 
     </ul>
 
