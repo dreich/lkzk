@@ -6,7 +6,7 @@ include '../connect/opop2.php';
 
 EchoLog("Start cron");
 
-$LOAD_NEW_DATA_FROM_NETWORK = false;
+$LOAD_NEW_DATA_FROM_NETWORK = true;
 $UPDATE_TABLES = true;
 
 $Napravlenia = GetTable('napravlenia', "", "", "napravlenie");
@@ -151,13 +151,19 @@ $ContentOfLoadStaffBaseUID1sNotVo = [];
 
 function LoadXML($filename, $table_name)
 {
-  global $mysqli, $Napravlenia, $xml_content_of_load_columns_for_hash, $xml_content_of_load_staff_columns_for_hash, $XMLKindOfWorkGIA, $XMLKindOfWorkVKR, $XMLKindOfWorkKurs, $_XMLContentOfLoadStaffByBaseUID1, $XMLSpeciality, $ContentOfLoadStaffBaseUID1sNotVo;
+  global $mysqli, $Napravlenia, $xml_content_of_load_columns_for_hash, $xml_content_of_load_staff_columns_for_hash, $XMLKindOfWorkGIA, $XMLKindOfWorkVKR, $XMLKindOfWorkKurs, $_XMLContentOfLoadStaffByBaseUID1, $XMLSpeciality, $ContentOfLoadStaffBaseUID1sNotVo, $db_error;
 
   EchoLog("LoadXML: $table_name", 'file screen');
 
+  // if ($table_name === 'xml_content_of_load') EchoLog("HERE 1");
+
   $XML = simplexml_load_string(file_get_contents($filename));
 
+  // if ($table_name === 'xml_content_of_load') EchoLog("HERE 2");
+
   $mysqli->query("DELETE FROM `$table_name`");
+
+  // if ($table_name === 'xml_content_of_load') EchoLog("HERE 3");
 
   foreach ($XML->Data->Collection->Object as $s)
   {
@@ -200,10 +206,10 @@ function LoadXML($filename, $table_name)
 
       if ($arr['UID'] === '26589.281474976765788')
       {
-        EchoLog($arr);
-        EchoLog($_XMLContentOfLoadStaffByBaseUID1[$base_uid]);
-        EchoLog($XMLSpeciality[$_XMLContentOfLoadStaffByBaseUID1[$base_uid]['UID_Speciality']]);
-        EchoLog(IsEducationLevelVO($XMLSpeciality[$_XMLContentOfLoadStaffByBaseUID1[$base_uid]['UID_Speciality']]['education_level']));
+        // EchoLog($arr);
+        // EchoLog($_XMLContentOfLoadStaffByBaseUID1[$base_uid]);
+        // EchoLog($XMLSpeciality[$_XMLContentOfLoadStaffByBaseUID1[$base_uid]['UID_Speciality']]);
+        // EchoLog(IsEducationLevelVO($XMLSpeciality[$_XMLContentOfLoadStaffByBaseUID1[$base_uid]['UID_Speciality']]['education_level']));
       }
 
       // Проверим уровень образования, будем загружать только ВО
@@ -211,9 +217,9 @@ function LoadXML($filename, $table_name)
       if ($_XMLContentOfLoadStaffByBaseUID1[$base_uid] && $XMLSpeciality[$_XMLContentOfLoadStaffByBaseUID1[$base_uid]['UID_Speciality']]['education_level'] && 
           !IsEducationLevelVO($XMLSpeciality[$_XMLContentOfLoadStaffByBaseUID1[$base_uid]['UID_Speciality']]['education_level']) || $ContentOfLoadStaffBaseUID1sNotVo[$base_uid])
       {
-        if ($arr['UID'] === '26589.281474976765788')
+        // if ($arr['UID'] === '26589.281474976765788')
         {
-          EchoLog("$arr[UID] $base_uid - {$XMLSpeciality[$_XMLContentOfLoadStaffByBaseUID1[$base_uid]['UID_Speciality']]['education_level']} НЕ ЗАГРУЖАЕМ");
+          // EchoLog("$arr[UID] $base_uid - {$_XMLContentOfLoadStaffByBaseUID1[$base_uid]['UID_Speciality']} - {$XMLSpeciality[$_XMLContentOfLoadStaffByBaseUID1[$base_uid]['UID_Speciality']]['UID']} - {$XMLSpeciality[$_XMLContentOfLoadStaffByBaseUID1[$base_uid]['UID_Speciality']]['education_level']} НЕ ЗАГРУЖАЕМ", "file screen");
         }
         continue;
       }
@@ -264,7 +270,7 @@ function LoadXML($filename, $table_name)
       {
         if ($base_uid === '26589.281474976765788')
         {
-          EchoLog("$arr[UID] $base_uid - {$XMLSpeciality[$_XMLContentOfLoadStaffByBaseUID1[$base_uid]['UID_Speciality']]['education_level']} НЕ ЗАГРУЖАЕМ");
+          // EchoLog("$arr[UID] $base_uid - {$XMLSpeciality[$_XMLContentOfLoadStaffByBaseUID1[$base_uid]['UID_Speciality']]['education_level']} НЕ ЗАГРУЖАЕМ");
         }
 
         $ContentOfLoadStaffBaseUID1sNotVo[$base_uid] = $base_uid;
@@ -288,11 +294,19 @@ function LoadXML($filename, $table_name)
     // echo $sql;
     // print_r($arr);
 
-    $Result = $mysqli->query("INSERT INTO `$table_name` SET $sql");
+    $query = "INSERT INTO `$table_name` SET $sql";
+
+    if ($table_name === 'xml_content_of_load')
+    {
+      // EchoLog($query);
+    }
+
+    $Result = $mysqli->query($query);
 
     if (!$Result)
     {
       EchoLog($mysqli->error, 'file screen');
+      // $db_error = true;
     }
 
     // var_dump($s->Collection->attributes());
@@ -326,6 +340,8 @@ if ($LOAD_NEW_DATA_FROM_NETWORK)
   file_put_contents('nngu.ais.employees.add.xml', file_get_contents($url));
 }
 
+
+$mysqli->query("START TRANSACTION");
 
 if ($UPDATE_TABLES)
 {
@@ -363,6 +379,10 @@ if ($UPDATE_TABLES)
 
   LoadXML('ContentOfLoad.xml', 'xml_content_of_load');
 }
+
+// $mysqli->query("COMMIT");
+
+// exit;
 
 
 // Данные после текущего импорта
@@ -577,7 +597,7 @@ unset($SotrudnikiGPH);
 
 include '../connect.php';
 
-$mysqli->query("START TRANSACTION");
+
 
 // $mysqli->query("TRUNCATE `sotrudniki`");
 
@@ -754,6 +774,7 @@ if ($SotrudnikiItogoByKey)
       if (!$Result)
       {
         EchoLog("Error #573 in cron.php:<br>" . $mysqli->error . "<br><br>$query", "file mail");
+        $db_error = true;
       }
     }
     // updating
@@ -774,6 +795,7 @@ if ($SotrudnikiItogoByKey)
       if (!$Result)
       {
         EchoLog("Error #683 in cron.php:<br>" . $mysqli->error . "<br><br>$query", "file mail");
+        $db_error = true;
       }
     }
 
@@ -856,6 +878,7 @@ foreach ($SotrudnikiByPersonChair as $sotrudnik)
         {
           EchoLog($mysqli->error);
           EchoLog($query);
+          $db_error = true;
         }
       }
     }
@@ -1484,6 +1507,7 @@ if ($XMLContentOfLoad)
           {
             EchoLog("Error #153 inserting into `nagruzka`: $query", "file mail");
             EchoLog($mysqli->error, "file mail");
+            $db_error = true;
           }
           elseif ($mysqli->affected_rows)
           {
@@ -1565,6 +1589,7 @@ if ($XMLContentOfLoad)
               EchoLog("ОШИБКА простановки лектора кафедры (из Галактики) {$XMLChairByUID[$xml_content_of_load_row['UID_Chair']]['Name']} ({$xml_content_of_load_row['UID_Chair']}) у нагрузки $xml_content_of_load_row[base_uid2]");
               EchoLog($query);
               EchoLog($mysqli->error);
+              $db_error = true;
             }
           }
 
@@ -1583,6 +1608,7 @@ if ($XMLContentOfLoad)
           {
             EchoLog("Error #842 inserting into `nagruzka`: $query", "file mail");
             EchoLog($mysqli->error, "file mail");
+            $db_error = true;
           }
       }
     }
@@ -1615,12 +1641,12 @@ else
 
 if ($db_error)
 {
-  EchoLog('ROLLBACK все запросы');
+  EchoLog('ROLLBACK все запросы', 'file screen');
   $mysqli->query("ROLLBACK");
 }
 else
 {
-  EchoLog('COMMIT все запросы');
+  EchoLog('COMMIT все запросы', 'file screen');
   $mysqli->query("COMMIT");
 }
 

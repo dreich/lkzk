@@ -52,7 +52,7 @@ while ($Row = $Result->fetch_assoc())
   }
   
   $node = $doc->createElement('ContentOfLoad');
-  $node->setAttribute('UID', $Row['base_uid2']);
+  $node->setAttribute('UID', $Row['base_uid']);
   $node->setAttribute('LoadType', $Row['LoadType']);
   $node->setAttribute('Amount', $Row['Amount']);
   $node->setAttribute('StudentAmount', $Row['StudentAmount']);

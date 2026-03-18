@@ -28,7 +28,7 @@ if ($data['load_base_UID2'])
 
   if (!$nagruzka)
   {
-    EchoLog("nagruzka пустая в uoup_done_change.php", 'file mail');
+    EchoLog("nagruzka ($data[load_base_UID2]) пустая в uoup_done_change.php", 'file mail');
   }
 
   // EchoLog($nagruzka);

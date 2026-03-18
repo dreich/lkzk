@@ -2654,7 +2654,7 @@ function PrepareNagruzka($_Nagruzka)
 // Получить одну строку нагрузки по таблице 1 и таблице 2
 function GetFullNagruzkaRow($base_uid2)
 {
-  $nagruzka_query = GetNagruzkaBaseQuery("AND `load_base_UID2` = '$base_uid2'");
+  $nagruzka_query = GetNagruzkaBaseQuery("AND `load_base_UID2` = '$base_uid2'", 'all');
   $_Nagruzka = GetSQL($nagruzka_query);
   return array_pop(PrepareNagruzka($_Nagruzka));
 }

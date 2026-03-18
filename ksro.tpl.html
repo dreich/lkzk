@@ -35,8 +35,8 @@
   <h4 ng-if="data.edit_ksro_id">Редактирование записи</h4>
   <h4 ng-if="!data.edit_ksro_id">Добавление новой записи</h4>
   
-  <div class="row mb-3">
-    <div class="col-md-6">
+  <div>
+    <div style="width: 400px">
       <label class="form-label">ФИО:</label>
       <div>
         <!-- {{row.xml_content_of_load_UID}}_{{row.xml_content_of_load_staff_UID}} -->
@@ -57,50 +57,48 @@
             input-class="form-control autocomplete" style='width:50%' />
       </div>
     </div>
-    <div class="col-md-3">
-      <label class="form-label">Должность:</label>
-      <input type="text" class="form-control" ng-model="edit_lecturer.lecturer_dolzhnost" readonly>
+    <div ng-if="edit_ksro.lecturer_fio">
+      <label class="form-label">Должность: {{edit_ksro.lecturer_dolzhnost}}</label>
+      <!-- <input type="text" class="form-control" ng-model="edit_ksro.lecturer_dolzhnost" readonly> -->
     </div>
-    <div class="col-md-3">
-      <label class="form-label">Доля ставки:</label>
-      <input type="text" class="form-control" ng-model="edit_lecturer.lecturer_stavka" readonly>
+    <div ng-if="edit_ksro.lecturer_fio">
+      <label class="form-label">Доля ставки: {{edit_ksro.lecturer_stavka}}</label>
+      <!-- <input type="text" class="form-control" ng-model="edit_ksro.lecturer_stavka" readonly> -->
     </div>
   </div>
 
-  <div class="row mb-3">
-    <div class="col-md-6">
+  <div style="width: 150px">
       <label class="form-label">Язык:</label>
-      <select class="form-select" ng-model="new_ksro.language_uid">
+      <select class="form-select" ng-model="edit_ksro.language_uid">
         <option value="">Выберите язык</option>
         <option value="25031.281474976715638">Русский</option>
-        <option value="25031.281474976715639">Английский</option>
+        <option value="25031.945">Английский</option>
       </select>
-    </div>
   </div>
 
-  <div class="row mb-3">
-    <div class="col-md-6">
+  <div>
+    <div>
       <label class="form-label">Индивидуальные консультации (осень):</label>
-      <input type="number" class="form-control" ng-model="new_ksro.ik_osen" step="0.1" min="0">
+      <input type="text" class="form-control" ng-model="edit_ksro.ik_osen" number-input>
     </div>
-    <div class="col-md-6">
+    <div>
       <label class="form-label">Индивидуальные консультации (весна):</label>
-      <input type="number" class="form-control" ng-model="new_ksro.ik_vesna" step="0.1" min="0">
+      <input type="text" class="form-control" ng-model="edit_ksro.ik_vesna" number-input>
     </div>
   </div>
 
-  <div class="row mb-3">
-    <div class="col-md-6">
+  <div>
+    <div>
       <label class="form-label">КСРО (осень):</label>
-      <input type="number" class="form-control" ng-model="new_ksro.ksro_osen" step="0.1" min="0">
+      <input type="text" class="form-control" ng-model="edit_ksro.ksro_osen" number-input>
     </div>
-    <div class="col-md-6">
+    <div>
       <label class="form-label">КСРО (весна):</label>
-      <input type="number" class="form-control" ng-model="new_ksro.ksro_vesna" step="0.1" min="0">
+      <input type="text" class="form-control" ng-model="edit_ksro.ksro_vesna" number-input>
     </div>
   </div>
 
-  <div class="mb-3">
+  <div class="mb-3 mt-3">
     <button class="btn btn-success btn-sm" ng-click="saveKSRO()">Сохранить</button>
     <button class="btn btn-danger btn-sm" ng-click="deleteKSRO()" ng-if="edit_ksro_id">Удалить</button>
     <button class="btn btn-secondary btn-sm" ng-click="cancelKSRO()">Отмена</button>

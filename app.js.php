@@ -4060,7 +4060,7 @@ $scope.toggleAdminChangeChair = function(chair) {
 
   $scope.data = {show_add_ksro: true};
 
-  $scope.edit_lecturer = {};
+  $scope.edit_ksro = {};
 
   $scope.KSROSelectedLecturer = function(data)
   {
@@ -4071,12 +4071,35 @@ $scope.toggleAdminChangeChair = function(chair) {
 
     if (!isEmpty(data))
     {
-      $scope.edit_lecturer.lecturer_fio = data.originalObject.fio;
-      $scope.edit_lecturer.lecturer_uid = data.originalObject.lecturer_uid;
-      $scope.edit_lecturer.lecturer_person_id = data.originalObject.person_id;
-      $scope.edit_lecturer.lecturer_login = data.originalObject.lecturer_login;
-      $scope.edit_lecturer.lecturer_dolzhnost = data.originalObject.dolzhnost;
-      $scope.edit_lecturer.lecturer_stavka = data.originalObject.stavka;
+      $scope.edit_ksro.lecturer_fio = data.originalObject.fio;
+      $scope.edit_ksro.lecturer_uid = data.originalObject.lecturer_uid;
+      $scope.edit_ksro.lecturer_person_id = data.originalObject.person_id;
+      $scope.edit_ksro.lecturer_login = data.originalObject.lecturer_login;
+      $scope.edit_ksro.lecturer_dolzhnost = data.originalObject.dolzhnost;
+      $scope.edit_ksro.lecturer_stavka = data.originalObject.stavka;
+    }
+  }
+
+
+  $scope.saveKSRO = function()
+  {
+    // Проверим правильность формы
+    var valid = true;
+
+    if (valid)
+    {
+      $http({url: 'ajax/post/save_ksro.php', method: 'POST', data: $scope.edit_ksro})
+        .then(function(response)
+        {
+          if (response.data.result == 'success')
+          {
+            toastr.success("Данные сохранены");
+          }
+          else
+          {
+            toastr.error("Ошибка");
+          }
+        });
     }
   }
 })
