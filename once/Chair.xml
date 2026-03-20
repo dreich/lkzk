@@ -214,16 +214,6 @@
 					<prop_value prop_name="GUID" value=""></prop_value>
 				</Collection>
 			</Object>
-			<Object uid="25031.281474976711023" name="Кафедра методов контроля производства и хроматографии" class_id="Chair">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="25031.281474976711023"></prop_value>
-					<prop_value prop_name="UID_Faculty" value="25031.281474976710990"></prop_value>
-					<prop_value prop_name="Name" value="Кафедра методов контроля производства и хроматографии"></prop_value>
-					<prop_value prop_name="Abbr" value="МКПиХ ДФ"></prop_value>
-					<prop_value prop_name="Code" value="01697"></prop_value>
-					<prop_value prop_name="GUID" value=""></prop_value>
-				</Collection>
-			</Object>
 			<Object uid="25031.281474976711024" name="Кафедра социально-экономических дисциплин" class_id="Chair">
 				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
 					<prop_value prop_name="UID" value="25031.281474976711024"></prop_value>

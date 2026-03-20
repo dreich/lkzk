@@ -676,6 +676,13 @@
 					<prop_value prop_name="Abbr" value="электромонтёр по ремонту и обслуживанию электрооборудования 6 разряда"></prop_value>
 				</Collection>
 			</Object>
+			<Object uid="25031.281474976756491" name="заведующий научно-исследовательским сектором" class_id="Post">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976756491"></prop_value>
+					<prop_value prop_name="Name" value="заведующий научно-исследовательским сектором"></prop_value>
+					<prop_value prop_name="Abbr" value="заведующий научно-исследовательским сектором"></prop_value>
+				</Collection>
+			</Object>
 			<Object uid="25031.281474976756495" name="социальный педагог" class_id="Post">
 				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
 					<prop_value prop_name="UID" value="25031.281474976756495"></prop_value>

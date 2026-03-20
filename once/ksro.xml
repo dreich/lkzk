@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data_Root>
+  <Data>
+    <Collection name="Data.ContentOfLoad" caption="Содержание нагрузки расписания" child_tags="Object">
+      <Object LoadId="16" class_id="ContentOfLoad">
+        <Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+          <prop_value prop_name="Amount" value="4"/>
+          <prop_value prop_name="TypeOfContingent" value="4"/>
+          <prop_value prop_name="UID_KindOfWork" value="26003.281474976710750"/>
+          <prop_value prop_name="UID_Discipline" value="26006.281474976727807"/>
+          <prop_value prop_name="UID_Semester" value="1"/>
+          <prop_value prop_name="UID_Language" value="25031.945"/>
+          <prop_value prop_name="UID_Chair" value="25031.281474976753017"/>
+          <prop_value prop_name="UID_FacultyPerformer" value="25031.281474976751459"/>
+        </Collection>
+      </Object>
+      <Object LoadId="17" class_id="ContentOfLoad">
+        <Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+          <prop_value prop_name="Amount" value="3"/>
+          <prop_value prop_name="TypeOfContingent" value="4"/>
+          <prop_value prop_name="UID_KindOfWork" value="26003.281474976710750"/>
+          <prop_value prop_name="UID_Discipline" value="26006.281474976727807"/>
+          <prop_value prop_name="UID_Semester" value="2"/>
+          <prop_value prop_name="UID_Language" value="25031.945"/>
+          <prop_value prop_name="UID_Chair" value="25031.281474976753017"/>
+          <prop_value prop_name="UID_FacultyPerformer" value="25031.281474976751459"/>
+        </Collection>
+      </Object>
+      <Object LoadId="18" class_id="ContentOfLoad">
+        <Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+          <prop_value prop_name="Amount" value="2"/>
+          <prop_value prop_name="TypeOfContingent" value="4"/>
+          <prop_value prop_name="UID_KindOfWork" value="26003.281474976710751"/>
+          <prop_value prop_name="UID_Discipline" value="26006.281474976727808"/>
+          <prop_value prop_name="UID_Semester" value="1"/>
+          <prop_value prop_name="UID_Language" value="25031.945"/>
+          <prop_value prop_name="UID_Chair" value="25031.281474976753017"/>
+          <prop_value prop_name="UID_FacultyPerformer" value="25031.281474976751459"/>
+        </Collection>
+      </Object>
+      <Object LoadId="19" class_id="ContentOfLoad">
+        <Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+          <prop_value prop_name="Amount" value="1"/>
+          <prop_value prop_name="TypeOfContingent" value="4"/>
+          <prop_value prop_name="UID_KindOfWork" value="26003.281474976710751"/>
+          <prop_value prop_name="UID_Discipline" value="26006.281474976727808"/>
+          <prop_value prop_name="UID_Semester" value="2"/>
+          <prop_value prop_name="UID_Language" value="25031.945"/>
+          <prop_value prop_name="UID_Chair" value="25031.281474976753017"/>
+          <prop_value prop_name="UID_FacultyPerformer" value="25031.281474976751459"/>
+        </Collection>
+      </Object>
+      <Object LoadId="20" class_id="ContentOfLoad">
+        <Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+          <prop_value prop_name="Amount" value="1"/>
+          <prop_value prop_name="TypeOfContingent" value="4"/>
+          <prop_value prop_name="UID_KindOfWork" value="26003.281474976710750"/>
+          <prop_value prop_name="UID_Discipline" value="26006.281474976727807"/>
+          <prop_value prop_name="UID_Semester" value="1"/>
+          <prop_value prop_name="UID_Language" value="25031.281474976715638"/>
+          <prop_value prop_name="UID_Chair" value="25031.281474976753017"/>
+          <prop_value prop_name="UID_FacultyPerformer" value="25031.281474976751459"/>
+        </Collection>
+      </Object>
+      <Object LoadId="21" class_id="ContentOfLoad">
+        <Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+          <prop_value prop_name="Amount" value="2"/>
+          <prop_value prop_name="TypeOfContingent" value="4"/>
+          <prop_value prop_name="UID_KindOfWork" value="26003.281474976710750"/>
+          <prop_value prop_name="UID_Discipline" value="26006.281474976727807"/>
+          <prop_value prop_name="UID_Semester" value="2"/>
+          <prop_value prop_name="UID_Language" value="25031.281474976715638"/>
+          <prop_value prop_name="UID_Chair" value="25031.281474976753017"/>
+          <prop_value prop_name="UID_FacultyPerformer" value="25031.281474976751459"/>
+        </Collection>
+      </Object>
+      <Object LoadId="22" class_id="ContentOfLoad">
+        <Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+          <prop_value prop_name="Amount" value="3"/>
+          <prop_value prop_name="TypeOfContingent" value="4"/>
+          <prop_value prop_name="UID_KindOfWork" value="26003.281474976710751"/>
+          <prop_value prop_name="UID_Discipline" value="26006.281474976727808"/>
+          <prop_value prop_name="UID_Semester" value="1"/>
+          <prop_value prop_name="UID_Language" value="25031.281474976715638"/>
+          <prop_value prop_name="UID_Chair" value="25031.281474976753017"/>
+          <prop_value prop_name="UID_FacultyPerformer" value="25031.281474976751459"/>
+        </Collection>
+      </Object>
+      <Object LoadId="23" class_id="ContentOfLoad">
+        <Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+          <prop_value prop_name="Amount" value="4"/>
+          <prop_value prop_name="TypeOfContingent" value="4"/>
+          <prop_value prop_name="UID_KindOfWork" value="26003.281474976710751"/>
+          <prop_value prop_name="UID_Discipline" value="26006.281474976727808"/>
+          <prop_value prop_name="UID_Semester" value="2"/>
+          <prop_value prop_name="UID_Language" value="25031.281474976715638"/>
+          <prop_value prop_name="UID_Chair" value="25031.281474976753017"/>
+          <prop_value prop_name="UID_FacultyPerformer" value="25031.281474976751459"/>
+        </Collection>
+      </Object>
+    </Collection>
+  </Data>
+</Data_Root>

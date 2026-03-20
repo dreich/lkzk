@@ -4,6 +4,102 @@
 	</Descript>
 	<Data>
 		<Collection name="Data.Specialization" caption="Специальности" child_tags="Object">
+			<Object uid="26001.281474976710657" name="Дифференциальные уравнения, динамические системы и оптимальное управление" class_id="Specialization">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26001.281474976710657"></prop_value>
+					<prop_value prop_name="Name" value="Дифференциальные уравнения, динамические системы и оптимальное управление"></prop_value>
+					<prop_value prop_name="Code" value="01.01.02"></prop_value>
+					<prop_value prop_name="UID_Speciality" value="25031.281474976715024"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26001.281474976710661" name="Экономика" class_id="Specialization">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26001.281474976710661"></prop_value>
+					<prop_value prop_name="Name" value="Экономика"></prop_value>
+					<prop_value prop_name="Code" value="_080100"></prop_value>
+					<prop_value prop_name="UID_Speciality" value="25031.281474976710743"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26001.281474976710667" name="Зарубежное регионоведение" class_id="Specialization">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26001.281474976710667"></prop_value>
+					<prop_value prop_name="Name" value="Зарубежное регионоведение"></prop_value>
+					<prop_value prop_name="Code" value="_032000"></prop_value>
+					<prop_value prop_name="UID_Speciality" value="25031.281474976710875"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26001.281474976710669" name="Государственное муниципальное управление" class_id="Specialization">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26001.281474976710669"></prop_value>
+					<prop_value prop_name="Name" value="Государственное муниципальное управление"></prop_value>
+					<prop_value prop_name="Code" value="_38.03.04"></prop_value>
+					<prop_value prop_name="UID_Speciality" value="25031.281474976710728"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26001.281474976710672" name="Прикладная информатика" class_id="Specialization">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26001.281474976710672"></prop_value>
+					<prop_value prop_name="Name" value="Прикладная информатика"></prop_value>
+					<prop_value prop_name="Code" value="_09.03.03"></prop_value>
+					<prop_value prop_name="UID_Speciality" value="25031.281474976710725"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26001.281474976710673" name="Естественно-научное образование химия" class_id="Specialization">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26001.281474976710673"></prop_value>
+					<prop_value prop_name="Name" value="Естественно-научное образование химия"></prop_value>
+					<prop_value prop_name="Code" value="_0321654"></prop_value>
+					<prop_value prop_name="UID_Speciality" value="25031.0"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26001.281474976710674" name="История" class_id="Specialization">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26001.281474976710674"></prop_value>
+					<prop_value prop_name="Name" value="История"></prop_value>
+					<prop_value prop_name="Code" value="44.03.01"></prop_value>
+					<prop_value prop_name="UID_Speciality" value="25031.281474976710748"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26001.281474976710676" name="Математика" class_id="Specialization">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26001.281474976710676"></prop_value>
+					<prop_value prop_name="Name" value="Математика"></prop_value>
+					<prop_value prop_name="Code" value="44.03.01"></prop_value>
+					<prop_value prop_name="UID_Speciality" value="25031.281474976710748"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26001.281474976710677" name="Математика и физика" class_id="Specialization">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26001.281474976710677"></prop_value>
+					<prop_value prop_name="Name" value="Математика и физика"></prop_value>
+					<prop_value prop_name="Code" value="44.03.05"></prop_value>
+					<prop_value prop_name="UID_Speciality" value="25031.281474976710749"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26001.281474976710678" name="Информатика" class_id="Specialization">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26001.281474976710678"></prop_value>
+					<prop_value prop_name="Name" value="Информатика"></prop_value>
+					<prop_value prop_name="Code" value="44.03.01"></prop_value>
+					<prop_value prop_name="UID_Speciality" value="25031.281474976710748"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26001.281474976710679" name="Математика и информационные технологии в управлении образованием" class_id="Specialization">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26001.281474976710679"></prop_value>
+					<prop_value prop_name="Name" value="Математика и информационные технологии в управлении образованием"></prop_value>
+					<prop_value prop_name="Code" value="44.04.01"></prop_value>
+					<prop_value prop_name="UID_Speciality" value="25031.281474976711512"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26001.281474976710680" name="Приоритетные направления педагогической науки в физическом образовании" class_id="Specialization">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26001.281474976710680"></prop_value>
+					<prop_value prop_name="Name" value="Приоритетные направления педагогической науки в физическом образовании"></prop_value>
+					<prop_value prop_name="Code" value="44.04.01"></prop_value>
+					<prop_value prop_name="UID_Speciality" value="25031.281474976711512"></prop_value>
+				</Collection>
+			</Object>
 			<Object uid="26001.281474976710682" name="Прикладная информатика в экономике" class_id="Specialization">
 				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
 					<prop_value prop_name="UID" value="26001.281474976710682"></prop_value>
@@ -12,1078 +108,215 @@
 					<prop_value prop_name="UID_Speciality" value="25031.281474976710725"></prop_value>
 				</Collection>
 			</Object>
-			<Object uid="26001.281474976710876" name="Организационная психология" class_id="Specialization">
+			<Object uid="26001.281474976710683" name="Информационные технологии в моделировании и организации бизнес-процессов" class_id="Specialization">
 				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976710876"></prop_value>
-					<prop_value prop_name="Name" value="Организационная психология"></prop_value>
-					<prop_value prop_name="Code" value="37.04.01"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976711239"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976710877" name="Психологическое консультирование" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976710877"></prop_value>
-					<prop_value prop_name="Name" value="Психологическое консультирование"></prop_value>
-					<prop_value prop_name="Code" value="37.04.01"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976711239"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711029" name="Финансы и кредит" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711029"></prop_value>
-					<prop_value prop_name="Name" value="Финансы и кредит"></prop_value>
-					<prop_value prop_name="Code" value="38.03.01"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976710743"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711035" name="Менеджмент организации" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711035"></prop_value>
-					<prop_value prop_name="Name" value="Менеджмент организации"></prop_value>
-					<prop_value prop_name="Code" value="38.03.02"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976710732"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711052" name="Прикладная информатика в области принятия решений" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711052"></prop_value>
-					<prop_value prop_name="Name" value="Прикладная информатика в области принятия решений"></prop_value>
-					<prop_value prop_name="Code" value="09.03.03"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976710725"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711053" name="Прикладная информатика в информационной сфере" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711053"></prop_value>
-					<prop_value prop_name="Name" value="Прикладная информатика в информационной сфере"></prop_value>
-					<prop_value prop_name="Code" value="09.03.03"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976710725"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711058" name="Математическое моделирование и компьютерный инжиниринг" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711058"></prop_value>
-					<prop_value prop_name="Name" value="Математическое моделирование и компьютерный инжиниринг"></prop_value>
-					<prop_value prop_name="Code" value="01.03.03"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976710722"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711060" name="Инженерия программного обеспечения" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711060"></prop_value>
-					<prop_value prop_name="Name" value="Инженерия программного обеспечения"></prop_value>
-					<prop_value prop_name="Code" value="02.03.02"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976710711"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711062" name="Математическое моделирование и вычислительная математика" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711062"></prop_value>
-					<prop_value prop_name="Name" value="Математическое моделирование и вычислительная математика"></prop_value>
-					<prop_value prop_name="Code" value="01.03.02"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976710721"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711065" name="Прикладная математика и информатика (общий профиль)" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711065"></prop_value>
-					<prop_value prop_name="Name" value="Прикладная математика и информатика (общий профиль)"></prop_value>
-					<prop_value prop_name="Code" value="01.03.02"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976710721"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711071" name="Математика (общий профиль)" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711071"></prop_value>
-					<prop_value prop_name="Name" value="Математика (общий профиль)"></prop_value>
-					<prop_value prop_name="Code" value="01.03.01"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976710720"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711091" name="Прикладная информатика в области принятия решений" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711091"></prop_value>
-					<prop_value prop_name="Name" value="Прикладная информатика в области принятия решений"></prop_value>
+					<prop_value prop_name="UID" value="26001.281474976710683"></prop_value>
+					<prop_value prop_name="Name" value="Информационные технологии в моделировании и организации бизнес-процессов"></prop_value>
 					<prop_value prop_name="Code" value="09.04.03"></prop_value>
 					<prop_value prop_name="UID_Speciality" value="25031.281474976711229"></prop_value>
 				</Collection>
 			</Object>
-			<Object uid="26001.281474976711093" name="Разработка программно-информационных систем" class_id="Specialization">
+			<Object uid="26001.281474976710684" name="История и обществознание" class_id="Specialization">
 				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711093"></prop_value>
-					<prop_value prop_name="Name" value="Разработка программно-информационных систем"></prop_value>
-					<prop_value prop_name="Code" value="09.03.04"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976710726"></prop_value>
+					<prop_value prop_name="UID" value="26001.281474976710684"></prop_value>
+					<prop_value prop_name="Name" value="История и обществознание"></prop_value>
+					<prop_value prop_name="Code" value="44.03.05"></prop_value>
+					<prop_value prop_name="UID_Speciality" value="25031.281474976710749"></prop_value>
 				</Collection>
 			</Object>
-			<Object uid="26001.281474976711183" name="Физическая реабилитация" class_id="Specialization">
+			<Object uid="26001.281474976710685" name="История и иностранный язык" class_id="Specialization">
 				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711183"></prop_value>
-					<prop_value prop_name="Name" value="Физическая реабилитация"></prop_value>
-					<prop_value prop_name="Code" value="49.03.02"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976712737"></prop_value>
+					<prop_value prop_name="UID" value="26001.281474976710685"></prop_value>
+					<prop_value prop_name="Name" value="История и иностранный язык"></prop_value>
+					<prop_value prop_name="Code" value="44.03.05"></prop_value>
+					<prop_value prop_name="UID_Speciality" value="25031.281474976710749"></prop_value>
 				</Collection>
 			</Object>
-			<Object uid="26001.281474976711196" name="Управление развитием бизнеса" class_id="Specialization">
+			<Object uid="26001.281474976710686" name="Русский язык и литература" class_id="Specialization">
 				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711196"></prop_value>
-					<prop_value prop_name="Name" value="Управление развитием бизнеса"></prop_value>
-					<prop_value prop_name="Code" value="38.04.02"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976711240"></prop_value>
+					<prop_value prop_name="UID" value="26001.281474976710686"></prop_value>
+					<prop_value prop_name="Name" value="Русский язык и литература"></prop_value>
+					<prop_value prop_name="Code" value="44.03.05"></prop_value>
+					<prop_value prop_name="UID_Speciality" value="25031.281474976710749"></prop_value>
 				</Collection>
 			</Object>
-			<Object uid="26001.281474976711207" name="Финансовый мониторинг" class_id="Specialization">
+			<Object uid="26001.281474976710687" name="Иностранный язык (английский) и второй иностранный язык (немецкий)" class_id="Specialization">
 				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711207"></prop_value>
-					<prop_value prop_name="Name" value="Финансовый мониторинг"></prop_value>
-					<prop_value prop_name="Code" value="38.04.08"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976711250"></prop_value>
+					<prop_value prop_name="UID" value="26001.281474976710687"></prop_value>
+					<prop_value prop_name="Name" value="Иностранный язык (английский) и второй иностранный язык (немецкий)"></prop_value>
+					<prop_value prop_name="Code" value="44.03.05"></prop_value>
+					<prop_value prop_name="UID_Speciality" value="25031.281474976710749"></prop_value>
 				</Collection>
 			</Object>
-			<Object uid="26001.281474976711210" name="Экономика компаний и корпораций" class_id="Specialization">
+			<Object uid="26001.281474976710688" name="Иностранный язык" class_id="Specialization">
 				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711210"></prop_value>
-					<prop_value prop_name="Name" value="Экономика компаний и корпораций"></prop_value>
-					<prop_value prop_name="Code" value="38.04.01"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976711247"></prop_value>
+					<prop_value prop_name="UID" value="26001.281474976710688"></prop_value>
+					<prop_value prop_name="Name" value="Иностранный язык"></prop_value>
+					<prop_value prop_name="Code" value="44.03.01"></prop_value>
+					<prop_value prop_name="UID_Speciality" value="25031.281474976710748"></prop_value>
 				</Collection>
 			</Object>
-			<Object uid="26001.281474976711220" name="Экономико-правовое обеспечение экономической безопасности" class_id="Specialization">
+			<Object uid="26001.281474976710689" name="Языковое образование" class_id="Specialization">
 				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711220"></prop_value>
-					<prop_value prop_name="Name" value="Экономико-правовое обеспечение экономической безопасности"></prop_value>
-					<prop_value prop_name="Code" value="38.05.01"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976721240"></prop_value>
+					<prop_value prop_name="UID" value="26001.281474976710689"></prop_value>
+					<prop_value prop_name="Name" value="Языковое образование"></prop_value>
+					<prop_value prop_name="Code" value="44.04.01"></prop_value>
+					<prop_value prop_name="UID_Speciality" value="25031.281474976711512"></prop_value>
 				</Collection>
 			</Object>
-			<Object uid="26001.281474976711221" name="Организация социальной работы с различными группами населения" class_id="Specialization">
+			<Object uid="26001.281474976710690" name="Литературное образование" class_id="Specialization">
 				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711221"></prop_value>
-					<prop_value prop_name="Name" value="Организация социальной работы с различными группами населения"></prop_value>
-					<prop_value prop_name="Code" value="39.03.02"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976710735"></prop_value>
+					<prop_value prop_name="UID" value="26001.281474976710690"></prop_value>
+					<prop_value prop_name="Name" value="Литературное образование"></prop_value>
+					<prop_value prop_name="Code" value="44.04.01"></prop_value>
+					<prop_value prop_name="UID_Speciality" value="25031.281474976711512"></prop_value>
 				</Collection>
 			</Object>
-			<Object uid="26001.281474976711228" name="Математическое моделирование физико-механических процессов" class_id="Specialization">
+			<Object uid="26001.281474976710691" name="Историческое образование (История России)" class_id="Specialization">
 				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711228"></prop_value>
-					<prop_value prop_name="Name" value="Математическое моделирование физико-механических процессов"></prop_value>
-					<prop_value prop_name="Code" value="01.04.02"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976711226"></prop_value>
+					<prop_value prop_name="UID" value="26001.281474976710691"></prop_value>
+					<prop_value prop_name="Name" value="Историческое образование (История России)"></prop_value>
+					<prop_value prop_name="Code" value="44.04.01"></prop_value>
+					<prop_value prop_name="UID_Speciality" value="25031.281474976711512"></prop_value>
 				</Collection>
 			</Object>
-			<Object uid="26001.281474976711241" name="Региональное и муниципальное управление" class_id="Specialization">
+			<Object uid="26001.281474976710692" name="Историческое образование (Всемирная история)" class_id="Specialization">
 				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711241"></prop_value>
-					<prop_value prop_name="Name" value="Региональное и муниципальное управление"></prop_value>
-					<prop_value prop_name="Code" value="38.03.04"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976711248"></prop_value>
+					<prop_value prop_name="UID" value="26001.281474976710692"></prop_value>
+					<prop_value prop_name="Name" value="Историческое образование (Всемирная история)"></prop_value>
+					<prop_value prop_name="Code" value="44.04.01"></prop_value>
+					<prop_value prop_name="UID_Speciality" value="25031.281474976711512"></prop_value>
 				</Collection>
 			</Object>
-			<Object uid="26001.281474976711252" name="Фундаментальная механика и приложения" class_id="Specialization">
+			<Object uid="26001.281474976710693" name="Лингвострановедение, межкультурная коммуникация и профессиональный перевод" class_id="Specialization">
 				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711252"></prop_value>
-					<prop_value prop_name="Name" value="Фундаментальная механика и приложения"></prop_value>
-					<prop_value prop_name="Code" value="01.05.01"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976711017"></prop_value>
+					<prop_value prop_name="UID" value="26001.281474976710693"></prop_value>
+					<prop_value prop_name="Name" value="Лингвострановедение, межкультурная коммуникация и профессиональный перевод"></prop_value>
+					<prop_value prop_name="Code" value="44.04.01"></prop_value>
+					<prop_value prop_name="UID_Speciality" value="25031.281474976711512"></prop_value>
 				</Collection>
 			</Object>
-			<Object uid="26001.281474976711258" name="Документационное обеспечение управления" class_id="Specialization">
+			<Object uid="26001.281474976710694" name="Биология и география" class_id="Specialization">
 				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711258"></prop_value>
-					<prop_value prop_name="Name" value="Документационное обеспечение управления"></prop_value>
-					<prop_value prop_name="Code" value="46.03.02"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976711233"></prop_value>
+					<prop_value prop_name="UID" value="26001.281474976710694"></prop_value>
+					<prop_value prop_name="Name" value="Биология и география"></prop_value>
+					<prop_value prop_name="Code" value="44.03.05"></prop_value>
+					<prop_value prop_name="UID_Speciality" value="25031.281474976710749"></prop_value>
 				</Collection>
 			</Object>
-			<Object uid="26001.281474976711264" name="Общая и практическая психология" class_id="Specialization">
+			<Object uid="26001.281474976710695" name="Биология и химия" class_id="Specialization">
 				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711264"></prop_value>
-					<prop_value prop_name="Name" value="Общая и практическая психология"></prop_value>
+					<prop_value prop_name="UID" value="26001.281474976710695"></prop_value>
+					<prop_value prop_name="Name" value="Биология и химия"></prop_value>
+					<prop_value prop_name="Code" value="44.03.05"></prop_value>
+					<prop_value prop_name="UID_Speciality" value="25031.281474976710749"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26001.281474976710696" name="Биология" class_id="Specialization">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26001.281474976710696"></prop_value>
+					<prop_value prop_name="Name" value="Биология"></prop_value>
+					<prop_value prop_name="Code" value="44.03.01"></prop_value>
+					<prop_value prop_name="UID_Speciality" value="25031.281474976710748"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26001.281474976710697" name="Биология в новой образовательной практике" class_id="Specialization">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26001.281474976710697"></prop_value>
+					<prop_value prop_name="Name" value="Биология в новой образовательной практике"></prop_value>
+					<prop_value prop_name="Code" value="44.04.01"></prop_value>
+					<prop_value prop_name="UID_Speciality" value="25031.281474976711512"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26001.281474976710698" name="Менеджмент и экономика в области физической культуры и спорта" class_id="Specialization">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26001.281474976710698"></prop_value>
+					<prop_value prop_name="Name" value="Менеджмент и экономика в области физической культуры и спорта"></prop_value>
+					<prop_value prop_name="Code" value="49.03.01"></prop_value>
+					<prop_value prop_name="UID_Speciality" value="25031.281474976710736"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26001.281474976710699" name="Начальное образование и дошкольное образование" class_id="Specialization">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26001.281474976710699"></prop_value>
+					<prop_value prop_name="Name" value="Начальное образование и дошкольное образование"></prop_value>
+					<prop_value prop_name="Code" value="44.03.05"></prop_value>
+					<prop_value prop_name="UID_Speciality" value="25031.281474976710749"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26001.281474976710700" name="Начальное образование" class_id="Specialization">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26001.281474976710700"></prop_value>
+					<prop_value prop_name="Name" value="Начальное образование"></prop_value>
+					<prop_value prop_name="Code" value="44.03.01"></prop_value>
+					<prop_value prop_name="UID_Speciality" value="25031.281474976710748"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26001.281474976710701" name="Дошкольное образование" class_id="Specialization">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26001.281474976710701"></prop_value>
+					<prop_value prop_name="Name" value="Дошкольное образование"></prop_value>
+					<prop_value prop_name="Code" value="44.03.01"></prop_value>
+					<prop_value prop_name="UID_Speciality" value="25031.281474976710748"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26001.281474976710702" name="Менеджмент в образовании" class_id="Specialization">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26001.281474976710702"></prop_value>
+					<prop_value prop_name="Name" value="Менеджмент в образовании"></prop_value>
+					<prop_value prop_name="Code" value="44.04.01"></prop_value>
+					<prop_value prop_name="UID_Speciality" value="25031.281474976711512"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26001.281474976710703" name="Информационно-коммуникационные технологии в начальном образовании" class_id="Specialization">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26001.281474976710703"></prop_value>
+					<prop_value prop_name="Name" value="Информационно-коммуникационные технологии в начальном образовании"></prop_value>
+					<prop_value prop_name="Code" value="44.04.01"></prop_value>
+					<prop_value prop_name="UID_Speciality" value="25031.281474976711512"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26001.281474976710704" name="Мониторинг качества образования" class_id="Specialization">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26001.281474976710704"></prop_value>
+					<prop_value prop_name="Name" value="Мониторинг качества образования"></prop_value>
+					<prop_value prop_name="Code" value="44.04.01"></prop_value>
+					<prop_value prop_name="UID_Speciality" value="25031.281474976711512"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26001.281474976710705" name="Психология" class_id="Specialization">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26001.281474976710705"></prop_value>
+					<prop_value prop_name="Name" value="Психология"></prop_value>
 					<prop_value prop_name="Code" value="37.03.01"></prop_value>
 					<prop_value prop_name="UID_Speciality" value="25031.281474976710730"></prop_value>
 				</Collection>
 			</Object>
-			<Object uid="26001.281474976711269" name="Управление и развитие персонала организации" class_id="Specialization">
+			<Object uid="26001.281474976710706" name="Психология развития" class_id="Specialization">
 				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711269"></prop_value>
-					<prop_value prop_name="Name" value="Управление и развитие персонала организации"></prop_value>
-					<prop_value prop_name="Code" value="38.03.03"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976710733"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711281" name="Организация гостиничной деятельности и бизнес-мероприятий" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711281"></prop_value>
-					<prop_value prop_name="Name" value="Организация гостиничной деятельности и бизнес-мероприятий"></prop_value>
-					<prop_value prop_name="Code" value="43.03.03"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976712736"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711284" name="Управление человеческими ресурсами" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711284"></prop_value>
-					<prop_value prop_name="Name" value="Управление человеческими ресурсами"></prop_value>
-					<prop_value prop_name="Code" value="38.03.03"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976710733"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711285" name="Экономика, международный бизнес и предпринимательство" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711285"></prop_value>
-					<prop_value prop_name="Name" value="Экономика, международный бизнес и предпринимательство"></prop_value>
-					<prop_value prop_name="Code" value="38.03.01"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976710743"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711287" name="Финансы и кредит. Бухгалтерский учет" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711287"></prop_value>
-					<prop_value prop_name="Name" value="Финансы и кредит. Бухгалтерский учет"></prop_value>
-					<prop_value prop_name="Code" value="38.03.01"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976710743"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711302" name="Прикладная информатика в области обработки данных" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711302"></prop_value>
-					<prop_value prop_name="Name" value="Прикладная информатика в области обработки данных"></prop_value>
-					<prop_value prop_name="Code" value="09.03.03"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976710725"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711314" name="Фундаментальная математика и приложения" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711314"></prop_value>
-					<prop_value prop_name="Name" value="Фундаментальная математика и приложения"></prop_value>
-					<prop_value prop_name="Code" value="01.04.01"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976711225"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711317" name="Психологическое обеспечение служебной деятельности в экстремальных условиях" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711317"></prop_value>
-					<prop_value prop_name="Name" value="Психологическое обеспечение служебной деятельности в экстремальных условиях"></prop_value>
-					<prop_value prop_name="Code" value="37.05.02"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976710731"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711344" name="Компьютерные науки и приложения" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711344"></prop_value>
-					<prop_value prop_name="Name" value="Компьютерные науки и приложения"></prop_value>
-					<prop_value prop_name="Code" value="01.04.02"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976711226"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711345" name="Вычислительные методы и суперкомпьютерные технологии" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711345"></prop_value>
-					<prop_value prop_name="Name" value="Вычислительные методы и суперкомпьютерные технологии"></prop_value>
-					<prop_value prop_name="Code" value="01.04.02"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976711226"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711357" name="Общий профиль" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711357"></prop_value>
-					<prop_value prop_name="Name" value="Общий профиль"></prop_value>
-					<prop_value prop_name="Code" value="02.03.02"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976710711"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711379" name="Информационное и программное обеспечение. Инженерия" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711379"></prop_value>
-					<prop_value prop_name="Name" value="Информационное и программное обеспечение. Инженерия"></prop_value>
-					<prop_value prop_name="Code" value="01.04.03"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976711227"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711421" name="Всеобщая и отечественная история" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711421"></prop_value>
-					<prop_value prop_name="Name" value="Всеобщая и отечественная история"></prop_value>
-					<prop_value prop_name="Code" value="46.03.01"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976710742"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711422" name="Мировая экономика" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711422"></prop_value>
-					<prop_value prop_name="Name" value="Мировая экономика"></prop_value>
-					<prop_value prop_name="Code" value="38.03.01"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976710743"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711423" name="Аналитические методы и информационные технологии поддержки принятия решений в экономике и бизнесе" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711423"></prop_value>
-					<prop_value prop_name="Name" value="Аналитические методы и информационные технологии поддержки принятия решений в экономике и бизнесе"></prop_value>
-					<prop_value prop_name="Code" value="38.03.05"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976710744"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711427" name="Гражданское и предпринимательское право" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711427"></prop_value>
-					<prop_value prop_name="Name" value="Гражданское и предпринимательское право"></prop_value>
-					<prop_value prop_name="Code" value="40.03.01"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976711230"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711428" name="Менеджмент международного и внутреннего туризма" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711428"></prop_value>
-					<prop_value prop_name="Name" value="Менеджмент международного и внутреннего туризма"></prop_value>
-					<prop_value prop_name="Code" value="43.03.02"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976710741"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711431" name="Информационные системы и технологии в физических исследованиях" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711431"></prop_value>
-					<prop_value prop_name="Name" value="Информационные системы и технологии в физических исследованиях"></prop_value>
-					<prop_value prop_name="Code" value="09.03.02"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976710719"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711444" name="Управление бизнесом и финансами" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711444"></prop_value>
-					<prop_value prop_name="Name" value="Управление бизнесом и финансами"></prop_value>
-					<prop_value prop_name="Code" value="38.04.02"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976711240"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711467" name="Социальная конфликтология" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711467"></prop_value>
-					<prop_value prop_name="Name" value="Социальная конфликтология"></prop_value>
-					<prop_value prop_name="Code" value="37.03.02"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976737637"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711468" name="Организация и управление здравоохранением" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711468"></prop_value>
-					<prop_value prop_name="Name" value="Организация и управление здравоохранением"></prop_value>
-					<prop_value prop_name="Code" value="38.04.02"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976711240"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711476" name="Социальные процессы и институты: динамика и управление" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711476"></prop_value>
-					<prop_value prop_name="Name" value="Социальные процессы и институты: динамика и управление"></prop_value>
-					<prop_value prop_name="Code" value="39.04.01"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976711242"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711481" name="Интернет-технологии в экономике" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711481"></prop_value>
-					<prop_value prop_name="Name" value="Интернет-технологии в экономике"></prop_value>
-					<prop_value prop_name="Code" value="09.04.03"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976711229"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711484" name="Анализ и оптимизация бизнес-процессов" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711484"></prop_value>
-					<prop_value prop_name="Name" value="Анализ и оптимизация бизнес-процессов"></prop_value>
-					<prop_value prop_name="Code" value="38.04.05"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976711257"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711485" name="Психофизиология и когнитивная реабилитация" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711485"></prop_value>
-					<prop_value prop_name="Name" value="Психофизиология и когнитивная реабилитация"></prop_value>
+					<prop_value prop_name="UID" value="26001.281474976710706"></prop_value>
+					<prop_value prop_name="Name" value="Психология развития"></prop_value>
 					<prop_value prop_name="Code" value="37.04.01"></prop_value>
 					<prop_value prop_name="UID_Speciality" value="25031.281474976711239"></prop_value>
 				</Collection>
 			</Object>
-			<Object uid="26001.281474976711504" name="Таможенные операции и таможенный контроль" class_id="Specialization">
+			<Object uid="26001.281474976710707" name="Социальная работа в системе социальных служб" class_id="Specialization">
 				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711504"></prop_value>
-					<prop_value prop_name="Name" value="Таможенные операции и таможенный контроль"></prop_value>
-					<prop_value prop_name="Code" value="38.05.02"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976710746"></prop_value>
+					<prop_value prop_name="UID" value="26001.281474976710707"></prop_value>
+					<prop_value prop_name="Name" value="Социальная работа в системе социальных служб"></prop_value>
+					<prop_value prop_name="Code" value="39.03.02"></prop_value>
+					<prop_value prop_name="UID_Speciality" value="25031.281474976710735"></prop_value>
 				</Collection>
 			</Object>
-			<Object uid="26001.281474976711509" name="Международный бизнес" class_id="Specialization">
+			<Object uid="26001.281474976710708" name="Психология образования" class_id="Specialization">
 				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711509"></prop_value>
-					<prop_value prop_name="Name" value="Международный бизнес"></prop_value>
-					<prop_value prop_name="Code" value="38.04.01"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976711247"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711510" name="Финансовая аналитика и консалтинг" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711510"></prop_value>
-					<prop_value prop_name="Name" value="Финансовая аналитика и консалтинг"></prop_value>
-					<prop_value prop_name="Code" value="38.04.08"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976711250"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711526" name="Социальная теория и комплексный анализ данных" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711526"></prop_value>
-					<prop_value prop_name="Name" value="Социальная теория и комплексный анализ данных"></prop_value>
-					<prop_value prop_name="Code" value="39.03.01"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976710734"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711532" name="Технологии цифровой трансформации" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711532"></prop_value>
-					<prop_value prop_name="Name" value="Технологии цифровой трансформации"></prop_value>
-					<prop_value prop_name="Code" value="09.04.04"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976737659"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711537" name="Управление персоналом" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711537"></prop_value>
-					<prop_value prop_name="Name" value="Управление персоналом"></prop_value>
-					<prop_value prop_name="Code" value="38.04.03"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976711241"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711541" name="Управление креативным персоналом" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711541"></prop_value>
-					<prop_value prop_name="Name" value="Управление креативным персоналом"></prop_value>
-					<prop_value prop_name="Code" value="38.04.03"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976711241"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711542" name="Стратегическое планирование и управление" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711542"></prop_value>
-					<prop_value prop_name="Name" value="Стратегическое планирование и управление"></prop_value>
-					<prop_value prop_name="Code" value="38.04.04"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976711249"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711543" name="Маркетинг в цифровой экономике" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711543"></prop_value>
-					<prop_value prop_name="Name" value="Маркетинг в цифровой экономике"></prop_value>
-					<prop_value prop_name="Code" value="38.04.06"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976711258"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711544" name="Управление торговой и логистической деятельностью" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711544"></prop_value>
-					<prop_value prop_name="Name" value="Управление торговой и логистической деятельностью"></prop_value>
-					<prop_value prop_name="Code" value="38.03.06"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976710745"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711545" name="Киберпсихология" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711545"></prop_value>
-					<prop_value prop_name="Name" value="Киберпсихология"></prop_value>
-					<prop_value prop_name="Code" value="37.04.01"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976711239"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711548" name="Управление человеческим капиталом организации" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711548"></prop_value>
-					<prop_value prop_name="Name" value="Управление человеческим капиталом организации"></prop_value>
-					<prop_value prop_name="Code" value="38.04.03"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976711241"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711551" name="Патопсихологическая диагностика и психотерапия" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711551"></prop_value>
-					<prop_value prop_name="Name" value="Патопсихологическая диагностика и психотерапия"></prop_value>
-					<prop_value prop_name="Code" value="37.05.01"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976743767"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711555" name="Социальное предпринимательство и проектирование организаций в социальной сфере" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711555"></prop_value>
-					<prop_value prop_name="Name" value="Социальное предпринимательство и проектирование организаций в социальной сфере"></prop_value>
-					<prop_value prop_name="Code" value="39.04.02"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976711243"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711556" name="Экономическая социология и урбанистика" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711556"></prop_value>
-					<prop_value prop_name="Name" value="Экономическая социология и урбанистика"></prop_value>
-					<prop_value prop_name="Code" value="39.04.01"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976711242"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711572" name="Учетно-аналитические и аудиторские системы в цифровой экономике" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711572"></prop_value>
-					<prop_value prop_name="Name" value="Учетно-аналитические и аудиторские системы в цифровой экономике"></prop_value>
-					<prop_value prop_name="Code" value="38.04.01"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976711247"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711573" name="Информационная безопасность экономических процессов" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711573"></prop_value>
-					<prop_value prop_name="Name" value="Информационная безопасность экономических процессов"></prop_value>
-					<prop_value prop_name="Code" value="38.04.01"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976711247"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711575" name="Искусственный интеллект" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711575"></prop_value>
-					<prop_value prop_name="Name" value="Искусственный интеллект"></prop_value>
-					<prop_value prop_name="Code" value="02.04.02"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976711220"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711576" name="Цифровые системы учета, анализа и аудита" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711576"></prop_value>
-					<prop_value prop_name="Name" value="Цифровые системы учета, анализа и аудита"></prop_value>
-					<prop_value prop_name="Code" value="38.03.01"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976710743"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711580" name="Дифференциальные уравнения и математическая физика" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711580"></prop_value>
-					<prop_value prop_name="Name" value="Дифференциальные уравнения и математическая физика"></prop_value>
-					<prop_value prop_name="Code" value="1.1.2."></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976750912"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711581" name="Теория вероятностей и математическая статистика" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711581"></prop_value>
-					<prop_value prop_name="Name" value="Теория вероятностей и математическая статистика"></prop_value>
-					<prop_value prop_name="Code" value="1.1.4."></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976750913"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711582" name="Математическая логика, алгебра, теория чисел и дискретная математика" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711582"></prop_value>
-					<prop_value prop_name="Name" value="Математическая логика, алгебра, теория чисел и дискретная математика"></prop_value>
-					<prop_value prop_name="Code" value="1.1.5."></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976750914"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711584" name="Теоретическая механика, динамика машин" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711584"></prop_value>
-					<prop_value prop_name="Name" value="Теоретическая механика, динамика машин"></prop_value>
-					<prop_value prop_name="Code" value="1.1.7."></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976750915"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711585" name="Механика деформируемого твердого тела" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711585"></prop_value>
-					<prop_value prop_name="Name" value="Механика деформируемого твердого тела"></prop_value>
-					<prop_value prop_name="Code" value="1.1.8."></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976750916"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711586" name="Искусственный интеллект и машинное обучение" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711586"></prop_value>
-					<prop_value prop_name="Name" value="Искусственный интеллект и машинное обучение"></prop_value>
-					<prop_value prop_name="Code" value="1.2.1."></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976750917"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711587" name="Математическое моделирование, численные методы и комплексы программ" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711587"></prop_value>
-					<prop_value prop_name="Name" value="Математическое моделирование, численные методы и комплексы программ"></prop_value>
-					<prop_value prop_name="Code" value="1.2.2."></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976750918"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711624" name="Экономическая теория" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711624"></prop_value>
-					<prop_value prop_name="Name" value="Экономическая теория"></prop_value>
-					<prop_value prop_name="Code" value="5.2.1."></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976750945"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711626" name="Бухгалтерский учет, анализ, аудит и экономическая статистика" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711626"></prop_value>
-					<prop_value prop_name="Name" value="Бухгалтерский учет, анализ, аудит и экономическая статистика"></prop_value>
-					<prop_value prop_name="Code" value="5.2.3."></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976750946"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711627" name="Экономика промышленности" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711627"></prop_value>
-					<prop_value prop_name="Name" value="Экономика промышленности"></prop_value>
-					<prop_value prop_name="Code" value="5.2.3."></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976750946"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711628" name="Финансы" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711628"></prop_value>
-					<prop_value prop_name="Name" value="Финансы"></prop_value>
-					<prop_value prop_name="Code" value="5.2.4."></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976750947"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711630" name="Менеджмент" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711630"></prop_value>
-					<prop_value prop_name="Name" value="Менеджмент"></prop_value>
-					<prop_value prop_name="Code" value="5.2.6."></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976750948"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711632" name="Психология труда, инженерная психология, когнитивная эргономика" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711632"></prop_value>
-					<prop_value prop_name="Name" value="Психология труда, инженерная психология, когнитивная эргономика"></prop_value>
-					<prop_value prop_name="Code" value="5.3.3."></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976750950"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711633" name="Педагогическая психология, психодиагностика цифровых образовательных сред" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711633"></prop_value>
-					<prop_value prop_name="Name" value="Педагогическая психология, психодиагностика цифровых образовательных сред"></prop_value>
-					<prop_value prop_name="Code" value="5.3.4."></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976750951"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711634" name="Социальная психология" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711634"></prop_value>
-					<prop_value prop_name="Name" value="Социальная психология"></prop_value>
-					<prop_value prop_name="Code" value="5.3.5."></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976750952"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711635" name="Возрастная психология" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711635"></prop_value>
-					<prop_value prop_name="Name" value="Возрастная психология"></prop_value>
-					<prop_value prop_name="Code" value="5.3.7."></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976750953"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711636" name="Экономическая социология" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711636"></prop_value>
-					<prop_value prop_name="Name" value="Экономическая социология"></prop_value>
-					<prop_value prop_name="Code" value="5.4.2."></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976750954"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711637" name="Социальная структура, социальные институты и процессы" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711637"></prop_value>
-					<prop_value prop_name="Name" value="Социальная структура, социальные институты и процессы"></prop_value>
-					<prop_value prop_name="Code" value="5.4.4."></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976750955"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711638" name="Социология культуры" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711638"></prop_value>
-					<prop_value prop_name="Name" value="Социология культуры"></prop_value>
-					<prop_value prop_name="Code" value="5.4.6."></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976750956"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711639" name="Социология управления" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711639"></prop_value>
-					<prop_value prop_name="Name" value="Социология управления"></prop_value>
-					<prop_value prop_name="Code" value="5.4.7."></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976750957"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711660" name="Междисциплинарные исследования когнитивных процессов" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711660"></prop_value>
-					<prop_value prop_name="Name" value="Междисциплинарные исследования когнитивных процессов"></prop_value>
-					<prop_value prop_name="Code" value="5.12.1."></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976750944"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711661" name="Дизайн информации" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711661"></prop_value>
-					<prop_value prop_name="Name" value="Дизайн информации"></prop_value>
-					<prop_value prop_name="Code" value="39.04.01"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976711242"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711663" name="Физическая реабилитация" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711663"></prop_value>
-					<prop_value prop_name="Name" value="Физическая реабилитация"></prop_value>
-					<prop_value prop_name="Code" value="49.04.02"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976749975"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711668" name="Искусственный интеллект и машинное обучение (на английском языке)" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711668"></prop_value>
-					<prop_value prop_name="Name" value="Искусственный интеллект и машинное обучение (на английском языке)"></prop_value>
-					<prop_value prop_name="Code" value="1.2.1."></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976750917"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711670" name="Креативный менеджмент" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711670"></prop_value>
-					<prop_value prop_name="Name" value="Креативный менеджмент"></prop_value>
-					<prop_value prop_name="Code" value="38.04.02"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976711240"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711674" name="Проектирование и автоматизация производства изделий микроэлектроники" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711674"></prop_value>
-					<prop_value prop_name="Name" value="Проектирование и автоматизация производства изделий микроэлектроники"></prop_value>
-					<prop_value prop_name="Code" value="09.03.03"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976710725"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711681" name="Проектирование и автоматизация производства изделий микроэлектроники" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711681"></prop_value>
-					<prop_value prop_name="Name" value="Проектирование и автоматизация производства изделий микроэлектроники"></prop_value>
-					<prop_value prop_name="Code" value="09.04.03"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976711229"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711683" name="Анализ данных в прикладных областях" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711683"></prop_value>
-					<prop_value prop_name="Name" value="Анализ данных в прикладных областях"></prop_value>
-					<prop_value prop_name="Code" value="01.04.02"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976711226"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711705" name="Искусственный интеллект и анализ данных" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711705"></prop_value>
-					<prop_value prop_name="Name" value="Искусственный интеллект и анализ данных"></prop_value>
-					<prop_value prop_name="Code" value="02.04.02"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976711220"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711706" name="Предоставление туроператорских и турагентских услуг" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711706"></prop_value>
-					<prop_value prop_name="Name" value="Предоставление туроператорских и турагентских услуг"></prop_value>
-					<prop_value prop_name="Code" value="43.02.16"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976753287"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711726" name="Предоставление гостиничных услуг" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711726"></prop_value>
-					<prop_value prop_name="Name" value="Предоставление гостиничных услуг"></prop_value>
-					<prop_value prop_name="Code" value="43.02.16"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976753287"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711728" name="Суперкомпьютерное моделирование и инженерный анализ" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711728"></prop_value>
-					<prop_value prop_name="Name" value="Суперкомпьютерное моделирование и инженерный анализ"></prop_value>
-					<prop_value prop_name="Code" value="09.03.03"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976710725"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711734" name="Инженерное приложение суперкомпьютерного моделирования" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711734"></prop_value>
-					<prop_value prop_name="Name" value="Инженерное приложение суперкомпьютерного моделирования"></prop_value>
-					<prop_value prop_name="Code" value="15.03.03"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976755672"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711746" name="Стоматология" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711746"></prop_value>
-					<prop_value prop_name="Name" value="Стоматология"></prop_value>
-					<prop_value prop_name="Code" value="31.05.03"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976737638"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711750" name="Лечебное дело" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711750"></prop_value>
-					<prop_value prop_name="Name" value="Лечебное дело"></prop_value>
-					<prop_value prop_name="Code" value="31.05.01"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976737639"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711752" name="Кардиология" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711752"></prop_value>
-					<prop_value prop_name="Name" value="Кардиология"></prop_value>
-					<prop_value prop_name="Code" value="31.08.36"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976749935"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711753" name="Анестезиология-реаниматология" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711753"></prop_value>
-					<prop_value prop_name="Name" value="Анестезиология-реаниматология"></prop_value>
-					<prop_value prop_name="Code" value="31.08.02"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976749947"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711755" name="Физическая и реабилитационная медицина" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711755"></prop_value>
-					<prop_value prop_name="Name" value="Физическая и реабилитационная медицина"></prop_value>
-					<prop_value prop_name="Code" value="31.08.78"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976752842"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711756" name="Акушерство и гинекология" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711756"></prop_value>
-					<prop_value prop_name="Name" value="Акушерство и гинекология"></prop_value>
-					<prop_value prop_name="Code" value="31.08.01"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976756029"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711757" name="Математическая робототехника" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711757"></prop_value>
-					<prop_value prop_name="Name" value="Математическая робототехника"></prop_value>
-					<prop_value prop_name="Code" value="01.04.02"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976711226"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711762" name="Психиатрия" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711762"></prop_value>
-					<prop_value prop_name="Name" value="Психиатрия"></prop_value>
-					<prop_value prop_name="Code" value="31.08.20"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976755673"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711767" name="Юрист в сфере правового обеспечения организаций и граждан" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711767"></prop_value>
-					<prop_value prop_name="Name" value="Юрист в сфере правового обеспечения организаций и граждан"></prop_value>
-					<prop_value prop_name="Code" value="40.02.04"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976753286"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711768" name="Коммерция и осуществление интернет-маркетинга" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711768"></prop_value>
-					<prop_value prop_name="Name" value="Коммерция и осуществление интернет-маркетинга"></prop_value>
-					<prop_value prop_name="Code" value="38.02.08"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976757018"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711769" name="Экономика развития" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711769"></prop_value>
-					<prop_value prop_name="Name" value="Экономика развития"></prop_value>
-					<prop_value prop_name="Code" value="5.2.1."></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976750945"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711771" name="Молодежная политика и технологии работы с молодежью" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711771"></prop_value>
-					<prop_value prop_name="Name" value="Молодежная политика и технологии работы с молодежью"></prop_value>
-					<prop_value prop_name="Code" value="39.03.03"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976711515"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711772" name="Математическое обеспечение программных продуктов индустриального назначения" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711772"></prop_value>
-					<prop_value prop_name="Name" value="Математическое обеспечение программных продуктов индустриального назначения"></prop_value>
-					<prop_value prop_name="Code" value="1.2.2."></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976750918"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711773" name="Бухгалтерский учет" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711773"></prop_value>
-					<prop_value prop_name="Name" value="Бухгалтерский учет"></prop_value>
-					<prop_value prop_name="Code" value="38.03.01"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976710743"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711774" name="Психолого-педагогическое консультирование и развитие жизнестойкости субъектов образования" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711774"></prop_value>
-					<prop_value prop_name="Name" value="Психолого-педагогическое консультирование и развитие жизнестойкости субъектов образования"></prop_value>
+					<prop_value prop_name="UID" value="26001.281474976710708"></prop_value>
+					<prop_value prop_name="Name" value="Психология образования"></prop_value>
 					<prop_value prop_name="Code" value="44.03.02"></prop_value>
 					<prop_value prop_name="UID_Speciality" value="25031.281474976711514"></prop_value>
 				</Collection>
 			</Object>
-			<Object uid="26001.281474976711775" name="Офтальмология" class_id="Specialization">
+			<Object uid="26001.281474976710709" name="Психология и социальная педагогика" class_id="Specialization">
 				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711775"></prop_value>
-					<prop_value prop_name="Name" value="Офтальмология"></prop_value>
-					<prop_value prop_name="Code" value="31.08.59"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976757862"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711777" name="Банковское дело" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711777"></prop_value>
-					<prop_value prop_name="Name" value="Банковское дело"></prop_value>
-					<prop_value prop_name="Code" value="38.02.07"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976711494"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711778" name="Терапия" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711778"></prop_value>
-					<prop_value prop_name="Name" value="Терапия"></prop_value>
-					<prop_value prop_name="Code" value="31.08.49"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976746509"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711780" name="Сопряженная разработка программного и аппаратного обеспечения" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711780"></prop_value>
-					<prop_value prop_name="Name" value="Сопряженная разработка программного и аппаратного обеспечения"></prop_value>
-					<prop_value prop_name="Code" value="02.03.02"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976710711"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711782" name="Информационные технологии и искусственный интеллект в экономике" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711782"></prop_value>
-					<prop_value prop_name="Name" value="Информационные технологии и искусственный интеллект в экономике"></prop_value>
-					<prop_value prop_name="Code" value="09.04.03"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976711229"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711783" name="Бухгалтерский учет, экономический анализ и аудит" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711783"></prop_value>
-					<prop_value prop_name="Name" value="Бухгалтерский учет, экономический анализ и аудит"></prop_value>
-					<prop_value prop_name="Code" value="38.03.01"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976710743"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711785" name="Цифровые технологии анализа данных в корпоративных и государственных финансах" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711785"></prop_value>
-					<prop_value prop_name="Name" value="Цифровые технологии анализа данных в корпоративных и государственных финансах"></prop_value>
-					<prop_value prop_name="Code" value="38.04.05"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976711257"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711788" name="Киберпсихология и дизайн-аналитика" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711788"></prop_value>
-					<prop_value prop_name="Name" value="Киберпсихология и дизайн-аналитика"></prop_value>
-					<prop_value prop_name="Code" value="37.04.01"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976711239"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711789" name="Клиническая (медицинская) психология" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711789"></prop_value>
-					<prop_value prop_name="Name" value="Клиническая (медицинская) психология"></prop_value>
-					<prop_value prop_name="Code" value="37.04.01"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976711239"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711790" name="Демография" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711790"></prop_value>
-					<prop_value prop_name="Name" value="Демография"></prop_value>
-					<prop_value prop_name="Code" value="39.04.01"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976711242"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711794" name="Пластическая хирургия" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711794"></prop_value>
-					<prop_value prop_name="Name" value="Пластическая хирургия"></prop_value>
-					<prop_value prop_name="Code" value="31.08.60"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976759360"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711796" name="Юрист в сфере правового обеспечения деятельности организаций и граждан" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711796"></prop_value>
-					<prop_value prop_name="Name" value="Юрист в сфере правового обеспечения деятельности организаций и граждан"></prop_value>
-					<prop_value prop_name="Code" value="40.02.04"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976753286"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711797" name="Экономика и бухгалтерский учет (по отраслям)" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711797"></prop_value>
-					<prop_value prop_name="Name" value="Экономика и бухгалтерский учет (по отраслям)"></prop_value>
-					<prop_value prop_name="Code" value="38.02.01"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976711508"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711799" name="Бухгалтерское, аудиторское и налоговое сопровождение бизнеса" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711799"></prop_value>
-					<prop_value prop_name="Name" value="Бухгалтерское, аудиторское и налоговое сопровождение бизнеса"></prop_value>
-					<prop_value prop_name="Code" value="38.04.01"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976711247"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711800" name="Финансы" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711800"></prop_value>
-					<prop_value prop_name="Name" value="Финансы"></prop_value>
-					<prop_value prop_name="Code" value="38.02.06"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976711507"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711810" name="Математическое моделирование и искусственный интеллект" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711810"></prop_value>
-					<prop_value prop_name="Name" value="Математическое моделирование и искусственный интеллект"></prop_value>
-					<prop_value prop_name="Code" value="01.03.02"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976710721"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711811" name="Системное программирование" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711811"></prop_value>
-					<prop_value prop_name="Name" value="Системное программирование"></prop_value>
-					<prop_value prop_name="Code" value="02.03.02"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976710711"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="26001.281474976711812" name="Прикладное и индустриальное программирование" class_id="Specialization">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26001.281474976711812"></prop_value>
-					<prop_value prop_name="Name" value="Прикладное и индустриальное программирование"></prop_value>
-					<prop_value prop_name="Code" value="09.03.04"></prop_value>
-					<prop_value prop_name="UID_Speciality" value="25031.281474976710726"></prop_value>
-				</Collection>
-			</Object>
-		</Collection>
-	</Data>
-</Data_Root>
+					<prop_value prop_name="UID" value="26001.281474976710709"></prop_value>
+					<prop_value prop_name="Name" value="Психо�

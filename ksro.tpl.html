@@ -14,31 +14,47 @@
   </thead>
 
   <tbody>
-    <tr ng-repeat="row in ksro" class="pointer">
-      <td>{{row.lecturer_fio}}</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
+    <tr ng-repeat="row in ksro" class="pointer" ng-click="editKSRO(row)">
+      <td>{{row.fio}}</td>
+      <td>{{row.dolzhnost}}</td>
+      <td>{{row.stavka}}</td>
+      <td>{{$_languages[row.language_uid]}}</td>
+      <td>{{row.ik_osen}}</td>
+      <td>{{row.ik_vesna}}</td>
+      <td>{{row.ksro_osen}}</td>
+      <td>{{row.ksro_vesna}}</td>
     </tr>
   </tbody>
+
+  <tfoot>
+    <tr>
+      <th ind="0">
+      </th>
+      <th ind="1"></th>
+      <th ind="2"></th>
+      <th ind="3"></th>
+      <th ind="4"></th>
+      <th ind="5"></th>
+      <th ind="6"></th>
+      <th ind="7"></th>
+    </tr>
+  </tfoot>
+  
 </table>
 
 
-<button class="btn btn-primary btn-sm" ng-click="data.show_add_ksro = true" ng-if="!data.show_add_ksro">Добавить</button>
+<button class="btn btn-primary btn-sm" ng-click="data.show_edit_ksro = true" ng-if="!data.show_edit_ksro">Добавить</button>
 
-<div ng-if="data.show_add_ksro">
+<div ng-if="data.show_edit_ksro">
   
-  <h4 ng-if="data.edit_ksro_id">Редактирование записи</h4>
-  <h4 ng-if="!data.edit_ksro_id">Добавление новой записи</h4>
+  <h4 ng-if="edit_ksro.id">Редактирование</h4>
+  <h4 ng-if="!edit_ksro.id">Добавить</h4>
   
   <div>
     <div style="width: 400px">
       <label class="form-label">ФИО:</label>
-      <div>
+      <span ng-if="edit_ksro.id">{{edit_ksro.fio}}</span>
+      <div ng-if="!edit_ksro.id">
         <!-- {{row.xml_content_of_load_UID}}_{{row.xml_content_of_load_staff_UID}} -->
         <angucomplete-alt id="lecturer_autocomplete" input-name=""
             placeholder="Введите ФИО"
@@ -57,12 +73,12 @@
             input-class="form-control autocomplete" style='width:50%' />
       </div>
     </div>
-    <div ng-if="edit_ksro.lecturer_fio">
-      <label class="form-label">Должность: {{edit_ksro.lecturer_dolzhnost}}</label>
+    <div ng-if="edit_ksro.person_id">
+      <label class="form-label">Должность: {{edit_ksro.dolzhnost}}</label>
       <!-- <input type="text" class="form-control" ng-model="edit_ksro.lecturer_dolzhnost" readonly> -->
     </div>
-    <div ng-if="edit_ksro.lecturer_fio">
-      <label class="form-label">Доля ставки: {{edit_ksro.lecturer_stavka}}</label>
+    <div ng-if="edit_ksro.person_id">
+      <label class="form-label">Доля ставки: {{edit_ksro.stavka}}</label>
       <!-- <input type="text" class="form-control" ng-model="edit_ksro.lecturer_stavka" readonly> -->
     </div>
   </div>
@@ -99,8 +115,8 @@
   </div>
 
   <div class="mb-3 mt-3">
-    <button class="btn btn-success btn-sm" ng-click="saveKSRO()">Сохранить</button>
-    <button class="btn btn-danger btn-sm" ng-click="deleteKSRO()" ng-if="edit_ksro_id">Удалить</button>
+    <button class="btn btn-success btn-sm" ng-click="saveKSRO()" ng-disabled="!edit_ksro.person_id">Сохранить</button>
+    <button class="btn btn-danger btn-sm" ng-click="deleteKSRO(edit_ksro)" ng-if="edit_ksro.id">Удалить</button>
     <button class="btn btn-secondary btn-sm" ng-click="cancelKSRO()">Отмена</button>
   </div>
 </div>

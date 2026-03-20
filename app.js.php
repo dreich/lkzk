@@ -68,6 +68,7 @@ const c_sotrudnik_lecturer_uids = [<?=JoinArrayElements(ExplodePalki($_SESSION['
 CL(c_sotrudnik_chairs_ids);
 CL(c_sotrudnik_lecturer_uids);
 CL(c_sotrudnik_chairs_titles);
+const $_languages = {'25031.281474976715638': 'Русский', '25031.945': 'Английский'};
 
 // HACK
 // c_chair_id = c_sotrudnik_chairs_ids[0];
@@ -4051,6 +4052,7 @@ $scope.toggleAdminChangeChair = function(chair) {
 
   $scope.c_login = c_login;
   $rootScope.page = 'ksro';
+  $scope.$_languages = $_languages;
 
   CL(c_roles);
  
@@ -4058,7 +4060,7 @@ $scope.toggleAdminChangeChair = function(chair) {
 
   $scope.ksro = $resource('ajax/get/ksro.php').query();
 
-  $scope.data = {show_add_ksro: true};
+  $scope.data = {show_edit_ksro: true};
 
   $scope.edit_ksro = {};
 
@@ -4066,18 +4068,52 @@ $scope.toggleAdminChangeChair = function(chair) {
   {
     CL('KSROSelectedLecturer');
     
-    CL(data);
+    // CL(data.originalObject);
     // CL(lecturer_row);
 
     if (!isEmpty(data))
     {
-      $scope.edit_ksro.lecturer_fio = data.originalObject.fio;
-      $scope.edit_ksro.lecturer_uid = data.originalObject.lecturer_uid;
-      $scope.edit_ksro.lecturer_person_id = data.originalObject.person_id;
-      $scope.edit_ksro.lecturer_login = data.originalObject.lecturer_login;
-      $scope.edit_ksro.lecturer_dolzhnost = data.originalObject.dolzhnost;
-      $scope.edit_ksro.lecturer_stavka = data.originalObject.stavka;
+      $scope.edit_ksro = {};
+      // $scope.edit_ksro.id = null;
+      $scope.edit_ksro.fio = data.originalObject.fio;
+      $scope.edit_ksro.uid = data.originalObject.lecturer_uid;
+      $scope.edit_ksro.person_id = data.originalObject.person_id;
+      $scope.edit_ksro.login = data.originalObject.lecturer_login;
+      $scope.edit_ksro.dolzhnost = data.originalObject.dolzhnost;
+      $scope.edit_ksro.stavka = parseFloat(data.originalObject.stavka.replace(',', '.'));
     }
+
+    CL($scope.edit_ksro);
+  }
+
+  $scope.editKSRO = function(row)
+  {
+    $scope.edit_ksro = angular.copy(row);
+    $scope.data.show_edit_ksro = true;
+  }
+
+  $scope.deleteKSRO = function(row)
+  {
+    $http({url: 'ajax/post/delete_ksro.php', method: 'POST', data: {id: row.id}})
+        .then(function(response)
+        {
+          if (response.data.result == 'success')
+          {
+            deleteByColumn($scope.ksro, 'id', row.id);
+            $scope.data.show_edit_ksro = false;
+            $scope.edit_ksro = {};
+          }
+          else
+          {
+            toastr.error("Ошибка");
+          }
+        });
+  }
+
+  $scope.cancelKSRO = function()
+  {
+    $scope.data.show_edit_ksro = false;
+    $scope.edit_ksro = {};
   }
 
 
@@ -4085,6 +4121,86 @@ $scope.toggleAdminChangeChair = function(chair) {
   {
     // Проверим правильность формы
     var valid = true;
+
+    if (isEmpty($scope.edit_ksro.language_uid))
+    {
+      toastr.error("Выберите язык");
+      return;
+    }
+
+    // Проверяем, что в массиве нет такого же сотрудника с таким же языком
+    const existingPerson = $scope.ksro.find(
+      (person) => person.person_id === $scope.edit_ksro.person_id &&
+        person.language_uid === $scope.edit_ksro.language_uid &&
+        (!isEmpty($scope.edit_ksro.id) && person.id !== $scope.edit_ksro.id || isEmpty($scope.edit_ksro.id))
+    );
+    
+    if (existingPerson) {
+      toastr.error("Сотрудник с таким же именем и языком уже существует");
+      return;
+    }
+
+    // Проверка ограничения по 32 часам на ставку для индивидуальных консультаций
+    const lecturerStavka = parseFloat($scope.edit_ksro.stavka) || 0;
+    const maxHoursPerSemester = 32 * lecturerStavka;
+    
+    // Проверяем лимиты ИК отдельно для каждого семестра
+    const existingIK = $scope.ksro
+      .filter(person => person.person_id === $scope.edit_ksro.person_id && person.id !== $scope.edit_ksro.id);
+    
+    // Осенний семестр
+    const totalAutumnIK = existingIK
+      .reduce((total, person) => total + (parseFloat(person.ik_osen) || 0), 0);
+    const totalAutumnIKWithCurrent = totalAutumnIK + (parseFloat($scope.edit_ksro.ik_osen) || 0);
+    
+    if (totalAutumnIKWithCurrent > maxHoursPerSemester) {
+      toastr.error(`Превышен лимит ИК на осенний семестр. Максимально ${maxHoursPerSemester} часов на ставку ${lecturerStavka}. Текущая сумма: ${totalAutumnIKWithCurrent} часов.`);
+      return;
+    }
+    
+    // Весенний семестр
+    const totalSpringIK = existingIK
+      .reduce((total, person) => total + (parseFloat(person.ik_vesna) || 0), 0);
+    const totalSpringIKWithCurrent = totalSpringIK + (parseFloat($scope.edit_ksro.ik_vesna) || 0);
+    
+    if (totalSpringIKWithCurrent > maxHoursPerSemester) {
+      toastr.error(`Превышен лимит ИК на весенний семестр. Максимально ${maxHoursPerSemester} часов на ставку ${lecturerStavka}. Текущая сумма: ${totalSpringIKWithCurrent} часов.`);
+      return;
+    }
+
+    // Проверка ограничения для КСРО
+    let maxKSROHoursPerSemester;
+    if (lecturerStavka >= 0.5) {
+      // Если ставка 0,5 и более - пропорционально как ИК
+      maxKSROHoursPerSemester = 32 * lecturerStavka;
+    } else {
+      // Если ставка менее 0,5 - просто не более 16 часов в семестр
+      maxKSROHoursPerSemester = 16;
+    }
+    
+    // Проверяем лимиты КСРО отдельно для каждого семестра
+    const existingKSRO = $scope.ksro
+      .filter(person => person.person_id === $scope.edit_ksro.person_id && person.id !== $scope.edit_ksro.id);
+    
+    // Осенний семестр
+    const totalAutumnKSRO = existingKSRO
+      .reduce((total, person) => total + (parseFloat(person.ksro_osen) || 0), 0);
+    const totalAutumnKSROWithCurrent = totalAutumnKSRO + (parseFloat($scope.edit_ksro.ksro_osen) || 0);
+    
+    if (totalAutumnKSROWithCurrent > maxKSROHoursPerSemester) {
+      toastr.error(`Превышен лимит КСРО на осенний семестр. Максимально ${maxKSROHoursPerSemester} часов. Текущая сумма: ${totalAutumnKSROWithCurrent} часов.`);
+      return;
+    }
+    
+    // Весенний семестр
+    const totalSpringKSRO = existingKSRO
+      .reduce((total, person) => total + (parseFloat(person.ksro_vesna) || 0), 0);
+    const totalSpringKSROWithCurrent = totalSpringKSRO + (parseFloat($scope.edit_ksro.ksro_vesna) || 0);
+    
+    if (totalSpringKSROWithCurrent > maxKSROHoursPerSemester) {
+      toastr.error(`Превышен лимит КСРО на весенний семестр. Максимально ${maxKSROHoursPerSemester} часов. Текущая сумма: ${totalSpringKSROWithCurrent} часов.`);
+      return;
+    }
 
     if (valid)
     {
@@ -4094,6 +4210,20 @@ $scope.toggleAdminChangeChair = function(chair) {
           if (response.data.result == 'success')
           {
             toastr.success("Данные сохранены");
+            
+            $scope.data.show_edit_ksro = false;
+
+            // редактирование
+            if ($scope.edit_ksro.id)
+            {
+              const ind = findIndByColumn($scope.ksro, 'id', $scope.edit_ksro.id);
+              $scope.ksro[ind] = $scope.edit_ksro;
+            }
+            // добавление
+            else
+            {
+              $scope.ksro.push($scope.edit_ksro);
+            }
           }
           else
           {

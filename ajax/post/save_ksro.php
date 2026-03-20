@@ -17,42 +17,97 @@ if (empty($_SERVER['HTTP_X_REQUESTED_WITH']) || $_SERVER['HTTP_X_REQUESTED_WITH'
     exit('Forbidden');
 }
 
+$XmlChairByCode = GetTable('xml_chair', "", "", "Code");
+
+$ksro_kind_uid = '26003.281474976710751';
+$ksro_discipline_uid = '26006.281474976727808';
+$ik_kind_uid = '26003.281474976710750';
+$ik_discipline_uid = '26006.281474976727807';
+
 $c_chair_id = $_SESSION['c_chair_id'];
+$c_department_id = $_SESSION['c_department_id'];
 
-$User = GetRow('users', ['login' => $data['login']]);
+$UID_Chair = $XmlChairByCode[$c_chair_id]['UID'];
+$UID_FacultyPerformer = $XmlChairByCode[$c_chair_id]['UID_Faculty'];
 
-if ($User)
-{
-  $roles_arr = ExplodePalki($User['roles'], true);
-
-  // уже есть такая роль
-  if ($roles_arr['uoup'])
-  {
-  }
-  else
-  {
-    $roles_arr[] = 'uoup';
-    $roles_str = ImplodePalki($roles_arr);
-
-    $Result = $mysqli->query("UPDATE `users` SET `roles` = '$roles_str' WHERE `login` = '$data[login]'");
-  }
-}
-else
-{
-  $Result = $mysqli->query("INSERT INTO `users` SET `login` = '$data[login]', `roles` = '|uoup|', `fio` = '$data[fio]'");
-  // $id = $mysqli->insert_id;
-}
+$id = isset($data['id']) ? $data['id'] : null;
 
 $result = [];
+
+// Общие поля для обоих запросов
+$fields = "
+    `chair_id` = '$c_chair_id',
+    `person_id` = '$data[person_id]',
+    `language_uid` = '$data[language_uid]',
+    `fio` = '$data[fio]',
+    `uid` = '$data[uid]',
+    `login` = '$data[login]',
+    `dolzhnost` = '$data[dolzhnost]',
+    `stavka` = '$data[stavka]',
+    `UID_Chair` = '$UID_Chair',
+    `UID_FacultyPerformer` = '$UID_FacultyPerformer',
+    
+    `department_id` = '$c_department_id'";
+
+    // `ik_osen` = '$data[ik_osen]',
+    // `ik_vesna` = '$data[ik_vesna]',
+    // `ksro_osen` = '$data[ksro_osen]',
+    // `ksro_vesna` = '$data[ksro_vesna]'
+
+$Result = $mysqli->query("
+    REPLACE INTO `ksro` 
+    SET $fields, 
+    `UID_KindOfWork` = '$ik_kind_uid',
+    `UID_Discipline` = '$ik_discipline_uid',
+    `semester` = '1', 
+    `Amount` = '$data[ik_osen]'");
+
+$Result = $mysqli->query("
+    REPLACE INTO `ksro` 
+    SET $fields, 
+    `UID_KindOfWork` = '$ik_kind_uid',
+    `UID_Discipline` = '$ik_discipline_uid',
+    `semester` = '2', 
+    `Amount` = '$data[ik_vesna]'");
+
+$Result = $mysqli->query("
+    REPLACE INTO `ksro` 
+    SET $fields, 
+    `UID_KindOfWork` = '$ksro_kind_uid',
+    `UID_Discipline` = '$ksro_discipline_uid',
+    `semester` = '1', 
+    `Amount` = '$data[ksro_osen]'");
+
+$Result = $mysqli->query("
+    REPLACE INTO `ksro` 
+    SET $fields, 
+    `UID_KindOfWork` = '$ksro_kind_uid',
+    `UID_Discipline` = '$ksro_discipline_uid',
+    `semester` = '2', 
+    `Amount` = '$data[ksro_vesna]'");
+
+// if ($id) 
+// {
+//   // Обновляем существующую запись
+//   $Result = $mysqli->query("UPDATE `ksro` SET $fields WHERE `id` = '$id'");
+// } 
+// else 
+// {
+//   // Добавляем новую запись
+//   $Result = $mysqli->query("INSERT INTO `ksro` SET $fields, `chair_id` = '$c_chair_id', `department_id` = '$c_department_id'");
+  
+//   $id = $mysqli->insert_id;
+// }
 
 if ($Result)
 {
   $result['result'] = 'success';
-  // $result['id'] = $id;
+  $result['id'] = $id;
 }
 else
 {
   $result['result'] = 'error';
+  EchoLog($mysqli->error);
 }
 
 header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
@@ -60,6 +115,5 @@ header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); // Дата в прошлом
 header('Content-Type: application/json; charset=UTF-8');
 
 echo array2json($result);
-
 
 ?>

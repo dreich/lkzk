@@ -1,4 +1,4 @@
-<?php
+f<?php
 
 include '../functions.php';
 
@@ -6,7 +6,7 @@ include '../connect/opop2.php';
 
 EchoLog("Start cron");
 
-$LOAD_NEW_DATA_FROM_NETWORK = true;
+$LOAD_NEW_DATA_FROM_NETWORK = false;
 $UPDATE_TABLES = true;
 
 $Napravlenia = GetTable('napravlenia', "", "", "napravlenie");
@@ -159,9 +159,38 @@ function LoadXML($filename, $table_name)
 
   $XML = simplexml_load_string(file_get_contents($filename));
 
-  // if ($table_name === 'xml_content_of_load') EchoLog("HERE 2");
+  $Result = $mysqli->query("DELETE FROM `$table_name`");
 
-  $mysqli->query("DELETE FROM `$table_name`");
+  if (!$Result)
+  {
+    EchoLog($mysqli->error);
+    $db_error = true;
+  }
+
+  if ($table_name === 'xml_content_of_load')
+  {
+    EchoLog("DELETE FROM `$table_name` - удалено " . $mysqli->affected_rows . " строк");
+    
+    // Проверяем, что таблица действительно пуста
+    $result = $mysqli->query("SELECT COUNT(*) as cnt FROM `xml_content_of_load`");
+    $count = $result->fetch_assoc()['cnt'];
+    EchoLog("После DELETE в таблице $table_name: $count строк");
+
+    $TestRow = GetRow('xml_content_of_load', ['UID' => '26589.281474976799017']);
+
+    EchoLog($TestRow);
+    
+    // Временно коммитим для проверки состояния
+    // $mysqli->query("COMMIT");
+    // EchoLog("COMMIT для проверки, таблица очищена");
+    
+    // Для продолжения отладки можно остановиться или продолжить
+    // exit; // если нужно остановиться полностью
+    
+    // Или продолжить выполнение, но начать новую транзакцию
+    // $mysqli->query("START TRANSACTION");
+    // EchoLog("Начинаем новую транзакцию для загрузки данных");
+  }
 
   // if ($table_name === 'xml_content_of_load') EchoLog("HERE 3");
 
@@ -204,9 +233,10 @@ function LoadXML($filename, $table_name)
       // EchoLog($_XMLContentOfLoadStaffByBaseUID1[$base_uid]['UID_Speciality']);
       // EchoLog($XMLSpeciality[$_XMLContentOfLoadStaffByBaseUID1[$base_uid]['UID_Speciality']]['education_level']);
 
-      if ($arr['UID'] === '26589.281474976765788')
+      if ($arr['UID'] === '26589.281474976799017')
       {
-        // EchoLog($arr);
+        EchoLog("HERE 555");
+        EchoLog($arr);
         // EchoLog($_XMLContentOfLoadStaffByBaseUID1[$base_uid]);
         // EchoLog($XMLSpeciality[$_XMLContentOfLoadStaffByBaseUID1[$base_uid]['UID_Speciality']]);
         // EchoLog(IsEducationLevelVO($XMLSpeciality[$_XMLContentOfLoadStaffByBaseUID1[$base_uid]['UID_Speciality']]['education_level']));
@@ -340,8 +370,8 @@ if ($LOAD_NEW_DATA_FROM_NETWORK)
   file_put_contents('nngu.ais.employees.add.xml', file_get_contents($url));
 }
 
+// $mysqli->query("START TRANSACTION");
 
-$mysqli->query("START TRANSACTION");
 
 if ($UPDATE_TABLES)
 {
@@ -383,7 +413,8 @@ if ($UPDATE_TABLES)
 // $mysqli->query("COMMIT");
 
 // exit;
-
+// Если  начинать транзакцию раньше, до загрузки страниц, то происходит непонятное с обновлением строк справочников, пришлось перенести сюда
+$mysqli->query("START TRANSACTION");
 
 // Данные после текущего импорта
 
@@ -647,10 +678,16 @@ if ($Sotrudniki)
       // Если есть в справочнике, но нет среди добавляемых
       if (!$SotrudnikiItogoByKey["$sotr[person_id]-$sotr[chair_id]"])
       {
-        $mysqli->query("
+        $Result = $mysqli->query("
                   UPDATE `sotrudniki` 
                   SET `date_remove` = NOW() WHERE  `person_id` = '$sotr[person_id]' AND `chair_id` = '$sotr[chair_id]'
                   ");
+
+        if (!$Result)
+        {
+          EchoLog($mysqli->error);
+          $db_error = true;
+        }
       }
     }
     // else
@@ -1107,6 +1144,9 @@ foreach ($Nagruzka as $nagruzka)
 
 
 $XMLContentOfLoad = GetTable('xml_content_of_load', "", "", "UID", "UID, UID_Chair, base_uid, base_uid2, hash, UID_Lecturer");
+EchoLog("HERE 666");
+EchoLog($XMLContentOfLoad['26589.281474976799017']);
+
 // $XMLContentOfLoadByBaseUID = GetTable('xml_content_of_load', "", "", "base_uid", "UID, UID_Chair, base_uid, hash, UID_Lecturer");
 $_XMLContentOfLoadStaff = GetTable('xml_content_of_load_staff', "", "", null, "UID, base_uid2, UID_ContentOfLoad, hash");
 
@@ -1247,6 +1287,12 @@ if ($XMLContentOfLoad)
       $base_uid2 = $xml_content_of_load_prev_row['base_uid2'];
       $xml_content_of_load_UID = $xml_content_of_load_prev_row['UID'];
 
+      if ($base_uid === '26589.281474976799017')
+      {
+        EchoLog("HERE 777");
+        EchoLog($XMLContentOfLoadByBaseUID2[$base_uid2]);
+      }
+
       // прежняя нагрузка не обнаружена в текущем справочнике нагрузок по base_UID,
       // т.е. нет такой нагрузки независимо от споточенности
       // т.к. в цикле идём по UID, и base_uid может повторяться, то код в скобках может повториться
@@ -1381,6 +1427,7 @@ if ($XMLContentOfLoad)
           {
             EchoLog("ОШИБКА очистки лектора кафедры {$XMLChairByUID[$new_nagr_row['UID_Chair']]['Name']} ({$new_nagr_row['UID_Chair']}, $chair_id) у нагрузки $base_uid2");
             EchoLog($query);
+            $db_error = true;
           }
 
         }
@@ -1533,11 +1580,24 @@ if ($XMLContentOfLoad)
               // строка лога, которую инициировал УОУП, когда нажал "Выполнено", станет публичной
               // для информативности добавим строку в лог об этом автоматическом событии
 
-              $mysqli->query("UPDATE `log` SET `internal` = '0' WHERE `id` = '$LastLogRow[id]'");
+              $Result = $mysqli->query("UPDATE `log` SET `internal` = '0' WHERE `id` = '$LastLogRow[id]'");
+
+              if (!$Result)
+              {
+                EchoLog($mysqli->error);
+                EchoLog($query);
+                $db_error = true;
+              }
 
               ActivityLog($xml_content_of_load_row['base_uid2'], ['Разблокировка нагрузки в кроне из done_change', $chair_id, $chair_name, $zavkaf_fio], "", 'initial', 1, 1);
 
-              $mysqli->query("UPDATE `nagruzka` SET `status` = 'initial', `date_update` = NOW() WHERE `load_base_UID2` = '$xml_content_of_load_row[base_uid2]'");
+              $Result = $mysqli->query("UPDATE `nagruzka` SET `status` = 'initial', `date_update` = NOW() WHERE `load_base_UID2` = '$xml_content_of_load_row[base_uid2]'");
+
+              if (!$Result)
+              {
+                EchoLog($mysqli->error);
+                $db_error = true;
+              }
             }
           }
 
@@ -1559,7 +1619,14 @@ if ($XMLContentOfLoad)
           $query = "
           UPDATE `nagruzka` SET `valid` = '$valid', `date_update` = NOW() $zavkaf_sql
           WHERE `load_base_UID2` = '$xml_content_of_load_row[base_uid2]'";
-          $mysqli->query($query);
+          $Result = $mysqli->query($query);
+
+          if (!$Result)
+          {
+            EchoLog($mysqli->error);
+            EchoLog($query);
+            $db_error = true;
+          }
 
 
           if ($xml_content_of_load_row['UID_Lecturer'])
