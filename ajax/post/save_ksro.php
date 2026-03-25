@@ -20,8 +20,8 @@ if (empty($_SERVER['HTTP_X_REQUESTED_WITH']) || $_SERVER['HTTP_X_REQUESTED_WITH'
 $XmlChairByCode = GetTable('xml_chair', "", "", "Code");
 
 $ksro_kind_uid = '26003.281474976710751';
-$ksro_discipline_uid = '26006.281474976727808';
 $ik_kind_uid = '26003.281474976710750';
+$ksro_discipline_uid = '26006.281474976727808';
 $ik_discipline_uid = '26006.281474976727807';
 
 $c_chair_id = $_SESSION['c_chair_id'];
@@ -37,9 +37,9 @@ $result = [];
 // Общие поля для обоих запросов
 $fields = "
     `chair_id` = '$c_chair_id',
-    `person_id` = '$data[person_id]',
-    `language_uid` = '$data[language_uid]',
-    `fio` = '$data[fio]',
+    `lecturer_person_id` = '$data[lecturer_person_id]',
+    `UID_Language` = '$data[UID_Language]',
+    `lecturer_fio` = '$data[lecturer_fio]',
     `uid` = '$data[uid]',
     `login` = '$data[login]',
     `dolzhnost` = '$data[dolzhnost]',

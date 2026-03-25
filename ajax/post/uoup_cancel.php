@@ -53,7 +53,7 @@ if ($data['load_base_UID2'])
     }
     else
     {
-      EchoLog("Пустой unnmail зав.кафедрой (логин: $nagruzka[zavkaf_login]) в uoup_cancel.php", 'file mail');
+      EchoLog("Пустой unnmail зав.кафедрой (UID2: $data[load_base_UID2], логин: $nagruzka[zavkaf_login]) в uoup_cancel.php", 'file mail');
     }
 
     // TMP

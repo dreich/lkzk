@@ -763,3 +763,5 @@
 [20.03.2026 - 12:29.31] [/once/cron.php] [Chrome 145.0.0.0] [127.0.0.1]
 [20.03.2026 - 12:29.44] COMMIT все запросы[/once/cron.php] [Chrome 145.0.0.0] [127.0.0.1]
 [20.03.2026 - 12:29.44] END cron[/once/cron.php] [Chrome 145.0.0.0] [127.0.0.1]
+[24.03.2026 - 13:14.54] Error in GetTable('xml_chair'):[/once/export_ksro.php] [Chrome 146.0.0.0] [127.0.0.1]
+[24.03.2026 - 13:14.54] DB error:[/once/export_ksro.php] [Chrome 146.0.0.0] [127.0.0.1]

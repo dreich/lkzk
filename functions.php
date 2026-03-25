@@ -2445,7 +2445,7 @@ function get_base_uid2($uid) {
 // Данные от запроса должны пропускаться через функцию PrepareNagruzka() для подготовки к выдаче в зелёную таблицу нагрузки
 // с уникализацией по base_uid
 // $lite_query введён для uoup_nagruzka, где берётся вся нагрузка, что очень тяжело работает
-function GetNagruzkaBaseQuery($dop_sql, $nagruzka_type = null, $department_from_first_table = true, $lite_query = false)
+function GetNagruzkaBaseQuery($dop_sql, $nagruzka_type, $department_from_first_table = true, $lite_query = false)
 {
   // if ($chair_uid)
   // {
@@ -2500,10 +2500,16 @@ function GetNagruzkaBaseQuery($dop_sql, $nagruzka_type = null, $department_from_
       xml_specialization.Name as napravlennost,
       xml_language.Name as language,
       xml_content_of_load_staff.UID_FormOfEducation,
+      xml_content_of_load_staff.UID_Language,
       xml_content_of_load.UID_Semester,
       xml_content_of_load.StudentAmount,
       xml_kind_of_work.Name as kind_of_work,
-      xml_content_of_load.UID_Course
+      xml_content_of_load.UID_KindOfWork,
+      xml_content_of_load.UID_Course,
+      xml_post.Name as dolzhnost,
+      xml_lecturer.Rate as stavka
+
+
     ";
 
     $sql_part2 = "
@@ -2516,6 +2522,7 @@ function GetNagruzkaBaseQuery($dop_sql, $nagruzka_type = null, $department_from_
       LEFT JOIN xml_specialization ON xml_specialization.UID = xml_content_of_load_staff.UID_Specialization
       LEFT JOIN xml_language ON xml_language.UID = xml_content_of_load_staff.UID_Language
       LEFT JOIN xml_kind_of_work ON xml_kind_of_work.UID = xml_content_of_load.UID_KindOfWork
+      LEFT JOIN xml_post ON xml_post.UID = xml_lecturer.UID_Post
     ";
   }
 
@@ -2528,9 +2535,11 @@ function GetNagruzkaBaseQuery($dop_sql, $nagruzka_type = null, $department_from_
   xml_content_of_load.UID as xml_content_of_load_UID,
   xml_content_of_load.Amount,
   xml_lecturer.FIO as lecturer_fio,
-  xml_lecturer.UID as lecturer_uid, 
+  xml_lecturer.UID as lecturer_uid,
+  # именно здесь можно различить -1 и Вакансию 
+  xml_content_of_load.UID_Lecturer,
   xml_lecturer.Tab_number as lecturer_person_id,
-  nagruzka.chair_id, nagruzka.chair_name, nagruzka.zavkaf_fio, nagruzka.department_name
+  nagruzka.chair_id, nagruzka.chair_name, nagruzka.zavkaf_fio, nagruzka.zavkaf_login, nagruzka.department_name
   $sql_part1
   
   #$department_sql

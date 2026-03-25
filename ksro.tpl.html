@@ -1,6 +1,29 @@
+<table class="widefat">
+  <thead>
+    <tr>
+      <th>ИК осень</th>
+      <th>ИК весна</th>
+      <th>КСРО осень</th>
+      <th>КСРО весна</th>
+      <th>Итого</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr>
+      <td>{{GetKSROSum('ik_osen')}}</td>
+      <td>{{GetKSROSum('ik_vesna')}}</td>
+      <td>{{GetKSROSum('ksro_osen')}}</td>
+      <td>{{GetKSROSum('ksro_vesna')}}</td>
+      <td>{{GetKSROSum('itogo')}}</td>
+    </tr>
+  </tbody>
+</table>
+
+<br>
+
 <table id="DataTables_Table_ksro" datatable="ng" dt-options="dtOptions"  dt-column-defs="dtColumnDefs" dt-instance="onKSROTableInstance" class="dataTable row-border hover display table "  style='margin: 0 0 ;width:100%; ' >
   <thead>
-
     <tr>
       <th>ФИО преподавателя</th>
       <th>Должность</th>
@@ -14,11 +37,13 @@
   </thead>
 
   <tbody>
-    <tr ng-repeat="row in ksro" class="pointer" ng-click="editKSRO(row)">
-      <td>{{row.fio}}</td>
+    <tr ng-repeat="row in ksro" class="{'pointer': MayEditKSRO()}" ng-click="editKSRO(row)">
+      <td>{{row.lecturer_fio}}
+        <span ng-if="!row.lecturer_fio">не распределена</span>
+       </td>
       <td>{{row.dolzhnost}}</td>
       <td>{{row.stavka}}</td>
-      <td>{{$_languages[row.language_uid]}}</td>
+      <td>{{$_languages[row.UID_Language]}}</td>
       <td>{{row.ik_osen}}</td>
       <td>{{row.ik_vesna}}</td>
       <td>{{row.ksro_osen}}</td>
@@ -43,7 +68,7 @@
 </table>
 
 
-<button class="btn btn-primary btn-sm" ng-click="data.show_edit_ksro = true" ng-if="!data.show_edit_ksro">Добавить</button>
+<button class="btn btn-primary btn-sm" ng-click="data.show_edit_ksro = true" ng-if="!data.show_edit_ksro && MayEditKSRO()">Добавить</button>
 
 <div ng-if="data.show_edit_ksro">
   
@@ -53,7 +78,7 @@
   <div>
     <div style="width: 400px">
       <label class="form-label">ФИО:</label>
-      <span ng-if="edit_ksro.id">{{edit_ksro.fio}}</span>
+      <span ng-if="edit_ksro.id">{{edit_ksro.lecturer_fio}}</span>
       <div ng-if="!edit_ksro.id">
         <!-- {{row.xml_content_of_load_UID}}_{{row.xml_content_of_load_staff_UID}} -->
         <angucomplete-alt id="lecturer_autocomplete" input-name=""
@@ -85,7 +110,7 @@
 
   <div style="width: 150px">
       <label class="form-label">Язык:</label>
-      <select class="form-select" ng-model="edit_ksro.language_uid">
+      <select class="form-select" ng-model="edit_ksro.UID_Language">
         <option value="">Выберите язык</option>
         <option value="25031.281474976715638">Русский</option>
         <option value="25031.945">Английский</option>

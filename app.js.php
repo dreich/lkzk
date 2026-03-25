@@ -57,7 +57,7 @@ const $_roles = {<?=ArrayToJS($_roles)?>};
 const $_sotrudnik_types = {<?=ArrayToJS($_sotrudnik_types)?>};
 const $_forms_obuchenia = {<?=ArrayToJS($_forms_obuchenia)?>};
 const $_degrees_codes = {<?=ArrayToJS($_degrees_codes)?>};
-const $_system_modes = {<?=ArrayToJS($_system_modes)?>};
+const $_system_modes = {<?=ArrayToJS($_system_modes)?>}; 
 // id кафедры для зав. кафедрой
 var c_chair_id = '<?=($_SESSION['c_chair_id'] ? $_SESSION['c_chair_id'] : '')?>';
 CL(c_chair_id);
@@ -265,7 +265,7 @@ function createCustomFilters(table_id, table, columns, scope)
   
   // Проверяем, существует ли footer
   const footerExists = $('#' + table_id + ' tfoot').length > 0;
-  CL('Footer exists:', footerExists);
+  // CL('Footer exists:', footerExists);
   
   if (!footerExists) {
     CL('ERROR: Table footer not found!');
@@ -425,9 +425,9 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
         {
           return null
         },
-        system_mode: function($http)
+        system_mode: function($http) 
         {
-          return $http({url: 'ajax/get/get_system_mode.php', method: 'GET'});
+          return $http({url: 'ajax/get/get_system_mode.php', method: 'GET'}); 
         },
         nagruzka_stat: function($http)
         {
@@ -460,9 +460,9 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
         {
           return $route.current.params.lecturer_uid;
         },
-        system_mode: function($http)
+        system_mode: function($http) 
         {
-          return $http({url: 'ajax/get/get_system_mode.php', method: 'GET'});
+          return $http({url: 'ajax/get/get_system_mode.php', method: 'GET'}); 
         },
         nagruzka_stat: function($http)
         {
@@ -498,9 +498,9 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
         {
           return null
         },
-        system_mode: function($http)
+        system_mode: function($http) 
         {
-          return $http({url: 'ajax/get/get_system_mode.php', method: 'GET'});
+          return $http({url: 'ajax/get/get_system_mode.php', method: 'GET'}); 
         },
         nagruzka_stat: function($http)
         {
@@ -565,9 +565,9 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
         {
           return $route.current.params.nagruzka_selected_chair_id
         },
-        system_mode: function($http)
+        system_mode: function($http) 
         {
-          return $http({url: 'ajax/get/get_system_mode.php', method: 'GET'});
+          return $http({url: 'ajax/get/get_system_mode.php', method: 'GET'}); 
         },
         nagruzka_stat: function($http, $route)
         {
@@ -626,9 +626,9 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
         {
           return $route.current.params.nagruzka_selected_chair_id
         },
-        system_mode: function($http)
+        system_mode: function($http) 
         {
-          return $http({url: 'ajax/get/get_system_mode.php', method: 'GET'});
+          return $http({url: 'ajax/get/get_system_mode.php', method: 'GET'}); 
         },
         nagruzka_stat: function($http, $route)
         {
@@ -740,9 +740,9 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
         {
           return $http({url: 'ajax/get/chairs_refused_nagruzka_discipline.php', method: 'GET'});
         },
-        system_mode: function($http)
+        system_mode: function($http) 
         {
-          return $http({url: 'ajax/get/get_system_mode.php', method: 'GET'});
+          return $http({url: 'ajax/get/get_system_mode.php', method: 'GET'}); 
         },
       }
     })
@@ -756,24 +756,24 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
         {
           return $http({url: 'ajax/get/chairs_require_admin_change_nagruzka_discipline.php', method: 'GET'});
         },
-        system_mode: function($http)
+        system_mode: function($http) 
         {
-          return $http({url: 'ajax/get/get_system_mode.php', method: 'GET'});
+          return $http({url: 'ajax/get/get_system_mode.php', method: 'GET'}); 
         },
       }
     })
-    .when('/system_mode',
+    .when('/system_mode', 
     {
-      templateUrl: 'system_mode.tpl.html?' + getRandom(10000, 99999),
+      templateUrl: 'system_mode.tpl.html?' + getRandom(10000, 99999), 
       controller: 'SystemModeCtrl',
       resolve:
       {
         page: function($q) {
-          return $q.when('system_mode');
+          return $q.when('system_mode'); 
         },
-        system_mode: function($http)
+        system_mode: function($http) 
         {
-          return $http({url: 'ajax/get/get_system_mode.php', method: 'GET'});
+          return $http({url: 'ajax/get/get_system_mode.php', method: 'GET'}); 
         }
       }
     })
@@ -794,9 +794,9 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
       controller: 'SotrudnikiCtrl',
       resolve:
       {
-        system_mode: function($http)
+        system_mode: function($http) 
         {
-          return $http({url: 'ajax/get/get_system_mode.php', method: 'GET'});
+          return $http({url: 'ajax/get/get_system_mode.php', method: 'GET'}); 
         }
       }
     })
@@ -839,6 +839,10 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
       controller: 'KSROCtrl',
       resolve:
       {
+        system_mode: function($http) 
+        {
+          return $http({url: 'ajax/get/get_system_mode.php', method: 'GET'}); 
+        },
         // admins_uoup: function($http)
         // {
         //   return $http({url: 'ajax/get/admins_uoup.php', method: 'GET'});
@@ -871,14 +875,14 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
   // $rootScope.CheckSystemMode = function(scope)
   // {
   //   // Получим режим работы
-  //   $http({url: 'ajax/get/get_system_mode.php', method: 'GET'})
+  //   $http({url: 'ajax/get/get_system_mode.php', method: 'GET'}) 
   //   .then(function(response) {
-  //     scope.system_mode = $rootScope.system_mode = response.data.mode;
+  //     scope.system_mode = $rootScope.system_mode = response.data.mode; 
 
-  //     CL($scope.system_mode);
+  //     CL($scope.system_mode); 
   //     CL(c_roles);
 
-  //     if (c_roles.zavkaf && $scope.system_mode === 'mode_closed')
+  //     if (c_roles.zavkaf && $scope.system_mode === 'mode_closed') 
   //     {
   //       // window.location = '#/system_closed';
   //     }
@@ -979,7 +983,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
 })
 
 
-.controller ('NagruzkaCtrl', function($rootScope, $scope, $http, DTOptionsBuilder, DTColumnBuilder, DTColumnDefBuilder, ngDialog, $templateCache, nagruzka_type, nagruzka_selected_chair_id, $resource, $cookies, system_mode, nagruzka_stat, nagruzka, lecturer_uid, chairs_sprav)
+.controller ('NagruzkaCtrl', function($rootScope, $scope, $http, DTOptionsBuilder, DTColumnBuilder, DTColumnDefBuilder, ngDialog, $templateCache, nagruzka_type, nagruzka_selected_chair_id, $resource, $cookies, system_mode, nagruzka_stat, nagruzka, lecturer_uid, chairs_sprav) 
 {
   CL('NagruzkaCtrl');
   // CL(nagruzka_type);
@@ -989,7 +993,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
   $scope.nagruzka_selected_chair_id = nagruzka_selected_chair_id;
   $scope._lecturer_uid = lecturer_uid; // Store the lecturer_uid from the route
   CL(lecturer_uid);
-  $scope.system_mode = system_mode.data.mode;
+  $scope.system_mode = system_mode.data.mode; 
   $rootScope.page = 'nagruzka';
 
   $scope.$_forms_obuchenia = $_forms_obuchenia;
@@ -1026,17 +1030,17 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
     $scope._chairs_ids = [nagruzka_selected_chair_id];
   }
 
-  // CL($scope.system_mode);
+  // CL($scope.system_mode); 
   // CL($scope.nagruzka);
 
-  if (c_roles.zavkaf && $scope.system_mode === 'mode_closed')
+  if (c_roles.zavkaf && $scope.system_mode === 'mode_closed') 
   {
     window.location = '#/system_closed';
   }
 
-  // $scope.nagruzka_readonly = c_roles.zavkaf && (!isEmpty(nagruzka_selected_chair_id) || $scope.system_mode === 'mode_verification') || $scope.system_mode === 'mode_archive';
+  // $scope.nagruzka_readonly = c_roles.zavkaf && (!isEmpty(nagruzka_selected_chair_id) || $scope.system_mode === 'mode_verification') ||  $scope.system_mode === 'mode_archive'; 
 
-  $scope.nagruzka_readonly = c_roles.sotrudnik || c_roles.uoup || $scope.system_mode != 'mode_filling'; // $scope.system_mode === 'mode_verification' || $scope.system_mode === 'mode_archive';
+  $scope.nagruzka_readonly = c_roles.sotrudnik || c_roles.uoup || $scope.system_mode != 'mode_filling'; // $scope.system_mode ===  'mode_verification' || $scope.system_mode === 'mode_archive'; 
 
   $templateCache.put('confirm_delete', '<p>Вы уверены, что хотите удалить?</p>\
               <div class="ngdialog-buttons">\
@@ -2651,15 +2655,15 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
   
 })
 
-.controller ('SystemModeCtrl', function($rootScope, $scope, page, system_mode, $http)
+.controller ('SystemModeCtrl', function($rootScope, $scope, page, system_mode, $http) 
 {
   CL('SystemModeCtrl');
   
   $rootScope.page = page;
   
   // Placeholder for future functionality
-  $scope.systemModes = $_system_modes;
-  $scope.currentMode = system_mode.data.mode;
+  $scope.systemModes = $_system_modes; 
+  $scope.currentMode = system_mode.data.mode; 
 
   CL($scope.currentMode);
 
@@ -2669,7 +2673,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
     CL('SaveSystemMode');
     CL($scope.currentMode);
 
-    $http.post('ajax/post/save_system_mode.php', {mode: $scope.currentMode})
+    $http.post('ajax/post/save_system_mode.php', {mode: $scope.currentMode}) 
       .then(function(response)
       {
         toastr.success('Режим работы сохранен');
@@ -2678,7 +2682,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
 })
 
 // Админ УОУП просматривает отказы зав. кафедрами от нагрузки и отменяет отказы
-.controller ('UOUPChairsRefusedCtrl', function($rootScope, $scope, $http, DTOptionsBuilder, DTColumnBuilder, DTColumnDefBuilder, ngDialog, $templateCache, $resource, uoup_nagruzka, system_mode, $filter, $timeout)
+.controller ('UOUPChairsRefusedCtrl', function($rootScope, $scope, $http, DTOptionsBuilder, DTColumnBuilder, DTColumnDefBuilder, ngDialog, $templateCache, $resource, uoup_nagruzka, system_mode, $filter, $timeout) 
 {
   CL('UOUPChairsRefusedCtrl');
 
@@ -2690,8 +2694,8 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
 
   $rootScope.page = 'uoup_chairs_refused';
   // $scope.$_forms_obuchenia = $_forms_obuchenia;
-  $scope.system_mode = system_mode.data.mode;
-  // CL($scope.system_mode);
+  $scope.system_mode = system_mode.data.mode; 
+  // CL($scope.system_mode); 
 
   $scope.dtInstance = {};
   // заглушка
@@ -3159,7 +3163,7 @@ $scope.toggleAdminChangeChair = function(chair) {
   
 })
 
-.controller ('UOUPNagruzkaToChangeCtrl', function($rootScope, $scope, $http, $filter, DTOptionsBuilder, DTColumnBuilder, DTColumnDefBuilder, ngDialog, $templateCache, $resource, $timeout, uoup_nagruzka, system_mode)
+.controller ('UOUPNagruzkaToChangeCtrl', function($rootScope, $scope, $http, $filter, DTOptionsBuilder, DTColumnBuilder, DTColumnDefBuilder, ngDialog, $templateCache, $resource, $timeout, uoup_nagruzka, system_mode) 
 {
   CL('UOUPNagruzkaToChangeCtrl');
 
@@ -3171,7 +3175,7 @@ $scope.toggleAdminChangeChair = function(chair) {
 
   $rootScope.page = 'uoup_nagruzka_to_change';
   // $scope.$_forms_obuchenia = $_forms_obuchenia;
-  $scope.system_mode = system_mode.data.mode;
+  $scope.system_mode = system_mode.data.mode; 
 
   $scope.dtInstance = {};
   // заглушка
@@ -3653,13 +3657,13 @@ $scope.toggleAdminChangeChair = function(chair) {
   
 })
 
-.controller ('SotrudnikiCtrl', function($rootScope, $scope, $http, ngDialog, $templateCache, DTOptionsBuilder, DTColumnBuilder, DTColumnDefBuilder, $resource, system_mode)
+.controller ('SotrudnikiCtrl', function($rootScope, $scope, $http, ngDialog, $templateCache, DTOptionsBuilder, DTColumnBuilder, DTColumnDefBuilder, $resource, system_mode) 
 {
   CL('SotrudnikiCtrl');
 
   $rootScope.page = 'sotrudniki';
   $scope.$_sotrudnik_types = $_sotrudnik_types;
-  $scope.system_mode = system_mode.data.mode;
+  $scope.system_mode = system_mode.data.mode; 
   $scope.sotrudniki = [];
   $scope.chairs = [];
 
@@ -3793,14 +3797,14 @@ $scope.toggleAdminChangeChair = function(chair) {
 {
   CL('TestCtrl');
   $rootScope.page = 'test';
-  $scope.system_mode = system_mode.data.mode;
+  $scope.system_mode = system_mode.data.mode; 
 
-  if (c_roles.zavkaf && $scope.system_mode === 'mode_closed')
+  if (c_roles.zavkaf && $scope.system_mode === 'mode_closed') 
   {
     window.location = '#/system_closed';
   }
 
-  $scope.sotrudniki_readonly = c_roles.zavkaf && $scope.system_mode === 'mode_verification';
+  $scope.sotrudniki_readonly = c_roles.zavkaf && $scope.system_mode === 'mode_verification'; 
 
   $templateCache.put('confirm_delete', '<p>Вы уверены, что хотите удалить?</p>\
               <div class="ngdialog-buttons">\
@@ -4046,23 +4050,88 @@ $scope.toggleAdminChangeChair = function(chair) {
 
 }) 
 
-.controller ('KSROCtrl', function($templateCache, $scope, $rootScope, ngDialog, $http, $resource)
+.controller ('KSROCtrl', function($templateCache, $scope, $rootScope, ngDialog, $http, $resource, DTOptionsBuilder, DTColumnDefBuilder, system_mode)
 {
   CL('KSROCtrl');
 
   $scope.c_login = c_login;
   $rootScope.page = 'ksro';
   $scope.$_languages = $_languages;
+  $scope.system_mode = system_mode.data.mode; 
 
-  CL(c_roles);
+  CL($scope.system_mode);
  
   $scope.c_roles = c_roles;
 
   $scope.ksro = $resource('ajax/get/ksro.php').query();
 
-  $scope.data = {show_edit_ksro: true};
+  $scope.data = {show_edit_ksro: false};
 
   $scope.edit_ksro = {};
+
+  const columns = [
+    {
+      name: 'fio',
+      type: 'input',
+      bRegex: false,
+    },
+    {
+      name: 'dolzhnost',
+      type: 'select',
+      bRegex: false,
+    },
+    {
+      name: 'stavka',
+      type: null,
+      bRegex: false,
+    },
+    {
+      name: 'language',
+      type: 'select',
+      bRegex: false,
+    },
+    {
+      name: 'ik_osen',
+      type: null,
+      bRegex: false,
+    },
+    {
+      name: 'ik_vesna',
+      type: null,
+      bRegex: false,
+    },
+    {
+      name: 'ksro_osen',
+      type: null,
+      bRegex: false,
+    },
+    {
+      name: 'ksro_vesna',
+      type: null,
+      bRegex: false,
+    }
+  ];
+
+  $scope.dtOptions = DTOptionsBuilder
+    .newOptions()
+    .withOption('stateSave', true)
+    .withPaginationType('full_numbers')
+    .withLanguage({
+        "loadingRecords": "Загрузка...",
+        "processing": "Обработка..."
+    })
+    .withOption('initComplete', function(settings, json) {
+      const api = this.api();
+      createCustomFilters('DataTables_Table_ksro', api, columns, $scope);
+    });
+
+  $scope.dtColumnDefs = [];
+
+  $scope.onKSROTableInstance = function(dtInstance) 
+  {
+    CL('onKSROTableInstance');
+    $scope.dtInstance = dtInstance;
+  };
 
   $scope.KSROSelectedLecturer = function(data)
   {
@@ -4075,9 +4144,9 @@ $scope.toggleAdminChangeChair = function(chair) {
     {
       $scope.edit_ksro = {};
       // $scope.edit_ksro.id = null;
-      $scope.edit_ksro.fio = data.originalObject.fio;
+      $scope.edit_ksro.lecturer_fio = data.originalObject.fio;
       $scope.edit_ksro.uid = data.originalObject.lecturer_uid;
-      $scope.edit_ksro.person_id = data.originalObject.person_id;
+      $scope.edit_ksro.lecturer_person_id = data.originalObject.person_id;
       $scope.edit_ksro.login = data.originalObject.lecturer_login;
       $scope.edit_ksro.dolzhnost = data.originalObject.dolzhnost;
       $scope.edit_ksro.stavka = parseFloat(data.originalObject.stavka.replace(',', '.'));
@@ -4088,8 +4157,11 @@ $scope.toggleAdminChangeChair = function(chair) {
 
   $scope.editKSRO = function(row)
   {
-    $scope.edit_ksro = angular.copy(row);
-    $scope.data.show_edit_ksro = true;
+    if ($scope.MayEditKSRO())
+    {
+      $scope.edit_ksro = angular.copy(row);
+      $scope.data.show_edit_ksro = true;
+    }
   }
 
   $scope.deleteKSRO = function(row)
@@ -4232,6 +4304,36 @@ $scope.toggleAdminChangeChair = function(chair) {
         });
     }
   }
+
+  $scope.MayEditKSRO = function()
+  {
+    return $scope.system_mode == 'mode_filling';
+  }
+
+  $scope.GetKSROSum = function(param)
+  {
+    var sum = 0;
+
+    if (param != 'itogo')
+    {
+      angular.forEach($scope.ksro, function(row)
+      {
+        if (Number.isFinite(parseFloat(row[param])))
+        {
+          sum += parseFloat(row[param]);
+        }
+        
+      });
+    }
+    // itogo
+    else
+    {
+      return $scope.GetKSROSum('ik_osen') + $scope.GetKSROSum('ik_vesna') + $scope.GetKSROSum('ksro_osen') + $scope.GetKSROSum('ksro_vesna');
+    }
+
+    return sum;
+  }
+
 })
 
 // Add this with your other filters
