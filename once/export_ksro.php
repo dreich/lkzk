@@ -93,13 +93,13 @@ while ($Row = $Result->fetch_assoc())
   // UID_Semester (осенний = 1, весенний = 2)
   $prop_semester = $doc->createElement('prop_value');
   $prop_semester->setAttribute('prop_name', 'UID_Semester');
-  $prop_semester->setAttribute('value', $Row['semester']);
+  $prop_semester->setAttribute('value', $Row['UID_Semester']);
   $prop_values->appendChild($prop_semester);
   
   // UID_Language
   $prop_language = $doc->createElement('prop_value');
   $prop_language->setAttribute('prop_name', 'UID_Language');
-  $prop_language->setAttribute('value', $Row['language_uid']);
+  $prop_language->setAttribute('value', $Row['UID_Language']);
   $prop_values->appendChild($prop_language);
 
   // UID_Chair

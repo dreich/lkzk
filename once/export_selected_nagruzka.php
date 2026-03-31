@@ -21,14 +21,14 @@ include '../connect.php';
 //         ";
 
 $query = "SELECT * FROM `zavkaf_splits`
-
+          ORDER BY `base_uid`
           ";
 
-$Result = $mysqli->query($query);
+$Result = GetSQL($query);
 
 if (!$Result)
 {
-  EchoLog('DB error: ' . $mysqli->error);
+  EchoLog('No data splits ' . $mysqli->error);
   exit;
 }
 
@@ -40,33 +40,60 @@ $doc->appendChild($root);
 
 $rows_count = 0;
 
-while ($Row = $Result->fetch_assoc())
+$RowsByBaseUID = [];
+
+foreach ($Result as $row)
 {
-  if ($Row['LoadType'] == 1)
+  $RowsByBaseUID[$row['base_uid']] = $row['base_uid'];
+}
+
+if ($RowsByBaseUID)
+{
+  foreach ($RowsByBaseUID as $row)
   {
-    $Row['StudentAmount'] = '';
+    $node = $doc->createElement('ContentOfLoad');
+    $node->setAttribute('UID', $row);
+    $node->setAttribute('Clean', 1);
+    $root->appendChild($node);
+  }
+}
+
+
+foreach ($Result as $row)
+{
+  // на данный момент не понятно, как -1 может быть в таблице
+  if ($row['lecturer_uid'] == '-1' || !$row['lecturer_uid']) continue;
+
+  if ($row['LoadType'] == 1)
+  {
+    $row['StudentAmount'] = '';
   }
   elseif ($Row['LoadType'] == 0)
   {
-    $Row['Amount'] = '';
+    $row['Amount'] = '';
   }
   
   $node = $doc->createElement('ContentOfLoad');
-  $node->setAttribute('UID', $Row['base_uid']);
-  $node->setAttribute('LoadType', $Row['LoadType']);
-  $node->setAttribute('Amount', $Row['Amount']);
-  $node->setAttribute('StudentAmount', $Row['StudentAmount']);
-  $node->setAttribute('UID_Lecturer', $Row['lecturer_uid']);
-  $node->setAttribute('delete', $Row['delete']);
+  $node->setAttribute('UID', $row['base_uid']);
+  $node->setAttribute('LoadType', $row['LoadType']);
+  $node->setAttribute('Amount', $row['Amount']);
+  $node->setAttribute('StudentAmount', $row['StudentAmount']);
+  $node->setAttribute('UID_Lecturer', $row['lecturer_uid']);
+  // $node->setAttribute('delete', $row['delete']);
   $root->appendChild($node);
   $rows_count++;
 }
 
-$Result->free();
+
+$filename = "ContentOfLoads_selected.xml";
+
+// отдать в браузер
 
 header('Content-Type: text/xml; charset=UTF-8');
-header('Content-Disposition: attachment; filename="ContentOfLoads_selected.xml"');
-
+header("Content-Disposition: attachment; filename=\"$filename\"");
 echo $doc->saveXML();
+
+// Сохраняем в файл
+// $doc->save($filename);
 
 // EchoLog("Export finished. Exported $rows_count rows to browser");

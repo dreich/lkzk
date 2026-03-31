@@ -101,5 +101,11 @@ $_system_modes =
   'mode_archive' => 'Архив'
 ];
 
+$ksro_kind_uid = '26003.281474976710751';
+$ksro_discipline_uid = '26006.281474976727808';
+$ik_kind_uid = '26003.281474976710750';
+$ik_discipline_uid = '26006.281474976727807';
+$language_eng_uid = '25031.945';
+$language_rus_uid = '25031.281474976715638';
 
 ?>

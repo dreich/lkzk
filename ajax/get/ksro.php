@@ -11,64 +11,89 @@ if(empty($_SERVER['HTTP_X_REQUESTED_WITH']) || strtolower($_SERVER['HTTP_X_REQUE
     die(json_encode(['result' => 'error', 'message' => 'Только AJAX запросы']));
 }
 
-$c_chair_id = $_SESSION['c_chair_id'];
-
 // получим режим работы системы
 $ModeRow = GetRow('params', ['param' => 'system_mode']);
 $_mode = $ModeRow['value'];
+// Флаг только у УОУП, чтобы не грузить очень много данных
+$_only_stat = $_GET['only_stat'];
 
-$ksro_kind_uid = '26003.281474976710751';
-$ksro_discipline_uid = '26006.281474976727808';
-$ik_kind_uid = '26003.281474976710750';
-$ik_discipline_uid = '26006.281474976727807';
 
-// редактирует только в этом режиме, поэтому берём из таблицы, где храним "редактуру"
+$c_roles = ExplodePalki($_SESSION['c_roles'], true);
+$lecturer_uid = isset($_GET['lecturer_uid']) ? quote_smart($_GET['lecturer_uid']) : '';
+
+
+// EchoLog($c_roles);
+
+// редактирует только в этом режиме, поэтому берём из таблицы `ksro`, где храним "редактуру"
 if ($_mode == 'mode_filling')
 {
-  $Rows = GetTable('ksro', "`chair_id` = '$c_chair_id'");
+  if ($c_roles['zavkaf'])
+  {
+    $c_chair_id = $_SESSION['c_chair_id'];
+    $_chair_sql = "`chair_id` = '$c_chair_id'";
+
+    if ($lecturer_uid)
+    {
+      $_lecturer_uid_sql = "AND `uid` = '$lecturer_uid'";
+    }
+  }
+  elseif ($c_roles['uoup'])
+  {
+    $_chair_id = quote_smart($_GET['chair_id']);
+    if ($_chair_id)
+    {
+      $_chair_sql = "`chair_id` = '$_chair_id'";
+    }
+  }
+  
+
+  $Rows = GetTable('ksro', "$_chair_sql $_lecturer_uid_sql");
+  // EchoLog($Rows);
 }
 // в других режимах берём из Галактики
 else
 {
-  $nagruzka_query = GetNagruzkaBaseQuery("AND `xml_kind_of_work`.Name IN ('$ksro_kind_uid', '$ik_kind_uid') OR `xml_discipline`.UID IN ('$ksro_discipline_uid', '$ik_discipline_uid')", 'all');
+  if ($c_roles['zavkaf'])
+  {
+    $c_chair_id = $_SESSION['c_chair_id'];
+    $XMLChair = GetRow('xml_chair', ['Code' => $c_chair_id]);
+    $chair_id_sql = "AND xml_content_of_load.`UID_Chair` = '$XMLChair[UID]'";
+  }
+
+  // УОУП просматривает нагрузку кафедры
+  if ($c_roles['uoup'] && $_GET['chair_id'])
+  {
+    $_chair_id = quote_smart($_GET['chair_id']);
+    $XMLChair = GetRow('xml_chair', ['Code' => $_chair_id]);
+    $chair_id_sql = "AND `UID_Chair` = '$XMLChair[UID]'";
+  }
+
+  if ($lecturer_uid)
+  {
+    $lecturer_uid_sql = "AND `UID_Lecturer` = '$lecturer_uid'";
+  }
+
+  $nagruzka_query = GetNagruzkaBaseQuery("
+    AND (`xml_kind_of_work`.Name IN ('$ksro_kind_uid', '$ik_kind_uid') OR `xml_discipline`.UID IN ('$ksro_discipline_uid', '$ik_discipline_uid'))
+    $chair_id_sql
+    $lecturer_uid_sql
+    ", 'all');
 
   // EchoLog($nagruzka_query);
   $Rows = GetSQL($nagruzka_query);
 
-  EchoLog($Rows);
+  // EchoLog($Rows);
 }
 
 
 $RowsByKey = [];
 $Result = [];
-
+$Stat = [];
 
 if ($Rows)
 {
   foreach ($Rows as $row)
   {
-    // Когда берём из галактики, немного не совпадают имена полей таблиц
-    // if ($row['lecturer_person_id'] && !$row['person_id'])
-    // {
-    //   $row['person_id'] = $row['lecturer_person_id'];
-    // }
-
-    // if ($row['UID_Language'] && !$row['UID_Language'])
-    // {
-    //   $row['UID_Language'] = $row['UID_Language'];
-    // }
-
-    // if ($row['UID_Semester'] && !$row['semester'])
-    // {
-    //   $row['semester'] = $row['UID_Semester'];
-    // }
-
-    // if ($row['lecturer_fio'] && !$row['fio'])
-    // {
-    //   $row['fio'] = $row['lecturer_fio'];
-    // }
-
-
     if (!$RowsByKey["$row[lecturer_person_id]-$row[UID_Language]"])
     {
       $RowsByKey["$row[lecturer_person_id]-$row[UID_Language]"] = $row;
@@ -77,25 +102,34 @@ if ($Rows)
     if ($row['UID_KindOfWork'] === $ksro_kind_uid && $row['UID_Semester'] == 1)
     {
       $RowsByKey["$row[lecturer_person_id]-$row[UID_Language]"]['ksro_osen'] = $row['Amount'];
+      $Stat['assigned']['sum'] = $Stat['total']['sum'] += $row['Amount'];
     }
     elseif ($row['UID_KindOfWork'] === $ksro_kind_uid && $row['UID_Semester'] == 2)
     {
       $RowsByKey["$row[lecturer_person_id]-$row[UID_Language]"]['ksro_vesna'] = $row['Amount'];
+      $Stat['assigned']['sum'] = $Stat['total']['sum'] += $row['Amount'];
     }
     elseif ($row['UID_KindOfWork'] === $ik_kind_uid && $row['UID_Semester'] == 1)
     {
       $RowsByKey["$row[lecturer_person_id]-$row[UID_Language]"]['ik_osen'] = $row['Amount'];
+      $Stat['assigned']['sum'] = $Stat['total']['sum'] += $row['Amount'];
     }
     elseif ($row['UID_KindOfWork'] === $ik_kind_uid && $row['UID_Semester'] == 2)
     {
       $RowsByKey["$row[lecturer_person_id]-$row[UID_Language]"]['ik_vesna'] = $row['Amount'];
+      $Stat['assigned']['sum'] = $Stat['total']['sum'] += $row['Amount'];
     }
   }
 }
+
+// для скорости, где достаточно только статистики
+if ($_only_stat) $RowsByKey = [];
 
 header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
 header("Pragma: no-cache");
 header("Expires: 0");
 header('Content-Type: application/javascript; charset=UTF-8');
-echo json_encode(array_values($RowsByKey));
+// echo json_encode(array_values($RowsByKey));
+$ret_arr = ['nagruzka' => array_values($RowsByKey), 'stat' => $Stat ? $Stat : new stdClass];
+echo json_encode($ret_arr);
 ?>

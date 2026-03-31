@@ -27,6 +27,9 @@ $_nagruzka_type = quote_smart($_GET['type']);
 $_only_stat = $_GET['only_stat'];
 // Флаг только у УОУП, чтобы не грузить очень много данных
 $_lite = $_GET['lite'];
+// получим режим работы системы
+$ModeRow = GetRow('params', ['param' => 'system_mode']);
+$_mode = $ModeRow['value'];
 
 // УОУП просматривает нагрузку кафедры
 if ($_GET['chair_id'])
@@ -95,9 +98,16 @@ $global_nagruzka_filter = $_COOKIE['global_nagruzka_filter'];
 
 // $XMLContentOfLoad = GetRows('xml_content_of_load', ['UID_Chair' => $XMLChair['UID']]);
 
+// в режиме заполнения ИК-КСРО не будем брать из галактийных таблиц
+if ($_mode == 'mode_filling')
+{
+  $ksro_sql = "AND `nagruzka_type` <> 'ksro'";
+}
+
 $dop_sql = "$chair_id_sql
             $global_nagruzka_filter_sql
             AND `chair_id` IS NOT NULL AND `valid` = '1'
+            $ksro_sql
             #AND `status` NOT IN ('')
             #AND `base_uid` = '26589.281474976773927'
             # TMP
@@ -376,22 +386,41 @@ if ($NagruzkaByBaseUID1)
   }
 }
 
+// В режиме заполнения в группировку по кафедрам для #/uoup_nagruzka нужно взять данные из таблицы ksro 
+// ! Т.к. в таблице ksro нет таких полей как название кафедры, факультета, то отображение этих данных в зелёной таблице у УОУП полагается на другие виды нагрузки в $NagruzkaByBaseUID1. Т.е. если не будет других видов нагрузки, то КСРО не будет отображаться в таблице; 
+if ($_mode == 'mode_filling' && $_lite)
+{
+  $Rows = GetTable('ksro', "$__chair_sql $__lecturer_uid_sql");
+
+  // EchoLog($Rows);
+
+  if ($Rows)
+  {
+    unset($row);
+    foreach ($Rows as $row)
+    {
+      $StatByChair[$row['chair_id']]['assigned']['sum'] += (float)$row['Amount'];
+      $StatByChair[$row['chair_id']]['total']['sum'] += (float)$row['Amount'];
+    }
+  }
+}
+
 // Filter NagruzkaByBaseUID1 based on lecturer_uid if provided
 if ($lecturer_uid) 
 {
   foreach ($NagruzkaByBaseUID1 as $base_uid => &$nagruzka) 
   {
-      // Filter lectors to only include those with matching lecturer_uid
-      $filtered_lectors = array_filter($nagruzka['lectors'], function($lector) use ($lecturer_uid) 
-      {
-          return $lector['lecturer_uid'] === $lecturer_uid;
-      });
-      
-      // If no matching lectors, remove this entry
-      if (empty($filtered_lectors)) 
-      {
-          unset($NagruzkaByBaseUID1[$base_uid]);
-      }
+    // Filter lectors to only include those with matching lecturer_uid
+    $filtered_lectors = array_filter($nagruzka['lectors'], function($lector) use ($lecturer_uid) 
+    {
+      return $lector['lecturer_uid'] === $lecturer_uid;
+    });
+    
+    // If no matching lectors, remove this entry
+    if (empty($filtered_lectors)) 
+    {
+      unset($NagruzkaByBaseUID1[$base_uid]);
+    }
   }
 
   unset($nagruzka); // Break the reference
@@ -455,6 +484,7 @@ if ($NagruzkaByBaseUID1)
     }
     else
     {
+      // не исп. ?
       $NagruzkaByChair[$row['chair_id']]['amount_sum'] += $row['Amount'];
     }
 

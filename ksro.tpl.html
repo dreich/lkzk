@@ -1,3 +1,12 @@
+<div ng-if="ksro_selected_chair_id && !_lecturer_uid">
+    <h5 ng-if="c_roles.uoup">{{chairs_sprav[ksro_selected_chair_id]['Name']}}</h5>
+    <!-- <h5 ng-if="c_roles.uoup"><a href="/#/nagruzka/all/{{nagruzka_selected_chair_id}}">{{chairs_sprav[ksro_selected_chair_id]['Name']}}</a></h5> -->
+  </div>
+
+<h3 ng-if="ksro_selected_lecturer_uid && !c_roles.sotrudnik">
+  {{ksro_lecturer_fio}}
+</h3>
+
 <table class="widefat">
   <thead>
     <tr>
@@ -37,7 +46,7 @@
   </thead>
 
   <tbody>
-    <tr ng-repeat="row in ksro" class="{'pointer': MayEditKSRO()}" ng-click="editKSRO(row)">
+    <tr ng-repeat="row in ksro" ng-class="{'pointer': MayEditKSRO()}" ng-click="editKSRO(row)">
       <td>{{row.lecturer_fio}}
         <span ng-if="!row.lecturer_fio">не распределена</span>
        </td>
@@ -72,14 +81,14 @@
 
 <div ng-if="data.show_edit_ksro">
   
-  <h4 ng-if="edit_ksro.id">Редактирование</h4>
-  <h4 ng-if="!edit_ksro.id">Добавить</h4>
+  <h4 ng-if="edit_ksro.lecturer_person_id">Редактирование</h4>
+  <h4 ng-if="!edit_ksro.lecturer_person_id">Добавить</h4>
   
   <div>
     <div style="width: 400px">
       <label class="form-label">ФИО:</label>
-      <span ng-if="edit_ksro.id">{{edit_ksro.lecturer_fio}}</span>
-      <div ng-if="!edit_ksro.id">
+      <span ng-if="edit_ksro.lecturer_person_id">{{edit_ksro.lecturer_fio}}</span>
+      <div ng-if="!edit_ksro.lecturer_person_id">
         <!-- {{row.xml_content_of_load_UID}}_{{row.xml_content_of_load_staff_UID}} -->
         <angucomplete-alt id="lecturer_autocomplete" input-name=""
             placeholder="Введите ФИО"
@@ -140,8 +149,8 @@
   </div>
 
   <div class="mb-3 mt-3">
-    <button class="btn btn-success btn-sm" ng-click="saveKSRO()" ng-disabled="!edit_ksro.person_id">Сохранить</button>
-    <button class="btn btn-danger btn-sm" ng-click="deleteKSRO(edit_ksro)" ng-if="edit_ksro.id">Удалить</button>
+    <button class="btn btn-success btn-sm" ng-click="saveKSRO()" ng-disabled="!edit_ksro.lecturer_person_id">Сохранить</button>
+    <button class="btn btn-danger btn-sm" ng-click="deleteKSRO(edit_ksro)" ng-if="edit_ksro.lecturer_person_id">Удалить</button>
     <button class="btn btn-secondary btn-sm" ng-click="cancelKSRO()">Отмена</button>
   </div>
 </div>

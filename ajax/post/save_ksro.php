@@ -59,7 +59,7 @@ $Result = $mysqli->query("
     SET $fields, 
     `UID_KindOfWork` = '$ik_kind_uid',
     `UID_Discipline` = '$ik_discipline_uid',
-    `semester` = '1', 
+    `UID_Semester` = '1', 
     `Amount` = '$data[ik_osen]'");
 
 $Result = $mysqli->query("
@@ -67,7 +67,7 @@ $Result = $mysqli->query("
     SET $fields, 
     `UID_KindOfWork` = '$ik_kind_uid',
     `UID_Discipline` = '$ik_discipline_uid',
-    `semester` = '2', 
+    `UID_Semester` = '2', 
     `Amount` = '$data[ik_vesna]'");
 
 $Result = $mysqli->query("
@@ -75,7 +75,7 @@ $Result = $mysqli->query("
     SET $fields, 
     `UID_KindOfWork` = '$ksro_kind_uid',
     `UID_Discipline` = '$ksro_discipline_uid',
-    `semester` = '1', 
+    `UID_Semester` = '1', 
     `Amount` = '$data[ksro_osen]'");
 
 $Result = $mysqli->query("
@@ -83,7 +83,7 @@ $Result = $mysqli->query("
     SET $fields, 
     `UID_KindOfWork` = '$ksro_kind_uid',
     `UID_Discipline` = '$ksro_discipline_uid',
-    `semester` = '2', 
+    `UID_Semester` = '2', 
     `Amount` = '$data[ksro_vesna]'");
 
 // if ($id) 

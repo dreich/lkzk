@@ -695,7 +695,7 @@ function GetTable($table, $where = '', $sort_field = '', $index_field = null, $f
 {
   global $mysqli;
 
-  if ($where) $where_sql = "WHERE $where";
+  if (!empty(trim($where))) $where_sql = "WHERE $where";
   if ($sort_field) $sort_sql = "ORDER BY $sort_field";
   
   $query = "SELECT $fields FROM `$table` $where_sql $sort_sql";
@@ -721,6 +721,7 @@ function GetTable($table, $where = '', $sort_field = '', $index_field = null, $f
   else
   {
     EchoLog("Error in GetTable('$table'): " . $mysqli->error);
+    EchoLog($query);
     return false;
   }
 }
@@ -2500,7 +2501,7 @@ function GetNagruzkaBaseQuery($dop_sql, $nagruzka_type, $department_from_first_t
       xml_specialization.Name as napravlennost,
       xml_language.Name as language,
       xml_content_of_load_staff.UID_FormOfEducation,
-      xml_content_of_load_staff.UID_Language,
+      xml_content_of_load.UID_Language,
       xml_content_of_load.UID_Semester,
       xml_content_of_load.StudentAmount,
       xml_kind_of_work.Name as kind_of_work,
@@ -2850,5 +2851,111 @@ function IsNagruzkaRukPractice($abbr) {
     
     return false;
 }
+
+
+
+function loadXMLSafe($filename, $logErrors = true) 
+{
+  // 1. Проверяем существование файла
+  if (!file_exists($filename)) {
+      if ($logErrors) {
+          EchoLog("Файл не найден: $filename", 'file mail');
+          EchoLog("Текущая директория: " . getcwd(), 'file mail');
+          EchoLog("Полный путь: " . realpath($filename) ?: "не удалось определить", 'file mail');
+      }
+      return false;
+  }
+  
+  // 2. Проверяем права на чтение
+  if (!is_readable($filename)) {
+      if ($logErrors) {
+          EchoLog("Нет прав на чтение файла: $filename", 'file mail');
+          EchoLog("Права доступа: " . substr(sprintf('%o', fileperms($filename)), -4), 'file mail');
+      }
+      return false;
+  }
+  
+  // 3. Читаем содержимое
+  $content = file_get_contents($filename);
+  if ($content === false) {
+      if ($logErrors) {
+          EchoLog("Не удалось прочитать файл: $filename", 'file mail');
+          EchoLog("Последняя ошибка PHP: " . (error_get_last()['message'] ? error_get_last()['message'] : 'неизвестно'), 'file mail');
+      }
+      return false;
+  }
+  
+  // 4. Проверяем, что файл не пустой
+  if (empty($content)) {
+      if ($logErrors) {
+          EchoLog("Файл пуст: $filename", 'file mail');
+          EchoLog("Размер файла: " . filesize($filename) . " байт", 'file mail');
+      }
+      return false;
+  }
+  
+  // 5. Включаем внутреннюю обработку ошибок libxml
+  libxml_use_internal_errors(true);
+  
+  // 6. Загружаем XML
+  $XML = simplexml_load_string($content);
+  
+  // 7. Проверяем результат и собираем ошибки
+  if ($XML === false) {
+      if ($logErrors) {
+          $errors = libxml_get_errors();
+          $error_messages = [];
+          
+          foreach ($errors as $error) {
+              $error_messages[] = sprintf(
+                  "[%s] %s (строка %d, колонка %d)",
+                  $error->level == LIBXML_ERR_WARNING ? "WARNING" : 
+                  ($error->level == LIBXML_ERR_ERROR ? "ERROR" : "FATAL"),
+                  trim($error->message),
+                  $error->line,
+                  $error->column
+              );
+          }
+          
+          EchoLog("XML ошибки в $filename:", 'file mail');
+          foreach ($error_messages as $msg) {
+              EchoLog("  " . $msg, 'file mail');
+          }
+          
+          // Показываем проблемный фрагмент
+          if (!empty($errors)) {
+              $first_error = $errors[0];
+              if ($first_error->line > 0) {
+                  $lines = explode("\n", $content);
+                  $start = max(0, $first_error->line - 3);
+                  $end = min(count($lines), $first_error->line + 2);
+                  
+                  EchoLog("Контекст ошибки:", 'file mail');
+                  for ($i = $start; $i < $end; $i++) {
+                      $prefix = ($i + 1 == $first_error->line) ? ">>> " : "    ";
+                      EchoLog($prefix . ($i + 1) . ": " . rtrim($lines[$i]), 'file mail');
+                  }
+              }
+          }
+          
+          // Проверка кодировки
+          $encoding = mb_detect_encoding($content, ['UTF-8', 'Windows-1251', 'ISO-8859-1'], true);
+          if ($encoding !== 'UTF-8') {
+              EchoLog("Файл имеет кодировку: $encoding (ожидается UTF-8)", 'file mail');
+          }
+      }
+      
+      libxml_clear_errors();
+      libxml_use_internal_errors(false);
+      return false;
+  }
+  
+  // 8. Очищаем ошибки
+  libxml_clear_errors();
+  libxml_use_internal_errors(false);
+  
+  return $XML;
+}
+
 
 ?>

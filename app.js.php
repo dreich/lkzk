@@ -643,8 +643,9 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
           // if (nagruzka_type == 'discipline')
           {
             let url = 'ajax/get/nagruzka.php?chair_id=' + (chair_id ? chair_id : c_chair_id);
-            if (lecturer_uid) {
-                url += '&lecturer_uid=' + encodeURIComponent(lecturer_uid);
+            if (lecturer_uid) 
+            {
+              url += '&lecturer_uid=' + encodeURIComponent(lecturer_uid);
             }
             return null; // $http({url: url, method: 'GET'});
           }
@@ -678,6 +679,14 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
       controller: 'UOUPNagruzkaCtrl',
       resolve:
       {
+        chairs_sprav : function($http)
+        {
+          return $http({url: 'ajax/get/get_chairs.php', method: 'GET'});
+        },
+        uoup_nagruzka_selected_chair_id: function($route)
+        {
+          return null
+        },
         uoup_nagruzka: function($http)
         {
         //   return $http({url: 'ajax/get/uoup_nagruzka.php', method: 'GET'});
@@ -689,7 +698,11 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
         },
         page: function($q) {
           return $q.when('uoup_nagruzka');
-        }
+        },
+        system_mode: function($http) 
+        {
+          return $http({url: 'ajax/get/get_system_mode.php', method: 'GET'}); 
+        },
       }
     })
     .when('/uoup_nagruzka_no_chair',
@@ -698,6 +711,14 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
       controller: 'UOUPNagruzkaCtrl',
       resolve:
       {
+        chairs_sprav : function($http)
+        {
+          return $http({url: 'ajax/get/get_chairs.php', method: 'GET'});
+        },
+        uoup_nagruzka_selected_chair_id: function($route)
+        {
+          return null
+        },
         uoup_nagruzka: function($http)
         {
           return $http({url: 'ajax/get/uoup_nagruzka_no_chair.php', method: 'GET'});
@@ -708,7 +729,11 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
         },
         page: function($q) {
           return $q.when('uoup_nagruzka_no_chair');
-        }
+        },
+        system_mode: function($http) 
+        {
+          return $http({url: 'ajax/get/get_system_mode.php', method: 'GET'}); 
+        },
       }
     })
     .when('/uoup_nagruzka_no_type',
@@ -717,6 +742,14 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
       controller: 'UOUPNagruzkaCtrl',
       resolve:
       {
+        chairs_sprav : function($http)
+        {
+          return $http({url: 'ajax/get/get_chairs.php', method: 'GET'});
+        },
+        nagruzka_selected_chair_id: function($route)
+        {
+          return null
+        },
         uoup_nagruzka: function($http)
         {
           return $http({url: 'ajax/get/uoup_nagruzka_no_type.php', method: 'GET'});
@@ -727,7 +760,11 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
         },
         page: function($q) {
           return $q.when('uoup_nagruzka_no_type');
-        }
+        },
+        system_mode: function($http) 
+        {
+          return $http({url: 'ajax/get/get_system_mode.php', method: 'GET'}); 
+        },
       }
     })
     .when('/uoup_chairs_refused',
@@ -842,11 +879,82 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
         system_mode: function($http) 
         {
           return $http({url: 'ajax/get/get_system_mode.php', method: 'GET'}); 
+        }
+      }
+    })
+    .when('/ksro',
+    {
+      templateUrl: 'ksro.tpl.html?' + getRandom(10000, 99999),
+      controller: 'KSROCtrl',
+      resolve:
+      {
+        system_mode: function($http) 
+        {
+          return $http({url: 'ajax/get/get_system_mode.php', method: 'GET'}); 
         },
-        // admins_uoup: function($http)
-        // {
-        //   return $http({url: 'ajax/get/admins_uoup.php', method: 'GET'});
-        // }
+        // Параметр только для УОУП для выбора кафедры
+        ksro_selected_chair_id: function($route)
+        {
+          return null
+        },
+        ksro_selected_lecturer_uid: function($route)
+        {
+          return null;
+        },
+        chairs_sprav: function($http)
+        {
+          return $http({url: 'ajax/get/get_chairs.php', method: 'GET'});
+        }
+      }
+    })
+    .when('/ksro/:ksro_selected_chair_id',
+    {
+      templateUrl: 'ksro.tpl.html?' + getRandom(10000, 99999),
+      controller: 'KSROCtrl',
+      resolve:
+      {
+        system_mode: function($http) 
+        {
+          return $http({url: 'ajax/get/get_system_mode.php', method: 'GET'}); 
+        },
+        // Параметр только для УОУП для выбора кафедры
+        ksro_selected_chair_id: function($route)
+        {
+          return $route.current.params.ksro_selected_chair_id
+        },
+        ksro_selected_lecturer_uid: function($route)
+        {
+          return null;
+        },
+        chairs_sprav: function($http)
+        {
+          return $http({url: 'ajax/get/get_chairs.php', method: 'GET'});
+        }
+      }
+    })
+    .when('/ksro/:ksro_selected_chair_id/:ksro_selected_lecturer_uid',
+    {
+      templateUrl: 'ksro.tpl.html?' + getRandom(10000, 99999),
+      controller: 'KSROCtrl',
+      resolve:
+      {
+        system_mode: function($http) 
+        {
+          return $http({url: 'ajax/get/get_system_mode.php', method: 'GET'}); 
+        },
+        // Параметр только для УОУП для выбора кафедры
+        ksro_selected_chair_id: function($route)
+        {
+          return $route.current.params.ksro_selected_chair_id
+        },
+        ksro_selected_lecturer_uid: function($route)
+        {
+          return $route.current.params.ksro_selected_lecturer_uid;
+        },
+        chairs_sprav: function($http)
+        {
+          return $http({url: 'ajax/get/get_chairs.php', method: 'GET'});
+        }
       }
     })
     .otherwise(
@@ -988,6 +1096,16 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
   CL('NagruzkaCtrl');
   // CL(nagruzka_type);
   // CL(nagruzka_selected_chair_id);
+
+  if (nagruzka_type == 'ksro')
+  {
+    var path = "/#/ksro";
+
+    if (!isEmpty(nagruzka_selected_chair_id)) path += `/${nagruzka_selected_chair_id}`;
+    if (!isEmpty(lecturer_uid)) path += `/${lecturer_uid}`;
+
+    window.location = path;
+  }
   
   $scope.chairs_sprav = chairs_sprav.data;
   $scope.nagruzka_selected_chair_id = nagruzka_selected_chair_id;
@@ -1068,9 +1186,28 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
   $scope.UpdateNagruzkaStat = function(nagr_type, chair_id, lecturer_uid)
   {
     CL('UpdateNagruzkaStat');
+    CL(nagr_type);
     // CL(chair_id);
 
-    var url = `ajax/get/nagruzka.php?chair_id=${chair_id}&type=${nagr_type}`;
+    var script;
+
+    if (nagr_type == 'ksro')
+    {
+      if ($scope.system_mode == 'mode_filling')
+      {
+        script = 'ksro';
+      }
+      else
+      {
+        script = 'nagruzka';
+      }
+    }
+    else
+    {
+      script = 'nagruzka';
+    }
+
+    var url = `ajax/get/${script}.php?chair_id=${chair_id}&type=${nagr_type}`;
 
     if (lecturer_uid)
     {
@@ -1534,7 +1671,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
           visibleNagruzka.forEach(item => {
               // totalSum += parseFloat(item.Amount) || 0;
 
-              if (item.lectors && item.lectors.length > 0) {
+              if (item && item.lectors && item.lectors.length > 0) {
                   item.lectors.forEach(lector => {
                       totalSum += parseFloat(lector.Amount) || 0;
                   });
@@ -2434,7 +2571,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
 
 })
 
-.controller ('UOUPNagruzkaCtrl', function($rootScope, $scope, $http, DTOptionsBuilder, DTColumnBuilder, DTColumnDefBuilder, ngDialog, $templateCache, $resource, uoup_nagruzka, nagruzka_uoup_stat, page, $cookies) // 
+.controller ('UOUPNagruzkaCtrl', function($rootScope, $scope, $http, DTOptionsBuilder, DTColumnBuilder, DTColumnDefBuilder, ngDialog, $templateCache, $resource, uoup_nagruzka, nagruzka_uoup_stat, page, $cookies, system_mode, chairs_sprav) // 
 {
   CL('UOUPNagruzkaCtrl');
 
@@ -2446,6 +2583,8 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
 
   $rootScope.page = page;
   $scope.$_forms_obuchenia = $_forms_obuchenia;
+  $scope.chairs_sprav = chairs_sprav.data;
+  $scope.system_mode = system_mode.data.mode; 
 
   $scope.dtInstance = {};
   $scope.filter_distinct = {};
@@ -2602,7 +2741,27 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
     CL('UpdateNagruzkaStat');
     // CL(chair_id);
 
-    var url = `ajax/get/nagruzka.php?type=${nagr_type}&only_stat=1`;
+    var script;
+
+    if (nagr_type == 'ksro')
+    {
+      if ($scope.system_mode == 'mode_filling')
+      {
+        script = 'ksro';
+      }
+      else
+      {
+        script = 'nagruzka';
+      }
+    }
+    else
+    {
+      script = 'nagruzka';
+    }
+
+    var url = `ajax/get/${script}.php?type=${nagr_type}&only_stat=1`;
+
+    // var url = `ajax/get/nagruzka.php?type=${nagr_type}&only_stat=1`;
 
     // if (nagr_type == 'discipline')
     {
@@ -4050,7 +4209,7 @@ $scope.toggleAdminChangeChair = function(chair) {
 
 }) 
 
-.controller ('KSROCtrl', function($templateCache, $scope, $rootScope, ngDialog, $http, $resource, DTOptionsBuilder, DTColumnDefBuilder, system_mode)
+.controller ('KSROCtrl', function($templateCache, $scope, $rootScope, ngDialog, $http, $resource, DTOptionsBuilder, DTColumnDefBuilder, system_mode, ksro_selected_chair_id, ksro_selected_lecturer_uid, chairs_sprav)
 {
   CL('KSROCtrl');
 
@@ -4058,12 +4217,39 @@ $scope.toggleAdminChangeChair = function(chair) {
   $rootScope.page = 'ksro';
   $scope.$_languages = $_languages;
   $scope.system_mode = system_mode.data.mode; 
+  $scope.ksro_selected_lecturer_uid = ksro_selected_lecturer_uid; // Store the lecturer_uid from the route
+  $scope.ksro_selected_chair_id = ksro_selected_chair_id;
+  $scope.chairs_sprav = chairs_sprav.data;
+  CL(ksro_selected_lecturer_uid);
+  CL(ksro_selected_chair_id);
 
   CL($scope.system_mode);
  
   $scope.c_roles = c_roles;
 
-  $scope.ksro = $resource('ajax/get/ksro.php').query();
+  let url = 'ajax/get/ksro.php?chair_id=' + (ksro_selected_chair_id ? ksro_selected_chair_id : c_chair_id);
+  if (ksro_selected_lecturer_uid) 
+  {
+    url += '&lecturer_uid=' + encodeURIComponent(ksro_selected_lecturer_uid);
+  }
+
+  // $scope.ksro = $resource(url).query();
+
+  $http({url: url, method: 'GET'})
+      .then(function (response) 
+      {
+        if (response.data)
+        {
+          $scope.ksro = response.data.nagruzka;
+          $scope.isLoading = false;
+
+          // Если ограничены одним преподом, то нужно взять его ФИО (из первой же нагрузки)
+          if ($scope.ksro_selected_lecturer_uid && !isEmpty($scope.ksro))
+          {
+            $scope.ksro_lecturer_fio = response.data[0].lecturer_fio;
+          }
+        }
+      })
 
   $scope.data = {show_edit_ksro: false};
 
@@ -4194,7 +4380,7 @@ $scope.toggleAdminChangeChair = function(chair) {
     // Проверим правильность формы
     var valid = true;
 
-    if (isEmpty($scope.edit_ksro.language_uid))
+    if (isEmpty($scope.edit_ksro.UID_Language))
     {
       toastr.error("Выберите язык");
       return;
@@ -4202,8 +4388,8 @@ $scope.toggleAdminChangeChair = function(chair) {
 
     // Проверяем, что в массиве нет такого же сотрудника с таким же языком
     const existingPerson = $scope.ksro.find(
-      (person) => person.person_id === $scope.edit_ksro.person_id &&
-        person.language_uid === $scope.edit_ksro.language_uid &&
+      (person) => person.lecturer_person_id === $scope.edit_ksro.lecturer_person_id &&
+        person.UID_Language === $scope.edit_ksro.UID_Language &&
         (!isEmpty($scope.edit_ksro.id) && person.id !== $scope.edit_ksro.id || isEmpty($scope.edit_ksro.id))
     );
     
@@ -4218,7 +4404,7 @@ $scope.toggleAdminChangeChair = function(chair) {
     
     // Проверяем лимиты ИК отдельно для каждого семестра
     const existingIK = $scope.ksro
-      .filter(person => person.person_id === $scope.edit_ksro.person_id && person.id !== $scope.edit_ksro.id);
+      .filter(person => person.lecturer_person_id === $scope.edit_ksro.lecturer_person_id && person.id !== $scope.edit_ksro.id);
     
     // Осенний семестр
     const totalAutumnIK = existingIK
@@ -4252,7 +4438,7 @@ $scope.toggleAdminChangeChair = function(chair) {
     
     // Проверяем лимиты КСРО отдельно для каждого семестра
     const existingKSRO = $scope.ksro
-      .filter(person => person.person_id === $scope.edit_ksro.person_id && person.id !== $scope.edit_ksro.id);
+      .filter(person => person.lecturer_person_id === $scope.edit_ksro.lecturer_person_id && person.id !== $scope.edit_ksro.id);
     
     // Осенний семестр
     const totalAutumnKSRO = existingKSRO
@@ -4307,7 +4493,8 @@ $scope.toggleAdminChangeChair = function(chair) {
 
   $scope.MayEditKSRO = function()
   {
-    return $scope.system_mode == 'mode_filling';
+    // CL($scope.system_mode == 'mode_filling');
+    return c_roles.zavkaf && $scope.system_mode == 'mode_filling';
   }
 
   $scope.GetKSROSum = function(param)

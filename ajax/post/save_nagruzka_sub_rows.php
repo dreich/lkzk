@@ -22,7 +22,7 @@ if (!$data) {
   exit;
 }
 
-
+$XmlChairByCode = GetTable('xml_chair', "", "", "Code");
 
 
 foreach ($data as $nagruzka_lector)
@@ -111,6 +111,7 @@ foreach ($data as $nagruzka_lector)
                       `lecturer_person_id` = '$nagruzka_lector[lecturer_person_id]',
                       `lecturer_fio` = '$nagruzka_lector[lecturer_fio]',
                       `lecturer_uid` = '$nagruzka_lector[lecturer_uid]',
+                      `chair_uid` = '{$XmlChairByCode[$nagruzka_lector['chair_id']]['UID']}',
                       `zavkaf_login` = '$_SESSION[c_login]',
                       `zavkaf_fio` = '$_SESSION[c_fio]',
                       `delete` = '$delete'

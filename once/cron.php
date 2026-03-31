@@ -1,4 +1,7 @@
-f<?php
+<?php
+
+// print_r($_SERVER);
+// exit;
 
 include '../functions.php';
 
@@ -151,13 +154,20 @@ $ContentOfLoadStaffBaseUID1sNotVo = [];
 
 function LoadXML($filename, $table_name)
 {
-  global $mysqli, $Napravlenia, $xml_content_of_load_columns_for_hash, $xml_content_of_load_staff_columns_for_hash, $XMLKindOfWorkGIA, $XMLKindOfWorkVKR, $XMLKindOfWorkKurs, $_XMLContentOfLoadStaffByBaseUID1, $XMLSpeciality, $ContentOfLoadStaffBaseUID1sNotVo, $db_error;
+  global $mysqli, $Napravlenia, $xml_content_of_load_columns_for_hash, $xml_content_of_load_staff_columns_for_hash, $XMLKindOfWorkGIA, $XMLKindOfWorkVKR, $XMLKindOfWorkKurs, $_XMLContentOfLoadStaffByBaseUID1, $XMLSpeciality, $ContentOfLoadStaffBaseUID1sNotVo, $db_error, $ksro_kind_uid, $ksro_discipline_uid, $ik_kind_uid, $ik_discipline_uid;
 
   EchoLog("LoadXML: $table_name", 'file screen');
 
   // if ($table_name === 'xml_content_of_load') EchoLog("HERE 1");
 
-  $XML = simplexml_load_string(file_get_contents($filename));
+  $XML = loadXMLSafe($filename);
+
+  if ($XML === false) 
+  {
+    // Обработка ошибки
+    $db_error = true;
+    EchoLog("LoadXML($filename) read XML error", 'file screen');
+  }
 
   $Result = $mysqli->query("DELETE FROM `$table_name`");
 
@@ -178,7 +188,7 @@ function LoadXML($filename, $table_name)
 
     $TestRow = GetRow('xml_content_of_load', ['UID' => '26589.281474976799017']);
 
-    EchoLog($TestRow);
+    // EchoLog($TestRow);
     
     // Временно коммитим для проверки состояния
     // $mysqli->query("COMMIT");
@@ -235,8 +245,8 @@ function LoadXML($filename, $table_name)
 
       if ($arr['UID'] === '26589.281474976799017')
       {
-        EchoLog("HERE 555");
-        EchoLog($arr);
+        // EchoLog("HERE 555");
+        // EchoLog($arr);
         // EchoLog($_XMLContentOfLoadStaffByBaseUID1[$base_uid]);
         // EchoLog($XMLSpeciality[$_XMLContentOfLoadStaffByBaseUID1[$base_uid]['UID_Speciality']]);
         // EchoLog(IsEducationLevelVO($XMLSpeciality[$_XMLContentOfLoadStaffByBaseUID1[$base_uid]['UID_Speciality']]['education_level']));
@@ -264,7 +274,11 @@ function LoadXML($filename, $table_name)
       $hash = hash_column_values_only($arr, $xml_content_of_load_columns_for_hash);
       $sql_arr[] = "`hash` = '$hash'";
 
-      if ($XMLKindOfWorkGIA[$arr['UID_KindOfWork']])
+      if ($arr['UID_KindOfWork'] === $ksro_kind_uid || $arr['UID_KindOfWork'] === $ik_kind_uid || $arr['UID_Discipline'] === $ksro_discipline_uid ||  $arr['UID_Discipline'] === $ik_discipline_uid)
+      {
+        $sql_arr[] = "`nagruzka_type` = 'ksro'";
+      }
+      elseif ($XMLKindOfWorkGIA[$arr['UID_KindOfWork']])
       {
         $sql_arr[] = "`nagruzka_type` = 'gia'";
       }
@@ -298,7 +312,7 @@ function LoadXML($filename, $table_name)
       // пропускаем, пропустим остальное
       if ($XMLSpeciality[$arr['UID_Speciality']] && !IsEducationLevelVO($XMLSpeciality[$arr['UID_Speciality']]['education_level']))
       {
-        if ($base_uid === '26589.281474976765788')
+        // if ($base_uid === '26589.281474976765788')
         {
           // EchoLog("$arr[UID] $base_uid - {$XMLSpeciality[$_XMLContentOfLoadStaffByBaseUID1[$base_uid]['UID_Speciality']]['education_level']} НЕ ЗАГРУЖАЕМ");
         }
@@ -378,12 +392,15 @@ if ($UPDATE_TABLES)
   LoadXML('Stream.xml', 'xml_stream');
   LoadXML('Faculty.xml', 'xml_faculty');
   LoadXML('Language.xml', 'xml_language');
-  // TMP comment, чтобы локально не загружалось, т.к. нет опоп2
-  LoadXML('Speciality.xml', 'xml_speciality');
+  
+
+  if ($_SERVER['SERVER_ADDR'] != '127.0.0.1')
+  LoadXML('Speciality.xml', 'xml_speciality'); // // TMP comment, чтобы локально не загружалось, т.к. нет опоп2
   LoadXML('Specialization.xml', 'xml_specialization');
   LoadXML('SubGroup.xml', 'xml_subgroup');
   LoadXML('Chair.xml', 'xml_chair');
   LoadXML('KindOfWork.xml', 'xml_kind_of_work');
+
   // понадобится в LoadXML('ContentOfLoad.xml', 'xml_content_of_load')
   // ГИА
   $XMLKindOfWorkGIA = GetTable('xml_kind_of_work', "`Name` LIKE('Участие в комиссии%')", "", "UID");
@@ -411,8 +428,8 @@ if ($UPDATE_TABLES)
 }
 
 // $mysqli->query("COMMIT");
-
 // exit;
+// 
 // Если  начинать транзакцию раньше, до загрузки страниц, то происходит непонятное с обновлением строк справочников, пришлось перенести сюда
 $mysqli->query("START TRANSACTION");
 
@@ -874,16 +891,16 @@ foreach ($SotrudnikiByPersonChair as $sotrudnik)
 
   $lecturer = GetLecturer($sotrudnik['person_id'], $post_uid, $chair_uid, $department_uid, $person_type);
 
-  $SplitsForSotrudnik = GetRows('zavkaf_splits', ['lecturer_person_id' => $sotrudnik['person_id']]);
+  $SplitsForSotrudnik = GetRows('zavkaf_splits', ['lecturer_person_id' => $sotrudnik['person_id'], 'chair_uid' => $chair_uid]);
 
-  if ($SplitsForSotrudnik)
+  if ($lecturer && $SplitsForSotrudnik)
   {
     foreach ($SplitsForSotrudnik as $split_row)
     {
       if ($split_row['lecturer_uid'] != $lecturer['UID'])
       {
         // if ($sotrudnik['person_id'] == 51586)
-        EchoLog("Заменяем в сплите для $sotrudnik[person_id] для $split_row[content_of_load_uid_new]: $split_row[lecturer_uid] != $lecturer[UID]");
+        EchoLog("Заменяем в сплите для $sotrudnik[person_id] для $split_row[content_of_load_uid_new]: $split_row[lecturer_uid] !=> $lecturer[UID]");
 
         // content_of_load_uid не правим, т.к. считается, что завкаф разбивает "с нуля", т.е. из Галактики нет разбиений, значит uid не содержит сотрудников
         $base_uid2_obj = parseNagruzkaBaseUid2($split_row['content_of_load_uid_new']);
@@ -1144,8 +1161,8 @@ foreach ($Nagruzka as $nagruzka)
 
 
 $XMLContentOfLoad = GetTable('xml_content_of_load', "", "", "UID", "UID, UID_Chair, base_uid, base_uid2, hash, UID_Lecturer");
-EchoLog("HERE 666");
-EchoLog($XMLContentOfLoad['26589.281474976799017']);
+// EchoLog("HERE 666");
+// EchoLog($XMLContentOfLoad['26589.281474976799017']);
 
 // $XMLContentOfLoadByBaseUID = GetTable('xml_content_of_load', "", "", "base_uid", "UID, UID_Chair, base_uid, hash, UID_Lecturer");
 $_XMLContentOfLoadStaff = GetTable('xml_content_of_load_staff', "", "", null, "UID, base_uid2, UID_ContentOfLoad, hash");
@@ -1287,11 +1304,11 @@ if ($XMLContentOfLoad)
       $base_uid2 = $xml_content_of_load_prev_row['base_uid2'];
       $xml_content_of_load_UID = $xml_content_of_load_prev_row['UID'];
 
-      if ($base_uid === '26589.281474976799017')
-      {
-        EchoLog("HERE 777");
-        EchoLog($XMLContentOfLoadByBaseUID2[$base_uid2]);
-      }
+      // if ($base_uid === '26589.281474976799017')
+      // {
+      //   EchoLog("HERE 777");
+      //   EchoLog($XMLContentOfLoadByBaseUID2[$base_uid2]);
+      // }
 
       // прежняя нагрузка не обнаружена в текущем справочнике нагрузок по base_UID,
       // т.е. нет такой нагрузки независимо от споточенности
@@ -1696,10 +1713,6 @@ else
 {
   EchoLog("ЛК ЗК: Пустая таблица нагрузки 1", 'file mail');
 }
-
-
-
-
 
 
 

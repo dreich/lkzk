@@ -21,6 +21,9 @@ include '../../functions.php';
 
 $chair_id = $_SESSION['c_chair_id'];
 $department_id = $_SESSION['c_department_id'];
+// получим режим работы системы
+$ModeRow = GetRow('params', ['param' => 'system_mode']);
+$_mode = $ModeRow['value'];
 
 // $position_table_name = "position" . date('Y');
 
@@ -44,6 +47,35 @@ $department_id = $_SESSION['c_department_id'];
 
 // 1. Подключение к БД и проверка авторизации
 
+// В режиме редактирования нагрузку ИК-КСРО нужно брать из таблицы ksro
+if ($_mode == 'mode_filling')
+{
+  $_ksro_sql = "AND x.`nagruzka_type` <> 'ksro'";
+
+  $KSRO = GetTable('ksro', "`chair_id` = '$chair_id'");
+  $KSROByPersonID = [];
+
+  if ($KSRO)
+  {
+    foreach ($KSRO as $ksro)
+    {
+      if (!$KSROByPersonID[$ksro['lecturer_person_id']][$ksro['UID_Language']])
+      {
+        $KSROByPersonID[$ksro['lecturer_person_id']][$ksro['UID_Language']] = $ksro;
+      }
+      else
+      {
+        $KSROByPersonID[$ksro['lecturer_person_id']][$ksro['UID_Language']]['Amount'] += (float) $ksro['Amount'];
+      }
+    }
+  }
+}
+// в других режимах - из Галактики
+else
+{
+  $_ksro_sql = "AND x.`nagruzka_type` <> ''";
+}
+
 // 2. Получаем оригинальную нагрузку из Галактики
 $originalLoads = [];
 $query = "SELECT 
@@ -56,19 +88,22 @@ $query = "SELECT
 FROM nagruzka n
 JOIN xml_content_of_load x ON n.load_base_UID2 = x.base_uid2
 JOIN xml_lecturer ON x.UID_Lecturer = xml_lecturer.UID
-WHERE xml_lecturer.Tab_number IS NOT NULL AND xml_content_of_load.`nagruzka_type` <> ''
+WHERE xml_lecturer.Tab_number IS NOT NULL# AND x.UID_Lecturer = '26115.281474976862936'
+$_ksro_sql
 ";
 
 $rows = GetSQL($query) ?: [];
 foreach ($rows as $row) 
 {
-    $originalLoads[$row['Tab_number']][$row['base_uid2']] = 
-    [
-      'UID_Lecturer' => $row['UID_Lecturer'],
-      'amount' => (float)$row['Amount'],
-      'type_workload' => $row['TypeWorkload'],
-    ];
+  $originalLoads[$row['Tab_number']][$row['base_uid2']] = 
+  [
+    'UID_Lecturer' => $row['UID_Lecturer'],
+    'amount' => (float)$row['Amount'],
+    'type_workload' => $row['TypeWorkload'],
+  ];
 }
+
+// EchoLog($originalLoads);
 
 // 3. Получаем английскую нагрузку из оригинальных данных
 $englishLoads = [];
@@ -82,19 +117,21 @@ FROM nagruzka n
 JOIN xml_content_of_load x ON n.load_base_UID2 = x.base_uid2
 JOIN xml_content_of_load_staff s ON x.base_uid2 = s.base_uid2
 JOIN xml_lecturer ON x.UID_Lecturer = xml_lecturer.UID
-WHERE s.UID_Language = '25031.945'";
+WHERE xml_lecturer.Tab_number IS NOT NULL AND s.UID_Language = '25031.945'
+$_ksro_sql
+";
  
 $rows = GetSQL($query) ?: [];
 foreach ($rows as $row) 
 {
-    if (!isset($englishLoads[$row['Tab_number']])) {
-        $englishLoads[$row['Tab_number']] = [];
-    }
-    $englishLoads[$row['Tab_number']][] = [
-        'UID_Lecturer' => $row['UID_Lecturer'],
-        'amount' => (float)$row['Amount'],
-        'type_workload' => $row['TypeWorkload']
-    ];
+  if (!isset($englishLoads[$row['Tab_number']])) {
+      $englishLoads[$row['Tab_number']] = [];
+  }
+  $englishLoads[$row['Tab_number']][] = [
+      'UID_Lecturer' => $row['UID_Lecturer'],
+      'amount' => (float)$row['Amount'],
+      'type_workload' => $row['TypeWorkload']
+  ];
 }
 
 // EchoLog($englishLoads);
@@ -208,7 +245,8 @@ while ($row = $result->fetch_assoc()) {
 // EchoLog($englishLoads[70297]);
 
 // 7. Объединяем данные
-foreach ($employees as &$employee) {
+foreach ($employees as &$employee) 
+{
     $personId = $employee['person_id'];
     
     // EchoLog($employee['lecturer_uid']);
@@ -238,7 +276,7 @@ foreach ($employees as &$employee) {
     elseif (isset($englishLoads[$personId])) {
         foreach ($englishLoads[$personId] as $engLoad) {
             if (empty($engLoad['UID_Lecturer'])) {
-                EchoLog($engLoad);
+                // EchoLog($engLoad);
                 continue;
             }
             if ($engLoad['UID_Lecturer'] != $employee['lecturer_uid']) {
@@ -254,11 +292,9 @@ foreach ($employees as &$employee) {
     if (isset($splitsLoads[$personId])) {
         foreach ($splitsLoads[$personId] as $baseUid2 => $load) 
         {
-            
-
             if (empty($load['UID_Lecturer'])) 
             {
-                EchoLog($load);
+                // EchoLog($load);
                 continue;
             }
 
@@ -278,10 +314,10 @@ foreach ($employees as &$employee) {
                 }
             }
 
-            if ($personId == 9058)
-            {
-              EchoLog($load);
-            }
+            // if ($personId == 9058)
+            // {
+            //   EchoLog($load);
+            // }
             
             if (!$isEnglish) 
             {
@@ -312,15 +348,33 @@ foreach ($employees as &$employee) {
           if ($splitsLoadsByBaseUID2[$base_uid2]) continue;
 
           $totalAmount += $load['amount'];
-          if ($personId == 70297)
-          {
-            EchoLog($load['amount']);
-          }
+          // if ($personId == 70297)
+          // {
+          //   EchoLog($load['amount']);
+          // }
           if ($load['type_workload'] == '0') {
               $auditoriumAmount += $load['amount'];
           }
           $typeWorkload = $load['type_workload'] ?: $typeWorkload;
         }
+    }
+
+    // В режиме заполнения нагрузку ИК-КСРО добавим из таблицы `ksro`
+    if ($_mode == 'mode_filling')
+    {
+      if ($KSROByPersonID[$personId])
+      {
+        foreach ($KSROByPersonID[$personId] as $lang_uid => $ksro_language_row)
+        {
+          $totalAmount += (float) $ksro_language_row['Amount'];
+
+          if ($lang_uid === $language_eng_uid)
+          {
+            $engAmount += (float) $ksro_language_row['Amount'];
+          }
+        }
+        
+      }
     }
     
     // Добавляем результаты к данным сотрудника
