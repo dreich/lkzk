@@ -1,2 +1,532 @@
 [18.03.2026 - 11:50.28] Unknown column 'language' in 'field list'[/ajax/post/save_ksro.php] [Chrome 145.0.0.0] [127.0.0.1]
 [18.03.2026 - 11:50.46] Unknown column 'ik_osen' in 'field list'[/ajax/post/save_ksro.php] [Chrome 145.0.0.0] [127.0.0.1]
+[02.04.2026 - 12:33.29] [/ajax/post/save_ksro.php] [Chrome 146.0.0.0] [127.0.0.1]
+[02.04.2026 - 12:33.50] stdClass::__set_state(array(
+   'id_ik_osen' => '44',
+   'id_ik_vesna' => '45',
+   'id_ksro_osen' => '46',
+   'id_ksro_vesna' => '47',
+))[/ajax/post/save_ksro.php] [Chrome 146.0.0.0] [127.0.0.1]
+[03.04.2026 - 14:14.13] GetNagruzkaBaseQuery() не используется без nagruzka_type[/ajax/post/save_nagruzka_status.php] [Chrome 146.0.0.0] [127.0.0.1]
+[03.04.2026 - 14:14.13] Error in GetSQL():[/ajax/post/save_nagruzka_status.php] [Chrome 146.0.0.0] [127.0.0.1]
+[03.04.2026 - 14:14.13] [/ajax/post/save_nagruzka_status.php] [Chrome 146.0.0.0] [127.0.0.1]
+[03.04.2026 - 14:14.13] Не найдена нагрузка в save_nagruzka_status.php[/ajax/post/save_nagruzka_status.php] [Chrome 146.0.0.0] [127.0.0.1]
+[03.04.2026 - 14:14.13] mail_utf8: wwwlab@unn.ru,  lkzk.unn.ru, wwwlab@unn.ru[/ajax/post/save_nagruzka_status.php] [Chrome 146.0.0.0] [127.0.0.1]
+[03.04.2026 - 14:15.02] Error in GetSQL(): Column 'base_uid2' in where clause is ambiguous[/ajax/post/save_nagruzka_status.php] [Chrome 146.0.0.0] [127.0.0.1]
+[03.04.2026 - 14:15.02] SELECT 
+  xml_content_of_load.UID as original_uid,
+  xml_content_of_load.base_uid,
+  xml_content_of_load.base_uid2,
+  xml_content_of_load.UID as xml_content_of_load_UID,
+  xml_content_of_load.Amount,
+  xml_lecturer.FIO as lecturer_fio,
+  xml_lecturer.UID as lecturer_uid,
+  # именно здесь можно различить -1 и Вакансию 
+  xml_content_of_load.UID_Lecturer,
+  xml_lecturer.Tab_number as lecturer_person_id,
+  nagruzka.chair_id, nagruzka.chair_name, nagruzka.zavkaf_fio, nagruzka.zavkaf_login, nagruzka.department_name
+  
+      ,
+      nagruzka.status, 
+      nagruzka.comment_to_admin,
+      xml_content_of_load.YearOfEducation,
+      xml_content_of_load.LoadType,
+      xml_content_of_load_staff.Abbr, 
+      xml_group.Name as group_name,
+      xml_discipline.UID as discipline_UID,
+      xml_discipline.Name as discipline_name,
+      #xml_faculty.Name as department_name,
+      xml_speciality.Name as napravlenie,
+      xml_speciality.Code as napravlenie_code,
+      xml_speciality.education_level,
+      xml_specialization.Name as napravlennost,
+      xml_language.Name as language,
+      xml_content_of_load_staff.UID_FormOfEducation,
+      xml_content_of_load.UID_Language,
+      xml_content_of_load.UID_Semester,
+      xml_content_of_load.StudentAmount,
+      xml_kind_of_work.Name as kind_of_work,
+      xml_content_of_load.UID_KindOfWork,
+      xml_content_of_load.UID_Course,
+      xml_post.Name as dolzhnost,
+      xml_lecturer.Rate as stavka
+
+
+    
+  
+  #
+
+  FROM xml_content_of_load
+  LEFT JOIN xml_lecturer ON xml_lecturer.UID = xml_content_of_load.UID_Lecturer
+  LEFT JOIN `nagruzka` ON nagruzka.load_base_UID2 = xml_content_of_load.base_uid2
+  --
+  
+      LEFT JOIN xml_content_of_load_staff ON xml_content_of_load.base_uid = xml_content_of_load_staff.base_uid
+      LEFT JOIN xml_group ON xml_group.`UID` = xml_content_of_load_staff.`UID_Group`
+      LEFT JOIN xml_discipline ON xml_discipline.UID = xml_content_of_load.UID_Discipline
+      LEFT JOIN xml_chair ON xml_chair.UID = xml_content_of_load.`UID_Chair`
+      LEFT JOIN xml_faculty ON xml_faculty.UID = xml_chair.`UID_Faculty`
+      LEFT JOIN xml_speciality ON xml_speciality.UID = xml_content_of_load_staff.UID_Speciality
+      LEFT JOIN xml_specialization ON xml_specialization.UID = xml_content_of_load_staff.UID_Specialization
+      LEFT JOIN xml_language ON xml_language.UID = xml_content_of_load_staff.UID_Language
+      LEFT JOIN xml_kind_of_work ON xml_kind_of_work.UID = xml_content_of_load.UID_KindOfWork
+      LEFT JOIN xml_post ON xml_post.UID = xml_lecturer.UID_Post
+    
+  WHERE 
+  1
+  AND (`nagruzka_type` IS NOT NULL AND `nagruzka_type` <> '')
+
+  -- AND (xml_content_of_load_staff.`Abbr` LIKE ('Б1.%') OR xml_content_of_load_staff.`Abbr` LIKE ('Ф%') OR xml_content_of_load_staff.`Abbr` LIKE ('1.%') OR xml_content_of_load_staff.`Abbr` LIKE ('1.01%') OR xml_content_of_load_staff.`Abbr` LIKE ('2.1%') OR xml_content_of_load_staff.`Abbr` LIKE ('2.01%') OR xml_content_of_load_staff.`Abbr` LIKE ('С1%') OR xml_content_of_load_staff.`Abbr` LIKE ('С2%') OR xml_content_of_load_staff.`Abbr` LIKE ('С3%') OR xml_content_of_load_staff.`Abbr` LIKE ('С4%'))
+  -- AND xml_content_of_load.UID_Lecturer = '26115.281474976866589'
+    -- AND xml_content_of_load.`base_uid` = '26589.281474976773929'
+    -- AND xml_content_of_load.`base_uid` = '26589.281474976787074'
+    -- AND xml_content_of_load.`base_uid` = '26589.281474976763950'
+    -- AND xml_content_of_load.`base_uid` = '26589.281474976773565'
+    -- AND LoadType = '0'
+    AND `base_uid2` = '26589.281474976763950.26115.281474976866589'[/ajax/post/save_nagruzka_status.php] [Chrome 146.0.0.0] [127.0.0.1]
+[03.04.2026 - 14:15.02] Не найдена нагрузка в save_nagruzka_status.php[/ajax/post/save_nagruzka_status.php] [Chrome 146.0.0.0] [127.0.0.1]
+[03.04.2026 - 14:15.02] mail_utf8: wwwlab@unn.ru,  lkzk.unn.ru, wwwlab@unn.ru[/ajax/post/save_nagruzka_status.php] [Chrome 146.0.0.0] [127.0.0.1]
+[03.04.2026 - 14:19.26] Error in GetSQL(): Column 'base_uid2' in where clause is ambiguous[/ajax/post/save_nagruzka_status.php] [Chrome 146.0.0.0] [127.0.0.1]
+[03.04.2026 - 14:19.26] SELECT 
+  xml_content_of_load.UID as original_uid,
+  xml_content_of_load.base_uid,
+  xml_content_of_load.base_uid2,
+  xml_content_of_load.UID as xml_content_of_load_UID,
+  xml_content_of_load.Amount,
+  xml_lecturer.FIO as lecturer_fio,
+  xml_lecturer.UID as lecturer_uid,
+  # именно здесь можно различить -1 и Вакансию 
+  xml_content_of_load.UID_Lecturer,
+  xml_lecturer.Tab_number as lecturer_person_id,
+  nagruzka.chair_id, nagruzka.chair_name, nagruzka.zavkaf_fio, nagruzka.zavkaf_login, nagruzka.department_name
+  
+      ,
+      nagruzka.status, 
+      nagruzka.comment_to_admin,
+      xml_content_of_load.YearOfEducation,
+      xml_content_of_load.LoadType,
+      xml_content_of_load_staff.Abbr, 
+      xml_group.Name as group_name,
+      xml_discipline.UID as discipline_UID,
+      xml_discipline.Name as discipline_name,
+      #xml_faculty.Name as department_name,
+      xml_speciality.Name as napravlenie,
+      xml_speciality.Code as napravlenie_code,
+      xml_speciality.education_level,
+      xml_specialization.Name as napravlennost,
+      xml_language.Name as language,
+      xml_content_of_load_staff.UID_FormOfEducation,
+      xml_content_of_load.UID_Language,
+      xml_content_of_load.UID_Semester,
+      xml_content_of_load.StudentAmount,
+      xml_kind_of_work.Name as kind_of_work,
+      xml_content_of_load.UID_KindOfWork,
+      xml_content_of_load.UID_Course,
+      xml_post.Name as dolzhnost,
+      xml_lecturer.Rate as stavka
+
+
+    
+  
+  #
+
+  FROM xml_content_of_load
+  LEFT JOIN xml_lecturer ON xml_lecturer.UID = xml_content_of_load.UID_Lecturer
+  LEFT JOIN `nagruzka` ON nagruzka.load_base_UID2 = xml_content_of_load.base_uid2
+  --
+  
+      LEFT JOIN xml_content_of_load_staff ON xml_content_of_load.base_uid = xml_content_of_load_staff.base_uid
+      LEFT JOIN xml_group ON xml_group.`UID` = xml_content_of_load_staff.`UID_Group`
+      LEFT JOIN xml_discipline ON xml_discipline.UID = xml_content_of_load.UID_Discipline
+      LEFT JOIN xml_chair ON xml_chair.UID = xml_content_of_load.`UID_Chair`
+      LEFT JOIN xml_faculty ON xml_faculty.UID = xml_chair.`UID_Faculty`
+      LEFT JOIN xml_speciality ON xml_speciality.UID = xml_content_of_load_staff.UID_Speciality
+      LEFT JOIN xml_specialization ON xml_specialization.UID = xml_content_of_load_staff.UID_Specialization
+      LEFT JOIN xml_language ON xml_language.UID = xml_content_of_load_staff.UID_Language
+      LEFT JOIN xml_kind_of_work ON xml_kind_of_work.UID = xml_content_of_load.UID_KindOfWork
+      LEFT JOIN xml_post ON xml_post.UID = xml_lecturer.UID_Post
+    
+  WHERE 
+  1
+  AND (`nagruzka_type` IS NOT NULL AND `nagruzka_type` <> '')
+
+  -- AND (xml_content_of_load_staff.`Abbr` LIKE ('Б1.%') OR xml_content_of_load_staff.`Abbr` LIKE ('Ф%') OR xml_content_of_load_staff.`Abbr` LIKE ('1.%') OR xml_content_of_load_staff.`Abbr` LIKE ('1.01%') OR xml_content_of_load_staff.`Abbr` LIKE ('2.1%') OR xml_content_of_load_staff.`Abbr` LIKE ('2.01%') OR xml_content_of_load_staff.`Abbr` LIKE ('С1%') OR xml_content_of_load_staff.`Abbr` LIKE ('С2%') OR xml_content_of_load_staff.`Abbr` LIKE ('С3%') OR xml_content_of_load_staff.`Abbr` LIKE ('С4%'))
+  -- AND xml_content_of_load.UID_Lecturer = '26115.281474976866589'
+    -- AND xml_content_of_load.`base_uid` = '26589.281474976773929'
+    -- AND xml_content_of_load.`base_uid` = '26589.281474976787074'
+    -- AND xml_content_of_load.`base_uid` = '26589.281474976763950'
+    -- AND xml_content_of_load.`base_uid` = '26589.281474976773565'
+    -- AND LoadType = '0'
+    AND `base_uid2` = '26589.281474976763950.26115.281474976866589'[/ajax/post/save_nagruzka_status.php] [Chrome 146.0.0.0] [127.0.0.1]
+[03.04.2026 - 14:19.26] Не найдена нагрузка в save_nagruzka_status.php[/ajax/post/save_nagruzka_status.php] [Chrome 146.0.0.0] [127.0.0.1]
+[03.04.2026 - 14:19.26] mail_utf8: wwwlab@unn.ru,  lkzk.unn.ru, wwwlab@unn.ru[/ajax/post/save_nagruzka_status.php] [Chrome 146.0.0.0] [127.0.0.1]
+[03.04.2026 - 14:20.08] Error in GetSQL(): Column 'base_uid2' in where clause is ambiguous[/ajax/post/save_nagruzka_status.php] [Chrome 146.0.0.0] [127.0.0.1]
+[03.04.2026 - 14:20.08] SELECT 
+  xml_content_of_load.UID as original_uid,
+  xml_content_of_load.base_uid,
+  xml_content_of_load.base_uid2,
+  xml_content_of_load.UID as xml_content_of_load_UID,
+  xml_content_of_load.Amount,
+  xml_lecturer.FIO as lecturer_fio,
+  xml_lecturer.UID as lecturer_uid,
+  # именно здесь можно различить -1 и Вакансию 
+  xml_content_of_load.UID_Lecturer,
+  xml_lecturer.Tab_number as lecturer_person_id,
+  nagruzka.chair_id, nagruzka.chair_name, nagruzka.zavkaf_fio, nagruzka.zavkaf_login, nagruzka.department_name
+  
+      ,
+      nagruzka.status, 
+      nagruzka.comment_to_admin,
+      xml_content_of_load.YearOfEducation,
+      xml_content_of_load.LoadType,
+      xml_content_of_load_staff.Abbr, 
+      xml_group.Name as group_name,
+      xml_discipline.UID as discipline_UID,
+      xml_discipline.Name as discipline_name,
+      #xml_faculty.Name as department_name,
+      xml_speciality.Name as napravlenie,
+      xml_speciality.Code as napravlenie_code,
+      xml_speciality.education_level,
+      xml_specialization.Name as napravlennost,
+      xml_language.Name as language,
+      xml_content_of_load_staff.UID_FormOfEducation,
+      xml_content_of_load.UID_Language,
+      xml_content_of_load.UID_Semester,
+      xml_content_of_load.StudentAmount,
+      xml_kind_of_work.Name as kind_of_work,
+      xml_content_of_load.UID_KindOfWork,
+      xml_content_of_load.UID_Course,
+      xml_post.Name as dolzhnost,
+      xml_lecturer.Rate as stavka
+
+
+    
+  
+  #
+
+  FROM xml_content_of_load
+  LEFT JOIN xml_lecturer ON xml_lecturer.UID = xml_content_of_load.UID_Lecturer
+  LEFT JOIN `nagruzka` ON nagruzka.load_base_UID2 = xml_content_of_load.base_uid2
+  --
+  
+      LEFT JOIN xml_content_of_load_staff ON xml_content_of_load.base_uid = xml_content_of_load_staff.base_uid
+      LEFT JOIN xml_group ON xml_group.`UID` = xml_content_of_load_staff.`UID_Group`
+      LEFT JOIN xml_discipline ON xml_discipline.UID = xml_content_of_load.UID_Discipline
+      LEFT JOIN xml_chair ON xml_chair.UID = xml_content_of_load.`UID_Chair`
+      LEFT JOIN xml_faculty ON xml_faculty.UID = xml_chair.`UID_Faculty`
+      LEFT JOIN xml_speciality ON xml_speciality.UID = xml_content_of_load_staff.UID_Speciality
+      LEFT JOIN xml_specialization ON xml_specialization.UID = xml_content_of_load_staff.UID_Specialization
+      LEFT JOIN xml_language ON xml_language.UID = xml_content_of_load_staff.UID_Language
+      LEFT JOIN xml_kind_of_work ON xml_kind_of_work.UID = xml_content_of_load.UID_KindOfWork
+      LEFT JOIN xml_post ON xml_post.UID = xml_lecturer.UID_Post
+    
+  WHERE 
+  1
+  AND (`nagruzka_type` IS NOT NULL AND `nagruzka_type` <> '')
+
+  -- AND (xml_content_of_load_staff.`Abbr` LIKE ('Б1.%') OR xml_content_of_load_staff.`Abbr` LIKE ('Ф%') OR xml_content_of_load_staff.`Abbr` LIKE ('1.%') OR xml_content_of_load_staff.`Abbr` LIKE ('1.01%') OR xml_content_of_load_staff.`Abbr` LIKE ('2.1%') OR xml_content_of_load_staff.`Abbr` LIKE ('2.01%') OR xml_content_of_load_staff.`Abbr` LIKE ('С1%') OR xml_content_of_load_staff.`Abbr` LIKE ('С2%') OR xml_content_of_load_staff.`Abbr` LIKE ('С3%') OR xml_content_of_load_staff.`Abbr` LIKE ('С4%'))
+  -- AND xml_content_of_load.UID_Lecturer = '26115.281474976866589'
+    -- AND xml_content_of_load.`base_uid` = '26589.281474976773929'
+    -- AND xml_content_of_load.`base_uid` = '26589.281474976787074'
+    -- AND xml_content_of_load.`base_uid` = '26589.281474976763950'
+    -- AND xml_content_of_load.`base_uid` = '26589.281474976773565'
+    -- AND LoadType = '0'
+    AND `base_uid2` = '26589.281474976775713'[/ajax/post/save_nagruzka_status.php] [Chrome 146.0.0.0] [127.0.0.1]
+[03.04.2026 - 14:20.08] Не найдена нагрузка в save_nagruzka_status.php[/ajax/post/save_nagruzka_status.php] [Chrome 146.0.0.0] [127.0.0.1]
+[03.04.2026 - 14:20.08] mail_utf8: wwwlab@unn.ru,  lkzk.unn.ru, wwwlab@unn.ru[/ajax/post/save_nagruzka_status.php] [Chrome 146.0.0.0] [127.0.0.1]
+[03.04.2026 - 14:20.08] Error in GetSQL(): Column 'base_uid2' in where clause is ambiguous[/ajax/post/save_nagruzka_status.php] [Chrome 146.0.0.0] [127.0.0.1]
+[03.04.2026 - 14:20.08] SELECT 
+  xml_content_of_load.UID as original_uid,
+  xml_content_of_load.base_uid,
+  xml_content_of_load.base_uid2,
+  xml_content_of_load.UID as xml_content_of_load_UID,
+  xml_content_of_load.Amount,
+  xml_lecturer.FIO as lecturer_fio,
+  xml_lecturer.UID as lecturer_uid,
+  # именно здесь можно различить -1 и Вакансию 
+  xml_content_of_load.UID_Lecturer,
+  xml_lecturer.Tab_number as lecturer_person_id,
+  nagruzka.chair_id, nagruzka.chair_name, nagruzka.zavkaf_fio, nagruzka.zavkaf_login, nagruzka.department_name
+  
+      ,
+      nagruzka.status, 
+      nagruzka.comment_to_admin,
+      xml_content_of_load.YearOfEducation,
+      xml_content_of_load.LoadType,
+      xml_content_of_load_staff.Abbr, 
+      xml_group.Name as group_name,
+      xml_discipline.UID as discipline_UID,
+      xml_discipline.Name as discipline_name,
+      #xml_faculty.Name as department_name,
+      xml_speciality.Name as napravlenie,
+      xml_speciality.Code as napravlenie_code,
+      xml_speciality.education_level,
+      xml_specialization.Name as napravlennost,
+      xml_language.Name as language,
+      xml_content_of_load_staff.UID_FormOfEducation,
+      xml_content_of_load.UID_Language,
+      xml_content_of_load.UID_Semester,
+      xml_content_of_load.StudentAmount,
+      xml_kind_of_work.Name as kind_of_work,
+      xml_content_of_load.UID_KindOfWork,
+      xml_content_of_load.UID_Course,
+      xml_post.Name as dolzhnost,
+      xml_lecturer.Rate as stavka
+
+
+    
+  
+  #
+
+  FROM xml_content_of_load
+  LEFT JOIN xml_lecturer ON xml_lecturer.UID = xml_content_of_load.UID_Lecturer
+  LEFT JOIN `nagruzka` ON nagruzka.load_base_UID2 = xml_content_of_load.base_uid2
+  --
+  
+      LEFT JOIN xml_content_of_load_staff ON xml_content_of_load.base_uid = xml_content_of_load_staff.base_uid
+      LEFT JOIN xml_group ON xml_group.`UID` = xml_content_of_load_staff.`UID_Group`
+      LEFT JOIN xml_discipline ON xml_discipline.UID = xml_content_of_load.UID_Discipline
+      LEFT JOIN xml_chair ON xml_chair.UID = xml_content_of_load.`UID_Chair`
+      LEFT JOIN xml_faculty ON xml_faculty.UID = xml_chair.`UID_Faculty`
+      LEFT JOIN xml_speciality ON xml_speciality.UID = xml_content_of_load_staff.UID_Speciality
+      LEFT JOIN xml_specialization ON xml_specialization.UID = xml_content_of_load_staff.UID_Specialization
+      LEFT JOIN xml_language ON xml_language.UID = xml_content_of_load_staff.UID_Language
+      LEFT JOIN xml_kind_of_work ON xml_kind_of_work.UID = xml_content_of_load.UID_KindOfWork
+      LEFT JOIN xml_post ON xml_post.UID = xml_lecturer.UID_Post
+    
+  WHERE 
+  1
+  AND (`nagruzka_type` IS NOT NULL AND `nagruzka_type` <> '')
+
+  -- AND (xml_content_of_load_staff.`Abbr` LIKE ('Б1.%') OR xml_content_of_load_staff.`Abbr` LIKE ('Ф%') OR xml_content_of_load_staff.`Abbr` LIKE ('1.%') OR xml_content_of_load_staff.`Abbr` LIKE ('1.01%') OR xml_content_of_load_staff.`Abbr` LIKE ('2.1%') OR xml_content_of_load_staff.`Abbr` LIKE ('2.01%') OR xml_content_of_load_staff.`Abbr` LIKE ('С1%') OR xml_content_of_load_staff.`Abbr` LIKE ('С2%') OR xml_content_of_load_staff.`Abbr` LIKE ('С3%') OR xml_content_of_load_staff.`Abbr` LIKE ('С4%'))
+  -- AND xml_content_of_load.UID_Lecturer = '26115.281474976866589'
+    -- AND xml_content_of_load.`base_uid` = '26589.281474976773929'
+    -- AND xml_content_of_load.`base_uid` = '26589.281474976787074'
+    -- AND xml_content_of_load.`base_uid` = '26589.281474976763950'
+    -- AND xml_content_of_load.`base_uid` = '26589.281474976773565'
+    -- AND LoadType = '0'
+    AND `base_uid2` = '26589.281474976763950.26115.281474976866589'[/ajax/post/save_nagruzka_status.php] [Chrome 146.0.0.0] [127.0.0.1]
+[03.04.2026 - 14:20.08] Не найдена нагрузка в save_nagruzka_status.php[/ajax/post/save_nagruzka_status.php] [Chrome 146.0.0.0] [127.0.0.1]
+[03.04.2026 - 14:20.08] mail_utf8: wwwlab@unn.ru,  lkzk.unn.ru, wwwlab@unn.ru[/ajax/post/save_nagruzka_status.php] [Chrome 146.0.0.0] [127.0.0.1]
+[03.04.2026 - 14:27.24] Error in GetSQL(): Column 'base_uid2' in where clause is ambiguous[/ajax/post/save_nagruzka_status.php] [Chrome 146.0.0.0] [127.0.0.1]
+[03.04.2026 - 14:27.24] SELECT 
+  xml_content_of_load.UID as original_uid,
+  xml_content_of_load.base_uid,
+  xml_content_of_load.base_uid2,
+  xml_content_of_load.UID as xml_content_of_load_UID,
+  xml_content_of_load.Amount,
+  xml_lecturer.FIO as lecturer_fio,
+  xml_lecturer.UID as lecturer_uid,
+  # именно здесь можно различить -1 и Вакансию 
+  xml_content_of_load.UID_Lecturer,
+  xml_lecturer.Tab_number as lecturer_person_id,
+  nagruzka.chair_id, nagruzka.chair_name, nagruzka.zavkaf_fio, nagruzka.zavkaf_login, nagruzka.department_name
+  
+      ,
+      nagruzka.status, 
+      nagruzka.comment_to_admin,
+      xml_content_of_load.YearOfEducation,
+      xml_content_of_load.LoadType,
+      xml_content_of_load_staff.Abbr, 
+      xml_group.Name as group_name,
+      xml_discipline.UID as discipline_UID,
+      xml_discipline.Name as discipline_name,
+      #xml_faculty.Name as department_name,
+      xml_speciality.Name as napravlenie,
+      xml_speciality.Code as napravlenie_code,
+      xml_speciality.education_level,
+      xml_specialization.Name as napravlennost,
+      xml_language.Name as language,
+      xml_content_of_load_staff.UID_FormOfEducation,
+      xml_content_of_load.UID_Language,
+      xml_content_of_load.UID_Semester,
+      xml_content_of_load.StudentAmount,
+      xml_kind_of_work.Name as kind_of_work,
+      xml_content_of_load.UID_KindOfWork,
+      xml_content_of_load.UID_Course,
+      xml_post.Name as dolzhnost,
+      xml_lecturer.Rate as stavka
+
+
+    
+  
+  #
+
+  FROM xml_content_of_load
+  LEFT JOIN xml_lecturer ON xml_lecturer.UID = xml_content_of_load.UID_Lecturer
+  LEFT JOIN `nagruzka` ON nagruzka.load_base_UID2 = xml_content_of_load.base_uid2
+  --
+  
+      LEFT JOIN xml_content_of_load_staff ON xml_content_of_load.base_uid = xml_content_of_load_staff.base_uid
+      LEFT JOIN xml_group ON xml_group.`UID` = xml_content_of_load_staff.`UID_Group`
+      LEFT JOIN xml_discipline ON xml_discipline.UID = xml_content_of_load.UID_Discipline
+      LEFT JOIN xml_chair ON xml_chair.UID = xml_content_of_load.`UID_Chair`
+      LEFT JOIN xml_faculty ON xml_faculty.UID = xml_chair.`UID_Faculty`
+      LEFT JOIN xml_speciality ON xml_speciality.UID = xml_content_of_load_staff.UID_Speciality
+      LEFT JOIN xml_specialization ON xml_specialization.UID = xml_content_of_load_staff.UID_Specialization
+      LEFT JOIN xml_language ON xml_language.UID = xml_content_of_load_staff.UID_Language
+      LEFT JOIN xml_kind_of_work ON xml_kind_of_work.UID = xml_content_of_load.UID_KindOfWork
+      LEFT JOIN xml_post ON xml_post.UID = xml_lecturer.UID_Post
+    
+  WHERE 
+  1
+  AND (`nagruzka_type` IS NOT NULL AND `nagruzka_type` <> '')
+
+  -- AND (xml_content_of_load_staff.`Abbr` LIKE ('Б1.%') OR xml_content_of_load_staff.`Abbr` LIKE ('Ф%') OR xml_content_of_load_staff.`Abbr` LIKE ('1.%') OR xml_content_of_load_staff.`Abbr` LIKE ('1.01%') OR xml_content_of_load_staff.`Abbr` LIKE ('2.1%') OR xml_content_of_load_staff.`Abbr` LIKE ('2.01%') OR xml_content_of_load_staff.`Abbr` LIKE ('С1%') OR xml_content_of_load_staff.`Abbr` LIKE ('С2%') OR xml_content_of_load_staff.`Abbr` LIKE ('С3%') OR xml_content_of_load_staff.`Abbr` LIKE ('С4%'))
+  -- AND xml_content_of_load.UID_Lecturer = '26115.281474976866589'
+    -- AND xml_content_of_load.`base_uid` = '26589.281474976773929'
+    -- AND xml_content_of_load.`base_uid` = '26589.281474976787074'
+    -- AND xml_content_of_load.`base_uid` = '26589.281474976763950'
+    -- AND xml_content_of_load.`base_uid` = '26589.281474976773565'
+    -- AND LoadType = '0'
+    AND `base_uid2` = '26589.281474976775716'[/ajax/post/save_nagruzka_status.php] [Chrome 146.0.0.0] [127.0.0.1]
+[03.04.2026 - 14:27.24] Не найдена нагрузка в save_nagruzka_status.php[/ajax/post/save_nagruzka_status.php] [Chrome 146.0.0.0] [127.0.0.1]
+[03.04.2026 - 14:27.24] mail_utf8: wwwlab@unn.ru,  lkzk.unn.ru, wwwlab@unn.ru[/ajax/post/save_nagruzka_status.php] [Chrome 146.0.0.0] [127.0.0.1]
+[03.04.2026 - 14:27.24] Error in GetSQL(): Column 'base_uid2' in where clause is ambiguous[/ajax/post/save_nagruzka_status.php] [Chrome 146.0.0.0] [127.0.0.1]
+[03.04.2026 - 14:27.24] SELECT 
+  xml_content_of_load.UID as original_uid,
+  xml_content_of_load.base_uid,
+  xml_content_of_load.base_uid2,
+  xml_content_of_load.UID as xml_content_of_load_UID,
+  xml_content_of_load.Amount,
+  xml_lecturer.FIO as lecturer_fio,
+  xml_lecturer.UID as lecturer_uid,
+  # именно здесь можно различить -1 и Вакансию 
+  xml_content_of_load.UID_Lecturer,
+  xml_lecturer.Tab_number as lecturer_person_id,
+  nagruzka.chair_id, nagruzka.chair_name, nagruzka.zavkaf_fio, nagruzka.zavkaf_login, nagruzka.department_name
+  
+      ,
+      nagruzka.status, 
+      nagruzka.comment_to_admin,
+      xml_content_of_load.YearOfEducation,
+      xml_content_of_load.LoadType,
+      xml_content_of_load_staff.Abbr, 
+      xml_group.Name as group_name,
+      xml_discipline.UID as discipline_UID,
+      xml_discipline.Name as discipline_name,
+      #xml_faculty.Name as department_name,
+      xml_speciality.Name as napravlenie,
+      xml_speciality.Code as napravlenie_code,
+      xml_speciality.education_level,
+      xml_specialization.Name as napravlennost,
+      xml_language.Name as language,
+      xml_content_of_load_staff.UID_FormOfEducation,
+      xml_content_of_load.UID_Language,
+      xml_content_of_load.UID_Semester,
+      xml_content_of_load.StudentAmount,
+      xml_kind_of_work.Name as kind_of_work,
+      xml_content_of_load.UID_KindOfWork,
+      xml_content_of_load.UID_Course,
+      xml_post.Name as dolzhnost,
+      xml_lecturer.Rate as stavka
+
+
+    
+  
+  #
+
+  FROM xml_content_of_load
+  LEFT JOIN xml_lecturer ON xml_lecturer.UID = xml_content_of_load.UID_Lecturer
+  LEFT JOIN `nagruzka` ON nagruzka.load_base_UID2 = xml_content_of_load.base_uid2
+  --
+  
+      LEFT JOIN xml_content_of_load_staff ON xml_content_of_load.base_uid = xml_content_of_load_staff.base_uid
+      LEFT JOIN xml_group ON xml_group.`UID` = xml_content_of_load_staff.`UID_Group`
+      LEFT JOIN xml_discipline ON xml_discipline.UID = xml_content_of_load.UID_Discipline
+      LEFT JOIN xml_chair ON xml_chair.UID = xml_content_of_load.`UID_Chair`
+      LEFT JOIN xml_faculty ON xml_faculty.UID = xml_chair.`UID_Faculty`
+      LEFT JOIN xml_speciality ON xml_speciality.UID = xml_content_of_load_staff.UID_Speciality
+      LEFT JOIN xml_specialization ON xml_specialization.UID = xml_content_of_load_staff.UID_Specialization
+      LEFT JOIN xml_language ON xml_language.UID = xml_content_of_load_staff.UID_Language
+      LEFT JOIN xml_kind_of_work ON xml_kind_of_work.UID = xml_content_of_load.UID_KindOfWork
+      LEFT JOIN xml_post ON xml_post.UID = xml_lecturer.UID_Post
+    
+  WHERE 
+  1
+  AND (`nagruzka_type` IS NOT NULL AND `nagruzka_type` <> '')
+
+  -- AND (xml_content_of_load_staff.`Abbr` LIKE ('Б1.%') OR xml_content_of_load_staff.`Abbr` LIKE ('Ф%') OR xml_content_of_load_staff.`Abbr` LIKE ('1.%') OR xml_content_of_load_staff.`Abbr` LIKE ('1.01%') OR xml_content_of_load_staff.`Abbr` LIKE ('2.1%') OR xml_content_of_load_staff.`Abbr` LIKE ('2.01%') OR xml_content_of_load_staff.`Abbr` LIKE ('С1%') OR xml_content_of_load_staff.`Abbr` LIKE ('С2%') OR xml_content_of_load_staff.`Abbr` LIKE ('С3%') OR xml_content_of_load_staff.`Abbr` LIKE ('С4%'))
+  -- AND xml_content_of_load.UID_Lecturer = '26115.281474976866589'
+    -- AND xml_content_of_load.`base_uid` = '26589.281474976773929'
+    -- AND xml_content_of_load.`base_uid` = '26589.281474976787074'
+    -- AND xml_content_of_load.`base_uid` = '26589.281474976763950'
+    -- AND xml_content_of_load.`base_uid` = '26589.281474976773565'
+    -- AND LoadType = '0'
+    AND `base_uid2` = '26589.281474976775715'[/ajax/post/save_nagruzka_status.php] [Chrome 146.0.0.0] [127.0.0.1]
+[03.04.2026 - 14:27.24] Не найдена нагрузка в save_nagruzka_status.php[/ajax/post/save_nagruzka_status.php] [Chrome 146.0.0.0] [127.0.0.1]
+[03.04.2026 - 14:27.24] mail_utf8: wwwlab@unn.ru,  lkzk.unn.ru, wwwlab@unn.ru[/ajax/post/save_nagruzka_status.php] [Chrome 146.0.0.0] [127.0.0.1]
+[03.04.2026 - 14:27.43] Error in GetSQL(): Column 'base_uid2' in where clause is ambiguous[/ajax/post/save_nagruzka_status.php] [Chrome 146.0.0.0] [127.0.0.1]
+[03.04.2026 - 14:27.43] SELECT 
+  xml_content_of_load.UID as original_uid,
+  xml_content_of_load.base_uid,
+  xml_content_of_load.base_uid2,
+  xml_content_of_load.UID as xml_content_of_load_UID,
+  xml_content_of_load.Amount,
+  xml_lecturer.FIO as lecturer_fio,
+  xml_lecturer.UID as lecturer_uid,
+  # именно здесь можно различить -1 и Вакансию 
+  xml_content_of_load.UID_Lecturer,
+  xml_lecturer.Tab_number as lecturer_person_id,
+  nagruzka.chair_id, nagruzka.chair_name, nagruzka.zavkaf_fio, nagruzka.zavkaf_login, nagruzka.department_name
+  
+      ,
+      nagruzka.status, 
+      nagruzka.comment_to_admin,
+      xml_content_of_load.YearOfEducation,
+      xml_content_of_load.LoadType,
+      xml_content_of_load_staff.Abbr, 
+      xml_group.Name as group_name,
+      xml_discipline.UID as discipline_UID,
+      xml_discipline.Name as discipline_name,
+      #xml_faculty.Name as department_name,
+      xml_speciality.Name as napravlenie,
+      xml_speciality.Code as napravlenie_code,
+      xml_speciality.education_level,
+      xml_specialization.Name as napravlennost,
+      xml_language.Name as language,
+      xml_content_of_load_staff.UID_FormOfEducation,
+      xml_content_of_load.UID_Language,
+      xml_content_of_load.UID_Semester,
+      xml_content_of_load.StudentAmount,
+      xml_kind_of_work.Name as kind_of_work,
+      xml_content_of_load.UID_KindOfWork,
+      xml_content_of_load.UID_Course,
+      xml_post.Name as dolzhnost,
+      xml_lecturer.Rate as stavka
+
+
+    
+  
+  #
+
+  FROM xml_content_of_load
+  LEFT JOIN xml_lecturer ON xml_lecturer.UID = xml_content_of_load.UID_Lecturer
+  LEFT JOIN `nagruzka` ON nagruzka.load_base_UID2 = xml_content_of_load.base_uid2
+  --
+  
+      LEFT JOIN xml_content_of_load_staff ON xml_content_of_load.base_uid = xml_content_of_load_staff.base_uid
+      LEFT JOIN xml_group ON xml_group.`UID` = xml_content_of_load_staff.`UID_Group`
+      LEFT JOIN xml_discipline ON xml_discipline.UID = xml_content_of_load.UID_Discipline
+      LEFT JOIN xml_chair ON xml_chair.UID = xml_content_of_load.`UID_Chair`
+      LEFT JOIN xml_faculty ON xml_faculty.UID = xml_chair.`UID_Faculty`
+      LEFT JOIN xml_speciality ON xml_speciality.UID = xml_content_of_load_staff.UID_Speciality
+      LEFT JOIN xml_specialization ON xml_specialization.UID = xml_content_of_load_staff.UID_Specialization
+      LEFT JOIN xml_language ON xml_language.UID = xml_content_of_load_staff.UID_Language
+      LEFT JOIN xml_kind_of_work ON xml_kind_of_work.UID = xml_content_of_load.UID_KindOfWork
+      LEFT JOIN xml_post ON xml_post.UID = xml_lecturer.UID_Post
+    
+  WHERE 
+  1
+  AND (`nagruzka_type` IS NOT NULL AND `nagruzka_type` <> '')
+
+  -- AND (xml_content_of_load_staff.`Abbr` LIKE ('Б1.%') OR xml_content_of_load_staff.`Abbr` LIKE ('Ф%') OR xml_content_of_load_staff.`Abbr` LIKE ('1.%') OR xml_content_of_load_staff.`Abbr` LIKE ('1.01%') OR xml_content_of_load_staff.`Abbr` LIKE ('2.1%') OR xml_content_of_load_staff.`Abbr` LIKE ('2.01%') OR xml_content_of_load_staff.`Abbr` LIKE ('С1%') OR xml_content_of_load_staff.`Abbr` LIKE ('С2%') OR xml_content_of_load_staff.`Abbr` LIKE ('С3%') OR xml_content_of_load_staff.`Abbr` LIKE ('С4%'))
+  -- AND xml_content_of_load.UID_Lecturer = '26115.281474976866589'
+    -- AND xml_content_of_load.`base_uid` = '26589.281474976773929'
+    -- AND xml_content_of_load.`base_uid` = '26589.281474976787074'
+    -- AND xml_content_of_load.`base_uid` = '26589.281474976763950'
+    -- AND xml_content_of_load.`base_uid` = '26589.281474976773565'
+    -- AND LoadType = '0'
+    AND `base_uid2` = '26589.281474976775721'[/ajax/post/save_nagruzka_status.php] [Chrome 146.0.0.0] [127.0.0.1]
+[03.04.2026 - 14:27.43] Не найдена нагрузка в save_nagruzka_status.php[/ajax/post/save_nagruzka_status.php] [Chrome 146.0.0.0] [127.0.0.1]
+[03.04.2026 - 14:27.43] mail_utf8: wwwlab@unn.ru,  lkzk.unn.ru, wwwlab@unn.ru[/ajax/post/save_nagruzka_status.php] [Chrome 146.0.0.0] [127.0.0.1]

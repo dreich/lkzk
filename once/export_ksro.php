@@ -125,7 +125,13 @@ $Result->free();
 $filename = 'ksro.xml';
 $filepath = __DIR__ . '../' . $filename;
 
-$doc->save($filepath);
+// отдать в браузер
+
+header('Content-Type: text/xml; charset=UTF-8');
+header("Content-Disposition: attachment; filename=\"$filename\"");
+echo $doc->saveXML();
+
+// $doc->save($filepath);
 
 EchoLog("Export finished. Exported $rows_count rows to file: $filename");
 

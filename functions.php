@@ -135,6 +135,18 @@ function Authorize($login, $password)
   // TODO CHANGE GREEN TABLE ID
   setcookie('SpryMedia_DataTables_t_', '', time()-999, '/');
 
+  // Delete all DataTables cookies for controllers
+  foreach($_COOKIE as $cookie_name => $cookie_value) {
+    if (strpos($cookie_name, 'DataTables_Table_nagruzka_') === 0 ||
+        strpos($cookie_name, 'DataTables_Table_uoup_nagruzka_') === 0 ||
+        strpos($cookie_name, 'DataTables_Table_ksro_') === 0 ||
+        strpos($cookie_name, 'DataTables_Table_uoup_chairs_refused_') === 0 ||
+        strpos($cookie_name, 'DataTables_Table_nagruzka_to_change_') === 0) {
+      setcookie($cookie_name, '', time()-999, '/');
+      unset($_COOKIE[$cookie_name]);
+    }
+  }
+
   session_name('lkzk');
   session_start();
 
@@ -2446,7 +2458,7 @@ function get_base_uid2($uid) {
 // Данные от запроса должны пропускаться через функцию PrepareNagruzka() для подготовки к выдаче в зелёную таблицу нагрузки
 // с уникализацией по base_uid
 // $lite_query введён для uoup_nagruzka, где берётся вся нагрузка, что очень тяжело работает
-function GetNagruzkaBaseQuery($dop_sql, $nagruzka_type, $department_from_first_table = true, $lite_query = false)
+function GetNagruzkaBaseQuery($dop_sql, $nagruzka_type = 'all', $department_from_first_table = true, $lite_query = false)
 {
   // if ($chair_uid)
   // {
@@ -2555,7 +2567,7 @@ function GetNagruzkaBaseQuery($dop_sql, $nagruzka_type, $department_from_first_t
   $nagruzka_type_sql
 
   -- AND (xml_content_of_load_staff.`Abbr` LIKE ('Б1.%') OR xml_content_of_load_staff.`Abbr` LIKE ('Ф%') OR xml_content_of_load_staff.`Abbr` LIKE ('1.%') OR xml_content_of_load_staff.`Abbr` LIKE ('1.01%') OR xml_content_of_load_staff.`Abbr` LIKE ('2.1%') OR xml_content_of_load_staff.`Abbr` LIKE ('2.01%') OR xml_content_of_load_staff.`Abbr` LIKE ('С1%') OR xml_content_of_load_staff.`Abbr` LIKE ('С2%') OR xml_content_of_load_staff.`Abbr` LIKE ('С3%') OR xml_content_of_load_staff.`Abbr` LIKE ('С4%'))
-  -- AND xml_content_of_load.UID_Lecturer = '26115.281474976866589'
+  -- AND xml_content_of_load.UID_Lecturer = '26115.281474976793608'
     -- AND xml_content_of_load.`base_uid` = '26589.281474976773929'
     -- AND xml_content_of_load.`base_uid` = '26589.281474976787074'
     -- AND xml_content_of_load.`base_uid` = '26589.281474976763950'

@@ -289,7 +289,8 @@ foreach ($employees as &$employee)
     }
     
     // Обрабатываем переопределенную нагрузку (русскую)
-    if (isset($splitsLoads[$personId])) {
+    if (isset($splitsLoads[$personId])) 
+    {
         foreach ($splitsLoads[$personId] as $baseUid2 => $load) 
         {
             if (empty($load['UID_Lecturer'])) 
@@ -390,10 +391,10 @@ foreach ($employees as &$employee)
 if ($employees)
 foreach ($employees as &$sotrudnik)
 {
-  if ($sotrudnik['type'] == 'sotrudnik')
-  {
-    $sotrudnik['selected'] = true;
-  }
+  // if ($sotrudnik['type'] == 'sotrudnik')
+  // {
+  //   $sotrudnik['selected'] = true;
+  // }
 
   if ($sotrudnik['type'] == 'gph')
   {
@@ -438,4 +439,3 @@ header('Content-Type: application/javascript; charset=UTF-8');
 echo json_encode(array_values($employees));
 
 ?>
-

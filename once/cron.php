@@ -9,7 +9,7 @@ include '../connect/opop2.php';
 
 EchoLog("Start cron");
 
-$LOAD_NEW_DATA_FROM_NETWORK = false;
+$LOAD_NEW_DATA_FROM_NETWORK = true;
 $UPDATE_TABLES = true;
 
 $Napravlenia = GetTable('napravlenia', "", "", "napravlenie");
@@ -717,12 +717,6 @@ if ($Sotrudniki)
 
 
 
-
-
-
-
-
-
 // $mysqli->query("UPDATE `sotrudniki` SET `actual` = '0'");
 
 if ($SotrudnikiItogoByKey)
@@ -834,13 +828,20 @@ if ($SotrudnikiItogoByKey)
     // updating
     else
     {
+      if ($chair_sotrudnik['type'] == 'sotrudnik')
+      {
+        $selected = '1';
+      }
+
+
       $query = "
-              UPDATE `sotrudniki` 
-              SET `fio` = '$chair_sotrudnik[fio]', `dolzhnost` = '$chair_sotrudnik[dolzhnost]', `type` = '$chair_sotrudnik[type]', `stavka` = '$chair_sotrudnik[stavka]', `pku` = '$chair_sotrudnik[pku]', `pkg` = '$chair_sotrudnik[pkg]', 
-              # !! обновление lecturer_uid
-              `lecturer_uid` = '$lecturer[UID]'
-              WHERE `person_id` = '$chair_sotrudnik[person_id]' AND `chair_id` = '$chair_sotrudnik[chair_id]'
-            ";
+                UPDATE `sotrudniki` 
+                SET `fio` = '$chair_sotrudnik[fio]', `dolzhnost` = '$chair_sotrudnik[dolzhnost]', `type` = '$chair_sotrudnik[type]', `stavka` = '$chair_sotrudnik[stavka]', `pku` = '$chair_sotrudnik[pku]', `pkg` = '$chair_sotrudnik[pkg]', 
+                `selected` = '$selected',
+                # !! обновление lecturer_uid
+                `lecturer_uid` = '$lecturer[UID]'
+                WHERE `person_id` = '$chair_sotrudnik[person_id]' AND `chair_id` = '$chair_sotrudnik[chair_id]'
+              ";
 
       // echo $query . '<br><br>';
 

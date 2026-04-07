@@ -1091,7 +1091,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
 })
 
 
-.controller ('NagruzkaCtrl', function($rootScope, $scope, $http, DTOptionsBuilder, DTColumnBuilder, DTColumnDefBuilder, ngDialog, $templateCache, nagruzka_type, nagruzka_selected_chair_id, $resource, $cookies, system_mode, nagruzka_stat, nagruzka, lecturer_uid, chairs_sprav) 
+.controller ('NagruzkaCtrl', function($rootScope, $scope, $http, DTOptionsBuilder, DTColumnBuilder, DTColumnDefBuilder, ngDialog, $templateCache, nagruzka_type, nagruzka_selected_chair_id, $resource, $cookies, system_mode, nagruzka_stat, nagruzka, lecturer_uid, chairs_sprav, $location) 
 {
   CL('NagruzkaCtrl');
   // CL(nagruzka_type);
@@ -1157,8 +1157,10 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
   }
 
   // $scope.nagruzka_readonly = c_roles.zavkaf && (!isEmpty(nagruzka_selected_chair_id) || $scope.system_mode === 'mode_verification') ||  $scope.system_mode === 'mode_archive'; 
-
+  // CL(c_roles);
   $scope.nagruzka_readonly = c_roles.sotrudnik || c_roles.uoup || $scope.system_mode != 'mode_filling'; // $scope.system_mode ===  'mode_verification' || $scope.system_mode === 'mode_archive'; 
+
+  CL($scope.nagruzka_readonly);
 
   $templateCache.put('confirm_delete', '<p>Вы уверены, что хотите удалить?</p>\
               <div class="ngdialog-buttons">\
@@ -1183,7 +1185,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
   $scope.filter_distinct.global_nagruzka_filter = $cookies.get('global_nagruzka_filter');
 
 
-  $scope.UpdateNagruzkaStat = function(nagr_type, chair_id, lecturer_uid)
+  $scope.UpdateNagruzkaStat = function(nagr_type, chair_id, lecturer_uid, only_stat)
   {
     CL('UpdateNagruzkaStat');
     CL(nagr_type);
@@ -1207,11 +1209,18 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
       script = 'nagruzka';
     }
 
+    // nagruzka.php
+    // ksro.php
     var url = `ajax/get/${script}.php?chair_id=${chair_id}&type=${nagr_type}`;
 
     if (lecturer_uid)
     {
       url += `&lecturer_uid=${lecturer_uid}`;
+    }
+
+    if (only_stat)
+    {
+      url += `&only_stat=1`;
     }
 
     // if (nagr_type == 'discipline')
@@ -1224,7 +1233,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
           if (isEmpty($scope.nagruzka_stat[chair_id])) $scope.nagruzka_stat[chair_id] = {};
           // if (isEmpty($scope.nagruzka[chair_id])) $scope.nagruzka[chair_id] = {};
 
-          $scope.nagruzka = response.data.nagruzka;
+          if (!only_stat) $scope.nagruzka = response.data.nagruzka;
           $scope.nagruzka_stat[chair_id][nagr_type] = response.data.stat;
 
           // CL($scope.nagruzka_stat);
@@ -1359,6 +1368,14 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
     $scope.dtOptions = DTOptionsBuilder //.fromSource('data.json')
       .newOptions()
       .withOption('stateSave', true)
+      .withOption('stateSaveParams', function(settings, data) {
+        const path = $location.path();
+        data.CookieName = 'DataTables_Table_nagruzka_' + path.replace(/\//g, '_');
+      })
+      .withOption('stateLoadParams', function(settings, data) {
+        const path = $location.path();
+        data.CookieName = 'DataTables_Table_nagruzka_' + path.replace(/\//g, '_');
+      })
       // .withOption('aoColumns', [{bVisible': false}])
       .withPaginationType('full_numbers')
       .withColVis()
@@ -1443,21 +1460,41 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
           if (c_roles.sotrudnik) lecturer_uid = c_sotrudnik_lecturer_uids[ind];
           else if (c_roles.zavkaf && $scope._lecturer_uid) lecturer_uid = $scope._lecturer_uid;
 
-          if (!$scope._nagruzka_type || $scope._nagruzka_type == 'all')
-          {
-            $scope.UpdateNagruzkaStat('discipline', chair_id, lecturer_uid);
-            $scope.UpdateNagruzkaStat('ruk_vkr', chair_id, lecturer_uid);
-            $scope.UpdateNagruzkaStat('ruk_kurs', chair_id, lecturer_uid);
-            $scope.UpdateNagruzkaStat('ruk_practice', chair_id, lecturer_uid);
-            $scope.UpdateNagruzkaStat('ksro', chair_id, lecturer_uid);
-            $scope.UpdateNagruzkaStat('gia', chair_id, lecturer_uid);
-            $scope.UpdateNagruzkaStat('aspirant', chair_id, lecturer_uid);
-          }
-          else
-          {
-            $scope.UpdateNagruzkaStat($scope._nagruzka_type, chair_id, lecturer_uid);
-            
-          }
+          var only_stat;
+
+          if ($scope._nagruzka_type == 'discipline') only_stat = false; else only_stat = true;
+          $scope.UpdateNagruzkaStat('discipline', chair_id, lecturer_uid, only_stat);
+
+          if ($scope._nagruzka_type == 'ruk_vkr') only_stat = false; else only_stat = true;
+          $scope.UpdateNagruzkaStat('ruk_vkr', chair_id, lecturer_uid, only_stat);
+
+          if ($scope._nagruzka_type == 'ruk_kurs') only_stat = false; else only_stat = true;
+          $scope.UpdateNagruzkaStat('ruk_kurs', chair_id, lecturer_uid, only_stat);
+
+          if ($scope._nagruzka_type == 'ruk_practice') only_stat = false; else only_stat = true;
+          $scope.UpdateNagruzkaStat('ruk_practice', chair_id, lecturer_uid, only_stat);
+
+          if ($scope._nagruzka_type == 'ksro') only_stat = false; else only_stat = true;
+          $scope.UpdateNagruzkaStat('ksro', chair_id, lecturer_uid, only_stat);
+
+          if ($scope._nagruzka_type == 'gia') only_stat = false; else only_stat = true;
+          $scope.UpdateNagruzkaStat('gia', chair_id, lecturer_uid, only_stat);
+
+          if ($scope._nagruzka_type == 'aspirant') only_stat = false; else only_stat = true;
+          $scope.UpdateNagruzkaStat('aspirant', chair_id, lecturer_uid, only_stat);
+
+
+          // if (true || !$scope._nagruzka_type || $scope._nagruzka_type == 'all')
+          // {
+          //   $scope.UpdateNagruzkaStat('ruk_practice', chair_id, lecturer_uid);
+          //   $scope.UpdateNagruzkaStat('ksro', chair_id, lecturer_uid);
+          //   $scope.UpdateNagruzkaStat('gia', chair_id, lecturer_uid);
+          //   $scope.UpdateNagruzkaStat('aspirant', chair_id, lecturer_uid);
+          // }
+          // else
+          // {
+          //   $scope.UpdateNagruzkaStat($scope._nagruzka_type, chair_id, lecturer_uid);
+          // }
         })
       }
       // УОУП
@@ -1710,9 +1747,10 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
 
   $scope.ShowNagruzkaTypeLinkNotText = function()
   {
-    //  || isEmpty($scope.nagruzka_selected_chair_id
-    if (isEmpty($scope._nagruzka_type) || $scope._nagruzka_type == 'all') return true;
-    else return false;
+    return true;
+
+    // if (isEmpty($scope._nagruzka_type) || $scope._nagruzka_type == 'all') return true;
+    // else return false;
   }
 
   // вычислить уровень образования по коду направления
@@ -2084,7 +2122,17 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
 
         let atLeastOneRowHasLecturer = $scope.nagruzka.some(nagruzka_row => 
         {
-          return nagruzka_row.selected && !isEmpty(nagruzka_row.lecturer_uid);
+          var has_lecturer = false;
+
+          nagruzka_row.lectors.forEach(lector => 
+          {
+            if (!isEmpty(lector.lecturer_fio) && lector.lecturer_fio != 'Вакансия') 
+            {
+              has_lecturer = true;
+            }
+          });
+
+          return nagruzka_row.selected && has_lecturer; // nagruzka_row.selected && !isEmpty(nagruzka_row.lecturer_uid);
         });
 
         function doRequireAdminChange()
@@ -2095,7 +2143,11 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
             {
               SaveNagruzkaStatus(nagruzka_row, 'require_admin_change');
 
-              nagruzka_row.lecturer_fio = nagruzka_row.lecturer_uid = nagruzka_row.lecturer_person_id = '';
+              // nagruzka_row.lecturer_fio = nagruzka_row.lecturer_uid = nagruzka_row.lecturer_person_id = '';
+              nagruzka_row.lectors.forEach(lector => 
+              {
+                lector.lecturer_fio = lector.lecturer_uid = lector.lecturer_person_id = '';
+              });
             }
           });
 
@@ -2178,7 +2230,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
       // чтобы иметь возможность отменить правку в диалоге, сделаем отдельный объект
       dialogScope.nagruzka_row = angular.copy(nagruzka_row);
 
-      CL(nagruzka_row.lectors);
+      // CL(nagruzka_row.lectors);
 
       // dialogScope.nagruzka_row = nagruzka_row;
       // dialogScope.nagruzka_history = $resource('ajax/get/get_nagruzka_history.php?load_base_UID2=' + nagruzka_row.base_uid2).query();
@@ -2563,7 +2615,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
 
   $scope.ShowNagruzkaZavkafTypeRow = function(type)
   {
-    return isEmpty(nagruzka_type) || nagruzka_type == 'all' || type == nagruzka_type;
+    return true; // isEmpty(nagruzka_type) || nagruzka_type == 'all'; //  || type == nagruzka_type;
   }
 
 
@@ -2571,7 +2623,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
 
 })
 
-.controller ('UOUPNagruzkaCtrl', function($rootScope, $scope, $http, DTOptionsBuilder, DTColumnBuilder, DTColumnDefBuilder, ngDialog, $templateCache, $resource, uoup_nagruzka, nagruzka_uoup_stat, page, $cookies, system_mode, chairs_sprav) // 
+.controller ('UOUPNagruzkaCtrl', function($rootScope, $scope, $http, DTOptionsBuilder, DTColumnBuilder, DTColumnDefBuilder, ngDialog, $templateCache, $resource, uoup_nagruzka, nagruzka_uoup_stat, page, $cookies, system_mode, chairs_sprav, $location) // 
 {
   CL('UOUPNagruzkaCtrl');
 
@@ -2656,7 +2708,14 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
   $scope.dtOptions = DTOptionsBuilder //.fromSource('data.json')
     .newOptions()
     .withOption('stateSave', true)
-    // .withOption('aoColumns', [{bVisible': false}])
+    .withOption('stateSaveParams', function(settings, data) {
+      const path = $location.path();
+      data.CookieName = 'DataTables_Table_uoup_nagruzka_' + path.replace(/\//g, '_');
+    })
+    .withOption('stateLoadParams', function(settings, data) {
+      const path = $location.path();
+      data.CookieName = 'DataTables_Table_uoup_nagruzka_' + path.replace(/\//g, '_');
+    })
     .withPaginationType('full_numbers')
     // .withColVis()
     // Add a state change function
@@ -2841,7 +2900,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
 })
 
 // Админ УОУП просматривает отказы зав. кафедрами от нагрузки и отменяет отказы
-.controller ('UOUPChairsRefusedCtrl', function($rootScope, $scope, $http, DTOptionsBuilder, DTColumnBuilder, DTColumnDefBuilder, ngDialog, $templateCache, $resource, uoup_nagruzka, system_mode, $filter, $timeout) 
+.controller ('UOUPChairsRefusedCtrl', function($rootScope, $scope, $http, DTOptionsBuilder, DTColumnBuilder, DTColumnDefBuilder, ngDialog, $templateCache, $resource, uoup_nagruzka, system_mode, $filter, $timeout, $location) 
 {
   CL('UOUPChairsRefusedCtrl');
 
@@ -3174,6 +3233,14 @@ $scope.toggleAdminChangeChair = function(chair) {
     .withOption('pageLength', 25)
     .withOption('responsive', true)
     .withOption('stateSave', true)
+    .withOption('stateSaveParams', function(settings, data) {
+      const path = $location.path();
+      data.CookieName = 'DataTables_Table_uoup_chairs_refused_' + path.replace(/\//g, '_');
+    })
+    .withOption('stateLoadParams', function(settings, data) {
+      const path = $location.path();
+      data.CookieName = 'DataTables_Table_uoup_chairs_refused_' + path.replace(/\//g, '_');
+    })
     // .withOption('aoColumns', [{bVisible': false}])
     .withPaginationType('full_numbers')
     .withColVis()
@@ -3322,7 +3389,7 @@ $scope.toggleAdminChangeChair = function(chair) {
   
 })
 
-.controller ('UOUPNagruzkaToChangeCtrl', function($rootScope, $scope, $http, $filter, DTOptionsBuilder, DTColumnBuilder, DTColumnDefBuilder, ngDialog, $templateCache, $resource, $timeout, uoup_nagruzka, system_mode) 
+.controller ('UOUPNagruzkaToChangeCtrl', function($rootScope, $scope, $http, $filter, DTOptionsBuilder, DTColumnBuilder, DTColumnDefBuilder, ngDialog, $templateCache, $resource, $timeout, uoup_nagruzka, system_mode, $location) 
 {
   CL('UOUPNagruzkaToChangeCtrl');
 
@@ -3631,6 +3698,14 @@ $scope.toggleAdminChangeChair = function(chair) {
 
   $scope.dtOptions = DTOptionsBuilder.newOptions()
     .withOption('stateSave', true)
+    .withOption('stateSaveParams', function(settings, data) {
+      const path = $location.path();
+      data.CookieName = 'DataTables_Table_nagruzka_to_change_' + path.replace(/\//g, '_');
+    })
+    .withOption('stateLoadParams', function(settings, data) {
+      const path = $location.path();
+      data.CookieName = 'DataTables_Table_nagruzka_to_change_' + path.replace(/\//g, '_');
+    })
     .withPaginationType('full_numbers')
     .withColVis()
     .withColVisOption('aiExclude', [0])
@@ -4209,7 +4284,7 @@ $scope.toggleAdminChangeChair = function(chair) {
 
 }) 
 
-.controller ('KSROCtrl', function($templateCache, $scope, $rootScope, ngDialog, $http, $resource, DTOptionsBuilder, DTColumnDefBuilder, system_mode, ksro_selected_chair_id, ksro_selected_lecturer_uid, chairs_sprav)
+.controller ('KSROCtrl', function($templateCache, $scope, $rootScope, ngDialog, $http, $resource, DTOptionsBuilder, DTColumnDefBuilder, system_mode, ksro_selected_chair_id, ksro_selected_lecturer_uid, chairs_sprav, $location)
 {
   CL('KSROCtrl');
 
@@ -4251,7 +4326,7 @@ $scope.toggleAdminChangeChair = function(chair) {
         }
       })
 
-  $scope.data = {show_edit_ksro: false};
+  $scope.data = {show_edit_ksro: false, edit_ksro_index: undefined};
 
   $scope.edit_ksro = {};
 
@@ -4301,6 +4376,14 @@ $scope.toggleAdminChangeChair = function(chair) {
   $scope.dtOptions = DTOptionsBuilder
     .newOptions()
     .withOption('stateSave', true)
+    .withOption('stateSaveParams', function(settings, data) {
+      const path = $location.path();
+      data.CookieName = 'DataTables_Table_ksro_' + path.replace(/\//g, '_');
+    })
+    .withOption('stateLoadParams', function(settings, data) {
+      const path = $location.path();
+      data.CookieName = 'DataTables_Table_ksro_' + path.replace(/\//g, '_');
+    })
     .withPaginationType('full_numbers')
     .withLanguage({
         "loadingRecords": "Загрузка...",
@@ -4338,40 +4421,51 @@ $scope.toggleAdminChangeChair = function(chair) {
       $scope.edit_ksro.stavka = parseFloat(data.originalObject.stavka.replace(',', '.'));
     }
 
-    CL($scope.edit_ksro);
+    // CL($scope.edit_ksro);
   }
 
-  $scope.editKSRO = function(row)
+  $scope.showAddKSRO = function()
+  {
+    $scope.data.show_edit_ksro = true;
+    $scope.data.edit_ksro_index = undefined;
+  }
+
+  $scope.editKSRO = function(index)
   {
     if ($scope.MayEditKSRO())
     {
+      // CL(index);
+      const row = $scope.ksro[index];
       $scope.edit_ksro = angular.copy(row);
+      $scope.data.edit_ksro_index = index;
       $scope.data.show_edit_ksro = true;
     }
   }
 
+  $scope.cancelKSRO = function()
+  {
+    $scope.data.show_edit_ksro = false;
+    $scope.data.edit_ksro_index = undefined;
+    $scope.edit_ksro = {};
+  }
+
   $scope.deleteKSRO = function(row)
   {
-    $http({url: 'ajax/post/delete_ksro.php', method: 'POST', data: {id: row.id}})
+    $http({url: 'ajax/post/delete_ksro.php', method: 'POST', data: {ids: row.ids}})
         .then(function(response)
         {
           if (response.data.result == 'success')
           {
-            deleteByColumn($scope.ksro, 'id', row.id);
-            $scope.data.show_edit_ksro = false;
-            $scope.edit_ksro = {};
+            // deleteByColumn($scope.ksro, 'id', row.id);
+            $scope.ksro.splice($scope.data.edit_ksro_index, 1);
+            $scope.cancelKSRO();
+            toastr.success("Данные удалены");
           }
           else
           {
             toastr.error("Ошибка");
           }
         });
-  }
-
-  $scope.cancelKSRO = function()
-  {
-    $scope.data.show_edit_ksro = false;
-    $scope.edit_ksro = {};
   }
 
 
@@ -4472,16 +4566,19 @@ $scope.toggleAdminChangeChair = function(chair) {
             $scope.data.show_edit_ksro = false;
 
             // редактирование
-            if ($scope.edit_ksro.id)
+            if ($scope.data.edit_ksro_index !== undefined)
             {
-              const ind = findIndByColumn($scope.ksro, 'id', $scope.edit_ksro.id);
-              $scope.ksro[ind] = $scope.edit_ksro;
+              // const ind = findIndByColumn($scope.ksro, 'id', $scope.edit_ksro.id);
+              $scope.ksro[$scope.data.edit_ksro_index] = $scope.edit_ksro;
             }
             // добавление
             else
             {
+              $scope.edit_ksro['ids'] = response.data.ids;
               $scope.ksro.push($scope.edit_ksro);
             }
+
+            $scope.cancelKSRO();
           }
           else
           {
@@ -4914,6 +5011,21 @@ function deleteByColumn(arr, column, value)
     }
   }
 }
+
+
+function deleteByColumn(arr, column, value)
+{
+  for (var i = 0; i < arr.length; i++)
+  {
+    if (arr[i][column] == value)
+    {
+      arr.splice(i, 1);
+      // CL(i);
+      return;
+    }
+  }
+}
+
 
 function isObjectWithSingleProperty(variable) {
   if (typeof variable === 'object' && variable !== null) {

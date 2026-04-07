@@ -102,22 +102,26 @@ if ($Rows)
     if ($row['UID_KindOfWork'] === $ksro_kind_uid && $row['UID_Semester'] == 1)
     {
       $RowsByKey["$row[lecturer_person_id]-$row[UID_Language]"]['ksro_osen'] = $row['Amount'];
-      $Stat['assigned']['sum'] = $Stat['total']['sum'] += $row['Amount'];
+      $RowsByKey["$row[lecturer_person_id]-$row[UID_Language]"]['ids']['id_ksro_osen'] = $row['id'];
+      $Stat['assigned']['sum'] = $Stat['total']['sum'] += (float) $row['Amount'];
     }
     elseif ($row['UID_KindOfWork'] === $ksro_kind_uid && $row['UID_Semester'] == 2)
     {
       $RowsByKey["$row[lecturer_person_id]-$row[UID_Language]"]['ksro_vesna'] = $row['Amount'];
-      $Stat['assigned']['sum'] = $Stat['total']['sum'] += $row['Amount'];
+      $RowsByKey["$row[lecturer_person_id]-$row[UID_Language]"]['ids']['id_ksro_vesna'] = $row['id'];
+      $Stat['assigned']['sum'] = $Stat['total']['sum'] += (float) $row['Amount'];
     }
     elseif ($row['UID_KindOfWork'] === $ik_kind_uid && $row['UID_Semester'] == 1)
     {
       $RowsByKey["$row[lecturer_person_id]-$row[UID_Language]"]['ik_osen'] = $row['Amount'];
-      $Stat['assigned']['sum'] = $Stat['total']['sum'] += $row['Amount'];
+      $RowsByKey["$row[lecturer_person_id]-$row[UID_Language]"]['ids']['id_ik_osen'] = $row['id'];
+      $Stat['assigned']['sum'] = $Stat['total']['sum'] += (float) $row['Amount'];
     }
     elseif ($row['UID_KindOfWork'] === $ik_kind_uid && $row['UID_Semester'] == 2)
     {
       $RowsByKey["$row[lecturer_person_id]-$row[UID_Language]"]['ik_vesna'] = $row['Amount'];
-      $Stat['assigned']['sum'] = $Stat['total']['sum'] += $row['Amount'];
+      $RowsByKey["$row[lecturer_person_id]-$row[UID_Language]"]['ids']['id_ik_vesna'] = $row['id'];
+      $Stat['assigned']['sum'] = $Stat['total']['sum'] += (float) $row['Amount'];
     }
   }
 }

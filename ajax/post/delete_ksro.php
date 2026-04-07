@@ -17,13 +17,18 @@ if (empty($_SERVER['HTTP_X_REQUESTED_WITH']) || $_SERVER['HTTP_X_REQUESTED_WITH'
     exit('Forbidden');
 }
 
-$id = isset($data['id']) ? $data['id'] : null;
+$ids = isset($data['ids']) ? $data['ids'] : null;
 
 $result = [];
 
-if ($id) 
+if ($ids) 
 {
-  $Result = $mysqli->query("DELETE FROM `ksro` WHERE `id` = '$id'");
+
+  $Result = $mysqli->query("DELETE FROM `ksro` WHERE `id` = '{$data['ids']->id_ik_osen}'");
+  $Result = $mysqli->query("DELETE FROM `ksro` WHERE `id` = '{$data['ids']->id_ik_vesna}'");
+  $Result = $mysqli->query("DELETE FROM `ksro` WHERE `id` = '{$data['ids']->id_ksro_osen}'");
+  $Result = $mysqli->query("DELETE FROM `ksro` WHERE `id` = '{$data['ids']->id_ksro_vesna}'");
+  
   $result['result'] = 'success';
 } 
 

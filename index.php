@@ -178,12 +178,12 @@ if ($_SESSION['c_login'])
 
       <? endif ?>
 
-      <li class="nav-item">
+<!--       <li class="nav-item">
         <a href="#/ksro" class="nav-link" ng-class="{active: page ==  'ksro'}"><span class="glyphicon glyphicon-list"></span> Индивидуальные консультации и КСРО</a>
       </li>
 
 
-      
+       -->
       <li class="nav-item" ng-if="c_roles.uoup">
         <a href="#/system_mode" class="nav-link" ng-class="{active: page == 'system_mode'}" ><span class="glyphicon glyphicon-cog"></span> Режим работы</a>
       </li>

@@ -34,7 +34,7 @@ $id = isset($data['id']) ? $data['id'] : null;
 
 $result = [];
 
-// Общие поля для обоих запросов
+// Общие поля для запросов
 $fields = "
     `chair_id` = '$c_chair_id',
     `lecturer_person_id` = '$data[lecturer_person_id]',
@@ -46,7 +46,6 @@ $fields = "
     `stavka` = '$data[stavka]',
     `UID_Chair` = '$UID_Chair',
     `UID_FacultyPerformer` = '$UID_FacultyPerformer',
-    
     `department_id` = '$c_department_id'";
 
     // `ik_osen` = '$data[ik_osen]',
@@ -54,9 +53,21 @@ $fields = "
     // `ksro_osen` = '$data[ksro_osen]',
     // `ksro_vesna` = '$data[ksro_vesna]'
 
+// если нет ids, значит, это добавление, и мы должны их сгенерировать
+// if (!$data['ids'])
+{
+  // EchoLog($data['ids']);
+  $data['ids'] = new stdClass();
+  $data['ids']->id_ik_osen = uniq(16);
+  $data['ids']->id_ik_vesna = uniq(16);
+  $data['ids']->id_ksro_osen = uniq(16);
+  $data['ids']->id_ksro_vesna = uniq(16);
+}
+
 $Result = $mysqli->query("
     REPLACE INTO `ksro` 
     SET $fields, 
+    `id` = '{$data['ids']->id_ik_osen}',
     `UID_KindOfWork` = '$ik_kind_uid',
     `UID_Discipline` = '$ik_discipline_uid',
     `UID_Semester` = '1', 
@@ -65,6 +76,7 @@ $Result = $mysqli->query("
 $Result = $mysqli->query("
     REPLACE INTO `ksro` 
     SET $fields, 
+    `id` = '{$data['ids']->id_ik_vesna}',
     `UID_KindOfWork` = '$ik_kind_uid',
     `UID_Discipline` = '$ik_discipline_uid',
     `UID_Semester` = '2', 
@@ -73,6 +85,7 @@ $Result = $mysqli->query("
 $Result = $mysqli->query("
     REPLACE INTO `ksro` 
     SET $fields, 
+    `id` = '{$data['ids']->id_ksro_osen}',
     `UID_KindOfWork` = '$ksro_kind_uid',
     `UID_Discipline` = '$ksro_discipline_uid',
     `UID_Semester` = '1', 
@@ -81,6 +94,7 @@ $Result = $mysqli->query("
 $Result = $mysqli->query("
     REPLACE INTO `ksro` 
     SET $fields, 
+    `id` = '{$data['ids']->id_ksro_vesna}',
     `UID_KindOfWork` = '$ksro_kind_uid',
     `UID_Discipline` = '$ksro_discipline_uid',
     `UID_Semester` = '2', 
@@ -102,7 +116,7 @@ $Result = $mysqli->query("
 if ($Result)
 {
   $result['result'] = 'success';
-  $result['id'] = $id;
+  $result['ids'] = $data['ids'];
 }
 else
 {
@@ -114,6 +128,6 @@ header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
 header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); // Дата в прошлом
 header('Content-Type: application/json; charset=UTF-8');
 
-echo array2json($result);
+echo json_encode($result);
 
 ?>

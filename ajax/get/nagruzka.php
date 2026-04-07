@@ -333,8 +333,8 @@ if ($NagruzkaByBaseUID1)
         if ($lector['lecturer_fio'] && mb_strcasecmp($lector['lecturer_fio'], 'Вакансия') === 0)
         {
           $NagruzkaByBaseUID1[$base_uid]['assigned_to_vacancy'] = true;
-          $Stat['assigned_to_vacancy']['sum'] += $lector['Amount'];
-          $StatByChair[$lector['chair_id']]['assigned_to_vacancy']['sum'] += $lector['Amount'];
+          $Stat['assigned_to_vacancy']['sum'] += (float) $lector['Amount'];
+          $StatByChair[$lector['chair_id']]['assigned_to_vacancy']['sum'] += (float) $lector['Amount'];
 
           // $NagruzkaByBaseUID1[$base_uid]['assigned'] = true;
           // $Stat['assigned']['sum'] += $lector['Amount'];
@@ -345,16 +345,16 @@ if ($NagruzkaByBaseUID1)
         elseif ($lector['lecturer_fio'] && mb_strcasecmp($lector['lecturer_fio'], 'Вакансия') != 0)
         {
           $NagruzkaByBaseUID1[$base_uid]['assigned'] = true;
-          $Stat['assigned']['sum'] += $lector['Amount'];
-          $StatByChair[$lector['chair_id']]['assigned']['sum'] += $lector['Amount'];
+          $Stat['assigned']['sum'] += (float) $lector['Amount'];
+          $StatByChair[$lector['chair_id']]['assigned']['sum'] += (float) $lector['Amount'];
 
           // $NagruzkaByBaseUID1[$base_uid]['not_assigned'] = false;
         }
         // пустой лектор - не распределено
         elseif (!$lector['lecturer_fio'])
         {
-          $Stat['not_assigned']['sum'] += $lector['Amount'];
-          $StatByChair[$lector['chair_id']]['not_assigned']['sum'] += $lector['Amount'];
+          $Stat['not_assigned']['sum'] += (float) $lector['Amount'];
+          $StatByChair[$lector['chair_id']]['not_assigned']['sum'] += (float) $lector['Amount'];
 
           $NagruzkaByBaseUID1[$base_uid]['not_assigned'] = true;
         }
