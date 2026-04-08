@@ -10,3 +10,5 @@
 [31.03.2026 - 16:02.00] SELECT * FROM `podrazdelenia2026` WHERE `chief_id` =  AND `pname` LIKE ('Кафедра%') AND `has_real_chief` = '1'[/] [Chrome 146.0.0.0] [127.0.0.1]
 [31.03.2026 - 16:03.49] Error in GetTable('podrazdelenia2026'): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'AND `pname` LIKE ('Кафедра%') AND `has_real_chief` = '1'' at line 1[/] [Chrome 146.0.0.0] [127.0.0.1]
 [31.03.2026 - 16:03.49] SELECT * FROM `podrazdelenia2026` WHERE `chief_id` =  AND `pname` LIKE ('Кафедра%') AND `has_real_chief` = '1'[/] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 12:09.44] Error in GetTable('podrazdelenia2026'): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'AND `pname` LIKE ('Кафедра%') AND `has_real_chief` = '1'' at line 1[/] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 12:09.44] SELECT * FROM `podrazdelenia2026` WHERE `chief_id` =  AND `pname` LIKE ('Кафедра%') AND `has_real_chief` = '1'[/] [Chrome 146.0.0.0] [127.0.0.1]

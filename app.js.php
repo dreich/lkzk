@@ -131,6 +131,31 @@ var checkSession = function($http, $scope, ngDialog)
     })
 }
 
+function clearDataTablesStorage() {
+  const prefixes = [
+      'DataTables_Table_nagruzka_',
+      'DataTables_Table_uoup_nagruzka_',
+      'DataTables_Table_ksro_',
+      'DataTables_Table_uoup_chairs_refused_',
+      'DataTables_Table_nagruzka_to_change_'
+  ];
+  
+  // Собираем ключи для удаления
+  const keysToRemove = [];
+  for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (key && prefixes.some(prefix => key.indexOf(prefix) === 0)) {
+          keysToRemove.push(key);
+      }
+  }
+  
+  // Удаляем найденные ключи
+  keysToRemove.forEach(key => {
+      localStorage.removeItem(key);
+      console.log('Cleared:', key);
+  });
+}
+
 function createSelectFilter(column, footerCell) 
 {
   // Получить все уникальные значения из столбца, видимые и не видимые
@@ -1062,6 +1087,17 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
                   });
   }
 
+  $scope.logout = function()
+  {
+    CL('logout');
+
+    // Очищаем localStorage для всех DataTables
+    clearDataTablesStorage();
+    
+    // Затем делаем редирект на logout
+    window.location.href = '/?logout';
+  }
+
 })
 
 .controller ('SystemClosedCtrl', function($rootScope, $scope, page)
@@ -1149,7 +1185,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
   }
 
   // CL($scope.system_mode); 
-  // CL($scope.nagruzka);
+  CL($scope._chairs_ids);
 
   if (c_roles.zavkaf && $scope.system_mode === 'mode_closed') 
   {
@@ -1187,9 +1223,11 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
 
   $scope.UpdateNagruzkaStat = function(nagr_type, chair_id, lecturer_uid, only_stat)
   {
-    CL('UpdateNagruzkaStat');
-    CL(nagr_type);
+    // CL('UpdateNagruzkaStat');
+    // CL(nagr_type);
     // CL(chair_id);
+    // CL(lecturer_uid);
+    // CL(only_stat);
 
     var script;
 
@@ -1236,14 +1274,23 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
           if (!only_stat) $scope.nagruzka = response.data.nagruzka;
           $scope.nagruzka_stat[chair_id][nagr_type] = response.data.stat;
 
-          // CL($scope.nagruzka_stat);
+          // CL(response.data);
           // CL($scope.nagruzka);
           $scope.isLoading = false;
 
           // Если ограничены одним преподом, то нужно взять его ФИО (из первой же нагрузки)
           if ($scope._lecturer_uid && !isEmpty(response.data.nagruzka))
           {
-            $scope._lecturer_fio = response.data.nagruzka[0].lectors[0].lecturer_fio;
+            if (nagr_type == 'ksro')
+            {
+              $scope._lecturer_fio = response.data.nagruzka[0].lecturer_fio;
+            }
+            else
+            {
+              const lector = findObjByColumn(response.data.nagruzka[0].lectors, 'lecturer_uid', $scope._lecturer_uid);
+              $scope._lecturer_fio = lector.lecturer_fio;
+            }
+            
           }
         }
       })
@@ -1368,13 +1415,17 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
     $scope.dtOptions = DTOptionsBuilder //.fromSource('data.json')
       .newOptions()
       .withOption('stateSave', true)
-      .withOption('stateSaveParams', function(settings, data) {
-        const path = $location.path();
-        data.CookieName = 'DataTables_Table_nagruzka_' + path.replace(/\//g, '_');
+      .withOption('stateStorage', 'cookie')
+      .withOption('stateSaveCallback', function(settings, data) {
+          const path = $location.path();
+          const storageKey = 'DataTables_Table_nagruzka_' + path.replace(/\//g, '_');
+          localStorage.setItem(storageKey, JSON.stringify(data));
       })
-      .withOption('stateLoadParams', function(settings, data) {
-        const path = $location.path();
-        data.CookieName = 'DataTables_Table_nagruzka_' + path.replace(/\//g, '_');
+      .withOption('stateLoadCallback', function(settings) {
+          const path = $location.path();
+          const storageKey = 'DataTables_Table_nagruzka_' + path.replace(/\//g, '_');
+          const saved = localStorage.getItem(storageKey);
+          return saved ? JSON.parse(saved) : null;
       })
       // .withOption('aoColumns', [{bVisible': false}])
       .withPaginationType('full_numbers')
@@ -2478,9 +2529,15 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
       {
         lector.Amount = hours_per_student * lector['StudentAmount'];
       }
+    
+      if (lector[nagruzka_field_to_count] == 0)
+      {
+        lector.delete = true;
+      }
+
     });
 
-    CL(nagruzka_row.lectors);
+    // CL(nagruzka_row.lectors);
 
     if (!$scope.IsNagruzkaLectorsSumCorrect(nagruzka_row))
     {
@@ -2537,7 +2594,12 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
                     //     }
                     // });
 
-                    $scope.UpdateNagruzkaStat($scope._nagruzka_type);
+                    if (c_roles.zavkaf)
+                    {
+                      const lecturer_uid = $scope._lecturer_uid;
+                      const chair_id = $scope.nagruzka_selected_chair_id;
+                      $scope.UpdateNagruzkaStat($scope._nagruzka_type, chair_id, lecturer_uid, true);
+                    } 
 
                   }
                   else
@@ -2708,14 +2770,19 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
   $scope.dtOptions = DTOptionsBuilder //.fromSource('data.json')
     .newOptions()
     .withOption('stateSave', true)
-    .withOption('stateSaveParams', function(settings, data) {
-      const path = $location.path();
-      data.CookieName = 'DataTables_Table_uoup_nagruzka_' + path.replace(/\//g, '_');
+
+    .withOption('stateSaveCallback', function(settings, data) {
+        const path = $location.path();
+        const storageKey = 'DataTables_Table_uoup_nagruzka_' + path.replace(/\//g, '_');
+        localStorage.setItem(storageKey, JSON.stringify(data));
     })
-    .withOption('stateLoadParams', function(settings, data) {
-      const path = $location.path();
-      data.CookieName = 'DataTables_Table_uoup_nagruzka_' + path.replace(/\//g, '_');
+    .withOption('stateLoadCallback', function(settings) {
+        const path = $location.path();
+        const storageKey = 'DataTables_Table_uoup_nagruzka_' + path.replace(/\//g, '_');
+        const saved = localStorage.getItem(storageKey);
+        return saved ? JSON.parse(saved) : null;
     })
+   
     .withPaginationType('full_numbers')
     // .withColVis()
     // Add a state change function
@@ -3233,14 +3300,19 @@ $scope.toggleAdminChangeChair = function(chair) {
     .withOption('pageLength', 25)
     .withOption('responsive', true)
     .withOption('stateSave', true)
-    .withOption('stateSaveParams', function(settings, data) {
-      const path = $location.path();
-      data.CookieName = 'DataTables_Table_uoup_chairs_refused_' + path.replace(/\//g, '_');
+
+    .withOption('stateSaveCallback', function(settings, data) {
+        const path = $location.path();
+        const storageKey = 'DataTables_Table_uoup_chairs_refused_' + path.replace(/\//g, '_');
+        localStorage.setItem(storageKey, JSON.stringify(data));
     })
-    .withOption('stateLoadParams', function(settings, data) {
-      const path = $location.path();
-      data.CookieName = 'DataTables_Table_uoup_chairs_refused_' + path.replace(/\//g, '_');
+    .withOption('stateLoadCallback', function(settings) {
+        const path = $location.path();
+        const storageKey = 'DataTables_Table_uoup_chairs_refused_' + path.replace(/\//g, '_');
+        const saved = localStorage.getItem(storageKey);
+        return saved ? JSON.parse(saved) : null;
     })
+
     // .withOption('aoColumns', [{bVisible': false}])
     .withPaginationType('full_numbers')
     .withColVis()
@@ -3698,14 +3770,18 @@ $scope.toggleAdminChangeChair = function(chair) {
 
   $scope.dtOptions = DTOptionsBuilder.newOptions()
     .withOption('stateSave', true)
-    .withOption('stateSaveParams', function(settings, data) {
-      const path = $location.path();
-      data.CookieName = 'DataTables_Table_nagruzka_to_change_' + path.replace(/\//g, '_');
+    .withOption('stateSaveCallback', function(settings, data) {
+        const path = $location.path();
+        const storageKey = 'DataTables_Table_nagruzka_to_change_' + path.replace(/\//g, '_');
+        localStorage.setItem(storageKey, JSON.stringify(data));
     })
-    .withOption('stateLoadParams', function(settings, data) {
-      const path = $location.path();
-      data.CookieName = 'DataTables_Table_nagruzka_to_change_' + path.replace(/\//g, '_');
+    .withOption('stateLoadCallback', function(settings) {
+        const path = $location.path();
+        const storageKey = 'DataTables_Table_nagruzka_to_change_' + path.replace(/\//g, '_');
+        const saved = localStorage.getItem(storageKey);
+        return saved ? JSON.parse(saved) : null;
     })
+
     .withPaginationType('full_numbers')
     .withColVis()
     .withColVisOption('aiExclude', [0])
@@ -4321,7 +4397,7 @@ $scope.toggleAdminChangeChair = function(chair) {
           // Если ограничены одним преподом, то нужно взять его ФИО (из первой же нагрузки)
           if ($scope.ksro_selected_lecturer_uid && !isEmpty($scope.ksro))
           {
-            $scope.ksro_lecturer_fio = response.data[0].lecturer_fio;
+            $scope.ksro_lecturer_fio = response.data.nagruzka[0].lecturer_fio;
           }
         }
       })
@@ -4376,14 +4452,18 @@ $scope.toggleAdminChangeChair = function(chair) {
   $scope.dtOptions = DTOptionsBuilder
     .newOptions()
     .withOption('stateSave', true)
-    .withOption('stateSaveParams', function(settings, data) {
-      const path = $location.path();
-      data.CookieName = 'DataTables_Table_ksro_' + path.replace(/\//g, '_');
+    .withOption('stateSaveCallback', function(settings, data) {
+        const path = $location.path();
+        const storageKey = 'DataTables_Table_ksro_' + path.replace(/\//g, '_');
+        localStorage.setItem(storageKey, JSON.stringify(data));
     })
-    .withOption('stateLoadParams', function(settings, data) {
-      const path = $location.path();
-      data.CookieName = 'DataTables_Table_ksro_' + path.replace(/\//g, '_');
+    .withOption('stateLoadCallback', function(settings) {
+        const path = $location.path();
+        const storageKey = 'DataTables_Table_ksro_' + path.replace(/\//g, '_');
+        const saved = localStorage.getItem(storageKey);
+        return saved ? JSON.parse(saved) : null;
     })
+
     .withPaginationType('full_numbers')
     .withLanguage({
         "loadingRecords": "Загрузка...",
@@ -4989,8 +5069,9 @@ function findIndByColumn(arr, column, value)
 
   for (var i = 0; i < arr.length; i++)
   {
-    if (arr[i][column] == value)
+    if (arr[i][column] === value)
     {
+      // CL(arr[i][column]);
       return i;
     }
   }

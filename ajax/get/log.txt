@@ -63,3 +63,1018 @@
     ),
   ),
 )[/ajax/get/chair_sotrudniki.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:25.43] 26589.281474976745618[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:25.43] array (
+)[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:25.43] 26589.281474976745619[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:25.43] array (
+)[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:25.43] 26589.281474976745659[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:25.43] array (
+)[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:25.43] 26589.281474976745660[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:25.43] array (
+)[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:25.43] 26589.281474976745661[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:25.43] array (
+)[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:25.43] 26589.281474976745733[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:25.43] array (
+)[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:25.43] 26589.281474976745734[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:25.43] array (
+)[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:25.43] 26589.281474976745777[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:25.43] array (
+)[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:25.43] 26589.281474976745778[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:25.43] array (
+)[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:25.43] 26589.281474976745779[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:25.43] array (
+)[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:25.43] 26589.281474976745851[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:25.43] array (
+)[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:25.43] 26589.281474976745852[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:25.43] array (
+)[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:25.43] 26589.281474976745898[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:25.43] array (
+)[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:25.43] 26589.281474976745899[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:25.43] array (
+)[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:25.43] 26589.281474976745900[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:25.43] array (
+)[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:25.43] 26589.281474976745972[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:25.43] array (
+)[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:25.43] 26589.281474976745973[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:25.43] array (
+)[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:25.43] 26589.281474976746367[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:25.43] array (
+)[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:25.43] 26589.281474976746439[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:25.43] array (
+)[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:25.43] 26589.281474976746440[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:25.43] array (
+)[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:25.43] 26589.281474976751878[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:25.43] array (
+)[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:25.43] 26589.281474976754902[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:25.43] array (
+)[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:25.43] 26589.281474976754903[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:25.43] array (
+)[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:25.43] 26589.281474976754904[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:25.43] array (
+)[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:25.43] 26589.281474976754905[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:25.43] array (
+)[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:25.43] 26589.281474976769489[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:25.43] array (
+)[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:25.43] 26589.281474976769490[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:25.43] array (
+)[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:25.43] 26589.281474976769491[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:25.43] array (
+)[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:25.43] 26589.281474976769492[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:25.43] array (
+)[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:25.43] 26589.281474976774444[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:25.43] array (
+)[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:25.43] 26589.281474976776005[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:25.43] array (
+)[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:25.43] 26589.281474976784200[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:25.43] array (
+)[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:25.43] 26589.281474976784269[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:25.43] array (
+)[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:25.43] 26589.281474976785657[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:25.43] array (
+)[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:25.43] 26589.281474976801264[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:25.43] array (
+)[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:28.17] 26589.281474976745618[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:28.17] array (
+  0 => 
+  array (
+    'id' => '483433',
+    'datetime' => '2026-04-06 12:35:31',
+    'log' => 'Запрос администратору на внесение изменений',
+    'log_dop1' => '',
+    'log_dop2' => '',
+    'log_dop3' => '',
+    'message' => 'удалить из нагрузки кафедры нереализ ФТД_ТЕСТ для "нагрузка на изменение"',
+    'user_login' => 'zolotykh',
+    'chair_id' => '02345',
+    'user_title' => 'Золотых Николай Юрьевич',
+    'user_role' => '|zavkaf|',
+    'load_base_UID2' => '26589.281474976745618',
+    'action_name' => 'require_admin_change',
+    'internal' => '0',
+    'status_change' => '1',
+    'ip' => '85.143.4.158',
+    'browser' => 'Chrome 146.0.0.0',
+    'file_name' => NULL,
+    'file_src_name' => NULL,
+    'file_size' => '0',
+  ),
+)[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:28.17] 26589.281474976745619[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:28.17] array (
+  0 => 
+  array (
+    'id' => '483441',
+    'datetime' => '2026-04-06 12:35:31',
+    'log' => 'Запрос администратору на внесение изменений',
+    'log_dop1' => '',
+    'log_dop2' => '',
+    'log_dop3' => '',
+    'message' => 'удалить из нагрузки кафедры нереализ ФТД_ТЕСТ для "нагрузка на изменение"',
+    'user_login' => 'zolotykh',
+    'chair_id' => '02345',
+    'user_title' => 'Золотых Николай Юрьевич',
+    'user_role' => '|zavkaf|',
+    'load_base_UID2' => '26589.281474976745619',
+    'action_name' => 'require_admin_change',
+    'internal' => '0',
+    'status_change' => '1',
+    'ip' => '85.143.4.158',
+    'browser' => 'Chrome 146.0.0.0',
+    'file_name' => NULL,
+    'file_src_name' => NULL,
+    'file_size' => '0',
+  ),
+)[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:28.17] 26589.281474976745659[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:28.17] array (
+  0 => 
+  array (
+    'id' => '483420',
+    'datetime' => '2026-04-06 12:32:43',
+    'log' => 'Запрос администратору на внесение изменений',
+    'log_dop1' => '',
+    'log_dop2' => '',
+    'log_dop3' => '',
+    'message' => 'удалить из нагрузки кфедры_нереализуется ФТД_ТЕСТ для "нагрузка на изменение"',
+    'user_login' => 'zolotov',
+    'chair_id' => '05421',
+    'user_title' => 'Золотов Александр Владимирович',
+    'user_role' => '|zavkaf|',
+    'load_base_UID2' => '26589.281474976745659',
+    'action_name' => 'require_admin_change',
+    'internal' => '0',
+    'status_change' => '1',
+    'ip' => '85.143.4.158',
+    'browser' => 'Chrome 146.0.0.0',
+    'file_name' => NULL,
+    'file_src_name' => NULL,
+    'file_size' => '0',
+  ),
+)[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:28.17] 26589.281474976745660[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:28.17] array (
+  0 => 
+  array (
+    'id' => '483427',
+    'datetime' => '2026-04-06 12:32:43',
+    'log' => 'Запрос администратору на внесение изменений',
+    'log_dop1' => '',
+    'log_dop2' => '',
+    'log_dop3' => '',
+    'message' => 'удалить из нагрузки кфедры_нереализуется ФТД_ТЕСТ для "нагрузка на изменение"',
+    'user_login' => 'zolotov',
+    'chair_id' => '05421',
+    'user_title' => 'Золотов Александр Владимирович',
+    'user_role' => '|zavkaf|',
+    'load_base_UID2' => '26589.281474976745660',
+    'action_name' => 'require_admin_change',
+    'internal' => '0',
+    'status_change' => '1',
+    'ip' => '85.143.4.158',
+    'browser' => 'Chrome 146.0.0.0',
+    'file_name' => NULL,
+    'file_src_name' => NULL,
+    'file_size' => '0',
+  ),
+)[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:28.17] 26589.281474976745661[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:28.17] array (
+  0 => 
+  array (
+    'id' => '483422',
+    'datetime' => '2026-04-06 12:32:43',
+    'log' => 'Запрос администратору на внесение изменений',
+    'log_dop1' => '',
+    'log_dop2' => '',
+    'log_dop3' => '',
+    'message' => 'удалить из нагрузки кфедры_нереализуется ФТД_ТЕСТ для "нагрузка на изменение"',
+    'user_login' => 'zolotov',
+    'chair_id' => '05421',
+    'user_title' => 'Золотов Александр Владимирович',
+    'user_role' => '|zavkaf|',
+    'load_base_UID2' => '26589.281474976745661',
+    'action_name' => 'require_admin_change',
+    'internal' => '0',
+    'status_change' => '1',
+    'ip' => '85.143.4.158',
+    'browser' => 'Chrome 146.0.0.0',
+    'file_name' => NULL,
+    'file_src_name' => NULL,
+    'file_size' => '0',
+  ),
+)[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:28.17] 26589.281474976745733[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:28.17] array (
+  0 => 
+  array (
+    'id' => '483435',
+    'datetime' => '2026-04-06 12:35:31',
+    'log' => 'Запрос администратору на внесение изменений',
+    'log_dop1' => '',
+    'log_dop2' => '',
+    'log_dop3' => '',
+    'message' => 'удалить из нагрузки кафедры нереализ ФТД_ТЕСТ для "нагрузка на изменение"',
+    'user_login' => 'zolotykh',
+    'chair_id' => '02345',
+    'user_title' => 'Золотых Николай Юрьевич',
+    'user_role' => '|zavkaf|',
+    'load_base_UID2' => '26589.281474976745733',
+    'action_name' => 'require_admin_change',
+    'internal' => '0',
+    'status_change' => '1',
+    'ip' => '85.143.4.158',
+    'browser' => 'Chrome 146.0.0.0',
+    'file_name' => NULL,
+    'file_src_name' => NULL,
+    'file_size' => '0',
+  ),
+)[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:28.17] 26589.281474976745734[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:28.17] array (
+  0 => 
+  array (
+    'id' => '483434',
+    'datetime' => '2026-04-06 12:35:31',
+    'log' => 'Запрос администратору на внесение изменений',
+    'log_dop1' => '',
+    'log_dop2' => '',
+    'log_dop3' => '',
+    'message' => 'удалить из нагрузки кафедры нереализ ФТД_ТЕСТ для "нагрузка на изменение"',
+    'user_login' => 'zolotykh',
+    'chair_id' => '02345',
+    'user_title' => 'Золотых Николай Юрьевич',
+    'user_role' => '|zavkaf|',
+    'load_base_UID2' => '26589.281474976745734',
+    'action_name' => 'require_admin_change',
+    'internal' => '0',
+    'status_change' => '1',
+    'ip' => '85.143.4.158',
+    'browser' => 'Chrome 146.0.0.0',
+    'file_name' => NULL,
+    'file_src_name' => NULL,
+    'file_size' => '0',
+  ),
+)[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:28.17] 26589.281474976745777[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:28.17] array (
+  0 => 
+  array (
+    'id' => '483426',
+    'datetime' => '2026-04-06 12:32:43',
+    'log' => 'Запрос администратору на внесение изменений',
+    'log_dop1' => '',
+    'log_dop2' => '',
+    'log_dop3' => '',
+    'message' => 'удалить из нагрузки кфедры_нереализуется ФТД_ТЕСТ для "нагрузка на изменение"',
+    'user_login' => 'zolotov',
+    'chair_id' => '05421',
+    'user_title' => 'Золотов Александр Владимирович',
+    'user_role' => '|zavkaf|',
+    'load_base_UID2' => '26589.281474976745777',
+    'action_name' => 'require_admin_change',
+    'internal' => '0',
+    'status_change' => '1',
+    'ip' => '85.143.4.158',
+    'browser' => 'Chrome 146.0.0.0',
+    'file_name' => NULL,
+    'file_src_name' => NULL,
+    'file_size' => '0',
+  ),
+)[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:28.17] 26589.281474976745778[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:28.17] array (
+  0 => 
+  array (
+    'id' => '483423',
+    'datetime' => '2026-04-06 12:32:43',
+    'log' => 'Запрос администратору на внесение изменений',
+    'log_dop1' => '',
+    'log_dop2' => '',
+    'log_dop3' => '',
+    'message' => 'удалить из нагрузки кфедры_нереализуется ФТД_ТЕСТ для "нагрузка на изменение"',
+    'user_login' => 'zolotov',
+    'chair_id' => '05421',
+    'user_title' => 'Золотов Александр Владимирович',
+    'user_role' => '|zavkaf|',
+    'load_base_UID2' => '26589.281474976745778',
+    'action_name' => 'require_admin_change',
+    'internal' => '0',
+    'status_change' => '1',
+    'ip' => '85.143.4.158',
+    'browser' => 'Chrome 146.0.0.0',
+    'file_name' => NULL,
+    'file_src_name' => NULL,
+    'file_size' => '0',
+  ),
+)[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:28.17] 26589.281474976745779[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:28.17] array (
+  0 => 
+  array (
+    'id' => '483421',
+    'datetime' => '2026-04-06 12:32:43',
+    'log' => 'Запрос администратору на внесение изменений',
+    'log_dop1' => '',
+    'log_dop2' => '',
+    'log_dop3' => '',
+    'message' => 'удалить из нагрузки кфедры_нереализуется ФТД_ТЕСТ для "нагрузка на изменение"',
+    'user_login' => 'zolotov',
+    'chair_id' => '05421',
+    'user_title' => 'Золотов Александр Владимирович',
+    'user_role' => '|zavkaf|',
+    'load_base_UID2' => '26589.281474976745779',
+    'action_name' => 'require_admin_change',
+    'internal' => '0',
+    'status_change' => '1',
+    'ip' => '85.143.4.158',
+    'browser' => 'Chrome 146.0.0.0',
+    'file_name' => NULL,
+    'file_src_name' => NULL,
+    'file_size' => '0',
+  ),
+)[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:28.17] 26589.281474976745851[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:28.17] array (
+  0 => 
+  array (
+    'id' => '483439',
+    'datetime' => '2026-04-06 12:35:31',
+    'log' => 'Запрос администратору на внесение изменений',
+    'log_dop1' => '',
+    'log_dop2' => '',
+    'log_dop3' => '',
+    'message' => 'удалить из нагрузки кафедры нереализ ФТД_ТЕСТ для "нагрузка на изменение"',
+    'user_login' => 'zolotykh',
+    'chair_id' => '02345',
+    'user_title' => 'Золотых Николай Юрьевич',
+    'user_role' => '|zavkaf|',
+    'load_base_UID2' => '26589.281474976745851',
+    'action_name' => 'require_admin_change',
+    'internal' => '0',
+    'status_change' => '1',
+    'ip' => '85.143.4.158',
+    'browser' => 'Chrome 146.0.0.0',
+    'file_name' => NULL,
+    'file_src_name' => NULL,
+    'file_size' => '0',
+  ),
+)[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:28.17] 26589.281474976745852[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:28.17] array (
+  0 => 
+  array (
+    'id' => '483442',
+    'datetime' => '2026-04-06 12:35:31',
+    'log' => 'Запрос администратору на внесение изменений',
+    'log_dop1' => '',
+    'log_dop2' => '',
+    'log_dop3' => '',
+    'message' => 'удалить из нагрузки кафедры нереализ ФТД_ТЕСТ для "нагрузка на изменение"',
+    'user_login' => 'zolotykh',
+    'chair_id' => '02345',
+    'user_title' => 'Золотых Николай Юрьевич',
+    'user_role' => '|zavkaf|',
+    'load_base_UID2' => '26589.281474976745852',
+    'action_name' => 'require_admin_change',
+    'internal' => '0',
+    'status_change' => '1',
+    'ip' => '85.143.4.158',
+    'browser' => 'Chrome 146.0.0.0',
+    'file_name' => NULL,
+    'file_src_name' => NULL,
+    'file_size' => '0',
+  ),
+)[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:28.17] 26589.281474976745898[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:28.17] array (
+  0 => 
+  array (
+    'id' => '483424',
+    'datetime' => '2026-04-06 12:32:43',
+    'log' => 'Запрос администратору на внесение изменений',
+    'log_dop1' => '',
+    'log_dop2' => '',
+    'log_dop3' => '',
+    'message' => 'удалить из нагрузки кфедры_нереализуется ФТД_ТЕСТ для "нагрузка на изменение"',
+    'user_login' => 'zolotov',
+    'chair_id' => '05421',
+    'user_title' => 'Золотов Александр Владимирович',
+    'user_role' => '|zavkaf|',
+    'load_base_UID2' => '26589.281474976745898',
+    'action_name' => 'require_admin_change',
+    'internal' => '0',
+    'status_change' => '1',
+    'ip' => '85.143.4.158',
+    'browser' => 'Chrome 146.0.0.0',
+    'file_name' => NULL,
+    'file_src_name' => NULL,
+    'file_size' => '0',
+  ),
+)[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:28.17] 26589.281474976745899[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:28.17] array (
+  0 => 
+  array (
+    'id' => '483425',
+    'datetime' => '2026-04-06 12:32:43',
+    'log' => 'Запрос администратору на внесение изменений',
+    'log_dop1' => '',
+    'log_dop2' => '',
+    'log_dop3' => '',
+    'message' => 'удалить из нагрузки кфедры_нереализуется ФТД_ТЕСТ для "нагрузка на изменение"',
+    'user_login' => 'zolotov',
+    'chair_id' => '05421',
+    'user_title' => 'Золотов Александр Владимирович',
+    'user_role' => '|zavkaf|',
+    'load_base_UID2' => '26589.281474976745899',
+    'action_name' => 'require_admin_change',
+    'internal' => '0',
+    'status_change' => '1',
+    'ip' => '85.143.4.158',
+    'browser' => 'Chrome 146.0.0.0',
+    'file_name' => NULL,
+    'file_src_name' => NULL,
+    'file_size' => '0',
+  ),
+)[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:28.17] 26589.281474976745900[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:28.17] array (
+  0 => 
+  array (
+    'id' => '483429',
+    'datetime' => '2026-04-06 12:32:43',
+    'log' => 'Запрос администратору на внесение изменений',
+    'log_dop1' => '',
+    'log_dop2' => '',
+    'log_dop3' => '',
+    'message' => 'удалить из нагрузки кфедры_нереализуется ФТД_ТЕСТ для "нагрузка на изменение"',
+    'user_login' => 'zolotov',
+    'chair_id' => '05421',
+    'user_title' => 'Золотов Александр Владимирович',
+    'user_role' => '|zavkaf|',
+    'load_base_UID2' => '26589.281474976745900',
+    'action_name' => 'require_admin_change',
+    'internal' => '0',
+    'status_change' => '1',
+    'ip' => '85.143.4.158',
+    'browser' => 'Chrome 146.0.0.0',
+    'file_name' => NULL,
+    'file_src_name' => NULL,
+    'file_size' => '0',
+  ),
+)[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:28.17] 26589.281474976745972[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:28.17] array (
+  0 => 
+  array (
+    'id' => '483436',
+    'datetime' => '2026-04-06 12:35:31',
+    'log' => 'Запрос администратору на внесение изменений',
+    'log_dop1' => '',
+    'log_dop2' => '',
+    'log_dop3' => '',
+    'message' => 'удалить из нагрузки кафедры нереализ ФТД_ТЕСТ для "нагрузка на изменение"',
+    'user_login' => 'zolotykh',
+    'chair_id' => '02345',
+    'user_title' => 'Золотых Николай Юрьевич',
+    'user_role' => '|zavkaf|',
+    'load_base_UID2' => '26589.281474976745972',
+    'action_name' => 'require_admin_change',
+    'internal' => '0',
+    'status_change' => '1',
+    'ip' => '85.143.4.158',
+    'browser' => 'Chrome 146.0.0.0',
+    'file_name' => NULL,
+    'file_src_name' => NULL,
+    'file_size' => '0',
+  ),
+)[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:28.17] 26589.281474976745973[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:28.17] array (
+  0 => 
+  array (
+    'id' => '483437',
+    'datetime' => '2026-04-06 12:35:31',
+    'log' => 'Запрос администратору на внесение изменений',
+    'log_dop1' => '',
+    'log_dop2' => '',
+    'log_dop3' => '',
+    'message' => 'удалить из нагрузки кафедры нереализ ФТД_ТЕСТ для "нагрузка на изменение"',
+    'user_login' => 'zolotykh',
+    'chair_id' => '02345',
+    'user_title' => 'Золотых Николай Юрьевич',
+    'user_role' => '|zavkaf|',
+    'load_base_UID2' => '26589.281474976745973',
+    'action_name' => 'require_admin_change',
+    'internal' => '0',
+    'status_change' => '1',
+    'ip' => '85.143.4.158',
+    'browser' => 'Chrome 146.0.0.0',
+    'file_name' => NULL,
+    'file_src_name' => NULL,
+    'file_size' => '0',
+  ),
+)[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:28.17] 26589.281474976746367[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:28.17] array (
+  0 => 
+  array (
+    'id' => '483428',
+    'datetime' => '2026-04-06 12:32:43',
+    'log' => 'Запрос администратору на внесение изменений',
+    'log_dop1' => '',
+    'log_dop2' => '',
+    'log_dop3' => '',
+    'message' => 'удалить из нагрузки кфедры_нереализуется ФТД_ТЕСТ для "нагрузка на изменение"',
+    'user_login' => 'zolotov',
+    'chair_id' => '05421',
+    'user_title' => 'Золотов Александр Владимирович',
+    'user_role' => '|zavkaf|',
+    'load_base_UID2' => '26589.281474976746367',
+    'action_name' => 'require_admin_change',
+    'internal' => '0',
+    'status_change' => '1',
+    'ip' => '85.143.4.158',
+    'browser' => 'Chrome 146.0.0.0',
+    'file_name' => NULL,
+    'file_src_name' => NULL,
+    'file_size' => '0',
+  ),
+)[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:28.17] 26589.281474976746439[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:28.17] array (
+  0 => 
+  array (
+    'id' => '483438',
+    'datetime' => '2026-04-06 12:35:31',
+    'log' => 'Запрос администратору на внесение изменений',
+    'log_dop1' => '',
+    'log_dop2' => '',
+    'log_dop3' => '',
+    'message' => 'удалить из нагрузки кафедры нереализ ФТД_ТЕСТ для "нагрузка на изменение"',
+    'user_login' => 'zolotykh',
+    'chair_id' => '02345',
+    'user_title' => 'Золотых Николай Юрьевич',
+    'user_role' => '|zavkaf|',
+    'load_base_UID2' => '26589.281474976746439',
+    'action_name' => 'require_admin_change',
+    'internal' => '0',
+    'status_change' => '1',
+    'ip' => '85.143.4.158',
+    'browser' => 'Chrome 146.0.0.0',
+    'file_name' => NULL,
+    'file_src_name' => NULL,
+    'file_size' => '0',
+  ),
+)[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:28.17] 26589.281474976746440[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:28.17] array (
+  0 => 
+  array (
+    'id' => '483440',
+    'datetime' => '2026-04-06 12:35:31',
+    'log' => 'Запрос администратору на внесение изменений',
+    'log_dop1' => '',
+    'log_dop2' => '',
+    'log_dop3' => '',
+    'message' => 'удалить из нагрузки кафедры нереализ ФТД_ТЕСТ для "нагрузка на изменение"',
+    'user_login' => 'zolotykh',
+    'chair_id' => '02345',
+    'user_title' => 'Золотых Николай Юрьевич',
+    'user_role' => '|zavkaf|',
+    'load_base_UID2' => '26589.281474976746440',
+    'action_name' => 'require_admin_change',
+    'internal' => '0',
+    'status_change' => '1',
+    'ip' => '85.143.4.158',
+    'browser' => 'Chrome 146.0.0.0',
+    'file_name' => NULL,
+    'file_src_name' => NULL,
+    'file_size' => '0',
+  ),
+)[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:28.17] 26589.281474976751878[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:28.17] array (
+  0 => 
+  array (
+    'id' => '483418',
+    'datetime' => '2026-04-06 12:29:32',
+    'log' => 'Запрос администратору на внесение изменений',
+    'log_dop1' => '',
+    'log_dop2' => '',
+    'log_dop3' => '',
+    'message' => 'нет лекций и семинаров_ТКЕСТ для_"нагрузка на изменение"',
+    'user_login' => 'mariya.gorbunova',
+    'chair_id' => '05442',
+    'user_title' => 'Горбунова Мария Лавровна',
+    'user_role' => '|zavkaf|',
+    'load_base_UID2' => '26589.281474976751878',
+    'action_name' => 'require_admin_change',
+    'internal' => '0',
+    'status_change' => '1',
+    'ip' => '85.143.4.158',
+    'browser' => 'Chrome 146.0.0.0',
+    'file_name' => NULL,
+    'file_src_name' => NULL,
+    'file_size' => '0',
+  ),
+)[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:28.17] 26589.281474976754902[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:28.17] array (
+  0 => 
+  array (
+    'id' => '483414',
+    'datetime' => '2026-04-06 12:23:55',
+    'log' => 'Запрос администратору на внесение изменений',
+    'log_dop1' => '',
+    'log_dop2' => '',
+    'log_dop3' => '',
+    'message' => 'изменить колич.студентов _ТЕСТ для_"нагрузка на изменение"',
+    'user_login' => 'mariya.gorbunova',
+    'chair_id' => '05442',
+    'user_title' => 'Горбунова Мария Лавровна',
+    'user_role' => '|zavkaf|',
+    'load_base_UID2' => '26589.281474976754902',
+    'action_name' => 'require_admin_change',
+    'internal' => '0',
+    'status_change' => '1',
+    'ip' => '85.143.4.158',
+    'browser' => 'Chrome 146.0.0.0',
+    'file_name' => NULL,
+    'file_src_name' => NULL,
+    'file_size' => '0',
+  ),
+)[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:28.17] 26589.281474976754903[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:28.17] array (
+  0 => 
+  array (
+    'id' => '483415',
+    'datetime' => '2026-04-06 12:23:55',
+    'log' => 'Запрос администратору на внесение изменений',
+    'log_dop1' => '',
+    'log_dop2' => '',
+    'log_dop3' => '',
+    'message' => 'изменить колич.студентов _ТЕСТ для_"нагрузка на изменение"',
+    'user_login' => 'mariya.gorbunova',
+    'chair_id' => '05442',
+    'user_title' => 'Горбунова Мария Лавровна',
+    'user_role' => '|zavkaf|',
+    'load_base_UID2' => '26589.281474976754903',
+    'action_name' => 'require_admin_change',
+    'internal' => '0',
+    'status_change' => '1',
+    'ip' => '85.143.4.158',
+    'browser' => 'Chrome 146.0.0.0',
+    'file_name' => NULL,
+    'file_src_name' => NULL,
+    'file_size' => '0',
+  ),
+)[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:28.17] 26589.281474976754904[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:28.17] array (
+  0 => 
+  array (
+    'id' => '483416',
+    'datetime' => '2026-04-06 12:23:55',
+    'log' => 'Запрос администратору на внесение изменений',
+    'log_dop1' => '',
+    'log_dop2' => '',
+    'log_dop3' => '',
+    'message' => 'изменить колич.студентов _ТЕСТ для_"нагрузка на изменение"',
+    'user_login' => 'mariya.gorbunova',
+    'chair_id' => '05442',
+    'user_title' => 'Горбунова Мария Лавровна',
+    'user_role' => '|zavkaf|',
+    'load_base_UID2' => '26589.281474976754904',
+    'action_name' => 'require_admin_change',
+    'internal' => '0',
+    'status_change' => '1',
+    'ip' => '85.143.4.158',
+    'browser' => 'Chrome 146.0.0.0',
+    'file_name' => NULL,
+    'file_src_name' => NULL,
+    'file_size' => '0',
+  ),
+)[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:28.17] 26589.281474976754905[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:28.17] array (
+  0 => 
+  array (
+    'id' => '483417',
+    'datetime' => '2026-04-06 12:23:55',
+    'log' => 'Запрос администратору на внесение изменений',
+    'log_dop1' => '',
+    'log_dop2' => '',
+    'log_dop3' => '',
+    'message' => 'изменить колич.студентов _ТЕСТ для_"нагрузка на изменение"',
+    'user_login' => 'mariya.gorbunova',
+    'chair_id' => '05442',
+    'user_title' => 'Горбунова Мария Лавровна',
+    'user_role' => '|zavkaf|',
+    'load_base_UID2' => '26589.281474976754905',
+    'action_name' => 'require_admin_change',
+    'internal' => '0',
+    'status_change' => '1',
+    'ip' => '85.143.4.158',
+    'browser' => 'Chrome 146.0.0.0',
+    'file_name' => NULL,
+    'file_src_name' => NULL,
+    'file_size' => '0',
+  ),
+)[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:28.17] 26589.281474976769489[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:28.17] array (
+  0 => 
+  array (
+    'id' => '483444',
+    'datetime' => '2026-04-06 12:37:13',
+    'log' => 'Запрос администратору на внесение изменений',
+    'log_dop1' => '',
+    'log_dop2' => '',
+    'log_dop3' => '',
+    'message' => 'изменился выбор ДВ_ТЕСТ для "нагрузка на изменение"',
+    'user_login' => 'mizikovskiy',
+    'chair_id' => '05432',
+    'user_title' => 'Мизиковский Игорь Ефимович',
+    'user_role' => '|zavkaf|',
+    'load_base_UID2' => '26589.281474976769489',
+    'action_name' => 'require_admin_change',
+    'internal' => '0',
+    'status_change' => '1',
+    'ip' => '85.143.4.158',
+    'browser' => 'Chrome 146.0.0.0',
+    'file_name' => NULL,
+    'file_src_name' => NULL,
+    'file_size' => '0',
+  ),
+)[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:28.17] 26589.281474976769490[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:28.17] array (
+  0 => 
+  array (
+    'id' => '483446',
+    'datetime' => '2026-04-06 12:37:13',
+    'log' => 'Запрос администратору на внесение изменений',
+    'log_dop1' => '',
+    'log_dop2' => '',
+    'log_dop3' => '',
+    'message' => 'изменился выбор ДВ_ТЕСТ для "нагрузка на изменение"',
+    'user_login' => 'mizikovskiy',
+    'chair_id' => '05432',
+    'user_title' => 'Мизиковский Игорь Ефимович',
+    'user_role' => '|zavkaf|',
+    'load_base_UID2' => '26589.281474976769490',
+    'action_name' => 'require_admin_change',
+    'internal' => '0',
+    'status_change' => '1',
+    'ip' => '85.143.4.158',
+    'browser' => 'Chrome 146.0.0.0',
+    'file_name' => NULL,
+    'file_src_name' => NULL,
+    'file_size' => '0',
+  ),
+)[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:28.17] 26589.281474976769491[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:28.17] array (
+  0 => 
+  array (
+    'id' => '483445',
+    'datetime' => '2026-04-06 12:37:13',
+    'log' => 'Запрос администратору на внесение изменений',
+    'log_dop1' => '',
+    'log_dop2' => '',
+    'log_dop3' => '',
+    'message' => 'изменился выбор ДВ_ТЕСТ для "нагрузка на изменение"',
+    'user_login' => 'mizikovskiy',
+    'chair_id' => '05432',
+    'user_title' => 'Мизиковский Игорь Ефимович',
+    'user_role' => '|zavkaf|',
+    'load_base_UID2' => '26589.281474976769491',
+    'action_name' => 'require_admin_change',
+    'internal' => '0',
+    'status_change' => '1',
+    'ip' => '85.143.4.158',
+    'browser' => 'Chrome 146.0.0.0',
+    'file_name' => NULL,
+    'file_src_name' => NULL,
+    'file_size' => '0',
+  ),
+)[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:28.17] 26589.281474976769492[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:28.17] array (
+  0 => 
+  array (
+    'id' => '483447',
+    'datetime' => '2026-04-06 12:37:13',
+    'log' => 'Запрос администратору на внесение изменений',
+    'log_dop1' => '',
+    'log_dop2' => '',
+    'log_dop3' => '',
+    'message' => 'изменился выбор ДВ_ТЕСТ для "нагрузка на изменение"',
+    'user_login' => 'mizikovskiy',
+    'chair_id' => '05432',
+    'user_title' => 'Мизиковский Игорь Ефимович',
+    'user_role' => '|zavkaf|',
+    'load_base_UID2' => '26589.281474976769492',
+    'action_name' => 'require_admin_change',
+    'internal' => '0',
+    'status_change' => '1',
+    'ip' => '85.143.4.158',
+    'browser' => 'Chrome 146.0.0.0',
+    'file_name' => NULL,
+    'file_src_name' => NULL,
+    'file_size' => '0',
+  ),
+)[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:28.17] 26589.281474976774444[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:28.17] array (
+  0 => 
+  array (
+    'id' => '482785',
+    'datetime' => '2026-03-27 10:03:26',
+    'log' => 'Запрос администратору на внесение изменений',
+    'log_dop1' => '',
+    'log_dop2' => '',
+    'log_dop3' => '',
+    'message' => 'изменить нужно!',
+    'user_login' => 'tiunova',
+    'chair_id' => '05265',
+    'user_title' => 'Тиунова Наталья Викторовна',
+    'user_role' => '|zavkaf|',
+    'load_base_UID2' => '26589.281474976774444',
+    'action_name' => 'require_admin_change',
+    'internal' => '0',
+    'status_change' => '1',
+    'ip' => '85.143.4.158',
+    'browser' => 'Chrome 146.0.0.0',
+    'file_name' => NULL,
+    'file_src_name' => NULL,
+    'file_size' => '0',
+  ),
+)[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:28.17] 26589.281474976776005[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:28.17] array (
+  0 => 
+  array (
+    'id' => '483431',
+    'datetime' => '2026-04-06 12:33:54',
+    'log' => 'Запрос администратору на внесение изменений',
+    'log_dop1' => '',
+    'log_dop2' => '',
+    'log_dop3' => '',
+    'message' => 'разъединить поток на 2 _ТЕСТ для "нагрузка на изменение"',
+    'user_login' => 'natalya.grigoreva',
+    'chair_id' => '05261',
+    'user_title' => 'Григорьева Наталья Юрьевна',
+    'user_role' => '|zavkaf|',
+    'load_base_UID2' => '26589.281474976776005',
+    'action_name' => 'require_admin_change',
+    'internal' => '0',
+    'status_change' => '1',
+    'ip' => '85.143.4.158',
+    'browser' => 'Chrome 146.0.0.0',
+    'file_name' => NULL,
+    'file_src_name' => NULL,
+    'file_size' => '0',
+  ),
+)[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:28.17] 26589.281474976784200[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:28.17] array (
+  0 => 
+  array (
+    'id' => '482820',
+    'datetime' => '2026-03-28 15:01:53',
+    'log' => 'Запрос администратору на внесение изменений',
+    'log_dop1' => '',
+    'log_dop2' => '',
+    'log_dop3' => '',
+    'message' => 'тест 3',
+    'user_login' => 'mariya.kurnikova',
+    'chair_id' => '05389',
+    'user_title' => 'Курникова Мария Владимировна',
+    'user_role' => '|zavkaf|',
+    'load_base_UID2' => '26589.281474976784200',
+    'action_name' => 'require_admin_change',
+    'internal' => '0',
+    'status_change' => '1',
+    'ip' => '85.143.4.137',
+    'browser' => 'Chrome 144.0.0.0',
+    'file_name' => NULL,
+    'file_src_name' => NULL,
+    'file_size' => '0',
+  ),
+)[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:28.17] 26589.281474976784269[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:28.17] array (
+  0 => 
+  array (
+    'id' => '482821',
+    'datetime' => '2026-03-28 15:06:45',
+    'log' => 'Запрос администратору на внесение изменений',
+    'log_dop1' => '',
+    'log_dop2' => '',
+    'log_dop3' => '',
+    'message' => 'тест 4',
+    'user_login' => 'mariya.kurnikova',
+    'chair_id' => '05389',
+    'user_title' => 'Курникова Мария Владимировна',
+    'user_role' => '|zavkaf|',
+    'load_base_UID2' => '26589.281474976784269',
+    'action_name' => 'require_admin_change',
+    'internal' => '0',
+    'status_change' => '1',
+    'ip' => '85.143.4.137',
+    'browser' => 'Chrome 144.0.0.0',
+    'file_name' => NULL,
+    'file_src_name' => NULL,
+    'file_size' => '0',
+  ),
+)[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:28.17] 26589.281474976785657[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:28.17] array (
+  0 => 
+  array (
+    'id' => '482822',
+    'datetime' => '2026-03-28 15:06:45',
+    'log' => 'Запрос администратору на внесение изменений',
+    'log_dop1' => '',
+    'log_dop2' => '',
+    'log_dop3' => '',
+    'message' => 'тест 4',
+    'user_login' => 'mariya.kurnikova',
+    'chair_id' => '05389',
+    'user_title' => 'Курникова Мария Владимировна',
+    'user_role' => '|zavkaf|',
+    'load_base_UID2' => '26589.281474976785657',
+    'action_name' => 'require_admin_change',
+    'internal' => '0',
+    'status_change' => '1',
+    'ip' => '85.143.4.137',
+    'browser' => 'Chrome 144.0.0.0',
+    'file_name' => NULL,
+    'file_src_name' => NULL,
+    'file_size' => '0',
+  ),
+)[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:28.17] 26589.281474976801264[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]
+[07.04.2026 - 16:28.17] array (
+  0 => 
+  array (
+    'id' => '483453',
+    'datetime' => '2026-04-06 12:42:48',
+    'log' => 'Запрос администратору на внесение изменений',
+    'log_dop1' => '',
+    'log_dop2' => '',
+    'log_dop3' => '',
+    'message' => 'распоточить на 2 потока _ТЕСТ для "нагрузка на изменение"',
+    'user_login' => 'deryugina',
+    'chair_id' => '02896',
+    'user_title' => 'Дерюгина Анна Вячеславовна',
+    'user_role' => '|zavkaf|',
+    'load_base_UID2' => '26589.281474976801264',
+    'action_name' => 'require_admin_change',
+    'internal' => '0',
+    'status_change' => '1',
+    'ip' => '85.143.4.158',
+    'browser' => 'Chrome 146.0.0.0',
+    'file_name' => NULL,
+    'file_src_name' => NULL,
+    'file_size' => '0',
+  ),
+)[/ajax/get/chairs_require_admin_change_nagruzka_discipline.php] [Chrome 146.0.0.0] [127.0.0.1]

@@ -65,7 +65,7 @@ if ($_mode == 'mode_filling')
       }
       else
       {
-        $KSROByPersonID[$ksro['lecturer_person_id']][$ksro['UID_Language']]['Amount'] += (float) $ksro['Amount'];
+        safeAdd($KSROByPersonID[$ksro['lecturer_person_id']][$ksro['UID_Language']]['Amount'], $ksro['Amount']);
       }
     }
   }
@@ -367,11 +367,11 @@ foreach ($employees as &$employee)
       {
         foreach ($KSROByPersonID[$personId] as $lang_uid => $ksro_language_row)
         {
-          $totalAmount += (float) $ksro_language_row['Amount'];
+          safeAdd($totalAmount, $ksro_language_row['Amount']);
 
           if ($lang_uid === $language_eng_uid)
           {
-            $engAmount += (float) $ksro_language_row['Amount'];
+            safeAdd($engAmount, $ksro_language_row['Amount']);
           }
         }
         

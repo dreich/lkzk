@@ -303,13 +303,14 @@ if ($NagruzkaByBaseUID1)
 
     if ($NagruzkaByBaseUID1[$base_uid]['lectors'])
     {
+      // Нельзя фильтровать Галактийную нагрузку по лекторам на этом этапе, потому что ещё будут применяться сплиты
       // Filter lectors to only include those with matching lecturer_uid
-      if ($lecturer_uid)
-      {
-        $NagruzkaByBaseUID1[$base_uid]['lectors'] = array_filter($NagruzkaByBaseUID1[$base_uid]['lectors'], function($lector) use ($lecturer_uid) {
-            return $lector['lecturer_uid'] === $lecturer_uid;
-        });
-      }
+      // if ($lecturer_uid)
+      // {
+      //   $NagruzkaByBaseUID1[$base_uid]['lectors'] = array_filter($NagruzkaByBaseUID1[$base_uid]['lectors'], function($lector) use ($lecturer_uid) {
+      //       return $lector['lecturer_uid'] === $lecturer_uid;
+      //   });
+      // }
 
       $NagruzkaByBaseUID1[$base_uid]['lectors'] = array_values($NagruzkaByBaseUID1[$base_uid]['lectors']);
 
@@ -342,7 +343,7 @@ if ($NagruzkaByBaseUID1)
           // $NagruzkaByBaseUID1[$base_uid]['not_assigned'] = false;
         }
         // Не вакансия, а лектор
-        elseif ($lector['lecturer_fio'] && mb_strcasecmp($lector['lecturer_fio'], 'Вакансия') != 0)
+        elseif (($lecturer_uid && $lector['lecturer_uid'] === $lecturer_uid || !$lecturer_uid && $lector['lecturer_fio']) && mb_strcasecmp($lector['lecturer_fio'], 'Вакансия') != 0)
         {
           $NagruzkaByBaseUID1[$base_uid]['assigned'] = true;
           $Stat['assigned']['sum'] += (float) $lector['Amount'];
@@ -415,6 +416,8 @@ if ($lecturer_uid)
     {
       return $lector['lecturer_uid'] === $lecturer_uid;
     });
+
+    // $filtered_lectors = $nagruzka['lectors'];
     
     // If no matching lectors, remove this entry
     if (empty($filtered_lectors)) 

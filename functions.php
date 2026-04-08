@@ -135,18 +135,6 @@ function Authorize($login, $password)
   // TODO CHANGE GREEN TABLE ID
   setcookie('SpryMedia_DataTables_t_', '', time()-999, '/');
 
-  // Delete all DataTables cookies for controllers
-  foreach($_COOKIE as $cookie_name => $cookie_value) {
-    if (strpos($cookie_name, 'DataTables_Table_nagruzka_') === 0 ||
-        strpos($cookie_name, 'DataTables_Table_uoup_nagruzka_') === 0 ||
-        strpos($cookie_name, 'DataTables_Table_ksro_') === 0 ||
-        strpos($cookie_name, 'DataTables_Table_uoup_chairs_refused_') === 0 ||
-        strpos($cookie_name, 'DataTables_Table_nagruzka_to_change_') === 0) {
-      setcookie($cookie_name, '', time()-999, '/');
-      unset($_COOKIE[$cookie_name]);
-    }
-  }
-
   session_name('lkzk');
   session_start();
 
@@ -2571,7 +2559,7 @@ function GetNagruzkaBaseQuery($dop_sql, $nagruzka_type = 'all', $department_from
     -- AND xml_content_of_load.`base_uid` = '26589.281474976773929'
     -- AND xml_content_of_load.`base_uid` = '26589.281474976787074'
     -- AND xml_content_of_load.`base_uid` = '26589.281474976763950'
-    -- AND xml_content_of_load.`base_uid` = '26589.281474976773565'
+    -- AND xml_content_of_load.`base_uid` = '26589.281474976773449'
     -- AND LoadType = '0'
     $dop_sql
   ";
@@ -2969,5 +2957,11 @@ function loadXMLSafe($filename, $logErrors = true)
   return $XML;
 }
 
+
+function safeAdd(&$target, $value) {
+    // Приводим к float, но обрабатываем некорректные значения как 0
+    $numericValue = is_numeric($value) ? (float) $value : 0;
+    $target = ((float) $target) + $numericValue;
+}
 
 ?>

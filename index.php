@@ -207,7 +207,8 @@ if ($_SESSION['c_login'])
         <a href="/" class="" target="_blank">На сайт <span class="glyphicon glyphicon-arrow-up"></span> </a>
       </li> -->
       <li class="nav-item">
-        <a href="?logout" class="nav-link active">Выйти <span class="glyphicon glyphicon-log-out"></span> </a>
+        <!-- href="?logout" -->
+        <a ng-click="logout()" class="nav-link active pointer">Выйти <span class="glyphicon glyphicon-log-out"></span> </a>
       </li>
     </ul>
 
