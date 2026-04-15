@@ -43,7 +43,19 @@ $s = quote_smart($_GET['s']);
 // Т.к. сотрудники ГПХ в таблице sotrudniki привязаны не к кафедре, а факультету, то будем их брать по факультету авторизованного завкафа,
 // а не ГПХ-шников будем искать по кафедре
 
-$Sotrudniki = GetTable('sotrudniki', "((`type` <> 'gph' AND `chair_id` = '$chair_id') OR (`type` = 'gph' AND `department_id` = '$department_id')) AND  `selected` = '1' AND `date_remove` IS NULL AND `fio` LIKE ('%$s%') AND `lecturer_uid` <> ''");
+// Если один препод в распределении, предложим его удалить
+if ($_GET['lectors_num'] == 1 && $s == '-')
+{
+  $Sotrudniki = [['fio' => '-', 'lecturer_person_id' => '-', 'lecturer_uid' => '-']];
+}
+else
+{
+  $Sotrudniki = [];
+}
+
+$additional = GetTable('sotrudniki', "((`type` <> 'gph' AND `chair_id` = '$chair_id') OR (`type` = 'gph' AND `department_id` = '$department_id')) AND  `selected` = '1' AND `date_remove` IS NULL AND `fio` LIKE ('$s%') AND `lecturer_uid` <> ''");
+
+$Sotrudniki = array_merge($Sotrudniki, $additional);
 
 if (mb_stripos($s, 'Вак') === 0)
 {

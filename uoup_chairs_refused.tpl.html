@@ -122,14 +122,17 @@
         <tbody>
           <tr ng-repeat="comment in chair.comments" 
             ng-class="{'active': selectedComment && selectedComment.key === comment.key}"
-            ng-click="selectComment(comment); showTable(comment); $event.stopPropagation()">
+            ng-click="showTable(comment); $event.stopPropagation()">
           <td>{{comment.dateFormatted}}</td>
           <td>{{comment.message || 'Без комментария'}}</td>
           <td>
             <button class="btn btn-sm btn-primary" 
-                    ng-click="selectComment(comment); showTable(comment); $event.stopPropagation()">
+                    ng-click="showTable(comment); $event.stopPropagation()">
               Показать ({{comment.count}})
             </button>
+
+            <span ng-if="comment.status == 'done_refused'" style="margin-left: 15px"> <span class="glyphicon glyphicon-ok"></span> Выполнено </span>
+
           </td>
         </tr>
         </tbody>
@@ -148,10 +151,11 @@
       <i class="fas fa-arrow-left"></i> Назад к списку кафедр
     </button>
 
-    <div>
+    <div ng-if="uoup_chairs_refused_selected_comment.status == 'refused' && system_mode == 'mode_filling'">
       <button class="btn btn-primary btn-sm mb-3" ng-click="UOUPCancelRefuseBulk()">Отклонить</button>
+      <button class="btn btn-success btn-sm mb-3" ng-click="UOUPDoneRefuseBulk()">Выполнить</button>
     </div>
-    
+
     <table id="DataTables_Table_uoup_chairs_refused" datatable="ng" dt-options="dtOptions" dt-column-defs="dtColumnDefs" dt-instance="dtInstance" class="dataTable row-border hover display table" style="margin: 0 0; width:100%;">
       <thead>
         <tr>
@@ -178,7 +182,7 @@
           <!-- <td ng-show="system_mode != 'mode_archive'">
             <button class="btn btn-primary btn-xs" ng-click="UOUPCancelRefuseBulk()">Отклонить</button>
           </td> -->
-          <td>{{row.department_name}} {{row.base_uid}}</td>
+          <td>{{row.department_name}}</td>
           <td>{{row.chair_name}}</td> 
           <td ng-bind-html="row.Abbr"></td>
           <td ng-bind-html="row.discipline_name"></td>

@@ -37,8 +37,13 @@ if ($_GET['chair_id'])
   $_chair_id = quote_smart($_GET['chair_id']);
 }
 
-$lecturer_uid = isset($_GET['lecturer_uid']) ? quote_smart($_GET['lecturer_uid']) : '';
+$_lecturer_uid = isset($_GET['lecturer_uid']) ? quote_smart($_GET['lecturer_uid']) : '';
 
+if ($_lecturer_uid)
+{
+  $Lecturer = GetRow('xml_lecturer', ['UID' => $_lecturer_uid]);
+  $_lecturer_fio = $Lecturer['FIO'];
+}
 
 if ($c_roles['zavkaf'])
 {
@@ -62,7 +67,7 @@ if ($c_roles['sotrudnik'])
   $XMLChair = GetRow('xml_chair', ['Code' => $_chair_id]);
   $chair_id_sql = "AND xml_content_of_load.UID_Chair = '$XMLChair[UID]'";
 
-  if (!$lecturer_uid)
+  if (!$_lecturer_uid)
   {
     echo json_encode(['nagruzka' => [], 'stat' => []]);
     exit;
@@ -116,8 +121,8 @@ $dop_sql = "$chair_id_sql
             #LIMIT 150
 ";
 
-// if ($lecturer_uid) {
-//     $dop_sql .= " AND nagruzka.lecturer_uid = '$lecturer_uid'";
+// if ($_lecturer_uid) {
+//     $dop_sql .= " AND nagruzka.lecturer_uid = '$_lecturer_uid'";
 // }
 
 
@@ -132,7 +137,7 @@ $Nagruzka = PrepareNagruzka(GetSQL($nagruzka_query));
 
 // EchoLog($Nagruzka);
 
-$ZavkafSplits = GetTable('zavkaf_splits', "`delete` <> '1'");
+$ZavkafSplits = GetTable('zavkaf_splits', "`delete` = '0'");
 
 $ZavkafSplitsByBaseUID1ByBaseUID2New = [];
 $ZavkafSplitsByBaseUID1ByBaseUID2 = [];
@@ -213,7 +218,7 @@ if ($Nagruzka)
             // $ZavkafSplitsByBaseUID1ByBaseUID2New[$nagruzka['base_uid']][$nagruzka['base_uid2']]['used'] = true;
             $ZavkafSplitsByBaseUID1ByBaseUID2NewSplitted[$nagruzka['base_uid']][$nagruzka['base_uid2']] = true;
 
-            // if ($lecturer_uid && $nagruzka['lecturer_uid'] === $lecturer_uid || !$lecturer_uid)
+            // if ($_lecturer_uid && $nagruzka['lecturer_uid'] === $_lecturer_uid || !$_lecturer_uid)
             {
               $NagruzkaByBaseUID1[$nagruzka['base_uid']]['lectors'][] = $nagruzka;
 
@@ -255,7 +260,7 @@ if ($Nagruzka)
       // EchoLog('here');
       // $NagruzkaByBaseUID1[$nagruzka['base_uid']]['lectors'][$nagruzka['base_uid2']] = $nagruzka;
 
-      // if ($lecturer_uid && $nagruzka['lecturer_uid'] === $lecturer_uid || !$lecturer_uid)
+      // if ($_lecturer_uid && $nagruzka['lecturer_uid'] === $_lecturer_uid || !$_lecturer_uid)
       {
         $NagruzkaByBaseUID1[$nagruzka['base_uid']]['lectors'][] = $nagruzka;
       }
@@ -305,10 +310,10 @@ if ($NagruzkaByBaseUID1)
     {
       // Нельзя фильтровать Галактийную нагрузку по лекторам на этом этапе, потому что ещё будут применяться сплиты
       // Filter lectors to only include those with matching lecturer_uid
-      // if ($lecturer_uid)
+      // if ($_lecturer_uid)
       // {
-      //   $NagruzkaByBaseUID1[$base_uid]['lectors'] = array_filter($NagruzkaByBaseUID1[$base_uid]['lectors'], function($lector) use ($lecturer_uid) {
-      //       return $lector['lecturer_uid'] === $lecturer_uid;
+      //   $NagruzkaByBaseUID1[$base_uid]['lectors'] = array_filter($NagruzkaByBaseUID1[$base_uid]['lectors'], function($lector) use ($_lecturer_uid) {
+      //       return $lector['lecturer_uid'] === $_lecturer_uid;
       //   });
       // }
 
@@ -343,7 +348,7 @@ if ($NagruzkaByBaseUID1)
           // $NagruzkaByBaseUID1[$base_uid]['not_assigned'] = false;
         }
         // Не вакансия, а лектор
-        elseif (($lecturer_uid && $lector['lecturer_uid'] === $lecturer_uid || !$lecturer_uid && $lector['lecturer_fio']) && mb_strcasecmp($lector['lecturer_fio'], 'Вакансия') != 0)
+        elseif (($_lecturer_uid && $lector['lecturer_uid'] === $_lecturer_uid || !$_lecturer_uid && $lector['lecturer_fio']) && mb_strcasecmp($lector['lecturer_fio'], 'Вакансия') != 0)
         {
           $NagruzkaByBaseUID1[$base_uid]['assigned'] = true;
           $Stat['assigned']['sum'] += (float) $lector['Amount'];
@@ -407,14 +412,14 @@ if ($_mode == 'mode_filling' && $_lite)
 }
 
 // Filter NagruzkaByBaseUID1 based on lecturer_uid if provided
-if ($lecturer_uid) 
+if ($_lecturer_uid) 
 {
   foreach ($NagruzkaByBaseUID1 as $base_uid => &$nagruzka) 
   {
     // Filter lectors to only include those with matching lecturer_uid
-    $filtered_lectors = array_filter($nagruzka['lectors'], function($lector) use ($lecturer_uid) 
+    $filtered_lectors = array_filter($nagruzka['lectors'], function($lector) use ($_lecturer_uid) 
     {
-      return $lector['lecturer_uid'] === $lecturer_uid;
+      return $lector['lecturer_uid'] === $_lecturer_uid;
     });
 
     // $filtered_lectors = $nagruzka['lectors'];
@@ -533,7 +538,7 @@ header("Pragma: no-cache");
 header("Expires: 0");
 header('Content-Type: application/javascript; charset=UTF-8');
 
-$ret_arr = ['nagruzka' => array_values($ReturnNagruzka), 'stat' => $Stat ? $Stat : new stdClass];
+$ret_arr = ['nagruzka' => array_values($ReturnNagruzka), 'stat' => $Stat ? $Stat : new stdClass, 'lecturer_fio' => $_lecturer_fio];
 
 echo json_encode($ret_arr);
 

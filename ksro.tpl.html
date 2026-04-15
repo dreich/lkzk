@@ -1,11 +1,25 @@
-<div ng-if="ksro_selected_chair_id && !_lecturer_uid">
-    <h5 ng-if="c_roles.uoup">{{chairs_sprav[ksro_selected_chair_id]['Name']}}</h5>
-    <!-- <h5 ng-if="c_roles.uoup"><a href="/#/nagruzka/all/{{nagruzka_selected_chair_id}}">{{chairs_sprav[ksro_selected_chair_id]['Name']}}</a></h5> -->
-  </div>
-
-<h3 ng-if="ksro_selected_lecturer_uid && !c_roles.sotrudnik">
-  {{ksro_lecturer_fio}}
+<h3 ng-if="nagruzka_selected_lecturer_uid && !c_roles.sotrudnik">
+  {{_lecturer_fio}}
 </h3>
+
+<h4>
+  {{$_nagruzka_types['ksro']}}
+</h4>
+
+<div ng-if="nagruzka_selected_lecturer_uid && !nagruzka_selected_lecturer_uid">
+  <h5 ng-if="c_roles.uoup">{{chairs_sprav[nagruzka_selected_lecturer_uid]['Name']}}</h5>
+  <!-- <h5 ng-if="c_roles.uoup"><a href="/#/nagruzka/all/{{ksro_selected_chair_id}}">{{chairs_sprav[ksro_selected_chair_id]['Name']}}</a></h5> -->
+</div>
+
+<div ng-if="ksro_selected_chair_id && !nagruzka_selected_lecturer_uid">
+  <h5 ng-if="!c_roles.uoup || c_roles.uoup && _nagruzka_type == 'all'">{{chairs_sprav[ksro_selected_chair_id]['Name']}}</h5>
+  <h5 ng-if="c_roles.uoup && _nagruzka_type != 'all'"><a href="/#/nagruzka/all/{{ksro_selected_chair_id}}">{{chairs_sprav[ksro_selected_chair_id]['Name']}}</a></h5>
+</div>
+
+
+<ng-include src="'./nagruzka_stat.tpl.html'"></ng-include>
+
+
 
 <table class="widefat">
   <thead>

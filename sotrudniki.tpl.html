@@ -5,7 +5,7 @@
   <div >
     <!-- {{sotrudniki.length}} -->
     <!-- datatable="ng" dt-options="dtOptions"  dt-column-defs="dtColumnDefs" dt-instance="dtInstance"  -->
-    <table id="DataTables_Table_1" class="dataTable row-border hover display table "  style='margin: 0 0 ;width:100%'>
+    <table id="DataTables_Table_1" class="dataTable row-border hover display table " datatable="ng" dt-options="dtOptions" dt-instance="onSotrudnikiTableInstance" style='margin: 0 0 ;width:100%'>
 
     <thead>
       <tr>
@@ -38,14 +38,6 @@
         </td>
         <td>
             {{$_sotrudnik_types[person.type]}}
-<!--             <select ng-model="person.type" class="form-select">
-              <option value=""></option>
-              <option value="sotrudnik">сотрудник</option>
-              <option value="kandidat">кандидат</option>
-              <option value="worked">работал</option>
-              <option value="gph">ГПХ</option>
-            </select> -->
-
         </td>
         <td>{{person.stavka}}</td>
         <td>

@@ -77,7 +77,7 @@ foreach ($data as $nagruzka_lector)
       // base_uid2 аналогичен, но не содержит суффиксов споточенности, будем "заменять" суффикс лектора
       $base_uid2_obj = parseNagruzkaBaseUid2($content_of_load_row['base_uid2']);
 
-      if ($nagruzka_lector['lecturer_uid'])
+      if ($nagruzka_lector['lecturer_uid'] && $nagruzka_lector['lecturer_uid'] != '-1')
       {
         // ПОДРАЗУМЕВАЕТСЯ, что лектор не убирается, а только ставится [завкафом]
         $new_content_of_load_uid = "$uid_obj[base].$nagruzka_lector[lecturer_uid]";

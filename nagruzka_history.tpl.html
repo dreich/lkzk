@@ -101,7 +101,10 @@
       <tr ng-repeat="row in nagruzka_history">
         <td>{{row.datetime | jsDate}}</td>
         <td>{{row.user_title}}</td>
-        <td>{{row.log}}</td>
+        <td>
+          {{row.log}}
+          <div ng-if="row.action_name == 'change_chair' && row.log_dop4.length">{{row.log_dop3}} -> {{row.log_dop4}}</div>
+        </td>
         <td>{{row.message}}</td>
         <td></td>
       </tr>

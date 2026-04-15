@@ -9,7 +9,7 @@ include '../connect/opop2.php';
 
 EchoLog("Start cron");
 
-$LOAD_NEW_DATA_FROM_NETWORK = true;
+$LOAD_NEW_DATA_FROM_NETWORK = false;
 $UPDATE_TABLES = true;
 
 $Napravlenia = GetTable('napravlenia', "", "", "napravlenie");
@@ -49,7 +49,7 @@ function IsEducationLevelVO($education_level)
 // $hash = hash_column_values_only($data, $xml_content_of_load_staff_columns_for_hash);
 
 // нагрузка до обновления
-$XMLContentOfLoadPrev = GetTable('xml_content_of_load', "", "", "UID", "UID, base_uid, base_uid2, hash");
+$XMLContentOfLoadPrev = GetTable('xml_content_of_load', "", "", "UID", "UID, base_uid, base_uid2, hash, UID_Chair");
 
 $XMLContentOfLoadPrevByBaseUID2 = [];
 
@@ -1354,6 +1354,18 @@ if ($XMLContentOfLoad)
 
           EchoLog("Для uid = $xml_content_of_load_UID (base_uid2 = $base_uid2) в таблице xml_content_of_load изменился хеш ($xml_content_of_load_prev_row[hash] => $new_nagr_row[hash]), очистим преподавателя {$NagruzkaPrev[$base_uid2]['lecturer_fio']}");
 
+          // if ($base_uid2 === '26589.281474976744972')
+          // {
+          //   EchoLog($new_nagr_row);
+          //   EchoLog($xml_content_of_load_prev_row);
+          // }
+          // Если сменилась кафедра, добавим это событие в лог
+          // Нагрузка может быть в статусах refused, done_refused (не обязательно), ниже статус будет сброшен в initial
+          if ($new_nagr_row['UID_Chair'] && $xml_content_of_load_prev_row['UID_Chair'] && $new_nagr_row['UID_Chair'] !== $xml_content_of_load_prev_row['UID_Chair'])
+          {
+            ActivityLog($base_uid2, ["Изменение кафедры нагрузки", $xml_content_of_load_prev_row['UID_Chair'], $new_nagr_row['UID_Chair'], $XMLChairByUID[$xml_content_of_load_prev_row['UID_Chair']]['Name'], $XMLChairByUID[$new_nagr_row['UID_Chair']]['Name']], "", "change_chair", 0, 0);
+          }
+
           // if ($base_uid === '26589.281474976786399')
           // {
           //   EchoLog("base_uid: $base_uid");
@@ -1429,17 +1441,20 @@ if ($XMLContentOfLoad)
           $query = "
             UPDATE `nagruzka` SET # `lecturer_fio` = NULL, `lecturer_uid` = NULL, `lecturer_person_id` = NULL, 
               `prev_status` = `status`, `status` = 'initial', `date_update` = NOW()
-            WHERE `chair_id` = '$chair_id' AND `load_base_UID2` = '$base_uid2'";
+            WHERE  `load_base_UID2` = '$base_uid2' # `chair_id` = '$chair_id' AND";
 
           $Result = $mysqli->query($query);
 
           if ($Result)
           {
+            // на самом деле лекторы здесь не хранятся
             $NagruzkaPrev[$base_uid2]['lecturer_fio'] = '';
 
-            // выведем только если лектор был
-            if ($base_uid2 === '26589.281474976786399' || $NagruzkaPrev[$base_uid2]['lecturer_fio'])
-            EchoLog("Очистили лектора кафедры {$XMLChairByUID[$new_nagr_row['UID_Chair']]['Name']} ($chair_id) у нагрузки $base_uid2");
+            $mysqli->query("UPDATE `zavkaf_splits` SET `delete` = '1' WHERE `base_uid` = '$base_uid'");
+
+            // -- выведем только если лектор был
+            // if ($base_uid2 === '26589.281474976786399' || $NagruzkaPrev[$base_uid2]['lecturer_fio'])
+            EchoLog("Очистили лекторов кафедры {$XMLChairByUID[$new_nagr_row['UID_Chair']]['Name']} ($chair_id) у нагрузки base_uid = $base_uid, base_uid2 = $base_uid2");
           }
           else
           {
@@ -1578,8 +1593,6 @@ if ($XMLContentOfLoad)
           {
             ActivityLog($xml_content_of_load_row['base_uid2'], ["Нагрузка добавлена на кафедру $chair_name", $chair_id, $xml_content_of_load_row['base_uid2']], "", "initial", 0, 1);
           }
-
-          
         }
         else
         {
@@ -1634,8 +1647,9 @@ if ($XMLContentOfLoad)
             $valid = '0';
           }
 
+          // кафедра может измениться
           $query = "
-          UPDATE `nagruzka` SET `valid` = '$valid', `date_update` = NOW() $zavkaf_sql
+          UPDATE `nagruzka` SET `chair_id` = '$chair_id', `chair_name` = '$chair_name', `department_id` = '$department_id', `department_name` = '$department_name', `valid` = '$valid', `date_update` = NOW() $zavkaf_sql
           WHERE `load_base_UID2` = '$xml_content_of_load_row[base_uid2]'";
           $Result = $mysqli->query($query);
 

@@ -2197,9 +2197,11 @@ function ActivityLog($load_base_UID2, $log, $message = '', $action_name = '', $i
     if ($log[1]) $log_dop1 = $log[1];
     if ($log[2]) $log_dop2 = $log[2];
     if ($log[3]) $log_dop3 = $log[3];
+    if ($log[4]) $log_dop4 = $log[4];
   }
   else $log0 = $log;
 
+  if ($load_base_UID1) $load_base_UID1_sql = ", `load_base_UID1` = '$load_base_UID1'";
   if ($load_base_UID2) $load_base_UID2_sql = ", `load_base_UID2` = '$load_base_UID2'";
 
   $query = "INSERT INTO `log` SET `message` = '$message',
@@ -2207,6 +2209,7 @@ function ActivityLog($load_base_UID2, $log, $message = '', $action_name = '', $i
     `log_dop2` = '$log_dop2',
     `log_dop1` = '$log_dop1',
     `log_dop3` = '$log_dop3',
+    `log_dop4` = '$log_dop4',
     `user_login` = '$_SESSION[c_login]', 
     `user_title` = '$_SESSION[c_fio]',
     `user_role` = '$_SESSION[c_roles]',
@@ -2217,6 +2220,7 @@ function ActivityLog($load_base_UID2, $log, $message = '', $action_name = '', $i
     `browser` = '$user_browser',
     `status_change` = '$status_change',
     `log` = '$log0'
+    $load_base_UID1_sql
     $load_base_UID2_sql
     ";
 
@@ -2556,7 +2560,7 @@ function GetNagruzkaBaseQuery($dop_sql, $nagruzka_type = 'all', $department_from
 
   -- AND (xml_content_of_load_staff.`Abbr` LIKE ('Б1.%') OR xml_content_of_load_staff.`Abbr` LIKE ('Ф%') OR xml_content_of_load_staff.`Abbr` LIKE ('1.%') OR xml_content_of_load_staff.`Abbr` LIKE ('1.01%') OR xml_content_of_load_staff.`Abbr` LIKE ('2.1%') OR xml_content_of_load_staff.`Abbr` LIKE ('2.01%') OR xml_content_of_load_staff.`Abbr` LIKE ('С1%') OR xml_content_of_load_staff.`Abbr` LIKE ('С2%') OR xml_content_of_load_staff.`Abbr` LIKE ('С3%') OR xml_content_of_load_staff.`Abbr` LIKE ('С4%'))
   -- AND xml_content_of_load.UID_Lecturer = '26115.281474976793608'
-    -- AND xml_content_of_load.`base_uid` = '26589.281474976773929'
+    -- AND xml_content_of_load.`base_uid` = '26589.281474976763950'
     -- AND xml_content_of_load.`base_uid` = '26589.281474976787074'
     -- AND xml_content_of_load.`base_uid` = '26589.281474976763950'
     -- AND xml_content_of_load.`base_uid` = '26589.281474976773449'

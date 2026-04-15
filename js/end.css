@@ -2156,3 +2156,13 @@ tfoot input.search_init {
     color: #000 !important;
 }
 
+
+.dataTables_filter 
+{
+  width: inherit;
+}
+
+.b
+{
+  font-weight: bold;
+}

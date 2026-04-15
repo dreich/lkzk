@@ -19,8 +19,13 @@ $_only_stat = $_GET['only_stat'];
 
 
 $c_roles = ExplodePalki($_SESSION['c_roles'], true);
-$lecturer_uid = isset($_GET['lecturer_uid']) ? quote_smart($_GET['lecturer_uid']) : '';
+$_lecturer_uid = isset($_GET['lecturer_uid']) ? quote_smart($_GET['lecturer_uid']) : '';
 
+if ($_lecturer_uid)
+{
+  $Lecturer = GetRow('xml_lecturer', ['UID' => $_lecturer_uid]);
+  $_lecturer_fio = $Lecturer['FIO'];
+}
 
 // EchoLog($c_roles);
 
@@ -32,9 +37,9 @@ if ($_mode == 'mode_filling')
     $c_chair_id = $_SESSION['c_chair_id'];
     $_chair_sql = "`chair_id` = '$c_chair_id'";
 
-    if ($lecturer_uid)
+    if ($_lecturer_uid)
     {
-      $_lecturer_uid_sql = "AND `uid` = '$lecturer_uid'";
+      $_lecturer_uid_sql = "AND `uid` = '$_lecturer_uid'";
     }
   }
   elseif ($c_roles['uoup'])
@@ -68,15 +73,15 @@ else
     $chair_id_sql = "AND `UID_Chair` = '$XMLChair[UID]'";
   }
 
-  if ($lecturer_uid)
+  if ($_lecturer_uid)
   {
-    $lecturer_uid_sql = "AND `UID_Lecturer` = '$lecturer_uid'";
+    $_lecturer_uid_sql = "AND `UID_Lecturer` = '$_lecturer_uid'";
   }
 
   $nagruzka_query = GetNagruzkaBaseQuery("
     AND (`xml_kind_of_work`.Name IN ('$ksro_kind_uid', '$ik_kind_uid') OR `xml_discipline`.UID IN ('$ksro_discipline_uid', '$ik_discipline_uid'))
     $chair_id_sql
-    $lecturer_uid_sql
+    $_lecturer_uid_sql
     ", 'all');
 
   // EchoLog($nagruzka_query);
@@ -134,6 +139,6 @@ header("Pragma: no-cache");
 header("Expires: 0");
 header('Content-Type: application/javascript; charset=UTF-8');
 // echo json_encode(array_values($RowsByKey));
-$ret_arr = ['nagruzka' => array_values($RowsByKey), 'stat' => $Stat ? $Stat : new stdClass];
+$ret_arr = ['nagruzka' => array_values($RowsByKey), 'stat' => $Stat ? $Stat : new stdClass, 'lecturer_fio' => $_lecturer_fio];
 echo json_encode($ret_arr);
 ?>

@@ -34,7 +34,7 @@
 
     <tbody>
 
-      <tr ng-repeat="lector in nagruzka_row.lectors" ng-if="!lector.delete">
+      <tr ng-repeat="lector in nagruzka_row.lectors" ng-if="lector.delete == false">
         <td>
           <span>{{lector.lecturer_fio}}</span>
           <span ng-if="!lector.lecturer_fio">нет</span>
@@ -50,7 +50,7 @@
           {{(nagruzka_row.Amount / nagruzka_row['StudentAmount'] * lector['StudentAmount']) | toFixed:2}}
         </td>
         <td>
-          <span class="glyphicon glyphicon-trash pointer" ng-click="RemoveNagruzkaSubRow(nagruzka_row, $index)" ng-if="$index > 0"></span>
+          <span class="glyphicon glyphicon-trash pointer" ng-click="RemoveNagruzkaSubRow(nagruzka_row, $index)" ng-if="true || $index > 0"></span>
         </td>
       </tr>
 
@@ -78,7 +78,7 @@
 <div ng-if="GetNagruzkaLectorsInitialLength(nagruzka_row.lectors) > 1">
 </div>
 
-<button class="btn btn-primary btn-xs" ng-click="AddNagruzkaSubRow(nagruzka_row.lectors)">Добавить</button>
+<button class="btn btn-primary btn-xs" ng-click="AddNagruzkaSubRow(nagruzka_row)">Добавить</button>
 <br>
 <button class="btn btn-success mt-5" ng-click="SaveNagruzkaSubRows(nagruzka_row) && closeThisDialog('save')">Сохранить распределение</button>
 

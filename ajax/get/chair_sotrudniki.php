@@ -88,7 +88,7 @@ $query = "SELECT
 FROM nagruzka n
 JOIN xml_content_of_load x ON n.load_base_UID2 = x.base_uid2
 JOIN xml_lecturer ON x.UID_Lecturer = xml_lecturer.UID
-WHERE xml_lecturer.Tab_number IS NOT NULL# AND x.UID_Lecturer = '26115.281474976862936'
+WHERE xml_lecturer.Tab_number IS NOT NULL # AND x.UID_Lecturer = '26115.281474976862936'
 $_ksro_sql
 ";
 
@@ -115,13 +115,14 @@ $query = "SELECT
     x.TypeWorkload
 FROM nagruzka n
 JOIN xml_content_of_load x ON n.load_base_UID2 = x.base_uid2
-JOIN xml_content_of_load_staff s ON x.base_uid2 = s.base_uid2
+#JOIN xml_content_of_load_staff s ON x.base_uid2 = s.base_uid2
 JOIN xml_lecturer ON x.UID_Lecturer = xml_lecturer.UID
-WHERE xml_lecturer.Tab_number IS NOT NULL AND s.UID_Language = '25031.945'
+WHERE xml_lecturer.Tab_number IS NOT NULL AND x.UID_Language = '25031.945'# AND xml_lecturer.Tab_number = '1129'
 $_ksro_sql
 ";
  
 $rows = GetSQL($query) ?: [];
+// EchoLog($query);
 foreach ($rows as $row) 
 {
   if (!isset($englishLoads[$row['Tab_number']])) {
@@ -154,7 +155,6 @@ WHERE zs.`delete` = 0";
 // Debug: Log the query
 // EchoLog("Executing query: " . $query);
 
-// Initialize empty array to prevent errors
 $splitsLoads = [];
 // признак того, что оригинальная нагрузка переразбита, такие оригинальные часы плюсовать не будем
 $splitsLoadsByBaseUID2 = [];
@@ -242,7 +242,7 @@ while ($row = $result->fetch_assoc()) {
 // EchoLog($splitsLoads[70297]);
 // EchoLog($originalLoads[70297]);
 // EchoLog($englishSplits[70297]);
-// EchoLog($englishLoads[70297]);
+// EchoLog($englishLoads[1129]);
 
 // 7. Объединяем данные
 foreach ($employees as &$employee) 

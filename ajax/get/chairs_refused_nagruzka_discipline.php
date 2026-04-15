@@ -28,7 +28,7 @@ if ($c_roles['uoup'])
 
   // $XMLContentOfLoad = GetRows('xml_content_of_load', ['UID_Chair' => $XMLChair['UID']]);
 
-  $dop_sql = "AND `status` = 'refused'
+  $dop_sql = "AND `status` IN ('refused', 'done_refused')
               #AND xml_content_of_load.UID_Chair = '$XMLChair[UID]'
               #AND `base_uid` = '26589.281474976773927'
               ORDER BY `original_uid`

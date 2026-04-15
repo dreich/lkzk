@@ -186,7 +186,7 @@
       <div class="col-md-10">{{filteredNagruzka[0].require_admin_change_message}}</div>
     </div>
 
-    <div ng-if="system_mode != 'mode_archive'" class="mb-3">
+    <div ng-if="system_mode == 'mode_filling'" class="mb-3">
       <button class="btn btn-primary btn-sm" ng-click="UOUPDeclineToChangeBulk()">Отклонить</button>
       <button class="btn btn-success btn-sm" ng-click="UOUPDoneToChangeBulk()">Выполнено</button>
     </div>
