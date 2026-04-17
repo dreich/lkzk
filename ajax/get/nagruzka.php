@@ -29,7 +29,7 @@ $_only_stat = $_GET['only_stat'];
 $_lite = $_GET['lite'];
 // получим режим работы системы
 $ModeRow = GetRow('params', ['param' => 'system_mode']);
-$_mode = $ModeRow['value'];
+$_system_mode = $ModeRow['value'];
 
 // УОУП просматривает нагрузку кафедры
 if ($_GET['chair_id'])
@@ -104,7 +104,7 @@ $global_nagruzka_filter = $_COOKIE['global_nagruzka_filter'];
 // $XMLContentOfLoad = GetRows('xml_content_of_load', ['UID_Chair' => $XMLChair['UID']]);
 
 // в режиме заполнения ИК-КСРО не будем брать из галактийных таблиц
-if ($_mode == 'mode_filling')
+if ($_system_mode == 'mode_filling')
 {
   $ksro_sql = "AND `nagruzka_type` <> 'ksro'";
 }
@@ -394,7 +394,7 @@ if ($NagruzkaByBaseUID1)
 
 // В режиме заполнения в группировку по кафедрам для #/uoup_nagruzka нужно взять данные из таблицы ksro 
 // ! Т.к. в таблице ksro нет таких полей как название кафедры, факультета, то отображение этих данных в зелёной таблице у УОУП полагается на другие виды нагрузки в $NagruzkaByBaseUID1. Т.е. если не будет других видов нагрузки, то КСРО не будет отображаться в таблице; 
-if ($_mode == 'mode_filling' && $_lite)
+if ($_system_mode == 'mode_filling' && $_lite)
 {
   $Rows = GetTable('ksro', "$__chair_sql $__lecturer_uid_sql");
 

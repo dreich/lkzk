@@ -87,13 +87,13 @@
   <div ng-switch-when="chairs">
   <div class="admin-change-cards-wrapper w-50" ng-if="adminChangeChairs.length">
     <div ng-repeat="department in adminChangeChairs" class="department-group mb-4">
-      <div class="department-header d-flex align-items-center mb-2 p-2" 
+      <div class="department-header d-flex align-items-center mb-2 p-2 pointer" ng-click="NagruzkaToChangeToggleAdminShowDepartmentChairs(department)"
            style="background-color: #f8f9fa; border-left: 4px solid #007bff;">
-        <h5 class="m-0">{{ department.department_name }}</h5>
+        <h5 class="m-0" >{{ department.department_name }}</h5>
         <span class="badge badge-primary ml-2">{{ department.count }}</span>
       </div>
       
-      <div class="department-chairs">
+      <div class="department-chairs" ng-show="department.show_chairs">
         <div class="admin-change-card"
              ng-repeat="chair in department.chairs"
              ng-class="{'active': selectedAdminChangeChair && selectedAdminChangeChair.chair_id === chair.chair_id}"
@@ -186,7 +186,7 @@
       <div class="col-md-10">{{filteredNagruzka[0].require_admin_change_message}}</div>
     </div>
 
-    <div ng-if="system_mode == 'mode_filling'" class="mb-3">
+    <div ng-if="system_mode != 'mode_archive'" class="mb-3">
       <button class="btn btn-primary btn-sm" ng-click="UOUPDeclineToChangeBulk()">Отклонить</button>
       <button class="btn btn-success btn-sm" ng-click="UOUPDoneToChangeBulk()">Выполнено</button>
     </div>
@@ -236,7 +236,7 @@
           <td ng-click="NagruzkaRowClick(row); $event.stopPropagation()">{{row.kind_of_work}}</td>
           <td ng-click="NagruzkaRowClick(row); $event.stopPropagation()">{{row.napravlennost}}</td>
           <td ng-click="NagruzkaRowClick(row); $event.stopPropagation()">{{row.UID_Course}}</td>
-          <td ng-click="NagruzkaRowClick(row); $event.stopPropagation()">{{row.amount}}</td>
+          <td ng-click="NagruzkaRowClick(row); $event.stopPropagation()">{{row.Amount}}</td>
         </tr>
       </tbody>
 

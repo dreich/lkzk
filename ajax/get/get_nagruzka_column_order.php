@@ -12,7 +12,7 @@ if (!$_SESSION['c_login']) {
     exit;
 }
 
-$chair_id = $_SESSION['c_chair_id'] ?? 0;
+$chair_id = $_SESSION['c_chair_id'] ? $_SESSION['c_chair_id'] : 0;
 
 $column_order_file = 'data/nagruzka_column_order_' . $chair_id . '.json';
 

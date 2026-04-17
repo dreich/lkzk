@@ -404,21 +404,21 @@ function UpdateNagruzkaStat($http, scope, nagr_type, chair_id, lecturer_uid, onl
   {
     if (scope.system_mode == 'mode_filling')
     {
-      script = 'ksro';
+      script = 'ksro.php';
     }
     else
     {
-      script = 'nagruzka';
+      script = 'nagruzka/';
     }
   }
   else
   {
-    script = 'nagruzka';
+    script = 'nagruzka/';
   }
 
   // nagruzka.php
   // ksro.php
-  var url = `ajax/get/${script}.php?chair_id=${chair_id}&type=${nagr_type}`;
+  var url = `ajax/get/${script}?chair_id=${chair_id}&type=${nagr_type}`;
 
   if (lecturer_uid)
   {
@@ -777,7 +777,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
 
           // if (nagruzka_type == 'discipline')
           {
-            let url = 'ajax/get/nagruzka.php?chair_id=' + (chair_id ? chair_id : c_chair_id);
+            let url = 'ajax/get/nagruzka/?chair_id=' + (chair_id ? chair_id : c_chair_id);
             if (lecturer_uid) 
             {
               url += '&lecturer_uid=' + encodeURIComponent(lecturer_uid);
@@ -2564,6 +2564,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
   }
 
   // сумма считается в часах либо студентах
+  // для попапа распределения нагрузки сосчитать сумму в часах либо студентах
   $scope.GetNagruzkaLectorsAmountSum = function(nagruzka_row)
   {
     // CL('GetNagruzkaLectorsAmountSum');
@@ -2587,6 +2588,31 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
     // CL(sum);
 
     return !Number.isNaN(sum) ? sum : 0;
+  }
+
+  // Для таблицы Нагрузка, столбца "Количество часов" получить количество часов (Amount)
+  // Если включен показ только одного лектора, то возьмём только для одного лектора
+  $scope.GetNagruzkaAmount = function(nagruzka_row)
+  {
+    // в интерфейсе выбран показ нагрузки одного лектора
+    if ($scope.nagruzka_selected_lecturer_uid)
+    {
+      var nagruzka_lectors = [];
+      var sum;
+
+      if (nagruzka_row.lectors)
+      {
+        nagruzka_lectors = nagruzka_row.lectors.filter(lector => !lector.delete && lector.lecturer_uid === $scope.nagruzka_selected_lecturer_uid);
+
+        sum = nagruzka_lectors.reduce((sum, lector) => sum + parseFloat(lector['Amount']), 0);
+      }
+
+      return sum;
+    }
+    else
+    {
+      return nagruzka_row['Amount'];
+    }
   }
 
   // определить, сколько в массиве не удалённых, не пустых лекторов, не вакансий
@@ -3167,7 +3193,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
   {
     $scope.uoup_nagruzka = {};
     
-    $http({url: "ajax/get/nagruzka.php?lite=1", method: 'GET'})
+    $http({url: "ajax/get/nagruzka/?lite=1", method: 'GET'})
         .then(function (response) 
         {
           if (response.data)
@@ -3298,7 +3324,8 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
           department_name: deptKey,
           chairs: [],
           count: 0,
-          chairMap: {}
+          chairMap: {},
+          show_chairs: false
         };
       }
 
@@ -3361,6 +3388,11 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
 
     // console.log('Built adminChangeChairs:', result);
     return result;
+  }
+
+  $scope.NagruzkaRefusedeToggleAdminShowDepartmentChairs = function(department)
+  {
+    department.show_chairs = !department.show_chairs;
   }
 
 /*
@@ -3822,7 +3854,8 @@ $scope.toggleAdminChangeChair = function(chair) {
         departments[deptName] = {
           department_name: deptName,
           chairs: {},
-          count: 0
+          count: 0,
+          show_chairs: false
         };
       }
 
@@ -3938,6 +3971,11 @@ $scope.toggleAdminChangeChair = function(chair) {
   };
 
   */
+
+  $scope.NagruzkaToChangeToggleAdminShowDepartmentChairs = function(department)
+  {
+    department.show_chairs = !department.show_chairs;
+  }
 
   $scope.toggleAdminChangeChair = function(chair) {
       if (!chair) return;
