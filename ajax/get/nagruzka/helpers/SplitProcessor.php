@@ -61,13 +61,17 @@ class SplitProcessor
      */
     public function applySplits($nagruzkaData, $mode = 'default')
     {
-        if (empty($nagruzkaData)) {
+        if (empty($nagruzkaData)) 
+        {
             return $nagruzkaData;
         }
 
-        // В режиме заполнения очищаем лекторов из Галактики
+        // В режиме заполнения очищаем лекторов из Галактики и объединяем дубликаты
         if ($mode === 'filling') {
             $nagruzkaData = $this->clearGalaxyLectors($nagruzkaData);
+            // EchoLog($nagruzkaData);
+            $nagruzkaData = $this->consolidateLectors($nagruzkaData);
+            EchoLog($nagruzkaData);
         }
 
         if (empty($this->splits)) {
@@ -77,7 +81,8 @@ class SplitProcessor
         $result = [];
         $processedSplits = [];
 
-        foreach ($nagruzkaData as $baseUid2 => $item) {
+        foreach ($nagruzkaData as $baseUid2 => $item) 
+        {
             $baseUid = $item['base_uid'];
 
             // Агрегируем по base_uid
@@ -90,17 +95,25 @@ class SplitProcessor
             }
 
             // Проверяем есть ли сплиты для этой строки
-            if ($this->hasSplits($baseUid, $item['base_uid2'])) {
+            if ($this->hasSplits($baseUid, $item['base_uid2'])) 
+            {
                 $splitRows = $this->getSplits($baseUid, $item['base_uid2']);
 
-                foreach ($splitRows as $splitRow) {
+                EchoLog("SPLITS:");
+                EchoLog($splitRows);
+
+                foreach ($splitRows as $splitRow) 
+                {
                     $lectorData = $this->createLectorDataFromSplit($item, $splitRow);
                     $result[$baseUid]['lectors'][] = $lectorData;
                     $processedSplits[$baseUid][$item['base_uid2']] = true;
                 }
-            } else {
+            } 
+            else 
+            {
                 // Проверяем, не был ли base_uid2 создан из сплита
-                if (empty($processedSplits[$baseUid][$item['base_uid2']])) {
+                if (empty($processedSplits[$baseUid][$item['base_uid2']])) 
+                {
                     $result[$baseUid]['lectors'][] = $item;
                 }
             }
@@ -115,7 +128,8 @@ class SplitProcessor
      */
     private function clearGalaxyLectors($nagruzkaData)
     {
-        foreach ($nagruzkaData as $baseUid2 => &$item) {
+        foreach ($nagruzkaData as $baseUid2 => &$item) 
+        {
             // Очищаем поля лектора - делаем пустыми
             $item['lecturer_fio'] = null;
             $item['lecturer_uid'] = null;
@@ -124,17 +138,41 @@ class SplitProcessor
             $item['UID_Lecturer'] = null;
 
             // Очищаем суффикс лектора из base_uid2 через parse/glue
-            $baseUid2Obj = parseNagruzkaBaseUid2($item['base_uid2']);
+            // $baseUid2Obj = parseNagruzkaBaseUid2($item['base_uid2']);
 
             // Убираем lector_suffix (оставляем только base и potok_suffix)
-            $baseUid2Obj['lector_suffix'] = '';
+            // $baseUid2Obj['lector_suffix'] = '';
 
             // Склеиваем обратно без лектора
-            $item['base_uid2'] = glueNagruzkaBaseUid2Parts($baseUid2Obj);
+            // $item['base_uid2'] = glueNagruzkaBaseUid2Parts($baseUid2Obj);
         }
         unset($item);
 
         return $nagruzkaData;
+    }
+
+    /**
+     * Объединить лекторов с одинаковым base_uid2 после очистки из Галактики
+     * В режиме заполнения оставляем только одного лектора с суммарными Amount и StudentAmount
+     */
+    private function consolidateLectors($nagruzkaData)
+    {
+        $consolidated = [];
+
+        foreach ($nagruzkaData as $item) 
+        {
+            // Используем base_uid2 как ключ для группировки
+            // После очистки лекторов base_uid2 не содержит информации о лекторе
+            if (!isset($consolidated[$item['base_uid']])) {
+                $consolidated[$item['base_uid']] = $item;
+            } else {
+                // Суммируем Amount и StudentAmount
+                $consolidated[$item['base_uid']]['Amount'] += $item['Amount'];
+                $consolidated[$item['base_uid']]['StudentAmount'] += $item['StudentAmount'];
+            }
+        }
+
+        return $consolidated;
     }
 
     /**
