@@ -19651,6 +19651,78 @@
 					<prop_value prop_name="UID_KindOfEducaion" value="2"></prop_value>
 				</Collection>
 			</Object>
+			<Object uid="25031.281474976763428" name="Менеджмент организации" class_id="Speciality">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976763428"></prop_value>
+					<prop_value prop_name="Name" value="Менеджмент организации"></prop_value>
+					<prop_value prop_name="Abbr" value="99.01.293"></prop_value>
+					<prop_value prop_name="Code" value="99.01.293"></prop_value>
+					<prop_value prop_name="UID_KindOfEducaion" value="4"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976763445" name="Углублённое изучение дисциплин естественнонаучного цикла, математики и информатики с использованием веб-технологий" class_id="Speciality">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976763445"></prop_value>
+					<prop_value prop_name="Name" value="Углублённое изучение дисциплин естественнонаучного цикла, математики и информатики с использованием веб-технологий"></prop_value>
+					<prop_value prop_name="Abbr" value="99.01.294"></prop_value>
+					<prop_value prop_name="Code" value="99.01.294"></prop_value>
+					<prop_value prop_name="UID_KindOfEducaion" value="4"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976763446" name="Социально-экономическая география: традиции и современные тенденции развития" class_id="Speciality">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976763446"></prop_value>
+					<prop_value prop_name="Name" value="Социально-экономическая география: традиции и современные тенденции развития"></prop_value>
+					<prop_value prop_name="Abbr" value="99.01.295"></prop_value>
+					<prop_value prop_name="Code" value="99.01.295"></prop_value>
+					<prop_value prop_name="UID_KindOfEducaion" value="4"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976763447" name="Современные методики и технологии обучения в начальной школе в условиях реализации ФГОС НОО" class_id="Speciality">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976763447"></prop_value>
+					<prop_value prop_name="Name" value="Современные методики и технологии обучения в начальной школе в условиях реализации ФГОС НОО"></prop_value>
+					<prop_value prop_name="Abbr" value="99.01.296"></prop_value>
+					<prop_value prop_name="Code" value="99.01.296"></prop_value>
+					<prop_value prop_name="UID_KindOfEducaion" value="4"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976763454" name="Правила обработки и защиты персональных данных" class_id="Speciality">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976763454"></prop_value>
+					<prop_value prop_name="Name" value="Правила обработки и защиты персональных данных"></prop_value>
+					<prop_value prop_name="Abbr" value="99.01.297"></prop_value>
+					<prop_value prop_name="Code" value="99.01.297"></prop_value>
+					<prop_value prop_name="UID_KindOfEducaion" value="4"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976763528" name="Специалист по физической культуре и спорту. Тренер-преподаватель" class_id="Speciality">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976763528"></prop_value>
+					<prop_value prop_name="Name" value="Специалист по физической культуре и спорту. Тренер-преподаватель"></prop_value>
+					<prop_value prop_name="Abbr" value="99.01.298"></prop_value>
+					<prop_value prop_name="Code" value="99.01.298"></prop_value>
+					<prop_value prop_name="UID_KindOfEducaion" value="4"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976763539" name="Практическое вождение транспортных средств категории В" class_id="Speciality">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976763539"></prop_value>
+					<prop_value prop_name="Name" value="Практическое вождение транспортных средств категории В"></prop_value>
+					<prop_value prop_name="Abbr" value="99.01.299"></prop_value>
+					<prop_value prop_name="Code" value="99.01.299"></prop_value>
+					<prop_value prop_name="UID_KindOfEducaion" value="0"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976763549" name="Продакт-менеджмент" class_id="Speciality">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976763549"></prop_value>
+					<prop_value prop_name="Name" value="Продакт-менеджмент"></prop_value>
+					<prop_value prop_name="Abbr" value="99.01.300"></prop_value>
+					<prop_value prop_name="Code" value="99.01.300"></prop_value>
+					<prop_value prop_name="UID_KindOfEducaion" value="4"></prop_value>
+				</Collection>
+			</Object>
 		</Collection>
 	</Data>
 </Data_Root>

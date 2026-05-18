@@ -4,136 +4,6 @@
 	</Descript>
 	<Data>
 		<Collection name="Data.Chair" caption="Кафедра" child_tags="Object">
-			<Object uid="25031.281474976710657" name="Кафедра менеджмента и государственного управления" class_id="Chair">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="25031.281474976710657"></prop_value>
-					<prop_value prop_name="UID_Faculty" value="25031.281474976710667"></prop_value>
-					<prop_value prop_name="Name" value="Кафедра менеджмента и государственного управления"></prop_value>
-					<prop_value prop_name="Abbr" value="МЕНиГУ"></prop_value>
-					<prop_value prop_name="Code" value="02149"></prop_value>
-					<prop_value prop_name="GUID" value=""></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="25031.281474976710881" name="Кафедра экономической теории и методологии" class_id="Chair">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="25031.281474976710881"></prop_value>
-					<prop_value prop_name="UID_Faculty" value="25031.281474976710667"></prop_value>
-					<prop_value prop_name="Name" value="Кафедра экономической теории и методологии"></prop_value>
-					<prop_value prop_name="Abbr" value="ЭТиМ"></prop_value>
-					<prop_value prop_name="Code" value="02151"></prop_value>
-					<prop_value prop_name="GUID" value=""></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="25031.281474976710882" name="Кафедра финансов и кредита" class_id="Chair">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="25031.281474976710882"></prop_value>
-					<prop_value prop_name="UID_Faculty" value="25031.281474976710667"></prop_value>
-					<prop_value prop_name="Name" value="Кафедра финансов и кредита"></prop_value>
-					<prop_value prop_name="Abbr" value="Каф ФиК"></prop_value>
-					<prop_value prop_name="Code" value="02160"></prop_value>
-					<prop_value prop_name="GUID" value=""></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="25031.281474976710883" name="Кафедра торгового дела" class_id="Chair">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="25031.281474976710883"></prop_value>
-					<prop_value prop_name="UID_Faculty" value="25031.281474976710667"></prop_value>
-					<prop_value prop_name="Name" value="Кафедра торгового дела"></prop_value>
-					<prop_value prop_name="Abbr" value="КТоргДел"></prop_value>
-					<prop_value prop_name="Code" value="02155"></prop_value>
-					<prop_value prop_name="GUID" value=""></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="25031.281474976710885" name="Кафедра бухгалтерского учета" class_id="Chair">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="25031.281474976710885"></prop_value>
-					<prop_value prop_name="UID_Faculty" value="25031.281474976710667"></prop_value>
-					<prop_value prop_name="Name" value="Кафедра бухгалтерского учета"></prop_value>
-					<prop_value prop_name="Abbr" value="Каф БухУч"></prop_value>
-					<prop_value prop_name="Code" value="02161"></prop_value>
-					<prop_value prop_name="GUID" value=""></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="25031.281474976710887" name="Кафедра информационных технологий и инструментальных методов в экономике" class_id="Chair">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="25031.281474976710887"></prop_value>
-					<prop_value prop_name="UID_Faculty" value="25031.281474976710667"></prop_value>
-					<prop_value prop_name="Name" value="Кафедра информационных технологий и инструментальных методов в экономике"></prop_value>
-					<prop_value prop_name="Abbr" value="ИТиИМЭ"></prop_value>
-					<prop_value prop_name="Code" value="02150"></prop_value>
-					<prop_value prop_name="GUID" value=""></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="25031.281474976710888" name="Кафедра культуры и психологии предпринимательства" class_id="Chair">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="25031.281474976710888"></prop_value>
-					<prop_value prop_name="UID_Faculty" value="25031.281474976710667"></prop_value>
-					<prop_value prop_name="Name" value="Кафедра культуры и психологии предпринимательства"></prop_value>
-					<prop_value prop_name="Abbr" value="Каф КиППр"></prop_value>
-					<prop_value prop_name="Code" value="02159"></prop_value>
-					<prop_value prop_name="GUID" value=""></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="25031.281474976710889" name="Кафедра математического моделирования экономических процессов" class_id="Chair">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="25031.281474976710889"></prop_value>
-					<prop_value prop_name="UID_Faculty" value="25031.281474976710667"></prop_value>
-					<prop_value prop_name="Name" value="Кафедра математического моделирования экономических процессов"></prop_value>
-					<prop_value prop_name="Abbr" value="ММод ЭС"></prop_value>
-					<prop_value prop_name="Code" value="02137"></prop_value>
-					<prop_value prop_name="GUID" value=""></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="25031.281474976710891" name="Кафедра математических и естественнонаучных дисциплин" class_id="Chair">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="25031.281474976710891"></prop_value>
-					<prop_value prop_name="UID_Faculty" value="25031.281474976710667"></prop_value>
-					<prop_value prop_name="Name" value="Кафедра математических и естественнонаучных дисциплин"></prop_value>
-					<prop_value prop_name="Abbr" value="Каф МиЕД"></prop_value>
-					<prop_value prop_name="Code" value="02158"></prop_value>
-					<prop_value prop_name="GUID" value=""></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="25031.281474976710892" name="Кафедра мировой экономики и таможенного дела" class_id="Chair">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="25031.281474976710892"></prop_value>
-					<prop_value prop_name="UID_Faculty" value="25031.281474976710667"></prop_value>
-					<prop_value prop_name="Name" value="Кафедра мировой экономики и таможенного дела"></prop_value>
-					<prop_value prop_name="Abbr" value="Каф МЭиТаможДела"></prop_value>
-					<prop_value prop_name="Code" value="02957"></prop_value>
-					<prop_value prop_name="GUID" value=""></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="25031.281474976710893" name="Кафедра сервиса и туризма" class_id="Chair">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="25031.281474976710893"></prop_value>
-					<prop_value prop_name="UID_Faculty" value="25031.281474976710667"></prop_value>
-					<prop_value prop_name="Name" value="Кафедра сервиса и туризма"></prop_value>
-					<prop_value prop_name="Abbr" value="КСервТ"></prop_value>
-					<prop_value prop_name="Code" value="02156"></prop_value>
-					<prop_value prop_name="GUID" value=""></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="25031.281474976710894" name="Кафедра университетского менеджмента и инноваций в образовании" class_id="Chair">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="25031.281474976710894"></prop_value>
-					<prop_value prop_name="UID_Faculty" value="25031.281474976710667"></prop_value>
-					<prop_value prop_name="Name" value="Кафедра университетского менеджмента и инноваций в образовании"></prop_value>
-					<prop_value prop_name="Abbr" value="УнМ и ИО"></prop_value>
-					<prop_value prop_name="Code" value="02152"></prop_value>
-					<prop_value prop_name="GUID" value=""></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="25031.281474976710896" name="Кафедра экономики предприятий и организаций" class_id="Chair">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="25031.281474976710896"></prop_value>
-					<prop_value prop_name="UID_Faculty" value="25031.281474976710667"></prop_value>
-					<prop_value prop_name="Name" value="Кафедра экономики предприятий и организаций"></prop_value>
-					<prop_value prop_name="Abbr" value="ЭкФ"></prop_value>
-					<prop_value prop_name="Code" value="02956"></prop_value>
-					<prop_value prop_name="GUID" value=""></prop_value>
-				</Collection>
-			</Object>
 			<Object uid="25031.281474976710936" name="Кафедра ботаники и зоологии" class_id="Chair">
 				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
 					<prop_value prop_name="UID" value="25031.281474976710936"></prop_value>
@@ -211,16 +81,6 @@
 					<prop_value prop_name="Name" value="Кафедра химии нефти (нефтехимического синтеза)"></prop_value>
 					<prop_value prop_name="Abbr" value="ХННС"></prop_value>
 					<prop_value prop_name="Code" value="00170"></prop_value>
-					<prop_value prop_name="GUID" value=""></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="25031.281474976711024" name="Кафедра социально-экономических дисциплин" class_id="Chair">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="25031.281474976711024"></prop_value>
-					<prop_value prop_name="UID_Faculty" value="25031.281474976710990"></prop_value>
-					<prop_value prop_name="Name" value="Кафедра социально-экономических дисциплин"></prop_value>
-					<prop_value prop_name="Abbr" value="КСЭД ДФ"></prop_value>
-					<prop_value prop_name="Code" value="01699"></prop_value>
 					<prop_value prop_name="GUID" value=""></prop_value>
 				</Collection>
 			</Object>
@@ -654,36 +514,6 @@
 					<prop_value prop_name="GUID" value=""></prop_value>
 				</Collection>
 			</Object>
-			<Object uid="25031.281474976720528" name="Ректорат" class_id="Chair">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="25031.281474976720528"></prop_value>
-					<prop_value prop_name="UID_Faculty" value="25031.281474976710890"></prop_value>
-					<prop_value prop_name="Name" value="Ректорат"></prop_value>
-					<prop_value prop_name="Abbr" value="00402"></prop_value>
-					<prop_value prop_name="Code" value="00402"></prop_value>
-					<prop_value prop_name="GUID" value=""></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="25031.281474976720648" name="Лаборатория эпитаксиальной технологии" class_id="Chair">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="25031.281474976720648"></prop_value>
-					<prop_value prop_name="UID_Faculty" value="25031.281474976720645"></prop_value>
-					<prop_value prop_name="Name" value="Лаборатория эпитаксиальной технологии"></prop_value>
-					<prop_value prop_name="Abbr" value="Лаборатория 2.4"></prop_value>
-					<prop_value prop_name="Code" value="01107"></prop_value>
-					<prop_value prop_name="GUID" value=""></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="25031.281474976720796" name="Центр исследований науки и развития аспирантского образования (на правах кафедры)" class_id="Chair">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="25031.281474976720796"></prop_value>
-					<prop_value prop_name="UID_Faculty" value="25031.281474976710994"></prop_value>
-					<prop_value prop_name="Name" value="Центр исследований науки и развития аспирантского образования (на правах кафедры)"></prop_value>
-					<prop_value prop_name="Abbr" value="ЦИНиРАО"></prop_value>
-					<prop_value prop_name="Code" value="01989"></prop_value>
-					<prop_value prop_name="GUID" value=""></prop_value>
-				</Collection>
-			</Object>
 			<Object uid="25031.281474976720851" name="Кафедра конституционного и муниципального права" class_id="Chair">
 				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
 					<prop_value prop_name="UID" value="25031.281474976720851"></prop_value>
@@ -691,16 +521,6 @@
 					<prop_value prop_name="Name" value="Кафедра конституционного и муниципального права"></prop_value>
 					<prop_value prop_name="Abbr" value="Каф КиМП"></prop_value>
 					<prop_value prop_name="Code" value="02520"></prop_value>
-					<prop_value prop_name="GUID" value=""></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="25031.281474976721117" name="Лаборатория оптической тераностики" class_id="Chair">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="25031.281474976721117"></prop_value>
-					<prop_value prop_name="UID_Faculty" value="25031.281474976721116"></prop_value>
-					<prop_value prop_name="Name" value="Лаборатория оптической тераностики"></prop_value>
-					<prop_value prop_name="Abbr" value="Лаб ОптТер"></prop_value>
-					<prop_value prop_name="Code" value="02448"></prop_value>
 					<prop_value prop_name="GUID" value=""></prop_value>
 				</Collection>
 			</Object>
@@ -844,16 +664,6 @@
 					<prop_value prop_name="GUID" value=""></prop_value>
 				</Collection>
 			</Object>
-			<Object uid="25031.281474976731982" name="Отделение среднего профессионального образования" class_id="Chair">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="25031.281474976731982"></prop_value>
-					<prop_value prop_name="UID_Faculty" value="25031.281474976710667"></prop_value>
-					<prop_value prop_name="Name" value="Отделение среднего профессионального образования"></prop_value>
-					<prop_value prop_name="Abbr" value="ОСПОИЭП"></prop_value>
-					<prop_value prop_name="Code" value="02834"></prop_value>
-					<prop_value prop_name="GUID" value=""></prop_value>
-				</Collection>
-			</Object>
 			<Object uid="25031.281474976732017" name="Кафедра физиологии и анатомии" class_id="Chair">
 				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
 					<prop_value prop_name="UID" value="25031.281474976732017"></prop_value>
@@ -891,16 +701,6 @@
 					<prop_value prop_name="Name" value="Кафедра гуманитарных и социально-экономических дисциплин"></prop_value>
 					<prop_value prop_name="Abbr" value="Каф ГиСЭД БаФ"></prop_value>
 					<prop_value prop_name="Code" value="02910"></prop_value>
-					<prop_value prop_name="GUID" value=""></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="25031.281474976732563" name="Научно-исследовательская лаборатория электротехнических систем и колебательно-волновых процессов" class_id="Chair">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="25031.281474976732563"></prop_value>
-					<prop_value prop_name="UID_Faculty" value="25031.281474976727845"></prop_value>
-					<prop_value prop_name="Name" value="Научно-исследовательская лаборатория электротехнических систем и колебательно-волновых процессов"></prop_value>
-					<prop_value prop_name="Abbr" value="НИЛ ЭСиКП БаФ"></prop_value>
-					<prop_value prop_name="Code" value="02911"></prop_value>
 					<prop_value prop_name="GUID" value=""></prop_value>
 				</Collection>
 			</Object>
@@ -984,26 +784,6 @@
 					<prop_value prop_name="GUID" value=""></prop_value>
 				</Collection>
 			</Object>
-			<Object uid="25031.281474976734324" name="Научно-образовательный центр Физика твердотельных наноструктур" class_id="Chair">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="25031.281474976734324"></prop_value>
-					<prop_value prop_name="UID_Faculty" value="25031.281474976734323"></prop_value>
-					<prop_value prop_name="Name" value="Научно-образовательный центр Физика твердотельных наноструктур"></prop_value>
-					<prop_value prop_name="Abbr" value=""></prop_value>
-					<prop_value prop_name="Code" value="02767"></prop_value>
-					<prop_value prop_name="GUID" value=""></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="25031.281474976735126" name="Учебно-научная лаборатория интегрального здоровья человека" class_id="Chair">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="25031.281474976735126"></prop_value>
-					<prop_value prop_name="UID_Faculty" value="25031.281474976710969"></prop_value>
-					<prop_value prop_name="Name" value="Учебно-научная лаборатория интегрального здоровья человека"></prop_value>
-					<prop_value prop_name="Abbr" value="УНЛ ИЗЧел"></prop_value>
-					<prop_value prop_name="Code" value="02955"></prop_value>
-					<prop_value prop_name="GUID" value=""></prop_value>
-				</Collection>
-			</Object>
 			<Object uid="25031.281474976735306" name="Отделение среднего профессионального образования" class_id="Chair">
 				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
 					<prop_value prop_name="UID" value="25031.281474976735306"></prop_value>
@@ -1071,26 +851,6 @@
 					<prop_value prop_name="Name" value="Кафедра общей и медицинской генетики"></prop_value>
 					<prop_value prop_name="Abbr" value="КафОиМГ"></prop_value>
 					<prop_value prop_name="Code" value="02951"></prop_value>
-					<prop_value prop_name="GUID" value=""></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="25031.281474976739922" name="Центр непрерывного повышения профессионального мастерства педагогических работников (по модели стандарт)" class_id="Chair">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="25031.281474976739922"></prop_value>
-					<prop_value prop_name="UID_Faculty" value="25031.281474976710992"></prop_value>
-					<prop_value prop_name="Name" value="Центр непрерывного повышения профессионального мастерства педагогических работников (по модели стандарт)"></prop_value>
-					<prop_value prop_name="Abbr" value=""></prop_value>
-					<prop_value prop_name="Code" value="03062"></prop_value>
-					<prop_value prop_name="GUID" value=""></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="25031.281474976739923" name="Центр непрерывного повышения профессионального мастерства педагогических работников (по модели мини)" class_id="Chair">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="25031.281474976739923"></prop_value>
-					<prop_value prop_name="UID_Faculty" value="25031.281474976710982"></prop_value>
-					<prop_value prop_name="Name" value="Центр непрерывного повышения профессионального мастерства педагогических работников (по модели мини)"></prop_value>
-					<prop_value prop_name="Abbr" value=""></prop_value>
-					<prop_value prop_name="Code" value="03063"></prop_value>
 					<prop_value prop_name="GUID" value=""></prop_value>
 				</Collection>
 			</Object>
@@ -1324,16 +1084,6 @@
 					<prop_value prop_name="GUID" value=""></prop_value>
 				</Collection>
 			</Object>
-			<Object uid="25031.281474976753397" name="Кафедра Высшая школа искусств и дизайна" class_id="Chair">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="25031.281474976753397"></prop_value>
-					<prop_value prop_name="UID_Faculty" value="25031.281474976750993"></prop_value>
-					<prop_value prop_name="Name" value="Кафедра Высшая школа искусств и дизайна"></prop_value>
-					<prop_value prop_name="Abbr" value="КафВШИиД"></prop_value>
-					<prop_value prop_name="Code" value="891"></prop_value>
-					<prop_value prop_name="GUID" value=""></prop_value>
-				</Collection>
-			</Object>
 			<Object uid="25031.281474976754878" name="Кафедра высокопроизводительных вычислений и системного программирования" class_id="Chair">
 				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
 					<prop_value prop_name="UID" value="25031.281474976754878"></prop_value>
@@ -1411,16 +1161,6 @@
 					<prop_value prop_name="Name" value="Кафедра управления человеческими ресурсами"></prop_value>
 					<prop_value prop_name="Abbr" value="Каф УЧР"></prop_value>
 					<prop_value prop_name="Code" value="05422"></prop_value>
-					<prop_value prop_name="GUID" value=""></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="25031.281474976757693" name="Кафедра правового обеспечения экономической и инновационной деятельности" class_id="Chair">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="25031.281474976757693"></prop_value>
-					<prop_value prop_name="UID_Faculty" value="25031.281474976757685"></prop_value>
-					<prop_value prop_name="Name" value="Кафедра правового обеспечения экономической и инновационной деятельности"></prop_value>
-					<prop_value prop_name="Abbr" value="ПОЭиИД"></prop_value>
-					<prop_value prop_name="Code" value="05424"></prop_value>
 					<prop_value prop_name="GUID" value=""></prop_value>
 				</Collection>
 			</Object>
@@ -1571,6 +1311,16 @@
 					<prop_value prop_name="Name" value="Кафедра креативных индустрий и медиа коммуникаций"></prop_value>
 					<prop_value prop_name="Abbr" value="Каф КИиМК ИФИЖ"></prop_value>
 					<prop_value prop_name="Code" value="05530"></prop_value>
+					<prop_value prop_name="GUID" value=""></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976763050" name="Кафедра ЦИНиРАО" class_id="Chair">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976763050"></prop_value>
+					<prop_value prop_name="UID_Faculty" value="25031.281474976762091"></prop_value>
+					<prop_value prop_name="Name" value="Кафедра ЦИНиРАО"></prop_value>
+					<prop_value prop_name="Abbr" value="КафЦИНиРАО"></prop_value>
+					<prop_value prop_name="Code" value="999"></prop_value>
 					<prop_value prop_name="GUID" value=""></prop_value>
 				</Collection>
 			</Object>

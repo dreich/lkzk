@@ -1,75 +1,226 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ContentOfLoads>
-  <ContentOfLoad UID="26589.281474976773572" LoadType="1" Amount="32.00" StudentAmount="" UID_Lecturer="" delete="0"/>
-  <ContentOfLoad UID="26589.281474976773572" LoadType="1" Amount="0" StudentAmount="" UID_Lecturer="" delete="1"/>
-  <ContentOfLoad UID="26589.281474976787208" LoadType="1" Amount="8" StudentAmount="" UID_Lecturer="" delete="0"/>
-  <ContentOfLoad UID="26589.281474976787208" LoadType="1" Amount="10" StudentAmount="" UID_Lecturer="" delete="0"/>
-  <ContentOfLoad UID="26589.281474976791171" LoadType="1" Amount="149.9" StudentAmount="" UID_Lecturer="" delete="0"/>
-  <ContentOfLoad UID="26589.281474976791171" LoadType="1" Amount="250.1" StudentAmount="" UID_Lecturer="" delete="0"/>
-  <ContentOfLoad UID="26589.281474976764373" LoadType="0" Amount="" StudentAmount="26" UID_Lecturer="26115.281474976893938" delete="0"/>
-  <ContentOfLoad UID="26589.281474976763950" LoadType="0" Amount="" StudentAmount="12" UID_Lecturer="26115.281474976915305" delete="0"/>
-  <ContentOfLoad UID="26589.281474976763950" LoadType="0" Amount="" StudentAmount="8" UID_Lecturer="26115.281474976893938" delete="0"/>
-  <ContentOfLoad UID="26589.281474976763950" LoadType="0" Amount="" StudentAmount="8" UID_Lecturer="" delete="0"/>
-  <ContentOfLoad UID="26589.281474976745528" LoadType="0" Amount="" StudentAmount="1" UID_Lecturer="26115.281474976793818" delete="0"/>
-  <ContentOfLoad UID="26589.281474976745643" LoadType="0" Amount="" StudentAmount="4" UID_Lecturer="26115.281474976793818" delete="0"/>
-  <ContentOfLoad UID="26589.281474976746054" LoadType="0" Amount="" StudentAmount="2" UID_Lecturer="26115.281474976793818" delete="0"/>
-  <ContentOfLoad UID="26589.281474976746165" LoadType="0" Amount="" StudentAmount="1" UID_Lecturer="26115.281474976793818" delete="0"/>
-  <ContentOfLoad UID="26589.281474976798279" LoadType="0" Amount="" StudentAmount="1" UID_Lecturer="26115.281474976809351" delete="0"/>
-  <ContentOfLoad UID="26589.281474976798279" LoadType="0" Amount="" StudentAmount="8" UID_Lecturer="26115.281474976879212" delete="0"/>
-  <ContentOfLoad UID="26589.281474976798279" LoadType="0" Amount="" StudentAmount="6" UID_Lecturer="26115.281474976854934" delete="0"/>
-  <ContentOfLoad UID="26589.281474976798279" LoadType="0" Amount="" StudentAmount="4" UID_Lecturer="" delete="0"/>
-  <ContentOfLoad UID="26589.281474976798279" LoadType="0" Amount="" StudentAmount="4" UID_Lecturer="" delete="1"/>
-  <ContentOfLoad UID="26589.281474976798280" LoadType="0" Amount="" StudentAmount="19" UID_Lecturer="26115.281474976809351" delete="0"/>
-  <ContentOfLoad UID="26589.281474976798075" LoadType="0" Amount="" StudentAmount="7" UID_Lecturer="" delete="0"/>
-  <ContentOfLoad UID="26589.281474976798075" LoadType="0" Amount="" StudentAmount="7" UID_Lecturer="" delete="1"/>
-  <ContentOfLoad UID="26589.281474976773447" LoadType="1" Amount="8" StudentAmount="" UID_Lecturer="26115.281474976809351" delete="0"/>
-  <ContentOfLoad UID="26589.281474976773447" LoadType="1" Amount="8" StudentAmount="" UID_Lecturer="" delete="0"/>
-  <ContentOfLoad UID="26589.281474976764374" LoadType="0" Amount="" StudentAmount="29" UID_Lecturer="26115.281474976915305" delete="0"/>
-  <ContentOfLoad UID="26589.281474976764374" LoadType="0" Amount="" StudentAmount="0" UID_Lecturer="" delete="1"/>
-  <ContentOfLoad UID="26589.281474976764374" LoadType="0" Amount="" StudentAmount="0" UID_Lecturer="" delete="1"/>
-  <ContentOfLoad UID="26589.281474976764486" LoadType="1" Amount="32.00" StudentAmount="" UID_Lecturer="26115.281474976793822" delete="0"/>
-  <ContentOfLoad UID="26589.281474976764496" LoadType="0" Amount="" StudentAmount="30" UID_Lecturer="26115.281474976894852" delete="0"/>
-  <ContentOfLoad UID="26589.281474976791925" LoadType="1" Amount="32.00" StudentAmount="" UID_Lecturer="26115.281474976793822" delete="0"/>
-  <ContentOfLoad UID="26589.281474976791926" LoadType="0" Amount="" StudentAmount="30" UID_Lecturer="26115.281474976793822" delete="0"/>
-  <ContentOfLoad UID="26589.281474976791929" LoadType="1" Amount="32.00" StudentAmount="" UID_Lecturer="26115.281474976894852" delete="0"/>
-  <ContentOfLoad UID="26589.281474976791930" LoadType="0" Amount="" StudentAmount="30" UID_Lecturer="26115.281474976894852" delete="0"/>
-  <ContentOfLoad UID="26589.281474976764488" LoadType="0" Amount="" StudentAmount="30" UID_Lecturer="26115.281474976793822" delete="0"/>
-  <ContentOfLoad UID="26589.281474976799527" LoadType="0" Amount="" StudentAmount="4" UID_Lecturer="26115.281474976793608" delete="0"/>
-  <ContentOfLoad UID="26589.281474976799527" LoadType="0" Amount="" StudentAmount="8" UID_Lecturer="26115.281474976879293" delete="0"/>
-  <ContentOfLoad UID="26589.281474976789166" LoadType="1" Amount="42.00" StudentAmount="" UID_Lecturer="26115.281474976793608" delete="0"/>
-  <ContentOfLoad UID="26589.281474976799547" LoadType="0" Amount="" StudentAmount="8" UID_Lecturer="" delete="0"/>
-  <ContentOfLoad UID="26589.281474976799537" LoadType="0" Amount="" StudentAmount="8" UID_Lecturer="" delete="0"/>
-  <ContentOfLoad UID="26589.281474976773449" LoadType="0" Amount="" StudentAmount="0" UID_Lecturer="26115.281474976809351" delete="0"/>
-  <ContentOfLoad UID="26589.281474976774440" LoadType="1" Amount="10" StudentAmount="" UID_Lecturer="26115.281474976915259" delete="0"/>
-  <ContentOfLoad UID="26589.281474976774440" LoadType="1" Amount="4" StudentAmount="" UID_Lecturer="26115.281474976862936" delete="0"/>
-  <ContentOfLoad UID="26589.281474976774441" LoadType="1" Amount="42.00" StudentAmount="" UID_Lecturer="26115.281474976893938" delete="0"/>
-  <ContentOfLoad UID="26589.281474976774442" LoadType="1" Amount="42.00" StudentAmount="" UID_Lecturer="26115.281474976893938" delete="0"/>
-  <ContentOfLoad UID="26589.281474976774443" LoadType="1" Amount="42.00" StudentAmount="" UID_Lecturer="26115.281474976893938" delete="0"/>
-  <ContentOfLoad UID="26589.281474976775321" LoadType="1" Amount="16.00" StudentAmount="" UID_Lecturer="26115.281474976795707" delete="0"/>
-  <ContentOfLoad UID="26589.281474976755526" LoadType="1" Amount="16.00" StudentAmount="" UID_Lecturer="26115.281474976794155" delete="0"/>
-  <ContentOfLoad UID="26589.281474976775647" LoadType="1" Amount="16.00" StudentAmount="" UID_Lecturer="26115.281474976827276" delete="0"/>
-  <ContentOfLoad UID="26589.281474976784451" LoadType="1" Amount="16.00" StudentAmount="" UID_Lecturer="26115.281474976823974" delete="0"/>
-  <ContentOfLoad UID="26589.281474976784603" LoadType="1" Amount="16.00" StudentAmount="" UID_Lecturer="26115.281474976894992" delete="0"/>
-  <ContentOfLoad UID="26589.281474976786350" LoadType="1" Amount="32.00" StudentAmount="" UID_Lecturer="26115.281474976915302" delete="0"/>
-  <ContentOfLoad UID="26589.281474976786350" LoadType="1" Amount="32.00" StudentAmount="" UID_Lecturer="26115.281474976915302" delete="0"/>
-  <ContentOfLoad UID="26589.281474976785713" LoadType="1" Amount="16.00" StudentAmount="" UID_Lecturer="26115.281474976794237" delete="0"/>
-  <ContentOfLoad UID="26589.281474976799029" LoadType="0" Amount="" StudentAmount="16" UID_Lecturer="" delete="0"/>
-  <ContentOfLoad UID="26589.281474976799129" LoadType="0" Amount="" StudentAmount="16" UID_Lecturer="26115.281474976803256" delete="0"/>
-  <ContentOfLoad UID="26589.281474976799119" LoadType="1" Amount="32.00" StudentAmount="" UID_Lecturer="26115.281474976803256" delete="0"/>
-  <ContentOfLoad UID="26589.281474976788124" LoadType="1" Amount="42.00" StudentAmount="" UID_Lecturer="26115.281474976870093" delete="0"/>
-  <ContentOfLoad UID="26589.281474976802221" LoadType="1" Amount="32.00" StudentAmount="" UID_Lecturer="26115.281474976793608" delete="0"/>
-  <ContentOfLoad UID="26589.281474976802222" LoadType="1" Amount="16" StudentAmount="" UID_Lecturer="26115.281474976795353" delete="0"/>
-  <ContentOfLoad UID="26589.281474976802222" LoadType="1" Amount="16" StudentAmount="" UID_Lecturer="26115.281474976794559" delete="0"/>
-  <ContentOfLoad UID="26589.281474976802233" LoadType="0" Amount="" StudentAmount="6" UID_Lecturer="26115.281474976795353" delete="0"/>
-  <ContentOfLoad UID="26589.281474976802233" LoadType="0" Amount="" StudentAmount="6" UID_Lecturer="26115.281474976794559" delete="0"/>
-  <ContentOfLoad UID="26589.281474976755527" LoadType="0" Amount="" StudentAmount="29" UID_Lecturer="26115.281474976794155" delete="0"/>
-  <ContentOfLoad UID="26589.281474976775326" LoadType="0" Amount="" StudentAmount="7" UID_Lecturer="26115.281474976803256" delete="0"/>
-  <ContentOfLoad UID="26589.281474976775326" LoadType="0" Amount="" StudentAmount="7" UID_Lecturer="26115.281474976893938" delete="0"/>
-  <ContentOfLoad UID="26589.281474976789255" LoadType="1" Amount="16.00" StudentAmount="" UID_Lecturer="26115.281474976875167" delete="0"/>
-  <ContentOfLoad UID="26589.281474976789254" LoadType="1" Amount="8" StudentAmount="" UID_Lecturer="26115.281474976875167" delete="0"/>
-  <ContentOfLoad UID="26589.281474976789254" LoadType="1" Amount="8" StudentAmount="" UID_Lecturer="26115.281474976897753" delete="0"/>
-  <ContentOfLoad UID="26589.281474976773929" LoadType="1" Amount="32.00" StudentAmount="" UID_Lecturer="26115.281474976828009" delete="0"/>
-  <ContentOfLoad UID="26589.281474976773929" LoadType="1" Amount="32.00" StudentAmount="" UID_Lecturer="26115.281474976828009" delete="0"/>
-  <ContentOfLoad UID="26589.281474976798497" LoadType="1" Amount="32.00" StudentAmount="" UID_Lecturer="26115.281474976828009" delete="0"/>
-  <ContentOfLoad UID="26589.281474976798497" LoadType="1" Amount="32.00" StudentAmount="" UID_Lecturer="26115.281474976828009" delete="0"/>
+  <ContentOfLoad UID="26589.281474976744922" Clean="1"/>
+  <ContentOfLoad UID="26589.281474976744924" Clean="1"/>
+  <ContentOfLoad UID="26589.281474976744925" Clean="1"/>
+  <ContentOfLoad UID="26589.281474976744926" Clean="1"/>
+  <ContentOfLoad UID="26589.281474976745528" Clean="1"/>
+  <ContentOfLoad UID="26589.281474976745643" Clean="1"/>
+  <ContentOfLoad UID="26589.281474976746054" Clean="1"/>
+  <ContentOfLoad UID="26589.281474976746165" Clean="1"/>
+  <ContentOfLoad UID="26589.281474976747707" Clean="1"/>
+  <ContentOfLoad UID="26589.281474976755526" Clean="1"/>
+  <ContentOfLoad UID="26589.281474976755527" Clean="1"/>
+  <ContentOfLoad UID="26589.281474976763944" Clean="1"/>
+  <ContentOfLoad UID="26589.281474976763945" Clean="1"/>
+  <ContentOfLoad UID="26589.281474976763950" Clean="1"/>
+  <ContentOfLoad UID="26589.281474976764373" Clean="1"/>
+  <ContentOfLoad UID="26589.281474976764374" Clean="1"/>
+  <ContentOfLoad UID="26589.281474976764486" Clean="1"/>
+  <ContentOfLoad UID="26589.281474976764488" Clean="1"/>
+  <ContentOfLoad UID="26589.281474976764496" Clean="1"/>
+  <ContentOfLoad UID="26589.281474976773447" Clean="1"/>
+  <ContentOfLoad UID="26589.281474976773449" Clean="1"/>
+  <ContentOfLoad UID="26589.281474976773450" Clean="1"/>
+  <ContentOfLoad UID="26589.281474976773465" Clean="1"/>
+  <ContentOfLoad UID="26589.281474976773466" Clean="1"/>
+  <ContentOfLoad UID="26589.281474976773467" Clean="1"/>
+  <ContentOfLoad UID="26589.281474976773468" Clean="1"/>
+  <ContentOfLoad UID="26589.281474976773469" Clean="1"/>
+  <ContentOfLoad UID="26589.281474976773470" Clean="1"/>
+  <ContentOfLoad UID="26589.281474976773471" Clean="1"/>
+  <ContentOfLoad UID="26589.281474976773565" Clean="1"/>
+  <ContentOfLoad UID="26589.281474976773566" Clean="1"/>
+  <ContentOfLoad UID="26589.281474976773567" Clean="1"/>
+  <ContentOfLoad UID="26589.281474976773572" Clean="1"/>
+  <ContentOfLoad UID="26589.281474976773573" Clean="1"/>
+  <ContentOfLoad UID="26589.281474976773574" Clean="1"/>
+  <ContentOfLoad UID="26589.281474976773929" Clean="1"/>
+  <ContentOfLoad UID="26589.281474976774032" Clean="1"/>
+  <ContentOfLoad UID="26589.281474976774440" Clean="1"/>
+  <ContentOfLoad UID="26589.281474976774441" Clean="1"/>
+  <ContentOfLoad UID="26589.281474976774442" Clean="1"/>
+  <ContentOfLoad UID="26589.281474976774443" Clean="1"/>
+  <ContentOfLoad UID="26589.281474976774444" Clean="1"/>
+  <ContentOfLoad UID="26589.281474976775194" Clean="1"/>
+  <ContentOfLoad UID="26589.281474976775195" Clean="1"/>
+  <ContentOfLoad UID="26589.281474976775196" Clean="1"/>
+  <ContentOfLoad UID="26589.281474976775321" Clean="1"/>
+  <ContentOfLoad UID="26589.281474976775326" Clean="1"/>
+  <ContentOfLoad UID="26589.281474976775647" Clean="1"/>
+  <ContentOfLoad UID="26589.281474976776432" Clean="1"/>
+  <ContentOfLoad UID="26589.281474976776433" Clean="1"/>
+  <ContentOfLoad UID="26589.281474976776434" Clean="1"/>
+  <ContentOfLoad UID="26589.281474976776436" Clean="1"/>
+  <ContentOfLoad UID="26589.281474976776444" Clean="1"/>
+  <ContentOfLoad UID="26589.281474976776445" Clean="1"/>
+  <ContentOfLoad UID="26589.281474976776446" Clean="1"/>
+  <ContentOfLoad UID="26589.281474976776448" Clean="1"/>
+  <ContentOfLoad UID="26589.281474976784202" Clean="1"/>
+  <ContentOfLoad UID="26589.281474976784203" Clean="1"/>
+  <ContentOfLoad UID="26589.281474976784204" Clean="1"/>
+  <ContentOfLoad UID="26589.281474976784298" Clean="1"/>
+  <ContentOfLoad UID="26589.281474976784451" Clean="1"/>
+  <ContentOfLoad UID="26589.281474976784603" Clean="1"/>
+  <ContentOfLoad UID="26589.281474976785713" Clean="1"/>
+  <ContentOfLoad UID="26589.281474976786350" Clean="1"/>
+  <ContentOfLoad UID="26589.281474976787208" Clean="1"/>
+  <ContentOfLoad UID="26589.281474976788124" Clean="1"/>
+  <ContentOfLoad UID="26589.281474976788125" Clean="1"/>
+  <ContentOfLoad UID="26589.281474976788349" Clean="1"/>
+  <ContentOfLoad UID="26589.281474976788350" Clean="1"/>
+  <ContentOfLoad UID="26589.281474976788450" Clean="1"/>
+  <ContentOfLoad UID="26589.281474976789166" Clean="1"/>
+  <ContentOfLoad UID="26589.281474976789254" Clean="1"/>
+  <ContentOfLoad UID="26589.281474976789255" Clean="1"/>
+  <ContentOfLoad UID="26589.281474976791171" Clean="1"/>
+  <ContentOfLoad UID="26589.281474976791925" Clean="1"/>
+  <ContentOfLoad UID="26589.281474976791926" Clean="1"/>
+  <ContentOfLoad UID="26589.281474976791929" Clean="1"/>
+  <ContentOfLoad UID="26589.281474976791930" Clean="1"/>
+  <ContentOfLoad UID="26589.281474976798029" Clean="1"/>
+  <ContentOfLoad UID="26589.281474976798030" Clean="1"/>
+  <ContentOfLoad UID="26589.281474976798031" Clean="1"/>
+  <ContentOfLoad UID="26589.281474976798075" Clean="1"/>
+  <ContentOfLoad UID="26589.281474976798077" Clean="1"/>
+  <ContentOfLoad UID="26589.281474976798279" Clean="1"/>
+  <ContentOfLoad UID="26589.281474976798280" Clean="1"/>
+  <ContentOfLoad UID="26589.281474976798492" Clean="1"/>
+  <ContentOfLoad UID="26589.281474976798493" Clean="1"/>
+  <ContentOfLoad UID="26589.281474976798494" Clean="1"/>
+  <ContentOfLoad UID="26589.281474976798495" Clean="1"/>
+  <ContentOfLoad UID="26589.281474976798496" Clean="1"/>
+  <ContentOfLoad UID="26589.281474976798497" Clean="1"/>
+  <ContentOfLoad UID="26589.281474976799029" Clean="1"/>
+  <ContentOfLoad UID="26589.281474976799119" Clean="1"/>
+  <ContentOfLoad UID="26589.281474976799129" Clean="1"/>
+  <ContentOfLoad UID="26589.281474976799527" Clean="1"/>
+  <ContentOfLoad UID="26589.281474976799537" Clean="1"/>
+  <ContentOfLoad UID="26589.281474976799547" Clean="1"/>
+  <ContentOfLoad UID="26589.281474976802221" Clean="1"/>
+  <ContentOfLoad UID="26589.281474976802222" Clean="1"/>
+  <ContentOfLoad UID="26589.281474976802233" Clean="1"/>
+  <ContentOfLoad UID="26589.281474976803754" Clean="1"/>
+  <ContentOfLoad UID="26589.281474976744922" LoadType="1" Amount="32.00" StudentAmount="" UID_Lecturer="26115.281474976855680"/>
+  <ContentOfLoad UID="26589.281474976744924" LoadType="1" Amount="32.00" StudentAmount="" UID_Lecturer="26115.281474976855718"/>
+  <ContentOfLoad UID="26589.281474976744925" LoadType="1" Amount="16.00" StudentAmount="" UID_Lecturer="26115.281474976893938"/>
+  <ContentOfLoad UID="26589.281474976744926" LoadType="1" Amount="16.00" StudentAmount="" UID_Lecturer="26115.281474976893938"/>
+  <ContentOfLoad UID="26589.281474976745528" LoadType="0" Amount="" StudentAmount="1" UID_Lecturer="26115.281474976793818"/>
+  <ContentOfLoad UID="26589.281474976745643" LoadType="0" Amount="" StudentAmount="4" UID_Lecturer="26115.281474976793818"/>
+  <ContentOfLoad UID="26589.281474976746054" LoadType="0" Amount="" StudentAmount="2" UID_Lecturer="26115.281474976793818"/>
+  <ContentOfLoad UID="26589.281474976746165" LoadType="0" Amount="" StudentAmount="1" UID_Lecturer="26115.281474976793818"/>
+  <ContentOfLoad UID="26589.281474976747707" LoadType="0" Amount="" StudentAmount="10" UID_Lecturer="26115.281474976915891"/>
+  <ContentOfLoad UID="26589.281474976747707" LoadType="0" Amount="" StudentAmount="10" UID_Lecturer="26115.281474976795127"/>
+  <ContentOfLoad UID="26589.281474976747707" LoadType="0" Amount="" StudentAmount="10" UID_Lecturer="26115.281474976795170"/>
+  <ContentOfLoad UID="26589.281474976755526" LoadType="1" Amount="16.00" StudentAmount="" UID_Lecturer="26115.281474976794155"/>
+  <ContentOfLoad UID="26589.281474976755527" LoadType="0" Amount="" StudentAmount="29" UID_Lecturer="26115.281474976794155"/>
+  <ContentOfLoad UID="26589.281474976763944" LoadType="1" Amount="8" StudentAmount="" UID_Lecturer="26115.281474976851186"/>
+  <ContentOfLoad UID="26589.281474976763944" LoadType="1" Amount="8" StudentAmount="" UID_Lecturer="26115.281474976915899"/>
+  <ContentOfLoad UID="26589.281474976763945" LoadType="1" Amount="20" StudentAmount="" UID_Lecturer="26115.281474976897943"/>
+  <ContentOfLoad UID="26589.281474976763945" LoadType="1" Amount="12" StudentAmount="" UID_Lecturer="26115.281474976866589"/>
+  <ContentOfLoad UID="26589.281474976763950" LoadType="0" Amount="" StudentAmount="12" UID_Lecturer="26115.281474976915899"/>
+  <ContentOfLoad UID="26589.281474976763950" LoadType="0" Amount="" StudentAmount="8" UID_Lecturer="26115.281474976893938"/>
+  <ContentOfLoad UID="26589.281474976764373" LoadType="0" Amount="" StudentAmount="26" UID_Lecturer="26115.281474976893938"/>
+  <ContentOfLoad UID="26589.281474976764374" LoadType="0" Amount="" StudentAmount="29" UID_Lecturer="26115.281474976915899"/>
+  <ContentOfLoad UID="26589.281474976764486" LoadType="1" Amount="32.00" StudentAmount="" UID_Lecturer="26115.281474976793822"/>
+  <ContentOfLoad UID="26589.281474976764488" LoadType="0" Amount="" StudentAmount="30" UID_Lecturer="26115.281474976793822"/>
+  <ContentOfLoad UID="26589.281474976764496" LoadType="0" Amount="" StudentAmount="30" UID_Lecturer="26115.281474976894852"/>
+  <ContentOfLoad UID="26589.281474976773447" LoadType="1" Amount="16" StudentAmount="" UID_Lecturer="26115.281474976809351"/>
+  <ContentOfLoad UID="26589.281474976773449" LoadType="0" Amount="" StudentAmount="0" UID_Lecturer="26115.281474976809351"/>
+  <ContentOfLoad UID="26589.281474976773450" LoadType="1" Amount="2.00" StudentAmount="" UID_Lecturer="26115.281474976809351"/>
+  <ContentOfLoad UID="26589.281474976773465" LoadType="1" Amount="4" StudentAmount="" UID_Lecturer="26115.281474976905846"/>
+  <ContentOfLoad UID="26589.281474976773465" LoadType="1" Amount="5" StudentAmount="" UID_Lecturer="26115.281474976913969"/>
+  <ContentOfLoad UID="26589.281474976773465" LoadType="1" Amount="7" StudentAmount="" UID_Lecturer="26115.281474976914016"/>
+  <ContentOfLoad UID="26589.281474976773466" LoadType="1" Amount="16.00" StudentAmount="" UID_Lecturer="26115.281474976905846"/>
+  <ContentOfLoad UID="26589.281474976773467" LoadType="0" Amount="" StudentAmount="20" UID_Lecturer="26115.281474976879212"/>
+  <ContentOfLoad UID="26589.281474976773468" LoadType="1" Amount="16.00" StudentAmount="" UID_Lecturer="26115.281474976879212"/>
+  <ContentOfLoad UID="26589.281474976773469" LoadType="1" Amount="32.00" StudentAmount="" UID_Lecturer="26115.281474976879212"/>
+  <ContentOfLoad UID="26589.281474976773470" LoadType="0" Amount="" StudentAmount="20" UID_Lecturer="26115.281474976879212"/>
+  <ContentOfLoad UID="26589.281474976773471" LoadType="1" Amount="2.00" StudentAmount="" UID_Lecturer="26115.281474976879212"/>
+  <ContentOfLoad UID="26589.281474976773565" LoadType="1" Amount="16.00" StudentAmount="" UID_Lecturer="26115.281474976894869"/>
+  <ContentOfLoad UID="26589.281474976773566" LoadType="1" Amount="32.00" StudentAmount="" UID_Lecturer="26115.281474976894869"/>
+  <ContentOfLoad UID="26589.281474976773567" LoadType="1" Amount="32.00" StudentAmount="" UID_Lecturer="26115.281474976894869"/>
+  <ContentOfLoad UID="26589.281474976773573" LoadType="0" Amount="" StudentAmount="8" UID_Lecturer="26115.281474976894869"/>
+  <ContentOfLoad UID="26589.281474976773574" LoadType="0" Amount="" StudentAmount="7" UID_Lecturer="26115.281474976894869"/>
+  <ContentOfLoad UID="26589.281474976773929" LoadType="1" Amount="16" StudentAmount="" UID_Lecturer="26115.281474976866589"/>
+  <ContentOfLoad UID="26589.281474976773929" LoadType="1" Amount="16" StudentAmount="" UID_Lecturer="26115.281474976866589"/>
+  <ContentOfLoad UID="26589.281474976773929" LoadType="1" Amount="16" StudentAmount="" UID_Lecturer="26115.281474976897943"/>
+  <ContentOfLoad UID="26589.281474976773929" LoadType="1" Amount="16" StudentAmount="" UID_Lecturer="26115.281474976897943"/>
+  <ContentOfLoad UID="26589.281474976774032" LoadType="1" Amount="84.00" StudentAmount="" UID_Lecturer="26115.281474976894869"/>
+  <ContentOfLoad UID="26589.281474976774440" LoadType="1" Amount="10" StudentAmount="" UID_Lecturer="26115.281474976915854"/>
+  <ContentOfLoad UID="26589.281474976774440" LoadType="1" Amount="4" StudentAmount="" UID_Lecturer="26115.281474976862936"/>
+  <ContentOfLoad UID="26589.281474976774441" LoadType="1" Amount="42.00" StudentAmount="" UID_Lecturer="26115.281474976893938"/>
+  <ContentOfLoad UID="26589.281474976774442" LoadType="1" Amount="42.00" StudentAmount="" UID_Lecturer="26115.281474976893938"/>
+  <ContentOfLoad UID="26589.281474976774443" LoadType="1" Amount="42.00" StudentAmount="" UID_Lecturer="26115.281474976893938"/>
+  <ContentOfLoad UID="26589.281474976774444" LoadType="1" Amount="42.00" StudentAmount="" UID_Lecturer="26115.281474976915854"/>
+  <ContentOfLoad UID="26589.281474976775194" LoadType="1" Amount="4.00" StudentAmount="" UID_Lecturer="26115.281474976879212"/>
+  <ContentOfLoad UID="26589.281474976775195" LoadType="1" Amount="4.00" StudentAmount="" UID_Lecturer="26115.281474976879212"/>
+  <ContentOfLoad UID="26589.281474976775196" LoadType="0" Amount="" StudentAmount="19" UID_Lecturer="26115.281474976879212"/>
+  <ContentOfLoad UID="26589.281474976775321" LoadType="1" Amount="16.00" StudentAmount="" UID_Lecturer="26115.281474976795707"/>
+  <ContentOfLoad UID="26589.281474976775326" LoadType="0" Amount="" StudentAmount="7" UID_Lecturer="26115.281474976803256"/>
+  <ContentOfLoad UID="26589.281474976775326" LoadType="0" Amount="" StudentAmount="7" UID_Lecturer="26115.281474976893938"/>
+  <ContentOfLoad UID="26589.281474976775647" LoadType="1" Amount="16.00" StudentAmount="" UID_Lecturer="26115.281474976827276"/>
+  <ContentOfLoad UID="26589.281474976776432" LoadType="1" Amount="2.00" StudentAmount="" UID_Lecturer="26115.281474976805015"/>
+  <ContentOfLoad UID="26589.281474976776433" LoadType="1" Amount="6.00" StudentAmount="" UID_Lecturer="26115.281474976805015"/>
+  <ContentOfLoad UID="26589.281474976776434" LoadType="0" Amount="" StudentAmount="30" UID_Lecturer="26115.281474976805015"/>
+  <ContentOfLoad UID="26589.281474976776436" LoadType="1" Amount="2.00" StudentAmount="" UID_Lecturer="26115.281474976805015"/>
+  <ContentOfLoad UID="26589.281474976776444" LoadType="1" Amount="2.00" StudentAmount="" UID_Lecturer="26115.281474976805015"/>
+  <ContentOfLoad UID="26589.281474976776445" LoadType="1" Amount="6.00" StudentAmount="" UID_Lecturer="26115.281474976805015"/>
+  <ContentOfLoad UID="26589.281474976776446" LoadType="0" Amount="" StudentAmount="30" UID_Lecturer="26115.281474976805015"/>
+  <ContentOfLoad UID="26589.281474976784202" LoadType="1" Amount="16.00" StudentAmount="" UID_Lecturer="26115.281474976805015"/>
+  <ContentOfLoad UID="26589.281474976784203" LoadType="1" Amount="32.00" StudentAmount="" UID_Lecturer="26115.281474976805015"/>
+  <ContentOfLoad UID="26589.281474976784204" LoadType="0" Amount="" StudentAmount="18" UID_Lecturer="26115.281474976805015"/>
+  <ContentOfLoad UID="26589.281474976784298" LoadType="1" Amount="4.00" StudentAmount="" UID_Lecturer="26115.281474976870143"/>
+  <ContentOfLoad UID="26589.281474976784451" LoadType="1" Amount="16.00" StudentAmount="" UID_Lecturer="26115.281474976823974"/>
+  <ContentOfLoad UID="26589.281474976784603" LoadType="1" Amount="16.00" StudentAmount="" UID_Lecturer="26115.281474976894992"/>
+  <ContentOfLoad UID="26589.281474976785713" LoadType="1" Amount="16.00" StudentAmount="" UID_Lecturer="26115.281474976794237"/>
+  <ContentOfLoad UID="26589.281474976786350" LoadType="1" Amount="32.00" StudentAmount="" UID_Lecturer="26115.281474976915896"/>
+  <ContentOfLoad UID="26589.281474976786350" LoadType="1" Amount="32.00" StudentAmount="" UID_Lecturer="26115.281474976915896"/>
+  <ContentOfLoad UID="26589.281474976788124" LoadType="1" Amount="42.00" StudentAmount="" UID_Lecturer="26115.281474976870093"/>
+  <ContentOfLoad UID="26589.281474976788125" LoadType="1" Amount="28.00" StudentAmount="" UID_Lecturer="26115.281474976915124"/>
+  <ContentOfLoad UID="26589.281474976788349" LoadType="1" Amount="16.00" StudentAmount="" UID_Lecturer="26115.281474976865148"/>
+  <ContentOfLoad UID="26589.281474976788350" LoadType="1" Amount="16.00" StudentAmount="" UID_Lecturer="26115.281474976865148"/>
+  <ContentOfLoad UID="26589.281474976788450" LoadType="0" Amount="" StudentAmount="30" UID_Lecturer="26115.281474976809351"/>
+  <ContentOfLoad UID="26589.281474976788450" LoadType="0" Amount="" StudentAmount="35" UID_Lecturer="26115.281474976805015"/>
+  <ContentOfLoad UID="26589.281474976788450" LoadType="0" Amount="" StudentAmount="0" UID_Lecturer="26115.281474976854934"/>
+  <ContentOfLoad UID="26589.281474976789166" LoadType="1" Amount="42.00" StudentAmount="" UID_Lecturer="26115.281474976793608"/>
+  <ContentOfLoad UID="26589.281474976789254" LoadType="1" Amount="8" StudentAmount="" UID_Lecturer="26115.281474976875167"/>
+  <ContentOfLoad UID="26589.281474976789254" LoadType="1" Amount="8" StudentAmount="" UID_Lecturer="26115.281474976897753"/>
+  <ContentOfLoad UID="26589.281474976789255" LoadType="1" Amount="16.00" StudentAmount="" UID_Lecturer="26115.281474976875167"/>
+  <ContentOfLoad UID="26589.281474976791925" LoadType="1" Amount="32.00" StudentAmount="" UID_Lecturer="26115.281474976793822"/>
+  <ContentOfLoad UID="26589.281474976791926" LoadType="0" Amount="" StudentAmount="30" UID_Lecturer="26115.281474976793822"/>
+  <ContentOfLoad UID="26589.281474976791929" LoadType="1" Amount="32.00" StudentAmount="" UID_Lecturer="26115.281474976894852"/>
+  <ContentOfLoad UID="26589.281474976791930" LoadType="0" Amount="" StudentAmount="30" UID_Lecturer="26115.281474976894852"/>
+  <ContentOfLoad UID="26589.281474976798029" LoadType="1" Amount="4.00" StudentAmount="" UID_Lecturer="26115.281474976809351"/>
+  <ContentOfLoad UID="26589.281474976798030" LoadType="1" Amount="8" StudentAmount="" UID_Lecturer="26115.281474976854934"/>
+  <ContentOfLoad UID="26589.281474976798030" LoadType="1" Amount="4" StudentAmount="" UID_Lecturer="26115.281474976809351"/>
+  <ContentOfLoad UID="26589.281474976798077" LoadType="0" Amount="" StudentAmount="11" UID_Lecturer="26115.281474976854934"/>
+  <ContentOfLoad UID="26589.281474976798279" LoadType="0" Amount="" StudentAmount="1" UID_Lecturer="26115.281474976809351"/>
+  <ContentOfLoad UID="26589.281474976798279" LoadType="0" Amount="" StudentAmount="8" UID_Lecturer="26115.281474976879212"/>
+  <ContentOfLoad UID="26589.281474976798279" LoadType="0" Amount="" StudentAmount="6" UID_Lecturer="26115.281474976854934"/>
+  <ContentOfLoad UID="26589.281474976798280" LoadType="0" Amount="" StudentAmount="19" UID_Lecturer="26115.281474976809351"/>
+  <ContentOfLoad UID="26589.281474976798492" LoadType="1" Amount="10" StudentAmount="" UID_Lecturer="26115.281474976805015"/>
+  <ContentOfLoad UID="26589.281474976798492" LoadType="1" Amount="6" StudentAmount="" UID_Lecturer="26115.281474976854934"/>
+  <ContentOfLoad UID="26589.281474976798493" LoadType="0" Amount="" StudentAmount="5" UID_Lecturer="26115.281474976879212"/>
+  <ContentOfLoad UID="26589.281474976798493" LoadType="0" Amount="" StudentAmount="4" UID_Lecturer="26115.281474976805015"/>
+  <ContentOfLoad UID="26589.281474976798493" LoadType="0" Amount="" StudentAmount="3" UID_Lecturer="26115.281474976897753"/>
+  <ContentOfLoad UID="26589.281474976798494" LoadType="1" Amount="32.00" StudentAmount="" UID_Lecturer="26115.281474976805015"/>
+  <ContentOfLoad UID="26589.281474976798495" LoadType="0" Amount="" StudentAmount="1" UID_Lecturer="26115.281474976854934"/>
+  <ContentOfLoad UID="26589.281474976798495" LoadType="0" Amount="" StudentAmount="5" UID_Lecturer="26115.281474976805015"/>
+  <ContentOfLoad UID="26589.281474976798495" LoadType="0" Amount="" StudentAmount="4" UID_Lecturer="26115.281474976809351"/>
+  <ContentOfLoad UID="26589.281474976798495" LoadType="0" Amount="" StudentAmount="2" UID_Lecturer="26115.281474976879212"/>
+  <ContentOfLoad UID="26589.281474976798496" LoadType="1" Amount="48.00" StudentAmount="" UID_Lecturer="26115.281474976854934"/>
+  <ContentOfLoad UID="26589.281474976798497" LoadType="1" Amount="32.00" StudentAmount="" UID_Lecturer="26115.281474976828009"/>
+  <ContentOfLoad UID="26589.281474976798497" LoadType="1" Amount="32.00" StudentAmount="" UID_Lecturer="26115.281474976828009"/>
+  <ContentOfLoad UID="26589.281474976799119" LoadType="1" Amount="32.00" StudentAmount="" UID_Lecturer="26115.281474976803256"/>
+  <ContentOfLoad UID="26589.281474976799129" LoadType="0" Amount="" StudentAmount="16" UID_Lecturer="26115.281474976803256"/>
+  <ContentOfLoad UID="26589.281474976799527" LoadType="0" Amount="" StudentAmount="4" UID_Lecturer="26115.281474976793608"/>
+  <ContentOfLoad UID="26589.281474976799527" LoadType="0" Amount="" StudentAmount="8" UID_Lecturer="26115.281474976879293"/>
+  <ContentOfLoad UID="26589.281474976802221" LoadType="1" Amount="32.00" StudentAmount="" UID_Lecturer="26115.281474976793608"/>
+  <ContentOfLoad UID="26589.281474976802222" LoadType="1" Amount="16" StudentAmount="" UID_Lecturer="26115.281474976795353"/>
+  <ContentOfLoad UID="26589.281474976802222" LoadType="1" Amount="16" StudentAmount="" UID_Lecturer="26115.281474976794559"/>
+  <ContentOfLoad UID="26589.281474976802233" LoadType="0" Amount="" StudentAmount="6" UID_Lecturer="26115.281474976795353"/>
+  <ContentOfLoad UID="26589.281474976802233" LoadType="0" Amount="" StudentAmount="6" UID_Lecturer="26115.281474976794559"/>
+  <ContentOfLoad UID="26589.281474976803754" LoadType="0" Amount="" StudentAmount="0" UID_Lecturer="26115.281474976805015"/>
+  <ContentOfLoad UID="26589.281474976803883" LoadType="" Amount="1" StudentAmount="" UID_Lecturer="26115.281474976866589"/>
 </ContentOfLoads>

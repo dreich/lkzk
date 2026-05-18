@@ -6,6 +6,7 @@ session_start();
 $c_access = $_SESSION['c_access'];
 $c_login = $_SESSION['c_login'];
 $c_fio = $_SESSION['c_fio'];
+$c_person_id = $_SESSION['c_person_id'];
 
 $_c_roles = ExplodePalki($_SESSION['c_roles']);
 $c_roles = [];
@@ -50,6 +51,8 @@ const $_nagruzka_types =
 
 const c_login = '<?=$c_login?>';
 const c_fio = '<?=$c_fio?>';
+const c_person_id = '<?=$c_person_id?>';
+CL(c_person_id);
 // роли авторизованного
 const c_roles = {<?=ArrayToJS($c_roles)?>};
 // справочник ролей
@@ -442,7 +445,7 @@ function UpdateNagruzkaStat($http, scope, nagr_type, chair_id, lecturer_uid, onl
 
         if (!only_stat)
         {
-          if (nagr_type == 'ksro')
+          if (nagr_type == 'ksro' && scope.system_mode == 'mode_filling')
           {
             scope.ksro = response.data.nagruzka;
           }
@@ -960,6 +963,17 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
         }
       }
     })
+    .when('/export_to_galaktika',
+    {
+      templateUrl: 'export_to_galaktika.tpl.html?' + getRandom(10000, 99999),
+      controller: 'ExportToGalaktikaCtrl',
+      resolve:
+      {
+        page: function($q) {
+          return $q.when('export_to_galaktika');
+        }
+      }
+    })
     .when('/sotrudniki',
     {
       templateUrl: 'sotrudniki.tpl.html?' + getRandom(10000, 99999),
@@ -1220,6 +1234,12 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
   $rootScope.page = page;
 })
 
+.controller ('ExportToGalaktikaCtrl', function($rootScope, $scope, page)
+{
+  CL('ExportToGalaktiakCtrl');
+  $rootScope.page = page;
+})
+
 .controller ('IndexCtrl', function($scope, $rootScope)
 {
   $rootScope.page = 'index';
@@ -1247,7 +1267,16 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
   // CL(nagruzka_type);
   // CL(nagruzka_selected_chair_id);
 
-  if (nagruzka_type == 'ksro')
+  $rootScope.page = 'nagruzka';
+  $scope.system_mode = system_mode.data.mode; 
+  $scope.isLoading = true;
+
+  if ($scope.system_mode === 'export_to_galaktika') 
+  {
+    return;
+  }
+
+  if (nagruzka_type == 'ksro' && $scope.system_mode == 'mode_filling')
   {
     var path = "/#/ksro";
 
@@ -1262,8 +1291,8 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
   $scope.nagruzka_selected_chair_id = nagruzka_selected_chair_id;
   $scope.nagruzka_selected_lecturer_uid = lecturer_uid; // Store the lecturer_uid from the route
   // CL(lecturer_uid);
-  $scope.system_mode = system_mode.data.mode; 
-  $rootScope.page = 'nagruzka';
+  
+  
 
   $scope.$_forms_obuchenia = $_forms_obuchenia;
   $scope.$_nagruzka_types = $_nagruzka_types;
@@ -1291,6 +1320,13 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
   if (c_roles.zavkaf)
   {
     $scope._chairs_ids = [c_chair_id];
+
+    if (!isEmpty($scope.nagruzka_selected_chair_id) && !$scope._chairs_ids.includes($scope.nagruzka_selected_chair_id))
+    {
+      // CL('HERE');
+      // CL($scope._nagruzka_type);
+      window.location = `/#/nagruzka/${$scope._nagruzka_type}/${$scope._chairs_ids[0]}`;
+    }
   }
   else if (c_roles.uoup)
   {
@@ -1307,7 +1343,11 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
 
   // $scope.nagruzka_readonly = c_roles.zavkaf && (!isEmpty(nagruzka_selected_chair_id) || $scope.system_mode === 'mode_verification') ||  $scope.system_mode === 'mode_archive'; 
   // CL(c_roles);
-  $scope.nagruzka_readonly = c_roles.sotrudnik || c_roles.uoup || $scope.system_mode != 'mode_filling'; // $scope.system_mode ===  'mode_verification' || $scope.system_mode === 'mode_archive'; 
+
+  // $scope.nagruzka_readonly = c_roles.sotrudnik || c_roles.uoup || ($scope.system_mode != 'mode_filling' && $scope.system_mode != 'mode_verification'); 
+
+
+  // $scope.system_mode ===  'mode_verification' || $scope.system_mode === 'mode_archive'; 
 
   // CL($scope.nagruzka_readonly);
 
@@ -1610,7 +1650,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
         // Скрываем индикатор когда загрузка завершена
         CL("initComplete");
         $scope.$apply(function() {
-            $scope.isLoading = false;
+            // $scope.isLoading = false;
         });
 
         // Добавляем создание фильтров
@@ -2178,7 +2218,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
     // проставим выбор отфильтрованных строк нагрузки
     var filtered_nagruzka_rows = filtered_rows_indexes.map(function(i) 
     {
-      if ($scope.IsNagruzkaEditable($scope.nagruzka[i]))
+      if ($scope.MaySelectNagruzka($scope.nagruzka[i]))
       {
         $scope.nagruzka[i].selected = true;
       }
@@ -2230,6 +2270,17 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
             input.focus();
         }
       }, 200); // Небольшая задержка для рендеринга
+    }
+    else
+    {
+      $timeout(function() {
+        // Находим input по id и устанавливаем фокус
+        const input_id = 'group_action_comment';
+        const input = document.getElementById(input_id);
+        if (input) {
+            input.focus();
+        }
+      }, 200);
     }
 
   }
@@ -2876,10 +2927,12 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
                       $scope.NagruzkaCtrlUpdateNagruzkaStat($scope._nagruzka_type, chair_id, lecturer_uid, true);
                     } 
 
+                    toastr.success("Данные сохранены");
+
                   }
                   else
                   {
-                    // toastr.error("Ошибка");
+                    toastr.error("Ошибка");
                   }
                 });
 
@@ -2934,20 +2987,49 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
                 });
   }
 
-
-  $scope.IsNagruzkaEditable = function(nagruzka_row)
+  $scope.MaySelectNagruzka = function(nagruzka_row)
   {
-    const editable = c_roles.zavkaf &&  !['refused', 'require_admin_change', 'done_change'].includes(nagruzka_row.status) 
+    // return true;
+    
+    // CL(!isEmpty(nagruzka_row));
+
+    return c_roles.zavkaf && ($scope.system_mode == 'mode_filling' || $scope.system_mode == 'mode_verification')
+    && (!isEmpty(nagruzka_row) && !['refused', 'require_admin_change', 'done_change'].includes(nagruzka_row.status) || nagruzka_row == undefined)
+    // УОУП может только разбивать нагрузку
+    || c_roles.uoup && $scope.system_mode == 'mode_verification' && !['ksro', 'aspirantura'].includes($scope._nagruzka_type) ;
+  }
+
+/*
+  $scope.IsNagruzkaRowEditable = function(nagruzka_row)
+  {
+    const editable = $scope.system_mode == 'mode_filling' && c_roles.zavkaf && !['refused', 'require_admin_change', 'done_change'].includes(nagruzka_row.status) 
     && !isEmpty(nagruzka_row.lectors) && (nagruzka_row.lectors[0].zs || isEmpty(nagruzka_row.lectors[0].lecturer_fio)) ;
  
     // CL(nagruzka_row.status);
     // CL(editable);
     return editable;
   }
-
+*/
+  
   $scope.NagruzkaMayAssignLector = function(nagruzka_row, lector)
   {
-    return (lector.zs || isEmpty(lector.lecturer_fio)) && $scope.IsNagruzkaEditable(nagruzka_row)
+    // return true;
+
+    // CL((lector == undefined || lector.zs || isEmpty(lector.lecturer_fio)) && $scope.system_mode == 'mode_filling' && c_roles.zavkaf && !['refused', 'require_admin_change', 'done_change'].includes(nagruzka_row.status) 
+    // && !isEmpty(nagruzka_row.lectors) && (nagruzka_row.lectors[0].zs || isEmpty(nagruzka_row.lectors[0].lecturer_fio)));
+
+     // (lector.zs || isEmpty(lector.lecturer_fio)) // && $scope.IsNagruzkaRowEditable(nagruzka_row)
+    // && 
+    return (lector == undefined || lector.zs || isEmpty(lector.lecturer_fio)) && $scope.system_mode == 'mode_filling' && c_roles.zavkaf && !['refused', 'require_admin_change', 'done_change'].includes(nagruzka_row.status) 
+    && !isEmpty(nagruzka_row.lectors) && (nagruzka_row.lectors[0].zs || isEmpty(nagruzka_row.lectors[0].lecturer_fio))
+    || $scope.system_mode == 'mode_verification' && c_roles.uoup && !['ksro', 'aspirantura'].includes($scope._nagruzka_type);
+  }
+
+
+  $scope.IsGroupActionAllowed = function(group_action)
+  {
+    return c_roles.zavkaf && ($scope.system_mode == 'mode_filling' || $scope.system_mode == 'mode_verification' && group_action == 'require_admin_change')
+    || c_roles.uoup && $scope.system_mode == 'mode_verification' && ['assign_to_several_sotrudniki', 'assign_to_sotrudnik', 'assign_to_vacancy'].includes(group_action);
   }
 
   // $scope.ShowNagruzkaZavkafTypeRow = function(type)
@@ -2977,13 +3059,21 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
 {
   CL('UOUPNagruzkaCtrl');
 
+  $rootScope.page = page;
+  $scope.system_mode = system_mode.data.mode; 
+
+  if ($scope.system_mode === 'export_to_galaktika') 
+  {
+    return;
+  }
+
   $templateCache.put('confirm_delete', '<p>Вы уверены, что хотите удалить?</p>\
               <div class="ngdialog-buttons">\
                   <button type="button" class="ngdialog-button ngdialog-button-secondary" ng-click="closeThisDialog(0)">Нет</button>\
                   <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="confirm(1)">Да</button>\
               </div>');
 
-  $rootScope.page = page;
+  
   $scope.$_forms_obuchenia = $_forms_obuchenia;
   $scope.chairs_sprav = chairs_sprav.data;
   $scope.system_mode = system_mode.data.mode; 
@@ -3142,25 +3232,28 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
     CL('UpdateUOUPNagruzkaStat');
     // CL(chair_id);
 
-    var script;
+    var script, url;
 
     if (nagr_type == 'ksro')
     {
       if ($scope.system_mode == 'mode_filling')
       {
         script = 'ksro';
+        url = `ajax/get/ksro.php?type=${nagr_type}&only_stat=1`;
       }
       else
       {
         script = 'nagruzka';
+        url = `ajax/get/nagruzka/?type=${nagr_type}&only_stat=1`;
       }
     }
     else
     {
       script = 'nagruzka';
+      url = `ajax/get/nagruzka/?type=${nagr_type}&only_stat=1`;
     }
 
-    var url = `ajax/get/${script}.php?type=${nagr_type}&only_stat=1`;
+    
 
     // var url = `ajax/get/nagruzka.php?type=${nagr_type}&only_stat=1`;
 
@@ -3215,15 +3308,22 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
   
 })
 
-.controller ('SystemModeCtrl', function($rootScope, $scope, page, system_mode, $http) 
+.controller ('SystemModeCtrl', function($rootScope, $scope, page, system_mode, $http, ngDialog, $templateCache) 
 {
   CL('SystemModeCtrl');
   
   $rootScope.page = page;
   
-  // Placeholder for future functionality
+  // Шаблон подтверждения перехода в режим выверки
+  $templateCache.put('confirm_export_to_galaktika', '<p>Переход в режим выверки, данные будут выгружены в Галактику при следующей синхронизации. Переход в режим выверки должен происходить только один раз в год. Вы уверены?</p>\
+              <div class="ngdialog-buttons">\
+                  <button type="button" class="ngdialog-button ngdialog-button-secondary" ng-click="closeThisDialog(0)">Нет</button>\
+                  <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="confirm(1)">Да</button>\
+              </div>');
+  
   $scope.systemModes = $_system_modes; 
   $scope.currentMode = system_mode.data.mode; 
+  $scope.previousMode = system_mode.data.mode; // Храним предыдущий режим
 
   CL($scope.currentMode);
 
@@ -3233,11 +3333,44 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
     CL('SaveSystemMode');
     CL($scope.currentMode);
 
-    $http.post('ajax/post/save_system_mode.php', {mode: $scope.currentMode}) 
-      .then(function(response)
+    // Если выбран режим Выверка - показываем confirm
+    if ($scope.currentMode === 'mode_verification')
+    {
+      ngDialog.openConfirm({
+        template: 'confirm_export_to_galaktika',
+        className: 'ngdialog-theme-default',
+        disableAnimation: true
+      }).then(function()
       {
-        toastr.success('Режим работы сохранен');
+        // Пользователь подтвердил - сохраняем режим Выгрузка данных в Галактику
+        CL('Сохраняем режим: export_to_galaktika');
+        $scope.currentMode = 'export_to_galaktika';
+        $scope.previousMode = 'export_to_galaktika';
+        
+        $http.post('ajax/post/save_system_mode.php', {mode: 'export_to_galaktika'}) 
+          .then(function(response)
+          {
+            toastr.success('Режим работы сохранен');
+          });
+      }, function()
+      {
+        // Пользователь отменил - возвращаем предыдущий режим
+        CL('Отмена, возвращаем режим: ' + $scope.previousMode);
+        $scope.currentMode = $scope.previousMode;
       });
+    }
+    else
+    {
+      // Обычное сохранение для других режимов
+      $scope.previousMode = $scope.currentMode;
+      
+      $http.post('ajax/post/save_system_mode.php', {mode: $scope.currentMode}) 
+        .then(function(response)
+        {
+          toastr.success('Режим работы сохранен');
+          $scope.previousMode = $scope.currentMode;
+        });
+    }
   }
 })
 
@@ -3246,13 +3379,22 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
 {
   CL('UOUPChairsRefusedCtrl');
 
+  $rootScope.page = 'uoup_chairs_refused';
+  $scope.system_mode = system_mode.data.mode; 
+
+  if ($scope.system_mode === 'export_to_galaktika') 
+  {
+    CL("Режим работы Выгрузка в Галактику, поэтому пусто");
+    return;
+  }
+
   $templateCache.put('confirm_delete', '<p>Вы уверены, что хотите удалить?</p>\
               <div class="ngdialog-buttons">\
                   <button type="button" class="ngdialog-button ngdialog-button-secondary" ng-click="closeThisDialog(0)">Нет</button>\
                   <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="confirm(1)">Да</button>\
               </div>');
 
-  $rootScope.page = 'uoup_chairs_refused';
+  
   // $scope.$_forms_obuchenia = $_forms_obuchenia;
   $scope.system_mode = system_mode.data.mode; 
   // CL($scope.system_mode); 
@@ -3784,13 +3926,21 @@ $scope.toggleAdminChangeChair = function(chair) {
 {
   CL('UOUPNagruzkaToChangeCtrl');
 
+  $rootScope.page = 'uoup_nagruzka_to_change';
+  $scope.system_mode = system_mode.data.mode; 
+
+  if ($scope.system_mode === 'export_to_galaktika') 
+  {
+    CL("Режим работы Выгрузка в Галактику, поэтому пусто");
+    return;
+  }
+
   $templateCache.put('confirm_delete', '<p>Вы уверены, что хотите удалить?</p>\
               <div class="ngdialog-buttons">\
                   <button type="button" class="ngdialog-button ngdialog-button-secondary" ng-click="closeThisDialog(0)">Нет</button>\
                   <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="confirm(1)">Да</button>\
               </div>');
-
-  $rootScope.page = 'uoup_nagruzka_to_change';
+  
   // $scope.$_forms_obuchenia = $_forms_obuchenia;
   $scope.system_mode = system_mode.data.mode; 
 
@@ -4307,6 +4457,8 @@ $scope.toggleAdminChangeChair = function(chair) {
   $scope.sotrudniki = [];
   $scope.chairs = [];
 
+  $scope.data = {};
+
   $scope.dtOptions = DTOptionsBuilder
     .newOptions()
     .withPaginationType('full_numbers')
@@ -4426,7 +4578,8 @@ $scope.toggleAdminChangeChair = function(chair) {
 
   $http({url: 'ajax/get/chair_sotrudniki.php', method: 'GET'}).then(function(response)
   {
-    $scope.sotrudniki = response.data;
+    $scope.sotrudniki = response.data.sotrudniki;
+    $scope.data.sotrudnik_chair_nagruzka_visibility = response.data.sotrudnik_chair_nagruzka_visibility;
   });
 
   $scope.saveSotrudnik = function(sotrudnik)
@@ -4467,6 +4620,23 @@ $scope.toggleAdminChangeChair = function(chair) {
                 if (data.data.result == 'success')
                 {
                   // deleteByColumn($scope.admins_uoup, 'login', admin.login);
+                  toastr.success("Данные сохранены");
+                }
+                else
+                {
+                  toastr.error("Ошибка");
+                }
+              });
+  }
+
+
+  $scope.SaveSotrudnikNagruzkaVisibility = function()
+  {
+    $http({url: 'ajax/post/save_sotrudnik_chair_nagruzka_visibility.php', method: 'POST', data: {visible: $scope.data.sotrudnik_chair_nagruzka_visibility}})
+              .then(function(data)
+              {
+                if (data.data.result == 'success')
+                {
                   toastr.success("Данные сохранены");
                 }
                 else

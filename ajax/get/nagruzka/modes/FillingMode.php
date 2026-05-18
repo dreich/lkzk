@@ -11,8 +11,11 @@ class FillingMode extends BaseNagruzkaProvider
 {
     public function canView()
     {
+        // EchoLog($this->session['c_chair_id']);
         // Завкаф видит свою кафедру, УОУП видит все, сотрудник видит только если есть lecturer_uid
-        if ($this->userRole === 'zavkaf') {
+        if ($this->userRole === 'zavkaf') 
+        {
+
             return !empty($this->session['c_chair_id']);
         }
 
@@ -41,8 +44,11 @@ class FillingMode extends BaseNagruzkaProvider
 
     public function getData()
     {
+        // EchoLog('getData()');
+
         // Для сотрудника без lecturer_uid - пустой результат
-        if ($this->userRole === 'sotrudnik' && empty($this->lecturerUid)) {
+        if ($this->userRole === 'sotrudnik' && empty($this->lecturerUid)) 
+        {
             return [
                 'nagruzka' => [],
                 'stat' => new stdClass(),
@@ -50,9 +56,14 @@ class FillingMode extends BaseNagruzkaProvider
             ];
         }
 
+        
+
         // Получаем базовые данные
+        // EchoLog($chairFilter);
         $chairFilter = $this->getChairFilter();
         $nagruzkaTypeFilter = $this->getNagruzkaTypeFilter();
+
+        // EchoLog($nagruzkaTypeFilter);
 
         // В режиме заполнения исключаем КСРО из основного запроса
         $ksroSql = "AND `nagruzka_type` <> 'ksro'";
@@ -64,12 +75,18 @@ class FillingMode extends BaseNagruzkaProvider
 
         $nagruzkaData = $this->getBaseData($dopSql, $nagruzkaTypeFilter);
 
-        EchoLog($nagruzkaData);
+        // EchoLog($nagruzkaData);
 
         // В режиме заполнения игнорируем лекторов из Галактики
         // Очищаем их и применяем только сплиты
-        $processor = new SplitProcessor('0');
-        $nagruzkaData = $processor->applySplits($nagruzkaData, 'filling');
+        $nagruzkaData = $this->processSplits($nagruzkaData, 'mode_filling');
+
+        // gc_collect_cycles();
+
+        // EchoLog($nagruzkaData);
+
+        // $processor = new SplitProcessor('0');
+        // $nagruzkaData = $processor->applySplits($nagruzkaData, 'mode_filling');
 
         // Переиндексируем lectors для каждого base_uid
         foreach ($nagruzkaData as $baseUid => &$item) 
@@ -88,17 +105,22 @@ class FillingMode extends BaseNagruzkaProvider
         }
         unset($item);
 
-        // Расчёт статистики
-        $stats = $this->calculateStats($nagruzkaData);
-        $nagruzkaData = $stats['data'];
-        $stat = $stats['stat'];
-        $statByChair = $stats['statByChair'];
 
+        // EchoLog($nagruzkaData);
         // Фильтрация по преподавателю
-        $nagruzkaData = $this->filterByLecturer($nagruzkaData);
+        $this->filterByLecturer($nagruzkaData);
+
+        // EchoLog($nagruzkaData);
+
+        // Расчёт статистики
+        $stats_obj = $this->calculateStats($nagruzkaData);
+        // $nagruzkaData = $stats_obj['data'];
+        $stat = $stats_obj['stat'];
+        $statByChair = $stats_obj['statByChair'];
 
         // Глобальная фильтрация
-        $nagruzkaData = $this->applyGlobalFilter($nagruzkaData);
+        // Д.б. после calculateStats()
+        $this->applyGlobalFilter($nagruzkaData);
 
         // Для УОУП в режиме lite/only_stat - группировка по кафедрам + данные КСРО
         if ($this->userRole === 'uoup' && ($this->onlyStat || $this->isLite)) {
@@ -122,6 +144,8 @@ class FillingMode extends BaseNagruzkaProvider
 
     /**
      * Добавить данные КСРО в статистику (для УОУП)
+        В режиме заполнения в группировку по кафедрам для #/uoup_nagruzka нужно взять данные из таблицы ksro 
+        ! Т.к. в таблице ksro нет таких полей как название кафедры, факультета, то отображение этих данных в зелёной таблице у УОУП полагается на другие виды нагрузки в $NagruzkaByBaseUID1. Т.е. если не будет других видов нагрузки, то КСРО не будет отображаться в таблице; 
      */
     protected function addKsroToStats(&$nagruzkaData, &$statByChair)
     {
@@ -130,6 +154,8 @@ class FillingMode extends BaseNagruzkaProvider
         // Получаем SQL-условие для кафедры
         $chairSql = $this->getChairSqlForKsro();
         $lecturerSql = $this->getLecturerSqlForKsro();
+
+        // EchoLog($lecturerSql);
 
         $rows = GetTable('ksro', "$chairSql $lecturerSql");
 

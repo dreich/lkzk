@@ -1,8 +1,8 @@
 <div>
   <h4>Режим работы системы</h4>
 
-  <select ng-model="currentMode" class="form-select" style="width: 200px" ng-change="SaveSystemMode()">
-    <option ng-repeat="(key, mode) in systemModes" ng-value="key">{{mode}}</option>
+  <select ng-model="currentMode" class="form-select" style="width: 300px" ng-change="SaveSystemMode()" ng-disabled="currentMode == 'export_to_galaktika'">
+    <option ng-repeat="(key, mode) in systemModes" ng-value="key" ng-disabled="key == 'export_to_galaktika'">{{mode}}</option>
   </select>
 
   <!-- <p ng-if="currentMode">Выбранный режим: {{systemModes[currentMode]}}</p> -->

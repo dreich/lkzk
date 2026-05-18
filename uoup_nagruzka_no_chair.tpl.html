@@ -1,80 +1,94 @@
-<table id="DataTables_Table_nagruzka_no_chair" datatable="ng" dt-options="dtOptions"  dt-column-defs="dtColumnDefs" dt-instance="dtInstance" class="dataTable row-border hover display table "  style='margin: 0 0 ;width:100%; '>
-  <thead>
+<div class="alert alert-info" ng-if="system_mode == 'export_to_galaktika'">
+  <h4>Выгрузка данных в Галактику</h4>
+  <p>Информация тут будет доступна завтра.</p>
+</div>
 
-    <tr>
-      <th>Факультет</th>
-      <th>Кафедра</th>
-      <th>Аббр</th>
-      <th>Дисциплина</th>
-      <th>Группа</th>
-      <th>Уровень образования</th>
-      <th>Направление подготовки</th>
-      <th>Язык программы</th>
-      <th>Форма обучения</th>
-      <th>Семестр</th>
-      <th>Количество студентов</th>
-      <th>Вид работ</th>
-      <th>Профиль/направленность программы</th>
-      <th>Курс</th>
-      <th>Количество часов</th>
-      <!-- <th>Преподаватель</th> -->
-      <!-- <th></th> -->
-      <!-- <th></th> -->
+<div ng-if="system_mode != 'export_to_galaktika'">
 
-    </tr>
-  </thead>
+  <table id="DataTables_Table_nagruzka_no_chair" datatable="ng" dt-options="dtOptions"  dt-column-defs="dtColumnDefs" dt-instance="dtInstance" class="dataTable row-border hover display table "  style='margin: 0 0 ;width:100%; '>
+    <thead>
 
-  <tbody>
-     <!-- ng-click="ShowPopup(person)" -->
-      <!-- | orderBy:['-selected', 'type', 'fio'] -->
-    <tr ng-repeat="row in uoup_nagruzka">
-      <td>
-        {{row.department_name}}
-      </td>
-      <td>{{row.chair_name}}</td>
-      <td ng-bind-html="row.Abbr">
-      </td>
-      <td ng-bind-html="row.discipline_name">
-      </td>
-      <td ng-bind-html="row.group_name">
-      </td>
-      <td>{{row.education_level}}</td>
-      <td>{{row.napravlenie}}</td>
-      <td>{{row.language}}</td>
-      <td>{{row.form_obuchenia}}</td>
-      <td>{{row.UID_Semester}}</td>
-      <td>{{row.StudentAmount}}</td>
-      <td>{{row.kind_of_work}}</td>
-      <td>{{row.napravlennost}}</td>
-      <td>{{row.UID_Course}}</td>
-      <td>{{row.Amount}}</td>
-
-    </tr>
-
-  </tbody>
-
-   <tfoot>
       <tr>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
+        <th>UID нагрузки</th>
+        <th>Факультет</th>
+        <th>Кафедра</th>
+        <th>Аббр</th>
+        <th>Дисциплина</th>
+        <th>Группа</th>
+        <th>Уровень образования</th>
+        <th>Направление подготовки</th>
+        <th>Язык программы</th>
+        <th>Форма обучения</th>
+        <th>Семестр</th>
+        <th>Количество студентов</th>
+        <th>Вид работ</th>
+        <th>Профиль/направленность программы</th>
+        <th>Курс</th>
+        <th>Количество часов</th>
+        <!-- <th>Преподаватель</th> -->
         <!-- <th></th> -->
+        <!-- <th></th> -->
+
       </tr>
-    </tfoot>
+    </thead>
+
+    <tbody>
+      <!-- ng-click="ShowPopup(person)" -->
+        <!-- | orderBy:['-selected', 'type', 'fio'] -->
+      <tr ng-repeat="row in uoup_nagruzka">
+        <td>
+          {{row.base_uid2}}
+        </td>
+        <td>
+          {{row.department_name}}
+        </td>
+        <td>{{row.chair_name}}</td>
+        <td ng-bind-html="row.Abbr">
+        </td>
+        <td ng-bind-html="row.discipline_name">
+        </td>
+        <td ng-bind-html="row.group_name">
+        </td>
+        <td>{{row.education_level}}</td>
+        <td>{{row.napravlenie}}</td>
+        <td>{{row.language}}</td>
+        <td>{{row.form_obuchenia}}</td>
+        <td>{{row.UID_Semester}}</td>
+        <td>{{row.StudentAmount}}</td>
+        <td>{{row.kind_of_work}}</td>
+        <td>{{row.napravlennost}}</td>
+        <td>{{row.UID_Course}}</td>
+        <td>{{row.Amount}}</td>
+
+      </tr>
+
+    </tbody>
+
+    <tfoot>
+        <tr>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <!-- <th></th> -->
+        </tr>
+      </tfoot>
 
 
-  </table>
+    </table>
 
-  <a ng-click="ClearGreenTableFilters(dtInstance, filter_distinct)" class="link pointer" style="float:right" ng-if="!isLoading">сбросить фильтры</a>
+    <a ng-click="ClearGreenTableFilters(dtInstance, filter_distinct)" class="link pointer" style="float:right" ng-if="!isLoading">сбросить фильтры</a>
+
+</div>

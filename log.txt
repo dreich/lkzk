@@ -1,14 +1,22 @@
-[19.01.2026 - 16:08.04] Error in GetTable('podrazdelenia2026'): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'AND `pname` LIKE ('Кафедра%') AND `has_real_chief` = '1'' at line 1[/] [Chrome 143.0.0.0] [127.0.0.1]
-[19.02.2026 - 16:53.56] Error in GetRows(SELECT * FROM `sotrudnik` WHERE 1 AND person_id = '36'  ): Table 'lkzk.sotrudnik' doesn't exist[/] [Chrome 144.0.0.0] [127.0.0.1]
-[19.02.2026 - 16:53.56] SELECT * FROM `sotrudnik` WHERE 1 AND person_id = '36'[/] [Chrome 144.0.0.0] [127.0.0.1]
-[20.02.2026 - 11:52.13] Error in GetTable('podrazdelenia2026'): Table 'lkzk.podrazdelenia2026' doesn't exist[/] [Chrome 144.0.0.0] [127.0.0.1]
-[04.03.2026 - 16:01.30] Error in GetTable('podrazdelenia2026'): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'AND `pname` LIKE ('Кафедра%') AND `has_real_chief` = '1'' at line 1[/] [Chrome 145.0.0.0] [127.0.0.1]
-[04.03.2026 - 16:46.33] Error in GetTable('podrazdelenia2026'): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'AND `pname` LIKE ('Кафедра%') AND `has_real_chief` = '1'' at line 1[/] [Chrome 145.0.0.0] [127.0.0.1]
-[31.03.2026 - 16:01.56] Error in GetTable('podrazdelenia2026'): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'AND `pname` LIKE ('Кафедра%') AND `has_real_chief` = '1'' at line 1[/] [Chrome 146.0.0.0] [127.0.0.1]
-[31.03.2026 - 16:01.56] SELECT * FROM `podrazdelenia2026` WHERE `chief_id` =  AND `pname` LIKE ('Кафедра%') AND `has_real_chief` = '1'[/] [Chrome 146.0.0.0] [127.0.0.1]
-[31.03.2026 - 16:02.00] Error in GetTable('podrazdelenia2026'): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'AND `pname` LIKE ('Кафедра%') AND `has_real_chief` = '1'' at line 1[/] [Chrome 146.0.0.0] [127.0.0.1]
-[31.03.2026 - 16:02.00] SELECT * FROM `podrazdelenia2026` WHERE `chief_id` =  AND `pname` LIKE ('Кафедра%') AND `has_real_chief` = '1'[/] [Chrome 146.0.0.0] [127.0.0.1]
-[31.03.2026 - 16:03.49] Error in GetTable('podrazdelenia2026'): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'AND `pname` LIKE ('Кафедра%') AND `has_real_chief` = '1'' at line 1[/] [Chrome 146.0.0.0] [127.0.0.1]
-[31.03.2026 - 16:03.49] SELECT * FROM `podrazdelenia2026` WHERE `chief_id` =  AND `pname` LIKE ('Кафедра%') AND `has_real_chief` = '1'[/] [Chrome 146.0.0.0] [127.0.0.1]
-[07.04.2026 - 12:09.44] Error in GetTable('podrazdelenia2026'): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'AND `pname` LIKE ('Кафедра%') AND `has_real_chief` = '1'' at line 1[/] [Chrome 146.0.0.0] [127.0.0.1]
-[07.04.2026 - 12:09.44] SELECT * FROM `podrazdelenia2026` WHERE `chief_id` =  AND `pname` LIKE ('Кафедра%') AND `has_real_chief` = '1'[/] [Chrome 146.0.0.0] [127.0.0.1]
+[18.05.2026 - 12:06.16] array (
+  'c_login' => 'bedny',
+  'c_fio' => 'Бедный Борис Ильич',
+  'c_chair_id' => '999',
+  'c_department_id' => '05528',
+  'c_chair_name' => 'Кафедра ЦИНиРАО',
+  'c_phone' => '+79107906565',
+  'c_email' => 'bib@unn.ru',
+  'c_roles' => '|zavkaf|',
+  'c_roles_str' => 'Завкаф',
+)[/] [Chrome 148.0.0.0] [127.0.0.1]
+[18.05.2026 - 12:06.16] array (
+  'c_login' => 'bedny',
+  'c_fio' => 'Бедный Борис Ильич',
+  'c_chair_id' => '999',
+  'c_department_id' => '05528',
+  'c_chair_name' => 'Кафедра ЦИНиРАО',
+  'c_phone' => '+79107906565',
+  'c_email' => 'bib@unn.ru',
+  'c_roles' => '|zavkaf|',
+  'c_roles_str' => 'Завкаф',
+)[/js/angular-file-upload.min.js.map;] [Chrome 148.0.0.0] [127.0.0.1]

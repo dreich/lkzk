@@ -9,11 +9,12 @@ $c_access = $_SESSION['c_access'];
 $c_login = $_SESSION['c_login'];
 $u = $_GET['u'];
 
+// EchoLog($_SESSION);
+
 
 // Авторизация
 if ($_POST['action'] == 'log-in')
 {
-
   $result = Authorize($_POST['login'], $_POST['password']);
 
   if ($result !== true)  

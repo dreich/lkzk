@@ -3,15 +3,16 @@
 include_once __DIR__ . '/../BaseNagruzkaProvider.php';
 
 /**
- * Режим "Архив"
- * Все данные в режиме read-only для всех ролей
- * Исторические данные для просмотра
+ * Режим "Выверка"
+ * Завкаф видит всё в read-only, но может отправлять запросы в УОУП
+ * УОУП может редактировать привязки ППС
+ * Сплиты очищаются при синхронизации, берём данные из Галактики
  */
 class ArchiveMode extends BaseNagruzkaProvider
 {
     public function canView()
     {
-        // Все роли могут просматривать архив
+        // Все роли могут просматривать
         if ($this->userRole === 'zavkaf') {
             return !empty($this->session['c_chair_id']);
         }
@@ -29,8 +30,8 @@ class ArchiveMode extends BaseNagruzkaProvider
 
     public function canEdit()
     {
-        // В архиве редактирование запрещено для всех
-        return false;
+        // Редактировать привязки ППС может только УОУП
+        return $this->userRole === 'uoup';
     }
 
     public function getNagruzkaTypeFilter()
@@ -50,41 +51,57 @@ class ArchiveMode extends BaseNagruzkaProvider
         }
 
         $chairFilter = $this->getChairFilter();
+        $nagruzkaTypeFilter = $this->getNagruzkaTypeFilter();
+
+        // EchoLog($nagruzkaTypeFilter);
 
         $dopSql = "$chairFilter
             AND `chair_id` IS NOT NULL AND `valid` = '1'
         ";
 
-        $nagruzkaData = $this->getBaseData($dopSql, 'all');
+        $nagruzkaData = $this->getBaseData($dopSql, $nagruzkaTypeFilter);
 
-        // В архиве показываем данные как есть из Галактики
-        // Сплиты не применяются (архив - это состояние после выверки)
-        $result = [];
-        foreach ($nagruzkaData as $baseUid2 => $item) {
-            $baseUid = $item['base_uid'];
+        // В режиме выверки:
+        // - Если есть сплит - приоритет на него (для правок УОУП)
+        // - Если нет сплита - берём из Галактики
+        $nagruzkaData = $this->processSplits($nagruzkaData, 'mode_archive');
 
-            if (!isset($result[$baseUid])) {
-                $result[$baseUid] = $item;
-                $result[$baseUid]['lectors'] = [];
-                $result[$baseUid]['Amount'] = 0;
+        // Переиндексируем lectors
+        // foreach ($nagruzkaData as $baseUid => &$item) {
+        //     if (!empty($item['lectors'])) {
+        //         $item['lectors'] = array_values($item['lectors']);
+        //     } else {
+        //         $item['lectors'] = [];
+        //     }
+        // }
+        foreach ($nagruzkaData as $baseUid => &$item) 
+        {
+            if (!empty($item['lectors'])) 
+            {
+                foreach ($item['lectors'] as &$lector)
+                {
+                    $lector['delete'] = !!$lector['delete'];
+                }
+                
+              $item['lectors'] = array_values($item['lectors']);
             } else {
-                $result[$baseUid]['Amount'] += $item['Amount'];
+                $item['lectors'] = [];
             }
-
-            $result[$baseUid]['lectors'][] = $item;
         }
-
-        // Расчёт статистики
-        $stats = $this->calculateStats($result);
-        $nagruzkaData = $stats['data'];
-        $stat = $stats['stat'];
-        $statByChair = $stats['statByChair'];
+        unset($item);
 
         // Фильтрация по преподавателю
-        $nagruzkaData = $this->filterByLecturer($nagruzkaData);
+        $this->filterByLecturer($nagruzkaData);
+
+        // Расчёт статистики
+        $stats_obj = $this->calculateStats($nagruzkaData);
+        // $nagruzkaData = $stats_obj['data'];
+        $stat = $stats_obj['stat'];
+        $statByChair = $stats_obj['statByChair'];
+    
 
         // Глобальная фильтрация
-        $nagruzkaData = $this->applyGlobalFilter($nagruzkaData);
+        $this->applyGlobalFilter($nagruzkaData);
 
         // Для УОУП в режиме lite/only_stat - группировка по кафедрам
         if ($this->userRole === 'uoup' && ($this->onlyStat || $this->isLite)) {
@@ -99,8 +116,8 @@ class ArchiveMode extends BaseNagruzkaProvider
             'nagruzka' => array_values($nagruzkaData),
             'stat' => $stat ?: new stdClass(),
             'lecturer_fio' => $this->lecturerFio,
-            'read_only' => true,
-            'archive_mode' => true
+            'can_edit_bindings' => $this->userRole === 'uoup',
+            'can_send_requests' => $this->userRole === 'zavkaf'
         ];
     }
 }

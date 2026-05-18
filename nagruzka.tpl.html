@@ -1,5 +1,11 @@
 <!-- ng-if="system_mode == 'mode_filling' || system_mode == 'mode_verification' || system_mode == 'mode_archive'" -->
-<div>
+ 
+ <div class="alert alert-info" ng-if="system_mode == 'export_to_galaktika'">
+  <h4>Выгрузка данных в Галактику</h4>
+  <p>Информация тут будет доступна завтра.</p>
+</div>
+
+<div ng-if="system_mode != 'export_to_galaktika'">
 
   <!-- {{_lecturer_uid}} -->
   <h3 ng-if="nagruzka_selected_lecturer_uid && !c_roles.sotrudnik">
@@ -146,7 +152,7 @@
       <thead>
 
         <tr>
-          <th style="width: 20px" ng-show="!nagruzka_readonly">выбор</th>
+          <th style="width: 20px" ng-show="MaySelectNagruzka()">выбор</th>
           <th>Факультет</th>
           <th>Аббр</th>
           <th>Дисциплина</th>
@@ -171,13 +177,14 @@
       <tbody>
         <!-- ng-click="ShowPopup(person)" -->
           <!-- | orderBy:['-selected', 'type', 'fio'] -->
-        <tr ng-repeat="row in nagruzka" class="pointer" ng-class="{'readonly': !IsNagruzkaEditable(row)}">
-          <td ng-click="IsNagruzkaEditable(row) && SelectNagruzkaTDClick(row); $event.stopPropagation()" ng-show="!nagruzka_readonly">  
-            <input type="checkbox" ng-model="row.selected" ng-click="$event.stopPropagation()" ng-show="IsNagruzkaEditable(row)">
-            {{row.base_uid}}
+           <!-- && !IsNagruzkaRowEditable(row) -->
+        <tr ng-repeat="row in nagruzka" class="pointer" ng-class="{'readonly': !MaySelectNagruzka(row) && c_roles.zavkaf}">
+          <td ng-click="MaySelectNagruzka() && SelectNagruzkaTDClick(row); $event.stopPropagation()" ng-show="MaySelectNagruzka()">  
+            <input type="checkbox" ng-model="row.selected" ng-click="$event.stopPropagation()" >
+            <!-- {{row.base_uid}} -->
           </td>
           <td ng-click="NagruzkaRowClick(row)">
-            {{row.department_name}}
+            {{row.department_owner_name}}
           </td>
           <td ng-bind-html="row.Abbr" ng-click="NagruzkaRowClick(row)">
           </td>
@@ -205,10 +212,11 @@
                   <span ng-if="!lector.lecturer_fio.length">[не&nbsp;распределено]</span> 
                   <span ng-if="row.lectors.length > 1">({{lector.Amount | toFixed:2}})</span>
                 </div>
-                <span ng-click="NagruzkaShowLecturerAutocomplete(lector, 'lecturer_autocomplete_' + row.base_uid2); $event.stopPropagation()" class="link glyphicon glyphicon-edit" ng-if="!lector.show_lecturer_autocomplete && IsNagruzkaEditable(row)" style="display:inline-block"></span>
+                <span ng-click="NagruzkaShowLecturerAutocomplete(lector, 'lecturer_autocomplete_' + row.base_uid2); $event.stopPropagation()" class="link glyphicon glyphicon-edit" ng-if="!lector.show_lecturer_autocomplete && NagruzkaMayAssignLector(row, lector)" style="display:inline-block"></span>
               </div>
 
-              <div ng-if="!nagruzka_readonly">
+               <!-- ng-if="!nagruzka_readonly" -->
+              <div>
 
                 <div ng-if="lector.show_lecturer_autocomplete">
                   <!-- {{row.xml_content_of_load_UID}}_{{row.xml_content_of_load_staff_UID}} -->
@@ -220,7 +228,7 @@
                       selected-object="NagruzkaSelectedLecturer"
                       selected-object-data="lector"
                       input-changed="inputChangedLecturer"
-                      remote-url="ajax/get/selected_chair_sotrudniki.php?callback=JSON_CALLBACK&lectors_num={{GetNagruzkaRealLectorsNum(row.lectors)}}&s="
+                      remote-url="ajax/get/selected_chair_sotrudniki.php?callback=JSON_CALLBACK&lectors_num={{GetNagruzkaRealLectorsNum(row.lectors)}}&chair_id={{nagruzka_selected_chair_id}}&s="
                       title-field="fio"
                       match-class="highlight"
                       text-searching="Поиск..." 
@@ -232,8 +240,10 @@
               
             </div>
 
-
-            <div ng-if="GetNagruzkaRealLectorsNum(row.lectors) > 1 && IsNagruzkaEditable(row)" ng-click="QuickOpenAssignToSeveralSotrudikiPopup(row)"><span class="glyphicon glyphicon-list"></span></div>
+            <!-- IsNagruzkaRowEditable(row) -->
+<!--             {{GetNagruzkaRealLectorsNum(row.lectors)}}
+            {{NagruzkaMayAssignLector(row)}} -->
+            <div ng-if="GetNagruzkaRealLectorsNum(row.lectors) > 1 && NagruzkaMayAssignLector(row)" ng-click="QuickOpenAssignToSeveralSotrudikiPopup(row)"><span class="glyphicon glyphicon-list"></span></div>
 
           </td>
           <td>
@@ -245,7 +255,7 @@
 
       <tfoot>
           <tr>
-            <th ind="0" ng-show="!nagruzka_readonly">
+            <th ind="0" ng-show="MaySelectNagruzka()">
     <!--             <button class="btn btn-xs btn-success" ng-click="SelectAllFilteredNagruzkaRows()">✓</button>
               <button class="btn btn-xs btn-danger" ng-click="SelectAllFilteredNagruzkaRows()">❌</button> -->
               <div class="btn-group btn-group-xs" role="group" style="margin-bottom:2px;">
@@ -291,12 +301,12 @@
     Укажите, что сделать с выбранными строками:
     <select class="form-select w-25" ng-model="group_action.action" ng-change="ChangeGroupAction()">
       <!-- TODO: вариант виден только если selected одна строка нагрузки -->
-      <option value="assign_to_several_sotrudniki" ng-if="GetNagruzkaSelectedCount() == 1">Распределение нагрузки на несколько сотрудников</option>
-      <option value="assign_to_sotrudnik">Распределить всё на одного сотрудника</option>
-      <option value="assign_to_vacancy">Распределить всё на «вакансию»</option>
-      <option value="refuse_nagruzka">Отказаться от выбранной нагрузки</option>
-      <option value="require_admin_change">Запрос администратору на внесение изменений</option>
-      <option value="write_admin_comment">Написать комментарий администратору</option>
+      <option value="assign_to_several_sotrudniki" ng-if="IsGroupActionAllowed('assign_to_several_sotrudniki') && GetNagruzkaSelectedCount() == 1">Распределение нагрузки на несколько сотрудников</option>
+      <option value="assign_to_sotrudnik" ng-if="IsGroupActionAllowed('assign_to_sotrudnik')">Распределить всё на одного сотрудника</option>
+      <option value="assign_to_vacancy" ng-if="IsGroupActionAllowed('assign_to_vacancy')">Распределить всё на «вакансию»</option>
+      <option value="refuse_nagruzka" ng-if="IsGroupActionAllowed('refuse_nagruzka')">Отказаться от выбранной нагрузки</option>
+      <option value="require_admin_change" ng-if="IsGroupActionAllowed('require_admin_change')">Запрос администратору на внесение изменений</option>
+      <option value="write_admin_comment" ng-if="IsGroupActionAllowed('write_admin_comment')">Написать комментарий администратору</option>
     </select>
 
     <div ng-if="group_action.action == 'assign_to_sotrudnik'" class="w-25 mt-2">
@@ -319,7 +329,7 @@
 
     <div ng-if="group_action.action == 'refuse_nagruzka' || group_action.action == 'require_admin_change' || group_action.action == 'write_admin_comment'" class="w-25 mt-2">
       Комментарий:
-      <textarea class="form-control w-100" ng-model="group_action.message" ></textarea>
+      <textarea class="form-control w-100" ng-model="group_action.message"  id="group_action_comment"></textarea>
     </div>
 
     <button class="btn btn-sm btn-success mt-2" ng-click="DoGroupAction()" ng-disabled="!group_action">Выполнить</button>

@@ -50,6 +50,10 @@ if ($_mode == 'mode_filling')
       $_chair_sql = "`chair_id` = '$_chair_id'";
     }
   }
+  elseif ($c_roles['sotrudnik'])
+  {
+    $_lecturer_uid_sql = "1 AND `lecturer_person_id` = '$_SESSION[c_person_id]'";
+  }
   
 
   $Rows = GetTable('ksro', "$_chair_sql $_lecturer_uid_sql");

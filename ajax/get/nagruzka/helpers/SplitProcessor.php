@@ -37,7 +37,7 @@ class SplitProcessor
         foreach ($this->splits as $split) {
             $baseUid = $split['base_uid'];
             $baseUid2 = $split['base_uid2'];
-            $contentOfLoadUid = $split['content_of_load_uid'];
+            // $contentOfLoadUid = $split['content_of_load_uid'];
 
             if (!isset($this->splitsByBaseUid[$baseUid])) {
                 $this->splitsByBaseUid[$baseUid] = [];
@@ -47,19 +47,22 @@ class SplitProcessor
                 $this->splitsByBaseUid[$baseUid][$baseUid2] = [];
             }
 
-            $this->splitsByBaseUid[$baseUid][$baseUid2][$contentOfLoadUid][] = $split;
+            // $this->splitsByBaseUid[$baseUid][$baseUid2][$contentOfLoadUid][] = $split;
+            $this->splitsByBaseUid[$baseUid][$baseUid2][] = $split;
         }
+
+        unset($this->splits);
     }
 
     /**
      * Применить сплиты к данным нагрузки
      * 
      * @param array $nagruzkaData Данные из Галактики
-     * @param string $mode Режим работы: 'filling', 'verification', etc.
-     *                      В режиме 'filling' лекторы из Галактики очищаются (как будто UID_Lecturer = -1)
+     * @param string $mode Режим работы: 'mode_filling'
+     *                     В режиме 'mode_filling' лекторы из Галактики очищаются (как будто UID_Lecturer = -1)
      * @return array Обработанные данные с примененными сплитами
      */
-    public function applySplits($nagruzkaData, $mode = 'default')
+    public function applySplits($nagruzkaData, $mode = '')
     {
         if (empty($nagruzkaData)) 
         {
@@ -67,20 +70,93 @@ class SplitProcessor
         }
 
         // В режиме заполнения очищаем лекторов из Галактики и объединяем дубликаты
-        if ($mode === 'filling') {
-            $nagruzkaData = $this->clearGalaxyLectors($nagruzkaData);
+        if ($mode === 'mode_filling') 
+        {
+            $this->clearGalaxyLectors($nagruzkaData);
             // EchoLog($nagruzkaData);
             $nagruzkaData = $this->consolidateLectors($nagruzkaData);
-            EchoLog($nagruzkaData);
+            // EchoLog($nagruzkaData);
         }
 
-        if (empty($this->splits)) {
-            return $nagruzkaData;
-        }
+        // if (empty($this->splits)) {
+        //     return $nagruzkaData;
+        // }
 
         $result = [];
         $processedSplits = [];
 
+        // $baseUid или $baseUid2 (?)
+        foreach ($nagruzkaData as $baseUid2 => $item) 
+        {
+            // СРАЗУ ОСВОБОЖДАЕМ ПАМЯТЬ ИЗ СТАРОГО МАССИВА
+            // unset($nagruzkaData[$baseUid2]);
+
+            $baseUid = $item['base_uid'];
+
+            // Агрегируем по base_uid
+            if (!isset($result[$baseUid])) 
+            {
+                $result[$baseUid] = $item;
+                $result[$baseUid]['lectors'] = [];
+            } else {
+                $result[$baseUid]['Amount'] += $item['Amount'];
+            }
+
+            // if ($baseUid === '26589.281474976773465')
+            //     {
+            //         EchoLog("HERE");
+            //     }
+
+            // Проверяем есть ли сплиты для этого base_uid
+            if ($this->hasSplitsByBaseUID($baseUid)) //, $item['base_uid2'])) 
+            {
+
+                $splitRows = $this->getSplits($baseUid, $item['base_uid2']);
+
+                // if ($baseUid === '26589.281474976773465')
+                // {
+                //     EchoLog($splitRows);
+                // }
+
+                // EchoLog("SPLITS:");
+                // EchoLog($splitRows);
+
+                foreach ($splitRows as $splitRow) 
+                {
+                    $lectorData = $this->createLectorDataFromSplit($item, $splitRow);
+                    $result[$baseUid]['lectors'][] = $lectorData;
+                    $processedSplits[$baseUid][$item['base_uid2']] = true;
+                }
+            } 
+            else 
+            {
+                // if (empty($processedSplits[$baseUid][$item['base_uid2']])) 
+                {
+                    $result[$baseUid]['lectors'][] = $item;
+                }
+            }
+        }
+
+        return $result;
+    }
+
+
+    /**
+     * Применить сплиты с приоритетом (режим Выверки)
+     * Если есть сплит - используем его, иначе берем из Галактики
+     */
+    /*
+    public function applySplitsWithPriority($nagruzkaData)
+    {
+      // EchoLog($this->splits);
+        if (empty($this->splits) || empty($nagruzkaData)) {
+            // Просто группируем по base_uid без изменений
+            return $this->groupByBaseUid($nagruzkaData);
+        }
+
+        $result = [];
+
+        // вроде $baseUid вместо $baseUid2
         foreach ($nagruzkaData as $baseUid2 => $item) 
         {
             $baseUid = $item['base_uid'];
@@ -94,9 +170,16 @@ class SplitProcessor
                 $result[$baseUid]['Amount'] += $item['Amount'];
             }
 
-            // Проверяем есть ли сплиты для этой строки
-            if ($this->hasSplits($baseUid, $item['base_uid2'])) 
+            // Проверяем есть ли сплит для этого base_uid
+            // Есть сплит - используем сплиты (приоритет для правок)
+            if ($this->hasSplitsByBaseUID($baseUid)) // , $item['base_uid2'])) 
             {
+                
+                // $split = $this->getFirstSplit($baseUid, $item['base_uid2']);
+                // $lectorData = $this->createLectorDataFromSplit($item, $split);
+                // $lectorData['from_split'] = true;
+                // $result[$baseUid]['lectors'][] = $lectorData;
+                // $result[$baseUid]['Amount'] += $lectorData['Amount'];
                 $splitRows = $this->getSplits($baseUid, $item['base_uid2']);
 
                 EchoLog("SPLITS:");
@@ -108,25 +191,31 @@ class SplitProcessor
                     $result[$baseUid]['lectors'][] = $lectorData;
                     $processedSplits[$baseUid][$item['base_uid2']] = true;
                 }
-            } 
+
+            }
             else 
             {
-                // Проверяем, не был ли base_uid2 создан из сплита
-                if (empty($processedSplits[$baseUid][$item['base_uid2']])) 
-                {
-                    $result[$baseUid]['lectors'][] = $item;
-                }
+              // Проверяем, не был ли base_uid2 создан из сплита
+              // if (empty($processedSplits[$baseUid][$item['base_uid2']])) 
+              //   {
+              //       $result[$baseUid]['lectors'][] = $item;
+              //   }
+
+                // Нет сплита - берём из Галактики
+                $result[$baseUid]['lectors'][] = $item;
+                // $result[$baseUid]['Amount'] += $item['Amount'];
             }
         }
 
         return $result;
     }
+  */
 
     /**
      * Очистить данные лекторов из Галактики (делаем как будто без привязки)
      * Используется в режиме заполнения
      */
-    private function clearGalaxyLectors($nagruzkaData)
+    private function clearGalaxyLectors(&$nagruzkaData)
     {
         foreach ($nagruzkaData as $baseUid2 => &$item) 
         {
@@ -148,19 +237,23 @@ class SplitProcessor
         }
         unset($item);
 
-        return $nagruzkaData;
+        // return $nagruzkaData;
     }
 
     /**
      * Объединить лекторов с одинаковым base_uid2 после очистки из Галактики
      * В режиме заполнения оставляем только одного лектора с суммарными Amount и StudentAmount
      */
+    
     private function consolidateLectors($nagruzkaData)
     {
         $consolidated = [];
 
         foreach ($nagruzkaData as $item) 
         {
+            // СРАЗУ ОСВОБОЖДАЕМ ПАМЯТЬ
+            // unset($nagruzkaData[$key]);
+            
             // Используем base_uid2 как ключ для группировки
             // После очистки лекторов base_uid2 не содержит информации о лекторе
             if (!isset($consolidated[$item['base_uid']])) {
@@ -174,46 +267,45 @@ class SplitProcessor
 
         return $consolidated;
     }
+    
 
-    /**
-     * Применить сплиты с приоритетом (режим Выверки)
-     * Если есть сплит - используем его, иначе берем из Галактики
+        /**
+     * Объединить лекторов с одинаковым base_uid после очистки из Галактики
+     * 
+     * Оптимизировано по памяти: работает in-place (по ссылке),
+     * но код остался очень близким к оригиналу.
      */
-    public function applySplitsWithPriority($nagruzkaData)
+        /*
+    private function consolidateLectors(&$nagruzkaData)
     {
-        if (empty($this->splits) || empty($nagruzkaData)) {
-            // Просто группируем по base_uid без изменений
-            return $this->groupByBaseUid($nagruzkaData);
+        if (empty($nagruzkaData)) {
+            return;
         }
 
-        $result = [];
+        $consolidated = [];
 
-        foreach ($nagruzkaData as $baseUid2 => $item) {
-            $baseUid = $item['base_uid'];
-
-            if (!isset($result[$baseUid])) {
-                $result[$baseUid] = $item;
-                $result[$baseUid]['lectors'] = [];
-                $result[$baseUid]['Amount'] = 0;
+        foreach ($nagruzkaData as $item) {
+            $baseUid = $item['base_uid'] ?? null;
+            if ($baseUid === null) {
+                continue;
             }
 
-            // Проверяем есть ли сплит для этой строки
-            if ($this->hasSplits($baseUid, $item['base_uid2'])) {
-                // Есть сплит - используем его (приоритет для правок)
-                $split = $this->getFirstSplit($baseUid, $item['base_uid2']);
-                $lectorData = $this->createLectorDataFromSplit($item, $split);
-                $lectorData['from_split'] = true;
-                $result[$baseUid]['lectors'][] = $lectorData;
-                $result[$baseUid]['Amount'] += $lectorData['Amount'];
+            if (!isset($consolidated[$baseUid])) {
+                // Первый экземпляр — сохраняем полностью
+                $consolidated[$baseUid] = $item;
             } else {
-                // Нет сплита - берём из Галактики
-                $result[$baseUid]['lectors'][] = $item;
-                $result[$baseUid]['Amount'] += $item['Amount'];
+                // Дубликат — только суммируем часы
+                $consolidated[$baseUid]['Amount']        += (float)($item['Amount'] ?? 0);
+                $consolidated[$baseUid]['StudentAmount'] += (float)($item['StudentAmount'] ?? 0);
             }
         }
 
-        return $result;
+        // Заменяем исходный массив на результат
+        $nagruzkaData = $consolidated;
     }
+    */
+    
+
 
     /**
      * Проверить есть ли сплиты для строки нагрузки
@@ -223,8 +315,14 @@ class SplitProcessor
         return !empty($this->splitsByBaseUid[$baseUid][$baseUid2]);
     }
 
+    public function hasSplitsByBaseUID($baseUid)
+    {
+        return !empty($this->splitsByBaseUid[$baseUid]);
+    }
+
     /**
-     * Получить сплиты для строки нагрузки
+     * Получить сплиты для строки нагрузки.
+     * Возвращает массив сплитов для baseUid2: например, мог быть из Галактики один преподаватель, а стало два
      */
     public function getSplits($baseUid, $baseUid2)
     {
@@ -233,7 +331,8 @@ class SplitProcessor
         }
 
         // Возвращаем первую группу по content_of_load_uid
-        return array_values($this->splitsByBaseUid[$baseUid][$baseUid2])[0];
+        // return array_values($this->splitsByBaseUid[$baseUid][$baseUid2])[0];
+        return $this->splitsByBaseUid[$baseUid][$baseUid2];
     }
 
     /**
@@ -244,6 +343,7 @@ class SplitProcessor
         $splits = $this->getSplits($baseUid, $baseUid2);
         return isset($splits[0]) ? $splits[0] : null;
     }
+
 
     /**
      * Создать данные лектора из сплита
@@ -300,7 +400,9 @@ class SplitProcessor
 
     /**
      * Получить статистику по сплитам
+     * закомментировано, чтобы не использовать $this->splits после "индексации" для экономии памяти
      */
+    /*
     public function getStats()
     {
         $total = count($this->splits);
@@ -311,4 +413,5 @@ class SplitProcessor
             'unique_base_uids' => $byBaseUid
         ];
     }
+    */
 }

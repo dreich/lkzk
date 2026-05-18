@@ -5,6 +5,21 @@
  * Роутинг по режимам работы системы
  */
 
+register_shutdown_function(function () {
+    $error = error_get_last();
+    // Проверяем, была ли ошибка и связана ли она с памятью
+    if ($error !== NULL && strpos($error['message'], 'Allowed memory size') !== false) {
+        $peakMemory = round(memory_get_peak_usage(true) / 1024 / 1024, 2);
+        
+        // Записываем в лог, так как echo может не сработать при фатальной ошибке
+        EchoLog("SCRIPT CRASHED: Out of memory. Peak usage: {$peakMemory} MB. Error: " . $error['message']);
+        
+        // Если это AJAX, можно попытаться выплюнуть JSON (но не факт, что хватит ресурсов)
+        header('Content-Type: application/json');
+        echo json_encode(['error' => 'memory_limit_exceeded', 'peak_usage' => $peakMemory]);
+    }
+});
+
 session_name('lkzk');
 session_start();
 
@@ -27,7 +42,7 @@ include 'BaseNagruzkaProvider.php';
 class NagruzkaModeFactory
 {
     private static $modes = [
-        'mode_closed' => 'ClosedMode',
+        // 'mode_closed' => 'ClosedMode',
         'mode_filling' => 'FillingMode',
         'mode_exporting' => 'ExportingMode',
         'mode_verification' => 'VerificationMode',
@@ -35,7 +50,7 @@ class NagruzkaModeFactory
     ];
 
     private static $modeFiles = [
-        'ClosedMode' => 'modes/ClosedMode.php',
+        // 'ClosedMode' => 'modes/ClosedMode.php',
         'FillingMode' => 'modes/FillingMode.php',
         'ExportingMode' => 'modes/ExportingMode.php',
         'VerificationMode' => 'modes/VerificationMode.php',
@@ -102,6 +117,11 @@ try {
     $result['system_mode'] = $systemMode;
     $result['can_edit'] = $provider->canEdit();
     $result['user_role'] = $provider->userRole;
+
+    $result['debug'] = [
+        'memory_peak_mb' => round(memory_get_peak_usage(true) / 1024 / 1024, 2) . ' MB',
+        'memory_current_mb' => round(memory_get_usage(true) / 1024 / 1024, 2) . ' MB'
+    ];
 
     // Заголовки для кэширования
     header("Cache-Control: no-cache, must-revalidate");

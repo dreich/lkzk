@@ -828,6 +828,14 @@
 					<prop_value prop_name="Complexity" value="1"></prop_value>
 				</Collection>
 			</Object>
+			<Object uid="26003.281474976710770" name="Экзамен кандидатский" class_id="KindOfWork">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26003.281474976710770"></prop_value>
+					<prop_value prop_name="Name" value="Экзамен кандидатский"></prop_value>
+					<prop_value prop_name="Unit" value="1"></prop_value>
+					<prop_value prop_name="Complexity" value="1"></prop_value>
+				</Collection>
+			</Object>
 			<Object uid="26003.281474976710726" name="Электронный курс" class_id="KindOfWork">
 				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
 					<prop_value prop_name="UID" value="26003.281474976710726"></prop_value>

@@ -1,115 +1,124 @@
-<div ng-if="isLoading">
-  <img src="/images/hourglass.png" style='position:fixed; left: 47%; top: 47%; z-index: 1000'>
+<div class="alert alert-info" ng-if="system_mode == 'export_to_galaktika'">
+  <h4>Выгрузка данных в Галактику</h4>
+  <p>Информация тут будет доступна завтра.</p>
 </div>
 
-<table class="widefat mb-3">
-  <thead>
-    <tr>
-      <th>тип нагрузки</th>
-      <th>всего нагрузки</th>
-      <th>не распределено</th>
-      <th>распределено</th>
-      <th>из них на вакансию</th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <tr ng-if="ShowNagruzkaUOUPTypeRow('discipline')">
-      <td>Дисциплины</td>
-      <td>{{nagruzka_uoup_stat['discipline']['total']['sum'] | toFixed:1}}</td>
-      <td>{{nagruzka_uoup_stat['discipline']['not_assigned']['sum'] | toFixed:1}}</td>
-      <td>{{nagruzka_uoup_stat['discipline']['assigned']['sum'] | toFixed:1}}</td>
-      <td>{{nagruzka_uoup_stat['discipline']['assigned_to_vacancy']['sum'] | toFixed:1}}</td>
-    </tr>
-    <tr ng-if="ShowNagruzkaUOUPTypeRow('ruk_vkr')">
-      <td>Руководство ВКР</td>
-      <td>{{nagruzka_uoup_stat['ruk_vkr']['total']['sum'] | toFixed:1}}</td>
-      <td>{{nagruzka_uoup_stat['ruk_vkr']['not_assigned']['sum'] | toFixed:1}}</td>
-      <td>{{nagruzka_uoup_stat['ruk_vkr']['assigned']['sum'] | toFixed:1}}</td>
-      <td>{{nagruzka_uoup_stat['ruk_vkr']['assigned_to_vacancy']['sum'] | toFixed:1}}</td>
-    </tr>
-    <tr ng-if="ShowNagruzkaUOUPTypeRow('ruk_kurs')">
-      <td>Руководство курсовыми работами</td>
-      <td>{{nagruzka_uoup_stat['ruk_kurs']['total']['sum'] | toFixed:1}}</td>
-      <td>{{nagruzka_uoup_stat['ruk_kurs']['not_assigned']['sum'] | toFixed:1}}</td>
-      <td>{{nagruzka_uoup_stat['ruk_kurs']['assigned']['sum'] | toFixed:1}}</td>
-      <td>{{nagruzka_uoup_stat['ruk_kurs']['assigned_to_vacancy']['sum'] | toFixed:1}}</td>
-    </tr>
-    <tr ng-if="ShowNagruzkaUOUPTypeRow('ruk_practice')">
-      <td>Руководство практикой</td>
-      <td>{{nagruzka_uoup_stat['ruk_practice']['total']['sum'] | toFixed:1}}</td>
-      <td>{{nagruzka_uoup_stat['ruk_practice']['not_assigned']['sum'] | toFixed:1}}</td>
-      <td>{{nagruzka_uoup_stat['ruk_practice']['assigned']['sum'] | toFixed:1}}</td>
-      <td>{{nagruzka_uoup_stat['ruk_practice']['assigned_to_vacancy']['sum'] | toFixed:1}}</td>
-    </tr>
-    <tr ng-if="ShowNagruzkaUOUPTypeRow('ksro')">
-      <td>Индивидуальные консультации и КСРО</td>
-      <td>{{nagruzka_uoup_stat['ksro']['total']['sum'] | toFixed:1}}</td>
-      <td>{{nagruzka_uoup_stat['ksro']['not_assigned']['sum'] | toFixed:1}}</td>
-      <td>{{nagruzka_uoup_stat['ksro']['assigned']['sum'] | toFixed:1}}</td>
-      <td>{{nagruzka_uoup_stat['ksro']['assigned_to_vacancy']['sum'] | toFixed:1}}</td>
-    </tr>
-    <tr ng-if="ShowNagruzkaUOUPTypeRow('gia')">
-      <td>ГИА</td>
-      <td>{{nagruzka_uoup_stat['gia']['total']['sum'] | toFixed:1}}</td>
-      <td>{{nagruzka_uoup_stat['gia']['not_assigned']['sum'] | toFixed:1}}</td>
-      <td>{{nagruzka_uoup_stat['gia']['assigned']['sum'] | toFixed:1}}</td>
-      <td>{{nagruzka_uoup_stat['gia']['assigned_to_vacancy']['sum'] | toFixed:1}}</td>
-    </tr>
-    <tr ng-if="ShowNagruzkaUOUPTypeRow('aspirant')">
-      <td>Руководство аспирантами и соискателями, кандидатские экзамены</td>
-      <td>{{nagruzka_uoup_stat['aspirant']['total']['sum'] | toFixed:1}}</td>
-      <td>{{nagruzka_uoup_stat['aspirant']['not_assigned']['sum'] | toFixed:1}}</td>
-      <td>{{nagruzka_uoup_stat['aspirant']['assigned']['sum'] | toFixed:1}}</td>
-      <td>{{nagruzka_uoup_stat['aspirant']['assigned_to_vacancy']['sum'] | toFixed:1}}</td>
-    </tr>
-  </tbody>
+<div ng-if="system_mode != 'export_to_galaktika'">
   
-</table>
+  <!-- <div ng-if="isLoading">
+    <img src="/images/hourglass.png" style='position:fixed; left: 47%; top: 47%; z-index: 1000'>
+  </div> -->
 
-<div>
-<!-- * {{uoup_nagruzka.length}} -->
+  <table class="widefat mb-3">
+    <thead>
+      <tr>
+        <th>тип нагрузки</th>
+        <th>всего нагрузки</th>
+        <th>не распределено</th>
+        <th>распределено</th>
+        <th>из них на вакансию</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr ng-if="ShowNagruzkaUOUPTypeRow('discipline')">
+        <td>Дисциплины</td>
+        <td>{{nagruzka_uoup_stat['discipline']['total']['sum'] | toFixed:1}}</td>
+        <td>{{nagruzka_uoup_stat['discipline']['not_assigned']['sum'] | toFixed:1}}</td>
+        <td>{{nagruzka_uoup_stat['discipline']['assigned']['sum'] | toFixed:1}}</td>
+        <td>{{nagruzka_uoup_stat['discipline']['assigned_to_vacancy']['sum'] | toFixed:1}}</td>
+      </tr>
+      <tr ng-if="ShowNagruzkaUOUPTypeRow('ruk_vkr')">
+        <td>Руководство ВКР</td>
+        <td>{{nagruzka_uoup_stat['ruk_vkr']['total']['sum'] | toFixed:1}}</td>
+        <td>{{nagruzka_uoup_stat['ruk_vkr']['not_assigned']['sum'] | toFixed:1}}</td>
+        <td>{{nagruzka_uoup_stat['ruk_vkr']['assigned']['sum'] | toFixed:1}}</td>
+        <td>{{nagruzka_uoup_stat['ruk_vkr']['assigned_to_vacancy']['sum'] | toFixed:1}}</td>
+      </tr>
+      <tr ng-if="ShowNagruzkaUOUPTypeRow('ruk_kurs')">
+        <td>Руководство курсовыми работами</td>
+        <td>{{nagruzka_uoup_stat['ruk_kurs']['total']['sum'] | toFixed:1}}</td>
+        <td>{{nagruzka_uoup_stat['ruk_kurs']['not_assigned']['sum'] | toFixed:1}}</td>
+        <td>{{nagruzka_uoup_stat['ruk_kurs']['assigned']['sum'] | toFixed:1}}</td>
+        <td>{{nagruzka_uoup_stat['ruk_kurs']['assigned_to_vacancy']['sum'] | toFixed:1}}</td>
+      </tr>
+      <tr ng-if="ShowNagruzkaUOUPTypeRow('ruk_practice')">
+        <td>Руководство практикой</td>
+        <td>{{nagruzka_uoup_stat['ruk_practice']['total']['sum'] | toFixed:1}}</td>
+        <td>{{nagruzka_uoup_stat['ruk_practice']['not_assigned']['sum'] | toFixed:1}}</td>
+        <td>{{nagruzka_uoup_stat['ruk_practice']['assigned']['sum'] | toFixed:1}}</td>
+        <td>{{nagruzka_uoup_stat['ruk_practice']['assigned_to_vacancy']['sum'] | toFixed:1}}</td>
+      </tr>
+      <tr ng-if="ShowNagruzkaUOUPTypeRow('ksro')">
+        <td>Индивидуальные консультации и КСРО</td>
+        <td>{{nagruzka_uoup_stat['ksro']['total']['sum'] | toFixed:1}}</td>
+        <td>{{nagruzka_uoup_stat['ksro']['not_assigned']['sum'] | toFixed:1}}</td>
+        <td>{{nagruzka_uoup_stat['ksro']['assigned']['sum'] | toFixed:1}}</td>
+        <td>{{nagruzka_uoup_stat['ksro']['assigned_to_vacancy']['sum'] | toFixed:1}}</td>
+      </tr>
+      <tr ng-if="ShowNagruzkaUOUPTypeRow('gia')">
+        <td>ГИА</td>
+        <td>{{nagruzka_uoup_stat['gia']['total']['sum'] | toFixed:1}}</td>
+        <td>{{nagruzka_uoup_stat['gia']['not_assigned']['sum'] | toFixed:1}}</td>
+        <td>{{nagruzka_uoup_stat['gia']['assigned']['sum'] | toFixed:1}}</td>
+        <td>{{nagruzka_uoup_stat['gia']['assigned_to_vacancy']['sum'] | toFixed:1}}</td>
+      </tr>
+      <tr ng-if="ShowNagruzkaUOUPTypeRow('aspirant')">
+        <td>Руководство аспирантами и соискателями, кандидатские экзамены</td>
+        <td>{{nagruzka_uoup_stat['aspirant']['total']['sum'] | toFixed:1}}</td>
+        <td>{{nagruzka_uoup_stat['aspirant']['not_assigned']['sum'] | toFixed:1}}</td>
+        <td>{{nagruzka_uoup_stat['aspirant']['assigned']['sum'] | toFixed:1}}</td>
+        <td>{{nagruzka_uoup_stat['aspirant']['assigned_to_vacancy']['sum'] | toFixed:1}}</td>
+      </tr>
+    </tbody>
+    
+  </table>
+
+  <div>
+  <!-- * {{uoup_nagruzka.length}} -->
+  </div>
+
+  <!-- dt-instance="dtInstance" -->
+  <table id="DataTables_Table_nagruzka" datatable="ng" dt-options="dtOptions"  dt-column-defs="dtColumnDefs"  dt-instance="onUOUPNagruzkaTableInstance" class="dataTable row-border hover display table "  style='margin: 0 0 ;width:100%; '>
+
+    <thead>
+      <tr>
+        <th>факультет/институт</th>
+        <th>кафедра</th>
+        <th>заведующий</th>
+        <th>всего нагрузки</th>
+        <th>распределено</th>
+        <th>не распределено</th>
+        <th>на вакансии</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr ng-repeat="row in uoup_nagruzka" ng-class="" class="pointer" ng-click="UOUPOpenChairNagruzka(row.chair_id)">
+        <td>{{row.department_name}}</td>
+        <td>{{row.chair_name}}</td>
+        <td>{{row.zavkaf_fio}}</td>
+        <td>{{row.total | toFixed:1}}</td>
+        <td>{{row.assigned | toFixed:1}}</td>
+        <td>{{row.not_assigned | toFixed:1}}</td>
+        <td>{{row.assigned_to_vacancy | toFixed:1}}</td>
+      </tr>
+    </tbody>
+
+    <tfoot>
+      <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+    </tfoot>
+
+  </table>
+
+  <a ng-click="ClearGreenTableFilters(dtInstance, filter_distinct)" class="link pointer" style="float:right">сбросить фильтры</a>
+
 </div>
-
-<!-- dt-instance="dtInstance" -->
-<table id="DataTables_Table_nagruzka" datatable="ng" dt-options="dtOptions"  dt-column-defs="dtColumnDefs"  dt-instance="onUOUPNagruzkaTableInstance" class="dataTable row-border hover display table "  style='margin: 0 0 ;width:100%; '>
-
-  <thead>
-    <tr>
-      <th>факультет/институт</th>
-      <th>кафедра</th>
-      <th>заведующий</th>
-      <th>всего нагрузки</th>
-      <th>распределено</th>
-      <th>не распределено</th>
-      <th>на вакансии</th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <tr ng-repeat="row in uoup_nagruzka" ng-class="" class="pointer" ng-click="UOUPOpenChairNagruzka(row.chair_id)">
-      <td>{{row.department_name}}</td>
-      <td>{{row.chair_name}}</td>
-      <td>{{row.zavkaf_fio}}</td>
-      <td>{{row.total | toFixed:1}}</td>
-      <td>{{row.assigned | toFixed:1}}</td>
-      <td>{{row.not_assigned | toFixed:1}}</td>
-      <td>{{row.assigned_to_vacancy | toFixed:1}}</td>
-    </tr>
-  </tbody>
-
-  <tfoot>
-    <tr>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
-  </tfoot>
-
-</table>
-
-<a ng-click="ClearGreenTableFilters(dtInstance, filter_distinct)" class="link pointer" style="float:right">сбросить фильтры</a>

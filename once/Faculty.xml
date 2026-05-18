@@ -4,14 +4,6 @@
 	</Descript>
 	<Data>
 		<Collection name="Data.Faculty" caption="Факультет" child_tags="Object">
-			<Object uid="25031.281474976710667" name="Институт экономики и предпринимательства" class_id="Faculty">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="25031.281474976710667"></prop_value>
-					<prop_value prop_name="Name" value="Институт экономики и предпринимательства"></prop_value>
-					<prop_value prop_name="Abbr" value="ИЭП"></prop_value>
-					<prop_value prop_name="Code" value="02002"></prop_value>
-				</Collection>
-			</Object>
 			<Object uid="25031.281474976710668" name="Институт биологии и биомедицины" class_id="Faculty">
 				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
 					<prop_value prop_name="UID" value="25031.281474976710668"></prop_value>
@@ -156,14 +148,6 @@
 					<prop_value prop_name="Code" value="01985"></prop_value>
 				</Collection>
 			</Object>
-			<Object uid="25031.281474976710994" name="Институт аспирантуры и докторантуры" class_id="Faculty">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="25031.281474976710994"></prop_value>
-					<prop_value prop_name="Name" value="Институт аспирантуры и докторантуры"></prop_value>
-					<prop_value prop_name="Abbr" value="ИАД"></prop_value>
-					<prop_value prop_name="Code" value="00035"></prop_value>
-				</Collection>
-			</Object>
 			<Object uid="25031.281474976711517" name="Арзамасский филиал - Отделение среднего профессионального образования (Колледж им. В.А.Новикова)" class_id="Faculty">
 				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
 					<prop_value prop_name="UID" value="25031.281474976711517"></prop_value>
@@ -226,14 +210,6 @@
 					<prop_value prop_name="Name" value="Арзамасский филиал - Факультет естественных и математических наук"></prop_value>
 					<prop_value prop_name="Abbr" value="АФ ЕСТМАТЕМ"></prop_value>
 					<prop_value prop_name="Code" value="09003"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="25031.281474976750993" name="Высшая школа искусств и дизайна" class_id="Faculty">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="25031.281474976750993"></prop_value>
-					<prop_value prop_name="Name" value="Высшая школа искусств и дизайна"></prop_value>
-					<prop_value prop_name="Abbr" value="ВШ ИиД"></prop_value>
-					<prop_value prop_name="Code" value="05229"></prop_value>
 				</Collection>
 			</Object>
 			<Object uid="25031.281474976751459" name="Институт клинической медицины" class_id="Faculty">

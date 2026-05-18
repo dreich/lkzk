@@ -18,20 +18,6 @@
 					<prop_value prop_name="Abbr" value="водитель легкового автомобиля"></prop_value>
 				</Collection>
 			</Object>
-			<Object uid="25031.281474976719551" name="заведующий отделом комплектования и НО" class_id="Post">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="25031.281474976719551"></prop_value>
-					<prop_value prop_name="Name" value="заведующий отделом комплектования и НО"></prop_value>
-					<prop_value prop_name="Abbr" value="заведующий отделом комплектования и НО"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="25031.281474976719704" name="директор типографии" class_id="Post">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="25031.281474976719704"></prop_value>
-					<prop_value prop_name="Name" value="директор типографии"></prop_value>
-					<prop_value prop_name="Abbr" value="директор типографии"></prop_value>
-				</Collection>
-			</Object>
 			<Object uid="25031.281474976720034" name="биолог 2 категории" class_id="Post">
 				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
 					<prop_value prop_name="UID" value="25031.281474976720034"></prop_value>
@@ -53,55 +39,6 @@
 					<prop_value prop_name="Abbr" value="начальник цикла-старший преподаватель"></prop_value>
 				</Collection>
 			</Object>
-			<Object uid="25031.281474976732928" name="помощник декана" class_id="Post">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="25031.281474976732928"></prop_value>
-					<prop_value prop_name="Name" value="помощник декана"></prop_value>
-					<prop_value prop_name="Abbr" value="помощник декана"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="25031.281474976733566" name="заместитель главного энергетика" class_id="Post">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="25031.281474976733566"></prop_value>
-					<prop_value prop_name="Name" value="заместитель главного энергетика"></prop_value>
-					<prop_value prop_name="Abbr" value="заместитель главного энергетика"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="25031.281474976735848" name="диспетчер факультета" class_id="Post">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="25031.281474976735848"></prop_value>
-					<prop_value prop_name="Name" value="диспетчер факультета"></prop_value>
-					<prop_value prop_name="Abbr" value="диспетчер факультета"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="25031.281474976736105" name="специалист по координации работы с обучающимися 2 категории" class_id="Post">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="25031.281474976736105"></prop_value>
-					<prop_value prop_name="Name" value="специалист по координации работы с обучающимися 2 категории"></prop_value>
-					<prop_value prop_name="Abbr" value="специалист по координации работы с обучающимися 2 категории"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="25031.281474976741870" name="ответственный секретарь приемной комиссии" class_id="Post">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="25031.281474976741870"></prop_value>
-					<prop_value prop_name="Name" value="ответственный секретарь приемной комиссии"></prop_value>
-					<prop_value prop_name="Abbr" value="ответственный секретарь приемной комиссии"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="25031.281474976748616" name="помощник директора филиала" class_id="Post">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="25031.281474976748616"></prop_value>
-					<prop_value prop_name="Name" value="помощник директора филиала"></prop_value>
-					<prop_value prop_name="Abbr" value="помощник директора филиала"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="25031.281474976752364" name="главный энергетик" class_id="Post">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="25031.281474976752364"></prop_value>
-					<prop_value prop_name="Name" value="главный энергетик"></prop_value>
-					<prop_value prop_name="Abbr" value="главный энергетик"></prop_value>
-				</Collection>
-			</Object>
 			<Object uid="25031.281474976752496" name="директор котельных" class_id="Post">
 				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
 					<prop_value prop_name="UID" value="25031.281474976752496"></prop_value>
@@ -109,25 +46,11 @@
 					<prop_value prop_name="Abbr" value="директор котельных"></prop_value>
 				</Collection>
 			</Object>
-			<Object uid="25031.281474976752517" name="главный механик" class_id="Post">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="25031.281474976752517"></prop_value>
-					<prop_value prop_name="Name" value="главный механик"></prop_value>
-					<prop_value prop_name="Abbr" value="главный механик"></prop_value>
-				</Collection>
-			</Object>
 			<Object uid="25031.281474976752699" name="заместитель главного механика" class_id="Post">
 				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
 					<prop_value prop_name="UID" value="25031.281474976752699"></prop_value>
 					<prop_value prop_name="Name" value="заместитель главного механика"></prop_value>
 					<prop_value prop_name="Abbr" value="заместитель главного механика"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="25031.281474976753681" name="рабочий по комплексному обслуживанию и ремонту зданий 3 разряда" class_id="Post">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="25031.281474976753681"></prop_value>
-					<prop_value prop_name="Name" value="рабочий по комплексному обслуживанию и ремонту зданий 3 разряда"></prop_value>
-					<prop_value prop_name="Abbr" value="рабочий по комплексному обслуживанию и ремонту зданий 3 разряда"></prop_value>
 				</Collection>
 			</Object>
 			<Object uid="25031.281474976753683" name="кассир" class_id="Post">
@@ -156,6 +79,13 @@
 					<prop_value prop_name="UID" value="25031.281474976753719"></prop_value>
 					<prop_value prop_name="Name" value="заместитель руководителя отделения"></prop_value>
 					<prop_value prop_name="Abbr" value="заместитель руководителя отделения"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976753758" name="заведующий общежитием" class_id="Post">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976753758"></prop_value>
+					<prop_value prop_name="Name" value="заведующий общежитием"></prop_value>
+					<prop_value prop_name="Abbr" value="заведующий общежитием"></prop_value>
 				</Collection>
 			</Object>
 			<Object uid="25031.281474976753777" name="воспитатель" class_id="Post">
@@ -235,13 +165,6 @@
 					<prop_value prop_name="Abbr" value="электроник"></prop_value>
 				</Collection>
 			</Object>
-			<Object uid="25031.281474976753919" name="ведущий специалист по учебно-методической работе" class_id="Post">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="25031.281474976753919"></prop_value>
-					<prop_value prop_name="Name" value="ведущий специалист по учебно-методической работе"></prop_value>
-					<prop_value prop_name="Abbr" value="ведущий специалист по учебно-методической работе"></prop_value>
-				</Collection>
-			</Object>
 			<Object uid="25031.281474976753926" name="директор НИИ" class_id="Post">
 				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
 					<prop_value prop_name="UID" value="25031.281474976753926"></prop_value>
@@ -284,25 +207,11 @@
 					<prop_value prop_name="Abbr" value="профессор"></prop_value>
 				</Collection>
 			</Object>
-			<Object uid="25031.281474976753991" name="редактор" class_id="Post">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="25031.281474976753991"></prop_value>
-					<prop_value prop_name="Name" value="редактор"></prop_value>
-					<prop_value prop_name="Abbr" value="редактор"></prop_value>
-				</Collection>
-			</Object>
 			<Object uid="25031.281474976754032" name="руководитель центра" class_id="Post">
 				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
 					<prop_value prop_name="UID" value="25031.281474976754032"></prop_value>
 					<prop_value prop_name="Name" value="руководитель центра"></prop_value>
 					<prop_value prop_name="Abbr" value="руководитель центра"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="25031.281474976754075" name="специалист по координации работы с обучающимися" class_id="Post">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="25031.281474976754075"></prop_value>
-					<prop_value prop_name="Name" value="специалист по координации работы с обучающимися"></prop_value>
-					<prop_value prop_name="Abbr" value="специалист по координации работы с обучающимися"></prop_value>
 				</Collection>
 			</Object>
 			<Object uid="25031.281474976754078" name="секретарь" class_id="Post">
@@ -373,13 +282,6 @@
 					<prop_value prop_name="UID" value="25031.281474976754201"></prop_value>
 					<prop_value prop_name="Name" value="директор центра"></prop_value>
 					<prop_value prop_name="Abbr" value="директор центра"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="25031.281474976754206" name="главный бухгалтер филиала" class_id="Post">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="25031.281474976754206"></prop_value>
-					<prop_value prop_name="Name" value="главный бухгалтер филиала"></prop_value>
-					<prop_value prop_name="Abbr" value="главный бухгалтер филиала"></prop_value>
 				</Collection>
 			</Object>
 			<Object uid="25031.281474976754215" name="документовед 2 категории" class_id="Post">
@@ -457,13 +359,6 @@
 					<prop_value prop_name="UID" value="25031.281474976756366"></prop_value>
 					<prop_value prop_name="Name" value="ведущий социолог"></prop_value>
 					<prop_value prop_name="Abbr" value="ведущий социолог"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="25031.281474976756374" name="главный инженер проекта" class_id="Post">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="25031.281474976756374"></prop_value>
-					<prop_value prop_name="Name" value="главный инженер проекта"></prop_value>
-					<prop_value prop_name="Abbr" value="главный инженер проекта"></prop_value>
 				</Collection>
 			</Object>
 			<Object uid="25031.281474976756378" name="ведущий научный сотрудник" class_id="Post">
@@ -816,13 +711,6 @@
 					<prop_value prop_name="Abbr" value="проректор по международной деятельности и сетевому взаимодействию"></prop_value>
 				</Collection>
 			</Object>
-			<Object uid="25031.281474976756598" name="учебный мастер 2 категории" class_id="Post">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="25031.281474976756598"></prop_value>
-					<prop_value prop_name="Name" value="учебный мастер 2 категории"></prop_value>
-					<prop_value prop_name="Abbr" value="учебный мастер 2 категории"></prop_value>
-				</Collection>
-			</Object>
 			<Object uid="25031.281474976756601" name="заместитель руководителя центра" class_id="Post">
 				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
 					<prop_value prop_name="UID" value="25031.281474976756601"></prop_value>
@@ -849,13 +737,6 @@
 					<prop_value prop_name="UID" value="25031.281474976756607"></prop_value>
 					<prop_value prop_name="Name" value="первый заместитель директора института"></prop_value>
 					<prop_value prop_name="Abbr" value="первый заместитель директора института"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="25031.281474976756619" name="помощник начальника управления" class_id="Post">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="25031.281474976756619"></prop_value>
-					<prop_value prop_name="Name" value="помощник начальника управления"></prop_value>
-					<prop_value prop_name="Abbr" value="помощник начальника управления"></prop_value>
 				</Collection>
 			</Object>
 			<Object uid="25031.281474976756621" name="электроник 1 категории" class_id="Post">
@@ -933,13 +814,6 @@
 					<prop_value prop_name="UID" value="25031.281474976756679"></prop_value>
 					<prop_value prop_name="Name" value="начальник кафедры"></prop_value>
 					<prop_value prop_name="Abbr" value="начальник кафедры"></prop_value>
-				</Collection>
-			</Object>
-			<Object uid="25031.281474976756680" name="уборщик служебных помещений" class_id="Post">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="25031.281474976756680"></prop_value>
-					<prop_value prop_name="Name" value="уборщик служебных помещений"></prop_value>
-					<prop_value prop_name="Abbr" value="уборщик служебных помещений"></prop_value>
 				</Collection>
 			</Object>
 			<Object uid="25031.281474976756685" name="специалист по учебно-методической работе 2 категории" class_id="Post">

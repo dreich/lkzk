@@ -47689,17 +47689,6 @@
 					<prop_value prop_name="Complexity" value="100"></prop_value>
 				</Collection>
 			</Object>
-			<Object uid="26006.281474976728417" name="Внутренние болезни (кандидатский экзамен)" class_id="Discipline">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26006.281474976728417"></prop_value>
-					<prop_value prop_name="Name" value="Внутренние болезни (кандидатский экзамен)"></prop_value>
-					<prop_value prop_name="Abbr" value=""></prop_value>
-					<prop_value prop_name="Code" value=""></prop_value>
-					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
-					<prop_value prop_name="Priority" value="100"></prop_value>
-					<prop_value prop_name="Complexity" value="100"></prop_value>
-				</Collection>
-			</Object>
 			<Object uid="26006.281474976728418" name="Сердечно-сосудистая патология при сахарном диабете" class_id="Discipline">
 				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
 					<prop_value prop_name="UID" value="26006.281474976728418"></prop_value>
@@ -99092,17 +99081,6 @@
 					<prop_value prop_name="Complexity" value="100"></prop_value>
 				</Collection>
 			</Object>
-			<Object uid="26006.281474976730905" name="Рождаемость, брачность, разводимость в контексте трансформаций института семьи и брака" class_id="Discipline">
-				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
-					<prop_value prop_name="UID" value="26006.281474976730905"></prop_value>
-					<prop_value prop_name="Name" value="Рождаемость, брачность, разводимость в контексте трансформаций института семьи и брака"></prop_value>
-					<prop_value prop_name="Abbr" value=""></prop_value>
-					<prop_value prop_name="Code" value=""></prop_value>
-					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
-					<prop_value prop_name="Priority" value="100"></prop_value>
-					<prop_value prop_name="Complexity" value="100"></prop_value>
-				</Collection>
-			</Object>
 			<Object uid="26006.281474976730906" name="Социальная политика как механизм управления социальными процессами и структурами" class_id="Discipline">
 				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
 					<prop_value prop_name="UID" value="26006.281474976730906"></prop_value>
@@ -103646,6 +103624,303 @@
 					<prop_value prop_name="Complexity" value="100"></prop_value>
 				</Collection>
 			</Object>
+			<Object uid="26006.281474976731773" name="Нейросетевая графика" class_id="Discipline">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26006.281474976731773"></prop_value>
+					<prop_value prop_name="Name" value="Нейросетевая графика"></prop_value>
+					<prop_value prop_name="Abbr" value=""></prop_value>
+					<prop_value prop_name="Code" value=""></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="Priority" value="100"></prop_value>
+					<prop_value prop_name="Complexity" value="100"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26006.281474976731774" name="Основы алгоритмизации и нейросети в современных медиа" class_id="Discipline">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26006.281474976731774"></prop_value>
+					<prop_value prop_name="Name" value="Основы алгоритмизации и нейросети в современных медиа"></prop_value>
+					<prop_value prop_name="Abbr" value=""></prop_value>
+					<prop_value prop_name="Code" value=""></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="Priority" value="100"></prop_value>
+					<prop_value prop_name="Complexity" value="100"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26006.281474976731775" name="Искусственный интеллект в системе гуманитарного знания" class_id="Discipline">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26006.281474976731775"></prop_value>
+					<prop_value prop_name="Name" value="Искусственный интеллект в системе гуманитарного знания"></prop_value>
+					<prop_value prop_name="Abbr" value=""></prop_value>
+					<prop_value prop_name="Code" value=""></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="Priority" value="100"></prop_value>
+					<prop_value prop_name="Complexity" value="100"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26006.281474976731776" name="Аудиовизуальные технологии в дизайне" class_id="Discipline">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26006.281474976731776"></prop_value>
+					<prop_value prop_name="Name" value="Аудиовизуальные технологии в дизайне"></prop_value>
+					<prop_value prop_name="Abbr" value=""></prop_value>
+					<prop_value prop_name="Code" value=""></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="Priority" value="100"></prop_value>
+					<prop_value prop_name="Complexity" value="100"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26006.281474976731781" name="Математика и основы статистики в гуманитарных исследованиях" class_id="Discipline">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26006.281474976731781"></prop_value>
+					<prop_value prop_name="Name" value="Математика и основы статистики в гуманитарных исследованиях"></prop_value>
+					<prop_value prop_name="Abbr" value=""></prop_value>
+					<prop_value prop_name="Code" value=""></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="Priority" value="100"></prop_value>
+					<prop_value prop_name="Complexity" value="100"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26006.281474976731782" name="Основы коучинга" class_id="Discipline">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26006.281474976731782"></prop_value>
+					<prop_value prop_name="Name" value="Основы коучинга"></prop_value>
+					<prop_value prop_name="Abbr" value=""></prop_value>
+					<prop_value prop_name="Code" value=""></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="Priority" value="100"></prop_value>
+					<prop_value prop_name="Complexity" value="100"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26006.281474976731783" name="Эмбриоинженерия" class_id="Discipline">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26006.281474976731783"></prop_value>
+					<prop_value prop_name="Name" value="Эмбриоинженерия"></prop_value>
+					<prop_value prop_name="Abbr" value=""></prop_value>
+					<prop_value prop_name="Code" value=""></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="Priority" value="100"></prop_value>
+					<prop_value prop_name="Complexity" value="100"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26006.281474976731784" name="Глиальная нейробиология и нейроиммунология" class_id="Discipline">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26006.281474976731784"></prop_value>
+					<prop_value prop_name="Name" value="Глиальная нейробиология и нейроиммунология"></prop_value>
+					<prop_value prop_name="Abbr" value=""></prop_value>
+					<prop_value prop_name="Code" value=""></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="Priority" value="100"></prop_value>
+					<prop_value prop_name="Complexity" value="100"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26006.281474976731785" name="Эмуляторы, симуляторы и бинарная трансляция" class_id="Discipline">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26006.281474976731785"></prop_value>
+					<prop_value prop_name="Name" value="Эмуляторы, симуляторы и бинарная трансляция"></prop_value>
+					<prop_value prop_name="Abbr" value=""></prop_value>
+					<prop_value prop_name="Code" value=""></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="Priority" value="100"></prop_value>
+					<prop_value prop_name="Complexity" value="100"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26006.281474976731786" name="Системы виртуализации и контейнеризации" class_id="Discipline">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26006.281474976731786"></prop_value>
+					<prop_value prop_name="Name" value="Системы виртуализации и контейнеризации"></prop_value>
+					<prop_value prop_name="Abbr" value=""></prop_value>
+					<prop_value prop_name="Code" value=""></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="Priority" value="100"></prop_value>
+					<prop_value prop_name="Complexity" value="100"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26006.281474976731787" name="Профессиональные навыки разработчика" class_id="Discipline">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26006.281474976731787"></prop_value>
+					<prop_value prop_name="Name" value="Профессиональные навыки разработчика"></prop_value>
+					<prop_value prop_name="Abbr" value=""></prop_value>
+					<prop_value prop_name="Code" value=""></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="Priority" value="100"></prop_value>
+					<prop_value prop_name="Complexity" value="100"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26006.281474976731788" name="Python и автоматизация" class_id="Discipline">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26006.281474976731788"></prop_value>
+					<prop_value prop_name="Name" value="Python и автоматизация"></prop_value>
+					<prop_value prop_name="Abbr" value=""></prop_value>
+					<prop_value prop_name="Code" value=""></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="Priority" value="100"></prop_value>
+					<prop_value prop_name="Complexity" value="100"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26006.281474976731789" name="Введение в сопряженное проектирование программного обеспечения и аппаратуры на программируемых логических интегральных схемах" class_id="Discipline">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26006.281474976731789"></prop_value>
+					<prop_value prop_name="Name" value="Введение в сопряженное проектирование программного обеспечения и аппаратуры на программируемых логических интегральных схемах"></prop_value>
+					<prop_value prop_name="Abbr" value=""></prop_value>
+					<prop_value prop_name="Code" value=""></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="Priority" value="100"></prop_value>
+					<prop_value prop_name="Complexity" value="100"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26006.281474976731790" name="Тензорные компиляторы" class_id="Discipline">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26006.281474976731790"></prop_value>
+					<prop_value prop_name="Name" value="Тензорные компиляторы"></prop_value>
+					<prop_value prop_name="Abbr" value=""></prop_value>
+					<prop_value prop_name="Code" value=""></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="Priority" value="100"></prop_value>
+					<prop_value prop_name="Complexity" value="100"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26006.281474976731791" name="Сопряженное проектирование программного обеспечения и аппаратуры на программируемых логических интегральных схемах" class_id="Discipline">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26006.281474976731791"></prop_value>
+					<prop_value prop_name="Name" value="Сопряженное проектирование программного обеспечения и аппаратуры на программируемых логических интегральных схемах"></prop_value>
+					<prop_value prop_name="Abbr" value=""></prop_value>
+					<prop_value prop_name="Code" value=""></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="Priority" value="100"></prop_value>
+					<prop_value prop_name="Complexity" value="100"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26006.281474976731793" name="Психолого-педагогические аспекты спортивной деятельности" class_id="Discipline">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26006.281474976731793"></prop_value>
+					<prop_value prop_name="Name" value="Психолого-педагогические аспекты спортивной деятельности"></prop_value>
+					<prop_value prop_name="Abbr" value=""></prop_value>
+					<prop_value prop_name="Code" value=""></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="Priority" value="100"></prop_value>
+					<prop_value prop_name="Complexity" value="100"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26006.281474976731794" name="Нормативно-правовые, теоретические и медико-биологические основы профессиональной деятельности тренера-преподавателя" class_id="Discipline">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26006.281474976731794"></prop_value>
+					<prop_value prop_name="Name" value="Нормативно-правовые, теоретические и медико-биологические основы профессиональной деятельности тренера-преподавателя"></prop_value>
+					<prop_value prop_name="Abbr" value=""></prop_value>
+					<prop_value prop_name="Code" value=""></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="Priority" value="100"></prop_value>
+					<prop_value prop_name="Complexity" value="100"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26006.281474976731795" name="Психолого-педагогические основы работы с детьми различных возрастов в интеллектуальных видах спорта" class_id="Discipline">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26006.281474976731795"></prop_value>
+					<prop_value prop_name="Name" value="Психолого-педагогические основы работы с детьми различных возрастов в интеллектуальных видах спорта"></prop_value>
+					<prop_value prop_name="Abbr" value=""></prop_value>
+					<prop_value prop_name="Code" value=""></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="Priority" value="100"></prop_value>
+					<prop_value prop_name="Complexity" value="100"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26006.281474976731796" name="Основы теории и истории шахматного искусства" class_id="Discipline">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26006.281474976731796"></prop_value>
+					<prop_value prop_name="Name" value="Основы теории и истории шахматного искусства"></prop_value>
+					<prop_value prop_name="Abbr" value=""></prop_value>
+					<prop_value prop_name="Code" value=""></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="Priority" value="100"></prop_value>
+					<prop_value prop_name="Complexity" value="100"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26006.281474976731797" name="Методика начального обучения шахматам" class_id="Discipline">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26006.281474976731797"></prop_value>
+					<prop_value prop_name="Name" value="Методика начального обучения шахматам"></prop_value>
+					<prop_value prop_name="Abbr" value=""></prop_value>
+					<prop_value prop_name="Code" value=""></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="Priority" value="100"></prop_value>
+					<prop_value prop_name="Complexity" value="100"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26006.281474976731798" name="Физические основы методов магнитно-резонансной томографии" class_id="Discipline">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26006.281474976731798"></prop_value>
+					<prop_value prop_name="Name" value="Физические основы методов магнитно-резонансной томографии"></prop_value>
+					<prop_value prop_name="Abbr" value=""></prop_value>
+					<prop_value prop_name="Code" value=""></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="Priority" value="100"></prop_value>
+					<prop_value prop_name="Complexity" value="100"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26006.281474976731799" name="Методика обучения труду (технологии)" class_id="Discipline">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26006.281474976731799"></prop_value>
+					<prop_value prop_name="Name" value="Методика обучения труду (технологии)"></prop_value>
+					<prop_value prop_name="Abbr" value=""></prop_value>
+					<prop_value prop_name="Code" value=""></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="Priority" value="100"></prop_value>
+					<prop_value prop_name="Complexity" value="100"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26006.281474976731800" name="Влияние цифровизации на внутреннюю и внешнюю политику регионов мира" class_id="Discipline">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26006.281474976731800"></prop_value>
+					<prop_value prop_name="Name" value="Влияние цифровизации на внутреннюю и внешнюю политику регионов мира"></prop_value>
+					<prop_value prop_name="Abbr" value=""></prop_value>
+					<prop_value prop_name="Code" value=""></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="Priority" value="100"></prop_value>
+					<prop_value prop_name="Complexity" value="100"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26006.281474976731802" name="Информационная политика в международных отношениях" class_id="Discipline">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26006.281474976731802"></prop_value>
+					<prop_value prop_name="Name" value="Информационная политика в международных отношениях"></prop_value>
+					<prop_value prop_name="Abbr" value=""></prop_value>
+					<prop_value prop_name="Code" value=""></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="Priority" value="100"></prop_value>
+					<prop_value prop_name="Complexity" value="100"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26006.281474976731803" name="Иностранный язык 2-й: оперативный уровень (английский)" class_id="Discipline">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26006.281474976731803"></prop_value>
+					<prop_value prop_name="Name" value="Иностранный язык 2-й: оперативный уровень (английский)"></prop_value>
+					<prop_value prop_name="Abbr" value=""></prop_value>
+					<prop_value prop_name="Code" value=""></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="Priority" value="100"></prop_value>
+					<prop_value prop_name="Complexity" value="100"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26006.281474976731804" name="Иностранный язык 2-й: оперативный уровень (испанский)" class_id="Discipline">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26006.281474976731804"></prop_value>
+					<prop_value prop_name="Name" value="Иностранный язык 2-й: оперативный уровень (испанский)"></prop_value>
+					<prop_value prop_name="Abbr" value=""></prop_value>
+					<prop_value prop_name="Code" value=""></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="Priority" value="100"></prop_value>
+					<prop_value prop_name="Complexity" value="100"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26006.281474976731805" name="Иностранный язык 2-й: оперативный уровень (немецкий)" class_id="Discipline">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26006.281474976731805"></prop_value>
+					<prop_value prop_name="Name" value="Иностранный язык 2-й: оперативный уровень (немецкий)"></prop_value>
+					<prop_value prop_name="Abbr" value=""></prop_value>
+					<prop_value prop_name="Code" value=""></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="Priority" value="100"></prop_value>
+					<prop_value prop_name="Complexity" value="100"></prop_value>
+				</Collection>
+			</Object>
 			<Object uid="26006.281474976731705" name="Клиническая практика (получение первичных навыков по профилю профессиональной деятельности)" class_id="Discipline">
 				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
 					<prop_value prop_name="UID" value="26006.281474976731705"></prop_value>
@@ -103684,6 +103959,259 @@
 					<prop_value prop_name="UID" value="26006.281474976731754"></prop_value>
 					<prop_value prop_name="Name" value="Основы электротехники и цифровой схемотехники"></prop_value>
 					<prop_value prop_name="Abbr" value=""></prop_value>
+					<prop_value prop_name="Code" value=""></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="Priority" value="100"></prop_value>
+					<prop_value prop_name="Complexity" value="100"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26006.281474976731806" name="Иностранный язык 2-й: оперативный уровень (французский)" class_id="Discipline">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26006.281474976731806"></prop_value>
+					<prop_value prop_name="Name" value="Иностранный язык 2-й: оперативный уровень (французский)"></prop_value>
+					<prop_value prop_name="Abbr" value=""></prop_value>
+					<prop_value prop_name="Code" value=""></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="Priority" value="100"></prop_value>
+					<prop_value prop_name="Complexity" value="100"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26006.281474976731807" name="Иностранный язык 2-й: оперативный уровень (арабский)" class_id="Discipline">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26006.281474976731807"></prop_value>
+					<prop_value prop_name="Name" value="Иностранный язык 2-й: оперативный уровень (арабский)"></prop_value>
+					<prop_value prop_name="Abbr" value=""></prop_value>
+					<prop_value prop_name="Code" value=""></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="Priority" value="100"></prop_value>
+					<prop_value prop_name="Complexity" value="100"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26006.281474976731808" name="Иностранный язык 2-й: оперативный уровень (китайский)" class_id="Discipline">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26006.281474976731808"></prop_value>
+					<prop_value prop_name="Name" value="Иностранный язык 2-й: оперативный уровень (китайский)"></prop_value>
+					<prop_value prop_name="Abbr" value=""></prop_value>
+					<prop_value prop_name="Code" value=""></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="Priority" value="100"></prop_value>
+					<prop_value prop_name="Complexity" value="100"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26006.281474976731809" name="Иностранный язык 2-й: оперативный уровень (корейский)" class_id="Discipline">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26006.281474976731809"></prop_value>
+					<prop_value prop_name="Name" value="Иностранный язык 2-й: оперативный уровень (корейский)"></prop_value>
+					<prop_value prop_name="Abbr" value=""></prop_value>
+					<prop_value prop_name="Code" value=""></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="Priority" value="100"></prop_value>
+					<prop_value prop_name="Complexity" value="100"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26006.281474976731810" name="Иностранный язык 2-й: оперативный уровень (турецкий)" class_id="Discipline">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26006.281474976731810"></prop_value>
+					<prop_value prop_name="Name" value="Иностранный язык 2-й: оперативный уровень (турецкий)"></prop_value>
+					<prop_value prop_name="Abbr" value=""></prop_value>
+					<prop_value prop_name="Code" value=""></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="Priority" value="100"></prop_value>
+					<prop_value prop_name="Complexity" value="100"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26006.281474976731811" name="Иностранный язык 2-й: оперативный уровень (армянский)" class_id="Discipline">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26006.281474976731811"></prop_value>
+					<prop_value prop_name="Name" value="Иностранный язык 2-й: оперативный уровень (армянский)"></prop_value>
+					<prop_value prop_name="Abbr" value=""></prop_value>
+					<prop_value prop_name="Code" value=""></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="Priority" value="100"></prop_value>
+					<prop_value prop_name="Complexity" value="100"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26006.281474976731813" name="Территориальная и отраслевая структура мирового хозяйства и России" class_id="Discipline">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26006.281474976731813"></prop_value>
+					<prop_value prop_name="Name" value="Территориальная и отраслевая структура мирового хозяйства и России"></prop_value>
+					<prop_value prop_name="Abbr" value=""></prop_value>
+					<prop_value prop_name="Code" value=""></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="Priority" value="100"></prop_value>
+					<prop_value prop_name="Complexity" value="100"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26006.281474976731814" name="Основы криптографии" class_id="Discipline">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26006.281474976731814"></prop_value>
+					<prop_value prop_name="Name" value="Основы криптографии"></prop_value>
+					<prop_value prop_name="Abbr" value=""></prop_value>
+					<prop_value prop_name="Code" value=""></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="Priority" value="100"></prop_value>
+					<prop_value prop_name="Complexity" value="100"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26006.281474976731815" name="Основы постквантовой криптографии" class_id="Discipline">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26006.281474976731815"></prop_value>
+					<prop_value prop_name="Name" value="Основы постквантовой криптографии"></prop_value>
+					<prop_value prop_name="Abbr" value=""></prop_value>
+					<prop_value prop_name="Code" value=""></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="Priority" value="100"></prop_value>
+					<prop_value prop_name="Complexity" value="100"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26006.281474976731817" name="Правила обработки и защиты персональных данных" class_id="Discipline">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26006.281474976731817"></prop_value>
+					<prop_value prop_name="Name" value="Правила обработки и защиты персональных данных"></prop_value>
+					<prop_value prop_name="Abbr" value=""></prop_value>
+					<prop_value prop_name="Code" value=""></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="Priority" value="100"></prop_value>
+					<prop_value prop_name="Complexity" value="100"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26006.281474976731822" name="Методология исследования нанотехнологий правоприменения" class_id="Discipline">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26006.281474976731822"></prop_value>
+					<prop_value prop_name="Name" value="Методология исследования нанотехнологий правоприменения"></prop_value>
+					<prop_value prop_name="Abbr" value=""></prop_value>
+					<prop_value prop_name="Code" value=""></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="Priority" value="100"></prop_value>
+					<prop_value prop_name="Complexity" value="100"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26006.281474976731850" name="Теория и методика развития речи детей раннего и дошкольного возраста" class_id="Discipline">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26006.281474976731850"></prop_value>
+					<prop_value prop_name="Name" value="Теория и методика развития речи детей раннего и дошкольного возраста"></prop_value>
+					<prop_value prop_name="Abbr" value=""></prop_value>
+					<prop_value prop_name="Code" value=""></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="Priority" value="100"></prop_value>
+					<prop_value prop_name="Complexity" value="100"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26006.281474976731851" name="Теория и методика экологического образования детей раннего и дошкольного возраста" class_id="Discipline">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26006.281474976731851"></prop_value>
+					<prop_value prop_name="Name" value="Теория и методика экологического образования детей раннего и дошкольного возраста"></prop_value>
+					<prop_value prop_name="Abbr" value=""></prop_value>
+					<prop_value prop_name="Code" value=""></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="Priority" value="100"></prop_value>
+					<prop_value prop_name="Complexity" value="100"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26006.281474976731852" name="Теория и методика формирования элементарных математических представлений у детей раннего и дошкольного возраста" class_id="Discipline">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26006.281474976731852"></prop_value>
+					<prop_value prop_name="Name" value="Теория и методика формирования элементарных математических представлений у детей раннего и дошкольного возраста"></prop_value>
+					<prop_value prop_name="Abbr" value=""></prop_value>
+					<prop_value prop_name="Code" value=""></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="Priority" value="100"></prop_value>
+					<prop_value prop_name="Complexity" value="100"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26006.281474976731853" name="Теоретические и методические основы процесса воспитания детей раннего и дошкольного возраста" class_id="Discipline">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26006.281474976731853"></prop_value>
+					<prop_value prop_name="Name" value="Теоретические и методические основы процесса воспитания детей раннего и дошкольного возраста"></prop_value>
+					<prop_value prop_name="Abbr" value=""></prop_value>
+					<prop_value prop_name="Code" value=""></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="Priority" value="100"></prop_value>
+					<prop_value prop_name="Complexity" value="100"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26006.281474976731854" name="Теоретические и методические основы организации взаимодействия с родителями (законными представителями) детей и сотрудниками ДОО" class_id="Discipline">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26006.281474976731854"></prop_value>
+					<prop_value prop_name="Name" value="Теоретические и методические основы организации взаимодействия с родителями (законными представителями) детей и сотрудниками ДОО"></prop_value>
+					<prop_value prop_name="Abbr" value=""></prop_value>
+					<prop_value prop_name="Code" value=""></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="Priority" value="100"></prop_value>
+					<prop_value prop_name="Complexity" value="100"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26006.281474976731855" name="Теоретические и методические основы разработки и реализации парциальной программы в области художественно-эстетического развития с практикумом" class_id="Discipline">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26006.281474976731855"></prop_value>
+					<prop_value prop_name="Name" value="Теоретические и методические основы разработки и реализации парциальной программы в области художественно-эстетического развития с практикумом"></prop_value>
+					<prop_value prop_name="Abbr" value=""></prop_value>
+					<prop_value prop_name="Code" value=""></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="Priority" value="100"></prop_value>
+					<prop_value prop_name="Complexity" value="100"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26006.281474976731856" name="Организация мероприятий, направленных на укрепление здоровья и физическое развитие детей раннего и дошкольного возраста" class_id="Discipline">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26006.281474976731856"></prop_value>
+					<prop_value prop_name="Name" value="Организация мероприятий, направленных на укрепление здоровья и физическое развитие детей раннего и дошкольного возраста"></prop_value>
+					<prop_value prop_name="Abbr" value="Модуль СПО"></prop_value>
+					<prop_value prop_name="Code" value=""></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="Priority" value="100"></prop_value>
+					<prop_value prop_name="Complexity" value="100"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26006.281474976731857" name="Организация различных видов деятельности детей в дошкольной образовательной организации" class_id="Discipline">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26006.281474976731857"></prop_value>
+					<prop_value prop_name="Name" value="Организация различных видов деятельности детей в дошкольной образовательной организации"></prop_value>
+					<prop_value prop_name="Abbr" value="Модуль СПО"></prop_value>
+					<prop_value prop_name="Code" value=""></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="Priority" value="100"></prop_value>
+					<prop_value prop_name="Complexity" value="100"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26006.281474976731858" name="Организация процесса обучения по основным общеобразовательным программам дошкольного образования" class_id="Discipline">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26006.281474976731858"></prop_value>
+					<prop_value prop_name="Name" value="Организация процесса обучения по основным общеобразовательным программам дошкольного образования"></prop_value>
+					<prop_value prop_name="Abbr" value="Модуль СПО"></prop_value>
+					<prop_value prop_name="Code" value=""></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="Priority" value="100"></prop_value>
+					<prop_value prop_name="Complexity" value="100"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26006.281474976731859" name="Организация воспитательного процесса детей раннего и дошкольного возраста в ДОО" class_id="Discipline">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26006.281474976731859"></prop_value>
+					<prop_value prop_name="Name" value="Организация воспитательного процесса детей раннего и дошкольного возраста в ДОО"></prop_value>
+					<prop_value prop_name="Abbr" value="Модуль СПО"></prop_value>
+					<prop_value prop_name="Code" value=""></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="Priority" value="100"></prop_value>
+					<prop_value prop_name="Complexity" value="100"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26006.281474976731860" name="Организация взаимодействия с родителями (законными представителями) детей и сотрудниками ДОО по вопросам развития и образования детей" class_id="Discipline">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26006.281474976731860"></prop_value>
+					<prop_value prop_name="Name" value="Организация взаимодействия с родителями (законными представителями) детей и сотрудниками ДОО по вопросам развития и образования детей"></prop_value>
+					<prop_value prop_name="Abbr" value="Модуль СПО"></prop_value>
+					<prop_value prop_name="Code" value=""></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="Priority" value="100"></prop_value>
+					<prop_value prop_name="Complexity" value="100"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26006.281474976731861" name="Организация процесса разработки и реализации парциальной образовательной программы в области художественно-эстетического развития" class_id="Discipline">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26006.281474976731861"></prop_value>
+					<prop_value prop_name="Name" value="Организация процесса разработки и реализации парциальной образовательной программы в области художественно-эстетического развития"></prop_value>
+					<prop_value prop_name="Abbr" value="Модуль СПО"></prop_value>
 					<prop_value prop_name="Code" value=""></prop_value>
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="Priority" value="100"></prop_value>
@@ -103749,6 +104277,28 @@
 				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
 					<prop_value prop_name="UID" value="26006.281474976731750"></prop_value>
 					<prop_value prop_name="Name" value="Информационные таможенные технологии и цифровизация функционирования таможенных органов Российской Федерации"></prop_value>
+					<prop_value prop_name="Abbr" value=""></prop_value>
+					<prop_value prop_name="Code" value=""></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="Priority" value="100"></prop_value>
+					<prop_value prop_name="Complexity" value="100"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26006.281474976731816" name="СДВГ-коучинг" class_id="Discipline">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26006.281474976731816"></prop_value>
+					<prop_value prop_name="Name" value="СДВГ-коучинг"></prop_value>
+					<prop_value prop_name="Abbr" value=""></prop_value>
+					<prop_value prop_name="Code" value=""></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="Priority" value="100"></prop_value>
+					<prop_value prop_name="Complexity" value="100"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26006.281474976731862" name="Инструменты искусственного интеллекта" class_id="Discipline">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26006.281474976731862"></prop_value>
+					<prop_value prop_name="Name" value="Инструменты искусственного интеллекта"></prop_value>
 					<prop_value prop_name="Abbr" value=""></prop_value>
 					<prop_value prop_name="Code" value=""></prop_value>
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
@@ -103855,10 +104405,428 @@
 					<prop_value prop_name="Complexity" value="100"></prop_value>
 				</Collection>
 			</Object>
+			<Object uid="26006.281474976731777" name="Социально ориентированные НКО как акторы социальной архитектуры" class_id="Discipline">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26006.281474976731777"></prop_value>
+					<prop_value prop_name="Name" value="Социально ориентированные НКО как акторы социальной архитектуры"></prop_value>
+					<prop_value prop_name="Abbr" value=""></prop_value>
+					<prop_value prop_name="Code" value=""></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="Priority" value="100"></prop_value>
+					<prop_value prop_name="Complexity" value="100"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26006.281474976731778" name="Гражданское общество как субъект социальной архитектуры" class_id="Discipline">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26006.281474976731778"></prop_value>
+					<prop_value prop_name="Name" value="Гражданское общество как субъект социальной архитектуры"></prop_value>
+					<prop_value prop_name="Abbr" value=""></prop_value>
+					<prop_value prop_name="Code" value=""></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="Priority" value="100"></prop_value>
+					<prop_value prop_name="Complexity" value="100"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26006.281474976731779" name="Организация социальных коммуникаций" class_id="Discipline">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26006.281474976731779"></prop_value>
+					<prop_value prop_name="Name" value="Организация социальных коммуникаций"></prop_value>
+					<prop_value prop_name="Abbr" value=""></prop_value>
+					<prop_value prop_name="Code" value=""></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="Priority" value="100"></prop_value>
+					<prop_value prop_name="Complexity" value="100"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26006.281474976731780" name="Конфликтология в социальной архитектуре" class_id="Discipline">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26006.281474976731780"></prop_value>
+					<prop_value prop_name="Name" value="Конфликтология в социальной архитектуре"></prop_value>
+					<prop_value prop_name="Abbr" value=""></prop_value>
+					<prop_value prop_name="Code" value=""></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="Priority" value="100"></prop_value>
+					<prop_value prop_name="Complexity" value="100"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26006.281474976731821" name="Методика разработки образовательных веб-квестов по естественнонаучным дисциплинам, математике и информатике" class_id="Discipline">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26006.281474976731821"></prop_value>
+					<prop_value prop_name="Name" value="Методика разработки образовательных веб-квестов по естественнонаучным дисциплинам, математике и информатике"></prop_value>
+					<prop_value prop_name="Abbr" value=""></prop_value>
+					<prop_value prop_name="Code" value=""></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="Priority" value="100"></prop_value>
+					<prop_value prop_name="Complexity" value="100"></prop_value>
+				</Collection>
+			</Object>
 			<Object uid="26006.281474976731772" name="Корпоративная культура и деловая коммуникация" class_id="Discipline">
 				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
 					<prop_value prop_name="UID" value="26006.281474976731772"></prop_value>
 					<prop_value prop_name="Name" value="Корпоративная культура и деловая коммуникация"></prop_value>
+					<prop_value prop_name="Abbr" value=""></prop_value>
+					<prop_value prop_name="Code" value=""></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="Priority" value="100"></prop_value>
+					<prop_value prop_name="Complexity" value="100"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26006.281474976731792" name="Основы математической физики" class_id="Discipline">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26006.281474976731792"></prop_value>
+					<prop_value prop_name="Name" value="Основы математической физики"></prop_value>
+					<prop_value prop_name="Abbr" value=""></prop_value>
+					<prop_value prop_name="Code" value=""></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="Priority" value="100"></prop_value>
+					<prop_value prop_name="Complexity" value="100"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26006.281474976731801" name="Мировая политика в цифровой среде" class_id="Discipline">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26006.281474976731801"></prop_value>
+					<prop_value prop_name="Name" value="Мировая политика в цифровой среде"></prop_value>
+					<prop_value prop_name="Abbr" value=""></prop_value>
+					<prop_value prop_name="Code" value=""></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="Priority" value="100"></prop_value>
+					<prop_value prop_name="Complexity" value="100"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26006.281474976731812" name="Современные образовательные платформы и их использование в  учебном  процессе в начальной  школе. Цифровая образовательная среда" class_id="Discipline">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26006.281474976731812"></prop_value>
+					<prop_value prop_name="Name" value="Современные образовательные платформы и их использование в  учебном  процессе в начальной  школе. Цифровая образовательная среда"></prop_value>
+					<prop_value prop_name="Abbr" value=""></prop_value>
+					<prop_value prop_name="Code" value=""></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="Priority" value="100"></prop_value>
+					<prop_value prop_name="Complexity" value="100"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26006.281474976731818" name="Физические методы в медицине" class_id="Discipline">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26006.281474976731818"></prop_value>
+					<prop_value prop_name="Name" value="Физические методы в медицине"></prop_value>
+					<prop_value prop_name="Abbr" value=""></prop_value>
+					<prop_value prop_name="Code" value=""></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="Priority" value="100"></prop_value>
+					<prop_value prop_name="Complexity" value="100"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26006.281474976731819" name="Биомедицинские дисциплины" class_id="Discipline">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26006.281474976731819"></prop_value>
+					<prop_value prop_name="Name" value="Биомедицинские дисциплины"></prop_value>
+					<prop_value prop_name="Abbr" value=""></prop_value>
+					<prop_value prop_name="Code" value=""></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="Priority" value="100"></prop_value>
+					<prop_value prop_name="Complexity" value="100"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26006.281474976731820" name="Проектная деятельность в технической физике" class_id="Discipline">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26006.281474976731820"></prop_value>
+					<prop_value prop_name="Name" value="Проектная деятельность в технической физике"></prop_value>
+					<prop_value prop_name="Abbr" value=""></prop_value>
+					<prop_value prop_name="Code" value=""></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="Priority" value="100"></prop_value>
+					<prop_value prop_name="Complexity" value="100"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26006.281474976731823" name="Основы бухгалтерского и управленческого учета" class_id="Discipline">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26006.281474976731823"></prop_value>
+					<prop_value prop_name="Name" value="Основы бухгалтерского и управленческого учета"></prop_value>
+					<prop_value prop_name="Abbr" value=""></prop_value>
+					<prop_value prop_name="Code" value=""></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="Priority" value="100"></prop_value>
+					<prop_value prop_name="Complexity" value="100"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26006.281474976731824" name="Освоение должности служащего Консультант в области развития цифровой грамотности населения (цифровой куратор)" class_id="Discipline">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26006.281474976731824"></prop_value>
+					<prop_value prop_name="Name" value="Освоение должности служащего Консультант в области развития цифровой грамотности населения (цифровой куратор)"></prop_value>
+					<prop_value prop_name="Abbr" value=""></prop_value>
+					<prop_value prop_name="Code" value=""></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="Priority" value="100"></prop_value>
+					<prop_value prop_name="Complexity" value="100"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26006.281474976731825" name="СВЧ узлы современных средств связи" class_id="Discipline">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26006.281474976731825"></prop_value>
+					<prop_value prop_name="Name" value="СВЧ узлы современных средств связи"></prop_value>
+					<prop_value prop_name="Abbr" value=""></prop_value>
+					<prop_value prop_name="Code" value=""></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="Priority" value="100"></prop_value>
+					<prop_value prop_name="Complexity" value="100"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26006.281474976731826" name="Схемотехника аналоговых и цифровых монолитных и гибридных СВЧ микросхем" class_id="Discipline">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26006.281474976731826"></prop_value>
+					<prop_value prop_name="Name" value="Схемотехника аналоговых и цифровых монолитных и гибридных СВЧ микросхем"></prop_value>
+					<prop_value prop_name="Abbr" value=""></prop_value>
+					<prop_value prop_name="Code" value=""></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="Priority" value="100"></prop_value>
+					<prop_value prop_name="Complexity" value="100"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26006.281474976731827" name="Цифровые каналы передачи данных монолитных и гибридных СВЧ интегральных схем" class_id="Discipline">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26006.281474976731827"></prop_value>
+					<prop_value prop_name="Name" value="Цифровые каналы передачи данных монолитных и гибридных СВЧ интегральных схем"></prop_value>
+					<prop_value prop_name="Abbr" value=""></prop_value>
+					<prop_value prop_name="Code" value=""></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="Priority" value="100"></prop_value>
+					<prop_value prop_name="Complexity" value="100"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26006.281474976731828" name="Модуль. Теория физической культуры и спорта. Основные понятия и термины" class_id="Discipline">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26006.281474976731828"></prop_value>
+					<prop_value prop_name="Name" value="Модуль. Теория физической культуры и спорта. Основные понятия и термины"></prop_value>
+					<prop_value prop_name="Abbr" value=""></prop_value>
+					<prop_value prop_name="Code" value=""></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="Priority" value="100"></prop_value>
+					<prop_value prop_name="Complexity" value="100"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26006.281474976731829" name="Модуль. Теория и методика обучения базовым видам спорта" class_id="Discipline">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26006.281474976731829"></prop_value>
+					<prop_value prop_name="Name" value="Модуль. Теория и методика обучения базовым видам спорта"></prop_value>
+					<prop_value prop_name="Abbr" value=""></prop_value>
+					<prop_value prop_name="Code" value=""></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="Priority" value="100"></prop_value>
+					<prop_value prop_name="Complexity" value="100"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26006.281474976731830" name="Модуль. Этап совершенствования спортивной подготовки" class_id="Discipline">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26006.281474976731830"></prop_value>
+					<prop_value prop_name="Name" value="Модуль. Этап совершенствования спортивной подготовки"></prop_value>
+					<prop_value prop_name="Abbr" value=""></prop_value>
+					<prop_value prop_name="Code" value=""></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="Priority" value="100"></prop_value>
+					<prop_value prop_name="Complexity" value="100"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26006.281474976731831" name="Введение в биофизику и физиологию" class_id="Discipline">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26006.281474976731831"></prop_value>
+					<prop_value prop_name="Name" value="Введение в биофизику и физиологию"></prop_value>
+					<prop_value prop_name="Abbr" value=""></prop_value>
+					<prop_value prop_name="Code" value=""></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="Priority" value="100"></prop_value>
+					<prop_value prop_name="Complexity" value="100"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26006.281474976731832" name="Моделирование синтетических генных сетей" class_id="Discipline">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26006.281474976731832"></prop_value>
+					<prop_value prop_name="Name" value="Моделирование синтетических генных сетей"></prop_value>
+					<prop_value prop_name="Abbr" value=""></prop_value>
+					<prop_value prop_name="Code" value=""></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="Priority" value="100"></prop_value>
+					<prop_value prop_name="Complexity" value="100"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26006.281474976731833" name="Алгоритмы обучения и кодирования информации в спайковых нейронных сетях" class_id="Discipline">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26006.281474976731833"></prop_value>
+					<prop_value prop_name="Name" value="Алгоритмы обучения и кодирования информации в спайковых нейронных сетях"></prop_value>
+					<prop_value prop_name="Abbr" value=""></prop_value>
+					<prop_value prop_name="Code" value=""></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="Priority" value="100"></prop_value>
+					<prop_value prop_name="Complexity" value="100"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26006.281474976731834" name="Генетика и клиническая диагностика" class_id="Discipline">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26006.281474976731834"></prop_value>
+					<prop_value prop_name="Name" value="Генетика и клиническая диагностика"></prop_value>
+					<prop_value prop_name="Abbr" value=""></prop_value>
+					<prop_value prop_name="Code" value=""></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="Priority" value="100"></prop_value>
+					<prop_value prop_name="Complexity" value="100"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26006.281474976731835" name="Иммунология и молекулярная онкология" class_id="Discipline">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26006.281474976731835"></prop_value>
+					<prop_value prop_name="Name" value="Иммунология и молекулярная онкология"></prop_value>
+					<prop_value prop_name="Abbr" value=""></prop_value>
+					<prop_value prop_name="Code" value=""></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="Priority" value="100"></prop_value>
+					<prop_value prop_name="Complexity" value="100"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26006.281474976731836" name="Нейродинамика и спайковые нейронные сети" class_id="Discipline">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26006.281474976731836"></prop_value>
+					<prop_value prop_name="Name" value="Нейродинамика и спайковые нейронные сети"></prop_value>
+					<prop_value prop_name="Abbr" value=""></prop_value>
+					<prop_value prop_name="Code" value=""></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="Priority" value="100"></prop_value>
+					<prop_value prop_name="Complexity" value="100"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26006.281474976731837" name="Введение в молекулярную биологию и генетику" class_id="Discipline">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26006.281474976731837"></prop_value>
+					<prop_value prop_name="Name" value="Введение в молекулярную биологию и генетику"></prop_value>
+					<prop_value prop_name="Abbr" value=""></prop_value>
+					<prop_value prop_name="Code" value=""></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="Priority" value="100"></prop_value>
+					<prop_value prop_name="Complexity" value="100"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26006.281474976731838" name="Программирование в R и Python" class_id="Discipline">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26006.281474976731838"></prop_value>
+					<prop_value prop_name="Name" value="Программирование в R и Python"></prop_value>
+					<prop_value prop_name="Abbr" value=""></prop_value>
+					<prop_value prop_name="Code" value=""></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="Priority" value="100"></prop_value>
+					<prop_value prop_name="Complexity" value="100"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26006.281474976731839" name="Искусственные нейронные сети и большие языковые модели" class_id="Discipline">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26006.281474976731839"></prop_value>
+					<prop_value prop_name="Name" value="Искусственные нейронные сети и большие языковые модели"></prop_value>
+					<prop_value prop_name="Abbr" value=""></prop_value>
+					<prop_value prop_name="Code" value=""></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="Priority" value="100"></prop_value>
+					<prop_value prop_name="Complexity" value="100"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26006.281474976731840" name="Продвинутая биоинформатика" class_id="Discipline">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26006.281474976731840"></prop_value>
+					<prop_value prop_name="Name" value="Продвинутая биоинформатика"></prop_value>
+					<prop_value prop_name="Abbr" value=""></prop_value>
+					<prop_value prop_name="Code" value=""></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="Priority" value="100"></prop_value>
+					<prop_value prop_name="Complexity" value="100"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26006.281474976731841" name="Математика в профессиональной деятельности воспитателя" class_id="Discipline">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26006.281474976731841"></prop_value>
+					<prop_value prop_name="Name" value="Математика в профессиональной деятельности воспитателя"></prop_value>
+					<prop_value prop_name="Abbr" value=""></prop_value>
+					<prop_value prop_name="Code" value=""></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="Priority" value="100"></prop_value>
+					<prop_value prop_name="Complexity" value="100"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26006.281474976731842" name="Основы возрастной и педагогической психологии" class_id="Discipline">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26006.281474976731842"></prop_value>
+					<prop_value prop_name="Name" value="Основы возрастной и педагогической психологии"></prop_value>
+					<prop_value prop_name="Abbr" value=""></prop_value>
+					<prop_value prop_name="Code" value=""></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="Priority" value="100"></prop_value>
+					<prop_value prop_name="Complexity" value="100"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26006.281474976731843" name="Медико-биологические основы здоровья" class_id="Discipline">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26006.281474976731843"></prop_value>
+					<prop_value prop_name="Name" value="Медико-биологические основы здоровья"></prop_value>
+					<prop_value prop_name="Abbr" value=""></prop_value>
+					<prop_value prop_name="Code" value=""></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="Priority" value="100"></prop_value>
+					<prop_value prop_name="Complexity" value="100"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26006.281474976731844" name="Теоретические и методические основы организации игровой деятельности детей раннего и дошкольного возраста с практикумом" class_id="Discipline">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26006.281474976731844"></prop_value>
+					<prop_value prop_name="Name" value="Теоретические и методические основы организации игровой деятельности детей раннего и дошкольного возраста с практикумом"></prop_value>
+					<prop_value prop_name="Abbr" value=""></prop_value>
+					<prop_value prop_name="Code" value=""></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="Priority" value="100"></prop_value>
+					<prop_value prop_name="Complexity" value="100"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26006.281474976731845" name="Теоретические и методические основы организации самообслуживания и трудовой деятельности детей раннего и дошкольного возраста" class_id="Discipline">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26006.281474976731845"></prop_value>
+					<prop_value prop_name="Name" value="Теоретические и методические основы организации самообслуживания и трудовой деятельности детей раннего и дошкольного возраста"></prop_value>
+					<prop_value prop_name="Abbr" value=""></prop_value>
+					<prop_value prop_name="Code" value=""></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="Priority" value="100"></prop_value>
+					<prop_value prop_name="Complexity" value="100"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26006.281474976731846" name="Теоретические и методические основы организации продуктивных видов деятельности детей раннего и дошкольного возраста с практикумом" class_id="Discipline">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26006.281474976731846"></prop_value>
+					<prop_value prop_name="Name" value="Теоретические и методические основы организации продуктивных видов деятельности детей раннего и дошкольного возраста с практикумом"></prop_value>
+					<prop_value prop_name="Abbr" value=""></prop_value>
+					<prop_value prop_name="Code" value=""></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="Priority" value="100"></prop_value>
+					<prop_value prop_name="Complexity" value="100"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26006.281474976731847" name="Теоретические и методические основы организации музыкальной деятельности детей раннего и дошкольного возраста с практикумом" class_id="Discipline">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26006.281474976731847"></prop_value>
+					<prop_value prop_name="Name" value="Теоретические и методические основы организации музыкальной деятельности детей раннего и дошкольного возраста с практикумом"></prop_value>
+					<prop_value prop_name="Abbr" value=""></prop_value>
+					<prop_value prop_name="Code" value=""></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="Priority" value="100"></prop_value>
+					<prop_value prop_name="Complexity" value="100"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26006.281474976731848" name="Психолого-педагогические основы организации общения детей раннего и дошкольного возраста" class_id="Discipline">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26006.281474976731848"></prop_value>
+					<prop_value prop_name="Name" value="Психолого-педагогические основы организации общения детей раннего и дошкольного возраста"></prop_value>
+					<prop_value prop_name="Abbr" value=""></prop_value>
+					<prop_value prop_name="Code" value=""></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="Priority" value="100"></prop_value>
+					<prop_value prop_name="Complexity" value="100"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26006.281474976731849" name="Теория и методика ознакомления с социальным миром детей раннего и дошкольного возраста" class_id="Discipline">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26006.281474976731849"></prop_value>
+					<prop_value prop_name="Name" value="Теория и методика ознакомления с социальным миром детей раннего и дошкольного возраста"></prop_value>
 					<prop_value prop_name="Abbr" value=""></prop_value>
 					<prop_value prop_name="Code" value=""></prop_value>
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
@@ -115350,6 +116318,17 @@
 					<prop_value prop_name="Complexity" value="100"></prop_value>
 				</Collection>
 			</Object>
+			<Object uid="26006.281474976728417" name="Внутренние болезни (кандидатский экзамен)" class_id="Discipline">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26006.281474976728417"></prop_value>
+					<prop_value prop_name="Name" value="Внутренние болезни (кандидатский экзамен)"></prop_value>
+					<prop_value prop_name="Abbr" value=""></prop_value>
+					<prop_value prop_name="Code" value="0000"></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="Priority" value="100"></prop_value>
+					<prop_value prop_name="Complexity" value="100"></prop_value>
+				</Collection>
+			</Object>
 			<Object uid="26006.281474976728573" name="Защита дипломного проекта (работы)" class_id="Discipline">
 				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
 					<prop_value prop_name="UID" value="26006.281474976728573"></prop_value>
@@ -123275,6 +124254,17 @@
 					<prop_value prop_name="UID" value="26006.281474976730864"></prop_value>
 					<prop_value prop_name="Name" value="Выполнение работ по должности служащего Кассир"></prop_value>
 					<prop_value prop_name="Abbr" value="Модуль СПО"></prop_value>
+					<prop_value prop_name="Code" value="0000"></prop_value>
+					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
+					<prop_value prop_name="Priority" value="100"></prop_value>
+					<prop_value prop_name="Complexity" value="100"></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="26006.281474976730905" name="Рождаемость, брачность, разводимость в контексте трансформации институтов семьи и брака" class_id="Discipline">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="26006.281474976730905"></prop_value>
+					<prop_value prop_name="Name" value="Рождаемость, брачность, разводимость в контексте трансформации институтов семьи и брака"></prop_value>
+					<prop_value prop_name="Abbr" value=""></prop_value>
 					<prop_value prop_name="Code" value="0000"></prop_value>
 					<prop_value prop_name="UID_Chair" value="25031.0"></prop_value>
 					<prop_value prop_name="Priority" value="100"></prop_value>

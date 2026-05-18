@@ -5,11 +5,16 @@
 session_name('lkzk');
 session_start();
 
+include '../../functions.php';
+// include '../../connect/sotrudnik.php';
+
 if (!$_SESSION['c_roles'])
 {
   echo 'expired';
   exit;
 }
+
+$c_roles = ExplodePalki($_SESSION['c_roles'], true);
 
 // Проверяем, что запрос пришел через AJAX
 if (empty($_SERVER['HTTP_X_REQUESTED_WITH']) || $_SERVER['HTTP_X_REQUESTED_WITH'] !== 'XMLHttpRequest') {
@@ -17,12 +22,24 @@ if (empty($_SERVER['HTTP_X_REQUESTED_WITH']) || $_SERVER['HTTP_X_REQUESTED_WITH'
     exit('Forbidden');
 }
 
-include '../../functions.php';
-// include '../../connect/sotrudnik.php';
 
 
-$chair_id = $_SESSION['c_chair_id'];
-$department_id = $_SESSION['c_department_id'];
+if ($c_roles['zavkaf'])
+{
+  $chair_id = $_SESSION['c_chair_id'];
+  $department_id = $_SESSION['c_department_id'];
+}
+else
+{
+  $chair_id = quote_smart($_GET['chair_id']);
+  $xml_chair = GetRow('xml_chair', ['Code' => $chair_id]);
+
+  $xml_faculty = GetRow('xml_faculty', ['UID' => $xml_chair['UID_Faculty']]);
+
+  $department_id = $xml_faculty['Code'];
+}
+
+
 $s = quote_smart($_GET['s']);
 // $fio_array = explode(' ', $s);
 // $fio_array = quote_smart($fio_array);

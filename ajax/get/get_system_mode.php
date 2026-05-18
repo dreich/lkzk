@@ -1,4 +1,5 @@
 <?php
+
 // Получение текущего режима работы системы
 session_name('lkzk');
 session_start();

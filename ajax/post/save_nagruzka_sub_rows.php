@@ -36,71 +36,73 @@ foreach ($data as $nagruzka_lector)
 foreach ($data as $nagruzka_lector)
 {
   // Если лектор во фронте был взят из таблицы распределения zavkaf_splits, то другое поле
-  if (!$nagruzka_lector['xml_content_of_load_UID'])
-  {
-    $nagruzka_lector['xml_content_of_load_UID'] = $nagruzka_lector['content_of_load_uid'];
-  }
+  // if (!$nagruzka_lector['xml_content_of_load_UID'])
+  // {
+  //   $nagruzka_lector['xml_content_of_load_UID'] = $nagruzka_lector['content_of_load_uid'];
+  // }
 
   // проанализируем xml_content_of_load_UID на предмет споточенности
   // если есть потоки, то нужно обрабатывать все соотв. xml_content_of_load_UID`ы (убирать или добавлять лектора)
-  $uid_obj = parseNagruzkaBaseUid2($nagruzka_lector['xml_content_of_load_UID']);
+  // $uid_obj = parseNagruzkaBaseUid2($nagruzka_lector['xml_content_of_load_UID']);
 
-  // берём все строки для потока вида 26589.281474976773927[.26115.281474976816519].*
-  if ($uid_obj['potok_suffix'])
-  {
-    // EchoLog($uid_obj);
+  // // берём все строки для потока вида 26589.281474976773927[.26115.281474976816519].*
+  // if ($uid_obj['potok_suffix'])
+  // {
+  //   // EchoLog($uid_obj);
     
-    $wildcard_uid = "$uid_obj[base]";
-    if ($uid_obj['lector_suffix']) $wildcard_uid .= ".$uid_obj[lector_suffix]";
+  //   $wildcard_uid = "$uid_obj[base]";
+  //   if ($uid_obj['lector_suffix']) $wildcard_uid .= ".$uid_obj[lector_suffix]";
 
-    $sql = "`UID` LIKE ('$wildcard_uid._')";
-  }
+  //   $sql = "`UID` LIKE ('$wildcard_uid._')";
+  // }
   // потока нет, берём единственную строку 26589.281474976773927[.26115.281474976816519]
-  else
+  // else
   {
-    $sql = "`UID` = '$nagruzka_lector[xml_content_of_load_UID]'";
+    $sql = "`base_uid2` = '$nagruzka_lector[base_uid2]'";
   }
 
-  $XMLContentOfLoadRows = GetTable('xml_content_of_load', $sql);
+  // $XMLContentOfLoadRows = GetTable('xml_content_of_load', $sql);
+  // С таким base_uid2 может быть более одной строки, если споточенность, возьмём одну
+  $content_of_load_row = GetRow('xml_content_of_load', ['base_uid2' => $nagruzka_lector['base_uid2']]);
   // EchoLog($XMLContentOfLoadRows);
 
 
-  if ($XMLContentOfLoadRows)
+  if ($content_of_load_row)
   {
     // EchoLog(sizeof($XMLContentOfLoadRows));
-    foreach ($XMLContentOfLoadRows as $content_of_load_row)
+    // foreach ($XMLContentOfLoadRows as $content_of_load_row)
     {
       // EchoLog($content_of_load_row);
 
       // uid как он приходит из Галактики
-      $uid_obj = parseNagruzkaBaseUid2($content_of_load_row['UID']);
+      // $uid_obj = parseNagruzkaBaseUid2($content_of_load_row['UID']);
       // base_uid2 аналогичен, но не содержит суффиксов споточенности, будем "заменять" суффикс лектора
-      $base_uid2_obj = parseNagruzkaBaseUid2($content_of_load_row['base_uid2']);
+      // $base_uid2_obj = parseNagruzkaBaseUid2($content_of_load_row['base_uid2']);
 
       if ($nagruzka_lector['lecturer_uid'] && $nagruzka_lector['lecturer_uid'] != '-1')
       {
         // ПОДРАЗУМЕВАЕТСЯ, что лектор не убирается, а только ставится [завкафом]
-        $new_content_of_load_uid = "$uid_obj[base].$nagruzka_lector[lecturer_uid]";
-        $new_base_uid2 = "$uid_obj[base].$nagruzka_lector[lecturer_uid]";
+        // $new_content_of_load_uid = "$uid_obj[base].$nagruzka_lector[lecturer_uid]";
+        $new_base_uid2 = "$nagruzka_lector[base_uid].$nagruzka_lector[lecturer_uid]";
       }
       else
       {
         // если вдруг начнём удалять лектора
-        $new_content_of_load_uid = "$uid_obj[base]";
-        $new_base_uid2 = "$uid_obj[base]";
+        // $new_content_of_load_uid = "$uid_obj[base]";
+        $new_base_uid2 = "$nagruzka_lector[base_uid]";
       }
 
-      if ($uid_obj['potok_suffix'])
-      {
-        $new_content_of_load_uid .= ".$uid_obj[potok_suffix]";
-      }
+      // if ($uid_obj['potok_suffix'])
+      // {
+      //   $new_content_of_load_uid .= ".$uid_obj[potok_suffix]";
+      // }
 
       
       $delete = $nagruzka_lector['delete'] ? '1' : '0';
 
       $query = "INSERT INTO `zavkaf_splits` SET 
                       `content_of_load_uid` = '$content_of_load_row[UID]',
-                      `content_of_load_uid_new` = '$new_content_of_load_uid',
+                      -- `content_of_load_uid_new` = '$new_content_of_load_uid',
                       `base_uid` = '$content_of_load_row[base_uid]',
                       `base_uid2` = '$content_of_load_row[base_uid2]',
                       `base_uid2_new` = '$new_base_uid2',

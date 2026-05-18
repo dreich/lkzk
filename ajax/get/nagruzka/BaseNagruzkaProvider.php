@@ -84,24 +84,48 @@ abstract class BaseNagruzkaProvider
      */
     protected function getChairFilter()
     {
-        $chairUid = null;
+      // Если получаем только одного преподавателя, то проверим, не ГПХ-шник ли он.
+      // 1. Если ГПХ-шник, то нужно вместо фильтра кафедры использовать фильтр факультета.
+      // 2. Если не ГПХ-шник, то оставляем фильтр кафедры
+      if ($this->lecturerUid)
+      {
+        $Lecturer = GetRow('xml_lecturer', ['UID' => $this->lecturerUid]);
+        if ($Lecturer)
+        {   
+            // 
+            $lecturer_faculty_uid = $lecturer_chair_uid = $Lecturer['UID_Chair'];
+            $person_id = $Lecturer['Tab_number'];
+            // $lecturer_chair = GetRow('xml_chair', ['UID' => $lecturer_chair_uid]);
+            $lecturer_faculty = GetRow('xml_faculty', ['UID' => $lecturer_faculty_uid]);
+            $lecturer_department_id = $lecturer_faculty['Code'];
+            $sotrudnik = GetRow('sotrudniki', ['person_id' => $person_id, 'department_id' => $lecturer_department_id]);
 
-        if ($this->userRole === 'zavkaf') {
-            $cChairId = isset($this->session['c_chair_id']) ? $this->session['c_chair_id'] : null;
-            if ($cChairId) {
-                $chair = $this->getRow('xml_chair', ['Code' => $cChairId]);
-                $chairUid = isset($chair['UID']) ? $chair['UID'] : null;
+            if ($sotrudnik['type'] == 'gph')
+            {
+              return "AND nagruzka.`department_id` = '$lecturer_department_id'";
             }
-        } elseif (($this->userRole === 'uoup' || $this->userRole === 'sotrudnik') && $this->chairId) {
-            $chair = $this->getRow('xml_chair', ['Code' => $this->chairId]);
-            $chairUid = isset($chair['UID']) ? $chair['UID'] : null;
         }
+      }
 
-        if ($chairUid) {
-            return "AND xml_content_of_load.UID_Chair = '$chairUid'";
-        }
 
-        return '';
+      $chairUid = null;
+
+      if ($this->userRole === 'zavkaf') {
+          $cChairId = isset($this->session['c_chair_id']) ? $this->session['c_chair_id'] : null;
+          if ($cChairId) {
+              $chair = $this->getRow('xml_chair', ['Code' => $cChairId]);
+              $chairUid = isset($chair['UID']) ? $chair['UID'] : null;
+          }
+      } elseif (($this->userRole === 'uoup' || $this->userRole === 'sotrudnik') && $this->chairId) {
+          $chair = $this->getRow('xml_chair', ['Code' => $this->chairId]);
+          $chairUid = isset($chair['UID']) ? $chair['UID'] : null;
+      }
+
+      if ($chairUid) {
+          return "AND xml_content_of_load.UID_Chair = '$chairUid'";
+      }
+
+      return '';
     }
 
     /**
@@ -109,7 +133,10 @@ abstract class BaseNagruzkaProvider
      */
     protected function getBaseData($dopSql = '', $type = 'all')
     {
+        if ($this->onlyStat) $this->isLite = true;
+
         $query = GetNagruzkaBaseQuery($dopSql, $type, true, $this->isLite);
+        // EchoLog($query);
         $rawData = GetSQL($query);
         return PrepareNagruzka($rawData);
     }
@@ -118,34 +145,41 @@ abstract class BaseNagruzkaProvider
      * Обработка сплитов через SplitProcessor
      * 
      * @param array $nagruzkaData Данные нагрузки
-     * @param string $mode Режим работы ('filling', 'verification', etc.)
+     * @param string $mode Режим работы ('filling')
      */
-    protected function processSplits($nagruzkaData, $mode = 'default')
+    
+    protected function processSplits($nagruzkaData, $mode = '')
     {
         $processor = new SplitProcessor('0');
         return $processor->applySplits($nagruzkaData, $mode);
     }
+    
 
     /**
      * Обработка сплитов с приоритетом (для режима Выверки)
      */
+    /*
     protected function processSplitsWithPriority($nagruzkaData)
     {
         $processor = new SplitProcessor('0');
+
+        // EchoLog($processor->applySplitsWithPriority($nagruzkaData));
         return $processor->applySplitsWithPriority($nagruzkaData);
+        // return $processor->applySplits($nagruzkaData, 'mode_verification');
     }
+    */
 
     /**
      * Расчёт статистики по нагрузке
      */
-    protected function calculateStats($nagruzkaData)
+    protected function calculateStats(&$nagruzkaData)
     {
-        $stat = [
-            'assigned' => ['sum' => 0],
-            'assigned_to_vacancy' => ['sum' => 0],
-            'not_assigned' => ['sum' => 0],
-            'total' => ['sum' => 0]
-        ];
+        // $stat = [
+        //     'assigned' => ['sum' => 0],
+        //     'assigned_to_vacancy' => ['sum' => 0],
+        //     'not_assigned' => ['sum' => 0],
+        //     'total' => ['sum' => 0]
+        // ];
         $statByChair = [];
 
         foreach ($nagruzkaData as $baseUid => $item) {
@@ -192,17 +226,17 @@ abstract class BaseNagruzkaProvider
         return [
             'stat' => $stat,
             'statByChair' => $statByChair,
-            'data' => $nagruzkaData
+            // 'data' => $nagruzkaData
         ];
     }
 
     /**
      * Фильтрация по преподавателю
      */
-    protected function filterByLecturer($nagruzkaData)
+    protected function filterByLecturer(&$nagruzkaData)
     {
         if (empty($this->lecturerUid)) {
-            return $nagruzkaData;
+            return; // Убрать $nagruzkaData
         }
 
         foreach ($nagruzkaData as $baseUid => $item) {
@@ -216,23 +250,86 @@ abstract class BaseNagruzkaProvider
                 $nagruzkaData[$baseUid]['lectors'] = array_values($filteredLectors);
             }
         }
-
-        return $nagruzkaData;
+        // Убрать return
     }
+
+
+    /*
+    protected function filterByLecturer($nagruzkaData)
+    {
+      // EchoLog($this->lecturerUid);
+
+      if (empty($this->lecturerUid)) 
+      {
+        return $nagruzkaData;
+      }
+
+      foreach ($nagruzkaData as $baseUid => $item) 
+      {
+        // EchoLog($item['lectors']);
+
+        $filteredLectors = array_filter($item['lectors'], function($lector) 
+        {
+          if ($lector['lecturer_uid'])
+          {
+            // EchoLog($lector['lecturer_uid']);
+            // EchoLog($this->lecturerUid);
+            // EchoLog($lector['lecturer_uid'] === $this->lecturerUid);
+          }
+
+          return $lector['lecturer_uid'] === $this->lecturerUid;
+        });
+
+        // if ($filteredLectors)
+        // EchoLog($filteredLectors);
+
+        if (empty($filteredLectors)) 
+        {
+            unset($nagruzkaData[$baseUid]);
+        } 
+        else 
+        {
+            $nagruzkaData[$baseUid]['lectors'] = array_values($filteredLectors);
+        }
+      }
+
+      return $nagruzkaData;
+    }
+    */
+
+
 
     /**
      * Глобальная фильтрация (assigned/not_assigned/assigned_to_vacancy)
      */
+    protected function applyGlobalFilter(&$nagruzkaData)
+    {
+        if (empty($this->globalFilter)) {
+            return; // Убрать $nagruzkaData
+        }
+
+        // Переписываем array_filter на in-place модификацию
+        foreach ($nagruzkaData as $key => $item) {
+            if (empty($item[$this->globalFilter])) {
+                unset($nagruzkaData[$key]);
+            }
+        }
+        // Убрать return
+    }
+    /*
     protected function applyGlobalFilter($nagruzkaData)
     {
+
         if (empty($this->globalFilter)) {
             return $nagruzkaData;
         }
 
         return array_filter($nagruzkaData, function($item) {
+          // EchoLog($item);
             return !empty($item[$this->globalFilter]);
         });
     }
+    */
 
     /**
      * Группировка по кафедрам для УОУП

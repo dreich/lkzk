@@ -18,8 +18,16 @@ if (empty($_SERVER['HTTP_X_REQUESTED_WITH']) || $_SERVER['HTTP_X_REQUESTED_WITH'
 include '../../functions.php';
 // include '../../connect/sotrudnik.php';
 
+// Авторизован зав. псевдо-кафедрой, сотрудников будем брать по коду псевдо-факультета, который у них в sotrudniki.chair_id
+if (in_array($_SESSION['c_chair_id'], $_pseudo_chairs))
+{
+  $chair_id = $_SESSION['c_department_id'];
+}
+else
+{
+  $chair_id = $_SESSION['c_chair_id'];
+}
 
-$chair_id = $_SESSION['c_chair_id'];
 $department_id = $_SESSION['c_department_id'];
 // получим режим работы системы
 $ModeRow = GetRow('params', ['param' => 'system_mode']);
@@ -76,7 +84,7 @@ else
   $_ksro_sql = "AND x.`nagruzka_type` <> ''";
 }
 
-// 2. Получаем оригинальную нагрузку из Галактики
+// 2. Получаем нагрузку из Галактики (русскую и английскую)
 $originalLoads = [];
 $query = "SELECT 
     xml_lecturer.Tab_number,
@@ -105,7 +113,7 @@ foreach ($rows as $row)
 
 // EchoLog($originalLoads);
 
-// 3. Получаем английскую нагрузку из оригинальных данных
+// 3. Получаем английскую нагрузку из Галактики
 $englishLoads = [];
 $query = "SELECT 
     xml_lecturer.Tab_number,
@@ -125,13 +133,20 @@ $rows = GetSQL($query) ?: [];
 // EchoLog($query);
 foreach ($rows as $row) 
 {
-  if (!isset($englishLoads[$row['Tab_number']])) {
-      $englishLoads[$row['Tab_number']] = [];
-  }
-  $englishLoads[$row['Tab_number']][] = [
-      'UID_Lecturer' => $row['UID_Lecturer'],
-      'amount' => (float)$row['Amount'],
-      'type_workload' => $row['TypeWorkload']
+  // if (!isset($englishLoads[$row['Tab_number']])) {
+  //     $englishLoads[$row['Tab_number']] = [];
+  // }
+  // $englishLoads[$row['Tab_number']][] = [
+  //     'UID_Lecturer' => $row['UID_Lecturer'],
+  //     'amount' => (float)$row['Amount'],
+  //     'type_workload' => $row['TypeWorkload']
+  // ];
+
+  $englishLoads[$row['Tab_number']][$row['base_uid2']] = 
+  [
+    'UID_Lecturer' => $row['UID_Lecturer'],
+    'amount' => (float)$row['Amount'],
+    'type_workload' => $row['TypeWorkload'],
   ];
 }
 
@@ -149,14 +164,15 @@ $query = "SELECT
     x.TypeWorkload,
     zs.lecturer_uid as UID_Lecturer
 FROM zavkaf_splits zs
-JOIN xml_content_of_load x ON zs.content_of_load_uid = x.UID
+#JOIN xml_content_of_load x ON zs.content_of_load_uid = x.UID
+JOIN xml_content_of_load x ON zs.base_uid2 = x.base_uid2
 WHERE zs.`delete` = 0";
 
 // Debug: Log the query
 // EchoLog("Executing query: " . $query);
 
 $splitsLoads = [];
-// признак того, что оригинальная нагрузка переразбита, такие оригинальные часы плюсовать не будем
+// признак того, что оригинальная нагрузка переразбита в сплитах, такие оригинальные часы плюсовать не будем
 $splitsLoadsByBaseUID2 = [];
 
 $rows = GetSQL($query) ?: [];
@@ -185,7 +201,8 @@ $query = "SELECT
     zs.base_uid2_new,
     x.TypeWorkload
 FROM zavkaf_splits zs
-JOIN xml_content_of_load x ON zs.content_of_load_uid = x.UID
+#JOIN xml_content_of_load x ON zs.content_of_load_uid = x.UID
+JOIN xml_content_of_load x ON zs.base_uid2 = x.base_uid2
 #JOIN xml_lecturer ON x.UID_Lecturer = xml_lecturer.UID
 WHERE zs.delete = 0
   AND x.base_uid2 IN (
@@ -201,15 +218,23 @@ foreach ($rows as $row)
 {
   $splitsLoadsByBaseUID2[$row['base_uid2']] = true;
 
-  if (!isset($englishSplits[$row['lecturer_person_id']])) {
-      $englishSplits[$row['lecturer_person_id']] = [];
-  }
-
-  $englishSplits[$row['lecturer_person_id']][] = [
-      'UID_Lecturer' => $row['UID_Lecturer'],
-      'amount' => (float)$row['Amount'],
-      'type_workload' => $row['TypeWorkload']
+  $englishSplits[$row['lecturer_person_id']][$row['base_uid2_new']] = 
+  [
+    'UID_Lecturer' => $row['UID_Lecturer'],
+    'amount' => (float)$row['Amount'],
+    'base_uid2_new' => $row['base_uid2_new'],
+    'type_workload' => $row['TypeWorkload']
   ];
+
+  // if (!isset($englishSplits[$row['lecturer_person_id']])) {
+  //     $englishSplits[$row['lecturer_person_id']] = [];
+  // }
+
+  // $englishSplits[$row['lecturer_person_id']][] = [
+  //     'UID_Lecturer' => $row['UID_Lecturer'],
+  //     'amount' => (float)$row['Amount'],
+  //     'type_workload' => $row['TypeWorkload']
+  // ];
 }
 // EchoLog($englishSplits);
 
@@ -258,37 +283,50 @@ foreach ($employees as &$employee)
     $typeWorkload = '';
     
     // Обрабатываем английскую нагрузку из zavkaf_splits
-    if (isset($englishSplits[$personId])) {
-        foreach ($englishSplits[$personId] as $engLoad) {
-            if (empty($engLoad['UID_Lecturer'])) {
-                // EchoLog($engLoad);
-                continue;
-            }
-            if ($engLoad['UID_Lecturer'] != $employee['lecturer_uid']) {
-                continue;
-            }
-            
-            $engAmount += $engLoad['amount'];
-            // Не добавляем в общую аудиторную нагрузку здесь, т.к. это будет сделано в основном цикле
+    if (isset($englishSplits[$personId])) 
+    {
+      foreach ($englishSplits[$personId] as $engLoad) 
+      {
+        if (empty($engLoad['UID_Lecturer'])) 
+        {
+            // EchoLog($engLoad);
+            continue;
         }
-    }
-    // Если нет английской нагрузки из zavkaf_splits, проверяем оригинальную английскую нагрузку
-    elseif (isset($englishLoads[$personId])) {
-        foreach ($englishLoads[$personId] as $engLoad) {
-            if (empty($engLoad['UID_Lecturer'])) {
-                // EchoLog($engLoad);
-                continue;
-            }
-            if ($engLoad['UID_Lecturer'] != $employee['lecturer_uid']) {
-                continue;
-            }
-            
-            $engAmount += $engLoad['amount'];
-            // Не добавляем в общую аудиторную нагрузку здесь, т.к. это будет сделано в основном цикле
+        if ($engLoad['UID_Lecturer'] != $employee['lecturer_uid']) 
+        {
+            continue;
         }
+        
+        $engAmount += $engLoad['amount'];
+        // Не добавляем в общую аудиторную нагрузку здесь, т.к. это будет сделано в основном цикле
+      }
     }
+
+    // Оригинальную английскую нагрузку
+    if (isset($englishLoads[$personId]) && $_mode != 'mode_filling') 
+    {
+      // foreach ($englishLoads[$personId] as $engLoad) 
+      foreach ($englishLoads[$personId] as $base_uid2 => $engLoad) 
+      {
+        if (empty($engLoad['UID_Lecturer'])) {
+            // EchoLog($engLoad);
+            continue;
+        }
+        if ($engLoad['UID_Lecturer'] != $employee['lecturer_uid']) {
+            continue;
+        }
+
+        // Если оригинальная (Галактика) нагрузка была перераспределена
+        if ($splitsLoadsByBaseUID2[$base_uid2]) continue;
+        
+        $engAmount += $engLoad['amount'];
+        // Не добавляем в общую аудиторную нагрузку здесь, т.к. это будет сделано в основном цикле
+      }
+    }
+
+    // EchoLog($splitsLoads[50665]);
     
-    // Обрабатываем переопределенную нагрузку (русскую)
+    // Обрабатываем переопределенную нагрузку
     if (isset($splitsLoads[$personId])) 
     {
         foreach ($splitsLoads[$personId] as $baseUid2 => $load) 
@@ -306,7 +344,8 @@ foreach ($employees as &$employee)
             // Проверяем, что это не английская нагрузка
             $isEnglish = false;
             if (isset($englishSplits[$personId])) {
-                foreach ($englishSplits[$personId] as $engLoad) {
+                foreach ($englishSplits[$personId] as $engLoad) 
+                {
                     if ($engLoad['UID_Lecturer'] == $load['UID_Lecturer'] && 
                         $engLoad['amount'] == $load['amount']) {
                         $isEnglish = true;
@@ -315,34 +354,35 @@ foreach ($employees as &$employee)
                 }
             }
 
-            // if ($personId == 9058)
-            // {
-            //   EchoLog($load);
-            // }
-            
-            if (!$isEnglish) 
+            if ($personId == 50665)
             {
-                $totalAmount += $load['amount'];
-                if ($load['type_workload'] == '0') {
-                    $auditoriumAmount += $load['amount'];
-                }
+              EchoLog($load);
+            }
+            
+            // if (!$isEnglish) 
+            {
+              $totalAmount += $load['amount'];
+              if ($load['type_workload'] == '0') {
+                  $auditoriumAmount += $load['amount'];
+              }
             }
             
             $typeWorkload = $load['type_workload'] ?: $typeWorkload;
             
             // Удаляем из оригинальной нагрузки, если была переопределена
-            if (isset($originalLoads[$personId][$baseUid2])) {
-                unset($originalLoads[$personId][$baseUid2]);
+            if (isset($originalLoads[$personId][$baseUid2])) 
+            {
+              unset($originalLoads[$personId][$baseUid2]);
             }
         }
     }
     
     // Добавляем оставшуюся оригинальную нагрузку
-    if (isset($originalLoads[$personId])) 
+    if (isset($originalLoads[$personId]) && $_mode != 'mode_filling') 
     {
         foreach ($originalLoads[$personId] as $base_uid2 => $load) 
         {
-          if (empty($load['UID_Lecturer'])) EchoLog($load);
+          // if (empty($load['UID_Lecturer'])) EchoLog($load);
           if ($load['UID_Lecturer'] != $employee['lecturer_uid']) continue;
 
           // Если оригинальная (Галактика) нагрузка была перераспределена
@@ -431,11 +471,18 @@ usort($employees, function($a, $b)
 });
 
 
+$SotrudnikiChairNagruzkaVisibility = GetRow('sotrudnik_chair_nagruzka_visibility', ['chair_id' => $chair_id]);
+
+if (!$SotrudnikiChairNagruzkaVisibility)
+{
+  // default
+  $SotrudnikiChairNagruzkaVisibility = ['visible' => '0'];
+}
 
 header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
 header("Pragma: no-cache");
 header("Expires: 0");
 header('Content-Type: application/javascript; charset=UTF-8');
-echo json_encode(array_values($employees));
+echo json_encode(['sotrudniki' => array_values($employees), 'sotrudnik_chair_nagruzka_visibility' => $SotrudnikiChairNagruzkaVisibility['visible']]);
 
 ?>

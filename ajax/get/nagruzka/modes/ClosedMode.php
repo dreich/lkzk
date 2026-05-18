@@ -78,11 +78,13 @@ class ClosedMode extends BaseNagruzkaProvider
             $result[$baseUid]['lectors'][] = $item;
         }
 
+        $nagruzkaData = $result ? $result : [];
+
         // Расчёт статистики
-        $stats = $this->calculateStats(isset($result) ? $result : []);
-        $nagruzkaData = $stats['data'];
-        $stat = $stats['stat'];
-        $statByChair = $stats['statByChair'];
+        $stats_obj = $this->calculateStats($nagruzkaData);
+        // $nagruzkaData = $stats_obj['data'];
+        $stat = $stats_obj['stat'];
+        $statByChair = $stats_obj['statByChair'];
 
         // Для УОУП в режиме lite/only_stat - группировка по кафедрам
         if ($this->userRole === 'uoup' && ($this->onlyStat || $this->isLite)) {

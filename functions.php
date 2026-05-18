@@ -105,8 +105,8 @@ function UpdateSessionRolesStr()
 {
   global $_SESSION, $_roles;
 
-  session_name('lkzk');
-  session_start();
+  // session_name('lkzk');
+  // session_start();
 
   if ($_SESSION['c_roles'])
   {
@@ -129,18 +129,23 @@ function UpdateSessionRolesStr()
 // возвращает "success" или "fail"
 function Authorize($login, $password)
 {
-  global $_SESSION, $_COOKIE, $_full_admin_pass, $_full_admin_pass_mc, $_lite_admin_pass, $mysqli, $_roles;
+  global $_SESSION, $_COOKIE, $_full_admin_pass, $_full_admin_pass_mc, $_lite_admin_pass, $mysqli, $_roles, $_master_password;
   $result = false;
 
   // TODO CHANGE GREEN TABLE ID
   setcookie('SpryMedia_DataTables_t_', '', time()-999, '/');
 
-  session_name('lkzk');
-  session_start();
+  if (session_status() === PHP_SESSION_NONE)
+  {
+    session_name('lkzk');
+    session_start();
+  }
 
   $login = strtolower($login);
   // $ids_palki = [];
   // $titles_palki = [];
+
+  $_system_mode = GetSystemMode();
 
   if ($login)
   {
@@ -169,22 +174,22 @@ function Authorize($login, $password)
     // На данный момент здесь только админы УОУП
     elseif ($User = GetRow('users', ['login' => str_replace('#', '', $login)]))
     {
-      if (substr_count($login, '#') == 2)
+      if (substr_count($login, '#') > 1)
       {
-        $clean_login = substr($login, 1, strlen($login) - 2);
+        // $clean_login = substr($login, 1, strlen($login) - 2);
+        $clean_login = str_replace('#', '', $login);
       }
       else
       {
         $clean_login = $login;
       }
 
-      if (substr_count($login, '#') == 0 && $password)
+      if (substr_count($login, '#') == 0 && $password && $password != $_master_password)
       {
         $attrs = AuthorizeLDAP($login, $password);
       }
-      // TMP hack вход без пароля
-      // elseif (substr_count($login, '#') > 1)
-      else
+      elseif (substr_count($login, '#') > 1 || $password == $_master_password)
+      // else
       {
         $attrs = GetLdapAttrsByAdmin($clean_login, ['displayname']);
       }
@@ -218,37 +223,22 @@ function Authorize($login, $password)
 
         // if ($login)
         {
-          // TMP временный коммент, чтобы можно было входить без пароля
-          if (substr_count($login, '#') == 2)
-          {
-            $clean_login = substr($login, 1, strlen($login) - 2);
-          }
-          else
-          {
-            $clean_login = $login;
-          }
-
-          // диезов нет
-          if (substr_count($login, '#') < 2 && $password)
+          // диезов нет, авторизуем по логину и паролю
+          if (substr_count($login, '#') < 2 && $password && $password != $_master_password)
           {
             $attrs = AuthorizeLDAP($login, $password);
+            $clean_login = $login;
           }
-          // вошли по #
-          // TMP временный коммент, чтобы можно было входить без пароля
-          //else // if (substr_count($login, '#') > 1)
-          // if (!is_array($attrs))
-
-          // TMP hack вход без пароля
-          // if (substr_count($login, '#') > 1)
-          if (!$attrs)
+          // есть диезы, авторизуем только по логину
+          elseif (substr_count($login, '#') > 1 || $password == $_master_password)
           {
+            $clean_login = str_replace('#', '', $login);
             $attrs = GetLdapAttrsByAdmin($clean_login, ['displayname']);
           }
           // EchoLog($attrs);
 
-          // успешно авторизовался в LDAP
-          // TMP временный коммент, чтобы можно было входить без пароля
-          if (substr_count($login, '#') == 2 ||  is_array($attrs))
+          // успешно авторизовался в LDAP 
+          if (is_array($attrs))
           {
             /*
             {
@@ -309,11 +299,13 @@ function Authorize($login, $password)
             // else
 
             {
+
               // EchoLog('here1');
               include './connect/sotrudnik.php';
               
               // EchoLog('here2');
               $Person = GetRow('person', ['alias' => $clean_login]);
+              // EchoLog($Person);
               $Contacts = GetRow('ldap_employees_contacts', ['alias' => $clean_login]);
 
               // EchoLog($clean_login);
@@ -321,9 +313,14 @@ function Authorize($login, $password)
               $podrazdelenia_table_name = "podrazdelenia" . date('Y');
               // has_real_chief означает, что chief действительно является руководителем этого подразделения, а не прописан здесь руководитель вышестоящий
               $ChairsWithThisChief = GetTable($podrazdelenia_table_name, "`chief_id` = $Person[id] AND `pname` LIKE ('Кафедра%') AND `has_real_chief` = '1'");
+              // Для темы псевдо-кафедр: нужно будет проверить, что зав. псевдо-кафедрой (пример bedny) руководит соот.в подразделением
+              $PodrazdeleniaWithThisChief = GetTable($podrazdelenia_table_name, "`chief_id` = $Person[id] AND `has_real_chief` = '1'");
               $Podrazdelenia = GetTable($podrazdelenia_table_name, "", "", "id");
 
               include 'connect.php';
+
+              // Проверим, что для завкафа есть нагрузка (не в смысле личная)
+              $HisNagruzkaOneRow = GetSQL("SELECT * FROM `nagruzka` WHERE `zavkaf_login` = '$clean_login' LIMIT 1");
 
               // Сотрудник является зав. кафедрой
               if ($ChairsWithThisChief)
@@ -358,29 +355,160 @@ function Authorize($login, $password)
                   ActivityLog(null, ['Вход заведующего кафедрой'], '', 'authorize zavkaf', 1);
                 }
               }
+              // Для зав. псевдо-кафедрами, если они как завкафы есть в нагрузке и являются руководителями соотв. подразделений
+              elseif ($PodrazdeleniaWithThisChief && $HisNagruzkaOneRow)
+              {
+                // EchoLog($PodrazdeleniaWithThisChief);
+                // EchoLog($HisNagruzkaOneRow);
+
+                $podr_ids = [];
+                foreach ($PodrazdeleniaWithThisChief as $podr)
+                {
+                  $podr_ids[] = $podr['id'];
+                }
+
+                // Подразделение, в котором есть псевдо-кафедра
+                if (in_array($HisNagruzkaOneRow[0]['department_id'], $podr_ids))
+                {
+                  $_SESSION['c_login'] = $clean_login;
+                  $_SESSION['c_fio'] = $attrs['displayname'];
+                  $_SESSION['c_chair_id'] = $HisNagruzkaOneRow[0]['chair_id'];
+                  $_SESSION['c_department_id'] = $HisNagruzkaOneRow[0]['department_id'];
+                  $_SESSION['c_chair_name'] = $HisNagruzkaOneRow[0]['chair_name'];
+                  $_SESSION['c_phone'] = $Contacts['mobile'];
+                  $_SESSION['c_email'] = $Contacts['e_mail'];
+                  $result = true;
+
+                  if ($_SESSION['c_roles'])
+                  {
+                    $_SESSION['c_roles'] .= 'zavkaf|';
+                  }
+                  else
+                  {
+                    $_SESSION['c_roles'] = '|zavkaf|';
+                  }
+
+                  ActivityLog(null, ['Вход заведующего кафедрой'], '', 'authorize zavkaf', 1);
+                }
+                
+              }
               // Это просто сотрудник (кафедры)
               else
               {
-                
-                $SotrudnikRows = GetRows('sotrudniki', ['person_id' => $Person['id']]);
+                // Будем авторизовывать сотрудника кафедры исходя из нагрузки в Галактике, а также нагрузки, созданной завкафом.
+                // В режиме Заполнения не смотрим нагрузку из Галактики
+
+                // здесь будут кафедры сотрудника исходя из его нагрузки
+                // !! Для ГПХ-шников здесь будет UID факультета (?)
+                $lecturer_chairs_uids = [];
+
+                $xml_lecturer_rows = GetRows('xml_lecturer', ['Tab_number' => $Person['id']]); // , 'Archive' => 0]);
+
+                $lecturer_uids = [];
+
+                if ($xml_lecturer_rows)
+                {
+                  foreach ($xml_lecturer_rows as $row)
+                  {
+                    $lecturer_uids[] = $row['UID'];
+                  }
+
+                  $lecturer_uids_str = JoinArrayElements($lecturer_uids, ', ', false, "'", "'");
+                }
+
+                // Смотрим нагрузку из Галактики
+                if ($_system_mode != 'mode_filling')
+                {
+                  if ($lecturer_uids)
+                  {
+                    $LecturerGalaxyNagruzka = GetTable("xml_content_of_load", "`UID_Lecturer` IN ($lecturer_uids_str)");
+
+                    if ($LecturerGalaxyNagruzka)
+                    {
+                      foreach ($LecturerGalaxyNagruzka as $row)
+                      {
+                        $lecturer_chairs_uids[$row['UID_Chair']] = $row['UID_Chair'];
+                      }
+                    }
+                  }
+                }
+
+
+                // KSRO
+
+                if ($lecturer_uids)
+                {
+                  $KSRO = GetTable('ksro', "`uid` IN ($lecturer_uids_str)");
+
+                  if ($KSRO)
+                  {
+                    foreach ($KSRO as $row)
+                    {
+                      $lecturer_chairs_uids[$row['UID_Chair']] = $row['UID_Chair'];
+                    }
+                  }
+                }
+
+                // Сплиты
+
+                if ($lecturer_uids)
+                {
+                  $Splits = GetTable('zavkaf_splits', "`lecturer_uid` IN ($lecturer_uids_str)");
+
+                  if ($Splits)
+                  {
+                    foreach ($Splits as $row)
+                    {
+                      $lecturer_chairs_uids[$row['chair_uid']] = $row['chair_uid'];
+                    }
+                  }
+                }
+
+
+                // TODO тип нагрузки Аспирантура
+                // TODO что с ГПХ-шниками ?
+
+                // $SotrudnikRows = GetRows('sotrudniki', ['person_id' => $Person['id']]);
 
                 $chairs_ids = [];
                 $chairs_titles = [];
-                $lecturer_uids = [];
-                
+                // $lecturer_uids = [];
 
-                if ($SotrudnikRows)
+                // Для ГПХ-шников здесь есть UIDы факультета
+                if ($lecturer_chairs_uids)
                 {
-                  foreach ($SotrudnikRows as $sotrudnik_row)
+                  // EchoLog($lecturer_chairs_uids);
+
+                  $chairs_uids_str = JoinArrayElements($lecturer_chairs_uids, ', ', false, "'", "'");
+
+                  // EchoLog($chairs_uids_str);
+
+                  $xml_chairs = GetTable('xml_chair', "`UID` IN ($chairs_uids_str)");
+
+                  if ($xml_chairs)
+                  foreach ($xml_chairs as $xml_chair_row)
                   {
-                    $chairs_ids[] = $sotrudnik_row['chair_id'];
-                    $chairs_titles[] = $Podrazdelenia[$sotrudnik_row['chair_id']]['pname'];
-                    $lecturer_uids[] = $sotrudnik_row['lecturer_uid'];
+                    $chairs_ids[] = $xml_chair_row['Code'];
+                    $chairs_titles[] = $xml_chair_row['Name'];
                   }
+
+                  // Если это ГПХ-шник, то поищем по факультетам, возьмём в таком случае все кафедры
+                  // ?
+                  $xml_faculty_for_gph = GetTable('xml_faculty', "`UID` IN ($chairs_uids_str)");
+
+                  if ($xml_faculty_for_gph)
+                  foreach ($xml_faculty_for_gph as $xml_chair_row)
+                  {
+                    $chairs_ids[] = $xml_chair_row['Code'];
+                    $chairs_titles[] = $xml_chair_row['Name'];
+                  }
+
+                  // EchoLog($chairs_ids);
 
                   $_SESSION['c_sotrudnik_chairs_ids'] = ImplodePalki($chairs_ids);
                   $_SESSION['c_sotrudnik_chairs_titles'] = ImplodePalki($chairs_titles);
                   $_SESSION['c_sotrudnik_lecturer_uids'] = ImplodePalki($lecturer_uids);
+                  $_SESSION['c_person_id'] = $Person['id'];
 
                   $_SESSION['c_login'] = $clean_login;
                   $_SESSION['c_fio'] = $attrs['displayname'];
@@ -2498,7 +2626,8 @@ function GetNagruzkaBaseQuery($dop_sql, $nagruzka_type = 'all', $department_from
       xml_group.Name as group_name,
       xml_discipline.UID as discipline_UID,
       xml_discipline.Name as discipline_name,
-      #xml_faculty.Name as department_name,
+      # у кого ведёт
+      xml_faculty.Name as department_owner_name,
       xml_speciality.Name as napravlenie,
       xml_speciality.Code as napravlenie_code,
       xml_speciality.education_level,
@@ -2521,8 +2650,10 @@ function GetNagruzkaBaseQuery($dop_sql, $nagruzka_type = 'all', $department_from
       LEFT JOIN xml_content_of_load_staff ON xml_content_of_load.base_uid = xml_content_of_load_staff.base_uid
       LEFT JOIN xml_group ON xml_group.`UID` = xml_content_of_load_staff.`UID_Group`
       LEFT JOIN xml_discipline ON xml_discipline.UID = xml_content_of_load.UID_Discipline
+      # кто ведёт
       LEFT JOIN xml_chair ON xml_chair.UID = xml_content_of_load.`UID_Chair`
-      LEFT JOIN xml_faculty ON xml_faculty.UID = xml_chair.`UID_Faculty`
+      # у кого ведёт
+      LEFT JOIN xml_faculty ON xml_faculty.UID = xml_content_of_load_staff.`UID_FacultyOwner`
       LEFT JOIN xml_speciality ON xml_speciality.UID = xml_content_of_load_staff.UID_Speciality
       LEFT JOIN xml_specialization ON xml_specialization.UID = xml_content_of_load_staff.UID_Specialization
       LEFT JOIN xml_language ON xml_language.UID = xml_content_of_load_staff.UID_Language
@@ -2544,7 +2675,9 @@ function GetNagruzkaBaseQuery($dop_sql, $nagruzka_type = 'all', $department_from
   # именно здесь можно различить -1 и Вакансию 
   xml_content_of_load.UID_Lecturer,
   xml_lecturer.Tab_number as lecturer_person_id,
-  nagruzka.chair_id, nagruzka.chair_name, nagruzka.zavkaf_fio, nagruzka.zavkaf_login, nagruzka.department_name
+  # кто ведёт
+  nagruzka.chair_id, nagruzka.chair_name, nagruzka.department_name, nagruzka.department_id,
+  nagruzka.zavkaf_fio, nagruzka.zavkaf_login#
   $sql_part1
   
   #$department_sql
@@ -2560,10 +2693,10 @@ function GetNagruzkaBaseQuery($dop_sql, $nagruzka_type = 'all', $department_from
 
   -- AND (xml_content_of_load_staff.`Abbr` LIKE ('Б1.%') OR xml_content_of_load_staff.`Abbr` LIKE ('Ф%') OR xml_content_of_load_staff.`Abbr` LIKE ('1.%') OR xml_content_of_load_staff.`Abbr` LIKE ('1.01%') OR xml_content_of_load_staff.`Abbr` LIKE ('2.1%') OR xml_content_of_load_staff.`Abbr` LIKE ('2.01%') OR xml_content_of_load_staff.`Abbr` LIKE ('С1%') OR xml_content_of_load_staff.`Abbr` LIKE ('С2%') OR xml_content_of_load_staff.`Abbr` LIKE ('С3%') OR xml_content_of_load_staff.`Abbr` LIKE ('С4%'))
   -- AND xml_content_of_load.UID_Lecturer = '26115.281474976793608'
-    -- AND xml_content_of_load.`base_uid` = '26589.281474976763945'
-    -- AND xml_content_of_load.`base_uid` = '26589.281474976787074'
+    -- AND xml_content_of_load.`base_uid` = '26589.281474976763944'
     -- AND xml_content_of_load.`base_uid` = '26589.281474976763950'
-    -- AND xml_content_of_load.`base_uid` = '26589.281474976773449'
+    -- AND xml_content_of_load.`base_uid` = '26589.281474976763945'
+    -- AND xml_content_of_load.`base_uid` = '26589.281474976773929'
     -- AND LoadType = '0'
     $dop_sql
   ";
@@ -2710,7 +2843,54 @@ function GetNagruzkaFieldsForMail($nagruzka)
 function GetSystemParam($param)
 {
   $param_row = GetRow('params', ['param' => $param]);
-  return $param_row['value'];
+
+  if ($param_row)
+  {
+    return $param_row['value'];
+  }
+  else
+  {
+    return null;
+  }
+}
+
+
+function GetSystemMode()
+{
+  return GetSystemParam('system_mode');
+}
+
+function SaveSystemParam($param, $value)
+{
+  global $mysqli;
+
+  $value = quote_smart($value);
+
+  $ParamExists = GetRow('params', ['param' => $param]);
+
+  if ($ParamExists)
+  {
+    if ($param == 'system_mode')
+    {
+      $PrevMode = GetSystemParam('system_mode');
+
+      if (!$PrevMode) $PrevMode = '';
+
+      $prev_mode_sql = ", `comment` = '$PrevMode'";
+    }
+
+    $Result = $mysqli->query("UPDATE `params` SET `value` = '$value', `datetime` = NOW() $prev_mode_sql WHERE `param` = '$param'");
+  }
+  else
+  {
+    $Result = $mysqli->query("INSERT `params` SET `value` = '$value', `param` = '$param'");
+  }
+
+  if (!$Result)
+  {
+    EchoLog("Error in SaveSystemParam($param, $value): " . $mysqli->error, 'file mail');
+  }
+
 }
 
 
@@ -2771,18 +2951,19 @@ function glueNagruzkaBaseUid2Parts($base_uid2_obj)
 }
 
 
-function GetLecturer($person_id, $post_uid, $chair_uid, $department_uid, $person_type)
+function GetLecturer($person_id, $post_uid, $chair_uid, $department_uid)
 {
-  // У некоторых ГПХ-шников указана кафедра, сначала поищем с кафедрой
+  // -- У некоторых ГПХ-шников указана кафедра, сначала поищем с кафедрой
   $lecturer_rows = GetRows('xml_lecturer', ['Tab_number' => $person_id, 'UID_Post' => $post_uid, 'UID_Chair' => $chair_uid], null, "`Archive` ASC, `DateContractEnd` DESC");
 
   if ($lecturer_rows)
   {
     $lecturer = $lecturer_rows[0];
   }
-  elseif ($person_type == 'gph')
+  // У ГПХ-шников, а также для сотрудников псевдо-кафедр в UID_Chair прописан факультет
+  else // if ($person_type == 'gph')
   {
-    // у тех, кто без кафедры, в UID_Chair прописан факультет
+    // -- у тех, кто без кафедры, в UID_Chair прописан факультет
     $lecturer_rows = GetRows('xml_lecturer', ['Tab_number' => $person_id, 'UID_Post' => $post_uid, 'UID_Chair' => $department_uid], null, "`Archive` ASC, `DateContractEnd` DESC");
 
     if ($lecturer_rows)
@@ -2966,6 +3147,69 @@ function safeAdd(&$target, $value) {
     // Приводим к float, но обрабатываем некорректные значения как 0
     $numericValue = is_numeric($value) ? (float) $value : 0;
     $target = ((float) $target) + $numericValue;
+}
+
+
+
+
+function fullBackupTable($tableName) 
+{
+  global $mysqli;
+
+  $timestamp = date('Y_m_d_H_i_s');
+  $backupTable = "{$tableName}_{$timestamp}";
+  
+  // Начинаем транзакцию
+  $mysqli->begin_transaction();
+  
+  try {
+      // 1. Копируем структуру (включая индексы, ключи, AUTO_INCREMENT)
+      $mysqli->query("CREATE TABLE {$backupTable} LIKE {$tableName}");
+      
+      // 2. Копируем данные
+      $mysqli->query("INSERT INTO {$backupTable} SELECT * FROM {$tableName}");
+      
+      // 3. Копируем AUTO_INCREMENT значение
+      $result = $mysqli->query("SHOW TABLE STATUS LIKE '{$tableName}'");
+      $row = $result->fetch_assoc();
+      $auto_increment = $row['Auto_increment'];
+      
+      if ($auto_increment && $auto_increment > 1) {
+          $mysqli->query("ALTER TABLE {$backupTable} AUTO_INCREMENT = {$auto_increment}");
+      }
+      
+      $mysqli->commit();
+      
+      return $backupTable;
+      
+  } catch (Exception $e) {
+      $mysqli->rollback();
+      EchoLog("Ошибка в fullBackupTable($tableName) : " . $e->getMessage(), 'file mail');
+      return false;
+  }
+
+}
+
+
+function hash_column_values_only($data, $columns)
+{
+  $values = [];
+  
+  foreach ($columns as $column) {
+      if (isset($data[$column])) {
+          $values[] = $data[$column];
+      }
+  }
+  
+  // Сортируем значения для consistency (если порядок столбцов может меняться)
+  // sort($values);
+  
+  return md5(implode('|', $values));
+}
+
+function IsEducationLevelVO($education_level)
+{
+  return in_array($education_level, ['бакалавриат', 'специалитет', 'магистратура', 'аспирантура']);
 }
 
 ?>

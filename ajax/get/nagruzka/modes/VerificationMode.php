@@ -51,39 +51,57 @@ class VerificationMode extends BaseNagruzkaProvider
         }
 
         $chairFilter = $this->getChairFilter();
+        $nagruzkaTypeFilter = $this->getNagruzkaTypeFilter();
+
+        // EchoLog($nagruzkaTypeFilter);
 
         $dopSql = "$chairFilter
             AND `chair_id` IS NOT NULL AND `valid` = '1'
         ";
 
-        $nagruzkaData = $this->getBaseData($dopSql, 'all');
+        $nagruzkaData = $this->getBaseData($dopSql, $nagruzkaTypeFilter);
 
         // В режиме выверки:
         // - Если есть сплит - приоритет на него (для правок УОУП)
         // - Если нет сплита - берём из Галактики
-        $nagruzkaData = $this->processSplitsWithPriority($nagruzkaData);
+        $nagruzkaData = $this->processSplits($nagruzkaData, 'mode_verification');
 
         // Переиндексируем lectors
-        foreach ($nagruzkaData as $baseUid => &$item) {
-            if (!empty($item['lectors'])) {
-                $item['lectors'] = array_values($item['lectors']);
+        // foreach ($nagruzkaData as $baseUid => &$item) {
+        //     if (!empty($item['lectors'])) {
+        //         $item['lectors'] = array_values($item['lectors']);
+        //     } else {
+        //         $item['lectors'] = [];
+        //     }
+        // }
+        foreach ($nagruzkaData as $baseUid => &$item) 
+        {
+            if (!empty($item['lectors'])) 
+            {
+                foreach ($item['lectors'] as &$lector)
+                {
+                    $lector['delete'] = !!$lector['delete'];
+                }
+                
+              $item['lectors'] = array_values($item['lectors']);
             } else {
                 $item['lectors'] = [];
             }
         }
         unset($item);
 
-        // Расчёт статистики
-        $stats = $this->calculateStats($nagruzkaData);
-        $nagruzkaData = $stats['data'];
-        $stat = $stats['stat'];
-        $statByChair = $stats['statByChair'];
-
         // Фильтрация по преподавателю
-        $nagruzkaData = $this->filterByLecturer($nagruzkaData);
+        $this->filterByLecturer($nagruzkaData);
+
+        // Расчёт статистики
+        $stats_obj = $this->calculateStats($nagruzkaData);
+        // $nagruzkaData = $stats_obj['data'];
+        $stat = $stats_obj['stat'];
+        $statByChair = $stats_obj['statByChair'];
+    
 
         // Глобальная фильтрация
-        $nagruzkaData = $this->applyGlobalFilter($nagruzkaData);
+        $this->applyGlobalFilter($nagruzkaData);
 
         // Для УОУП в режиме lite/only_stat - группировка по кафедрам
         if ($this->userRole === 'uoup' && ($this->onlyStat || $this->isLite)) {
