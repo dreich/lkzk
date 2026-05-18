@@ -338,7 +338,8 @@ abstract class BaseNagruzkaProvider
     {
         $result = [];
 
-        foreach ($nagruzkaData as $item) {
+        foreach ($nagruzkaData as $item) 
+        {
             $chairId = $item['chair_id'];
 
             if (!isset($result[$chairId])) {
