@@ -9,6 +9,7 @@ include_once __DIR__ . '/../BaseNagruzkaProvider.php';
  */
 class ClosedMode extends BaseNagruzkaProvider
 {
+    // ВОЗВРАЩЕНО ВАШЕ ОРИГИНАЛЬНОЕ УСЛОВИЕ
     public function canView()
     {
         // Завкаф ничего не видит в этом режиме
@@ -31,7 +32,6 @@ class ClosedMode extends BaseNagruzkaProvider
 
     public function canEdit()
     {
-        // В режиме закрыто редактирование запрещено для всех
         return false;
     }
 
@@ -40,9 +40,20 @@ class ClosedMode extends BaseNagruzkaProvider
         return $this->nagruzkaType ?: 'all';
     }
 
+    protected function canAccessData()
+    {
+        // Здесь мы оставляем true для uoup, чтобы работал основной пайплайн,
+        // а zavkaf и sotrudnik будут перехвачены ниже в getData()
+        return $this->userRole === 'uoup'; 
+    }
+
+    /**
+     * Перехватываем getData() для возврата кастомного сообщения нужным ролям
+     */
     public function getData()
     {
-        // Для завкафа и сотрудника - сообщение о подготовке
+        // Завкафы и сотрудники имеют право "видеть" страницу (canView = true), 
+        // но вместо данных получают сообщение о закрытии:
         if ($this->userRole === 'zavkaf' || $this->userRole === 'sotrudnik') {
             return [
                 'nagruzka' => [],
@@ -53,17 +64,20 @@ class ClosedMode extends BaseNagruzkaProvider
             ];
         }
 
-        // Для УОУП - данные в режиме read-only
-        $chairFilter = $this->getChairFilter();
+        // Для УОУП запускаем стандартный пайплайн
+        return parent::getData();
+    }
 
-        $dopSql = "$chairFilter
-            AND `chair_id` IS NOT NULL AND `valid` = '1'
-        ";
+    protected function getModeSpecificSql()
+    {
+        return "";
+    }
 
-        $nagruzkaData = $this->getBaseData($dopSql, 'all');
-
+    protected function applyModeSplits($nagruzkaData)
+    {
         // В режиме закрыто сплиты не применяются - показываем чистые данные из Галактики
-        // Но lectors формируем из данных Галактики
+        $result = [];
+        
         foreach ($nagruzkaData as $baseUid2 => $item) {
             $baseUid = $item['base_uid'];
 
@@ -78,27 +92,12 @@ class ClosedMode extends BaseNagruzkaProvider
             $result[$baseUid]['lectors'][] = $item;
         }
 
-        $nagruzkaData = $result ? $result : [];
+        return $result ? $result : [];
+    }
 
-        // Расчёт статистики
-        $stats_obj = $this->calculateStats($nagruzkaData);
-        // $nagruzkaData = $stats_obj['data'];
-        $stat = $stats_obj['stat'];
-        $statByChair = $stats_obj['statByChair'];
-
-        // Для УОУП в режиме lite/only_stat - группировка по кафедрам
-        if ($this->userRole === 'uoup' && ($this->onlyStat || $this->isLite)) {
-            $nagruzkaData = $this->groupByChair($nagruzkaData, $statByChair);
-        }
-
-        if ($this->onlyStat) {
-            $nagruzkaData = [];
-        }
-
+    protected function getExtraResponseData()
+    {
         return [
-            'nagruzka' => array_values($nagruzkaData),
-            'stat' => $stat ?: new stdClass(),
-            'lecturer_fio' => $this->lecturerFio,
             'read_only' => true
         ];
     }

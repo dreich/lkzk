@@ -42,104 +42,33 @@ class FillingMode extends BaseNagruzkaProvider
         return $this->nagruzkaType ?: 'all';
     }
 
-    public function getData()
+    
+    protected function canAccessData()
     {
-        // EchoLog('getData()');
+        return !($this->userRole === 'sotrudnik' && empty($this->lecturerUid));
+    }
 
-        // Для сотрудника без lecturer_uid - пустой результат
-        if ($this->userRole === 'sotrudnik' && empty($this->lecturerUid)) 
-        {
-            return [
-                'nagruzka' => [],
-                'stat' => new stdClass(),
-                'lecturer_fio' => null
-            ];
-        }
-
-        
-
-        // Получаем базовые данные
-        // EchoLog($chairFilter);
-        $chairFilter = $this->getChairFilter();
-        $nagruzkaTypeFilter = $this->getNagruzkaTypeFilter();
-
-        // EchoLog($nagruzkaTypeFilter);
-
+    protected function getModeSpecificSql()
+    {
         // В режиме заполнения исключаем КСРО из основного запроса
-        $ksroSql = "AND `nagruzka_type` <> 'ksro'";
+        return "AND `nagruzka_type` <> 'ksro'";
+    }
 
-        $dopSql = "$chairFilter
-            AND `chair_id` IS NOT NULL AND `valid` = '1'
-            $ksroSql
-        ";
+    protected function applyModeSplits($nagruzkaData)
+    {
+        // Очищаем лекторов и применяем сплиты
+        return $this->processSplits($nagruzkaData, 'mode_filling');
+    }
 
-        $nagruzkaData = $this->getBaseData($dopSql, $nagruzkaTypeFilter);
+    protected function getExtraResponseData()
+    {
+        return [];
+    }
 
-        // EchoLog($nagruzkaData);
-
-        // В режиме заполнения игнорируем лекторов из Галактики
-        // Очищаем их и применяем только сплиты
-        $nagruzkaData = $this->processSplits($nagruzkaData, 'mode_filling');
-
-        // gc_collect_cycles();
-
-        // EchoLog($nagruzkaData);
-
-        // $processor = new SplitProcessor('0');
-        // $nagruzkaData = $processor->applySplits($nagruzkaData, 'mode_filling');
-
-        // Переиндексируем lectors для каждого base_uid
-        foreach ($nagruzkaData as $baseUid => &$item) 
-        {
-            if (!empty($item['lectors'])) 
-            {
-            	foreach ($item['lectors'] as &$lector)
-            	{
-            		$lector['delete'] = !!$lector['delete'];
-            	}
-            	
-              $item['lectors'] = array_values($item['lectors']);
-            } else {
-                $item['lectors'] = [];
-            }
-        }
-        unset($item);
-
-
-        // EchoLog($nagruzkaData);
-        // Фильтрация по преподавателю
-        $this->filterByLecturer($nagruzkaData);
-
-        // EchoLog($nagruzkaData);
-
-        // Расчёт статистики
-        $stats_obj = $this->calculateStats($nagruzkaData);
-        // $nagruzkaData = $stats_obj['data'];
-        $stat = $stats_obj['stat'];
-        $statByChair = $stats_obj['statByChair'];
-
-        // Глобальная фильтрация
-        // Д.б. после calculateStats()
-        $this->applyGlobalFilter($nagruzkaData);
-
-        // Для УОУП в режиме lite/only_stat - группировка по кафедрам + данные КСРО
-        if ($this->userRole === 'uoup' && ($this->onlyStat || $this->isLite)) {
-            $nagruzkaData = $this->groupByChair($nagruzkaData, $statByChair);
-
-            // Добавляем данные КСРО из таблицы ksro для статистики
-            $this->addKsroToStats($nagruzkaData, $statByChair);
-        }
-
-        // Если только статистика - очищаем данные
-        if ($this->onlyStat) {
-            $nagruzkaData = [];
-        }
-
-        return [
-            'nagruzka' => array_values($nagruzkaData),
-            'stat' => $stat ?: new stdClass(),
-            'lecturer_fio' => $this->lecturerFio
-        ];
+    protected function applyExtraUoupTransformations(&$nagruzkaData, &$statByChair)
+    {
+        // Добавляем данные КСРО из таблицы ksro для статистики (Только в FillingMode)
+        $this->addKsroToStats($nagruzkaData, $statByChair);
     }
 
     /**

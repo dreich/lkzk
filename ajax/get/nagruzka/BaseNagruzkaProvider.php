@@ -394,10 +394,91 @@ abstract class BaseNagruzkaProvider
     }
 
     /**
-     * Абстрактные методы для реализации в конкретных режимах
+     * Единый пайплайн получения данных для всех режимов (Template Method)
      */
+    final public function getData()
+    {
+        // 1. Проверка доступа
+        if (!$this->canAccessData()) {
+            return [
+                'nagruzka' => [],
+                'stat' => new stdClass(),
+                'lecturer_fio' => null
+            ];
+        }
+
+        // 2. Получение базовых данных (условия SQL отдают дочерние классы)
+        $chairFilter = $this->getChairFilter();
+        $dopSql = "$chairFilter AND `chair_id` IS NOT NULL AND `valid` = '1' " . $this->getModeSpecificSql();
+        $nagruzkaData = $this->getBaseData($dopSql, $this->getNagruzkaTypeFilter());
+
+        // 3. Обработка сплитов (Логику определяют дочерние классы)
+        $nagruzkaData = $this->applyModeSplits($nagruzkaData);
+
+        // 4. Переиндексация лекторов (общая логика)
+        $this->reindexLectors($nagruzkaData);
+
+        // 5. Фильтрация по преподавателю
+        $this->filterByLecturer($nagruzkaData);
+
+        // 6. Расчет статистики
+        $stats_obj = $this->calculateStats($nagruzkaData);
+        $stat = $stats_obj['stat'];
+        $statByChair = $stats_obj['statByChair'];
+
+        // 7. Глобальная фильтрация
+        $this->applyGlobalFilter($nagruzkaData);
+
+        // 8. Специфичная логика для УОУП (Группировка)
+        if ($this->userRole === 'uoup' && ($this->onlyStat || $this->isLite)) {
+            $nagruzkaData = $this->groupByChair($nagruzkaData, $statByChair);
+            // Хук для добавления КСРО (используется только в FillingMode)
+            $this->applyExtraUoupTransformations($nagruzkaData, $statByChair);
+        }
+
+        // 9. Финальная сборка ответа
+        if ($this->onlyStat) {
+            $nagruzkaData = [];
+        }
+
+        return array_merge([
+            'nagruzka' => array_values($nagruzkaData),
+            'stat' => $stat ?: new stdClass(),
+            'lecturer_fio' => $this->lecturerFio
+        ], $this->getExtraResponseData());
+    }
+
+    /**
+     * Выносим общую переиндексацию в отдельный метод
+     */
+    protected function reindexLectors(&$nagruzkaData)
+    {
+        foreach ($nagruzkaData as $baseUid => &$item) {
+            if (!empty($item['lectors'])) {
+                foreach ($item['lectors'] as &$lector) {
+                    $lector['delete'] = !!$lector['delete'];
+                }
+                $item['lectors'] = array_values($item['lectors']);
+            } else {
+                $item['lectors'] = [];
+            }
+        }
+        unset($item);
+    }
+
+    // --- АБСТРАКТНЫЕ МЕТОДЫ И ХУКИ ДЛЯ ДОЧЕРНИХ КЛАССОВ ---
+    
     abstract public function canView();
     abstract public function canEdit();
-    abstract public function getData();
     abstract public function getNagruzkaTypeFilter();
+    
+    abstract protected function canAccessData();
+    abstract protected function getModeSpecificSql();
+    abstract protected function applyModeSplits($nagruzkaData);
+    abstract protected function getExtraResponseData();
+    
+    // Пустой хук по умолчанию (переопределяется в FillingMode)
+    protected function applyExtraUoupTransformations(&$nagruzkaData, &$statByChair) {}
+
+
 }
