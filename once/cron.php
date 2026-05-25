@@ -177,8 +177,7 @@ function GetChairSotrudniki($year, $dop_sql = "", $actual = null /*, $qualify_ca
 
     // если нет всевдо-подразделений, ничего страшного
 
-    // $podrazdelenia_table_name.`pname` LIKE('Кафедра%') OR 
-    $kaf_sql = "AND ($podrazdelenia_table_name.`id` IN ($pseudo_departments_ids_str)) ";
+    $kaf_sql = "AND ($podrazdelenia_table_name.`pname` LIKE('Кафедра%') OR $podrazdelenia_table_name.`id` IN ($pseudo_departments_ids_str)) ";
   }
 
   // AND $podrazdelenia_table_name.`parent_id` <> '00255'
@@ -335,7 +334,10 @@ function LoadXML($filename, $table_name)
       $hash = hash_column_values_only($arr, $xml_content_of_load_columns_for_hash);
       $sql_arr[] = "`hash` = '$hash'";
 
-
+      if ($_XMLContentOfLoadStaffByBaseUID1[$base_uid]['Abbr'] == '2.2.2')
+      {
+        EchoLog(IsNagruzkaDiscipline($_XMLContentOfLoadStaffByBaseUID1[$base_uid]['Abbr']));
+      }
 
       if ($arr['UID_KindOfWork'] === $ksro_kind_uid || $arr['UID_KindOfWork'] === $ik_kind_uid || $arr['UID_Discipline'] === $ksro_discipline_uid ||  $arr['UID_Discipline'] === $ik_discipline_uid)
       {
@@ -617,7 +619,7 @@ if ($SotrudnikiActual)
   }
 }
 
-EchoLog($SotrudnikiActual);
+// EchoLog($SotrudnikiActual);
 unset($SotrudnikiActual);
 
 // 2. «кандидат» - ППС из сервиса Кандидат, привязанные к этой кафедре и дошедшие до согласования с УОУП (т.е. согласованные УК) и последующие статусы.
@@ -628,8 +630,8 @@ if ($Kandidats_arr)
   {
     foreach ($Kandidats_arr as $sotrudnik)
     {
-      // if (!$SotrudnikiItogoByKey["$sotrudnik[person_id]-$sotrudnik[chair_id]"])
-      // $SotrudnikiItogoByKey["$sotrudnik[person_id]-$sotrudnik[chair_id]"] = $sotrudnik;
+      if (!$SotrudnikiItogoByKey["$sotrudnik[person_id]-$sotrudnik[chair_id]"])
+      $SotrudnikiItogoByKey["$sotrudnik[person_id]-$sotrudnik[chair_id]"] = $sotrudnik;
     }
   }
 }
@@ -652,8 +654,8 @@ if ($ChairsSotrudnikiPrevPrevYear)
     foreach ($ChairsSotrudnikiPrevPrevYear as $sotrudnik)
     {
       $sotrudnik['type'] = 'worked';
-      // if (!$SotrudnikiItogoByKey["$sotrudnik[person_id]-$sotrudnik[chair_id]"])
-      // $SotrudnikiItogoByKey["$sotrudnik[person_id]-$sotrudnik[chair_id]"] = $sotrudnik;
+      if (!$SotrudnikiItogoByKey["$sotrudnik[person_id]-$sotrudnik[chair_id]"])
+      $SotrudnikiItogoByKey["$sotrudnik[person_id]-$sotrudnik[chair_id]"] = $sotrudnik;
     }
   }
 }
@@ -665,8 +667,8 @@ if ($ChairsSotrudnikiPrevYear)
     foreach ($ChairsSotrudnikiPrevYear as $sotrudnik)
     {
       $sotrudnik['type'] = 'worked';
-      // if (!$SotrudnikiItogoByKey["$sotrudnik[person_id]-$sotrudnik[chair_id]"])
-      // $SotrudnikiItogoByKey["$sotrudnik[person_id]-$sotrudnik[chair_id]"] = $sotrudnik;
+      if (!$SotrudnikiItogoByKey["$sotrudnik[person_id]-$sotrudnik[chair_id]"])
+      $SotrudnikiItogoByKey["$sotrudnik[person_id]-$sotrudnik[chair_id]"] = $sotrudnik;
     }
   }
 }
@@ -678,8 +680,8 @@ if ($ChairsSotrudnikiCurYear)
     foreach ($ChairsSotrudnikiCurYear as $sotrudnik)
     {
       $sotrudnik['type'] = 'worked';
-      // if (!$SotrudnikiItogoByKey["$sotrudnik[person_id]-$sotrudnik[chair_id]"])
-      // $SotrudnikiItogoByKey["$sotrudnik[person_id]-$sotrudnik[chair_id]"] = $sotrudnik;
+      if (!$SotrudnikiItogoByKey["$sotrudnik[person_id]-$sotrudnik[chair_id]"])
+      $SotrudnikiItogoByKey["$sotrudnik[person_id]-$sotrudnik[chair_id]"] = $sotrudnik;
     }
   }
 }
@@ -701,8 +703,8 @@ if ($SotrudnikiGPHPrevPrevYear)
     foreach ($SotrudnikiGPHPrevPrevYear as $sotrudnik)
     {
       $sotrudnik['type'] = 'gph';
-      // if (!$SotrudnikiItogoByKey["$sotrudnik[person_id]-$sotrudnik[chair_id]"])
-      // $SotrudnikiItogoByKey["$sotrudnik[person_id]-$sotrudnik[chair_id]"] = $sotrudnik;
+      if (!$SotrudnikiItogoByKey["$sotrudnik[person_id]-$sotrudnik[chair_id]"])
+      $SotrudnikiItogoByKey["$sotrudnik[person_id]-$sotrudnik[chair_id]"] = $sotrudnik;
     }
   }
 }
@@ -717,8 +719,8 @@ if ($SotrudnikiGPHPrevYear)
     foreach ($SotrudnikiGPHPrevYear as $sotrudnik)
     {
       $sotrudnik['type'] = 'gph';
-      // if (!$SotrudnikiItogoByKey["$sotrudnik[person_id]-$sotrudnik[chair_id]"])
-      // $SotrudnikiItogoByKey["$sotrudnik[person_id]-$sotrudnik[chair_id]"] = $sotrudnik;
+      if (!$SotrudnikiItogoByKey["$sotrudnik[person_id]-$sotrudnik[chair_id]"])
+      $SotrudnikiItogoByKey["$sotrudnik[person_id]-$sotrudnik[chair_id]"] = $sotrudnik;
     }
   }
 }
@@ -733,8 +735,8 @@ if ($SotrudnikiGPH)
     foreach ($SotrudnikiGPH as $sotrudnik)
     {
       $sotrudnik['type'] = 'gph';
-      // if (!$SotrudnikiItogoByKey["$sotrudnik[person_id]-$sotrudnik[chair_id]"])
-      // $SotrudnikiItogoByKey["$sotrudnik[person_id]-$sotrudnik[chair_id]"] = $sotrudnik;
+      if (!$SotrudnikiItogoByKey["$sotrudnik[person_id]-$sotrudnik[chair_id]"])
+      $SotrudnikiItogoByKey["$sotrudnik[person_id]-$sotrudnik[chair_id]"] = $sotrudnik;
     }
   }
 }
@@ -763,7 +765,6 @@ include '../connect.php';
 
 
 
-// $mysqli->query("TRUNCATE `sotrudniki`");
 
 // Соберём добавляемых по ключу,
 // чтобы проставлять дату удаления
@@ -832,8 +833,6 @@ if ($Sotrudniki)
 
 
 
-
-// $mysqli->query("UPDATE `sotrudniki` SET `actual` = '0'");
 
 if ($SotrudnikiItogoByKey)
 {
@@ -946,7 +945,8 @@ if ($SotrudnikiItogoByKey)
               ON DUPLICATE KEY UPDATE
               `pku` = VALUES(`pku`),
               `pkg` = VALUES(`pkg`),
-              `stavka` = VALUES(`stavka`)
+              `stavka` = VALUES(`stavka`),
+              `date_remove`= NULL
             ";
 
       // echo $query . '<br><br>';
@@ -973,7 +973,8 @@ if ($SotrudnikiItogoByKey)
                 SET `fio` = '$chair_sotrudnik[fio]', `dolzhnost` = '$chair_sotrudnik[dolzhnost]', `type` = '$chair_sotrudnik[type]', `stavka` = '$chair_sotrudnik[stavka]', `pku` = '$chair_sotrudnik[pku]', `pkg` = '$chair_sotrudnik[pkg]', 
                 `selected` = '$selected',
                 # !! обновление lecturer_uid
-                `lecturer_uid` = '$lecturer[UID]'
+                `lecturer_uid` = '$lecturer[UID]',
+                `date_remove`= NULL
                 WHERE `person_id` = '$chair_sotrudnik[person_id]' AND `chair_id` = '$chair_sotrudnik[chair_id]'
               ";
 
@@ -1883,7 +1884,8 @@ if ($XMLContentOfLoad)
       // иначе нагрузка не распределена на кафедру, пометим как valid = 0 (чтобы не выдавать завкафам, но выдавать УОУП в разделе плохих нагрузок no_chairs)
       else
       {
-        $query = "INSERT IGNORE INTO `nagruzka` SET `chair_id` = NULL, `chair_name` = NULL, `department_id` = NULL, `department_name` = NULL, `zavkaf_login` = NULL, `zavkaf_id` = NULL, `zavkaf_fio` = NULL, `load_base_UID2` = '$xml_content_of_load_row[base_uid2]', `valid` = '0'";
+        // INSERT IGNORE не подходит, потому что, если у нагрузки кафедра исчезла, то это не обновит строку, которая уже есть
+        $query = "REPLACE INTO `nagruzka` SET `chair_id` = NULL, `chair_name` = NULL, `department_id` = NULL, `department_name` = NULL, `zavkaf_login` = NULL, `zavkaf_id` = NULL, `zavkaf_fio` = NULL, `load_base_UID2` = '$xml_content_of_load_row[base_uid2]', `valid` = '0'";
 
           $Result = $mysqli->query($query);
 

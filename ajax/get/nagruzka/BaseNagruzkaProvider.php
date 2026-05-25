@@ -138,7 +138,21 @@ abstract class BaseNagruzkaProvider
         $query = GetNagruzkaBaseQuery($dopSql, $type, true, $this->isLite);
         // EchoLog($query);
         $rawData = GetSQL($query);
-        return PrepareNagruzka($rawData);
+
+        // if ($type == 'discipline')
+        // EchoLog(memory_get_usage());
+
+        $result = PrepareNagruzka($rawData, $this->isLite);
+
+        // ✅ Явно удаляем $rawData, так как он больше не нужен
+        unset($rawData);
+
+        // Принудительный сбор мусора (если очень нужно)
+        // if (function_exists('gc_collect_cycles')) {
+        //     gc_collect_cycles();
+        // }
+
+        return $result;
     }
 
     /**
@@ -342,7 +356,8 @@ abstract class BaseNagruzkaProvider
         {
             $chairId = $item['chair_id'];
 
-            if (!isset($result[$chairId])) {
+            if (!isset($result[$chairId])) 
+            {
                 $result[$chairId] = $item;
                 $result[$chairId]['assigned_to_vacancy'] = isset($statByChair[$chairId]['assigned_to_vacancy']['sum']) ? $statByChair[$chairId]['assigned_to_vacancy']['sum'] : 0;
                 $result[$chairId]['assigned'] = isset($statByChair[$chairId]['assigned']['sum']) ? $statByChair[$chairId]['assigned']['sum'] : 0;
@@ -409,8 +424,14 @@ abstract class BaseNagruzkaProvider
 
         // 2. Получение базовых данных (условия SQL отдают дочерние классы)
         $chairFilter = $this->getChairFilter();
-        $dopSql = "$chairFilter AND `chair_id` IS NOT NULL AND `valid` = '1' " . $this->getModeSpecificSql();
+        $dopSql = "$chairFilter AND `chair_id` IS NOT NULL AND `chair_id` <> '' AND `valid` = '1' " . $this->getModeSpecificSql();
+
+
+
         $nagruzkaData = $this->getBaseData($dopSql, $this->getNagruzkaTypeFilter());
+
+        // if ($this->nagruzkaType == 'discipline')
+        // EchoLog(memory_get_usage());
 
         // 3. Обработка сплитов (Логику определяют дочерние классы)
         $nagruzkaData = $this->applyModeSplits($nagruzkaData);

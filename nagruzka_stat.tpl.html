@@ -90,5 +90,15 @@
     </tr>
     
   </tbody>
+
+  <tfoot>
+    <tr>
+      <td>Итого</td>
+      <td ng-if="!nagruzka_selected_lecturer_uid && !c_roles.sotrudnik">{{GetNagruzkaStatusSum(chair_id, 'total') | toFixed:1}}</td>
+      <td ng-if="!nagruzka_selected_lecturer_uid && !c_roles.sotrudnik">{{GetNagruzkaStatusSum(chair_id, 'not_assigned') | toFixed:1}}</td>
+      <td>{{GetNagruzkaStatusSum(chair_id, 'assigned') | toFixed:1}}</td>
+      <td ng-if="!nagruzka_selected_lecturer_uid && !c_roles.sotrudnik">{{GetNagruzkaStatusSum(chair_id, 'assigned_to_vacancy') | toFixed:1}}</td>
+    </tr>
+  </tfoot>
   
 </table>

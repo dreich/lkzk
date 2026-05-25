@@ -3051,6 +3051,25 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
         }
     }, 200); // Небольшая задержка для рендеринга
   }
+
+
+  $scope.GetNagruzkaStatusSum = function(chair_id, stat_type)
+  {
+    if (!isEmpty($scope.nagruzka_stat))
+    return (!isEmpty($scope.nagruzka_stat[chair_id]['discipline']) && !isEmpty($scope.nagruzka_stat[chair_id]['discipline'][stat_type]) ? parseFloat($scope.nagruzka_stat[chair_id]['discipline'][stat_type]['sum']) : 0)
+
+          + (!isEmpty($scope.nagruzka_stat[chair_id]['ruk_vkr']) && !isEmpty($scope.nagruzka_stat[chair_id]['ruk_vkr'][stat_type]) ? parseFloat($scope.nagruzka_stat[chair_id]['ruk_vkr'][stat_type]['sum']) : 0)
+
+          + (!isEmpty($scope.nagruzka_stat[chair_id]['ruk_kurs']) && !isEmpty($scope.nagruzka_stat[chair_id]['ruk_kurs'][stat_type]) ? parseFloat($scope.nagruzka_stat[chair_id]['ruk_kurs'][stat_type]['sum']) : 0)
+
+          + (!isEmpty($scope.nagruzka_stat[chair_id]['ruk_practice']) && !isEmpty($scope.nagruzka_stat[chair_id]['ruk_practice'][stat_type]) ? parseFloat($scope.nagruzka_stat[chair_id]['ruk_practice'][stat_type]['sum']) : 0)
+
+          + (!isEmpty($scope.nagruzka_stat[chair_id]['ksro']) && !isEmpty($scope.nagruzka_stat[chair_id]['ksro'][stat_type]) ? parseFloat($scope.nagruzka_stat[chair_id]['ksro'][stat_type]['sum']) : 0)
+
+          + (!isEmpty($scope.nagruzka_stat[chair_id]['gia']) && !isEmpty($scope.nagruzka_stat[chair_id]['gia'][stat_type]) ? parseFloat($scope.nagruzka_stat[chair_id]['gia'][stat_type]['sum']) : 0)
+
+          + (!isEmpty($scope.nagruzka_stat[chair_id]['aspirant']) && !isEmpty($scope.nagruzka_stat[chair_id]['aspirant'][stat_type]) ? parseFloat($scope.nagruzka_stat[chair_id]['aspirant'][stat_type]['sum']) : 0)
+  }
   
 
 })
@@ -3060,6 +3079,9 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
   CL('UOUPNagruzkaCtrl');
 
   $rootScope.page = page;
+
+  
+
   $scope.system_mode = system_mode.data.mode; 
 
   if ($scope.system_mode === 'export_to_galaktika') 
@@ -3094,7 +3116,66 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
 
   // LoadNagruzkaUOUPStat();
 
-  const columns = [
+  var page_title;
+  var columns;
+
+  if ($scope.page == 'uoup_nagruzka_no_type')
+  {
+    page_title = 'Нагрузка без типа';
+  }
+  else if ($scope.page == 'uoup_nagruzka_no_chair')
+  {
+    page_title = 'Нагрузка без кафедры';
+  }
+  else if ($scope.page == 'uoup_nagruzka')
+  {
+    page_title = 'Нагрузка';
+
+
+  }
+
+
+  if ($scope.page == 'uoup_nagruzka_no_type' || $scope.page == 'uoup_nagruzka_no_chair')
+  {
+    columns = [
+      
+      // UID нагрузки
+      null,
+
+      // факультет
+      {
+        name: 'department_name',
+        type: 'select',
+        bRegex: false,
+        // values: $scope.filter_distinct['department_name']
+        // bSmart: true
+      }, 
+      // кафедра
+      {
+        name: 'chair',
+        type: 'select',
+        bRegex: false,
+      },
+      // заведующий
+      {
+        name: 'zavkaf',
+        type: 'input',
+        bRegex: false,
+      },
+      // всего нагрузки
+      null,
+      // распределено
+      null,
+      // не распределено
+      null,
+      // на вакансии
+      null,
+      
+    ];
+  }
+  else if (page == 'uoup_nagruzka')
+  {
+    columns = [
       
       // факультет
       {
@@ -3125,25 +3206,15 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
       // на вакансии
       null,
       
-  ];
+    ];
+  }
+
+  
 
 
   // $scope.persons = $resource('data.json').query();
 
-  var page_title;
-
-  if ($scope.page == 'uoup_nagruzka_no_type')
-  {
-    page_title = 'Нагрузка без типа';
-  }
-  else if ($scope.page == 'uoup_nagruzka_no_chair')
-  {
-    page_title = 'Нагрузка без кафедры';
-  }
-  else if ($scope.page == 'uoup_nagruzka')
-  {
-    page_title = 'Нагрузка';
-  }
+  
 
   $scope.dtOptions = DTOptionsBuilder //.fromSource('data.json')
     .newOptions()
@@ -3209,8 +3280,8 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
   // УОУП открывает на просмотр нагрузку кафедры
   $scope.UOUPOpenChairNagruzka = function(chair_id)
   {
-    CL('UOUPOpenChairNagruzka');
-    CL(chair_id);
+    // CL('UOUPOpenChairNagruzka');
+    // CL(chair_id);
 
     if (!isEmpty(chair_id))
     {
@@ -3229,7 +3300,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
 
   $scope.UpdateUOUPNagruzkaStat = function(nagr_type)
   {
-    CL('UpdateUOUPNagruzkaStat');
+    // CL('UpdateUOUPNagruzkaStat');
     // CL(chair_id);
 
     var script, url;
@@ -3305,6 +3376,28 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
     $scope.UpdateUOUPNagruzkaStat('aspirant');
   }
 
+  
+  $scope.GetUOUPNagruzkaStatusSum = function(stat_type)
+  {
+    // if (!isEmpty($scope.nagruzka_uoup_stat['discipline']) && !isEmpty($scope.nagruzka_uoup_stat['discipline'][stat_type]))
+    // CL($scope.nagruzka_uoup_stat['discipline'][stat_type]['sum']);
+
+    if (!isEmpty($scope.nagruzka_uoup_stat))
+    return (!isEmpty($scope.nagruzka_uoup_stat['discipline']) && !isEmpty($scope.nagruzka_uoup_stat['discipline'][stat_type]) ? parseFloat($scope.nagruzka_uoup_stat['discipline'][stat_type]['sum']) : 0)
+
+          + (!isEmpty($scope.nagruzka_uoup_stat['ruk_vkr']) && !isEmpty($scope.nagruzka_uoup_stat['ruk_vkr'][stat_type]) ? parseFloat($scope.nagruzka_uoup_stat['ruk_vkr'][stat_type]['sum']) : 0)
+
+          + (!isEmpty($scope.nagruzka_uoup_stat['ruk_kurs']) && !isEmpty($scope.nagruzka_uoup_stat['ruk_kurs'][stat_type]) ? parseFloat($scope.nagruzka_uoup_stat['ruk_kurs'][stat_type]['sum']) : 0)
+
+          + (!isEmpty($scope.nagruzka_uoup_stat['ruk_practice']) && !isEmpty($scope.nagruzka_uoup_stat['ruk_practice'][stat_type]) ? parseFloat($scope.nagruzka_uoup_stat['ruk_practice'][stat_type]['sum']) : 0)
+
+          + (!isEmpty($scope.nagruzka_uoup_stat['ksro']) && !isEmpty($scope.nagruzka_uoup_stat['ksro'][stat_type]) ? parseFloat($scope.nagruzka_uoup_stat['ksro'][stat_type]['sum']) : 0)
+
+          + (!isEmpty($scope.nagruzka_uoup_stat['gia']) && !isEmpty($scope.nagruzka_uoup_stat['gia'][stat_type]) ? parseFloat($scope.nagruzka_uoup_stat['gia'][stat_type]['sum']) : 0)
+
+          + (!isEmpty($scope.nagruzka_uoup_stat['aspirant']) && !isEmpty($scope.nagruzka_uoup_stat['aspirant'][stat_type]) ? parseFloat($scope.nagruzka_uoup_stat['aspirant'][stat_type]['sum']) : 0)
+  }
+  
   
 })
 

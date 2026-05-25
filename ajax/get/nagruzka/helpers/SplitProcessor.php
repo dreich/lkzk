@@ -220,11 +220,11 @@ class SplitProcessor
         foreach ($nagruzkaData as $baseUid2 => &$item) 
         {
             // Очищаем поля лектора - делаем пустыми
-            $item['lecturer_fio'] = null;
-            $item['lecturer_uid'] = null;
-            $item['lecturer_person_id'] = null;
-            $item['lecturer_login'] = null;
-            $item['UID_Lecturer'] = null;
+            if (!empty($item['lecturer_fio'])) $item['lecturer_fio'] = null;
+            if (!empty($item['lecturer_uid'])) $item['lecturer_uid'] = null;
+            if (!empty($item['lecturer_person_id'])) $item['lecturer_person_id'] = null;
+            if (!empty($item['lecturer_login'])) $item['lecturer_login'] = null;
+            if (!empty($item['UID_Lecturer'])) $item['UID_Lecturer'] = null;
 
             // Очищаем суффикс лектора из base_uid2 через parse/glue
             // $baseUid2Obj = parseNagruzkaBaseUid2($item['base_uid2']);

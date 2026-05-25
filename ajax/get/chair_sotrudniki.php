@@ -249,11 +249,14 @@ $stmt = $mysqli->prepare($query);
 $stmt->bind_param('ss', $chair_id, $department_id);
 $stmt->execute();
 $result = $stmt->get_result();
-while ($row = $result->fetch_assoc()) {
+while ($row = $result->fetch_assoc()) 
+{
     $employees[$row['person_id']] = $row;
 }
 
 // EchoLog($chair_id);
+// EchoLog($department_id);
+EchoLog($employees);
 
 // Батаков
 // EchoLog($splitsLoads[51586]);

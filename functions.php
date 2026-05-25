@@ -2624,6 +2624,7 @@ function GetNagruzkaBaseQuery($dop_sql, $nagruzka_type = 'all', $department_from
       xml_content_of_load.LoadType,
       xml_content_of_load_staff.Abbr, 
       xml_group.Name as group_name,
+      xml_subgroup.Name as subgroup_name,
       xml_discipline.UID as discipline_UID,
       xml_discipline.Name as discipline_name,
       # у кого ведёт
@@ -2634,6 +2635,8 @@ function GetNagruzkaBaseQuery($dop_sql, $nagruzka_type = 'all', $department_from
       xml_specialization.Name as napravlennost,
       xml_language.Name as language,
       xml_content_of_load_staff.UID_FormOfEducation,
+      # Если == 1, то используются подгруппы вместо групп
+      xml_content_of_load_staff.TypeOfContingent,
       xml_content_of_load.UID_Language,
       xml_content_of_load.UID_Semester,
       xml_content_of_load.StudentAmount,
@@ -2641,14 +2644,22 @@ function GetNagruzkaBaseQuery($dop_sql, $nagruzka_type = 'all', $department_from
       xml_content_of_load.UID_KindOfWork,
       xml_content_of_load.UID_Course,
       xml_post.Name as dolzhnost,
-      xml_lecturer.Rate as stavka
-
+      xml_lecturer.Rate as stavka,
+      xml_lecturer.UID as lecturer_uid,
+      # именно здесь можно различить -1 и Вакансию 
+      xml_content_of_load.UID_Lecturer,
+      xml_lecturer.Tab_number as lecturer_person_id,
+      xml_content_of_load.UID as original_uid,
+      xml_content_of_load.UID as xml_content_of_load_UID,
+      nagruzka.zavkaf_login,
+      nagruzka.department_id
 
     ";
 
     $sql_part2 = "
       LEFT JOIN xml_content_of_load_staff ON xml_content_of_load.base_uid = xml_content_of_load_staff.base_uid
       LEFT JOIN xml_group ON xml_group.`UID` = xml_content_of_load_staff.`UID_Group`
+      LEFT JOIN xml_subgroup ON xml_subgroup.`UID` = xml_content_of_load_staff.`UID_SubGroup`
       LEFT JOIN xml_discipline ON xml_discipline.UID = xml_content_of_load.UID_Discipline
       # кто ведёт
       LEFT JOIN xml_chair ON xml_chair.UID = xml_content_of_load.`UID_Chair`
@@ -2665,19 +2676,15 @@ function GetNagruzkaBaseQuery($dop_sql, $nagruzka_type = 'all', $department_from
   $_nagruzka_base_query = 
   "
   SELECT 
-  xml_content_of_load.UID as original_uid,
+  
   xml_content_of_load.base_uid,
   xml_content_of_load.base_uid2,
-  xml_content_of_load.UID as xml_content_of_load_UID,
   xml_content_of_load.Amount,
   xml_lecturer.FIO as lecturer_fio,
-  xml_lecturer.UID as lecturer_uid,
-  # именно здесь можно различить -1 и Вакансию 
-  xml_content_of_load.UID_Lecturer,
-  xml_lecturer.Tab_number as lecturer_person_id,
   # кто ведёт
-  nagruzka.chair_id, nagruzka.chair_name, nagruzka.department_name, nagruzka.department_id,
-  nagruzka.zavkaf_fio, nagruzka.zavkaf_login#
+  nagruzka.chair_id, 
+  nagruzka.chair_name, nagruzka.department_name,
+  nagruzka.zavkaf_fio
   $sql_part1
   
   #$department_sql
@@ -2689,6 +2696,7 @@ function GetNagruzkaBaseQuery($dop_sql, $nagruzka_type = 'all', $department_from
   $sql_part2
   WHERE 
   1
+  #AND xml_content_of_load.`UID_Chair` <> '25031.0'
   $nagruzka_type_sql
 
   -- AND (xml_content_of_load_staff.`Abbr` LIKE ('Б1.%') OR xml_content_of_load_staff.`Abbr` LIKE ('Ф%') OR xml_content_of_load_staff.`Abbr` LIKE ('1.%') OR xml_content_of_load_staff.`Abbr` LIKE ('1.01%') OR xml_content_of_load_staff.`Abbr` LIKE ('2.1%') OR xml_content_of_load_staff.`Abbr` LIKE ('2.01%') OR xml_content_of_load_staff.`Abbr` LIKE ('С1%') OR xml_content_of_load_staff.`Abbr` LIKE ('С2%') OR xml_content_of_load_staff.`Abbr` LIKE ('С3%') OR xml_content_of_load_staff.`Abbr` LIKE ('С4%'))
@@ -2696,7 +2704,7 @@ function GetNagruzkaBaseQuery($dop_sql, $nagruzka_type = 'all', $department_from
     -- AND xml_content_of_load.`base_uid` = '26589.281474976763944'
     -- AND xml_content_of_load.`base_uid` = '26589.281474976763950'
     -- AND xml_content_of_load.`base_uid` = '26589.281474976763945'
-    -- AND xml_content_of_load.`base_uid` = '26589.281474976773929'
+    -- AND xml_content_of_load.`base_uid` = '26589.281474976895104'
     -- AND LoadType = '0'
     $dop_sql
   ";
@@ -2709,7 +2717,7 @@ function GetNagruzkaBaseQuery($dop_sql, $nagruzka_type = 'all', $department_from
 
 // Данные от запроса GetNagruzkaBaseQuery() должны пропускаться через функцию PrepareNagruzka() для подготовки к выдаче в зелёную таблицу нагрузки
 // с уникализацией по base_uid2
-function PrepareNagruzka($_Nagruzka)
+function PrepareNagruzka($_Nagruzka, $lite = false)
 {
   global $_forms_obuchenia;
   
@@ -2717,41 +2725,52 @@ function PrepareNagruzka($_Nagruzka)
 
   if ($_Nagruzka)
   {
+    // if (!$lite)
     foreach ($_Nagruzka as $nagruzka)
     {
-      if (/* $nagruzka['base_uid'] != $nagruzka['original_uid'] && */ $Nagruzka["$nagruzka[base_uid2]"])
+
+      if ($Nagruzka["$nagruzka[base_uid2]"] /* $nagruzka['base_uid'] != $nagruzka['original_uid'] && */ )
       {
-        if (!in_array($nagruzka['discipline_name'], $Nagruzka["$nagruzka[base_uid2]"]['discipline_name_arr'], true))
+        
+
+        if (!$lite && !in_array($nagruzka['discipline_name'], $Nagruzka["$nagruzka[base_uid2]"]['discipline_name_arr'], true))
         {
           $Nagruzka["$nagruzka[base_uid2]"]['discipline_name_arr'][] = $nagruzka['discipline_name'];
         }
 
-        if (!in_array($nagruzka['discipline_UID'], $Nagruzka["$nagruzka[base_uid2]"]['discipline_UID_arr'], true))
+        if (!$lite && !in_array($nagruzka['discipline_UID'], $Nagruzka["$nagruzka[base_uid2]"]['discipline_UID_arr'], true))
         {
           $Nagruzka["$nagruzka[base_uid2]"]['discipline_UID_arr'][] = $nagruzka['discipline_UID'];
         }
 
-        if (!in_array($nagruzka['group_name'], $Nagruzka["$nagruzka[base_uid2]"]['group_name_arr'], true))
+        if (!$lite && $nagruzka['TypeOfContingent'] != '1' && !in_array($nagruzka['group_name'], $Nagruzka["$nagruzka[base_uid2]"]['group_name_arr'], true))
         {
           $Nagruzka["$nagruzka[base_uid2]"]['group_name_arr'][] = $nagruzka['group_name'];
         }
 
-        if (!in_array($nagruzka['Abbr'], $Nagruzka["$nagruzka[base_uid2]"]['Abbr_arr']))
+        
+        // Если TypeOfContingent = 1, то группы берём по полю UID_SubGroup
+        if (!$lite && $nagruzka['TypeOfContingent'] == '1' && !in_array($nagruzka['subgroup_name'], $Nagruzka["$nagruzka[base_uid2]"]['group_name_arr'], true))
+        {
+          $Nagruzka["$nagruzka[base_uid2]"]['group_name_arr'][] = $nagruzka['subgroup_name'];
+        }
+
+        if (!$lite && !in_array($nagruzka['Abbr'], $Nagruzka["$nagruzka[base_uid2]"]['Abbr_arr']))
         {
           $Nagruzka["$nagruzka[base_uid2]"]['Abbr_arr'][] = $nagruzka['Abbr'];
         }
 
-        if (!in_array($nagruzka['napravlenie'], $Nagruzka["$nagruzka[base_uid2]"]['napravlenie_arr'], true))
+        if (!$lite && !in_array($nagruzka['napravlenie'], $Nagruzka["$nagruzka[base_uid2]"]['napravlenie_arr'], true))
         {
           $Nagruzka["$nagruzka[base_uid2]"]['napravlenie_arr'][] = $nagruzka['napravlenie'];
         }
 
-        if ($nagruzka['napravlennost'] && !in_array($nagruzka['napravlennost'], $Nagruzka["$nagruzka[base_uid2]"]['napravlennost_arr'], true))
+        if (!$lite && $nagruzka['napravlennost'] && !in_array($nagruzka['napravlennost'], $Nagruzka["$nagruzka[base_uid2]"]['napravlennost_arr'], true))
         {
           $Nagruzka["$nagruzka[base_uid2]"]['napravlennost_arr'][] = $nagruzka['napravlennost'];
         }
 
-        if (!in_array($nagruzka['department_name'], $Nagruzka["$nagruzka[base_uid2]"]['department_name_arr'], true))
+        if (!$lite && !in_array($nagruzka['department_name'], $Nagruzka["$nagruzka[base_uid2]"]['department_name_arr'], true))
         {
           $Nagruzka["$nagruzka[base_uid2]"]['department_name_arr'][] = $nagruzka['department_name'];
         }
@@ -2761,30 +2780,45 @@ function PrepareNagruzka($_Nagruzka)
       {
         $Nagruzka["$nagruzka[base_uid2]"] = $nagruzka;
 
-        $Nagruzka["$nagruzka[base_uid2]"]['discipline_name_arr'] = [$nagruzka['discipline_name']];
-        $Nagruzka["$nagruzka[base_uid2]"]['discipline_UID_arr'] = [$nagruzka['discipline_UID']];
-        
-        $Nagruzka["$nagruzka[base_uid2]"]['group_name_arr'] = [$nagruzka['group_name']];
-        $Nagruzka["$nagruzka[base_uid2]"]['Abbr_arr'] = [$nagruzka['Abbr']];
-        $Nagruzka["$nagruzka[base_uid2]"]['napravlenie_arr'] = [$nagruzka['napravlenie']];
+        if (!$lite)
+        {
+          $Nagruzka["$nagruzka[base_uid2]"]['discipline_name_arr'] = [$nagruzka['discipline_name']];
+          $Nagruzka["$nagruzka[base_uid2]"]['discipline_UID_arr'] = [$nagruzka['discipline_UID']];
+          
+          if ($nagruzka['TypeOfContingent'] != '1')
+          {
+            $Nagruzka["$nagruzka[base_uid2]"]['group_name_arr'] = [$nagruzka['group_name']];
+          }
+          // TypeOfContingent = 1
+          else
+          {
+            $Nagruzka["$nagruzka[base_uid2]"]['group_name_arr'] = [$nagruzka['subgroup_name']];
+          }
 
-        
-        $Nagruzka["$nagruzka[base_uid2]"]['napravlennost_arr'] = [];
+          // $Nagruzka["$nagruzka[base_uid2]"]['subgroup_name_arr'] = [$nagruzka['subgroup_name']];
+          $Nagruzka["$nagruzka[base_uid2]"]['Abbr_arr'] = [$nagruzka['Abbr']];
+          $Nagruzka["$nagruzka[base_uid2]"]['napravlenie_arr'] = [$nagruzka['napravlenie']];
 
-        if ($nagruzka['napravlennost']) $Nagruzka["$nagruzka[base_uid2]"]['napravlennost_arr'][] = $nagruzka['napravlennost'];
+          
+          $Nagruzka["$nagruzka[base_uid2]"]['napravlennost_arr'] = [];
 
-        $Nagruzka["$nagruzka[base_uid2]"]['department_name_arr'] = [$nagruzka['department_name']];
+          if ($nagruzka['napravlennost']) $Nagruzka["$nagruzka[base_uid2]"]['napravlennost_arr'][] = $nagruzka['napravlennost'];
+
+          $Nagruzka["$nagruzka[base_uid2]"]['department_name_arr'] = [$nagruzka['department_name']];
+        }
       }
       
     }
 
     unset($nagruzka);
+    if (!$lite)
     foreach ($Nagruzka as &$nagruzka)
     {
       // $nagruzka['disciplines_UIDs_chain_str'] = ImplodePalki($nagruzka['discipline_UID_arr']);
       // $nagruzka['disciplines_Names_chain_str'] = ImplodePalki($nagruzka['discipline_name_arr']);
       $nagruzka['discipline_name'] = implode('<br>', $nagruzka['discipline_name_arr']);
       $nagruzka['group_name'] = implode('<br>', $nagruzka['group_name_arr']);
+      // $nagruzka['subgroup_name'] = implode('<br>', $nagruzka['subgroup_name_arr']);
       $nagruzka['Abbr'] = implode('<br>', $nagruzka['Abbr_arr']);
       $nagruzka['napravlenie'] = implode('<br>', $nagruzka['napravlenie_arr']);
       $nagruzka['napravlennost'] = implode('<br>', $nagruzka['napravlennost_arr']);
@@ -2986,6 +3020,12 @@ function GetLecturer($person_id, $post_uid, $chair_uid, $department_uid)
  * @return bool true если дисциплина, false если нет
  */
 function IsNagruzkaDiscipline($abbr) {
+
+    // Исключаем (П) — это руководство практикой
+    if (preg_match('/\(П\)$/u', $abbr)) {
+        return false;
+    }
+
     // Все шаблоны из SQL запроса
     $patterns = [
         '/^Б1\./u',      // Б1.%
@@ -2994,10 +3034,13 @@ function IsNagruzkaDiscipline($abbr) {
         '/^1\.01/u',     // 1.01%
         '/^2\.1/u',      // 2.1%
         '/^2\.01/u',     // 2.01%
+        '/^2\.2/u',      // 2.2.* (без П)
         '/^С1/u',        // С1%
         '/^С2/u',        // С2%
         '/^С3/u',        // С3%
         '/^С4/u',        // С4%
+        '/^Б3\.В\.01\(Н\)$/u',         // Б3.В.01(Н) — точное совпадение
+        '/^Б3\.В\.0\(Н\)$/u',         // Б3.В.1(Н) — точное совпадение
     ];
     
     foreach ($patterns as $pattern) {
@@ -3023,8 +3066,9 @@ function IsNagruzkaRukPractice($abbr) {
     // Шаблоны для проверки
     $patterns = [
         '/^Б2\./u',           // Б2.* - начинается с "Б2."
-        '/^2\.2\.1\(П\)$/u',  // 2.2.1(П) - точное совпадение
-        '/^2\.2\.01\(П\)$/u', // 2.2.01(П) - точное совпадение
+        '/^2\.2\..*\(П\)$/u',  // 2.2.%(П)
+        // '/^2\.2\.1\(П\)$/u',  // 2.2.1(П) - точное совпадение
+        // '/^2\.2\.01\(П\)$/u', // 2.2.01(П) - точное совпадение
         '/^С5/u',              // С5* - начинается с "С5"
     ];
     

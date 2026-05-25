@@ -119,7 +119,7 @@ class FillingMode extends BaseNagruzkaProvider
     protected function getChairSqlForKsro()
     {
         if ($this->chairId) {
-            return "AND `chair_id` = '{$this->chairId}'";
+            return "`chair_id` = '{$this->chairId}'";
         }
         return '';
     }

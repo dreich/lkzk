@@ -2,6 +2,6 @@
 
 include '../functions.php';
 
-$backupName = fullBackupTable('zavkaf_splits');
+echo IsNagruzkaDiscipline('2.2.2');
 
 ?>
