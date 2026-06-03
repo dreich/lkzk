@@ -183,21 +183,21 @@
           <!-- <td ng-show="system_mode != 'mode_archive'">
             <button class="btn btn-primary btn-xs" ng-click="UOUPCancelRefuseBulk()">Отклонить</button>
           </td> -->
-          <td>{{row.department_name}}</td>
-          <td>{{row.chair_name}}</td> 
-          <td ng-bind-html="row.Abbr"></td>
-          <td ng-bind-html="row.discipline_name"></td>
-          <td ng-bind-html="row.group_name"></td>
-          <td>{{row.education_level}}</td>
-          <td>{{row.napravlenie}}</td>
-          <td>{{row.language}}</td>
-          <td>{{row.form_obuchenia}}</td>
-          <td>{{row.UID_Semester}}</td>
-          <td>{{row.StudentAmount}}</td>
-          <td>{{row.kind_of_work}}</td>
-          <td>{{row.napravlennost}}</td>
-          <td>{{row.UID_Course}}</td>
-          <td>{{row.Amount}}</td>
+          <td ng-click="NagruzkaRowClick(row); $event.stopPropagation()">{{row.department_name}}</td>
+          <td ng-click="NagruzkaRowClick(row); $event.stopPropagation()">{{row.chair_name}}</td> 
+          <td ng-click="NagruzkaRowClick(row); $event.stopPropagation()" ng-bind-html="row.Abbr"></td>
+          <td ng-click="NagruzkaRowClick(row); $event.stopPropagation()" ng-bind-html="row.discipline_name"></td>
+          <td ng-click="NagruzkaRowClick(row); $event.stopPropagation()" ng-bind-html="row.group_name"></td>
+          <td ng-click="NagruzkaRowClick(row); $event.stopPropagation()">{{row.education_level}}</td>
+          <td ng-click="NagruzkaRowClick(row); $event.stopPropagation()">{{row.napravlenie}}</td>
+          <td ng-click="NagruzkaRowClick(row); $event.stopPropagation()">{{row.language}}</td>
+          <td ng-click="NagruzkaRowClick(row); $event.stopPropagation()">{{row.form_obuchenia}}</td>
+          <td ng-click="NagruzkaRowClick(row); $event.stopPropagation()">{{row.UID_Semester}}</td>
+          <td ng-click="NagruzkaRowClick(row); $event.stopPropagation()">{{row.StudentAmount}}</td>
+          <td ng-click="NagruzkaRowClick(row); $event.stopPropagation()">{{row.kind_of_work}}</td>
+          <td ng-click="NagruzkaRowClick(row); $event.stopPropagation()">{{row.napravlennost}}</td>
+          <td ng-click="NagruzkaRowClick(row); $event.stopPropagation()">{{row.UID_Course}}</td>
+          <td ng-click="NagruzkaRowClick(row); $event.stopPropagation()">{{row.Amount}}</td>
         </tr>
       </tbody>
       <tfoot>

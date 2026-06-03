@@ -172,7 +172,7 @@ function createSelectFilter(column, footerCell)
     }
   });
 
-  const select = $('<select class="search_init text_filter form-select"><option value=""></option></select>')
+  const select = $('<select class="search_init select_filter form-select"><option value=""></option></select>')
     .appendTo($(footerCell))
     .on('change', function() {
       column.search(this.value).draw();
@@ -333,7 +333,7 @@ function createCustomFilters(table_id, table, columns, scope)
     {
       // CL(footerCell);
 
-      const select = $('<select class="form-select"></select>')
+      const select = $('<select class="form-select select_filter"></select>')
         .appendTo(footerCell)
         .on('change', function() {
           // Clear all checkboxes when filter changes
@@ -487,10 +487,21 @@ function GetNagruzkaTypesRowLink(scope, nagruzka_type, chair_id, lecturer_uid)
 {
   // CL('GetNagruzkaTypesRowLink');
 
-  var link = '#/nagruzka/' + nagruzka_type;
+  var link = '';
+
+  if (nagruzka_type == 'ksro')
+  {
+    link = '#/ksro';
+  }
+  else
+  {
+    link = '#/nagruzka/' + nagruzka_type;
+  }
 
   // УОУП
-  if (c_roles['uoup'] && !isEmpty(scope.nagruzka_selected_chair_id)) link += '/' + scope.nagruzka_selected_chair_id;
+  // scope.nagruzka_selected_chair_id
+  if (c_roles['uoup'] && !isEmpty(chair_id)) link += '/' + chair_id;
+  if (c_roles['uoup'] && !isEmpty(lecturer_uid)) link += '/' + lecturer_uid;
 
   // ЗавКаф
   if (c_roles['zavkaf'] && !isEmpty(c_chair_id)) link += '/' + c_chair_id;
@@ -1222,23 +1233,23 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
     const table = dtInstance.DataTable; // Changed from dataTable to DataTable
 
     // Check if we're on a page with a lecturer_uid
-    if (lecturer_uid) 
-    {
-      // Build the target URL
-      const basePath = `#/nagruzka/${nagruzka_type}`;
-      const chairParam = nagruzka_selected_chair_id ? `/${nagruzka_selected_chair_id}` : '';
-      const targetUrl = basePath + chairParam;
+    // if (lecturer_uid) 
+    // {
+    //   // Build the target URL
+    //   const basePath = `#/nagruzka/${nagruzka_type}`;
+    //   const chairParam = nagruzka_selected_chair_id ? `/${nagruzka_selected_chair_id}` : '';
+    //   const targetUrl = basePath + chairParam;
       
-      // Clear all filters
-      if (table) 
-      {
-        table.search('').columns().search('').draw();
-      }
+    //   // Clear all filters
+    //   if (table) 
+    //   {
+    //     table.search('').columns().search('').draw();
+    //   }
       
-      // Force a full page reload with the new URL
-      window.location.href = window.location.origin + window.location.pathname + targetUrl;
-      return;
-    }
+    //   // Force a full page reload with the new URL
+    //   window.location.href = window.location.origin + window.location.pathname + targetUrl;
+    //   return;
+    // }
 
   
 
@@ -1271,7 +1282,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
       $table.find('input.text_filter').val('');
       
       // Если на селекты повешены обработчики change - вызываем их
-      $table.find('select.select_filter').trigger('change');
+      // $table.find('select.select_filter').trigger('change');
 
     }
   };
@@ -1438,7 +1449,8 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
   }
   else if (c_roles.uoup)
   {
-    $scope._chairs_ids = [nagruzka_selected_chair_id];
+    $scope._chairs_ids = [$scope.nagruzka_selected_chair_id];
+    $scope._lecturer_uids = [$scope.nagruzka_selected_lecturer_uid];
   }
 
   // CL($scope.system_mode); 

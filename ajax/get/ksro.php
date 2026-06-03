@@ -49,6 +49,10 @@ if ($_mode == 'mode_filling')
     {
       $_chair_sql = "`chair_id` = '$_chair_id'";
     }
+    if ($_lecturer_uid)
+    {
+      $_lecturer_uid_sql = "AND `uid` = '$_lecturer_uid'";
+    }
   }
   elseif ($c_roles['sotrudnik'])
   {
