@@ -3,10 +3,15 @@
   <thead>
     <tr>
       <th>тип нагрузки</th>
-      <th ng-if="!nagruzka_selected_lecturer_uid && !c_roles.sotrudnik">всего нагрузки</th>
-      <th ng-if="!nagruzka_selected_lecturer_uid && !c_roles.sotrudnik">не распределено</th>
-      <th>распределено</th>
-      <th ng-if="!nagruzka_selected_lecturer_uid && !c_roles.sotrudnik">на вакансию</th>
+      <th ng-if="!nagruzka_selected_lecturer_uid && !c_roles.sotrudnik">Всего нагрузки</th>
+      <th ng-if="!nagruzka_selected_lecturer_uid && !c_roles.sotrudnik">Не распределено</th>
+      <th>
+        <span ng-if="nagruzka_selected_lecturer_uid || c_roles.sotrudnik">Нагрузка общая</span>
+        <span ng-if="!nagruzka_selected_lecturer_uid && !c_roles.sotrudnik">Распределено</span>
+      </th>
+      <th ng-if="nagruzka_selected_lecturer_uid || c_roles.sotrudnik">Нагрузка аудиторная</th>
+      <th ng-if="nagruzka_selected_lecturer_uid || c_roles.sotrudnik">Нагрузка на английском языке</th>
+      <th ng-if="!nagruzka_selected_lecturer_uid && !c_roles.sotrudnik">На вакансию</th>
     </tr>
   </thead>
 
@@ -20,6 +25,8 @@
       <td ng-if="!nagruzka_selected_lecturer_uid && !c_roles.sotrudnik">{{nagruzka_stat[chair_id]['discipline']['total']['sum'] | toFixed:1}}</td>
       <td ng-if="!nagruzka_selected_lecturer_uid && !c_roles.sotrudnik">{{nagruzka_stat[chair_id]['discipline']['not_assigned']['sum'] | toFixed:1}}</td>
       <td>{{nagruzka_stat[chair_id]['discipline']['assigned']['sum'] | toFixed:1}}</td>
+      <td ng-if="nagruzka_selected_lecturer_uid || c_roles.sotrudnik">{{nagruzka_stat[chair_id]['discipline']['assigned_auditorium']['sum'] | toFixed:1}}</td>
+      <td ng-if="nagruzka_selected_lecturer_uid || c_roles.sotrudnik">{{nagruzka_stat[chair_id]['discipline']['assigned_english']['sum'] | toFixed:1}}</td>
       <td ng-if="!nagruzka_selected_lecturer_uid && !c_roles.sotrudnik">{{nagruzka_stat[chair_id]['discipline']['assigned_to_vacancy']['sum'] | toFixed:1}}</td>
     </tr>
 
@@ -31,6 +38,8 @@
       <td ng-if="!nagruzka_selected_lecturer_uid && !c_roles.sotrudnik">{{nagruzka_stat[chair_id]['ruk_vkr']['total']['sum'] | toFixed:1}}</td>
       <td ng-if="!nagruzka_selected_lecturer_uid && !c_roles.sotrudnik">{{nagruzka_stat[chair_id]['ruk_vkr']['not_assigned']['sum'] | toFixed:1}}</td>
       <td>{{nagruzka_stat[chair_id]['ruk_vkr']['assigned']['sum'] | toFixed:1}}</td>
+      <td ng-if="nagruzka_selected_lecturer_uid || c_roles.sotrudnik">{{nagruzka_stat[chair_id]['ruk_vkr']['assigned_auditorium']['sum'] | toFixed:1}}</td>
+      <td ng-if="nagruzka_selected_lecturer_uid || c_roles.sotrudnik">{{nagruzka_stat[chair_id]['ruk_vkr']['assigned_english']['sum'] | toFixed:1}}</td>
       <td ng-if="!nagruzka_selected_lecturer_uid && !c_roles.sotrudnik">{{nagruzka_stat[chair_id]['ruk_vkr']['assigned_to_vacancy']['sum'] | toFixed:1}}</td>
     </tr>
 
@@ -42,6 +51,8 @@
       <td ng-if="!nagruzka_selected_lecturer_uid && !c_roles.sotrudnik">{{nagruzka_stat[chair_id]['ruk_kurs']['total']['sum'] | toFixed:1}}</td>
       <td ng-if="!nagruzka_selected_lecturer_uid && !c_roles.sotrudnik">{{nagruzka_stat[chair_id]['ruk_kurs']['not_assigned']['sum'] | toFixed:1}}</td>
       <td>{{nagruzka_stat[chair_id]['ruk_kurs']['assigned']['sum'] | toFixed:1}}</td>
+      <td ng-if="nagruzka_selected_lecturer_uid || c_roles.sotrudnik">{{nagruzka_stat[chair_id]['ruk_kurs']['assigned_auditorium']['sum'] | toFixed:1}}</td>
+      <td ng-if="nagruzka_selected_lecturer_uid || c_roles.sotrudnik">{{nagruzka_stat[chair_id]['ruk_kurs']['assigned_english']['sum'] | toFixed:1}}</td>
       <td ng-if="!nagruzka_selected_lecturer_uid && !c_roles.sotrudnik">{{nagruzka_stat[chair_id]['ruk_kurs']['assigned_to_vacancy']['sum'] | toFixed:1}}</td>
     </tr>
 
@@ -53,6 +64,8 @@
       <td ng-if="!nagruzka_selected_lecturer_uid && !c_roles.sotrudnik">{{nagruzka_stat[chair_id]['ruk_practice']['total']['sum'] | toFixed:1}}</td>
       <td ng-if="!nagruzka_selected_lecturer_uid && !c_roles.sotrudnik">{{nagruzka_stat[chair_id]['ruk_practice']['not_assigned']['sum'] | toFixed:1}}</td>
       <td>{{nagruzka_stat[chair_id]['ruk_practice']['assigned']['sum'] | toFixed:1}}</td>
+      <td ng-if="nagruzka_selected_lecturer_uid || c_roles.sotrudnik">{{nagruzka_stat[chair_id]['ruk_practice']['assigned_auditorium']['sum'] | toFixed:1}}</td>
+      <td ng-if="nagruzka_selected_lecturer_uid || c_roles.sotrudnik">{{nagruzka_stat[chair_id]['ruk_practice']['assigned_english']['sum'] | toFixed:1}}</td>
       <td ng-if="!nagruzka_selected_lecturer_uid && !c_roles.sotrudnik">{{nagruzka_stat[chair_id]['ruk_practice']['assigned_to_vacancy']['sum'] | toFixed:1}}</td>
     </tr>
 
@@ -64,6 +77,8 @@
       <td ng-if="!nagruzka_selected_lecturer_uid && !c_roles.sotrudnik">{{nagruzka_stat[chair_id]['ksro']['total']['sum'] | toFixed:1}}</td>
       <td ng-if="!nagruzka_selected_lecturer_uid && !c_roles.sotrudnik">{{nagruzka_stat[chair_id]['ksro']['not_assigned']['sum'] | toFixed:1}}</td>
       <td>{{nagruzka_stat[chair_id]['ksro']['assigned']['sum'] | toFixed:1}}</td>
+      <td ng-if="nagruzka_selected_lecturer_uid || c_roles.sotrudnik">{{nagruzka_stat[chair_id]['ksro']['assigned_auditorium']['sum'] | toFixed:1}}</td>
+      <td ng-if="nagruzka_selected_lecturer_uid || c_roles.sotrudnik">{{nagruzka_stat[chair_id]['ksro']['assigned_english']['sum'] | toFixed:1}}</td>
       <td ng-if="!nagruzka_selected_lecturer_uid && !c_roles.sotrudnik">{{nagruzka_stat[chair_id]['ksro']['assigned_to_vacancy']['sum'] | toFixed:1}}</td>
     </tr>
 
@@ -75,17 +90,21 @@
       <td ng-if="!nagruzka_selected_lecturer_uid && !c_roles.sotrudnik">{{nagruzka_stat[chair_id]['gia']['total']['sum'] | toFixed:1}}</td>
       <td ng-if="!nagruzka_selected_lecturer_uid && !c_roles.sotrudnik">{{nagruzka_stat[chair_id]['gia']['not_assigned']['sum'] | toFixed:1}}</td>
       <td>{{nagruzka_stat[chair_id]['gia']['assigned']['sum'] | toFixed:1}}</td>
+      <td ng-if="nagruzka_selected_lecturer_uid || c_roles.sotrudnik">{{nagruzka_stat[chair_id]['gia']['assigned_auditorium']['sum'] | toFixed:1}}</td>
+      <td ng-if="nagruzka_selected_lecturer_uid || c_roles.sotrudnik">{{nagruzka_stat[chair_id]['gia']['assigned_english']['sum'] | toFixed:1}}</td>
       <td ng-if="!nagruzka_selected_lecturer_uid && !c_roles.sotrudnik">{{nagruzka_stat[chair_id]['gia']['assigned_to_vacancy']['sum'] | toFixed:1}}</td>
     </tr>
 
     <tr>
       <td>
-        <span ng-if="true"><a href="{{GetNagruzkaTypesRowLink('aspirant', chair_id, _lecturer_uids[$index])}}">Руководство аспирантами и соискателями, кандидатские экзамены</a></span>
+        <span ng-if="true"><a href="{{GetNagruzkaTypesRowLink('aspirantura', chair_id, _lecturer_uids[$index])}}">Руководство аспирантами и соискателями, кандидатские экзамены</a></span>
         <span ng-if="!true">Руководство аспирантами и соискателями, кандидатские экзамены</span>
       </td>
       <td ng-if="!nagruzka_selected_lecturer_uid && !c_roles.sotrudnik">{{nagruzka_stat[chair_id]['aspirant']['total']['sum'] | toFixed:1}}</td>
       <td ng-if="!nagruzka_selected_lecturer_uid && !c_roles.sotrudnik">{{nagruzka_stat[chair_id]['aspirant']['not_assigned']['sum'] | toFixed:1}}</td>
       <td>{{nagruzka_stat[chair_id]['aspirant']['assigned']['sum'] | toFixed:1}}</td>
+      <td ng-if="nagruzka_selected_lecturer_uid || c_roles.sotrudnik">{{nagruzka_stat[chair_id]['aspirant']['assigned_auditorium']['sum'] | toFixed:1}}</td>
+      <td ng-if="nagruzka_selected_lecturer_uid || c_roles.sotrudnik">{{nagruzka_stat[chair_id]['aspirant']['assigned_english']['sum'] | toFixed:1}}</td>
       <td ng-if="!nagruzka_selected_lecturer_uid && !c_roles.sotrudnik">{{nagruzka_stat[chair_id]['aspirant']['assigned_to_vacancy']['sum'] | toFixed:1}}</td>
     </tr>
     
@@ -97,6 +116,8 @@
       <td ng-if="!nagruzka_selected_lecturer_uid && !c_roles.sotrudnik">{{GetNagruzkaStatusSum(chair_id, 'total') | toFixed:1}}</td>
       <td ng-if="!nagruzka_selected_lecturer_uid && !c_roles.sotrudnik">{{GetNagruzkaStatusSum(chair_id, 'not_assigned') | toFixed:1}}</td>
       <td>{{GetNagruzkaStatusSum(chair_id, 'assigned') | toFixed:1}}</td>
+      <td ng-if="nagruzka_selected_lecturer_uid || c_roles.sotrudnik">{{GetNagruzkaStatusSum(chair_id, 'assigned_auditorium') | toFixed:1}}</td>
+      <td ng-if="nagruzka_selected_lecturer_uid || c_roles.sotrudnik">{{GetNagruzkaStatusSum(chair_id, 'assigned_english') | toFixed:1}}</td>
       <td ng-if="!nagruzka_selected_lecturer_uid && !c_roles.sotrudnik">{{GetNagruzkaStatusSum(chair_id, 'assigned_to_vacancy') | toFixed:1}}</td>
     </tr>
   </tfoot>

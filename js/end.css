@@ -2166,3 +2166,126 @@ tfoot input.search_init {
 {
   font-weight: bold;
 }
+
+
+
+
+
+
+
+
+
+.modern-pills {
+    gap: 10px; /* Расстояние между вкладками */
+}
+
+.modern-pills .nav-link {
+    background-color: rgba(255, 255, 255, 0.4); /* Полупрозрачный белый фон для неактивных */
+    color: #0056b3; /* Цвет текста */
+    border-radius: 8px; /* Скругленные углы */
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+}
+
+.modern-pills .nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.6);
+    color: #004494;
+}
+
+.modern-pills .nav-link.active {
+    background-color: #ffffff !important; /* Белый фон для активной */
+    color: #333333 !important; /* Темный текст для контраста */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05); /* Легкая тень */
+    font-weight: 500;
+}
+
+
+
+
+
+
+.clean-tabs {
+    border-bottom: 2px solid #ffffff; /* Белая линия под всеми вкладками */
+    gap: 5px;
+}
+
+.clean-tabs .nav-link {
+    background-color: transparent;
+    color: #0056b3;
+    border: 2px solid transparent;
+    border-bottom: none;
+    border-radius: 10px 10px 0 0;
+    transition: background-color 0.2s, color 0.2s;
+    cursor: pointer;
+}
+
+.clean-tabs .nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+    border-color: rgba(255, 255, 255, 0.5);
+    border-bottom: none;
+}
+
+.clean-tabs .nav-link.active {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+    border-color: #ffffff !important;
+    /*font-weight: bold;*/
+}
+
+
+
+
+
+
+.line-tabs {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.line-tabs .nav-link {
+    border: none !important;
+    color: #3b82f6; /* Приятный синий цвет */
+    background: transparent !important;
+    font-weight: 500;
+    padding-bottom: 12px;
+    border-bottom: 3px solid transparent !important;
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+}
+
+.line-tabs .nav-link:hover {
+    color: #0056b3;
+    border-bottom: 3px solid rgba(0, 86, 179, 0.3) !important;
+}
+
+.line-tabs .nav-link.active {
+    color: #111827 !important; /* Почти черный текст для активной */
+    background: transparent !important;
+    border-bottom: 3px solid #0056b3 !important; /* Яркое подчеркивание */
+}
+
+.angucomplete-description {
+    color: #888888;       /* Делаем текст серым */
+    font-size: 0.85em;    /* Уменьшаем размер шрифта */
+    margin-top: 2px;      /* Добавляем небольшой отступ сверху от ФИО */
+    font-style: italic;   /* Делаем текст курсивом (по желанию) */
+}
+
+.angucomplete-dropdown {
+    width: max-content !important; 
+    min-width: 100%;               
+    left: auto !important;         /* Отключаем привязку к левому краю */
+    right: 0 !important;           /* Привязываем к правому краю инпута */
+}
+
+/* Оставляем запрет на перенос строк */
+.angucomplete-title {
+    white-space: nowrap;
+}
+
+.highlight {
+    
+    
+    /* Добавьте это свойство: */
+    pointer-events: none; 
+}

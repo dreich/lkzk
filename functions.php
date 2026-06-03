@@ -202,6 +202,8 @@ function Authorize($login, $password)
         $result = true;
         ActivityLog(null, "Вход админа", '', "authorize auditor $login", 1);
       }
+
+      // EchoLog($_SESSION);
     }
     // elseif ()
     // админы ОЗ
@@ -313,7 +315,7 @@ function Authorize($login, $password)
               $podrazdelenia_table_name = "podrazdelenia" . date('Y');
               // has_real_chief означает, что chief действительно является руководителем этого подразделения, а не прописан здесь руководитель вышестоящий
               $ChairsWithThisChief = GetTable($podrazdelenia_table_name, "`chief_id` = $Person[id] AND `pname` LIKE ('Кафедра%') AND `has_real_chief` = '1'");
-              // Для темы псевдо-кафедр: нужно будет проверить, что зав. псевдо-кафедрой (пример bedny) руководит соот.в подразделением
+              // Для темы псевдо-кафедр: нужно будет проверить, что зав. псевдо-кафедрой (пример bedny) руководит соотв. подразделением
               $PodrazdeleniaWithThisChief = GetTable($podrazdelenia_table_name, "`chief_id` = $Person[id] AND `has_real_chief` = '1'");
               $Podrazdelenia = GetTable($podrazdelenia_table_name, "", "", "id");
 
@@ -404,22 +406,25 @@ function Authorize($login, $password)
 
                 $xml_lecturer_rows = GetRows('xml_lecturer', ['Tab_number' => $Person['id']]); // , 'Archive' => 0]);
 
-                $lecturer_uids = [];
+                // все возможные юиды человека из таблицы xml_lecturer (там может быть несколько на кафедру, включая архивные)
+                // но ниже мы уже по существующей нагрузке возьмём только нужные для каждой кафедры
+                $_lecturer_uids = [];
+                $lecturer_uids_for_session = [];
 
                 if ($xml_lecturer_rows)
                 {
                   foreach ($xml_lecturer_rows as $row)
                   {
-                    $lecturer_uids[] = $row['UID'];
+                    $_lecturer_uids[] = $row['UID'];
                   }
 
-                  $lecturer_uids_str = JoinArrayElements($lecturer_uids, ', ', false, "'", "'");
+                  $lecturer_uids_str = JoinArrayElements($_lecturer_uids, ', ', false, "'", "'");
                 }
 
                 // Смотрим нагрузку из Галактики
                 if ($_system_mode != 'mode_filling')
                 {
-                  if ($lecturer_uids)
+                  if ($lecturer_uids_str)
                   {
                     $LecturerGalaxyNagruzka = GetTable("xml_content_of_load", "`UID_Lecturer` IN ($lecturer_uids_str)");
 
@@ -428,6 +433,7 @@ function Authorize($login, $password)
                       foreach ($LecturerGalaxyNagruzka as $row)
                       {
                         $lecturer_chairs_uids[$row['UID_Chair']] = $row['UID_Chair'];
+                        $lecturer_uids_for_session[$row['UID_Lecturer']] = $row['UID_Lecturer'];
                       }
                     }
                   }
@@ -436,7 +442,7 @@ function Authorize($login, $password)
 
                 // KSRO
 
-                if ($lecturer_uids)
+                if ($lecturer_uids_str)
                 {
                   $KSRO = GetTable('ksro', "`uid` IN ($lecturer_uids_str)");
 
@@ -445,13 +451,14 @@ function Authorize($login, $password)
                     foreach ($KSRO as $row)
                     {
                       $lecturer_chairs_uids[$row['UID_Chair']] = $row['UID_Chair'];
+                      $lecturer_uids_for_session[$row['uid']] = $row['uid'];
                     }
                   }
                 }
 
                 // Сплиты
 
-                if ($lecturer_uids)
+                if ($lecturer_uids_str)
                 {
                   $Splits = GetTable('zavkaf_splits', "`lecturer_uid` IN ($lecturer_uids_str)");
 
@@ -460,6 +467,7 @@ function Authorize($login, $password)
                     foreach ($Splits as $row)
                     {
                       $lecturer_chairs_uids[$row['chair_uid']] = $row['chair_uid'];
+                      $lecturer_uids_for_session[$row['lecturer_uid']] = $row['lecturer_uid'];
                     }
                   }
                 }
@@ -473,6 +481,9 @@ function Authorize($login, $password)
                 $chairs_ids = [];
                 $chairs_titles = [];
                 // $lecturer_uids = [];
+
+                // TMP HACK
+                // if (!$lecturer_chairs_uids) $lecturer_chairs_uids = ['25031.281474976756214'];
 
                 // Для ГПХ-шников здесь есть UIDы факультета
                 if ($lecturer_chairs_uids)
@@ -506,8 +517,9 @@ function Authorize($login, $password)
                   // EchoLog($chairs_ids);
 
                   $_SESSION['c_sotrudnik_chairs_ids'] = ImplodePalki($chairs_ids);
+                  // эти два массива наполняются параллельно, получается соответствие по индексам
                   $_SESSION['c_sotrudnik_chairs_titles'] = ImplodePalki($chairs_titles);
-                  $_SESSION['c_sotrudnik_lecturer_uids'] = ImplodePalki($lecturer_uids);
+                  $_SESSION['c_sotrudnik_lecturer_uids'] = ImplodePalki($lecturer_uids_for_session);
                   $_SESSION['c_person_id'] = $Person['id'];
 
                   $_SESSION['c_login'] = $clean_login;
@@ -2383,7 +2395,7 @@ function ActivityLog($load_base_UID2, $log, $message = '', $action_name = '', $i
 // @param boolean $drop_to_table - нужно ли удалить целевую таблицу 
 // если $to_table таблица уже существует, и удалять не нужно, возвращаем true
 // Возвращаем true, если отработали без ошибок
-
+// НЕ ИСП. Возможно, не копирует ключи
 function DuplicateTable($from_table, $to_table, $drop_to_table = false)
 {
   global $mysqli;
@@ -2637,7 +2649,6 @@ function GetNagruzkaBaseQuery($dop_sql, $nagruzka_type = 'all', $department_from
       xml_content_of_load_staff.UID_FormOfEducation,
       # Если == 1, то используются подгруппы вместо групп
       xml_content_of_load_staff.TypeOfContingent,
-      xml_content_of_load.UID_Language,
       xml_content_of_load.UID_Semester,
       xml_content_of_load.StudentAmount,
       xml_kind_of_work.Name as kind_of_work,
@@ -2681,6 +2692,8 @@ function GetNagruzkaBaseQuery($dop_sql, $nagruzka_type = 'all', $department_from
   xml_content_of_load.base_uid2,
   xml_content_of_load.Amount,
   xml_lecturer.FIO as lecturer_fio,
+  xml_content_of_load.UID_Language, #нужно для таблицы статистики для столбца англ. нагрузка
+  xml_content_of_load.TypeWorkload, #нужно для таблицы статистики для столбца аудиторная нагрузка
   # кто ведёт
   nagruzka.chair_id, 
   nagruzka.chair_name, nagruzka.department_name,
@@ -2704,7 +2717,7 @@ function GetNagruzkaBaseQuery($dop_sql, $nagruzka_type = 'all', $department_from
     -- AND xml_content_of_load.`base_uid` = '26589.281474976763944'
     -- AND xml_content_of_load.`base_uid` = '26589.281474976763950'
     -- AND xml_content_of_load.`base_uid` = '26589.281474976763945'
-    -- AND xml_content_of_load.`base_uid` = '26589.281474976895104'
+    -- AND xml_content_of_load.`base_uid` IN('26589.281474976879129', '26589.281474976879132')
     -- AND LoadType = '0'
     $dop_sql
   ";
@@ -3196,10 +3209,10 @@ function safeAdd(&$target, $value) {
 
 
 
-function fullBackupTable($tableName) 
+function fullBackupTable($tableName, $maxBackups = 3) 
 {
   global $mysqli;
-
+  
   $timestamp = date('Y_m_d_H_i_s');
   $backupTable = "{$tableName}_{$timestamp}";
   
@@ -3224,6 +3237,9 @@ function fullBackupTable($tableName)
       
       $mysqli->commit();
       
+      // 4. Удаляем старые бэкапы
+      rotateBackups($tableName, $maxBackups);
+      
       return $backupTable;
       
   } catch (Exception $e) {
@@ -3231,7 +3247,41 @@ function fullBackupTable($tableName)
       EchoLog("Ошибка в fullBackupTable($tableName) : " . $e->getMessage(), 'file mail');
       return false;
   }
+}
 
+
+/**
+ * Удаляет старые бэкапы, оставляя только N самых свежих
+ * 
+ * @param string $tableName Оригинальное имя таблицы
+ * @param int $keep Количество бэкапов, которые нужно сохранить
+ */
+function rotateBackups($tableName, $keep = 3)
+{
+  global $mysqli;
+  
+  // Получаем список всех бэкапов таблицы
+  $result = $mysqli->query("SHOW TABLES LIKE '{$tableName}\\_%'");
+  
+  $backups = [];
+  while ($row = $result->fetch_row()) {
+      $backups[] = $row[0];
+  }
+  
+  // Если бэкапов больше, чем нужно
+  if (count($backups) > $keep) {
+      // Сортируем по имени (в котором есть timestamp)
+      sort($backups);
+      
+      // Определяем, сколько нужно удалить
+      $toDelete = count($backups) - $keep;
+      
+      // Удаляем самые старые
+      for ($i = 0; $i < $toDelete; $i++) {
+          $mysqli->query("DROP TABLE IF EXISTS {$backups[$i]}");
+          EchoLog("Удалён старый бэкап: {$backups[$i]}", 'file screen');
+      }
+  }
 }
 
 

@@ -87,10 +87,12 @@
   <div ng-switch-when="chairs">
     <div class="admin-change-cards-wrapper w-50" ng-if="adminChangeChairs.length">
       <div ng-repeat="department in adminChangeChairs" class="department-group mb-4 pointer">
-        <div class="department-header d-flex align-items-center mb-2 p-2" ng-click="NagruzkaRefusedeToggleAdminShowDepartmentChairs(department)"
+        <!-- d-flex -->
+        <div class="department-header  align-items-center mb-2 p-2 admin-change-card-header" ng-click="NagruzkaRefusedeToggleAdminShowDepartmentChairs(department)"
              style="background-color: #f8f9fa; border-left: 4px solid #007bff;">
           <h5 class="m-0">{{ department.department_name }}</h5>
-          <span class="badge badge-primary ml-2">{{ department.count }}</span>
+          <div class="admin-change-card__count-bubble">{{department.count}}</div>
+          <!-- <span class="badge badge-primary ml-2">{{ department.count }}</span> -->
         </div>
         
         <div class="department-chairs" ng-show="department.show_chairs">

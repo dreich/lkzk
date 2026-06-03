@@ -14,7 +14,106 @@ $UPDATE_TABLES = true;
 
 $Napravlenia = GetTable('napravlenia', "", "", "napravlenie");
 
+
+$BUPs = GetTable('bup', "", "", "nrec", "`nrec`, `reg_number`, `students_num`"); // reg_number
+
+$BUPDisciplines = GetTable('bup_disciplines', "`exam_semester` IS NOT NULL AND `exam_semester` <> ''", "", "", "`nrec`, `disc_nrec`, `abr`, `title`, `exam_semester`");
+
+// Объяснение сортировки: Должна получиться одна группа, если вдруг получилось несколько, то взять одну (для однозначности отсортировать сначала где больше студентов, если одинаково то по имени). [ЛК ЗК (аспирантура).docx]
+
+$BUPGroups = GetTable('bup_groups', "`students_in_group` <> '' AND `students_in_group` <> '0'", "`students_in_group` ASC, `group` DESC", "reg_number");
+
+// $BUPGroups = [];
+
 include '../connect.php';
+
+fullBackupTable('nagruzka', 4);
+fullBackupTable('zavkaf_splits', 4);
+fullBackupTable('ksro', 4);
+// TODO backup аспирантура
+
+// echo sizeof($BUPDisciplines);
+
+if ($BUPDisciplines)
+{
+  // т.к. мы не знаем, покроем ли все существующие в aspirantura_kand_exam строки (может быть дисциплина исчезла), то проставим всем строкам deleted = 1
+  $mysqli->query("UPDATE `aspirantura_kand_exam` SET `deleted` = '1'");
+
+  foreach ($BUPDisciplines as $bup_discipline)
+  {
+    $bup = $BUPs[$bup_discipline['nrec']];
+
+    // если в БУПе 0 студентов, пометим эту строку как удалённую (либо удалить...)
+    if (!$bup['students_num'])
+    {
+      $Result = $mysqli->query("
+        UPDATE `aspirantura_kand_exam` 
+        SET `deleted` = '1' 
+        WHERE `bup_nrec` = '$bup_discipline[nrec]' AND `disc_nrec` = '$bup_discipline[disc_nrec]' AND `disc_abr` = '$bup_discipline[abr]'");
+
+      if (!$Result)
+      {
+        EchoLog("Error #739 in cron: " . $mysqli->error);
+      }
+    }
+    else
+    {
+      // т.к. в БУПе студентов не 0, то здесь должна быть не пустая группа
+      if (!$BUPGroups[$bup['reg_number']]['group'])
+      {
+        EchoLog("Проблема цельности данных в Галактике: В БУПе $bup[reg_number] студентов $bup[students_num], а группу со студентами не нашли в bup_groups");
+      }
+
+      // Если строка уже есть, обновлять ли какие-то столбцы? Например, кол-во студентов, группу?
+
+      $Result = $mysqli->query("INSERT IGNORE INTO `aspirantura_kand_exam` 
+                      SET `deleted` = '0', `bup_nrec` = '$bup_discipline[nrec]', `disc_nrec` = '$bup_discipline[disc_nrec]', `disc_abr` = '$bup_discipline[abr]', `disc_title` = '$bup_discipline[title]', `exam_semester` = '$bup_discipline[exam_semester]', `group` = '{$BUPGroups[$bup['reg_number']]['group']}', `students_num` = '{$BUPGroups[$bup['reg_number']]['students_in_group']}'");
+
+      if (!$Result)
+      {
+        EchoLog("Error #928 in cron: " . $mysqli->error);
+      }
+
+      
+    }
+  }
+}
+
+include '../connect/vkr.php';
+
+$Aspirants = GetRows('students_ip', ['education_level' => 'Аспирант', 'status' => 'Учится']);
+
+include '../connect.php';
+
+if ($Aspirants)
+{
+  // Т.к. аспирант мог перестать учиться, (и не попадёт в массив) то проставим всем строкам deleted = 1
+  $mysqli->query("UPDATE `aspirantura_rukovodstvo` SET `deleted` = '1'");
+
+  foreach ($Aspirants as $aspirant)
+  {
+    $Result = $mysqli->query("INSERT IGNORE INTO `aspirantura_rukovodstvo` 
+                    SET `uid` = '$aspirant[uid]', 
+                        `fio` = '$aspirant[fio]',
+                        `department_id` = '$aspirant[department_id]',
+                        `department` = '$aspirant[department]',
+                        `napravlenie_code` = '$aspirant[napravlenie_code]',
+                        `napravlenie_title` = '$aspirant[napravlenie_title]',
+                        `course` = '$aspirant[course]',
+                        `deleted` = '0'
+                        ");
+
+    if (!$Result)
+    {
+      EchoLog("Error #583 in cron: " . $mysqli->error);
+    }
+  }
+}
+
+
+
+// exit;
+
 
 // Получим режим работы системы из БД
 $_system_mode = GetSystemParam('system_mode');
@@ -173,11 +272,16 @@ function GetChairSotrudniki($year, $dop_sql = "", $actual = null /*, $qualify_ca
     if ($pseudo_departments_ids)
     {
       $pseudo_departments_ids_str = JoinArrayElements($pseudo_departments_ids, ", ", false, "'", "'");
+      $pseudo_departments_ids_sql = "OR $podrazdelenia_table_name.`id` IN ($pseudo_departments_ids_str)";
+    }
+    else
+    {
+      $pseudo_departments_ids_sql = '';
     }
 
     // если нет всевдо-подразделений, ничего страшного
 
-    $kaf_sql = "AND ($podrazdelenia_table_name.`pname` LIKE('Кафедра%') OR $podrazdelenia_table_name.`id` IN ($pseudo_departments_ids_str)) ";
+    $kaf_sql = "AND ($podrazdelenia_table_name.`pname` LIKE('Кафедра%') $pseudo_departments_ids_sql ) ";
   }
 
   // AND $podrazdelenia_table_name.`parent_id` <> '00255'
@@ -214,7 +318,7 @@ $ContentOfLoadStaffBaseUID1sNotVo = [];
 
 function LoadXML($filename, $table_name)
 {
-  global $mysqli, $Napravlenia, $xml_content_of_load_columns_for_hash, $xml_content_of_load_staff_columns_for_hash, $XMLKindOfWorkGIA1, $XMLKindOfWorkGIA2, $XMLKindOfWorkVKR, $XMLKindOfWorkKurs, $_XMLContentOfLoadStaffByBaseUID1, $XMLSpeciality, $ContentOfLoadStaffBaseUID1sNotVo, $db_error, $ksro_kind_uid, $ksro_discipline_uid, $ik_kind_uid, $ik_discipline_uid;
+  global $mysqli, $Napravlenia, $xml_content_of_load_columns_for_hash, $xml_content_of_load_staff_columns_for_hash, $XMLKindOfWorkGIA1, $XMLKindOfWorkGIA2, $XMLKindOfWorkVKR, $XMLKindOfWorkKurs, $_XMLContentOfLoadStaffByBaseUID1, $XMLSpeciality, $ContentOfLoadStaffBaseUID1sNotVo, $db_error, $ksro_kind_uid, $ksro_discipline_uid, $ik_kind_uid, $ik_discipline_uid, $aspirant_nagruzka_itog_examen_kind_uids, $aspirant_nagruzka_itog_examen_discipline1, $XMLLecturer;
 
   EchoLog("LoadXML: $table_name", 'file screen');
 
@@ -239,14 +343,14 @@ function LoadXML($filename, $table_name)
 
   if ($table_name === 'xml_content_of_load')
   {
-    EchoLog("DELETE FROM `$table_name` - удалено " . $mysqli->affected_rows . " строк");
+    // EchoLog("DELETE FROM `$table_name` - удалено " . $mysqli->affected_rows . " строк");
     
     // Проверяем, что таблица действительно пуста
-    $result = $mysqli->query("SELECT COUNT(*) as cnt FROM `xml_content_of_load`");
-    $count = $result->fetch_assoc()['cnt'];
-    EchoLog("После DELETE в таблице $table_name: $count строк");
+    // $result = $mysqli->query("SELECT COUNT(*) as cnt FROM `xml_content_of_load`");
+    // $count = $result->fetch_assoc()['cnt'];
+    // EchoLog("После DELETE в таблице $table_name: $count строк");
 
-    $TestRow = GetRow('xml_content_of_load', ['UID' => '26589.281474976799017']);
+    // $TestRow = GetRow('xml_content_of_load', ['UID' => '26589.281474976799017']);
 
     // EchoLog($TestRow);
     
@@ -336,7 +440,7 @@ function LoadXML($filename, $table_name)
 
       if ($_XMLContentOfLoadStaffByBaseUID1[$base_uid]['Abbr'] == '2.2.2')
       {
-        EchoLog(IsNagruzkaDiscipline($_XMLContentOfLoadStaffByBaseUID1[$base_uid]['Abbr']));
+        // EchoLog(IsNagruzkaDiscipline($_XMLContentOfLoadStaffByBaseUID1[$base_uid]['Abbr']));
       }
 
       if ($arr['UID_KindOfWork'] === $ksro_kind_uid || $arr['UID_KindOfWork'] === $ik_kind_uid || $arr['UID_Discipline'] === $ksro_discipline_uid ||  $arr['UID_Discipline'] === $ik_discipline_uid)
@@ -349,6 +453,11 @@ function LoadXML($filename, $table_name)
           $mysqli->query("UPDATE `ksro` SET `base_uid` = '$base_uid' WHERE `id` = '$arr[LoadId]'");
         }
 
+      }
+      // Должно быть выше ГИА, иначе отнесётся к ГИА
+      elseif (in_array($arr['UID_KindOfWork'], $aspirant_nagruzka_itog_examen_kind_uids) && $arr['UID_Discipline'] === $aspirant_nagruzka_itog_examen_discipline1)
+      {
+        $sql_arr[] = "`nagruzka_type` = 'aspirantura_itog_exam'";
       }
       // TODO аналогично КСРО создать для аспирантуры
       elseif ($XMLKindOfWorkGIA1[$arr['UID_KindOfWork']] || ($XMLKindOfWorkGIA2[$arr['UID_KindOfWork']] && (mb_stripos($_XMLContentOfLoadStaffByBaseUID1[$base_uid]['Abbr'], "Б3") === 0 || mb_stripos($_XMLContentOfLoadStaffByBaseUID1[$base_uid]['Abbr'], "Б.3") === 0)))
@@ -380,6 +489,16 @@ function LoadXML($filename, $table_name)
 
         $sql_arr[] = "`nagruzka_type` = ''";
       }
+
+      // if ($arr['UID_Lecturer'] != '-1')
+      // {
+      //   $sql_arr[] = "`Lecturer_UID_Chair` = '{$XMLLecturer[$arr['UID_Lecturer']]['UID_Chair']}'"; // 
+      // }
+      // else
+      // {
+      //   $sql_arr[] = "`Lecturer_UID_Chair` = ''";
+      // }
+
     }
     
     if ($table_name == 'xml_content_of_load_staff')
@@ -494,7 +613,8 @@ if ($UPDATE_TABLES)
 
   LoadXML('Group.xml', 'xml_group');
   LoadXML('Discipline.xml', 'xml_discipline');
-  LoadXML('Lecturer.xml', 'xml_lecturer');
+  LoadXML('Lecturer.xml', 'xml_lecturer');  // загружать до xml_content_of_load, xml_content_of_load_staff
+  $XMLLecturer = GetTable('xml_lecturer', "", "", "UID");
   LoadXML('Post.xml', 'xml_post');
 
   // должно идти до загрузки xml_content_of_load
@@ -900,6 +1020,11 @@ if ($SotrudnikiItogoByKey)
 
     $lecturer = GetLecturer($person_id, $post_uid, $chair_uid, $department_uid);
 
+    if ($person_id == 454)
+    {
+      // EchoLog("Post_uid: $post_uid, chair_uid: $chair_uid, person_type: $person_type");
+    }
+
     // EchoLog($lecturer);
 
     // Если не нашли, то не добавляем сотрудника и не обновляем
@@ -964,17 +1089,21 @@ if ($SotrudnikiItogoByKey)
     {
       if ($chair_sotrudnik['type'] == 'sotrudnik')
       {
-        $selected = '1';
+        $sql_selected = ", `selected` = '1'";
+      }
+      else
+      {
+        $sql_selected = '';
       }
 
-
+      // `selected` = '$selected',
       $query = "
                 UPDATE `sotrudniki` 
-                SET `fio` = '$chair_sotrudnik[fio]', `dolzhnost` = '$chair_sotrudnik[dolzhnost]', `type` = '$chair_sotrudnik[type]', `stavka` = '$chair_sotrudnik[stavka]', `pku` = '$chair_sotrudnik[pku]', `pkg` = '$chair_sotrudnik[pkg]', 
-                `selected` = '$selected',
+                SET `fio` = '$chair_sotrudnik[fio]', `dolzhnost` = '$chair_sotrudnik[dolzhnost]', `type` = '$chair_sotrudnik[type]', `stavka` = '$chair_sotrudnik[stavka]', `pku` = '$chair_sotrudnik[pku]', `pkg` = '$chair_sotrudnik[pkg]',
                 # !! обновление lecturer_uid
                 `lecturer_uid` = '$lecturer[UID]',
                 `date_remove`= NULL
+                $sql_selected
                 WHERE `person_id` = '$chair_sotrudnik[person_id]' AND `chair_id` = '$chair_sotrudnik[chair_id]'
               ";
 
@@ -1712,8 +1841,11 @@ if ($XMLContentOfLoad)
         // такой нагрузки на кафедре ещё не было
         if (!$NagruzkaPrev[$xml_content_of_load_row['base_uid2']])
         {
-          // EchoLog("HERE 3");
-          // EchoLog($nagr['base_uid']);
+          if ($xml_content_of_load_row['base_uid2'] === '26589.281474976916746')
+          {
+            // EchoLog("HERE 3");
+            // EchoLog($xml_content_of_load_row);
+          }
 
           if ($XMLChairByCode[$chair_id]) // === true
           {
@@ -1891,8 +2023,9 @@ if ($XMLContentOfLoad)
 
           if (!$Result)
           {
-            EchoLog("Error #842 inserting into `nagruzka`: $query", "file mail");
-            EchoLog($mysqli->error, "file mail");
+            EchoLog("Error #842 inserting into `nagruzka`: $query", "file");
+            EchoLog($mysqli->error, "file");
+            EchoLog($query);
             $db_error = true;
           }
       }

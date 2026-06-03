@@ -113,6 +113,16 @@ try {
     // Получаем данные
     $result = $provider->getData();
 
+    // Чтобы в зелёной таблице нормально работал фильтр по форме обучения
+    if ($result['nagruzka'])
+    {
+      foreach ($result['nagruzka'] as &$nagruzka_row)
+      {
+        $nagruzka_row['form_obuchenia'] = str_replace('Очная-заочная', 'Очно-заочнaя', $nagruzka_row['form_obuchenia']);
+        $nagruzka_row['form_obuchenia'] = str_replace('Очно-заочнaя', 'Очно-заочнaя', $nagruzka_row['form_obuchenia']);
+      }
+    }
+
     // Добавляем мета-информацию
     $result['system_mode'] = $systemMode;
     $result['can_edit'] = $provider->canEdit();

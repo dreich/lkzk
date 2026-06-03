@@ -29,6 +29,7 @@ if ($c_roles['zavkaf'])
   $chair_id = $_SESSION['c_chair_id'];
   $department_id = $_SESSION['c_department_id'];
 }
+// видимо, сделано для рук-ля аспирантуры
 else
 {
   $chair_id = quote_smart($_GET['chair_id']);
@@ -39,26 +40,7 @@ else
   $department_id = $xml_faculty['Code'];
 }
 
-
 $s = quote_smart($_GET['s']);
-// $fio_array = explode(' ', $s);
-// $fio_array = quote_smart($fio_array);
-
-// if ($fio_array[0]) $surname_sql = "AND `surname` LIKE ('%$fio_array[0]%')";
-// if ($fio_array[1]) $name_sql = "AND `name` LIKE ('%$fio_array[1]%')";
-// if ($fio_array[2]) $patronymic_sql = "AND `patronymic` LIKE ('%$fio_array[2]%')";
-
-// $position_table_name = "position" . date('Y');
-
-// $Sotrudniki = GetSQL("
-//                   SELECT person.`id`, person.`surname`, person.`name`, person.`patronymic`, $position_table_name.`dolzhnost`
-//                   FROM `$position_table_name`
-//                   JOIN `person` ON `$position_table_name`.person_id = `person`.id
-//                   WHERE $position_table_name.`podrazdelenia_chain` LIKE('%|$chair_id|%')
-//                 ");
-
-// Т.к. сотрудники ГПХ в таблице sotrudniki привязаны не к кафедре, а факультету, то будем их брать по факультету авторизованного завкафа,
-// а не ГПХ-шников будем искать по кафедре
 
 // Если один препод в распределении, предложим его удалить
 if ($_GET['lectors_num'] == 1 && $s == '-')
@@ -70,7 +52,24 @@ else
   $Sotrudniki = [];
 }
 
-$additional = GetTable('sotrudniki', "((`type` <> 'gph' AND `chair_id` = '$chair_id') OR (`type` = 'gph' AND `department_id` = '$department_id')) AND  `selected` = '1' AND `date_remove` IS NULL AND `fio` LIKE ('$s%') AND `lecturer_uid` <> ''");
+// Т.к. сотрудники ГПХ в таблице sotrudniki привязаны не к кафедре, а факультету, то будем их брать по факультету авторизованного завкафа,
+// а не ГПХ-шников будем искать по кафедре
+
+if ($c_roles['ruk_aspirantura'])
+{
+  $chair_dep_sql = '1';
+}
+else
+{
+  if ($_pseudo_chairs[$chair_id])
+  {
+    $chair_id = $department_id;
+  }
+
+  $chair_dep_sql = "((`type` <> 'gph' AND `chair_id` = '$chair_id') OR (`type` = 'gph' AND `department_id` = '$department_id'))";
+}
+
+$additional = GetTable('sotrudniki', "$chair_dep_sql AND  `selected` = '1' AND `date_remove` IS NULL AND `fio` LIKE ('$s%') AND `lecturer_uid` <> ''");
 
 $Sotrudniki = array_merge($Sotrudniki, $additional);
 
@@ -79,6 +78,18 @@ if (mb_stripos($s, 'Вак') === 0)
   $VacancyLecturer = GetRow('xml_lecturer', ['Tab_number' => '000000']);
 
   $Sotrudniki[] = ['fio' => 'Вакансия', 'lecturer_person_id' => '000000', 'lecturer_uid' => $VacancyLecturer['UID']];
+}
+
+foreach ($Sotrudniki as &$sotrudnik)
+{
+  if ($sotrudnik['type'] == 'gph')
+  {
+    $sotrudnik['dolzhnost_hint'] = 'ГПХ';
+  }
+  else
+  {
+    $sotrudnik['dolzhnost_hint'] = $sotrudnik['dolzhnost'];
+  }
 }
 
 

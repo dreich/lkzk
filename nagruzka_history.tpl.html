@@ -106,7 +106,9 @@
           <div ng-if="row.action_name == 'change_chair' && row.log_dop4.length">{{row.log_dop3}} -> {{row.log_dop4}}</div>
         </td>
         <td>{{row.message}}</td>
-        <td></td>
+        <td>
+          <span class="glyphicon glyphicon-trash pointer" ng-if="row.action_name == 'write_admin_comment'" ng-click="DeleteComment(row.id)"></span>
+        </td>
       </tr>
     </tbody>
   </table>

@@ -26,7 +26,7 @@ $chair_id = $_SESSION['c_chair_id'];
 
 $result = [];
 
-$logs = ['refused' => $_statuses['refused'], 'require_admin_change' => $_statuses['require_admin_change'], 'write_admin_comment' => 'Написать комментарий администратору'];
+$logs = ['refused' => $_statuses['refused'], 'require_admin_change' => $_statuses['require_admin_change'], 'write_admin_comment' => 'Написать комментарий'];
 
 if ($data['status'] && $data['status'] != 'write_admin_comment')
 {
@@ -70,7 +70,7 @@ elseif ($data['message'] && $data['status'] == 'write_admin_comment')
 
   if ($AdminsUOUP)
   {
-    $dop_sql = "AND `base_uid2` = '$data[load_base_UID2]'";
+    $dop_sql = "AND xml_content_of_load.`base_uid2` = '$data[load_base_UID2]'";
     $nagruzka_query = GetNagruzkaBaseQuery($dop_sql);
 
     $NagruzkaRows = GetSQL($nagruzka_query);

@@ -46,3 +46,5 @@ workspace_prefs.txt
 log.txt
 PHP_errors.log
 .backup
+
+*.xml

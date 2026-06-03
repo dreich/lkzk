@@ -64,6 +64,8 @@ const $_system_modes = {<?=ArrayToJS($_system_modes)?>};
 // id кафедры для зав. кафедрой
 var c_chair_id = '<?=($_SESSION['c_chair_id'] ? $_SESSION['c_chair_id'] : '')?>';
 CL(c_chair_id);
+var c_department_id = '<?=($_SESSION['c_department_id'] ? $_SESSION['c_department_id'] : '')?>';
+CL(c_department_id);
 // id кафедр для сотрудника
 const c_sotrudnik_chairs_ids = [<?=JoinArrayElements(ExplodePalki($_SESSION['c_sotrudnik_chairs_ids']), ', ', false, "'", "'")?>];
 const c_sotrudnik_chairs_titles = [<?=JoinArrayElements(ExplodePalki($_SESSION['c_sotrudnik_chairs_titles']), ', ', false, "'", "'")?>];
@@ -563,9 +565,12 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
         {
           return null
         },
-        system_mode: function($http) 
-        {
-          return $http({url: 'ajax/get/get_system_mode.php', method: 'GET'}); 
+        system_mode: function($http) {
+            return $http({ url: 'ajax/get/get_system_mode.php', method: 'GET' })
+                .then(function(response) {
+                    // Возвращаем из resolve ТОЛЬКО сам режим (строку или объект)
+                    return response.data.mode; 
+                });
         },
         nagruzka_stat: function($http)
         {
@@ -636,9 +641,12 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
         {
           return null
         },
-        system_mode: function($http) 
-        {
-          return $http({url: 'ajax/get/get_system_mode.php', method: 'GET'}); 
+        system_mode: function($http) {
+            return $http({ url: 'ajax/get/get_system_mode.php', method: 'GET' })
+                .then(function(response) {
+                    // Возвращаем из resolve ТОЛЬКО сам режим (строку или объект)
+                    return response.data.mode; 
+                });
         },
         nagruzka_stat: function($http)
         {
@@ -703,9 +711,12 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
         {
           return $route.current.params.nagruzka_selected_chair_id
         },
-        system_mode: function($http) 
-        {
-          return $http({url: 'ajax/get/get_system_mode.php', method: 'GET'}); 
+        system_mode: function($http) {
+            return $http({ url: 'ajax/get/get_system_mode.php', method: 'GET' })
+                .then(function(response) {
+                    // Возвращаем из resolve ТОЛЬКО сам режим (строку или объект)
+                    return response.data.mode; 
+                });
         },
         nagruzka_stat: function($http, $route)
         {
@@ -764,9 +775,12 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
         {
           return $route.current.params.nagruzka_selected_chair_id
         },
-        system_mode: function($http) 
-        {
-          return $http({url: 'ajax/get/get_system_mode.php', method: 'GET'}); 
+        system_mode: function($http) {
+            return $http({ url: 'ajax/get/get_system_mode.php', method: 'GET' })
+                .then(function(response) {
+                    // Возвращаем из resolve ТОЛЬКО сам режим (строку или объект)
+                    return response.data.mode; 
+                });
         },
         nagruzka_stat: function($http, $route)
         {
@@ -983,7 +997,28 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
         system_mode: function($http) 
         {
           return $http({url: 'ajax/get/get_system_mode.php', method: 'GET'}); 
-        }
+        },
+        sotrudniki_selected_chair_id: function($route)
+        {
+          return null;
+        },
+      }
+    })
+    // УОУП просматривает сотрудников кафедры
+    .when('/sotrudniki/:chair_id',
+    {
+      templateUrl: 'sotrudniki.tpl.html?' + getRandom(10000, 99999),
+      controller: 'SotrudnikiCtrl',
+      resolve:
+      {
+        system_mode: function($http) 
+        {
+          return $http({url: 'ajax/get/get_system_mode.php', method: 'GET'}); 
+        },
+        sotrudniki_selected_chair_id: function($route)
+        {
+          return $route.current.params.chair_id
+        },
       }
     })
     .when('/nagruzka_columns',
@@ -1019,18 +1054,18 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
         }
       }
     })
-    .when('/ksro',
-    {
-      templateUrl: 'ksro.tpl.html?' + getRandom(10000, 99999),
-      controller: 'KSROCtrl',
-      resolve:
-      {
-        system_mode: function($http) 
-        {
-          return $http({url: 'ajax/get/get_system_mode.php', method: 'GET'}); 
-        }
-      }
-    })
+    // .when('/ksro',
+    // {
+    //   templateUrl: 'ksro.tpl.html?' + getRandom(10000, 99999),
+    //   controller: 'KSROCtrl',
+    //   resolve:
+    //   {
+    //     system_mode: function($http) 
+    //     {
+    //       return $http({url: 'ajax/get/get_system_mode.php', method: 'GET'}); 
+    //     }
+    //   }
+    // })
     .when('/ksro',
     {
       templateUrl: 'ksro.tpl.html?' + getRandom(10000, 99999),
@@ -1106,6 +1141,31 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
         }
       }
     })
+    .when('/aspirantura',
+    {
+      templateUrl: 'aspirantura.tpl.html?' + getRandom(10000, 99999),
+      controller: 'AspiranturaCtrl',
+      resolve:
+      {
+        system_mode: function($http) 
+        {
+          return $http({url: 'ajax/get/get_system_mode.php', method: 'GET'}); 
+        },
+        // Параметр только для УОУП для выбора кафедры
+        aspirantura_selected_chair_id: function($route)
+        {
+          return null
+        },
+        aspirantura_selected_lecturer_uid: function($route)
+        {
+          return null;
+        },
+        chairs_sprav: function($http)
+        {
+          return $http({url: 'ajax/get/get_chairs.php', method: 'GET'});
+        }
+      }
+    })
     .otherwise(
     {
       template: 'Страница не найдена'
@@ -1155,6 +1215,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
   clearInterval($rootScope.checkSessionInterval);
   $rootScope.checkSessionInterval = setInterval(checkSession, 120000, $http, $scope, ngDialog);
 
+
   $rootScope.ClearGreenTableFilters = function(dtInstance, filter_distinct, lecturer_uid, nagruzka_type, nagruzka_selected_chair_id) 
   {
     CL('ClearGreenTableFilters');
@@ -1169,32 +1230,51 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
       const targetUrl = basePath + chairParam;
       
       // Clear all filters
-      if (table) {
+      if (table) 
+      {
         table.search('').columns().search('').draw();
       }
       
       // Force a full page reload with the new URL
       window.location.href = window.location.origin + window.location.pathname + targetUrl;
       return;
-  }
+    }
 
   
 
-  // Original filter clearing logic
-  if (filter_distinct) 
-  {
-    filter_distinct.global_nagruzka_filter = undefined;
-  }
-  
-  if (table) {
-    table.search('').draw(); // Clear global search
-    // Clear individual column searches
-    table.columns().every(function() {
-      this.search(''); // Clear search for each column
-    });
-    table.draw();
-  }
-};
+    // Original filter clearing logic
+    if (filter_distinct) 
+    {
+      filter_distinct.global_nagruzka_filter = undefined;
+    }
+    
+    if (table) 
+    {
+
+      // Очищаем внутренние фильтры DataTables
+      table.search('').draw();
+      
+      table.columns().every(function() {
+          this.search(''); // Очистка поиска для каждой колонки
+      });
+      
+      table.draw();
+      
+      // ДОБАВЛЯЕМ: Сброс DOM-элементов фильтров
+      // Получаем jQuery объект всей таблицы
+      var $table = $(table.table().node());
+      
+      // Сбрасываем все селекты с классом select_filter
+      $table.find('select.select_filter').val('');
+      
+      // Очищаем все текстовые поля с классом text_filter
+      $table.find('input.text_filter').val('');
+      
+      // Если на селекты повешены обработчики change - вызываем их
+      $table.find('select.select_filter').trigger('change');
+
+    }
+  };
 
   $rootScope.NagruzkaRowClick = function(nagruzka_row)
   {
@@ -1205,6 +1285,24 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
     dialogScope.nagruzka_row = nagruzka_row;
 
     dialogScope.nagruzka_history = $resource('ajax/get/get_nagruzka_history.php?load_base_UID2=' + nagruzka_row.base_uid2).query();
+
+    // Удалить комментарий у нагрузки (завкаф)
+    dialogScope.DeleteComment = function(log_id)
+    {
+      $http({url: 'ajax/post/delete_comment.php', method: 'POST', data: {id: log_id}})
+        .then(function(data)
+        {
+          if (data.data.result == 'success')
+          {
+            deleteByColumn(dialogScope.nagruzka_history, 'id', log_id);
+            toastr.success("Комментарий удалён");
+          }
+          else
+          {
+            toastr.error("Ошибка");
+          }
+        });
+    }
 
     ngDialog.open({
                     template: "nagruzka_history.tpl.html" + "?" + getRandom(10000, 99999),
@@ -1268,7 +1366,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
   // CL(nagruzka_selected_chair_id);
 
   $rootScope.page = 'nagruzka';
-  $scope.system_mode = system_mode.data.mode; 
+  $scope.system_mode = system_mode; 
   $scope.isLoading = true;
 
   if ($scope.system_mode === 'export_to_galaktika') 
@@ -1279,6 +1377,16 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
   if (nagruzka_type == 'ksro' && $scope.system_mode == 'mode_filling')
   {
     var path = "/#/ksro";
+
+    if (!isEmpty(nagruzka_selected_chair_id)) path += `/${nagruzka_selected_chair_id}`;
+    if (!isEmpty(lecturer_uid)) path += `/${lecturer_uid}`;
+
+    window.location = path;
+  }
+
+  if (nagruzka_type == 'aspirantura' && $scope.system_mode == 'mode_filling')
+  {
+    var path = "/#/aspirantura";
 
     if (!isEmpty(nagruzka_selected_chair_id)) path += `/${nagruzka_selected_chair_id}`;
     if (!isEmpty(lecturer_uid)) path += `/${lecturer_uid}`;
@@ -1301,8 +1409,8 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
   // Строка для проверки, что тесты работают. Должна быть ошибка.
   // $scope.nagruzka = nagruzka.data;
   // сейчас это все не подргружается
-  $scope.nagruzka = nagruzka ? nagruzka.data.nagruzka : {};
-  $scope.nagruzka_stat = nagruzka ? nagruzka.data.stat : {};
+  $scope.nagruzka = {};
+  $scope.nagruzka_stat = {};
 
   // TODO to fix lecturer_fio
   // if (!isEmpty($scope.nagruzka))
@@ -1489,7 +1597,9 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
       null
   ];
 
-  function extractLecturersText(data, row) {
+  /*
+  function extractLecturersText(data, row) 
+  {
       if (!row || !row.lectors || row.lectors.length === 0) return '';
       
       const lecturers = [];
@@ -1516,6 +1626,8 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
       
       return lecturers.join('; ');
   }
+
+  */
 
   // function NagruzkaInit()
   {
@@ -1713,7 +1825,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
           }
 
           if (c_roles.sotrudnik) lecturer_uid = c_sotrudnik_lecturer_uids[ind];
-          else if (c_roles.zavkaf && $scope.nagruzka_selected_lecturer_uid) lecturer_uid = $scope.nagruzka_selected_lecturer_uid;
+          else if ((c_roles.zavkaf || c_roles.ruk_aspirantura || c_roles.uoup) && $scope.nagruzka_selected_lecturer_uid) lecturer_uid = $scope.nagruzka_selected_lecturer_uid;
 
           var only_stat;
 
@@ -1735,8 +1847,13 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
           if ($scope._nagruzka_type == 'gia') only_stat = false; else only_stat = true;
           $scope.NagruzkaCtrlUpdateNagruzkaStat('gia', chair_id, lecturer_uid, only_stat);
 
-          if ($scope._nagruzka_type == 'aspirant') only_stat = false; else only_stat = true;
-          $scope.NagruzkaCtrlUpdateNagruzkaStat('aspirant', chair_id, lecturer_uid, only_stat);
+          if ($scope._nagruzka_type == 'aspirantura') only_stat = false; else only_stat = true;
+          $scope.NagruzkaCtrlUpdateNagruzkaStat('aspirantura_kand_exam', chair_id, lecturer_uid, only_stat);
+          $scope.NagruzkaCtrlUpdateNagruzkaStat('aspirantura_itog_exam', chair_id, lecturer_uid, only_stat);
+          $scope.NagruzkaCtrlUpdateNagruzkaStat('aspirantura_ruk_asp', chair_id, lecturer_uid, only_stat);
+          $scope.NagruzkaCtrlUpdateNagruzkaStat('aspirantura_ruk_soiskatel', chair_id, lecturer_uid, only_stat);
+
+          
 
 
           // if (true || !$scope._nagruzka_type || $scope._nagruzka_type == 'all')
@@ -1756,7 +1873,12 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
       else if (!isEmpty($scope.nagruzka_selected_chair_id))
       {
         $scope.NagruzkaCtrlUpdateNagruzkaStat($scope._nagruzka_type, $scope.nagruzka_selected_chair_id);
-        
+      }
+      // Руководитель подразделения аспирантуры
+      else if (c_roles.ruk_aspirantura)
+      {
+        // if ($scope._nagruzka_type == 'aspirantura_itog_exam') only_stat = false; else only_stat = true;
+        $scope.NagruzkaCtrlUpdateNagruzkaStat('aspirantura_itog_exam', null, lecturer_uid, false);
       }
 
 
@@ -2291,9 +2413,13 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
 
   $scope.DoGroupAction = function()
   {
+    CL('DoGroupAction');
+
     // Распределить всё на одного сотрудника
     if ($scope.group_action.action == 'assign_to_sotrudnik' && !isEmpty($scope.group_action.lecturer_fio))
     {
+      // CL(angular.copy($scope.nagruzka));
+
       // При распределении на одного сотрудника нужно оставить одну строку распределения (nagruzka_row.lectors)
       $scope.nagruzka.forEach(nagruzka_row => 
       {
@@ -2328,9 +2454,17 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
               }
           });
 
+          // CL(nagruzka_row);
+
           $scope.SaveNagruzkaSubRows(nagruzka_row);
+
+          // CL(nagruzka_row);
         }
       });
+
+
+
+      // CL(angular.copy($scope.nagruzka));
 
       $scope.group_action.action = undefined;
     }
@@ -2716,7 +2850,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
       lecturer_row.Amount = nagruzka_row.Amount;
       lecturer_row.StudentAmount = nagruzka_row.StudentAmount;
 
-      lecturer_row.lecturer_login = lecturer_row.lecturer_person_id = lecturer_row.lecturer_fio = lecturer_row.lecturer_uid = '';
+      lecturer_row.lecturer_login = lecturer_row.lecturer_person_id = lecturer_row.lecturer_fio = lecturer_row.lecturer_uid = lecturer_row.chair_id = lecturer_row.chair_name = '' ;
     }
     else if (!isEmpty(lecturer_row) && !isEmpty(data))
     {
@@ -2724,6 +2858,9 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
       lecturer_row.lecturer_uid = data.originalObject.lecturer_uid;
       lecturer_row.lecturer_person_id = data.originalObject.person_id;
       lecturer_row.lecturer_login = data.originalObject.lecturer_login;
+      // берём кафедру лектора из selected_chair_sotrudniki.php, т.е. из автокомплитаs
+      lecturer_row.chair_id = data.originalObject.chair_id;
+      lecturer_row.chair_name = data.originalObject.chair_name;
       lecturer_row.zs = true;
     }
 
@@ -2818,11 +2955,13 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
     return sum == parseFloat(nagruzka_row[nagruzka_field_to_count]);
   }
 
-
-  $scope.SaveNagruzkaSubRows = function(nagruzka_row)
+  // nagruzka_row должен быть строкой нагрузки по ссылке, а не клоном
+  // one_selected_nagruzka_row_passed_as_clone_from_dialog - не пусто, если строка нагрузки пришла из диалога распределения
+  // на нескольких сотрудников, при этом она выбирается одна
+  $scope.SaveNagruzkaSubRows = function(nagruzka_row, one_selected_nagruzka_row_passed_as_clone_from_dialog)
   {
     CL('SaveNagruzkaSubRows');
-    CL(nagruzka_row.lectors);
+    // CL(nagruzka_row.lectors);
 
     const nagruzka_lectors = nagruzka_row.lectors;
 
@@ -2876,35 +3015,50 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
                 {
                   if (data.data.result == 'success')
                   {
-                    // nagruzka_row является отдельным клоном, поэтому запишем его в массив строк таблицы.
+                    angular.forEach($scope.nagruzka, function(currentRow, ind) 
+                    {
+                      if (currentRow.selected) 
+                      {
 
-                    angular.forEach($scope.nagruzka, function(nagr, ind) {
-                    if (nagr.selected) {
-                        try {
-                            // First, save the current state of the row
-                            const currentRow = $scope.nagruzka[ind];
-                            
-                            // Create a clean copy by converting to JSON and back
-                            const cleanCopy = JSON.parse(JSON.stringify(nagruzka_row));
-                            
-                            // Preserve the original object's reference by updating its properties
-                            Object.keys(cleanCopy).forEach(key => {
-                                // Skip any properties that might cause issues
-                                if (key !== '$$hashKey' && key !== 'this' && key !== '$promise' && key !== '$resolved') {
-                                    currentRow[key] = cleanCopy[key];
-                                }
-                            });
-                            
-                            // Explicitly set selected to false
-                            currentRow.selected = false;
-                            
-                          } catch (e) {
-                              console.error('Error updating row:', e);
-                              // Fallback to a simple property copy if JSON methods fail
+                        // -- ниже код ошибочный, т.к. nagruzka_row в эту функцию передаётся "по ссылке", а не как клон строки
+                        // !!! ошибка здесь в том, что тут подразумевается, что выбрана только одна строка нагрузки,
+                        // а на самом деле сюда попадаем и когда выбрано несколько строк.
+                        // Также нужно понять, что когда выбрана одна строка, то из диалога (распр. на неск. сотр-в) сюда приходит клон строки, а в остальных вызовах этой функции сюда приходит строка по значению, и этот код не нужен.
+                        // Может быть нужно просто вызывать этот код только при вызове из диалога (доп. аргумент).
+                        // И багоопасно здесь оставлять без указания или проверки, что подразумевается: выбрана только одна строка
+                        
+                        if (one_selected_nagruzka_row_passed_as_clone_from_dialog)
+                        {
+                          try 
+                          {
+                              // First, save the current state of the row
+                              // const currentRow = $scope.nagruzka[ind];
+                              
+                              // Create a clean copy by converting to JSON and back
+                              const cleanCopy = JSON.parse(JSON.stringify(nagruzka_row));
+                              
+                              // Preserve the original object's reference by updating its properties
+                              Object.keys(cleanCopy).forEach(key => {
+                                  // Skip any properties that might cause issues
+                                  if (key !== '$$hashKey' && key !== 'this' && key !== '$promise' && key !== '$resolved') {
+                                      currentRow[key] = cleanCopy[key];
+                                  }
+                              });
+                              
+                              // Explicitly set selected to false
                               currentRow.selected = false;
+                              
+                            } catch (e) {
+                                console.error('Error updating row:', e);
+                                // Fallback to a simple property copy if JSON methods fail
+                                currentRow.selected = false;
+                            }
                           }
+
+                          currentRow.selected = false;
                         }
                     });
+                    
 
                     // Force Angular to detect the changes
                     if (!$scope.$$phase) {
@@ -2993,11 +3147,17 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
     
     // CL(!isEmpty(nagruzka_row));
 
-    return c_roles.zavkaf && ($scope.system_mode == 'mode_filling' || $scope.system_mode == 'mode_verification')
+    const val = (c_roles.zavkaf || c_roles.ruk_aspirantura) && ($scope.system_mode == 'mode_filling' || $scope.system_mode == 'mode_verification')
     && (!isEmpty(nagruzka_row) && !['refused', 'require_admin_change', 'done_change'].includes(nagruzka_row.status) || nagruzka_row == undefined)
     // УОУП может только разбивать нагрузку
-    || c_roles.uoup && $scope.system_mode == 'mode_verification' && !['ksro', 'aspirantura'].includes($scope._nagruzka_type) ;
+    || c_roles.uoup && $scope.system_mode == 'mode_verification' && !['ksro', 'aspirantura'].includes($scope._nagruzka_type);
+
+    // CL(val);
+
+    return val;
   }
+
+
 
 /*
   $scope.IsNagruzkaRowEditable = function(nagruzka_row)
@@ -3020,7 +3180,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
 
      // (lector.zs || isEmpty(lector.lecturer_fio)) // && $scope.IsNagruzkaRowEditable(nagruzka_row)
     // && 
-    return (lector == undefined || lector.zs || isEmpty(lector.lecturer_fio)) && $scope.system_mode == 'mode_filling' && c_roles.zavkaf && !['refused', 'require_admin_change', 'done_change'].includes(nagruzka_row.status) 
+    return (lector == undefined || lector.zs || isEmpty(lector.lecturer_fio)) && $scope.system_mode == 'mode_filling' && (c_roles.zavkaf || c_roles.ruk_aspirantura) && !['refused', 'require_admin_change', 'done_change'].includes(nagruzka_row.status) 
     && !isEmpty(nagruzka_row.lectors) && (nagruzka_row.lectors[0].zs || isEmpty(nagruzka_row.lectors[0].lecturer_fio))
     || $scope.system_mode == 'mode_verification' && c_roles.uoup && !['ksro', 'aspirantura'].includes($scope._nagruzka_type);
   }
@@ -3029,6 +3189,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
   $scope.IsGroupActionAllowed = function(group_action)
   {
     return c_roles.zavkaf && ($scope.system_mode == 'mode_filling' || $scope.system_mode == 'mode_verification' && group_action == 'require_admin_change')
+    || c_roles.ruk_aspirantura && ($scope.system_mode == 'mode_filling' || $scope.system_mode == 'mode_verification') && ['assign_to_sotrudnik', 'refuse_nagruzka', 'require_admin_change', 'write_admin_comment'].includes(group_action)
     || c_roles.uoup && $scope.system_mode == 'mode_verification' && ['assign_to_several_sotrudniki', 'assign_to_sotrudnik', 'assign_to_vacancy'].includes(group_action);
   }
 
@@ -3070,6 +3231,32 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
 
           + (!isEmpty($scope.nagruzka_stat[chair_id]['aspirant']) && !isEmpty($scope.nagruzka_stat[chair_id]['aspirant'][stat_type]) ? parseFloat($scope.nagruzka_stat[chair_id]['aspirant'][stat_type]['sum']) : 0)
   }
+
+
+  // Сотруднику не показывать статистику (соответственно и вход в нагрузку), если завкаф закрыл просмотр, либо не тот режим
+  $scope.NagruzkaStatVisible = function(chair_id)
+  {
+    // if (!isEm$scope.chairs_sprav[chair_id])
+    // CL($scope.chairs_sprav[chair_id]['visible']);
+
+    // в этих режимах всегда видно, там вроде readonly
+    if ($scope.system_mode == 'mode_verification' || $scope.system_mode == 'mode_archive')
+    {
+      return true;
+    }
+    // если это сотрудник (единственная роль) и просмотр отключен завкафом
+    else if (c_roles.sotrudnik && Object.keys(c_roles).length == 1 && !isEmpty($scope.chairs_sprav[chair_id]) && !$scope.chairs_sprav[chair_id]['visible'])
+    {
+      return false;
+    }
+    else if (!isEmpty($scope.chairs_sprav[chair_id]))
+    {
+      return true;
+    }
+  }
+
+
+  
   
 
 })
@@ -3401,7 +3588,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
   
 })
 
-.controller ('SystemModeCtrl', function($rootScope, $scope, page, system_mode, $http, ngDialog, $templateCache) 
+.controller ('SystemModeCtrl', function($rootScope, $scope, page, system_mode, $http, ngDialog, $templateCache, FileUploader, $resource) 
 {
   CL('SystemModeCtrl');
   
@@ -3465,6 +3652,31 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
         });
     }
   }
+
+  $scope.zavkaf_instruction = $resource('ajax/get/get_zavkaf_instruction_data_for_uoup.php').get();
+
+  var zavkaf_instruction_uploader_init = {
+    scope: $scope,
+    url: 'ajax/post/zavkaf_instruction_upload.php',
+    formData: [],
+    autoUpload: true
+    // filters: [ function (item) {return true; } ]
+  };
+
+  $scope.zavkaf_instruction_uploader = new FileUploader(zavkaf_instruction_uploader_init);
+
+  $scope.zavkaf_instruction_uploader.onSuccessItem = function(item, response, status, headers)
+  {
+    CL(response.result);
+    if (response.result == 'success')
+    {
+      $scope.zavkaf_instruction.comment = response.created_file.file_src_name;
+      $scope.zavkaf_instruction.datetime = response.created_file.date;
+      toastr.success("Файл загружен");
+    }
+    else toastr.error("Ошибка при загрузке файла");
+  }
+
 })
 
 // Админ УОУП просматривает отказы зав. кафедрами от нагрузки и отменяет отказы
@@ -3508,7 +3720,8 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
   $scope.viewState = 'chairs'; // 'chairs' or 'table'
 
   // 2. Add these functions before the controller ends
-  function buildAdminChangeChairs(rows) {
+  function buildAdminChangeChairs(rows) 
+  {
     const departmentsMap = {};
 
     // Use the new field names
@@ -3622,6 +3835,8 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
     });
 
     // console.log('Built adminChangeChairs:', result);
+    // CL(result);
+    
     return result;
   }
 
@@ -3889,30 +4104,55 @@ $scope.toggleAdminChangeChair = function(chair) {
   // "Выполнено" в "Отказе кафедр"
   $scope.UOUPDoneRefuseBulk = function()
   {
-    $scope.filteredNagruzka.forEach(function(nagruzka_row)
-    {
-      $http({url: 'ajax/post/uoup_done_refused.php', method: 'POST', data: {load_base_UID2: nagruzka_row.base_uid2, chair_id: nagruzka_row.chair_id, chair_name: nagruzka_row.chair_name, zavkaf_fio: nagruzka_row.zavkaf_fio, action: 'Администратор УОУП выполнил отказ кафедры от нагрузки', message: ''}})
-      .then(function(data)
-      {
-        if (data.data.result == 'success')
-        {
-          nagruzka_row.status = 'done_refused';
-        }
-        else
-        {
-          toastr.error("Ошибка");
-        }
-      });
-      
-    });
+    $templateCache.put('comment_and_done_change', '<p>Комментарий:</p>\
+              <div><textarea ng-model="message" class="form-control w-100 mb-2" style="height: 100px"></textarea></div>\
+              <div class="ngdialog-buttons">\
+                  <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="confirm(message)" >Выполнено</button>\
+                  <button type="button" class="ngdialog-button ngdialog-button-secondary" ng-click="closeThisDialog(0)">Закрыть</button>\
+              </div>');
 
-    toastr.success("Данные сохранены");
+    var dialogScope = $scope.$new();
 
-    $timeout(function() {
+    ngDialog.openConfirm({
+                template: 'comment_and_done_change',
+                scope: dialogScope,
+                className: 'ngdialog-theme-default', //  ngdialog-positions
+                disableAnimation: true,
+                preCloseCallback: function(value)
+                {
+                  return true;
+                }
+            })
+            .then(function (message) {  // да
 
-      window.location = "/uoup_chairs_refused";
-      
-    }, 1000);
+              $scope.filteredNagruzka.forEach(function(nagruzka_row)
+              {
+                $http({url: 'ajax/post/uoup_done_refused.php', method: 'POST', data: {load_base_UID2: nagruzka_row.base_uid2, chair_id: nagruzka_row.chair_id, chair_name: nagruzka_row.chair_name, zavkaf_fio: nagruzka_row.zavkaf_fio, action: 'Администратор УОУП выполнил отказ кафедры от нагрузки', message: message}})
+                .then(function(data)
+                {
+                  if (data.data.result == 'success')
+                  {
+                    
+                    nagruzka_row.status = 'done_refused';
+                  }
+                  else
+                  {
+                    toastr.error("Ошибка");
+                  }
+                });
+              });
+              
+              toastr.success("Данные сохранены");
+
+              $timeout(function() {
+                window.location = "/uoup_chairs_refused";
+              }, 1000);
+
+            })
+            .catch(function dialogCloseErrorCallback(reason) {
+                    // ngDialog v1.4.0 throws an exception, when closing the dialog with reason “undefined”.
+            });
+
   }
 
   $scope.UOUPCancelRefuseBulk = function()
@@ -4535,7 +4775,7 @@ $scope.toggleAdminChangeChair = function(chair) {
   
 })
 
-.controller ('SotrudnikiCtrl', function($rootScope, $scope, $http, ngDialog, $templateCache, DTOptionsBuilder, DTColumnBuilder, DTColumnDefBuilder, $resource, system_mode) 
+.controller ('SotrudnikiCtrl', function($rootScope, $scope, $http, ngDialog, $templateCache, DTOptionsBuilder, DTColumnBuilder, DTColumnDefBuilder, $resource, system_mode, sotrudniki_selected_chair_id) 
 {
   CL('SotrudnikiCtrl');
 
@@ -4546,6 +4786,7 @@ $scope.toggleAdminChangeChair = function(chair) {
 
   $rootScope.page = 'sotrudniki';
   $scope.$_sotrudnik_types = $_sotrudnik_types;
+  CL(sotrudniki_selected_chair_id);
   $scope.system_mode = system_mode.data.mode; 
   $scope.sotrudniki = [];
   $scope.chairs = [];
@@ -4669,10 +4910,18 @@ $scope.toggleAdminChangeChair = function(chair) {
   //   $scope.sotrudniki = response.data;
   // });
 
-  $http({url: 'ajax/get/chair_sotrudniki.php', method: 'GET'}).then(function(response)
+  var sotrudniki_chair_id_param = '';
+
+  if (c_roles.uoup)
+  {
+    sotrudniki_chair_id_param = `?chair_id=${sotrudniki_selected_chair_id}`;
+  }
+
+  $http({url: 'ajax/get/chair_sotrudniki.php' + sotrudniki_chair_id_param, method: 'GET'}).then(function(response)
   {
     $scope.sotrudniki = response.data.sotrudniki;
     $scope.data.sotrudnik_chair_nagruzka_visibility = response.data.sotrudnik_chair_nagruzka_visibility;
+    $scope.sotrudniki_selected_chair_name = response.data.chair_name;
   });
 
   $scope.saveSotrudnik = function(sotrudnik)
@@ -4695,9 +4944,19 @@ $scope.toggleAdminChangeChair = function(chair) {
   {
     CL('navigateToNagruzka');
     // Only navigate if the person has a lecturer_uid
-    if (person.lecturer_uid && person.amount_sum > 0) {
-      // Get the current chair ID (c_chair_id is a global variable)
-      const chairId = c_chair_id || '';
+    if (person.lecturer_uid && person.amount_sum > 0) 
+    {
+      var chairId;
+
+      if (c_roles.zavkaf)
+      {
+        // Get the current chair ID (c_chair_id is a global variable)
+        chairId = c_chair_id || '';
+      }
+      else if (c_roles.uoup)
+      {
+        chairId = sotrudniki_selected_chair_id;
+      }
       // Navigate to the nagruzka page filtered by this lecturer
       window.location.href = `#/nagruzka/all/${chairId}/${person.lecturer_uid}`;
     }
@@ -5306,9 +5565,9 @@ $scope.toggleAdminChangeChair = function(chair) {
       return;
     }
 
-    // Проверка ограничения по 32 часам на ставку для индивидуальных консультаций
+    // Проверка ограничения по 16 часам на ставку для индивидуальных консультаций
     const lecturerStavka = parseFloat($scope.edit_ksro.stavka) || 0;
-    const maxHoursPerSemester = 32 * lecturerStavka;
+    const maxHoursPerSemester = 16 * lecturerStavka;
     
     // Проверяем лимиты ИК отдельно для каждого семестра
     const existingIK = $scope.ksro
@@ -5336,13 +5595,16 @@ $scope.toggleAdminChangeChair = function(chair) {
 
     // Проверка ограничения для КСРО
     let maxKSROHoursPerSemester;
-    if (lecturerStavka >= 0.5) {
+    // if (lecturerStavka >= 0.5) 
+    {
       // Если ставка 0,5 и более - пропорционально как ИК
       maxKSROHoursPerSemester = 32 * lecturerStavka;
-    } else {
-      // Если ставка менее 0,5 - просто не более 16 часов в семестр
-      maxKSROHoursPerSemester = 16;
-    }
+    } 
+    // else 
+    // {
+    //   // Если ставка менее 0,5 - просто не более 16 часов в семестр
+    //   maxKSROHoursPerSemester = 16;
+    // }
     
     // Проверяем лимиты КСРО отдельно для каждого семестра
     const existingKSRO = $scope.ksro
@@ -5429,10 +5691,156 @@ $scope.toggleAdminChangeChair = function(chair) {
       return $scope.GetKSROSum('ik_osen') + $scope.GetKSROSum('ik_vesna') + $scope.GetKSROSum('ksro_osen') + $scope.GetKSROSum('ksro_vesna');
     }
 
-    return sum;
+    return roundToTwo(sum);
   }
 
 })
+
+.controller('AspiranturaCtrl', function($templateCache, $scope, $rootScope, ngDialog, $http, $resource, DTOptionsBuilder, DTColumnDefBuilder, system_mode, aspirantura_selected_chair_id, aspirantura_selected_lecturer_uid, chairs_sprav, $location)
+{
+  CL('AspiranturaCtrl');
+
+  $scope.c_login = c_login;
+  $rootScope.page = 'aspirantura';
+  $scope.$_languages = $_languages;
+  $scope.system_mode = system_mode.data.mode; 
+  $scope.nagruzka_selected_lecturer_uid = aspirantura_selected_lecturer_uid; // Store the lecturer_uid from the route
+  $scope.chair_id = $scope.aspirantura_selected_chair_id = aspirantura_selected_chair_id;
+  $scope.chairs_sprav = chairs_sprav.data;
+  $scope.$_nagruzka_types = $_nagruzka_types;
+  $scope.nagruzka_stat = {};
+
+  if (c_roles.sotrudnik)
+  {
+    $scope._chairs_ids = c_sotrudnik_chairs_ids;
+    $scope._lecturer_uids = c_sotrudnik_lecturer_uids;
+    $scope._chairs_titles = c_sotrudnik_chairs_titles;
+  }
+
+  CL($scope.system_mode);
+ 
+  $scope.c_roles = c_roles;
+
+  $scope.ShowZayavkaTab = function(tab)
+  {
+    // if (!$scope.IsSelectedStageOpen()) return;
+
+    // CL(tab);
+
+    $scope.visible_tab = tab;
+
+    if (tab == 'zayavka_form' || tab == 'zayavka_finance')
+    {
+      // $scope.LoadOstatki();
+    }
+
+    if (tab == 'zayavka_contents')
+    {
+
+    }
+  }
+
+  $scope.ShowZayavkaTab('aspirantura_itog_exam');
+
+
+})
+
+
+
+/* Аспирантура: вкладка "Нагрузка по кандидатским экзаменам" */
+
+.component('aspiranturaKandExam', {
+    templateUrl: 'aspirantura_kand_exam.tpl.html?' + getRandom(10000, 99999),
+    // template: "abc",
+
+    controller: function AspiranturaKandExamCtrl($scope, $rootScope, $timeout, $http, $templateCache, ngDialog, FileUploader, $filter)
+    {
+      CL('AspiranturaKandExamCtrl');
+    }
+})
+
+
+/* Аспирантура: вкладка "Нагрузка по итоговому экзамену" */
+
+.component('aspiranturaItogExam', {
+    templateUrl: 'aspirantura_itog_exam.tpl.html?' + getRandom(10000, 99999),
+    // Объявляем входящие параметры. '<' означает одностороннее связывание (one-way binding)
+    bindings: {
+        systemMode: '<' 
+    },
+    // template: "abc",
+
+    controller: function AspiranturaItogExamCtrl($scope, $rootScope, $timeout, $http, $templateCache, ngDialog, FileUploader, $filter, $controller)
+    {
+      CL('AspiranturaItogExamCtrl');
+
+      var $ctrl = this; // Сохраняем ссылку на контекст компонента
+
+      $scope._nagruzka_type = 'aspirantura_itog_exam';
+
+
+      // 1. Формируем объект с локальными зависимостями (locals).
+        // AngularJS автоматически подтянет стандартные сервисы ($http, $cookies и т.д.),
+        // поэтому сюда нужно передать ТОЛЬКО кастомные зависимости, 
+        // которые NagruzkaCtrl не сможет найти самостоятельно в глобальном инжекторе.
+        // Строго перечисляем ВСЕ кастомные зависимости, которые есть в сигнатуре NagruzkaCtrl
+        $ctrl.$onInit = function() {
+            CL('AspiranturaItogExamCtrl initialized');
+
+            $scope._nagruzka_type = 'aspirantura_itog_exam';
+
+            var locals = {
+                $scope: $scope,
+                nagruzka_type: $scope._nagruzka_type,
+                
+                // Передаем значение, которое пришло сверху из bindings
+                system_mode: $ctrl.systemMode, 
+                
+                // Остальные заглушки или реальные данные
+                nagruzka_selected_chair_id: null,
+                lecturer_uid: null,
+                nagruzka_stat: {},
+                nagruzka: [],
+                chairs_sprav: []
+            };
+
+            // Инициализируем родительский NagruzkaCtrl
+            $controller('NagruzkaCtrl', locals);
+        };
+
+        // После этой строчки все методы и переменные, которые NagruzkaCtrl 
+        // вешает на $scope, будут доступны внутри этого компонента!
+
+    }
+})
+
+
+/* Аспирантура: вкладка "Руководство аспирантами" */
+
+.component('aspiranturaRukAsp', {
+    templateUrl: 'aspirantura_ruk_asp.tpl.html?' + getRandom(10000, 99999),
+    // template: "abc",
+
+    controller: function AspiranturaRukAspCtrl($scope, $rootScope, $timeout, $http, $templateCache, ngDialog, FileUploader, $filter)
+    {
+      CL('AspiranturaRukAspCtrl');
+    }
+})
+
+
+/* Аспирантура: вкладка "Руководство соискателями" */
+
+.component('aspiranturaRukSoiskatel', {
+    templateUrl: 'aspirantura_ruk_soiskatel.tpl.html?' + getRandom(10000, 99999),
+    // template: "abc",
+
+    controller: function AspiranturaRukSoiskatelCtrl($scope, $rootScope, $timeout, $http, $templateCache, ngDialog, FileUploader, $filter)
+    {
+      CL('AspiranturaRukSoiskatelCtrl');
+    }
+})
+
+
 
 // Add this with your other filters
 .filter('formatFio', function() {

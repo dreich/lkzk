@@ -1,0 +1,51 @@
+<ul class="nav nav-tabs clean-tabs mt-2 ">
+
+  <li class="nav-item">
+    <a class="nav-link" ng-class="{'active': visible_tab == 'aspirantura_kand_exam', 'pointer': visible_tab != 'aspirantura_kand_exam'}" ng-click="ShowZayavkaTab('aspirantura_kand_exam')">Нагрузка по кандидатским экзаменам</a>
+  </li>
+
+  <li class="nav-item">
+    <a class="nav-link" ng-class="{'active': visible_tab == 'aspirantura_itog_exam', 'pointer': visible_tab != 'aspirantura_itog_exam'}" ng-click="ShowZayavkaTab('aspirantura_itog_exam')">Нагрузка по итоговому экзамену</a>
+  </li>
+
+  <li class="nav-item">
+    <a class="nav-link" ng-class="{'active': visible_tab == 'aspirantura_ruk_asp', 'pointer': visible_tab != 'aspirantura_ruk_asp'}" ng-click="ShowZayavkaTab('aspirantura_ruk_asp')">Руководство аспирантами</a>
+  </li>
+
+  <li class="nav-item">
+    <a class="nav-link" ng-class="{'active': visible_tab == 'aspirantura_ruk_soiskatel', 'pointer': visible_tab != 'aspirantura_ruk_soiskatel'}" ng-click="ShowZayavkaTab('aspirantura_ruk_soiskatel')">Руководство соискателями</a>
+  </li>
+
+</ul>
+
+<div id="myTabContent" class="tab-content" >
+
+  <!-- Нагрузка по кандидатским экзаменам -->
+  <div class="tab-pane fade pt-3" ng-class="{'show active': visible_tab == 'aspirantura_kand_exam'}" ng-if="visible_tab == 'aspirantura_kand_exam'">
+    
+    <aspirantura-kand-exam></aspirantura-kand-exam>
+
+  </div>
+
+  <!-- Нагрузка по итоговому экзамену -->
+  <div class="tab-pane fade pt-3" ng-class="{'show active': visible_tab == 'aspirantura_itog_exam'}" ng-if="visible_tab == 'aspirantura_itog_exam'">
+
+    <aspirantura-itog-exam system-mode="system_mode"></aspirantura-itog-exam>
+
+  </div>
+
+  <!-- Руководство аспирантами -->
+  <div class="tab-pane fade pt-3" ng-class="{'show active': visible_tab == 'aspirantura_ruk_asp'}" ng-if="visible_tab == 'aspirantura_ruk_asp'">
+
+    <aspirantura-ruk-asp></aspirantura-ruk-asp>
+
+  </div>
+
+  <!-- Руководство соискателями -->
+  <div class="tab-pane fade pt-3" ng-class="{'show active': visible_tab == 'aspirantura_ruk_soiskatel'}" ng-if="visible_tab == 'aspirantura_ruk_soiskatel'">
+
+    <aspirantura-ruk-soiskatel></aspirantura-ruk-soiskatel>
+
+  </div>
+
+</div>

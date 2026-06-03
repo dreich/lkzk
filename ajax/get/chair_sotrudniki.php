@@ -18,15 +18,32 @@ if (empty($_SERVER['HTTP_X_REQUESTED_WITH']) || $_SERVER['HTTP_X_REQUESTED_WITH'
 include '../../functions.php';
 // include '../../connect/sotrudnik.php';
 
-// Авторизован зав. псевдо-кафедрой, сотрудников будем брать по коду псевдо-факультета, который у них в sotrudniki.chair_id
-if (in_array($_SESSION['c_chair_id'], $_pseudo_chairs))
+$c_roles = ExplodePalki($_SESSION['c_roles'], true);
+
+if ($c_roles['uoup'])
 {
-  $chair_id = $_SESSION['c_department_id'];
+  $chair_id = quote_smart($_GET['chair_id']);
 }
+// Завкаф
 else
 {
   $chair_id = $_SESSION['c_chair_id'];
 }
+
+// до подмены
+$xml_chair = GetRow('xml_chair', ['Code' => $chair_id]);
+
+// Авторизован зав. псевдо-кафедрой, сотрудников будем брать по коду псевдо-факультета, который у них в sotrudniki.chair_id
+if ($_pseudo_chairs[$chair_id])
+{
+  // подменяем на код родителя
+  $chair_id = $_pseudo_chairs[$chair_id];
+}
+// else
+// {
+//   $chair_id = $_SESSION['c_chair_id'];
+// }
+
 
 $department_id = $_SESSION['c_department_id'];
 // получим режим работы системы
@@ -251,12 +268,12 @@ $stmt->execute();
 $result = $stmt->get_result();
 while ($row = $result->fetch_assoc()) 
 {
-    $employees[$row['person_id']] = $row;
+  $employees[$row['person_id']] = $row;
 }
 
 // EchoLog($chair_id);
 // EchoLog($department_id);
-EchoLog($employees);
+// EchoLog($employees);
 
 // Батаков
 // EchoLog($splitsLoads[51586]);
@@ -359,13 +376,14 @@ foreach ($employees as &$employee)
 
             if ($personId == 50665)
             {
-              EchoLog($load);
+              // EchoLog($load);
             }
             
             // if (!$isEnglish) 
             {
               $totalAmount += $load['amount'];
-              if ($load['type_workload'] == '0') {
+              if ($load['type_workload'] == '0') 
+              {
                   $auditoriumAmount += $load['amount'];
               }
             }
@@ -486,6 +504,6 @@ header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
 header("Pragma: no-cache");
 header("Expires: 0");
 header('Content-Type: application/javascript; charset=UTF-8');
-echo json_encode(['sotrudniki' => array_values($employees), 'sotrudnik_chair_nagruzka_visibility' => $SotrudnikiChairNagruzkaVisibility['visible']]);
+echo json_encode(['sotrudniki' => array_values($employees), 'sotrudnik_chair_nagruzka_visibility' => $SotrudnikiChairNagruzkaVisibility['visible'], 'chair_name' => $xml_chair['Name']]);
 
 ?>

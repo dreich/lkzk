@@ -113,7 +113,7 @@ class SplitProcessor
 
                 $splitRows = $this->getSplits($baseUid, $item['base_uid2']);
 
-                // if ($baseUid === '26589.281474976773465')
+                // if ($baseUid === '26589.281474976827021')
                 // {
                 //     EchoLog($splitRows);
                 // }
@@ -127,6 +127,11 @@ class SplitProcessor
                     $result[$baseUid]['lectors'][] = $lectorData;
                     $processedSplits[$baseUid][$item['base_uid2']] = true;
                 }
+
+                // if ($baseUid === '26589.281474976827021')
+                // {
+                //     EchoLog($result);
+                // }
             } 
             else 
             {

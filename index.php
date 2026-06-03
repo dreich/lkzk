@@ -11,22 +11,23 @@ $u = $_GET['u'];
 
 // EchoLog($_SESSION);
 
-
 // Авторизация
 if ($_POST['action'] == 'log-in')
 {
   $result = Authorize($_POST['login'], $_POST['password']);
+
+  $c_roles = ExplodePalki($_SESSION['c_roles'], true);
 
   if ($result !== true)  
   {
     $_SESSION['error_message'] = $result; // "Вы ввели неправильный логин или пароль";
   }
 
-  // if ($_SESSION['c_access'] == 'cfo' || $_SESSION['c_access'] == 'author')
-  // {
-  //   header('Location: ./');
-  // }
-  // else
+  if ($c_roles['ruk_aspirantura'])
+  {
+    header('Location: ./#/aspirantura');
+  }
+  else
   {
     header('Location: ./'); 
   }
@@ -100,6 +101,9 @@ if ($_SESSION['success_message'])
 }
 
 
+// Для завкафа, если есть в системе файл инструкции, отобразим соотв. меню
+$ZavkafInstruction = GetRow('params', ['param' => 'zavkaf_instructions']);
+
 
 ?>
 
@@ -134,7 +138,7 @@ if ($_SESSION['c_login'])
         <a href="#/uoup" class="nav-link" ng-class="{active: page == 'uoup'}"><span class="glyphicon glyphicon-user"></span> Администраторы УОУП</a>
       </li> -->
 
-      <li class="nav-item" ng-if="c_roles.zavkaf || c_roles.sotrudnik">
+      <li class="nav-item" ng-if="c_roles.zavkaf || c_roles.sotrudnik || c_roles.ruk_aspirantura">
         <a href="#/nagruzka" class="nav-link" ng-class="{active: page == 'nagruzka'}" ><span class="glyphicon glyphicon-list"></span> Нагрузка</a>
       </li>
 
@@ -162,6 +166,18 @@ if ($_SESSION['c_login'])
         <a href="#/sotrudniki" class="nav-link" ng-class="{active: page == 'sotrudniki'}" ><span class="glyphicon glyphicon-user"></span> Сотрудники</a>
       </li>
 
+      <? if ($ZavkafInstruction): ?>
+        <li class="nav-item">
+          <a href='/docs/get_zavkaf_instructions.php' class="nav-link"><span class="glyphicon glyphicon-book"></span> Справка</a>
+        </li>
+      <? endif ?>
+
+<!--       <li class="nav-item" ng-if="c_roles.ruk_aspirantura">
+        <a href="#/aspirantura" class="nav-link" ng-class="{active: page ==  'aspirantura'}"><span class="glyphicon glyphicon-user"></span> Аспирантура</a>
+      </li> -->
+
+
+
 <!--       <li class="nav-item" ng-if="c_roles.zavkaf">
         <a href="#/nagruzka_columns" class="nav-link" ng-class="{active: page == 'nagruzka_columns'}" ><span class="glyphicon glyphicon-th-list"></span> Порядок столбцов</a>
       </li> -->
@@ -177,6 +193,8 @@ if ($_SESSION['c_login'])
       </li>
 
 
+
+
       <? endif ?>
 
 <!--       <li class="nav-item">
@@ -186,7 +204,7 @@ if ($_SESSION['c_login'])
 
        -->
       <li class="nav-item" ng-if="c_roles.uoup">
-        <a href="#/system_mode" class="nav-link" ng-class="{active: page == 'system_mode'}" ><span class="glyphicon glyphicon-cog"></span> Режим работы</a>
+        <a href="#/system_mode" class="nav-link" ng-class="{active: page == 'system_mode'}" ><span class="glyphicon glyphicon-cog"></span> Настройки</a>
       </li>
 
 

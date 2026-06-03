@@ -58,7 +58,8 @@ abstract class BaseNagruzkaProvider
     {
         if (!empty($this->userRoles['zavkaf'])) return 'zavkaf';
         if (!empty($this->userRoles['uoup'])) return 'uoup';
-        if (!empty($this->userRoles['sotrudnik'])) return 'sotrudnik';
+        if (!empty($this->userRoles['sotrudnik'])) return 'sotrudnik'; 
+        if (!empty($this->userRoles['ruk_aspirantura'])) return 'ruk_aspirantura';
         return null;
     }
 
@@ -84,6 +85,14 @@ abstract class BaseNagruzkaProvider
      */
     protected function getChairFilter()
     {
+      // Для аспирантской нагрузки в 1-й таблице (из Галактики) такие варианты:
+      // 1) препода нет (-1), а кафедра - 25031.281474976763050 - центр аспирантуры
+      // 2) препод есть, а кафедра - где он работает (жду подтверждения от Горохова)
+      if ($this->nagruzkaType == 'aspirantura_itog_exam')
+      {
+
+      }
+
       // Если получаем только одного преподавателя, то проверим, не ГПХ-шник ли он.
       // 1. Если ГПХ-шник, то нужно вместо фильтра кафедры использовать фильтр факультета.
       // 2. Если не ГПХ-шник, то оставляем фильтр кафедры
@@ -110,18 +119,23 @@ abstract class BaseNagruzkaProvider
 
       $chairUid = null;
 
-      if ($this->userRole === 'zavkaf') {
+      if ($this->userRole === 'zavkaf') 
+      {
           $cChairId = isset($this->session['c_chair_id']) ? $this->session['c_chair_id'] : null;
-          if ($cChairId) {
+          if ($cChairId) 
+          {
               $chair = $this->getRow('xml_chair', ['Code' => $cChairId]);
               $chairUid = isset($chair['UID']) ? $chair['UID'] : null;
           }
-      } elseif (($this->userRole === 'uoup' || $this->userRole === 'sotrudnik') && $this->chairId) {
+      } 
+      elseif (($this->userRole === 'uoup' || $this->userRole === 'sotrudnik') && $this->chairId) 
+      {
           $chair = $this->getRow('xml_chair', ['Code' => $this->chairId]);
           $chairUid = isset($chair['UID']) ? $chair['UID'] : null;
       }
 
-      if ($chairUid) {
+      if ($chairUid) 
+      {
           return "AND xml_content_of_load.UID_Chair = '$chairUid'";
       }
 
@@ -205,27 +219,57 @@ abstract class BaseNagruzkaProvider
             $hasVacancy = false;
             $hasNotAssigned = false;
 
-            foreach ($item['lectors'] as &$lector) {
+            foreach ($item['lectors'] as &$lector) 
+            {
                 $lector['delete'] = !empty($lector['delete']);
                 if ($lector['delete']) continue;
 
                 // Вакансия
-                if ($lector['lecturer_fio'] && mb_strcasecmp($lector['lecturer_fio'], 'Вакансия') === 0) {
+                if ($lector['lecturer_fio'] && mb_strcasecmp($lector['lecturer_fio'], 'Вакансия') === 0) 
+                {
                     $hasVacancy = true;
-                    $stat['assigned_to_vacancy']['sum'] += (float) $lector['Amount'];
-                    $statByChair[$lector['chair_id']]['assigned_to_vacancy']['sum'] += (float) $lector['Amount'];
+                    // $stat['assigned_to_vacancy']['sum'] += (float) $lector['Amount'];
+                    safeAdd($stat['assigned_to_vacancy']['sum'], $lector['Amount']);
+                    // $statByChair[$lector['chair_id']]['assigned_to_vacancy']['sum'] += (float) $lector['Amount'];
+                    safeAdd($statByChair[$lector['chair_id']]['assigned_to_vacancy']['sum'], $lector['Amount']);
                 }
                 // Назначен преподаватель
-                elseif ($lector['lecturer_fio'] && mb_strcasecmp($lector['lecturer_fio'], 'Вакансия') !== 0) {
+                elseif ($lector['lecturer_fio'] && mb_strcasecmp($lector['lecturer_fio'], 'Вакансия') !== 0) 
+                {
                     $hasAssigned = true;
-                    $stat['assigned']['sum'] += (float) $lector['Amount'];
-                    $statByChair[$lector['chair_id']]['assigned']['sum'] += (float) $lector['Amount'];
+                    // $stat['assigned']['sum'] += (float) $lector['Amount'];
+                    safeAdd($stat['assigned']['sum'], $lector['Amount']);
+
+                    // EchoLog($lector);
+
+                    if ($lector['TypeWorkload'] == '0') 
+                    {
+                        // $stat['assigned_auditorium']['sum'] += (float) $lector['Amount'];
+                        safeAdd($stat['assigned_auditorium']['sum'], $lector['Amount']);
+                        // $statByChair[$lector['chair_id']]['assigned_auditorium']['sum'] += (float) $lector['Amount'];
+                        safeAdd($statByChair[$lector['chair_id']]['assigned_auditorium']['sum'], $lector['Amount']);
+                    }
+
+                    if ($lector['UID_Language'] === '25031.945')
+                    {
+                        // $stat['assigned_english']['sum'] += (float) $lector['Amount'];
+                        safeAdd($stat['assigned_english']['sum'], $lector['Amount']);
+                        // $statByChair[$lector['chair_id']]['assigned_english']['sum'] += (float) $lector['Amount'];
+                        safeAdd($statByChair[$lector['chair_id']]['assigned_english']['sum'], $lector['Amount']);
+                    }
+
+                    // $statByChair[$lector['chair_id']]['assigned']['sum'] += (float) $lector['Amount'];
+                    safeAdd($statByChair[$lector['chair_id']]['assigned']['sum'], $lector['Amount']);
+
                 }
                 // Не назначен
-                else {
+                else 
+                {
                     $hasNotAssigned = true;
-                    $stat['not_assigned']['sum'] += (float) $lector['Amount'];
-                    $statByChair[$lector['chair_id']]['not_assigned']['sum'] += (float) $lector['Amount'];
+                    // $stat['not_assigned']['sum'] += (float) $lector['Amount'];
+                    safeAdd($stat['not_assigned']['sum'], $lector['Amount']);
+                    // $statByChair[$lector['chair_id']]['not_assigned']['sum'] += (float) $lector['Amount'];
+                    safeAdd($statByChair[$lector['chair_id']]['not_assigned']['sum'], $lector['Amount']);
                 }
             }
 
@@ -233,8 +277,10 @@ abstract class BaseNagruzkaProvider
             $nagruzkaData[$baseUid]['assigned_to_vacancy'] = $hasVacancy;
             $nagruzkaData[$baseUid]['not_assigned'] = $hasNotAssigned;
 
-            $stat['total']['sum'] += $item['Amount'];
-            $statByChair[$item['chair_id']]['total']['sum'] += $item['Amount'];
+            // $stat['total']['sum'] += $item['Amount'];
+            safeAdd($stat['total']['sum'], $item['Amount']);
+            // $statByChair[$item['chair_id']]['total']['sum'] += $item['Amount'];
+            safeAdd($statByChair[$item['chair_id']]['total']['sum'], $item['Amount']);
         }
 
         return [
@@ -250,7 +296,7 @@ abstract class BaseNagruzkaProvider
     protected function filterByLecturer(&$nagruzkaData)
     {
         if (empty($this->lecturerUid)) {
-            return; // Убрать $nagruzkaData
+            return;
         }
 
         foreach ($nagruzkaData as $baseUid => $item) {
@@ -426,7 +472,12 @@ abstract class BaseNagruzkaProvider
         $chairFilter = $this->getChairFilter();
         $dopSql = "$chairFilter AND `chair_id` IS NOT NULL AND `chair_id` <> '' AND `valid` = '1' " . $this->getModeSpecificSql();
 
+        // EchoLog($this->nagruzkaType);
 
+        if ($this->nagruzkaType == 'aspirantura_itog_exam')
+        {
+            // EchoLog($dopSql);
+        }
 
         $nagruzkaData = $this->getBaseData($dopSql, $this->getNagruzkaTypeFilter());
 
@@ -436,11 +487,20 @@ abstract class BaseNagruzkaProvider
         // 3. Обработка сплитов (Логику определяют дочерние классы)
         $nagruzkaData = $this->applyModeSplits($nagruzkaData);
 
+        // if ($this->nagruzkaType == 'discipline')
+        // EchoLog($nagruzkaData);
+
         // 4. Переиндексация лекторов (общая логика)
         $this->reindexLectors($nagruzkaData);
 
+        // if ($this->nagruzkaType == 'discipline')
+        // EchoLog($nagruzkaData);
+
         // 5. Фильтрация по преподавателю
         $this->filterByLecturer($nagruzkaData);
+
+        // if ($this->nagruzkaType == 'discipline')
+        // EchoLog($nagruzkaData);
 
         // 6. Расчет статистики
         $stats_obj = $this->calculateStats($nagruzkaData);

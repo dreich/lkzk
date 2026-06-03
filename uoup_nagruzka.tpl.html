@@ -105,9 +105,8 @@
 
     <tbody>
       <tr ng-repeat="row in uoup_nagruzka" ng-class="" class="pointer" ng-click="UOUPOpenChairNagruzka(row.chair_id)">
-        <td>
+        <td data-uid="{{row.base_uid2}}">
           {{row.department_name}}
-          <!-- {{row.base_uid2}} -->
         </td>
         <td>{{row.chair_name}}</td>
         <td>{{row.zavkaf_fio}}</td>

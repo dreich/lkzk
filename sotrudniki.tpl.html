@@ -1,6 +1,8 @@
 <div ng-if="system_mode == 'mode_filling' || system_mode == 'mode_verification' || system_mode == 'mode_archive'">
 
-  <div style="margin-bottom: 20px">
+  <h5 ng-if="sotrudniki_selected_chair_name">{{sotrudniki_selected_chair_name}}</h5>
+
+  <div style="margin-bottom: 20px" ng-if="c_roles.zavkaf">
     <label style="display: inline-block">Сотрудники видят свою нагрузку</label>
     <select class="form-select" style="display: inline-block; width: 100px" ng-model="data.sotrudnik_chair_nagruzka_visibility" ng-change="SaveSotrudnikNagruzkaVisibility()">
       <option value="1">да</option> <option value="0">нет</option>
@@ -15,7 +17,7 @@
 
     <thead>
       <tr>
-        <th style="width: 20px">выбор</th>
+        <th style="width: 20px" ng-if="c_roles.zavkaf">выбор</th>
         <th>ФИО</th>
         <th>должность</th>
         <th>тип</th>
@@ -32,7 +34,7 @@
         <!-- | orderBy:['-selected', 'type', 'fio'] -->
 
       <tr ng-repeat="person in sotrudniki" ng-click="navigateToNagruzka(person)" ng-class="{'pointer': person.amount_sum > 0}" >
-        <td>  
+        <td ng-if="c_roles.zavkaf">  
           <!-- sotrudniki_readonly -->
           <input type="checkbox" ng-model="person.selected" ng-change="SelectSotrudnik(person)" ng-click="$event.stopPropagation()" ng-disabled="person.type == 'sotrudnik' || sotrudniki_readonly">
         </td>
@@ -74,7 +76,7 @@
 
      <tfoot>
         <tr>
-          <th></th>
+          <th ng-if="c_roles.zavkaf"></th>
           <th></th>
           <th>
 <!--             

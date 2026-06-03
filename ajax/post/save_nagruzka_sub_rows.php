@@ -12,7 +12,9 @@ if (!$_SESSION['c_login']) {
     exit;
 }
 
-$chair_id = $_SESSION['c_chair_id']; // ?? 0;
+$c_roles = ExplodePalki($_SESSION['c_roles'], true);
+
+
 
 $input = file_get_contents('php://input');
 $data = json_decode($input, true);
@@ -22,7 +24,8 @@ if (!$data) {
   exit;
 }
 
-$XmlChairByCode = GetTable('xml_chair', "", "", "Code");
+// $XmlChairByCode = GetTable('xml_chair', "", "", "Code");
+$XMLLecturerByUID = GetTable('xml_lecturer', "", "", "UID");
 
 
 foreach ($data as $nagruzka_lector)
@@ -97,6 +100,12 @@ foreach ($data as $nagruzka_lector)
       //   $new_content_of_load_uid .= ".$uid_obj[potok_suffix]";
       // }
 
+      // если завкаф добавляет преподавателя, то ... сомнение
+      // if ($c_roles['zavkaf'])
+      // {
+      //   $nagruzka_lector['chair_id'] = $_SESSION['c_chair_id']; // ?? 0;
+      // }
+
       
       $delete = $nagruzka_lector['delete'] ? '1' : '0';
 
@@ -113,7 +122,7 @@ foreach ($data as $nagruzka_lector)
                       `lecturer_person_id` = '$nagruzka_lector[lecturer_person_id]',
                       `lecturer_fio` = '$nagruzka_lector[lecturer_fio]',
                       `lecturer_uid` = '$nagruzka_lector[lecturer_uid]',
-                      `chair_uid` = '{$XmlChairByCode[$nagruzka_lector['chair_id']]['UID']}',
+                      `chair_uid` = '{$XMLLecturerByUID[$nagruzka_lector['lecturer_uid']]['UID_Chair']}',
                       `zavkaf_login` = '$_SESSION[c_login]',
                       `zavkaf_fio` = '$_SESSION[c_fio]',
                       `delete` = '$delete'

@@ -12,7 +12,20 @@ if(empty($_SERVER['HTTP_X_REQUESTED_WITH']) || strtolower($_SERVER['HTTP_X_REQUE
 }
 
 
-$Chairs = GetTable('xml_chair', "", "", 'Code', 'Code, Name');
+// $Chairs = GetTable('xml_chair', "", "", 'Code', 'Code, Name');
+
+$Chairs = GetSQL("SELECT xml_chair.Code, xml_chair.Name, sotrudnik_chair_nagruzka_visibility.visible
+                  FROM `xml_chair`
+                  LEFT JOIN sotrudnik_chair_nagruzka_visibility ON xml_chair.Code = sotrudnik_chair_nagruzka_visibility.chair_id
+                ", "Code");
+
+if ($Chairs)
+{
+  foreach ($Chairs as &$chair)
+  {
+    $chair['visible'] = !!$chair['visible'];
+  }
+}
 
 echo json_encode($Chairs);
 ?>

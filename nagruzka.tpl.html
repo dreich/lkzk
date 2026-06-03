@@ -1,9 +1,11 @@
 <!-- ng-if="system_mode == 'mode_filling' || system_mode == 'mode_verification' || system_mode == 'mode_archive'" -->
  
- <div class="alert alert-info" ng-if="system_mode == 'export_to_galaktika'">
+<div class="alert alert-info" ng-if="system_mode == 'export_to_galaktika'">
   <h4>Выгрузка данных в Галактику</h4>
   <p>Информация тут будет доступна завтра.</p>
 </div>
+
+
 
 <div ng-if="system_mode != 'export_to_galaktika'">
 
@@ -17,118 +19,38 @@
   </h4>
 <!--     {{nagruzka_selected_chair_id}}
     {{chairs_sprav[nagruzka_selected_chair_id]['Name']}} -->
-  <div ng-if="nagruzka_selected_chair_id && !nagruzka_selected_lecturer_uid">
+
+    
+<!--   <div ng-if="nagruzka_selected_chair_id && !nagruzka_selected_lecturer_uid">
     <h5 ng-if="!c_roles.uoup || c_roles.uoup && _nagruzka_type == 'all'">{{chairs_sprav[nagruzka_selected_chair_id]['Name']}}</h5>
     <h5 ng-if="c_roles.uoup && _nagruzka_type != 'all'"><a href="/#/nagruzka/all/{{nagruzka_selected_chair_id}}">{{chairs_sprav[nagruzka_selected_chair_id]['Name']}}</a></h5>
-  </div>
+  </div> -->
+
+
 
   <div ng-repeat="chair_id in _chairs_ids" ng-if="!nagruzka_selected_chair_id || nagruzka_selected_chair_id && nagruzka_selected_chair_id == chair_id">
     <!-- {{chair_id}} -->
-    <h5 ng-if="!c_roles.uoup">{{_chairs_titles[$index]}}</h5>
-    <h5 ng-if="c_roles.uoup"><a href="/#/nagruzka/all/chair_id">{{_chairs_titles[$index]}}</a></h5>
+    <!-- <h5 ng-if="!c_roles.uoup">{{_chairs_titles[$index]}}</h5>
+    <h5 ng-if="c_roles.uoup"><a href="/#/nagruzka/all/chair_id">{{_chairs_titles[$index]}}</a></h5> -->
 
-    <ng-include src="'./nagruzka_stat.tpl.html'"></ng-include>
+    <h5 ng-if="!c_roles.uoup">{{chairs_sprav[chair_id]['Name']}}</h5>
+    <h5 ng-if="c_roles.uoup"><a href="/#/nagruzka/all/{{chair_id}}">{{chairs_sprav[chair_id]['Name']}}</a></h5>
+
+    <!-- <div ng-if="c_roles.uoup"><a href="/#/sotrudniki/{{chair_id}}" class="btn btn-primary btn-xs mb-1">Сотрудники</a></div> -->
+
+    <!-- <div ng-if="chairs_sprav[chair_id]['visible']">vis</div> -->
+    <div class="alert alert-info w-50" ng-if="!NagruzkaStatVisible(chair_id)">
+      <p>Заведующий кафедрой пока не предоставил Вам возможность просмотра распределённой нагрузки</p>
+    </div>
+
+    <ng-include src="'./nagruzka_stat.tpl.html'" ng-if="NagruzkaStatVisible(chair_id)"></ng-include>
 
   </div>
 
 
   <!-- c_roles.zavkaf -->
 
-  <!--
-
-  <table class="widefat mb-3" ng-if="false">
-
-    <thead>
-      <tr>
-        <th>тип нагрузки</th>
-        <th ng-if="!_lecturer_uid">всего нагрузки</th>
-        <th ng-if="!_lecturer_uid">не распределено</th>
-        <th>распределено</th>
-        <th ng-if="!_lecturer_uid">на вакансию</th>
-      </tr>
-    </thead>
-
-    <tbody>
-
-      <tr ng-if="ShowNagruzkaZavkafTypeRow('discipline')">
-        <td>
-          <span ng-if="ShowNagruzkaTypeLinkNotText()"><a href="{{GetNagruzkaTypesRowLink('discipline')}}">Дисциплины</a></span>
-          <span ng-if="!ShowNagruzkaTypeLinkNotText()">Дисциплины</span>
-        </td>
-        <td ng-if="!_lecturer_uid">{{nagruzka_stat['discipline']['total']['sum'] | toFixed:1}}</td>
-        <td ng-if="!_lecturer_uid">{{nagruzka_stat['discipline']['not_assigned']['sum'] | toFixed:1}}</td>
-        <td>{{nagruzka_stat['discipline']['assigned']['sum'] | toFixed:1}}</td>
-        <td ng-if="!_lecturer_uid">{{nagruzka_stat['discipline']['assigned_to_vacancy']['sum'] | toFixed:1}}</td>
-      </tr>
-
-      <tr ng-if="ShowNagruzkaZavkafTypeRow('ruk_vkr')">
-        <td>
-          <span ng-if="ShowNagruzkaTypeLinkNotText()"><a href="{{GetNagruzkaTypesRowLink('ruk_vkr')}}">Руководство ВКР</a></span>
-          <span ng-if="!ShowNagruzkaTypeLinkNotText()">Руководство ВКР</span>
-        </td>
-        <td ng-if="!_lecturer_uid">{{nagruzka_stat['ruk_vkr']['total']['sum'] | toFixed:1}}</td>
-        <td ng-if="!_lecturer_uid">{{nagruzka_stat['ruk_vkr']['not_assigned']['sum'] | toFixed:1}}</td>
-        <td>{{nagruzka_stat['ruk_vkr']['assigned']['sum'] | toFixed:1}}</td>
-        <td ng-if="!_lecturer_uid">{{nagruzka_stat['ruk_vkr']['assigned_to_vacancy']['sum'] | toFixed:1}}</td>
-      </tr>
-
-      <tr ng-if="ShowNagruzkaZavkafTypeRow('ruk_kurs')">
-        <td>
-          <span ng-if="ShowNagruzkaTypeLinkNotText()"><a href="{{GetNagruzkaTypesRowLink('ruk_kurs')}}">Руководство курсовыми работами</a></span>
-          <span ng-if="!ShowNagruzkaTypeLinkNotText()">Руководство курсовыми работами</span>
-        </td>
-        <td ng-if="!_lecturer_uid">{{nagruzka_stat['ruk_kurs']['total']['sum'] | toFixed:1}}</td>
-        <td ng-if="!_lecturer_uid">{{nagruzka_stat['ruk_kurs']['not_assigned']['sum'] | toFixed:1}}</td>
-        <td>{{nagruzka_stat['ruk_kurs']['assigned']['sum'] | toFixed:1}}</td>
-        <td ng-if="!_lecturer_uid">{{nagruzka_stat['ruk_kurs']['assigned_to_vacancy']['sum'] | toFixed:1}}</td>
-      </tr>
-
-      <tr ng-if="ShowNagruzkaZavkafTypeRow('ruk_practice')">
-        <td>
-          <span ng-if="ShowNagruzkaTypeLinkNotText()"><a href="{{GetNagruzkaTypesRowLink('ruk_practice')}}">Руководство практикой</a></span>
-          <span ng-if="!ShowNagruzkaTypeLinkNotText()">Руководство практикой</span>
-        </td>
-        <td ng-if="!_lecturer_uid">{{nagruzka_stat['ruk_practice']['total']['sum'] | toFixed:1}}</td>
-        <td ng-if="!_lecturer_uid">{{nagruzka_stat['ruk_practice']['not_assigned']['sum'] | toFixed:1}}</td>
-        <td>{{nagruzka_stat['ruk_practice']['assigned']['sum'] | toFixed:1}}</td>
-        <td ng-if="!_lecturer_uid">{{nagruzka_stat['ruk_practice']['assigned_to_vacancy']['sum'] | toFixed:1}}</td>
-      </tr>
-
-      <tr ng-if="ShowNagruzkaZavkafTypeRow('ksro')">
-        <td>
-          <span ng-if="ShowNagruzkaTypeLinkNotText()"><a href="{{GetNagruzkaTypesRowLink('ksro')}}">Индивидуальные консультации и КСРО</a></span>
-          <span ng-if="!ShowNagruzkaTypeLinkNotText()">Индивидуальные консультации и КСРО</span>
-        </td>
-        <td ng-if="!_lecturer_uid">{{nagruzka_stat['ksro']['total']['sum'] | toFixed:1}}</td>
-        <td ng-if="!_lecturer_uid">{{nagruzka_stat['ksro']['not_assigned']['sum'] | toFixed:1}}</td>
-        <td>{{nagruzka_stat['ksro']['assigned']['sum'] | toFixed:1}}</td>
-        <td ng-if="!_lecturer_uid">{{nagruzka_stat['ksro']['assigned_to_vacancy']['sum'] | toFixed:1}}</td>
-      </tr>
-      <tr ng-if="ShowNagruzkaZavkafTypeRow('gia')">
-        <td>
-          <span ng-if="ShowNagruzkaTypeLinkNotText()"><a href="{{GetNagruzkaTypesRowLink('gia')}}">ГИА</a></span>
-          <span ng-if="!ShowNagruzkaTypeLinkNotText()">ГИА</span>
-        </td>
-        <td ng-if="!_lecturer_uid">{{nagruzka_stat['gia']['total']['sum'] | toFixed:1}}</td>
-        <td ng-if="!_lecturer_uid">{{nagruzka_stat['gia']['not_assigned']['sum'] | toFixed:1}}</td>
-        <td>{{nagruzka_stat['gia']['assigned']['sum'] | toFixed:1}}</td>
-        <td ng-if="!_lecturer_uid">{{nagruzka_stat['gia']['assigned_to_vacancy']['sum'] | toFixed:1}}</td>
-      </tr>
-      <tr ng-if="ShowNagruzkaZavkafTypeRow('aspirant')">
-        <td>
-          <span ng-if="ShowNagruzkaTypeLinkNotText()"><a href="{{GetNagruzkaTypesRowLink('aspirant')}}">Руководство аспирантами и соискателями, кандидатские экзамены</a></span>
-          <span ng-if="!ShowNagruzkaTypeLinkNotText()">Руководство аспирантами и соискателями, кандидатские экзамены</span>
-        </td>
-        <td ng-if="!_lecturer_uid">{{nagruzka_stat['aspirant']['total']['sum'] | toFixed:1}}</td>
-        <td ng-if="!_lecturer_uid">{{nagruzka_stat['aspirant']['not_assigned']['sum'] | toFixed:1}}</td>
-        <td>{{nagruzka_stat['aspirant']['assigned']['sum'] | toFixed:1}}</td>
-        <td ng-if="!_lecturer_uid">{{nagruzka_stat['aspirant']['assigned_to_vacancy']['sum'] | toFixed:1}}</td>
-      </tr>
-    </tbody>
-    
-  </table>
-
-  -->
+  
 
   <!-- {{nagruzka_type}} -->
 
@@ -139,8 +61,7 @@
   <!-- {{filter_distinct.global_nagruzka_filter}} -->
   <!-- && _nagruzka_type != 'all' -->
   <div ng-show="_nagruzka_type && _nagruzka_type != 'all' && !isLoading">
-
-    <select class="form-select mb-2" style="width: 300px" ng-model="filter_distinct.global_nagruzka_filter" ng-change="onNagruzkaGlobalFilterChange()" ng-if="!_lecturer_uid">
+    <select class="form-select mb-2" style="width: 300px" ng-model="filter_distinct.global_nagruzka_filter" ng-change="onNagruzkaGlobalFilterChange()" ng-if="!nagruzka_selected_lecturer_uid">
       <option value="">Вся нагрузка</option>
       <option value="assigned">распределена</option>
       <option value="not_assigned">не распределена</option>
@@ -234,6 +155,7 @@
                       text-searching="Поиск..." 
                       minlength="1"
                       text-no-results="Не найдено"
+                      description-field="dolzhnost_hint"
                       input-class="form-control autocomplete" style='width:50%' />
                 </div>
               </div>
@@ -299,17 +221,17 @@
     </div>
     
     Укажите, что сделать с выбранными строками:
-    <select class="form-select w-25" ng-model="group_action.action" ng-change="ChangeGroupAction()">
+    <select class="form-select" ng-model="group_action.action" ng-change="ChangeGroupAction()" style="width: 30%">
       <!-- TODO: вариант виден только если selected одна строка нагрузки -->
       <option value="assign_to_several_sotrudniki" ng-if="IsGroupActionAllowed('assign_to_several_sotrudniki') && GetNagruzkaSelectedCount() == 1">Распределение нагрузки на несколько сотрудников</option>
       <option value="assign_to_sotrudnik" ng-if="IsGroupActionAllowed('assign_to_sotrudnik')">Распределить всё на одного сотрудника</option>
       <option value="assign_to_vacancy" ng-if="IsGroupActionAllowed('assign_to_vacancy')">Распределить всё на «вакансию»</option>
       <option value="refuse_nagruzka" ng-if="IsGroupActionAllowed('refuse_nagruzka')">Отказаться от выбранной нагрузки</option>
       <option value="require_admin_change" ng-if="IsGroupActionAllowed('require_admin_change')">Запрос администратору на внесение изменений</option>
-      <option value="write_admin_comment" ng-if="IsGroupActionAllowed('write_admin_comment')">Написать комментарий администратору</option>
+      <option value="write_admin_comment" ng-if="IsGroupActionAllowed('write_admin_comment')">Написать комментарий</option>
     </select>
 
-    <div ng-if="group_action.action == 'assign_to_sotrudnik'" class="w-25 mt-2">
+    <div ng-if="group_action.action == 'assign_to_sotrudnik'" class="mt-2" style="width: 30%">
       <angucomplete-alt id="group_action_autocomplete" input-name=""
           placeholder="Введите ФИО"
           pause="400"
@@ -324,10 +246,11 @@
           text-searching="Поиск..." 
           minlength="3"
           text-no-results="Не найдено"
+          description-field="dolzhnost_hint"
           input-class="form-control autocomplete" style='width:50%' />
     </div>
 
-    <div ng-if="group_action.action == 'refuse_nagruzka' || group_action.action == 'require_admin_change' || group_action.action == 'write_admin_comment'" class="w-25 mt-2">
+    <div ng-if="group_action.action == 'refuse_nagruzka' || group_action.action == 'require_admin_change' || group_action.action == 'write_admin_comment'" class="mt-2" style="width: 30%">
       Комментарий:
       <textarea class="form-control w-100" ng-model="group_action.message"  id="group_action_comment"></textarea>
     </div>

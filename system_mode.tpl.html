@@ -1,9 +1,21 @@
 <div>
   <h4>Режим работы системы</h4>
 
-  <select ng-model="currentMode" class="form-select" style="width: 300px" ng-change="SaveSystemMode()" ng-disabled="currentMode == 'export_to_galaktika'">
+  <select ng-model="currentMode" class="form-select" style="width: 300px" ng-change="SaveSystemMode()" ng-disabled="true || currentMode == 'export_to_galaktika'">
     <option ng-repeat="(key, mode) in systemModes" ng-value="key" ng-disabled="key == 'export_to_galaktika'">{{mode}}</option>
   </select>
 
   <!-- <p ng-if="currentMode">Выбранный режим: {{systemModes[currentMode]}}</p> -->
 </div>
+
+<br>
+<h4>Инструкция для завкафа</h4>
+
+  <a href='/docs/get_zavkaf_instructions.php'>{{zavkaf_instruction.comment}}</a> <span ng-if="zavkaf_instruction.datetime">[{{zavkaf_instruction.datetime | jsDate}}]</span>
+
+<br>
+<span class="btn btn-primary btn-xs fileinput-button mt-3">
+  <!-- <span class="glyphicon glyphicon-plus-sign"></span> -->
+  Загрузить файл
+  <input nv-file-select type="file" uploader="zavkaf_instruction_uploader"  onclick="this.value=null" />
+</span>
