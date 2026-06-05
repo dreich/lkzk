@@ -22,7 +22,7 @@ if (empty($_SERVER['HTTP_X_REQUESTED_WITH']) || $_SERVER['HTTP_X_REQUESTED_WITH'
     exit('Forbidden');
 }
 
-
+$XMLLecturerByUID = GetTable('xml_lecturer', "", "", "UID");
 
 if ($c_roles['zavkaf'])
 {
@@ -69,7 +69,7 @@ else
   $chair_dep_sql = "((`type` <> 'gph' AND `chair_id` = '$chair_id') OR (`type` = 'gph' AND `department_id` = '$department_id'))";
 }
 
-$additional = GetTable('sotrudniki', "$chair_dep_sql AND  `selected` = '1' AND `date_remove` IS NULL AND `fio` LIKE ('$s%') AND `lecturer_uid` <> ''");
+$additional = GetTable('sotrudniki', "$chair_dep_sql AND `selected` = '1' AND `date_remove` IS NULL AND `fio` LIKE ('$s%') AND `lecturer_uid` <> ''");
 
 $Sotrudniki = array_merge($Sotrudniki, $additional);
 
@@ -80,17 +80,22 @@ if (mb_stripos($s, 'Вак') === 0)
   $Sotrudniki[] = ['fio' => 'Вакансия', 'lecturer_person_id' => '000000', 'lecturer_uid' => $VacancyLecturer['UID']];
 }
 
-foreach ($Sotrudniki as &$sotrudnik)
-{
-  if ($sotrudnik['type'] == 'gph')
-  {
-    $sotrudnik['dolzhnost_hint'] = 'ГПХ';
-  }
-  else
-  {
-    $sotrudnik['dolzhnost_hint'] = $sotrudnik['dolzhnost'];
-  }
+$filteredSotrudniki = [];
+
+foreach ($Sotrudniki as $sotrudnik) {
+    // Заполняем dolzhnost_hint
+    $sotrudnik['dolzhnost_hint'] = ($sotrudnik['type'] == 'gph') 
+        ? 'ГПХ' 
+        : $sotrudnik['dolzhnost'];
+    
+    // Оставляем только тех, кто есть в справочнике xml_lecturer для подстраховки
+    if (isset($XMLLecturerByUID[$sotrudnik['lecturer_uid']])) 
+    {
+      $filteredSotrudniki[] = $sotrudnik;
+    }
 }
+
+$Sotrudniki = $filteredSotrudniki;
 
 
 header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1

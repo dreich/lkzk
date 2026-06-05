@@ -11,6 +11,7 @@ session_start();
 $request = file_get_contents('php://input');
 $data = (array) json_decode($request);
 
+$not_quoted_message = $data['message'];
 $data = quote_smart($data);
 
 // Проверяем, что запрос пришел через AJAX
@@ -97,7 +98,7 @@ elseif ($data['message'] && $data['status'] == 'write_admin_comment')
 
       $message_text .= GetNagruzkaFieldsForMail($nagruzka);
 
-      $message_text .= "<br>Комментарий: " . nl2br($data['message']);
+      $message_text .= "<br>Комментарий: " . nl2br($not_quoted_message);
 
       if ($SEND_REAL_MAILS)
       foreach ($AdminsUOUP as $uoup)

@@ -110,10 +110,7 @@ if ($Aspirants)
   }
 }
 
-
-
 // exit;
-
 
 // Получим режим работы системы из БД
 $_system_mode = GetSystemParam('system_mode');
@@ -174,11 +171,13 @@ $xml_content_of_load_staff_columns_for_hash = ['TypeOfContingent', 'UID_Group', 
 $pseudo_departments_ids = [];
 $pseudo_departments_uids = [];
 
-EchoLog($pseudo_departments_ids);
+
 
 if ($_pseudo_chairs)
 {
-  $pseudo_chairs_str = JoinArrayElements($_pseudo_chairs, ', ', false, "'", "'");
+  $pseudo_chairs_str = JoinArrayElements(array_keys($_pseudo_chairs), ', ', false, "'", "'");
+  // EchoLog($pseudo_chairs_str);
+
   $PseudoChairs = GetTable("xml_chair", "`code` IN($pseudo_chairs_str)");
 
   if ($PseudoChairs)
@@ -192,6 +191,8 @@ if ($_pseudo_chairs)
     }
   }
 }
+
+// EchoLog($pseudo_departments_ids);
 
 // нагрузка до обновления
 $XMLContentOfLoadPrev = GetTable('xml_content_of_load', "", "", "UID", "UID, base_uid, base_uid2, hash, UID_Chair");
@@ -280,8 +281,8 @@ function GetChairSotrudniki($year, $dop_sql = "", $actual = null /*, $qualify_ca
     }
 
     // если нет всевдо-подразделений, ничего страшного
-
-    $kaf_sql = "AND ($podrazdelenia_table_name.`pname` LIKE('Кафедра%') $pseudo_departments_ids_sql ) ";
+    // #dup code functions.php Aurhorize()
+    $kaf_sql = "AND (($podrazdelenia_table_name.`pname` LIKE('Кафедра%') OR $podrazdelenia_table_name.`pname` LIKE('%базовая кафедра%')) $pseudo_departments_ids_sql ) ";
   }
 
   // AND $podrazdelenia_table_name.`parent_id` <> '00255'
@@ -291,7 +292,7 @@ function GetChairSotrudniki($year, $dop_sql = "", $actual = null /*, $qualify_ca
               FROM `$position_table_name`
               JOIN `person` ON `$position_table_name`.person_id = `person`.id
               JOIN `$podrazdelenia_table_name` ON `$position_table_name`.podrazdelenia_chain LIKE CONCAT('%|', $podrazdelenia_table_name.`id`, '|%')
-              WHERE $podrazdelenia_table_name.`id` <> '00255'  AND $podrazdelenia_table_name.`parent_id` <> ''
+              WHERE $podrazdelenia_table_name.`id` <> '00255' AND $podrazdelenia_table_name.`parent_id` <> ''
               AND $podrazdelenia_table_name.`ukrup_code` <> '03037' # УВЦ
               $kaf_sql
               AND `position_category` = 'ППС'
@@ -299,6 +300,7 @@ function GetChairSotrudniki($year, $dop_sql = "", $actual = null /*, $qualify_ca
               $dop_sql
             ";
 
+  // if (mb_stripos($dop_sql, 'ГПХ') !== false)
   // EchoLog($query);
 
   return GetSQL($query);
@@ -670,6 +672,7 @@ foreach ($kandidats_xml->Employee as $s)
     // echo $podrazdelenie_id . ' ' . $Podrazdelenia[$podrazdelenie_id]['pname'] . '<br>';
 
     // Начинается с "Кафедра"
+    // TODO базовая кафедра!
     if (mb_stripos($Podrazdelenia[$podrazdelenie_id]['pname'], 'Кафедра') === 0)
     {
       $Kandidats_arr["$person_id-$podrazdelenie_id"] = ['person_id' => $person_id, 'fio' => $fio, 'department_id' => $Podrazdelenia[$podrazdelenie_id]['ukrup_code'], 'dolzhnost' => $dolzhnost, 'type' => 'kandidat', 'chair_id' => $podrazdelenie_id, 'podrazdelenie_id' => $podrazdelenie_id];
@@ -740,7 +743,10 @@ if ($SotrudnikiActual)
 }
 
 // EchoLog($SotrudnikiActual);
+
 unset($SotrudnikiActual);
+
+// exit;
 
 // 2. «кандидат» - ППС из сервиса Кандидат, привязанные к этой кафедре и дошедшие до согласования с УОУП (т.е. согласованные УК) и последующие статусы.
 
@@ -793,6 +799,9 @@ if ($ChairsSotrudnikiPrevYear)
   }
 }
 
+// EchoLog($ChairsSotrudnikiPrevYear);
+// exit;
+
 if ($ChairsSotrudnikiCurYear)
 {
   if ($ChairsSotrudnikiCurYear)
@@ -815,6 +824,7 @@ $SotrudnikiGPHPrevYear = GetChairSotrudniki($cur_year - 1, "AND `type` = 'ГПХ
 $SotrudnikiGPHPrevPrevYear = GetChairSotrudniki($cur_year - 2, "AND `type` = 'ГПХ'");
 
 // EchoLog($SotrudnikiGPH);
+// exit;
 
 if ($SotrudnikiGPHPrevPrevYear)
 {
@@ -828,6 +838,8 @@ if ($SotrudnikiGPHPrevPrevYear)
     }
   }
 }
+
+// EchoLog($SotrudnikiActual);
 
 unset($SotrudnikiGPHPrevPrevYear);
 
@@ -863,6 +875,7 @@ if ($SotrudnikiGPH)
 
 unset($SotrudnikiGPH);
 
+// EchoLog($SotrudnikiGPH);
 
 // print_r($SotrudnikiItogoByKey);
 // exit;
@@ -925,6 +938,12 @@ if ($Sotrudniki)
 {
   foreach ($Sotrudniki as $sotr)
   {
+    if ($sotr['person_id'] == 51133)
+    {
+      // EchoLog($sotr);
+      // EchoLog($SotrudnikiItogoByKey["$sotr[person_id]-$sotr[chair_id]"]);
+    }
+
     $SotrudnikiInLKByKey["$sotr[person_id]-$sotr[chair_id]"] = $sotr;
 
     // if ($sotr['person_id'] && $sotr['chair_id'])
@@ -1004,6 +1023,7 @@ if ($SotrudnikiItogoByKey)
     $person_type = $chair_sotrudnik['type'];
     // EchoLog($chair_uid);
 
+    // #dup 647
     if ($person_type == 'gph' && !$chair_uid)
     {
       $chair_uid = $department_uid;
@@ -1020,17 +1040,39 @@ if ($SotrudnikiItogoByKey)
 
     $lecturer = GetLecturer($person_id, $post_uid, $chair_uid, $department_uid);
 
-    if ($person_id == 454)
+    if ($person_id == 51133)
     {
       // EchoLog("Post_uid: $post_uid, chair_uid: $chair_uid, person_type: $person_type");
+      // EchoLog($lecturer);
     }
 
-    // EchoLog($lecturer);
+    
 
     // Если не нашли, то не добавляем сотрудника и не обновляем
     if (!$lecturer || !$lecturer['UID'])
     {
+      
+      $query = "
+                UPDATE `sotrudniki` 
+                SET `date_remove` = NOW()
+                WHERE `person_id` = '$chair_sotrudnik[person_id]' AND `chair_id` = '$chair_sotrudnik[chair_id]'
+              ";
+
+      if ($chair_sotrudnik['person_id'] == 19972)
+      {
+        // EchoLog($query);
+      }
+
+      $Result = $mysqli->query($query);
+
+      if (!$Result)
+      {
+        EchoLog("Error #493 in cron.php:<br>" . $mysqli->error . "<br><br>$query", "file mail");
+        $db_error = true;
+      }
+
       continue;
+
     }
 
     if ($adding)
@@ -1071,10 +1113,13 @@ if ($SotrudnikiItogoByKey)
               `pku` = VALUES(`pku`),
               `pkg` = VALUES(`pkg`),
               `stavka` = VALUES(`stavka`),
-              `date_remove`= NULL
+              `date_remove` = NULL
             ";
 
-      // echo $query . '<br><br>';
+      if ($chair_sotrudnik['person_id'] == 19972)
+      {
+        // EchoLog($query);
+      }
 
       $Result = $mysqli->query($query);
 
@@ -1100,14 +1145,18 @@ if ($SotrudnikiItogoByKey)
       $query = "
                 UPDATE `sotrudniki` 
                 SET `fio` = '$chair_sotrudnik[fio]', `dolzhnost` = '$chair_sotrudnik[dolzhnost]', `type` = '$chair_sotrudnik[type]', `stavka` = '$chair_sotrudnik[stavka]', `pku` = '$chair_sotrudnik[pku]', `pkg` = '$chair_sotrudnik[pkg]',
-                # !! обновление lecturer_uid
+                # !! обновление lecturer_uid, chair_uid
                 `lecturer_uid` = '$lecturer[UID]',
-                `date_remove`= NULL
+                `chair_uid` = '$chair_uid',
+                `date_remove` = NULL
                 $sql_selected
                 WHERE `person_id` = '$chair_sotrudnik[person_id]' AND `chair_id` = '$chair_sotrudnik[chair_id]'
               ";
 
-      // echo $query . '<br><br>';
+      if ($chair_sotrudnik['person_id'] == 19972)
+      {
+        // EchoLog($query);
+      }
 
       $Result = $mysqli->query($query);
 
@@ -1150,18 +1199,40 @@ foreach ($SotrudnikiByPersonChair as $sotrudnik)
   $department_uid = $XMLFacultyByCode[$sotrudnik['department_id']]['UID'];
   $person_type = $sotrudnik['type'];
 
+  // #dup 647
+  if ($person_type == 'gph' && !$chair_uid)
+  {
+    $chair_uid = $department_uid;
+  }
+  // если у сотрудника в качестве кафедры (это поле position*.podrazdelenie_id) стоит псевдо-факультет (родитель псевдо-кафедры) [при этом псевдо-факультет является подразделением, а псевдо-кафедры не существует], то сделаем подмены
+  elseif (in_array($chair_sotrudnik['chair_id'], $pseudo_departments_ids))
+  {
+    $PseudoFaculty = GetRow('xml_faculty', ['Code' => $chair_sotrudnik['chair_id']]);
+    $department_uid = $PseudoFaculty['UID'];
+    // для таких в department_id исходно стоит укрупнённое для псевдо-факультета, пусть как у ГПХ-шников здесь будет тоже факультет
+    $chair_sotrudnik['department_id'] = $chair_sotrudnik['chair_id'];
+    $chair_uid = $department_uid;
+  }
+
   $lecturer = GetLecturer($sotrudnik['person_id'], $post_uid, $chair_uid, $department_uid);
+
+  if ($sotrudnik['person_id'] == 19972)
+  {
+    EchoLog("chair_id $sotrudnik[chair_id], person_id $sotrudnik[person_id], $post_uid, $chair_uid, $department_uid");
+    EchoLog($lecturer);
+  }
 
   $SplitsForSotrudnik = GetRows('zavkaf_splits', ['lecturer_person_id' => $sotrudnik['person_id'], 'chair_uid' => $chair_uid]);
 
-  if ($lecturer && $SplitsForSotrudnik)
+  // не будем заменять сплит, в котром пустая кафедра - таких случаев быть не должно, нужно за ними посматривать!
+  if ($lecturer && $SplitsForSotrudnik && $chair_uid)
   {
     foreach ($SplitsForSotrudnik as $split_row)
     {
       if ($split_row['lecturer_uid'] != $lecturer['UID'])
       {
         // if ($sotrudnik['person_id'] == 51586)
-        EchoLog("Заменяем в сплите для $sotrudnik[person_id] для $split_row[content_of_load_uid_new]: $split_row[lecturer_uid] !=> $lecturer[UID]");
+        EchoLog("Заменяем в сплите для person_id=$sotrudnik[person_id], split_id: $split_row[id] (base_uid2 $split_row[base_uid2]), lecturer uids: $split_row[lecturer_uid] !=> $lecturer[UID], chair_uid: $chair_uid");
 
         // content_of_load_uid не правим, т.к. считается, что завкаф разбивает "с нуля", т.е. из Галактики нет разбиений, значит uid не содержит сотрудников
         $base_uid2_obj = parseNagruzkaBaseUid2($split_row['content_of_load_uid_new']);

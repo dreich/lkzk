@@ -314,7 +314,8 @@ function Authorize($login, $password)
               // EchoLog($Person);
               $podrazdelenia_table_name = "podrazdelenia" . date('Y');
               // has_real_chief означает, что chief действительно является руководителем этого подразделения, а не прописан здесь руководитель вышестоящий
-              $ChairsWithThisChief = GetTable($podrazdelenia_table_name, "`chief_id` = $Person[id] AND `pname` LIKE ('Кафедра%') AND `has_real_chief` = '1'");
+              // #dup code cron.php
+              $ChairsWithThisChief = GetTable($podrazdelenia_table_name, "`chief_id` = $Person[id] AND (`pname` LIKE ('Кафедра%') OR `pname` LIKE ('%базовая кафедра%')) AND `has_real_chief` = '1'");
               // Для темы псевдо-кафедр: нужно будет проверить, что зав. псевдо-кафедрой (пример bedny) руководит соотв. подразделением
               $PodrazdeleniaWithThisChief = GetTable($podrazdelenia_table_name, "`chief_id` = $Person[id] AND `has_real_chief` = '1'");
               $Podrazdelenia = GetTable($podrazdelenia_table_name, "", "", "id");
@@ -3001,7 +3002,7 @@ function glueNagruzkaBaseUid2Parts($base_uid2_obj)
 function GetLecturer($person_id, $post_uid, $chair_uid, $department_uid)
 {
   // -- У некоторых ГПХ-шников указана кафедра, сначала поищем с кафедрой
-  $lecturer_rows = GetRows('xml_lecturer', ['Tab_number' => $person_id, 'UID_Post' => $post_uid, 'UID_Chair' => $chair_uid], null, "`Archive` ASC, `DateContractEnd` DESC");
+  $lecturer_rows = GetRows('xml_lecturer', ['Tab_number' => $person_id, 'UID_Post' => $post_uid, 'UID_Chair' => $chair_uid], null, "`Archive` ASC, `DateContractEnd` DESC, `UID` DESC");
 
   if ($lecturer_rows)
   {

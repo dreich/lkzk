@@ -272,8 +272,8 @@ while ($row = $result->fetch_assoc())
 }
 
 EchoLog($chair_id);
-EchoLog($department_id);
-EchoLog($employees);
+// EchoLog($department_id);
+// EchoLog($employees);
 
 // Батаков
 // EchoLog($splitsLoads[51586]);

@@ -11,6 +11,7 @@ session_start();
 $request = file_get_contents('php://input');
 $data = (array) json_decode($request);
 
+$not_quoted_message = $data['message'];
 $data = quote_smart($data);
 
 // Проверяем, что запрос пришел через AJAX
@@ -43,7 +44,7 @@ if ($data['load_base_UID2'])
     $message_subject = $data['action'];
     $message_text = GetNagruzkaFieldsForMail($nagruzka);
 
-    $message_text .= "<br>Комментарий: " . nl2br($data['message']);
+    $message_text .= "<br>Комментарий: " . nl2br($not_quoted_message);
 
     $User = GetLdapAttrsByAdmin($nagruzka['zavkaf_login'], ['unnmail']);
 

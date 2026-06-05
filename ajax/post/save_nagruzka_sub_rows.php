@@ -109,6 +109,8 @@ foreach ($data as $nagruzka_lector)
       
       $delete = $nagruzka_lector['delete'] ? '1' : '0';
 
+      // EchoLog();
+
       $query = "INSERT INTO `zavkaf_splits` SET 
                       `content_of_load_uid` = '$content_of_load_row[UID]',
                       -- `content_of_load_uid_new` = '$new_content_of_load_uid',
