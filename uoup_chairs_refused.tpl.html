@@ -153,7 +153,7 @@
 
     <a href="/ajax/get/chairs_refused_nagruzka_discipline.php?export">Скачать XLSX</a>
 
-    
+
   </div>
   <!-- Table View -->
   <div ng-switch-when="table">
@@ -170,8 +170,9 @@
       <thead>
         <tr>
           <!-- <th style="width: 20px" ng-show="system_mode != 'mode_archive'"></th> -->
-          <th>Факультет</th>
-          <th>Кафедра</th>
+          <th>Факультет исполнитель</th>
+          <th>Кафедра исполнитель</th>
+          <th>Факультет владелец</th>
           <th>Аббр</th>
           <th>Дисциплина</th>
           <th>Группа</th>
@@ -192,13 +193,14 @@
           <!-- <td ng-show="system_mode != 'mode_archive'">
             <button class="btn btn-primary btn-xs" ng-click="UOUPCancelRefuseBulk()">Отклонить</button>
           </td> -->
-          <td ng-click="NagruzkaRowClick(row); $event.stopPropagation()">{{row.department_name}}</td>
+          <td ng-click="NagruzkaRowClick(row); $event.stopPropagation()" data-uid="{{row.base_uid2}}">{{row.department_name}}</td>
           <td ng-click="NagruzkaRowClick(row); $event.stopPropagation()">{{row.chair_name}}</td> 
+          <td ng-click="NagruzkaRowClick(row); $event.stopPropagation()">{{row.department_owner_name}}</td>
           <td ng-click="NagruzkaRowClick(row); $event.stopPropagation()" ng-bind-html="row.Abbr"></td>
           <td ng-click="NagruzkaRowClick(row); $event.stopPropagation()" ng-bind-html="row.discipline_name"></td>
           <td ng-click="NagruzkaRowClick(row); $event.stopPropagation()" ng-bind-html="row.group_name"></td>
           <td ng-click="NagruzkaRowClick(row); $event.stopPropagation()">{{row.education_level}}</td>
-          <td ng-click="NagruzkaRowClick(row); $event.stopPropagation()">{{row.napravlenie}}</td>
+          <td ng-click="NagruzkaRowClick(row); $event.stopPropagation()" ng-bind-html="row.napravlenie"></td>
           <td ng-click="NagruzkaRowClick(row); $event.stopPropagation()">{{row.language}}</td>
           <td ng-click="NagruzkaRowClick(row); $event.stopPropagation()">{{row.form_obuchenia}}</td>
           <td ng-click="NagruzkaRowClick(row); $event.stopPropagation()">{{row.UID_Semester}}</td>
@@ -212,6 +214,7 @@
       <tfoot>
         <tr>
           <!-- <th ng-show="system_mode != 'mode_archive'"></th> -->
+          <th></th>
           <th></th>
           <th></th>
           <th></th>

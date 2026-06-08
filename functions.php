@@ -2717,7 +2717,7 @@ function GetNagruzkaBaseQuery($dop_sql, $nagruzka_type = 'all', $department_from
   -- AND xml_content_of_load.UID_Lecturer = '26115.281474976793608'
     -- AND xml_content_of_load.`base_uid` = '26589.281474976763944'
     -- AND xml_content_of_load.`base_uid` = '26589.281474976763950'
-    -- AND xml_content_of_load.`base_uid` = '26589.281474976763945'
+    -- AND xml_content_of_load.`base_uid` = '26589.281474976879135'
     -- AND xml_content_of_load.`base_uid` IN('26589.281474976879129', '26589.281474976879132')
     -- AND LoadType = '0'
     $dop_sql

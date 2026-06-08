@@ -131,7 +131,7 @@
                         Показать ({{comment.count}})
                       </button>
                       <!-- {{comment.status}} -->
-                      <!-- <span ng-if="comment.status == 'done_change'" style="margin-left: 15px"> <span class="glyphicon glyphicon-ok"></span> Выполнено </span> -->
+                      <span ng-if="comment.status == 'done_change'" style="margin-left: 15px"> <span class="glyphicon glyphicon-ok"></span> Выполнено </span>
 
 
                     </td>
@@ -204,8 +204,9 @@
       <thead>
         <tr>
           <!-- <th style="width: 20px" ng-if="system_mode != 'mode_archive'"></th> -->
-          <th>Факультет</th>
-          <th>Кафедра</th>
+          <th>Факультет исполнитель</th>
+          <th>Кафедра исполнитель</th>
+          <th>Факультет владелец</th>
           <th>Аббр</th>
           <th>Дисциплина</th>
           <th>Группа</th>
@@ -229,8 +230,9 @@
             <button class="btn btn-primary btn-xs" ng-click="UOUPDeclineToChangeBulk()">Отклонить</button>
             <button class="btn btn-success btn-xs mt-1" ng-click="UOUPDoneToChangeBulk()">Выполнено</button>
           </td> -->
-          <td ng-click="NagruzkaRowClick(row); $event.stopPropagation()">{{row.department_name}}</td>
+          <td ng-click="NagruzkaRowClick(row); $event.stopPropagation()" data-uid="{{row.base_uid2}}">{{row.department_name}}</td>
           <td ng-click="NagruzkaRowClick(row); $event.stopPropagation()">{{row.chair_name}}</td>
+          <td ng-click="NagruzkaRowClick(row); $event.stopPropagation()">{{row.department_owner_name}}</td>
           <td ng-bind-html="row.Abbr" ng-click="NagruzkaRowClick(row); $event.stopPropagation()">
           </td>
           <td ng-bind-html="row.discipline_name" ng-click="NagruzkaRowClick(row); $event.stopPropagation()">
@@ -238,7 +240,7 @@
           <td ng-bind-html="row.group_name" ng-click="NagruzkaRowClick(row); $event.stopPropagation()">
           </td>
           <td ng-click="NagruzkaRowClick(row); $event.stopPropagation()">{{row.education_level}}</td>
-          <td ng-click="NagruzkaRowClick(row); $event.stopPropagation()">{{row.napravlenie}}</td>
+          <td ng-bind-html="row.napravlenie" ng-click="NagruzkaRowClick(row); $event.stopPropagation()"></td>
           <td ng-click="NagruzkaRowClick(row); $event.stopPropagation()">{{row.language}}</td>
           <td ng-click="NagruzkaRowClick(row); $event.stopPropagation()">{{row.form_obuchenia}}</td>
           <td ng-click="NagruzkaRowClick(row); $event.stopPropagation()">{{row.UID_Semester}}</td>
@@ -269,6 +271,7 @@
           <th ind="13"></th>
           <th ind="14"></th>
           <th ind="15"></th>
+          <th ind="16"></th>
         </tr>
       </tfoot>
     </table>

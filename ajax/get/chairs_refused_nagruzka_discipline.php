@@ -79,7 +79,7 @@ if ($is_export) {
 
     // 1. Заголовки столбцов
     $headers = [
-        'Факультет', 'Кафедра', 'Аббр', 'Дисциплина', 'Группа', 
+        'Факультет исполнитель', 'Кафедра исполнитель', 'Факультет владелец', 'Аббр', 'Дисциплина', 'Группа', 
         'Уровень образования', 'Направление подготовки', 'Язык программы', 
         'Форма обучения', 'Семестр', 'Количество студентов', 'Вид работ', 
         'Профиль/направленность программы', 'Курс', 'Количество часов', 
@@ -87,7 +87,7 @@ if ($is_export) {
     ];
     
     $keys = [
-        'department_name', 'chair_name', 'Abbr', 'discipline_name', 'group_name',
+        'department_name', 'chair_name', 'department_owner_name', 'Abbr', 'discipline_name', 'group_name',
         'education_level', 'napravlenie', 'language', 'form_obuchenia',
         'UID_Semester', 'StudentAmount', 'kind_of_work', 'napravlennost',
         'UID_Course', 'Amount', 'refused_change_message', 'refused_date'
@@ -100,22 +100,44 @@ if ($is_export) {
         $col++;
     }
 
-    // 2. Настройка ширины столбцов (набросано по скриншоту)
+    // ==========================================
+    // 2. Настройка ширины столбцов (динамический плоский массив)
+    // ==========================================
     $widths = [
-        'A' => 22, 'B' => 30, 'C' => 10, 'D' => 35, 'E' => 14,
-        'F' => 18, 'G' => 30, 'H' => 15, 'I' => 15, 'J' => 10,
-        'K' => 14, 'L' => 20, 'M' => 35, 'N' => 8,  'O' => 12,
-        'P' => 35, 'Q' => 18
+        18, // Факультет исполнитель
+        30, // Кафедра исполнитель
+        18, // Факультет владелец
+        10, // Аббр
+        35, // Дисциплина
+        14, // Группа
+        18, // Уровень образования
+        30, // Направление подготовки
+        15, // Язык
+        15, // Форма обучения
+        10, // Семестр
+        14, // Количество студентов
+        20, // Вид работ
+        35, // Профиль/направленность программы
+        8,  // Курс
+        12, // Количество часов
+        35, // Сообщение об отказе
+        18  // Дата отказа
     ];
 
-    foreach ($widths as $colName => $widthValue) {
+    // Автоматически переводим порядковый индекс (0, 1, 2...) в имя столбца Excel (A, B, C...)
+    foreach ($widths as $index => $widthValue) {
+        $colName = \PhpOffice\PhpSpreadsheet\Cell\Coordinate::stringFromColumnIndex($index + 1);
         $sheet->getColumnDimension($colName)->setWidth($widthValue);
     }
 
-    // 3. Заполнение данными
+    // ==========================================
+    // 3. Заполнение данными (без жестких букв для $colNum)
+    // ==========================================
     $rowNum = 2;
     foreach ($Nagruzka as $row) {
-        $colNum = 'A';
+        // Начинаем с 1-го столбца (что соответствует 'A')
+        $colIndex = 1; 
+        
         foreach ($keys as $key) {
             $value = '';
             if (isset($row[$key])) {
@@ -125,32 +147,31 @@ if ($is_export) {
                 $value = strip_tags($value);
             }
             
-            $sheet->setCellValue($colNum . $rowNum, $value);
-            $colNum++;
+            // Динамически получаем букву текущего столбца из его числового индекса
+            $colLetter = \PhpOffice\PhpSpreadsheet\Cell\Coordinate::stringFromColumnIndex($colIndex);
+            $sheet->setCellValue($colLetter . $rowNum, $value);
+            $colIndex++;
         }
         $rowNum++;
     }
 
+    // ==========================================
     // 4. Стилизация для красивого отображения переносов
-    $lastRow = $rowNum - 1;
+    // ==========================================
+    $lastRow = $rowNum > 2 ? $rowNum - 1 : 2;
 
-    // Включаем перенос строк для столбцов с длинным текстом
-    // $wrapColumns = ['B', 'D', 'G', 'M', 'P'];
-    // foreach ($wrapColumns as $colName) {
-    //     $sheet->getStyle($colName . '2:' . $colName . $lastRow)
-    //           ->getAlignment()
-    //           ->setWrapText(true);
-    // }
+    // Динамически вычисляем букву самой последней колонки на основе количества ключей
+    $lastCol = \PhpOffice\PhpSpreadsheet\Cell\Coordinate::stringFromColumnIndex(count($keys));
 
-    // Включаем перенос текста и выравнивание по верху сразу для ВСЕХ ячеек (от A до Q)
-    $sheet->getStyle('A1:Q' . $lastRow)
+    // Включаем перенос текста и выравнивание по верху сразу для ВСЕХ ячеек (динамический диапазон, например, A1:Q5)
+    $sheet->getStyle('A1:' . $lastCol . $lastRow)
           ->getAlignment()
           ->setWrapText(true)
           ->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_TOP);
 
     // Стилизация шапки (жирный шрифт и центрирование по вертикали)
-    $sheet->getStyle('A1:Q1')->getFont()->setBold(true);
-    $sheet->getStyle('A1:Q1')->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
+    $sheet->getStyle('A1:' . $lastCol . '1')->getFont()->setBold(true);
+    $sheet->getStyle('A1:' . $lastCol . '1')->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
 
     // Отдаем файл в браузер
     header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');

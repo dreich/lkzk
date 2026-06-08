@@ -81,7 +81,7 @@ if ($is_export)
 
     // 1. Заголовки столбцов (названия последних изменены под контекст)
     $headers = [
-        'Факультет', 'Кафедра', 'Аббр', 'Дисциплина', 'Группа', 
+        'Факультет исполнитель', 'Кафедра исполнитель', 'Факультет владелец', 'Аббр', 'Дисциплина', 'Группа', 
         'Уровень образования', 'Направление подготовки', 'Язык программы', 
         'Форма обучения', 'Семестр', 'Количество студентов', 'Вид работ', 
         'Профиль/направленность программы', 'Курс', 'Количество часов', 
@@ -90,7 +90,7 @@ if ($is_export)
     
     // Ключи массива $Nagruzka
     $keys = [
-        'department_name', 'chair_name', 'Abbr', 'discipline_name', 'group_name',
+        'department_name', 'chair_name', 'department_owner_name', 'Abbr', 'discipline_name', 'group_name',
         'education_level', 'napravlenie', 'language', 'form_obuchenia',
         'UID_Semester', 'StudentAmount', 'kind_of_work', 'napravlennost',
         'UID_Course', 'Amount', 'require_admin_change_message', 'require_admin_change_date'
@@ -105,26 +105,29 @@ if ($is_export)
 
     // 2. Настройка ширины столбцов (адаптировано под второй скриншот)
     $widths = [
-        'A' => 18, // Факультет
-        'B' => 30, // Кафедра (сильно сжата на скрине)
-        'C' => 16, // Аббр (код длиннее, например "Б2.О.01.02(У)")
-        'D' => 20, // Дисциплина
-        'E' => 15, // Группа
-        'F' => 16, // Уровень образования
-        'G' => 22, // Направление подготовки
-        'H' => 12, // Язык
-        'I' => 15, // Форма обучения
-        'J' => 10, // Семестр
-        'K' => 12, // Кол-во студентов
-        'L' => 18, // Вид работ
-        'M' => 25, // Профиль/направленность
-        'N' => 8,  // Курс
-        'O' => 12, // Кол-во часов
-        'P' => 35, // Сообщение об изменении (добавленный столбец)
-        'Q' => 18  // Дата изменения (добавленный столбец)
+        18, // Факультет исполнитель
+        30, // Кафедра исполнитель
+        18, // Факультет владелец
+        16, // Аббр
+        20, // Дисциплина
+        15, // Группа
+        16, // Уровень образования
+        22, // Направление подготовки
+        12, // Язык
+        15, // Форма обучения
+        10, // Семестр
+        12, // Кол-во студентов
+        18, // Вид работ
+        25, // Профиль/направленность
+        8,  // Курс
+        12, // Кол-во часов
+        35, // Сообщение об изменении
+        18  // Дата изменения
     ];
 
-    foreach ($widths as $colName => $widthValue) {
+    // Автоматически превращаем индекс массива (0, 1, 2...) в буквы Excel (A, B, C...)
+    foreach ($widths as $index => $widthValue) {
+        $colName = \PhpOffice\PhpSpreadsheet\Cell\Coordinate::stringFromColumnIndex($index + 1);
         $sheet->getColumnDimension($colName)->setWidth($widthValue);
     }
 
@@ -159,15 +162,18 @@ if ($is_export)
     //           ->setWrapText(true);
     // }
 
-    // Включаем перенос текста и выравнивание по верху сразу для ВСЕХ ячеек (от A до Q)
-    $sheet->getStyle('A1:Q' . $lastRow)
+    // Динамически получаем букву последнего столбца (в нашем случае вернет 'R')
+    $lastCol = \PhpOffice\PhpSpreadsheet\Cell\Coordinate::stringFromColumnIndex(count($keys));
+
+    // Применяем перенос и выравнивание ко ВСЕМ столбцам от A до R (или сколько их там будет)
+    $sheet->getStyle('A1:' . $lastCol . $lastRow)
           ->getAlignment()
           ->setWrapText(true)
           ->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_TOP);
 
-    // Стилизация шапки (жирный шрифт и центрирование по вертикали)
-    $sheet->getStyle('A1:Q1')->getFont()->setBold(true);
-    $sheet->getStyle('A1:Q1')->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
+    // Стилизация шапки
+    $sheet->getStyle('A1:' . $lastCol . '1')->getFont()->setBold(true);
+    $sheet->getStyle('A1:' . $lastCol . '1')->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
     
     // Высоту первой строки можно не задавать жестко, если мы включили WrapText для шапок (строка 1)
     // Excel сам подберет высоту под перенесенный текст заголовков.

@@ -3160,7 +3160,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
     // CL(!isEmpty(nagruzka_row));
 
     const val = (c_roles.zavkaf || c_roles.ruk_aspirantura) && ($scope.system_mode == 'mode_filling' || $scope.system_mode == 'mode_verification')
-    && (!isEmpty(nagruzka_row) && !['refused', 'require_admin_change', 'done_change'].includes(nagruzka_row.status) || nagruzka_row == undefined)
+    && (!isEmpty(nagruzka_row) && !['refused', 'done_refused', 'require_admin_change', 'done_change'].includes(nagruzka_row.status) || nagruzka_row == undefined)
     // УОУП может только разбивать нагрузку
     || c_roles.uoup && $scope.system_mode == 'mode_verification' && !['ksro', 'aspirantura'].includes($scope._nagruzka_type);
 
@@ -3815,6 +3815,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
           key: commentKey,
           // у всей группы строк по идее должен быть одинаковый статус (refused либо done_refused)
           status: row.status,
+          base_uid2: row.base_uid2,
           message: comment,
           date: commentDateTime.toISOString(),
           dateFormatted: $filter('date')(commentDateTime, 'dd.MM.yyyy HH:mm:ss'),
@@ -3920,9 +3921,12 @@ $scope.toggleAdminChangeChair = function(chair)
 
   // console.log('Toggling chair:', chair);
   
-  if ($scope.selectedAdminChangeChair && $scope.selectedAdminChangeChair.chair_id === chair.chair_id) {
+  if ($scope.selectedAdminChangeChair && $scope.selectedAdminChangeChair.chair_id === chair.chair_id) 
+  {
     $scope.selectedAdminChangeChair = null;
-  } else {
+  } 
+  else 
+  {
     $scope.selectedAdminChangeChair = chair;
   }
 };
@@ -4426,7 +4430,10 @@ $scope.toggleAdminChangeChair = function(chair)
 
   */
 
-  function buildAdminChangeChairs(rows) {
+  function buildAdminChangeChairs(rows) 
+  {
+    CL('UOUPNagruzkaToChangeCtrl buildAdminChangeChairs');
+
     if (!Array.isArray(rows) || !rows.length) return [];
 
     const departments = {};
@@ -4468,6 +4475,8 @@ $scope.toggleAdminChangeChair = function(chair)
     );
   }
 
+
+
   function buildChairComments(rows)
   {
     if (!Array.isArray(rows) || !rows.length) return [];
@@ -4484,6 +4493,8 @@ $scope.toggleAdminChangeChair = function(chair)
       {
         comments[key] = {
           key: key,
+          status: row.status,
+          base_uid2: row.base_uid2,
           dateRaw: dateRaw,
           dateFormatted: dateRaw ? $filter('jsDate')(dateRaw) : 'Дата не указана',
           messageRaw: messageRaw,
@@ -4530,7 +4541,7 @@ $scope.toggleAdminChangeChair = function(chair)
 
     $scope.filteredNagruzka = filtered;
 
-    CL($scope.filteredNagruzka);
+    // CL($scope.filteredNagruzka);
   }
 
   function rerenderDataTable() {
@@ -4545,21 +4556,24 @@ $scope.toggleAdminChangeChair = function(chair)
     department.show_chairs = !department.show_chairs;
   }
 
-  $scope.toggleAdminChangeChair = function(chair) {
-      if (!chair) return;
+  $scope.toggleAdminChangeChair = function(chair) 
+  {
+    CL('UOUPNagruzkaToChangeCtrl toggleAdminChangeChair');
 
-      if ($scope.selectedAdminChangeChair && $scope.selectedAdminChangeChair.chair_id === chair.chair_id) {
-        $scope.selectedAdminChangeChair = null;
-        $scope.chairComments = [];
-      } else {
-        $scope.selectedAdminChangeChair = chair;
-        $scope.chairComments = buildChairComments(
-          $scope.allNagruzka.filter(function(row) {
-            return row.chair_id == chair.chair_id;
-          })
-        );
-      }
-    };
+    if (!chair) return;
+
+    if ($scope.selectedAdminChangeChair && $scope.selectedAdminChangeChair.chair_id === chair.chair_id) {
+      $scope.selectedAdminChangeChair = null;
+      $scope.chairComments = [];
+    } else {
+      $scope.selectedAdminChangeChair = chair;
+      $scope.chairComments = buildChairComments(
+        $scope.allNagruzka.filter(function(row) {
+          return row.chair_id == chair.chair_id;
+        })
+      );
+    }
+  };
 
   $scope.toggleChairComment = function(comment) {
 
@@ -4678,7 +4692,8 @@ $scope.toggleAdminChangeChair = function(chair)
     .withPaginationType('full_numbers')
     .withColVis()
     .withColVisOption('aiExclude', [0])
-    .withOption('initComplete', function(settings, json) {
+    .withOption('initComplete', function(settings, json) 
+    {
       // CL('initComplete');
       $scope.$apply(function() {
         $scope.isLoading = false;
@@ -4691,11 +4706,12 @@ $scope.toggleAdminChangeChair = function(chair)
       const tempDtInstance = { dataTable: legacyTable };
       $scope.ClearGreenTableFilters(tempDtInstance, $scope.filter_distinct);
 
-      createCustomFilters('DataTables_Table_nagruzka_to_change', api, columns, $scope);
+      // ВРЕМЕННО ОТКЛЮЧИМ НЕ РАБОТАЮЩИЕ ФИЛЬТРЫ, ПОТОМУ ЧТО ПОКА НЕ ДО ЭТОГО
+      // createCustomFilters('DataTables_Table_nagruzka_to_change', api, columns, $scope);
       
-      api.on('column-visibility.dt', function() {
-        createCustomFilters('DataTables_Table_nagruzka_to_change', api, columns, $scope);
-      });
+      // api.on('column-visibility.dt', function() {
+      //   createCustomFilters('DataTables_Table_nagruzka_to_change', api, columns, $scope);
+      // });
     });
 
   // Возможность отключить сортировку и видимость столбцов по-умолчанию
@@ -4866,7 +4882,7 @@ $scope.toggleAdminChangeChair = function(chair)
                   toastr.error("Произошла системная ошибка при отправке запросов");
                 });
 
-                
+
               /*
               $scope.filteredNagruzka.forEach(function(nagruzka_row)
               {
