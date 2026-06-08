@@ -85,6 +85,7 @@
 <div ng-switch on="viewState">
 
   <div ng-switch-when="chairs">
+
   <div class="admin-change-cards-wrapper w-50" ng-if="adminChangeChairs.length">
     <div ng-repeat="department in adminChangeChairs" class="department-group mb-4">
       <!-- d-flex  -->
@@ -129,6 +130,10 @@
                               ng-click="toggleChairComment(comment); $event.stopPropagation()">
                         Показать ({{comment.count}})
                       </button>
+                      <!-- {{comment.status}} -->
+                      <!-- <span ng-if="comment.status == 'done_change'" style="margin-left: 15px"> <span class="glyphicon glyphicon-ok"></span> Выполнено </span> -->
+
+
                     </td>
                   </tr>
                 </tbody>
@@ -139,6 +144,8 @@
       </div>
     </div>
   </div>
+
+  <a href="/ajax/get/chairs_require_admin_change_nagruzka_discipline.php?export">Скачать XLSX</a>
 </div>
 
   <!-- <div ng-switch-when="chairs">
@@ -187,8 +194,8 @@
       <div class="col-md-2"><button class="btn btn-secondary mb-3" ng-click="showChairs()">Назад к списку кафедр</button></div>
       <div class="col-md-10">{{filteredNagruzka[0].require_admin_change_message}}</div>
     </div>
-
-    <div ng-if="system_mode != 'mode_archive'" class="mb-3">
+    <!-- {{filteredNagruzka[0].status}} -->
+    <div ng-if="filteredNagruzka[0].status == 'require_admin_change' && system_mode != 'mode_archive'" class="mb-3">
       <button class="btn btn-primary btn-sm" ng-click="UOUPDeclineToChangeBulk()">Отклонить</button>
       <button class="btn btn-success btn-sm" ng-click="UOUPDoneToChangeBulk()">Выполнено</button>
     </div>
@@ -216,7 +223,8 @@
       </thead>
 
       <tbody ng-hide="isFiltering">
-        <tr ng-repeat="row in filteredNagruzka" ng-show="row.status == 'require_admin_change'" >
+         <!-- ng-show="row.status == 'require_admin_change'" -->
+        <tr ng-repeat="row in filteredNagruzka" >
           <!-- <td ng-if="system_mode != 'mode_archive'">
             <button class="btn btn-primary btn-xs" ng-click="UOUPDeclineToChangeBulk()">Отклонить</button>
             <button class="btn btn-success btn-xs mt-1" ng-click="UOUPDoneToChangeBulk()">Выполнено</button>
@@ -236,7 +244,7 @@
           <td ng-click="NagruzkaRowClick(row); $event.stopPropagation()">{{row.UID_Semester}}</td>
           <td ng-click="NagruzkaRowClick(row); $event.stopPropagation()">{{row.StudentAmount}}</td>
           <td ng-click="NagruzkaRowClick(row); $event.stopPropagation()">{{row.kind_of_work}}</td>
-          <td ng-click="NagruzkaRowClick(row); $event.stopPropagation()">{{row.napravlennost}}</td>
+          <td ng-bind-html="row.napravlennost" ng-click="NagruzkaRowClick(row); $event.stopPropagation()"></td>
           <td ng-click="NagruzkaRowClick(row); $event.stopPropagation()">{{row.UID_Course}}</td>
           <td ng-click="NagruzkaRowClick(row); $event.stopPropagation()">{{row.Amount}}</td>
         </tr>

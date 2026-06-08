@@ -20,7 +20,7 @@
 <!--     {{nagruzka_selected_chair_id}}
     {{chairs_sprav[nagruzka_selected_chair_id]['Name']}} -->
 
-    
+
 <!--   <div ng-if="nagruzka_selected_chair_id && !nagruzka_selected_lecturer_uid">
     <h5 ng-if="!c_roles.uoup || c_roles.uoup && _nagruzka_type == 'all'">{{chairs_sprav[nagruzka_selected_chair_id]['Name']}}</h5>
     <h5 ng-if="c_roles.uoup && _nagruzka_type != 'all'"><a href="/#/nagruzka/all/{{nagruzka_selected_chair_id}}">{{chairs_sprav[nagruzka_selected_chair_id]['Name']}}</a></h5>
@@ -104,7 +104,7 @@
             <input type="checkbox" ng-model="row.selected" ng-click="$event.stopPropagation()" >
             <!-- {{row.base_uid}} -->
           </td>
-          <td ng-click="NagruzkaRowClick(row)">
+          <td ng-click="NagruzkaRowClick(row)" data-uid="{{row.base_uid2}}">
             {{row.department_owner_name}}
           </td>
           <td ng-bind-html="row.Abbr" ng-click="NagruzkaRowClick(row)">

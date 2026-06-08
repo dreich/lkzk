@@ -3692,7 +3692,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
 })
 
 // Админ УОУП просматривает отказы зав. кафедрами от нагрузки и отменяет отказы
-.controller ('UOUPChairsRefusedCtrl', function($rootScope, $scope, $http, DTOptionsBuilder, DTColumnBuilder, DTColumnDefBuilder, ngDialog, $templateCache, $resource, uoup_nagruzka, system_mode, $filter, $timeout, $location) 
+.controller ('UOUPChairsRefusedCtrl', function($rootScope, $scope, $http, DTOptionsBuilder, DTColumnBuilder, DTColumnDefBuilder, ngDialog, $templateCache, $resource, uoup_nagruzka, system_mode, $filter, $timeout, $location, $q) 
 {
   CL('UOUPChairsRefusedCtrl');
 
@@ -3734,6 +3734,8 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
   // 2. Add these functions before the controller ends
   function buildAdminChangeChairs(rows) 
   {
+    CL('UOUPChairsRefusedCtrl buildAdminChangeChairs');
+
     const departmentsMap = {};
 
     // Use the new field names
@@ -3912,7 +3914,10 @@ $scope.debugChairData = function(chair) {
 */
 
 
-$scope.toggleAdminChangeChair = function(chair) {
+$scope.toggleAdminChangeChair = function(chair) 
+{
+  CL('UOUPChairsRefusedCtrl toggleAdminChangeChair');
+
   // console.log('Toggling chair:', chair);
   
   if ($scope.selectedAdminChangeChair && $scope.selectedAdminChangeChair.chair_id === chair.chair_id) {
@@ -3925,35 +3930,36 @@ $scope.toggleAdminChangeChair = function(chair) {
 
   $scope.selectChairComment = function(comment) 
   {
-    CL('selectChairComment');
+    CL('UOUPChairsRefusedCtrl selectChairComment');
 
     $scope.selectedChairComment = $scope.selectedChairComment && 
                                 $scope.selectedChairComment.key === comment.key ? 
                                 null : comment;
   };
 
-  $scope.showTable = function(comment) {
-  // console.log('Showing table for comment:', comment);
-  
-  if (!comment || !comment.rows || !comment.rows.length) {
-    console.error('No rows to show for comment:', comment);
-    return;
-  }
-
-  CL(comment);
-  $scope.uoup_chairs_refused_selected_comment = comment;
-
-  // Update the filtered data with all rows that have this comment
-  $scope.filteredNagruzka = comment.rows;
-  $scope.viewState = 'table';
-  
-  // Force table redraw
-  $scope.$evalAsync(() => {
-    if ($scope.dtInstance && $scope.dtInstance.rerender) {
-      $scope.dtInstance.rerender();
+  $scope.showTable = function(comment) 
+  {
+    // console.log('Showing table for comment:', comment);
+    
+    if (!comment || !comment.rows || !comment.rows.length) {
+      console.error('No rows to show for comment:', comment);
+      return;
     }
-  });
-};
+
+    // CL(comment);
+    $scope.uoup_chairs_refused_selected_comment = comment;
+
+    // Update the filtered data with all rows that have this comment
+    $scope.filteredNagruzka = comment.rows;
+    $scope.viewState = 'table';
+    
+    // Force table redraw
+    $scope.$evalAsync(() => {
+      if ($scope.dtInstance && $scope.dtInstance.rerender) {
+        $scope.dtInstance.rerender();
+      }
+    });
+  };
 
   $scope.showChairs = function() {
     $scope.viewState = 'chairs';
@@ -4135,8 +4141,50 @@ $scope.toggleAdminChangeChair = function(chair) {
                   return true;
                 }
             })
-            .then(function (message) {  // да
+            .then(function (message) 
+            {  // да
 
+              // Формируем массив промисов
+              var promises = $scope.filteredNagruzka.map(function(nagruzka_row) {
+                
+                // Возвращаем $http запрос
+                return $http({
+                  url: 'ajax/post/uoup_done_refused.php', 
+                  method: 'POST', 
+                  data: {
+                    load_base_UID2: nagruzka_row.base_uid2, 
+                    chair_id: nagruzka_row.chair_id, 
+                    chair_name: nagruzka_row.chair_name, 
+                    zavkaf_fio: nagruzka_row.zavkaf_fio, 
+                    action: 'Администратор УОУП выполнил отказ кафедры от нагрузки', 
+                    message: message
+                  }
+                })
+                .then(function(data) {
+                  if (data.data.result == 'success') {
+                    nagruzka_row.status = 'done_refused';
+                  } else {
+                    toastr.error("Ошибка");
+                  }
+                  
+                  // Прокидываем результат дальше
+                  return data; 
+                });
+              });
+
+              // Ждем завершения всех запросов перед редиректом
+              $q.all(promises)
+                .then(function(results) {
+                  // Выполнится только когда сервер ответит на все отправленные запросы
+                  toastr.success("Данные сохранены");
+                  window.location = "/uoup_chairs_refused";
+                })
+                .catch(function(error) {
+                  // Выполнится, если сервер вернет ошибку (например, 500 Internal Server Error)
+                  toastr.error("Произошла ошибка при отправке запросов");
+                });
+
+              /*
               $scope.filteredNagruzka.forEach(function(nagruzka_row)
               {
                 $http({url: 'ajax/post/uoup_done_refused.php', method: 'POST', data: {load_base_UID2: nagruzka_row.base_uid2, chair_id: nagruzka_row.chair_id, chair_name: nagruzka_row.chair_name, zavkaf_fio: nagruzka_row.zavkaf_fio, action: 'Администратор УОУП выполнил отказ кафедры от нагрузки', message: message}})
@@ -4144,7 +4192,6 @@ $scope.toggleAdminChangeChair = function(chair) {
                 {
                   if (data.data.result == 'success')
                   {
-                    
                     nagruzka_row.status = 'done_refused';
                   }
                   else
@@ -4159,7 +4206,7 @@ $scope.toggleAdminChangeChair = function(chair) {
               $timeout(function() {
                 window.location = "/uoup_chairs_refused";
               }, 1000);
-
+              */
             })
             .catch(function dialogCloseErrorCallback(reason) {
                     // ngDialog v1.4.0 throws an exception, when closing the dialog with reason “undefined”.
@@ -4191,6 +4238,48 @@ $scope.toggleAdminChangeChair = function(chair) {
             .then(function (message) 
             {
               // да
+
+              // Собираем все запросы в массив промисов
+              var promises = $scope.filteredNagruzka.map(function(nagruzka_row) {
+                
+                // Обязательно возвращаем $http, чтобы он попал в массив promises
+                return $http({
+                  url: 'ajax/post/uoup_cancel.php', 
+                  method: 'POST', 
+                  data: {
+                    load_base_UID2: nagruzka_row.base_uid2, 
+                    chair_id: nagruzka_row.chair_id, 
+                    chair_name: nagruzka_row.chair_name, 
+                    zavkaf_fio: nagruzka_row.zavkaf_fio, 
+                    action: 'Администратор УОУП отклонил отказ кафедры от нагрузки', 
+                    message: message
+                  }
+                })
+                .then(function(data) {
+                  if (data.data.result == 'success') {
+                    nagruzka_row.status = 'initial';
+                  } else {
+                    toastr.error("Ошибка");
+                  }
+                  
+                  // Возвращаем данные для поддержания цепочки промисов
+                  return data; 
+                });
+              });
+
+              // Дожидаемся выполнения всех отправленных запросов
+              $q.all(promises)
+                .then(function(results) {
+                  // Этот код сработает только после получения ответов от всех $http запросов
+                  toastr.success("Данные сохранены");
+                  window.location = "/uoup_chairs_refused";
+                })
+                .catch(function(error) {
+                  // Обработка случая, если сервер вернул ошибку на один из запросов
+                  toastr.error("Произошла системная ошибка при отправке запросов");
+                });
+
+              /*
               $scope.filteredNagruzka.forEach(function(nagruzka_row)
               {
                 $http({url: 'ajax/post/uoup_cancel.php', method: 'POST', data: {load_base_UID2: nagruzka_row.base_uid2, chair_id: nagruzka_row.chair_id, chair_name: nagruzka_row.chair_name, zavkaf_fio: nagruzka_row.zavkaf_fio, action: 'Администратор УОУП отклонил отказ кафедры от нагрузки', message: message}})
@@ -4215,6 +4304,8 @@ $scope.toggleAdminChangeChair = function(chair) {
                 window.location = "/uoup_chairs_refused";
                 
               }, 1000);
+
+              */
 
             })
             .catch(function dialogCloseErrorCallback(reason) {
@@ -4267,7 +4358,7 @@ $scope.toggleAdminChangeChair = function(chair) {
   
 })
 
-.controller ('UOUPNagruzkaToChangeCtrl', function($rootScope, $scope, $http, $filter, DTOptionsBuilder, DTColumnBuilder, DTColumnDefBuilder, ngDialog, $templateCache, $resource, $timeout, uoup_nagruzka, system_mode, $location) 
+.controller ('UOUPNagruzkaToChangeCtrl', function($rootScope, $scope, $http, $filter, DTOptionsBuilder, DTColumnBuilder, DTColumnDefBuilder, ngDialog, $templateCache, $resource, $timeout, uoup_nagruzka, system_mode, $location, $q) 
 {
   CL('UOUPNagruzkaToChangeCtrl');
 
@@ -4448,24 +4539,6 @@ $scope.toggleAdminChangeChair = function(chair) {
     }
   }
 
-  /*
-  $scope.toggleAdminChangeChair = function(chair) {
-    if (!chair) return;
-
-    if ($scope.selectedAdminChangeChair && $scope.selectedAdminChangeChair.chair_id === chair.chair_id) {
-      $scope.selectedAdminChangeChair = null;
-      $scope.chairComments = [];
-    } else {
-      $scope.selectedAdminChangeChair = chair;
-      $scope.chairComments = buildChairComments(
-        $scope.allNagruzka.filter(function(row) {
-          return row.chair_id == chair.chair_id;
-        })
-      );
-    }
-  };
-
-  */
 
   $scope.NagruzkaToChangeToggleAdminShowDepartmentChairs = function(department)
   {
@@ -4655,6 +4728,47 @@ $scope.toggleAdminChangeChair = function(chair) {
             })
             .then(function (message) {  // да
 
+              // 1. Создаем массив промисов с помощью .map() вместо .forEach()
+              var promises = $scope.filteredNagruzka.map(function(nagruzka_row) {
+                
+                // Возвращаем сам запрос $http в массив promises
+                return $http({
+                  url: 'ajax/post/uoup_cancel.php', 
+                  method: 'POST', 
+                  data: {
+                    load_base_UID2: nagruzka_row.base_uid2, 
+                    chair_id: nagruzka_row.chair_id, 
+                    chair_name: nagruzka_row.chair_name, 
+                    zavkaf_fio: nagruzka_row.zavkaf_fio, 
+                    action: 'Админ УОУП отклонил запрос кафедры на внесение изменений', 
+                    message: message
+                  }
+                })
+                .then(function(response) {
+                  if (response.data.result == 'success') {
+                    nagruzka_row.status = 'initial';
+                  } else {
+                    toastr.error("Ошибка");
+                  }
+                  // Возвращаем response, чтобы $q.all корректно отработал цепочку
+                  return response; 
+                });
+              });
+
+              // 2. Ждем выполнения всех промисов (запросов)
+              $q.all(promises)
+                .then(function(results) {
+                  // Этот блок выполнится ТОЛЬКО после того, как все запросы будут успешно завершены
+                  toastr.success("Данные сохранены");
+                  window.location = "/uoup_nagruzka_to_change";
+                })
+                .catch(function(error) {
+                  // Если хотя бы один запрос вернет ошибку сервера (например, 500), попадем сюда
+                  toastr.error("Произошла ошибка при отправке запросов");
+                });
+
+              /*
+
               $scope.filteredNagruzka.forEach(function(nagruzka_row)
               {
                 $http({url: 'ajax/post/uoup_cancel.php', method: 'POST', data: {load_base_UID2: nagruzka_row.base_uid2, chair_id: nagruzka_row.chair_id, chair_name: nagruzka_row.chair_name, zavkaf_fio: nagruzka_row.zavkaf_fio, action: 'Админ УОУП отклонил запрос кафедры на внесение изменений', message: message}})
@@ -4676,6 +4790,8 @@ $scope.toggleAdminChangeChair = function(chair) {
               $timeout(function() {
                 window.location = "/uoup_nagruzka_to_change";
               }, 1000);
+
+              */
 
             })
             .catch(function dialogCloseErrorCallback(reason) {
@@ -4707,8 +4823,51 @@ $scope.toggleAdminChangeChair = function(chair) {
                   return true;
                 }
             })
-            .then(function (message) {  // да
+            .then(function (message) 
+            {  // да
 
+              // Собираем все запросы в массив промисов
+              var promises = $scope.filteredNagruzka.map(function(nagruzka_row) {
+                
+                // Возвращаем $http запрос в массив
+                return $http({
+                  url: 'ajax/post/uoup_done_change.php', 
+                  method: 'POST', 
+                  data: {
+                    load_base_UID2: nagruzka_row.base_uid2, 
+                    chair_id: nagruzka_row.chair_id, 
+                    chair_name: nagruzka_row.chair_name, 
+                    zavkaf_fio: nagruzka_row.zavkaf_fio, 
+                    message: message
+                  }
+                })
+                .then(function(data) {
+                  if (data.data.result == 'success') {
+                    // nagruzka_row.status = 'cancelling_to_change'; // не понял этого, в бэкенд такой статус не пишется
+                    nagruzka_row.status = 'done_change';
+                  } else {
+                    toastr.error("Ошибка");
+                  }
+                  
+                  // Возвращаем результат для цепочки промисов
+                  return data; 
+                });
+              });
+
+              // Дожидаемся выполнения всех отправленных запросов
+              $q.all(promises)
+                .then(function(results) {
+                  // Выполнится только после получения ответов от всех запросов
+                  toastr.success("Данные сохранены");
+                  window.location = "/uoup_nagruzka_to_change";
+                })
+                .catch(function(error) {
+                  // На случай системной ошибки сервера (например, 500)
+                  toastr.error("Произошла системная ошибка при отправке запросов");
+                });
+
+                
+              /*
               $scope.filteredNagruzka.forEach(function(nagruzka_row)
               {
                 $http({url: 'ajax/post/uoup_done_change.php', method: 'POST', data: {load_base_UID2: nagruzka_row.base_uid2, chair_id: nagruzka_row.chair_id, chair_name: nagruzka_row.chair_name, zavkaf_fio: nagruzka_row.zavkaf_fio, message: message}})
@@ -4716,8 +4875,8 @@ $scope.toggleAdminChangeChair = function(chair) {
                 {
                   if (data.data.result == 'success')
                   {
-                    
-                    nagruzka_row.status = 'cancelling_to_change';
+                    // nagruzka_row.status = 'cancelling_to_change'; // не понял этого, в бэкенд такой статус не пишется
+                    nagruzka_row.status = 'done_change';
                   }
                   else
                   {
@@ -4731,6 +4890,8 @@ $scope.toggleAdminChangeChair = function(chair) {
               $timeout(function() {
                 window.location = "/uoup_nagruzka_to_change";
               }, 1000);
+
+              */
 
             })
             .catch(function dialogCloseErrorCallback(reason) {

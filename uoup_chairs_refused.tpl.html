@@ -82,9 +82,14 @@
   }
 </style>
 
+
+
 <div ng-switch on="viewState">
+
   <!-- Chairs View -->
   <div ng-switch-when="chairs">
+
+
     <div class="admin-change-cards-wrapper w-50" ng-if="adminChangeChairs.length">
       <div ng-repeat="department in adminChangeChairs" class="department-group mb-4 pointer">
         <!-- d-flex -->
@@ -97,54 +102,58 @@
         
         <div class="department-chairs" ng-show="department.show_chairs">
           <div class="admin-change-card"
-     ng-repeat="chair in department.chairs"
-     ng-class="{'active': selectedAdminChangeChair && selectedAdminChangeChair.chair_id === chair.chair_id}"
-     ng-click="toggleAdminChangeChair(chair)">
-  <div class="admin-change-card-header">
-  <div class="admin-change-card__title">{{chair.chair_name}}</div>
-  <div class="admin-change-card__count-bubble">{{chair.count}}</div>
-  <!-- <button class="btn btn-xs btn-info" ng-click="debugDateFields(chair); $event.stopPropagation()">
-    Debug
-  </button> -->
-</div>
+             ng-repeat="chair in department.chairs"
+             ng-class="{'active': selectedAdminChangeChair && selectedAdminChangeChair.chair_id === chair.chair_id}"
+             ng-click="toggleAdminChangeChair(chair)">
+          <div class="admin-change-card-header">
+          <div class="admin-change-card__title">{{chair.chair_name}}</div>
+          <div class="admin-change-card__count-bubble">{{chair.count}}</div>
+          <!-- <button class="btn btn-xs btn-info" ng-click="debugDateFields(chair); $event.stopPropagation()">
+            Debug
+          </button> -->
+        </div>
 
-  <div ng-if="selectedAdminChangeChair && selectedAdminChangeChair.chair_id === chair.chair_id">
-    <div ng-if="!chair.comments.length" class="alert alert-info py-2 mt-3">
-      Для выбранной кафедры нет сохранённых комментариев.
-    </div>
-    <div ng-if="chair.comments.length">
-      <table class="chair-comments-table">
-        <thead>
-          <tr>
-            <th>Дата</th>
-            <th>Комментарий</th>
-            <th>Действия</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr ng-repeat="comment in chair.comments" 
-            ng-class="{'active': selectedComment && selectedComment.key === comment.key}"
-            ng-click="showTable(comment); $event.stopPropagation()">
-          <td>{{comment.dateFormatted}}</td>
-          <td>{{comment.message || 'Без комментария'}}</td>
-          <td>
-            <button class="btn btn-sm btn-primary" 
-                    ng-click="showTable(comment); $event.stopPropagation()">
-              Показать ({{comment.count}})
-            </button>
+        <div ng-if="selectedAdminChangeChair && selectedAdminChangeChair.chair_id === chair.chair_id">
+          <div ng-if="!chair.comments.length" class="alert alert-info py-2 mt-3">
+            Для выбранной кафедры нет сохранённых комментариев.
+          </div>
+          <div ng-if="chair.comments.length">
+            <table class="chair-comments-table">
+              <thead>
+                <tr>
+                  <th>Дата</th>
+                  <th>Комментарий</th>
+                  <th>Действия</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="comment in chair.comments" 
+                  ng-class="{'active': selectedComment && selectedComment.key === comment.key}"
+                  ng-click="showTable(comment); $event.stopPropagation()">
+                <td>{{comment.dateFormatted}}</td>
+                <td>{{comment.message || 'Без комментария'}}</td>
+                <td>
+                  <button class="btn btn-sm btn-primary" 
+                          ng-click="showTable(comment); $event.stopPropagation()">
+                    Показать ({{comment.count}})
+                  </button>
+                  <!-- {{comment.status}} -->
+                  <span ng-if="comment.status == 'done_refused'" style="margin-left: 15px"> <span class="glyphicon glyphicon-ok"></span> Выполнено </span>
 
-            <span ng-if="comment.status == 'done_refused'" style="margin-left: 15px"> <span class="glyphicon glyphicon-ok"></span> Выполнено </span>
-
-          </td>
-        </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-</div>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
         </div>
       </div>
     </div>
+
+    <a href="/ajax/get/chairs_refused_nagruzka_discipline.php?export">Скачать XLSX</a>
+
+    
   </div>
   <!-- Table View -->
   <div ng-switch-when="table">

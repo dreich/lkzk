@@ -10,7 +10,7 @@ include '../connect/opop2.php';
 EchoLog("Start cron");
 
 $LOAD_NEW_DATA_FROM_NETWORK = true;
-$UPDATE_TABLES = true;
+$UPDATE_TABLES = true;  // для проверки изменения хешей это должно быть включено
 
 $Napravlenia = GetTable('napravlenia', "", "", "napravlenie");
 
@@ -320,7 +320,7 @@ $ContentOfLoadStaffBaseUID1sNotVo = [];
 
 function LoadXML($filename, $table_name)
 {
-  global $mysqli, $Napravlenia, $xml_content_of_load_columns_for_hash, $xml_content_of_load_staff_columns_for_hash, $XMLKindOfWorkGIA1, $XMLKindOfWorkGIA2, $XMLKindOfWorkVKR, $XMLKindOfWorkKurs, $_XMLContentOfLoadStaffByBaseUID1, $XMLSpeciality, $ContentOfLoadStaffBaseUID1sNotVo, $db_error, $ksro_kind_uid, $ksro_discipline_uid, $ik_kind_uid, $ik_discipline_uid, $aspirant_nagruzka_itog_examen_kind_uids, $aspirant_nagruzka_itog_examen_discipline1, $XMLLecturer;
+  global $mysqli, $Napravlenia, $xml_content_of_load_columns_for_hash, $xml_content_of_load_staff_columns_for_hash, $XMLKindOfWorkGIA1, $XMLKindOfWorkGIA2, $XMLKindOfWorkVKR, $XMLKindOfWorkKurs, $_XMLContentOfLoadStaffByBaseUID1, $XMLSpeciality, $ContentOfLoadStaffBaseUID1sNotVo, $db_error, $ksro_kind_uid, $ksro_discipline_uid, $ik_kind_uid, $ik_discipline_uid, $aspirant_nagruzka_itog_examen_kind_uids, $aspirant_nagruzka_itog_examen_discipline1, $XMLLecturer, $XMLDiscipline, $XMLKindOfWorkForDisciplineSection;
 
   EchoLog("LoadXML: $table_name", 'file screen');
 
@@ -397,6 +397,16 @@ function LoadXML($filename, $table_name)
       $sql_arr[] = "`$prop` = '$value'";
     }
 
+
+    if ($table_name == 'xml_lecturer')
+    {
+      // не будем грузить строки с пустой должностью
+      if ($arr['UID_Post'] === '25031.0')
+      {
+        continue;
+      }
+    }
+
     // подцепим уровень образования из ОПОП-2
     if ($table_name == 'xml_speciality')
     {
@@ -418,10 +428,20 @@ function LoadXML($filename, $table_name)
         // EchoLog(IsEducationLevelVO($XMLSpeciality[$_XMLContentOfLoadStaffByBaseUID1[$base_uid]['UID_Speciality']]['education_level']));
       }
 
+      // Название дисциплины начинается с Секция
+      // У секций нет данных во 2-й таблице, это учитываем, поэтому нельзя проверить уровень образования
+      if (preg_match('/^Секция/u', $XMLDiscipline[$arr['UID_Discipline']]['Name']) && $XMLKindOfWorkForDisciplineSection[$arr['UID_KindOfWork']])
+      {
+        $discipline_section = true;
+      }
+      else
+      {
+        $discipline_section = false;
+      }
+
       // Проверим уровень образования, будем загружать только ВО
       // пропускаем, пропустим остальное
-      if ($_XMLContentOfLoadStaffByBaseUID1[$base_uid] && $XMLSpeciality[$_XMLContentOfLoadStaffByBaseUID1[$base_uid]['UID_Speciality']]['education_level'] && 
-          !IsEducationLevelVO($XMLSpeciality[$_XMLContentOfLoadStaffByBaseUID1[$base_uid]['UID_Speciality']]['education_level']) || $ContentOfLoadStaffBaseUID1sNotVo[$base_uid])
+      if (($_XMLContentOfLoadStaffByBaseUID1[$base_uid] && $XMLSpeciality[$_XMLContentOfLoadStaffByBaseUID1[$base_uid]['UID_Speciality']]['education_level'] && !IsEducationLevelVO($XMLSpeciality[$_XMLContentOfLoadStaffByBaseUID1[$base_uid]['UID_Speciality']]['education_level']) || $ContentOfLoadStaffBaseUID1sNotVo[$base_uid]) && !$discipline_section)
       {
         // if ($arr['UID'] === '26589.281474976765788')
         {
@@ -429,8 +449,6 @@ function LoadXML($filename, $table_name)
         }
         continue;
       }
-
-
       
       $sql_arr[] = "`base_uid` = '$base_uid'";
 
@@ -474,7 +492,7 @@ function LoadXML($filename, $table_name)
       {
         $sql_arr[] = "`nagruzka_type` = 'ruk_kurs'";
       }
-      elseif (IsNagruzkaDiscipline($_XMLContentOfLoadStaffByBaseUID1[$base_uid]['Abbr']))
+      elseif (IsNagruzkaDiscipline($_XMLContentOfLoadStaffByBaseUID1[$base_uid]['Abbr']) || $discipline_section)
       {
         $sql_arr[] = "`nagruzka_type` = 'discipline'";
       }
@@ -604,6 +622,7 @@ if ($UPDATE_TABLES)
   // ГИА два критерия (один будет связан с аббревиатурой)
   $XMLKindOfWorkGIA1 = GetTable('xml_kind_of_work', "`Name` LIKE('Участие в комиссии%')", "", "UID");
   $XMLKindOfWorkGIA2 = GetTable('xml_kind_of_work', "`Name` = 'Лекция' OR `Name` = 'Практика (семинарские занятия)'", "", "UID");
+  $XMLKindOfWorkForDisciplineSection = GetTable('xml_kind_of_work', "`Name` = 'Практика (семинарские занятия)'", "", "UID");
   // Руководство ВКР
   $XMLKindOfWorkVKR = GetTable('xml_kind_of_work', "`Name` LIKE('Руководство ВКР%')", "", "UID");
   // Руководство курсовыми работами
@@ -614,9 +633,13 @@ if ($UPDATE_TABLES)
   // + Руководство практикой...
 
   LoadXML('Group.xml', 'xml_group');
+
   LoadXML('Discipline.xml', 'xml_discipline');
+  $XMLDiscipline = GetTable('xml_discipline', "", "", "UID");
+
   LoadXML('Lecturer.xml', 'xml_lecturer');  // загружать до xml_content_of_load, xml_content_of_load_staff
   $XMLLecturer = GetTable('xml_lecturer', "", "", "UID");
+
   LoadXML('Post.xml', 'xml_post');
 
   // должно идти до загрузки xml_content_of_load
@@ -1218,8 +1241,8 @@ foreach ($SotrudnikiByPersonChair as $sotrudnik)
 
   if ($sotrudnik['person_id'] == 19972)
   {
-    EchoLog("chair_id $sotrudnik[chair_id], person_id $sotrudnik[person_id], $post_uid, $chair_uid, $department_uid");
-    EchoLog($lecturer);
+    // EchoLog("chair_id $sotrudnik[chair_id], person_id $sotrudnik[person_id], $post_uid, $chair_uid, $department_uid");
+    // EchoLog($lecturer);
   }
 
   $SplitsForSotrudnik = GetRows('zavkaf_splits', ['lecturer_person_id' => $sotrudnik['person_id'], 'chair_uid' => $chair_uid]);

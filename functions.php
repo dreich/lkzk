@@ -3033,37 +3033,37 @@ function GetLecturer($person_id, $post_uid, $chair_uid, $department_uid)
  * @param string $abbr Аббревиатура для проверки
  * @return bool true если дисциплина, false если нет
  */
-function IsNagruzkaDiscipline($abbr) {
+function IsNagruzkaDiscipline($abbr) 
+{
+  // Исключаем (П) — это руководство практикой
+  if (preg_match('/\(П\)$/u', $abbr)) {
+      return false;
+  }
 
-    // Исключаем (П) — это руководство практикой
-    if (preg_match('/\(П\)$/u', $abbr)) {
-        return false;
-    }
-
-    // Все шаблоны из SQL запроса
-    $patterns = [
-        '/^Б1\./u',      // Б1.%
-        '/^Ф/u',         // Ф%
-        '/^1\./u',       // 1.%
-        '/^1\.01/u',     // 1.01%
-        '/^2\.1/u',      // 2.1%
-        '/^2\.01/u',     // 2.01%
-        '/^2\.2/u',      // 2.2.* (без П)
-        '/^С1/u',        // С1%
-        '/^С2/u',        // С2%
-        '/^С3/u',        // С3%
-        '/^С4/u',        // С4%
-        '/^Б3\.В\.01\(Н\)$/u',         // Б3.В.01(Н) — точное совпадение
-        '/^Б3\.В\.0\(Н\)$/u',         // Б3.В.1(Н) — точное совпадение
-    ];
-    
-    foreach ($patterns as $pattern) {
-        if (preg_match($pattern, $abbr)) {
-            return true;
-        }
-    }
-    
-    return false;
+  // Все шаблоны из SQL запроса
+  $patterns = [
+      '/^Б1\./u',      // Б1.%
+      '/^Ф/u',         // Ф%
+      '/^1\./u',       // 1.%
+      '/^1\.01/u',     // 1.01%
+      '/^2\.1/u',      // 2.1%
+      '/^2\.01/u',     // 2.01%
+      '/^2\.2/u',      // 2.2.* (без П)
+      '/^С1/u',        // С1%
+      '/^С2/u',        // С2%
+      '/^С3/u',        // С3%
+      '/^С4/u',        // С4%
+      '/^Б3\.В\.01\(Н\)$/u',         // Б3.В.01(Н) — точное совпадение
+      '/^Б3\.В\.0\(Н\)$/u',         // Б3.В.1(Н) — точное совпадение
+  ];
+  
+  foreach ($patterns as $pattern) {
+      if (preg_match($pattern, $abbr)) {
+          return true;
+      }
+  }
+  
+  return false;
 }
 
 /**
@@ -3304,7 +3304,7 @@ function hash_column_values_only($data, $columns)
 
 function IsEducationLevelVO($education_level)
 {
-  return in_array($education_level, ['бакалавриат', 'специалитет', 'магистратура', 'аспирантура']);
+  return in_array($education_level, ['бакалавриат', 'специалитет', 'магистратура', 'аспирантура', 'ординатура']);
 }
 
 ?>

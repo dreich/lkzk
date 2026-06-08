@@ -14,7 +14,12 @@ if (!$_SESSION['c_login']) {
 
 $c_roles = ExplodePalki($_SESSION['c_roles'], true);
 
-
+if ($c_roles['zavkaf'])
+{
+  $XmlChairByCode = GetTable('xml_chair', "", "", "Code");
+  $ZavkafChair = $XmlChairByCode[$_SESSION['c_chair_id']];
+  $zavkaf_chair_uid = $ZavkafChair['UID'];
+}
 
 $input = file_get_contents('php://input');
 $data = json_decode($input, true);
@@ -24,7 +29,7 @@ if (!$data) {
   exit;
 }
 
-// $XmlChairByCode = GetTable('xml_chair', "", "", "Code");
+
 $XMLLecturerByUID = GetTable('xml_lecturer', "", "", "UID");
 
 
@@ -127,6 +132,7 @@ foreach ($data as $nagruzka_lector)
                       `chair_uid` = '{$XMLLecturerByUID[$nagruzka_lector['lecturer_uid']]['UID_Chair']}',
                       `zavkaf_login` = '$_SESSION[c_login]',
                       `zavkaf_fio` = '$_SESSION[c_fio]',
+                      `zavkaf_chair_uid` = '$zavkaf_chair_uid',
                       `delete` = '$delete'
 
                     ";
