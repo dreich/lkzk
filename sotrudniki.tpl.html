@@ -34,7 +34,7 @@
         <!-- | orderBy:['-selected', 'type', 'fio'] -->
 
       <tr ng-repeat="person in sotrudniki" ng-click="navigateToNagruzka(person)" ng-class="{'pointer': person.amount_sum > 0}" >
-        <td ng-if="c_roles.zavkaf">  
+        <td ng-if="c_roles.zavkaf" ng-click="person.selected = !person.selected; SelectSotrudnik(person); $event.stopPropagation()">  
           <!-- sotrudniki_readonly -->
           <input type="checkbox" ng-model="person.selected" ng-change="SelectSotrudnik(person)" ng-click="$event.stopPropagation()" ng-disabled="person.type == 'sotrudnik' || sotrudniki_readonly">
         </td>

@@ -364,16 +364,19 @@ abstract class BaseNagruzkaProvider
      */
     protected function applyGlobalFilter(&$nagruzkaData)
     {
-        if (empty($this->globalFilter)) {
-            return; // Убрать $nagruzkaData
-        }
+      if (empty($this->globalFilter)) 
+      {
+        return; // Убрать $nagruzkaData
+      }
 
-        // Переписываем array_filter на in-place модификацию
-        foreach ($nagruzkaData as $key => $item) {
-            if (empty($item[$this->globalFilter])) {
-                unset($nagruzkaData[$key]);
-            }
+      // Переписываем array_filter на in-place модификацию
+      foreach ($nagruzkaData as $key => $item) 
+      {
+        if (empty($item[$this->globalFilter])) 
+        {
+          unset($nagruzkaData[$key]);
         }
+      }
         // Убрать return
     }
     /*
@@ -511,10 +514,11 @@ abstract class BaseNagruzkaProvider
         $this->applyGlobalFilter($nagruzkaData);
 
         // 8. Специфичная логика для УОУП (Группировка)
-        if ($this->userRole === 'uoup' && ($this->onlyStat || $this->isLite)) {
-            $nagruzkaData = $this->groupByChair($nagruzkaData, $statByChair);
-            // Хук для добавления КСРО (используется только в FillingMode)
-            $this->applyExtraUoupTransformations($nagruzkaData, $statByChair);
+        if ($this->userRole === 'uoup' && ($this->onlyStat || $this->isLite)) 
+        {
+          $nagruzkaData = $this->groupByChair($nagruzkaData, $statByChair);
+          // Хук для добавления КСРО (используется только в FillingMode)
+          $this->applyExtraUoupTransformations($nagruzkaData, $statByChair);
         }
 
         // 9. Финальная сборка ответа

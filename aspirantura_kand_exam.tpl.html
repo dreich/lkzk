@@ -1,0 +1,39 @@
+<div ng-if="isLoading">
+  <img src="/images/hourglass.png" style='position:fixed; left: 47%; top: 47%; z-index: 1000'>
+</div>
+
+<div ng-show="!isLoading">
+
+   <!-- <select class="form-select mb-2" style="width: 300px" ng-model="filter_distinct.global_nagruzka_filter" ng-change="onNagruzkaGlobalFilterChange()" ng-if="!nagruzka_selected_lecturer_uid">
+      <option value="">Вся нагрузка</option>
+      <option value="assigned">распределена</option>
+      <option value="not_assigned">не распределена</option>
+      <option value="assigned_to_vacancy">распределена на вакансию</option>
+    </select> -->
+
+    <table id="DataTables_Table_aspirantura_kand_exam" datatable="ng" dt-options="dtOptions"  dt-column-defs="dtColumnDefs" dt-instance="onAspiranturaKandExamNagruzkaTableInstance" class="dataTable row-border hover display table "  style='margin: 0 0 ;width:100%; ' >
+      <thead>
+
+        <tr>
+          <th>Дисциплина</th>
+          <th>Группа</th>
+          <th>Семестр</th>
+          <th>Количество обучающихся</th>
+          <th>Количество часов</th>
+          <th>Факультет преподавателя</th>
+          <th>Кафедра преподавателя</th>
+          <th>Преподаватель</th>
+          <!-- <th>Комментарий</th> -->
+          <!-- <th></th> -->
+
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr ng-repeat="row in nagruzka" class="pointer" ng-class="{'readonly': false}">
+          <td ng-click="NagruzkaRowClick(row)" data-uid="{{row.base_uid2}}">
+            {{row.department_owner_name}}
+          </td>
+
+
+</div>

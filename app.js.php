@@ -163,6 +163,8 @@ function clearDataTablesStorage() {
 
 function createSelectFilter(column, footerCell) 
 {
+  CL('createSelectFilter');
+
   // Получить все уникальные значения из столбца, видимые и не видимые
   const uniqueValues = new Set();
 
@@ -174,8 +176,15 @@ function createSelectFilter(column, footerCell)
 
   const select = $('<select class="search_init select_filter form-select"><option value=""></option></select>')
     .appendTo($(footerCell))
-    .on('change', function() {
-      column.search(this.value).draw();
+    .on('change', function() 
+    {
+      // column.search(this.value).draw();
+      // Экранируем спецсимволы в значении (на случай скобок или точек в названии)
+      const escapedValue = $.fn.dataTable.util.escapeRegex(this.value);
+      
+      // Формируем регулярное выражение ^...$ для строгого совпадения всей строки
+      // Памятка по параметрам search(строка, regex, smart, caseInSens)
+      column.search('^' + escapedValue + '$', true, false).draw();
     });
 
   Array.from(uniqueValues).sort().forEach(value => {
@@ -3153,6 +3162,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
                 });
   }
 
+  // СМ. ТАКЖЕ NagruzkaMayAssignLector()
   $scope.MaySelectNagruzka = function(nagruzka_row)
   {
     // return true;
@@ -3183,6 +3193,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
   }
 */
   
+  // ! СМ. ТАКЖЕ MaySelectNagruzka()
   $scope.NagruzkaMayAssignLector = function(nagruzka_row, lector)
   {
     // return true;
@@ -3192,7 +3203,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
 
      // (lector.zs || isEmpty(lector.lecturer_fio)) // && $scope.IsNagruzkaRowEditable(nagruzka_row)
     // && 
-    return (lector == undefined || lector.zs || isEmpty(lector.lecturer_fio)) && $scope.system_mode == 'mode_filling' && (c_roles.zavkaf || c_roles.ruk_aspirantura) && !['refused', 'require_admin_change', 'done_change'].includes(nagruzka_row.status) 
+    return (lector == undefined || lector.zs || isEmpty(lector.lecturer_fio)) && $scope.system_mode == 'mode_filling' && (c_roles.zavkaf || c_roles.ruk_aspirantura) && !['refused', 'done_refused', 'require_admin_change', 'done_change'].includes(nagruzka_row.status) 
     && !isEmpty(nagruzka_row.lectors) && (nagruzka_row.lectors[0].zs || isEmpty(nagruzka_row.lectors[0].lecturer_fio))
     || $scope.system_mode == 'mode_verification' && c_roles.uoup && !['ksro', 'aspirantura'].includes($scope._nagruzka_type);
   }
@@ -3458,9 +3469,61 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
         $scope.$apply(function() {
           CL('initComplete');
             // $scope.isLoading = false;
+
+        // Дальше код только для того, чтобы селект выбирал с начала строки, а не подстроку
+          // 1. Сохраняем API таблицы в переменную, пока контекст this еще правильный
+        var api = new $.fn.dataTable.Api(settings);
+        var $table = $(api.table().node());
+
+        // 2. Даем браузеру и плагинам 300 миллисекунд на полную отрисовку селектов
+        setTimeout(function() {
+            
+            // Вот теперь селекты 100% существуют на странице
+            var $selects = $table.find('select.select_filter');
+            
+            $selects.each(function() {
+                var $select = $(this);
+
+                // 3. Убиваем кривой штатный обработчик (off) и вешаем свой (on)
+                $select.off('change').on('change', function() 
+                {
+                  /// 1. Получаем сырое значение
+                  var rawVal = $(this).val();
+                  
+                  // 2. Раскодируем %u0418 в нормальный русский текст и отрезаем пробелы по краям
+                  var val = $.trim(unescape(rawVal));
+
+                  var columnIndex = $select.closest('td, th').index();
+        
+                  if (columnIndex !== -1) {
+                      var column = api.column(columnIndex);
+                      
+                      // ВЫВОДИМ В КОНСОЛЬ ДЛЯ ПРОВЕРКИ:
+                      // console.log('Ищем в колонке №:', columnIndex, '| Искомое значение: [' + val + ']');
+                      
+                      if (val === '') {
+                          column.search('').draw();
+                      } else {
+                          var escapedValue = $.fn.dataTable.util.escapeRegex(val);
+                          
+                          // 2. Делаем регулярку умнее: разрешаем любые невидимые символы (\s*) в начале и в конце
+                          // Конструкция: ^\s*Значение\s*$
+                          var strictRegex = '^\\s*' + escapedValue + '\\s*$';
+                          
+                          // console.log('Применяем regex:', strictRegex);
+                          
+                          // 3. Выполняем строгий поиск
+                          column.search(strictRegex, true, false).draw();
+                      }
+                  }
+                });
+            });
+            
+          }, 1000); // Задержка в 300мс
+
+
         });
-      })
-    ;
+      });
 
   $scope.dtColumnDefs = [
     // DTColumnDefBuilder.newColumnDef(7).notVisible().notSortable(),
@@ -5001,7 +5064,7 @@ $scope.toggleAdminChangeChair = function(chair)
               columns: function (idx, data, node) {
                   // Проверяем, что столбец видимый и не первый
                   const column = $scope.dtInstance.dataTable.fnSettings().aoColumns[idx];
-                  return column.bVisible && idx !== 0;
+                  return column.bVisible && (c_roles.zavkaf && idx !== 0 || !c_roles.zavkaf);
               },
               /*
               format: 
@@ -5113,8 +5176,11 @@ $scope.toggleAdminChangeChair = function(chair)
     $scope.sotrudniki_selected_chair_name = response.data.chair_name;
   });
 
+  /*
   $scope.saveSotrudnik = function(sotrudnik)
   {
+    CL('saveSotrudnik');
+
     $http({url: 'ajax/post/select_sotrudnik.php', method: 'POST', data: sotrudnik})
       .then(function(response)
       {
@@ -5128,6 +5194,7 @@ $scope.toggleAdminChangeChair = function(chair)
         }
       });
   };
+  */
 
   $scope.navigateToNagruzka = function(person) 
   {
@@ -5155,7 +5222,7 @@ $scope.toggleAdminChangeChair = function(chair)
   {
     CL('SelectSotrudnik');
 
-    $http({url: 'ajax/post/select_sotrudnik.php', method: 'POST', data: {person_id: person.person_id, selected: person.selected}})
+    $http({url: 'ajax/post/select_sotrudnik.php', method: 'POST', data: {person_id: person.person_id, selected: person.selected, chair_id: person.chair_id}})
               .then(function(data)
               {
                 if (data.data.result == 'success')
@@ -5945,6 +6012,10 @@ $scope.toggleAdminChangeChair = function(chair)
     controller: function AspiranturaKandExamCtrl($scope, $rootScope, $timeout, $http, $templateCache, ngDialog, FileUploader, $filter)
     {
       CL('AspiranturaKandExamCtrl');
+
+
+
+
     }
 })
 

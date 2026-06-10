@@ -335,6 +335,7 @@ function Authorize($login, $password)
                 // $_SESSION['c_podrazdelenie_id'] = $CFO['cfo_podrazdelenie_id'];
                 // $_SESSION['c_cfo_science'] = $CFO['science'];
                 $_SESSION['c_fio'] = $attrs['displayname'];
+                // для псевдо здесь псевдо-код 888, 999
                 $_SESSION['c_chair_id'] = $ChairsWithThisChief[0]['id'];
                 $_SESSION['c_department_id'] = $ChairsWithThisChief[0]['ukrup_code'];
                 $_SESSION['c_chair_name'] = $ChairsWithThisChief[0]['pname'];
@@ -375,6 +376,7 @@ function Authorize($login, $password)
                 {
                   $_SESSION['c_login'] = $clean_login;
                   $_SESSION['c_fio'] = $attrs['displayname'];
+                  // для псевдо здесь псевдо-код 888, 999
                   $_SESSION['c_chair_id'] = $HisNagruzkaOneRow[0]['chair_id'];
                   $_SESSION['c_department_id'] = $HisNagruzkaOneRow[0]['department_id'];
                   $_SESSION['c_chair_name'] = $HisNagruzkaOneRow[0]['chair_name'];
@@ -842,6 +844,7 @@ function GetTable($table, $where = '', $sort_field = '', $index_field = null, $f
   $query = "SELECT $fields FROM `$table` $where_sql $sort_sql";
 
   // EchoLog($query);
+  // echo $query;
   
   $Result = $mysqli->query($query);
   if ($Result)
@@ -1593,9 +1596,9 @@ function mail_utf8($to, $from_user, $from_email, $subject = '(No subject)', $mes
 
   if ($_SERVER['HTTP_HOST'] == 'lkzk.unn.ru')
   {
-    EchoLog("Sending message via mail function");
+    // EchoLog("Sending message via mail function");
     $result = mail($to, "=?UTF-8?B?".base64_encode($subject)."?=", $message, $headers);
-    EchoLog("Result: $result");
+    // EchoLog("Result: $result");
     return $result;
   }
   else

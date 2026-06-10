@@ -101,7 +101,7 @@
            <!-- && !IsNagruzkaRowEditable(row) -->
         <tr ng-repeat="row in nagruzka" class="pointer" ng-class="{'readonly': !MaySelectNagruzka(row) && c_roles.zavkaf}">
           <td ng-click="MaySelectNagruzka() && SelectNagruzkaTDClick(row); $event.stopPropagation()" ng-show="MaySelectNagruzka()">  
-            <input type="checkbox" ng-model="row.selected" ng-click="$event.stopPropagation()" >
+            <input type="checkbox" ng-model="row.selected" ng-click="$event.stopPropagation()" ng-show="MaySelectNagruzka(row)">
             <!-- {{row.base_uid}} -->
           </td>
           <td ng-click="NagruzkaRowClick(row)" data-uid="{{row.base_uid2}}">

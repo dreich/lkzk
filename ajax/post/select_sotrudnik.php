@@ -17,12 +17,43 @@ if (empty($_SERVER['HTTP_X_REQUESTED_WITH']) || $_SERVER['HTTP_X_REQUESTED_WITH'
     exit('Forbidden');
 }
 
+//  кафедра завкафа
+// для псевдо здесь псевдо-код 888, 999
+$c_chair_id = $_SESSION['c_chair_id'];
 
-$selected = $data['selected'] ? '1' : '0';
+$selected = $data['selected'] ? true : false;
 
 $result = [];
 
-$Result = $mysqli->query("UPDATE `sotrudniki` SET `selected` = '$selected' WHERE `person_id` = '$data[person_id]'");
+$sotrudnik = GetRow('sotrudniki', ['person_id' => $data['person_id']]);
+
+$chairs_ids_arr = ExplodePalki($sotrudnik['selected_chairs_ids'], true);
+
+if ($selected)
+{
+  // выбрала кафедра, которой ещё нет
+  if (!$chairs_ids_arr[$c_chair_id])
+  {
+    $chairs_ids_arr[] = $c_chair_id;
+  }
+}
+// снял галку
+else
+{
+  if ($chairs_ids_arr[$c_chair_id])
+  {
+    unset($chairs_ids_arr[$c_chair_id]);
+  }
+}
+
+$new_selected_chairs_ids = ImplodePalki($chairs_ids_arr);
+
+$selected = $new_selected_chairs_ids ? '1' : '0';
+
+$Result = $mysqli->query("
+    UPDATE `sotrudniki` SET `selected` = '$selected', `selected_chairs_ids` = '$new_selected_chairs_ids' 
+    WHERE `person_id` = '$data[person_id]' AND `chair_id` = '$data[chair_id]'
+  ");
 
 if ($Result)
 {

@@ -61,15 +61,16 @@ if ($c_roles['ruk_aspirantura'])
 }
 else
 {
-  if ($_pseudo_chairs[$chair_id])
-  {
-    $chair_id = $department_id;
-  }
+  // if ($_pseudo_chairs[$chair_id])
+  // {
+  //   $chair_id = $department_id;
+  // }
 
-  $chair_dep_sql = "((`type` <> 'gph' AND `chair_id` = '$chair_id') OR (`type` = 'gph' AND `department_id` = '$department_id'))";
+  // $chair_dep_sql = "((`type` <> 'gph' AND `chair_id` = '$chair_id') OR (`type` = 'gph' AND `department_id` = '$department_id'))";
+  $chair_dep_sql = "`selected_chairs_ids` LIKE('%|$chair_id|%')";
 }
 
-$additional = GetTable('sotrudniki', "$chair_dep_sql AND `selected` = '1' AND `date_remove` IS NULL AND `fio` LIKE ('$s%') AND `lecturer_uid` <> ''");
+$additional = GetTable('sotrudniki', "$chair_dep_sql AND `date_remove` IS NULL AND `fio` LIKE ('$s%') AND `lecturer_uid` <> ''");
 
 $Sotrudniki = array_merge($Sotrudniki, $additional);
 
@@ -82,14 +83,15 @@ if (mb_stripos($s, 'Вак') === 0)
 
 $filteredSotrudniki = [];
 
-foreach ($Sotrudniki as $sotrudnik) {
+foreach ($Sotrudniki as $sotrudnik) 
+{
     // Заполняем dolzhnost_hint
     $sotrudnik['dolzhnost_hint'] = ($sotrudnik['type'] == 'gph') 
         ? 'ГПХ' 
         : $sotrudnik['dolzhnost'];
     
     // Оставляем только тех, кто есть в справочнике xml_lecturer для подстраховки
-    if (isset($XMLLecturerByUID[$sotrudnik['lecturer_uid']])) 
+    if (isset($XMLLecturerByUID[$sotrudnik['lecturer_uid']]) || $sotrudnik['lecturer_uid'] == '-' || $sotrudnik['lecturer_person_id'] == '000000') 
     {
       $filteredSotrudniki[] = $sotrudnik;
     }

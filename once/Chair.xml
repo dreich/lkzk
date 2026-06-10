@@ -514,6 +514,16 @@
 					<prop_value prop_name="GUID" value=""></prop_value>
 				</Collection>
 			</Object>
+			<Object uid="25031.281474976720796" name="Центр исследований науки и развития аспирантского образования (на правах кафедры)" class_id="Chair">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976720796"></prop_value>
+					<prop_value prop_name="UID_Faculty" value="25031.281474976710994"></prop_value>
+					<prop_value prop_name="Name" value="Центр исследований науки и развития аспирантского образования (на правах кафедры)"></prop_value>
+					<prop_value prop_name="Abbr" value="ЦИНиРАО"></prop_value>
+					<prop_value prop_name="Code" value="01989"></prop_value>
+					<prop_value prop_name="GUID" value=""></prop_value>
+				</Collection>
+			</Object>
 			<Object uid="25031.281474976720851" name="Кафедра конституционного и муниципального права" class_id="Chair">
 				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
 					<prop_value prop_name="UID" value="25031.281474976720851"></prop_value>
@@ -1321,6 +1331,36 @@
 					<prop_value prop_name="Name" value="Кафедра ЦИНиРАО"></prop_value>
 					<prop_value prop_name="Abbr" value="КафЦИНиРАО"></prop_value>
 					<prop_value prop_name="Code" value="999"></prop_value>
+					<prop_value prop_name="GUID" value=""></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976763600" name="Базовая кафедра подготовки химиков для ООО ПОЛИКЕТОН" class_id="Chair">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976763600"></prop_value>
+					<prop_value prop_name="UID_Faculty" value="25031.281474976710778"></prop_value>
+					<prop_value prop_name="Name" value="Базовая кафедра подготовки химиков для ООО ПОЛИКЕТОН"></prop_value>
+					<prop_value prop_name="Abbr" value="БазКаф ПОЛИКЕТОН"></prop_value>
+					<prop_value prop_name="Code" value="05545"></prop_value>
+					<prop_value prop_name="GUID" value=""></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976763601" name="Кафедра аналитической химии" class_id="Chair">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976763601"></prop_value>
+					<prop_value prop_name="UID_Faculty" value="25031.281474976710778"></prop_value>
+					<prop_value prop_name="Name" value="Кафедра аналитической химии"></prop_value>
+					<prop_value prop_name="Abbr" value="Каф АнХим"></prop_value>
+					<prop_value prop_name="Code" value="05546"></prop_value>
+					<prop_value prop_name="GUID" value=""></prop_value>
+				</Collection>
+			</Object>
+			<Object uid="25031.281474976763603" name="Базовая кафедра РФЯЦ-ВНИИФ Цифровые и сквозные технологии" class_id="Chair">
+				<Collection name="Prop_Values" child_tags="prop_value" caption="Свойства">
+					<prop_value prop_name="UID" value="25031.281474976763603"></prop_value>
+					<prop_value prop_name="UID_Faculty" value="25031.281474976710980"></prop_value>
+					<prop_value prop_name="Name" value="Базовая кафедра РФЯЦ-ВНИИФ Цифровые и сквозные технологии"></prop_value>
+					<prop_value prop_name="Abbr" value="Каф &quot;Цифровые и скво"></prop_value>
+					<prop_value prop_name="Code" value="05547"></prop_value>
 					<prop_value prop_name="GUID" value=""></prop_value>
 				</Collection>
 			</Object>

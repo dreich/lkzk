@@ -48,7 +48,7 @@ if ($BUPDisciplines)
     {
       $Result = $mysqli->query("
         UPDATE `aspirantura_kand_exam` 
-        SET `deleted` = '1' 
+        SET `deleted` = '1', `date_update` = NOW()
         WHERE `bup_nrec` = '$bup_discipline[nrec]' AND `disc_nrec` = '$bup_discipline[disc_nrec]' AND `disc_abr` = '$bup_discipline[abr]'");
 
       if (!$Result)
@@ -66,8 +66,26 @@ if ($BUPDisciplines)
 
       // Если строка уже есть, обновлять ли какие-то столбцы? Например, кол-во студентов, группу?
 
-      $Result = $mysqli->query("INSERT IGNORE INTO `aspirantura_kand_exam` 
-                      SET `deleted` = '0', `bup_nrec` = '$bup_discipline[nrec]', `disc_nrec` = '$bup_discipline[disc_nrec]', `disc_abr` = '$bup_discipline[abr]', `disc_title` = '$bup_discipline[title]', `exam_semester` = '$bup_discipline[exam_semester]', `group` = '{$BUPGroups[$bup['reg_number']]['group']}', `students_num` = '{$BUPGroups[$bup['reg_number']]['students_in_group']}'");
+      // $Result = $mysqli->query("INSERT IGNORE INTO `aspirantura_kand_exam` 
+      //                 SET `deleted` = '0', `bup_nrec` = '$bup_discipline[nrec]', `disc_nrec` = '$bup_discipline[disc_nrec]', `disc_abr` = '$bup_discipline[abr]', `disc_title` = '$bup_discipline[title]', `exam_semester` = '$bup_discipline[exam_semester]', `group` = '{$BUPGroups[$bup['reg_number']]['group']}', `students_num` = '{$BUPGroups[$bup['reg_number']]['students_in_group']}'");
+
+      $Result = $mysqli->query("INSERT INTO `aspirantura_kand_exam` 
+      SET `deleted` = '0', 
+          `bup_nrec` = '$bup_discipline[nrec]', 
+          `disc_nrec` = '$bup_discipline[disc_nrec]', 
+          `disc_abr` = '$bup_discipline[abr]', 
+          `disc_title` = '$bup_discipline[title]', 
+          `exam_semester` = '$bup_discipline[exam_semester]', 
+          `group` = '{$BUPGroups[$bup['reg_number']]['group']}', 
+          `students_num` = '{$BUPGroups[$bup['reg_number']]['students_in_group']}',
+          `date` = NOW()
+      ON DUPLICATE KEY UPDATE 
+          `deleted` = '0',
+          `exam_semester` = VALUES(`exam_semester`),
+          `group` = VALUES(`group`),
+          `students_num` = VALUES(`students_num`),
+          `date_update` = NOW()
+      ");
 
       if (!$Result)
       {
@@ -78,6 +96,8 @@ if ($BUPDisciplines)
     }
   }
 }
+
+// exit;
 
 include '../connect/vkr.php';
 
@@ -298,6 +318,7 @@ function GetChairSotrudniki($year, $dop_sql = "", $actual = null /*, $qualify_ca
               AND `position_category` = 'ППС'
               $actual_sql
               $dop_sql
+              ORDER BY $position_table_name.contract_end_date DESC #более свежая позиция
             ";
 
   // if (mb_stripos($dop_sql, 'ГПХ') !== false)
@@ -856,8 +877,18 @@ if ($SotrudnikiGPHPrevPrevYear)
     foreach ($SotrudnikiGPHPrevPrevYear as $sotrudnik)
     {
       $sotrudnik['type'] = 'gph';
-      if (!$SotrudnikiItogoByKey["$sotrudnik[person_id]-$sotrudnik[chair_id]"])
-      $SotrudnikiItogoByKey["$sotrudnik[person_id]-$sotrudnik[chair_id]"] = $sotrudnik;
+
+      // Для ГПХ кафедра должна быть факультетом
+      if (!$SotrudnikiItogoByKey["$sotrudnik[person_id]-$sotrudnik[chair_id]"] && $sotrudnik['chair_id'] == $sotrudnik['department_id'])
+      {
+        if ($sotrudnik['person_id'] == 23413)
+        {
+          // EchoLog("ADDING HERE");
+          // EchoLog($sotrudnik);
+        }
+
+        $SotrudnikiItogoByKey["$sotrudnik[person_id]-$sotrudnik[chair_id]"] = $sotrudnik;
+      }
     }
   }
 }
@@ -874,8 +905,11 @@ if ($SotrudnikiGPHPrevYear)
     foreach ($SotrudnikiGPHPrevYear as $sotrudnik)
     {
       $sotrudnik['type'] = 'gph';
-      if (!$SotrudnikiItogoByKey["$sotrudnik[person_id]-$sotrudnik[chair_id]"])
-      $SotrudnikiItogoByKey["$sotrudnik[person_id]-$sotrudnik[chair_id]"] = $sotrudnik;
+      // Для ГПХ кафедра должна быть факультетом
+      if (!$SotrudnikiItogoByKey["$sotrudnik[person_id]-$sotrudnik[chair_id]"] && $sotrudnik['chair_id'] == $sotrudnik['department_id'])
+      {
+        $SotrudnikiItogoByKey["$sotrudnik[person_id]-$sotrudnik[chair_id]"] = $sotrudnik;
+      }
     }
   }
 }
@@ -890,8 +924,11 @@ if ($SotrudnikiGPH)
     foreach ($SotrudnikiGPH as $sotrudnik)
     {
       $sotrudnik['type'] = 'gph';
-      if (!$SotrudnikiItogoByKey["$sotrudnik[person_id]-$sotrudnik[chair_id]"])
-      $SotrudnikiItogoByKey["$sotrudnik[person_id]-$sotrudnik[chair_id]"] = $sotrudnik;
+      // Для ГПХ кафедра должна быть факультетом
+      if (!$SotrudnikiItogoByKey["$sotrudnik[person_id]-$sotrudnik[chair_id]"] && $sotrudnik['chair_id'] == $sotrudnik['department_id'])
+      { 
+        $SotrudnikiItogoByKey["$sotrudnik[person_id]-$sotrudnik[chair_id]"] = $sotrudnik;
+      }
     }
   }
 }
@@ -961,7 +998,7 @@ if ($Sotrudniki)
 {
   foreach ($Sotrudniki as $sotr)
   {
-    if ($sotr['person_id'] == 51133)
+    if ($sotr['person_id'] == 50144)
     {
       // EchoLog($sotr);
       // EchoLog($SotrudnikiItogoByKey["$sotr[person_id]-$sotr[chair_id]"]);
@@ -976,7 +1013,8 @@ if ($Sotrudniki)
       {
         $Result = $mysqli->query("
                   UPDATE `sotrudniki` 
-                  SET `date_remove` = NOW() WHERE  `person_id` = '$sotr[person_id]' AND `chair_id` = '$sotr[chair_id]'
+                  SET `date_remove` = NOW() 
+                  WHERE `date_remove` IS NULL AND `person_id` = '$sotr[person_id]' AND `chair_id` = '$sotr[chair_id]'
                   ");
 
         if (!$Result)
@@ -1047,9 +1085,17 @@ if ($SotrudnikiItogoByKey)
     // EchoLog($chair_uid);
 
     // #dup 647
-    if ($person_type == 'gph' && !$chair_uid)
+    if ($person_type == 'gph')
     {
-      $chair_uid = $department_uid;
+      // если не равно, значит, в chair_id находится не факультет, а не понятно что, например, Отделение.. 
+      // таких не берём
+      // Не берутся в сам массив
+      // if ($chair_sotrudnik['chair_id'] != $chair_sotrudnik['department_id'])
+      // {
+      //   continue;
+      // }
+
+      if (!$chair_uid) $chair_uid = $department_uid;
     }
     // если у сотрудника в качестве кафедры (это поле position*.podrazdelenie_id) стоит псевдо-факультет (родитель псевдо-кафедры) [при этом псевдо-факультет является подразделением, а псевдо-кафедры не существует], то сделаем подмены
     elseif (in_array($chair_sotrudnik['chair_id'], $pseudo_departments_ids))
@@ -1063,13 +1109,12 @@ if ($SotrudnikiItogoByKey)
 
     $lecturer = GetLecturer($person_id, $post_uid, $chair_uid, $department_uid);
 
-    if ($person_id == 51133)
+    if ($person_id == 23413)
     {
-      // EchoLog("Post_uid: $post_uid, chair_uid: $chair_uid, person_type: $person_type");
-      // EchoLog($lecturer);
+      EchoLog("Post_uid: $post_uid, chair_uid: $chair_uid, department_uid: $department_uid, person_type: $person_type");
+      EchoLog($lecturer);
     }
-
-    
+  
 
     // Если не нашли, то не добавляем сотрудника и не обновляем
     if (!$lecturer || !$lecturer['UID'])
@@ -1078,7 +1123,7 @@ if ($SotrudnikiItogoByKey)
       $query = "
                 UPDATE `sotrudniki` 
                 SET `date_remove` = NOW()
-                WHERE `person_id` = '$chair_sotrudnik[person_id]' AND `chair_id` = '$chair_sotrudnik[chair_id]'
+                WHERE `date_remove` IS NULL AND `person_id` = '$chair_sotrudnik[person_id]' AND `chair_id` = '$chair_sotrudnik[chair_id]'
               ";
 
       if ($chair_sotrudnik['person_id'] == 19972)
@@ -1223,29 +1268,44 @@ foreach ($SotrudnikiByPersonChair as $sotrudnik)
   $person_type = $sotrudnik['type'];
 
   // #dup 647
-  if ($person_type == 'gph' && !$chair_uid)
+  if ($person_type == 'gph')
   {
-    $chair_uid = $department_uid;
+    // если не равно, значит, в chair_id находится не факультет, а не понятно что, например, Отделение.. 
+    // таких не берём
+    // Не берутся в сам массив
+    // if ($chair_sotrudnik['chair_id'] != $chair_sotrudnik['department_id'])
+    // {
+    //   continue;
+    // }
+
+    if (!$chair_uid) $chair_uid = $department_uid;
   }
   // если у сотрудника в качестве кафедры (это поле position*.podrazdelenie_id) стоит псевдо-факультет (родитель псевдо-кафедры) [при этом псевдо-факультет является подразделением, а псевдо-кафедры не существует], то сделаем подмены
-  elseif (in_array($chair_sotrudnik['chair_id'], $pseudo_departments_ids))
+  elseif (in_array($sotrudnik['chair_id'], $pseudo_departments_ids))
   {
-    $PseudoFaculty = GetRow('xml_faculty', ['Code' => $chair_sotrudnik['chair_id']]);
+    $PseudoFaculty = GetRow('xml_faculty', ['Code' => $sotrudnik['chair_id']]);
     $department_uid = $PseudoFaculty['UID'];
     // для таких в department_id исходно стоит укрупнённое для псевдо-факультета, пусть как у ГПХ-шников здесь будет тоже факультет
-    $chair_sotrudnik['department_id'] = $chair_sotrudnik['chair_id'];
+    $sotrudnik['department_id'] = $sotrudnik['chair_id'];
     $chair_uid = $department_uid;
+
+    if ($sotrudnik['person_id'] == 22681)
+    {
+      // EchoLog("#412: chair_uid = $chair_uid, chair_id = $sotrudnik[chair_id]");
+    }
   }
 
   $lecturer = GetLecturer($sotrudnik['person_id'], $post_uid, $chair_uid, $department_uid);
 
-  if ($sotrudnik['person_id'] == 19972)
+  $SplitsForSotrudnik = GetRows('zavkaf_splits', ['lecturer_person_id' => $sotrudnik['person_id'], 'chair_uid' => $chair_uid]);
+
+
+  if ($sotrudnik['person_id'] == 22681)
   {
     // EchoLog("chair_id $sotrudnik[chair_id], person_id $sotrudnik[person_id], $post_uid, $chair_uid, $department_uid");
     // EchoLog($lecturer);
+    // EchoLog($SplitsForSotrudnik);
   }
-
-  $SplitsForSotrudnik = GetRows('zavkaf_splits', ['lecturer_person_id' => $sotrudnik['person_id'], 'chair_uid' => $chair_uid]);
 
   // не будем заменять сплит, в котром пустая кафедра - таких случаев быть не должно, нужно за ними посматривать!
   if ($lecturer && $SplitsForSotrudnik && $chair_uid)
@@ -1715,6 +1775,7 @@ if ($XMLContentOfLoad)
           // }
           // Если сменилась кафедра, добавим это событие в лог
           // Нагрузка может быть в статусах refused, done_refused (не обязательно), ниже статус будет сброшен в initial
+          // Для done_refused, которые здесь не будут сброшены, ниже будем сбрасывать принудительно
           if ($new_nagr_row['UID_Chair'] && $xml_content_of_load_prev_row['UID_Chair'] && $new_nagr_row['UID_Chair'] !== $xml_content_of_load_prev_row['UID_Chair'])
           {
             ActivityLog($base_uid2, ["Изменение кафедры нагрузки", $xml_content_of_load_prev_row['UID_Chair'], $new_nagr_row['UID_Chair'], $XMLChairByUID[$xml_content_of_load_prev_row['UID_Chair']]['Name'], $XMLChairByUID[$new_nagr_row['UID_Chair']]['Name']], "", "change_chair", 0, 0);
@@ -2124,6 +2185,25 @@ if ($XMLContentOfLoad)
           }
       }
     }
+
+    // Сбросим done_refused в initial для тех строк нагрузки, у которых не поменялась кафедра (решили не менять)
+    // Будет правильно, если это будет происходить только ночью (без лайтовых запусков)
+    if ($LOAD_NEW_DATA_FROM_NETWORK)
+    {
+      $mysqli->query("UPDATE `nagruzka` SET `prev_status` = 'done_refused', `status` = 'initial', `date_update` = NOW() WHERE `status` = 'done_refused'");
+
+      if (!$Result)
+      {
+        EchoLog("Error #693: $query", "file");
+        EchoLog($mysqli->error, "file");
+        EchoLog($query);
+        $db_error = true;
+      }
+    }
+
+
+
+
   }
   // исчезло более трети строк нагрузки в справочнике, отправим письмо
   elseif ($prev_rows_count)

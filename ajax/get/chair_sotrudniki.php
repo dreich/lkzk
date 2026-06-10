@@ -20,6 +20,8 @@ include '../../functions.php';
 
 $c_roles = ExplodePalki($_SESSION['c_roles'], true);
 
+
+// TODO проверить, что правильные коды для псевдо-кафедр (должны быть 888, 999...)
 if ($c_roles['uoup'])
 {
   $chair_id = quote_smart($_GET['chair_id']);
@@ -30,15 +32,25 @@ else
   $chair_id = $_SESSION['c_chair_id'];
 }
 
+$XMLChairByCode = GetTable('xml_chair', "", "", "Code");
+$chair_uid = $XMLChairByCode[$chair_id]['UID'];
+
 // до подмены
 $xml_chair = GetRow('xml_chair', ['Code' => $chair_id]);
 
 // Авторизован зав. псевдо-кафедрой, сотрудников будем брать по коду псевдо-факультета, который у них в sotrudniki.chair_id
+// т.к. берём теперь по selected_chairs_ids, там подмена не нужна
 if ($_pseudo_chairs[$chair_id])
 {
   // подменяем на код родителя
-  $chair_id = $_pseudo_chairs[$chair_id];
+  $chair_id_substituted = $_pseudo_chairs[$chair_id];
 }
+else
+{
+  $chair_id_substituted = $chair_id;
+}
+
+
 // else
 // {
 //   $chair_id = $_SESSION['c_chair_id'];
@@ -76,8 +88,16 @@ $_mode = $ModeRow['value'];
 if ($_mode == 'mode_filling')
 {
   $_ksro_sql = "AND x.`nagruzka_type` <> 'ksro'";
+  // EchoLog($chair_id);
+  // TODO проверить
+  // if ($_pseudo_chairs[$chair_id])
+  // {
+  //   // подменяем на код родителя
+  //   $ksro_chair_id = $_pseudo_chairs[$chair_id];
+  // }
 
   $KSRO = GetTable('ksro', "`chair_id` = '$chair_id'");
+  // EchoLog($KSRO);
   $KSROByPersonID = [];
 
   if ($KSRO)
@@ -183,7 +203,9 @@ $query = "SELECT
 FROM zavkaf_splits zs
 #JOIN xml_content_of_load x ON zs.content_of_load_uid = x.UID
 JOIN xml_content_of_load x ON zs.base_uid2 = x.base_uid2
-WHERE zs.`delete` = 0";
+WHERE zs.`delete` = 0 AND `zavkaf_chair_uid` = '$chair_uid'";
+
+// Возможно,  AND `zavkaf_chair_uid` = '$chair_uid' не нужно
 
 // Debug: Log the query
 // EchoLog("Executing query: " . $query);
@@ -221,12 +243,14 @@ FROM zavkaf_splits zs
 #JOIN xml_content_of_load x ON zs.content_of_load_uid = x.UID
 JOIN xml_content_of_load x ON zs.base_uid2 = x.base_uid2
 #JOIN xml_lecturer ON x.UID_Lecturer = xml_lecturer.UID
-WHERE zs.delete = 0
+WHERE zs.delete = 0  AND `zavkaf_chair_uid` = '$chair_uid'
   AND x.base_uid2 IN (
       SELECT DISTINCT base_uid2 
       FROM xml_content_of_load_staff 
       WHERE UID_Language = '25031.945'
   )";
+
+// Возможно,  AND `zavkaf_chair_uid` = '$chair_uid' не нужно
 
 $englishSplits = [];
 $rows = GetSQL($query) ?: [];
@@ -257,21 +281,25 @@ foreach ($rows as $row)
 
 // 6. Получаем список сотрудников
 $employees = [];
+
 $query = "SELECT * FROM `sotrudniki` 
 WHERE ((`type` <> 'gph' AND `chair_id` = ?) 
        OR (`type` = 'gph' AND `department_id` = ?))
-  AND `date_remove` IS NULL";
+  AND `date_remove` IS NULL
+  ORDER BY `type` ASC # для того, чтобы (если получили одного сотрудника и ГПХ, и не ГПХ, то возьмётся не ГПХ)
+  ";
 
 $stmt = $mysqli->prepare($query);
-$stmt->bind_param('ss', $chair_id, $department_id);
+$stmt->bind_param('ss', $chair_id_substituted, $department_id);
 $stmt->execute();
 $result = $stmt->get_result();
 while ($row = $result->fetch_assoc()) 
 {
+  // $row['person_id']
   $employees[$row['person_id']] = $row;
 }
 
-EchoLog($chair_id);
+// EchoLog($chair_id);
 // EchoLog($department_id);
 // EchoLog($employees);
 
@@ -462,7 +490,11 @@ foreach ($employees as &$sotrudnik)
     $sotrudnik['stavka'] = '-';
   }
   
-  $sotrudnik['selected'] = (boolean) $sotrudnik['selected'];
+  // $sotrudnik['selected'] = (boolean) $sotrudnik['selected'];
+
+  $selected_chairs_ids_arr = ExplodePalki($sotrudnik['selected_chairs_ids'], true);
+
+  $sotrudnik['selected'] = !!$selected_chairs_ids_arr[$chair_id];
 }
 
 // $c_roles = ExplodePalki($_SESSION['c_roles'], true);
