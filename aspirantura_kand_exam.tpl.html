@@ -1,24 +1,25 @@
-<div ng-if="isLoading">
+<div ng-if="isAspiranturaKandExamLoading">
   <img src="/images/hourglass.png" style='position:fixed; left: 47%; top: 47%; z-index: 1000'>
 </div>
 
-<div ng-show="!isLoading">
+<div ng-show="!isAspiranturaKandExamLoading">
 
-   <!-- <select class="form-select mb-2" style="width: 300px" ng-model="filter_distinct.global_nagruzka_filter" ng-change="onNagruzkaGlobalFilterChange()" ng-if="!nagruzka_selected_lecturer_uid">
+    <select class="form-select mb-2" style="width: 300px" ng-model="aspirantura_kand_exam_filter.filter" ng-change="onNagruzkaAspiranturaKandExamGlobalFilterChange()" ng-if="!nagruzka_selected_lecturer_uid">
       <option value="">Вся нагрузка</option>
       <option value="assigned">распределена</option>
       <option value="not_assigned">не распределена</option>
-      <option value="assigned_to_vacancy">распределена на вакансию</option>
-    </select> -->
+    </select>
 
     <table id="DataTables_Table_aspirantura_kand_exam" datatable="ng" dt-options="dtOptions"  dt-column-defs="dtColumnDefs" dt-instance="onAspiranturaKandExamNagruzkaTableInstance" class="dataTable row-border hover display table "  style='margin: 0 0 ;width:100%; ' >
       <thead>
 
         <tr>
           <th>Дисциплина</th>
-          <th>Группа</th>
+          <th>Группы</th>
+          <th>Уровень образования</th>
           <th>Семестр</th>
           <th>Количество обучающихся</th>
+          <th>Вид работ</th>
           <th>Количество часов</th>
           <th>Факультет преподавателя</th>
           <th>Кафедра преподавателя</th>
@@ -30,10 +31,64 @@
       </thead>
 
       <tbody>
-        <tr ng-repeat="row in nagruzka" class="pointer" ng-class="{'readonly': false}">
-          <td ng-click="NagruzkaRowClick(row)" data-uid="{{row.base_uid2}}">
-            {{row.department_owner_name}}
+        <tr ng-repeat="row in aspirantura_kand_exam" class="pointer" ng-class="{'readonly': !MaySelectAspiranturaKandExamNagruzka(row) && c_roles.ruk_aspirantura}">
+          <td data-uid="">
+            {{row.disc_title}}
           </td>
+          <td>{{row.groups}}</td>
+          <td>Аспирантура</td>
+          <td>{{row.exam_semester}}</td>
+          <td>{{row.students_num}}</td>
+          <td>Экзамен кандидатский</td>
+          <td>{{CalcAspiranturaKandExamNagruzkaHours(row)}}</td>
+          <td>{{row.department_name}}</td>
+          <td>{{row.chair_name}}</td>
+          <td>
 
+            <div ng-if="row.lecturer_uid">{{row.lecturer_fio}}</div>
+
+
+            <button class="btn btn-xs btn-primary mb-1" ng-click="row.show_lecturer_autocomplete = true">добавить</button>
+            <button class="btn btn-xs btn-dark mb-1" ng-click="NagruzkaAspiranturaKandExamDeleteLecturer(row)" ng-if="row.lecturer_uid">удалить</button>
+
+            <div ng-if="row.show_lecturer_autocomplete">
+              <!-- {{row.xml_content_of_load_UID}}_{{row.xml_content_of_load_staff_UID}} -->
+              <angucomplete-alt input-name=""
+                  placeholder="Введите ФИО"
+                  pause="400"
+                  initial-value=""
+                  focus-out="focusOutAspiranturaKandExamLecturer()"
+                  selected-object="NagruzkaAspiranturaKandExamSelectedLecturer"
+                  selected-object-data="row"
+                  input-changed="inputChangedLecturer"
+                  remote-url="ajax/get/get_all_sotrudniki.php?callback=JSON_CALLBACK&lectors_num=&s="
+                  title-field="fio"
+                  match-class="highlight"
+                  text-searching="Поиск..." 
+                  minlength="1"
+                  text-no-results="Не найдено"
+                  description-field="dolzhnost_hint"
+                  input-class="form-control autocomplete" style='width:50%' />
+            </div>
+          </td>
+        </tr>
+      </tbody>
+
+      <tfoot>
+        <tr>
+          <th ind="1"></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+        </tr>
+      </tfoot>
+
+    </table>
 
 </div>

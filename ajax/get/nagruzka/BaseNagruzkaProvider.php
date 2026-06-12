@@ -202,6 +202,7 @@ abstract class BaseNagruzkaProvider
      */
     protected function calculateStats(&$nagruzkaData)
     {
+        global $_SERVER;
         // $stat = [
         //     'assigned' => ['sum' => 0],
         //     'assigned_to_vacancy' => ['sum' => 0],
@@ -237,8 +238,22 @@ abstract class BaseNagruzkaProvider
                 elseif ($lector['lecturer_fio'] && mb_strcasecmp($lector['lecturer_fio'], 'Вакансия') !== 0) 
                 {
                     $hasAssigned = true;
-                    // $stat['assigned']['sum'] += (float) $lector['Amount'];
+
+                    if ($_SERVER['REMOTE_ADDR'] == '85.143.4.44' && $this->nagruzkaType == 'ruk_vkr')
+                    {
+                        if (intval($lector['Amount']) != $lector['Amount'])
+                        {
+                            // EchoLog("{$stat['assigned']['sum']} + $lector[Amount]");
+                            // EchoLog($lector)
+                        }
+                    }
+
                     safeAdd($stat['assigned']['sum'], $lector['Amount']);
+
+                    if ($_SERVER['REMOTE_ADDR'] == '85.143.4.44' && $this->nagruzkaType == 'ruk_vkr')
+                    {
+                        // EchoLog("Become {$stat['assigned']['sum']}");
+                    }
 
                     // EchoLog($lector);
 
@@ -258,7 +273,6 @@ abstract class BaseNagruzkaProvider
                         safeAdd($statByChair[$lector['chair_id']]['assigned_english']['sum'], $lector['Amount']);
                     }
 
-                    // $statByChair[$lector['chair_id']]['assigned']['sum'] += (float) $lector['Amount'];
                     safeAdd($statByChair[$lector['chair_id']]['assigned']['sum'], $lector['Amount']);
 
                 }
@@ -518,12 +532,21 @@ abstract class BaseNagruzkaProvider
         {
           $nagruzkaData = $this->groupByChair($nagruzkaData, $statByChair);
           // Хук для добавления КСРО (используется только в FillingMode)
-          $this->applyExtraUoupTransformations($nagruzkaData, $statByChair);
+          // Предположительно, это добавляется когда вызывается nagruzka/?lite=1
+          if (!$this->nagruzkaType)
+          {
+            $this->applyExtraUoupTransformations($nagruzkaData, $statByChair);
+            }
         }
 
         // 9. Финальная сборка ответа
-        if ($this->onlyStat) {
+        if ($this->onlyStat /* && $this->nagruzkaType != 'ruk_vkr' */) 
+        {
             $nagruzkaData = [];
+        }
+        elseif ($this->nagruzkaType == 'ruk_vkr' && $_SERVER['REMOTE_ADDR'] == '85.143.4.44')
+        {
+            // EchoLog($nagruzkaData);
         }
 
         return array_merge([

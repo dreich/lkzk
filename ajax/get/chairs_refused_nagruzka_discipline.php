@@ -183,7 +183,7 @@ if ($is_export) {
     exit;
 }
 
-
+$Nagruzka = $Nagruzka ? $Nagruzka : [];
 
 
 header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1

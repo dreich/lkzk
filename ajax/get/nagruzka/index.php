@@ -120,6 +120,7 @@ try {
       {
         $nagruzka_row['form_obuchenia'] = str_replace('Очная-заочная', 'Очно-заочнaя', $nagruzka_row['form_obuchenia']);
         $nagruzka_row['form_obuchenia'] = str_replace('Очно-заочнaя', 'Очно-заочнaя', $nagruzka_row['form_obuchenia']);
+        $nagruzka_row['form_obuchenia'] = str_replace('Заочная', 'Заoчная', $nagruzka_row['form_obuchenia']);
       }
     }
 

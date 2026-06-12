@@ -19,9 +19,21 @@ $BUPs = GetTable('bup', "", "", "nrec", "`nrec`, `reg_number`, `students_num`");
 
 $BUPDisciplines = GetTable('bup_disciplines', "`exam_semester` IS NOT NULL AND `exam_semester` <> ''", "", "", "`nrec`, `disc_nrec`, `abr`, `title`, `exam_semester`");
 
-// Объяснение сортировки: Должна получиться одна группа, если вдруг получилось несколько, то взять одну (для однозначности отсортировать сначала где больше студентов, если одинаково то по имени). [ЛК ЗК (аспирантура).docx]
+// -- Объяснение сортировки: Должна получиться одна группа, если вдруг получилось несколько, то взять одну (для однозначности отсортировать сначала где больше студентов, если одинаково то по имени). [ЛК ЗК (аспирантура).docx]
 
-$BUPGroups = GetTable('bup_groups', "`students_in_group` <> '' AND `students_in_group` <> '0'", "`students_in_group` ASC, `group` DESC", "reg_number");
+// $BUPGroups = GetTable('bup_groups', "`students_in_group` <> '' AND `students_in_group` <> '0'", "`students_in_group` ASC, `group` DESC", "reg_number");
+
+$BUPGroups = GetTable('bup_groups', "`students_in_group` <> '' AND `students_in_group` <> '0'");
+// до нескольких групп на bup reg_number
+$BUPGroupsByRegNum = [];
+
+if ($BUPGroups)
+{
+  foreach ($BUPGroups as $bup_group)
+  {
+    $BUPGroupsByRegNum[$bup_group['reg_number']][] = $bup_group['group'];
+  }
+}
 
 // $BUPGroups = [];
 
@@ -69,6 +81,34 @@ if ($BUPDisciplines)
       // $Result = $mysqli->query("INSERT IGNORE INTO `aspirantura_kand_exam` 
       //                 SET `deleted` = '0', `bup_nrec` = '$bup_discipline[nrec]', `disc_nrec` = '$bup_discipline[disc_nrec]', `disc_abr` = '$bup_discipline[abr]', `disc_title` = '$bup_discipline[title]', `exam_semester` = '$bup_discipline[exam_semester]', `group` = '{$BUPGroups[$bup['reg_number']]['group']}', `students_num` = '{$BUPGroups[$bup['reg_number']]['students_in_group']}'");
 
+      $groups = JoinArrayElements($BUPGroupsByRegNum[$bup['reg_number']]);
+
+      // Т.к. в таблице может быть несколько строк по ключу с преподавателями, мы не можем использовать уникальный ключ,
+      // поэтому.. проверим, есть ли строка по ключу
+      $RowExists = GetRow('aspirantura_kand_exam', ['bup_nrec' => $bup_discipline['nrec'], 'disc_nrec' => $bup_discipline['disc_nrec'], 'disc_abr' => $bup_discipline['abr']]);
+
+      // если строка(и) по ключу есть, они обновят некоторые поля
+      if ($RowExists)
+      {
+        $Result = $mysqli->query(
+          "UPDATE `aspirantura_kand_exam` SET `deleted` = '0', `exam_semester` = '$bup_discipline[exam_semester]', `students_num` = '$bup[students_num]', `groups` = '$groups'
+           WHERE `bup_nrec` = '$bup_discipline[nrec]' AND `disc_nrec` = '$bup_discipline[disc_nrec]' AND `disc_abr` = '$bup_discipline[abr]'");
+      }
+      else
+      {
+        $Result = $mysqli->query("INSERT INTO `aspirantura_kand_exam` 
+        SET `deleted` = '0', 
+            `bup_nrec` = '$bup_discipline[nrec]', 
+            `disc_nrec` = '$bup_discipline[disc_nrec]', 
+            `disc_abr` = '$bup_discipline[abr]', 
+            `disc_title` = '$bup_discipline[title]', 
+            `exam_semester` = '$bup_discipline[exam_semester]', 
+            `groups` = '$groups', 
+            `students_num` = '$bup[students_num]',
+            `date` = NOW()");
+      }
+
+      /*
       $Result = $mysqli->query("INSERT INTO `aspirantura_kand_exam` 
       SET `deleted` = '0', 
           `bup_nrec` = '$bup_discipline[nrec]', 
@@ -77,7 +117,7 @@ if ($BUPDisciplines)
           `disc_title` = '$bup_discipline[title]', 
           `exam_semester` = '$bup_discipline[exam_semester]', 
           `group` = '{$BUPGroups[$bup['reg_number']]['group']}', 
-          `students_num` = '{$BUPGroups[$bup['reg_number']]['students_in_group']}',
+          `students_num` = '$bup[students_num]',
           `date` = NOW()
       ON DUPLICATE KEY UPDATE 
           `deleted` = '0',
@@ -86,13 +126,12 @@ if ($BUPDisciplines)
           `students_num` = VALUES(`students_num`),
           `date_update` = NOW()
       ");
+      */
 
       if (!$Result)
       {
         EchoLog("Error #928 in cron: " . $mysqli->error);
       }
-
-      
     }
   }
 }
@@ -1312,7 +1351,7 @@ foreach ($SotrudnikiByPersonChair as $sotrudnik)
   {
     foreach ($SplitsForSotrudnik as $split_row)
     {
-      if ($split_row['lecturer_uid'] != $lecturer['UID'])
+      if ($split_row['lecturer_uid'] !== $lecturer['UID'])
       {
         // if ($sotrudnik['person_id'] == 51586)
         EchoLog("Заменяем в сплите для person_id=$sotrudnik[person_id], split_id: $split_row[id] (base_uid2 $split_row[base_uid2]), lecturer uids: $split_row[lecturer_uid] !=> $lecturer[UID], chair_uid: $chair_uid");
@@ -1353,6 +1392,54 @@ foreach ($SotrudnikiByPersonChair as $sotrudnik)
     }
   }
 
+  // Обновим в таблице КСРО аналогично lecturer_uid и несколько других полей сотрудника (ставка, должность..)
+  if ($lecturer)
+  {
+    // В таблице ksro chair_id используются с псевдо-значениями (888, 999, ...)
+    // поэтому для не-псевдо из sotrudniki возьмём псевдо, как используется в таблице ksro
+    if (in_array($sotrudnik['chair_id'], $_pseudo_chairs))
+    {
+      $chair_id_for_ksro = array_search($sotrudnik['chair_id'], $_pseudo_chairs);
+    }
+    else
+    {
+      $chair_id_for_ksro = $sotrudnik['chair_id'];
+    }
+
+    $KSROForSotrudnik = GetRows('ksro', ['lecturer_person_id' => $sotrudnik['person_id'], 'chair_id' => $chair_id_for_ksro]);
+
+    // if ($sotrudnik['person_id'] == 25944)
+    // {
+    //   EchoLog($chair_id_for_ksro);
+    //   EchoLog($KSROForSotrudnik);
+    // }
+
+    if ($KSROForSotrudnik)
+    {
+      foreach($KSROForSotrudnik as $ksro)
+      {
+        $stavka = str_replace(',', '.', $sotrudnik['stavka']);
+
+        $Result = $mysqli->query("UPDATE `ksro`
+                                  SET `uid` = '$lecturer[UID]', `stavka` = '$stavka', `dolzhnost` = '$sotrudnik[dolzhnost]'
+                                  WHERE `id` = '$ksro[id]'
+                                ");
+
+        if ($ksro['uid'] !== $lecturer['UID'])
+        {
+          EchoLog("Заменяется lecturer_uid в ksro для person_id=$sotrudnik[person_id], ksro_id: $ksro[id], lecturer uids: $ksro[uid] !=> $lecturer[UID], chair_uid: $chair_uid");
+        }
+
+        if (!$Result)
+        {
+          EchoLog($mysqli->error);
+          EchoLog($query);
+          $db_error = true;
+        }
+
+      }
+    }
+  }
   
 }
 

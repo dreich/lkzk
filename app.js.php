@@ -290,6 +290,8 @@ function createCustomFilters(table_id, table, columns)
 function createCustomFilters(table_id, table, columns, scope) 
 {
   CL('createCustomFilters');
+  // CL(table);
+  // CL(columns);
   
   // Очищаем старые фильтры перед созданием новых
   $('#' + table_id + ' tfoot th').each(function() {
@@ -311,6 +313,8 @@ function createCustomFilters(table_id, table, columns, scope)
     return;
   }
   
+  // CL(table.columns);
+
   table.columns(':visible').every(function(columnIndex) 
   {
     // CL(columnIndex);
@@ -319,7 +323,7 @@ function createCustomFilters(table_id, table, columns, scope)
     const colSettings = columns[columnIndex];
     
     // Отладочная информация
-    // console.log('Column index:', columnIndex, 'Type:', typeof columnIndex, 'Footer cell found:', footerCell.length > 0, 'Column settings:', colSettings);
+    console.log('Column index:', columnIndex, 'Type:', typeof columnIndex, 'Footer cell found:', footerCell.length > 0, 'Column settings:', colSettings);
     // CL(columnIndex);
     // console.log('Visible columns count:', table.columns(':visible').count());
     // console.log('Total columns count:', table.columns().count());
@@ -2001,7 +2005,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
       //     requestAnimationFrame(applyLecturerFilter);
       //   }
       // });
-    };
+    }
 
 
 
@@ -5965,6 +5969,7 @@ $scope.toggleAdminChangeChair = function(chair)
   $scope.chairs_sprav = chairs_sprav.data;
   $scope.$_nagruzka_types = $_nagruzka_types;
   $scope.nagruzka_stat = {};
+  $scope.isLoading = true;
 
   if (c_roles.sotrudnik)
   {
@@ -5977,7 +5982,7 @@ $scope.toggleAdminChangeChair = function(chair)
  
   $scope.c_roles = c_roles;
 
-  $scope.ShowZayavkaTab = function(tab)
+  $scope.ShowAspiranturaTab = function(tab)
   {
     // if (!$scope.IsSelectedStageOpen()) return;
 
@@ -5996,8 +6001,8 @@ $scope.toggleAdminChangeChair = function(chair)
     }
   }
 
-  $scope.ShowZayavkaTab('aspirantura_itog_exam');
-
+  $scope.ShowAspiranturaTab('aspirantura_kand_exam');
+  $scope.ShowAspiranturaTab('aspirantura_itog_exam');
 
 })
 
@@ -6009,14 +6014,364 @@ $scope.toggleAdminChangeChair = function(chair)
     templateUrl: 'aspirantura_kand_exam.tpl.html?' + getRandom(10000, 99999),
     // template: "abc",
 
-    controller: function AspiranturaKandExamCtrl($scope, $rootScope, $timeout, $http, $templateCache, ngDialog, FileUploader, $filter)
+    controller: function AspiranturaKandExamCtrl($scope, $rootScope, $timeout, $http, $templateCache, ngDialog, FileUploader, $filter, $resource, DTOptionsBuilder, $location, DTColumnDefBuilder, $cookies)
     {
       CL('AspiranturaKandExamCtrl');
+      // $scope.isAspiranturaKandExamLoading = true;
+
+      $scope.aspirantura_kand_exam_filter = {filter: $cookies.get('global_nagruzka_filter_aspirantura_kand_exam')};
+      
+      $scope.dtAspiranturaKandExamInstance = {};
+
+      const columns = [
+        // дисциплина
+        {
+          name: 'discipline_name',
+          type: 'input',
+          bRegex: false,
+        },
+        // группа
+        {
+          name: 'group_name',
+          type: 'input',
+          bRegex: false,
+        },
+        // Семестр
+        {
+          name: 'exam_semester',
+          type: 'select',
+          bRegex: false,
+          values: ['1', '2', '3', '4', '5', '6', '7'],
+          width: '100'
+        },
+        // Количество обучающихся
+        null,
+        // Количество часов
+        null,
+        // Факультет преподавателя
+        {
+          name: 'form_obuchenia',
+          type: 'select',
+          bRegex: false,
+        },
+        // Кафедра преподавателя
+        {
+          name: 'UID_Semester',
+          type: 'select',
+          bRegex: false,
+        },
+        // Преподаватель
+        {
+          name: 'StudentAmount',
+          type: 'input',
+          bRegex: false,
+        },
+        
+      ];
 
 
+      $scope.dtOptions = DTOptionsBuilder //.fromSource('data.json')
+        .newOptions()
+        .withOption('stateSave', true)
+        .withOption('stateStorage', 'cookie')
+        .withOption('stateSaveCallback', function(settings, data) {
+            const path = $location.path();
+            const storageKey = 'DataTables_Table_aspirantura_kand_exam' + path.replace(/\//g, '_');
+            localStorage.setItem(storageKey, JSON.stringify(data));
+        })
+        .withOption('stateLoadCallback', function(settings) {
+            const path = $location.path();
+            const storageKey = 'DataTables_Table_aspirantura_kand_exam' + path.replace(/\//g, '_');
+            const saved = localStorage.getItem(storageKey);
+            // return saved ? JSON.parse(saved) : null;
 
+            if (saved) 
+            {
+              const data = JSON.parse(saved);
+              
+              // ПРИНУДИТЕЛЬНО исправляем кэш пользователя «на лету»:
+              if (data.columns) {
+                  // Если массив с колонками в кэше есть, явно говорим, 
+                  // что столбцы должны быть СВЕРНУТЫ.
+                  // ! dup lower
+                  if (data.columns[2]) data.columns[2].visible = false;
+                  if (data.columns[5]) data.columns[5].visible = false;
+              }
+              
+              return data;
+            }
+            return null;
+
+        })
+        // .withOption('aoColumns', [{bVisible': false}])
+        .withPaginationType('full_numbers')
+        .withColVis()
+        // Add a state change function
+        // .withColVisStateChange(stateChange)
+        // Exclude the last column from the list
+        // .withColVisOption('aiExclude', [0,1,3,14,15])
+        .withLanguage({
+            "loadingRecords": "Загрузка...",
+            "processing": "Обработка..."
+        })
+        // .withOption('columnDefs', [
+        //     {
+        //         targets: [0],      // Индекс скрываемого столбца
+        //         visible: false     // Скрываем по умолчанию
+        //     },
+        //     {
+        //         targets: [3, 4],   // Можно передать несколько индексов
+        //         visible: false
+        //     }
+        // ])
+        // .withColumnDefs(
+        //   [
+        //     DTColumnDefBuilder.newColumnDef(0).notVisible()
+        //   ]
+        // )
+        .withButtons([
+            {
+              extend: 'excel',
+              text: 'Excel', // Текст на самой кнопке
+              filename: "Нагрузка", // Имя файла
+              title: "Нагрузка", // Заголовок на первой строке листа
+              exportOptions: 
+              {
+                columns: function (idx, data, node) {
+                    // Проверяем, что столбец видимый и не первый
+                    // const column = $scope.dtAspiranturaKandExamInstance.dataTable.fnSettings().aoColumns[idx];
+                    return true; // column.bVisible && idx !== 0;
+                },
+                format: 
+                {
+                  body: function (data, column, row, node) 
+                  {
+                    if (!data || typeof data !== 'string') return data || '';
+
+                    // Создаем временный элемент
+                    const temp = document.createElement('div');
+                    temp.innerHTML = data;
+
+                    // Заменяем <br> на перенос строки перед получением textContent
+                    // Вариант 1: через replace
+                    const htmlWithBr = temp.innerHTML;
+                    temp.innerHTML = htmlWithBr.replace(/<br\s*\/?>/gi, ', ');
+
+                    return temp.textContent || temp.innerText || '';
+                  
+                  
+                  }
+                }
+              }
+            }
+        ])
+        // .withColumnFilter({
+        //     aoColumns: columns
+        // })
+
+        // .withOption('initComplete', function(settings, json) 
+        // {
+        //   // Скрываем индикатор когда загрузка завершена
+        //   CL("initComplete");
+        //   $scope.$apply(function() {
+        //       // $scope.isLoading = false;
+        //   });
+
+        //   // Добавляем создание фильтров
+        //   const api = this.api();
+        //   createCustomFilters('DataTables_Table_aspirantura_kand_exam', api, columns, $scope);
+        // })
+        // .withOption('processing', true)
+        ;
+
+
+        $scope.dtColumnDefs = [
+          // ! dup higher
+          DTColumnDefBuilder.newColumnDef(2).notVisible(), // Скрыть 3-й столбец Уровень образования
+          DTColumnDefBuilder.newColumnDef(5).notVisible(), // Скрыть 6-й столбец Вид работ
+      ];
+
+      $scope.onAspiranturaKandExamNagruzkaTableInstance = function(dtAspiranturaKandExamInstance) 
+      {
+        CL('onAspiranturaKandExamNagruzkaTableInstance');
+        $scope.isAspiranturaKandExamLoading = true;
+
+
+        $scope.aspirantura_kand_exam = $resource('ajax/get/get_aspirantura_kand_exam.php').query(
+          function()
+          {
+            $scope.isAspiranturaKandExamLoading = false;
+          });
+
+
+        $scope.dtAspiranturaKandExamInstance = dtAspiranturaKandExamInstance;
+        const table = dtAspiranturaKandExamInstance.DataTable;
+        const lecturerColumnIndex = 7; // Index of the "Преподаватель" column
+        let filtersAspiranturaKandExamInitialized = false;
+
+        // Function to initialize filters only once
+        const initializeAspiranturaKandExamFiltersOnce = () => 
+        {
+          CL('initializeAspiranturaKandExamFiltersOnce');
+
+          if (!filtersAspiranturaKandExamInitialized) 
+          {
+            createCustomFilters('DataTables_Table_aspirantura_kand_exam', table, columns, $scope);
+            filtersAspiranturaKandExamInitialized = true;
+          }
+        };
+
+
+        // Handle column visibility changes
+        table.on('column-visibility.dt', () => 
+        {
+          // CL('column-visibility.dt');
+          // Only reinitialize filters if they haven't been initialized yet
+          if (!filtersAspiranturaKandExamInitialized) 
+          {
+            initializeAspiranturaKandExamFiltersOnce();
+          }
+          // applyLecturerFilter();
+        });
+
+      }
+
+      // если есть id, то это обновление, иначе - добавление новой строки
+      $scope.SaveNagruzkaAspirantKandExamRow = function(nagruzka_row)
+      {
+        $http({url: 'ajax/post/save_nagruzka_aspirant_kand_exam.php', method: 'POST', data: nagruzka_row})
+              .then(function(response)
+              {
+                if (response.data.result == 'success')
+                {
+                  toastr.success("Данные сохранены");
+
+                  if (isEmpty(nagruzka_row.id))
+                  {
+                    nagruzka_row.id = response.data.id;
+                    $scope.aspirantura_kand_exam.push(nagruzka_row);
+                  }
+                }
+                else
+                {
+                  toastr.error("Ошибка");
+                }
+              });
+      }
+
+      $scope.NagruzkaAspiranturaKandExamDeleteLecturer = function(nagruzka_row)
+      {
+        $http({url: 'ajax/post/delete_nagruzka_aspirant_kand_exam.php', method: 'POST', data: nagruzka_row})
+              .then(function(response)
+              {
+                if (response.data.result == 'success')
+                {
+                  toastr.success("Данные сохранены");
+
+                  if (response.data.delete)
+                  {
+                    deleteByColumn($scope.aspirantura_kand_exam, 'id', nagruzka_row.id);
+                  }
+                  else
+                  {
+                    nagruzka_row.lecturer_login = nagruzka_row.lecturer_person_id = nagruzka_row.lecturer_fio = nagruzka_row.lecturer_uid = nagruzka_row.chair_id = nagruzka_row.chair_name = nagruzka_row.department_id = nagruzka_row.department_name = '';
+                  }
+                }
+                else
+                {
+                  toastr.error("Ошибка");
+                }
+              });
+      }
+
+
+      $scope.NagruzkaAspiranturaKandExamSelectedLecturer = function(data, nagruzka_row)
+      {
+        CL('NagruzkaAspiranturaKandExamSelectedLecturer');
+        
+        // CL(data.originalObject);
+        // CL(nagruzka_row);
+
+        // В строке уже есть другой преподаватель, нужно создать новую строку нагрузки и поставить туда выбранного препода
+        if (!isEmpty(nagruzka_row.lecturer_uid) && nagruzka_row.lecturer_uid !== data.originalObject.lecturer_uid && data.originalObject.fio != '-')
+        {
+          var new_naruzka_row = angular.copy(nagruzka_row);
+
+          new_naruzka_row.lecturer_fio = data.originalObject.fio;
+          new_naruzka_row.lecturer_uid = data.originalObject.lecturer_uid;
+          new_naruzka_row.lecturer_person_id = data.originalObject.person_id;
+          new_naruzka_row.lecturer_login = data.originalObject.lecturer_login;
+          new_naruzka_row.chair_id = data.originalObject.chair_id;
+          new_naruzka_row.chair_name = data.originalObject.chair_name;
+          new_naruzka_row.department_id = data.originalObject.department_id;
+          new_naruzka_row.department_name = data.originalObject.department_name;
+          new_naruzka_row.id = null;
+
+          nagruzka_row.show_lecturer_autocomplete = false;
+          new_naruzka_row.show_lecturer_autocomplete = false;
+          $scope.SaveNagruzkaAspirantKandExamRow(new_naruzka_row);
+          return;
+
+        }
+        // выбрали того же, ничего не делаем (хотя можно и обновить инфу по нему, вдруг кафедра у него другая стала)
+        // else if (!isEmpty(nagruzka_row.lecturer_uid) && nagruzka_row.lecturer_uid === data.originalObject.lecturer_uid)
+        // {
+        //   return;
+        // }
+        else
+        {
+
+
+          // удалить распределение
+          if (data.originalObject.fio == '-')
+          {
+            nagruzka_row.lecturer_login = nagruzka_row.lecturer_person_id = nagruzka_row.lecturer_fio = nagruzka_row.lecturer_uid = nagruzka_row.chair_id = nagruzka_row.chair_name = nagruzka_row.department_id = nagruzka_row.department_name = '';
+          }
+          else if (!isEmpty(data))
+          {
+            nagruzka_row.lecturer_fio = data.originalObject.fio;
+            nagruzka_row.lecturer_uid = data.originalObject.lecturer_uid;
+            nagruzka_row.lecturer_person_id = data.originalObject.person_id;
+            nagruzka_row.lecturer_login = data.originalObject.lecturer_login;
+            nagruzka_row.chair_id = data.originalObject.chair_id;
+            nagruzka_row.chair_name = data.originalObject.chair_name;
+            nagruzka_row.department_id = data.originalObject.department_id;
+            nagruzka_row.department_name = data.originalObject.department_name;
+          }
+
+          nagruzka_row.show_lecturer_autocomplete = false;
+
+          $scope.SaveNagruzkaAspirantKandExamRow(nagruzka_row);
+
+        }
+      }
+
+
+      $scope.focusOutAspiranturaKandExamLecturer = function(row, data)
+      {
+        $scope.aspirantura_kand_exam.forEach(nagruzka_row => 
+        {
+          nagruzka_row.show_lecturer_autocomplete = false;
+        });
+      }
+
+
+      $scope.CalcAspiranturaKandExamNagruzkaHours = function(nagruzka_row)
+      {
+        return roundToTwo(parseFloat(nagruzka_row.students_num) * 0.5);
+      }
+
+      $scope.onNagruzkaAspiranturaKandExamGlobalFilterChange = function() 
+      {
+        CL('onNagruzkaAspiranturaKandExamGlobalFilterChange');
+
+        $cookies.put('global_nagruzka_filter_aspirantura_kand_exam', $scope.aspirantura_kand_exam_filter.filter);
+
+        window.location.reload();
+      }
 
     }
+    // end controller
 })
 
 
