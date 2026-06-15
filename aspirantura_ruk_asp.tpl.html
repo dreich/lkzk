@@ -1,1 +1,86 @@
-a r a
+<div ng-if="isAspiranturaRukAspLoading">
+  <img src="/images/hourglass.png" style='position:fixed; left: 47%; top: 47%; z-index: 1000'>
+</div>
+
+<div ng-show="!isAspiranturaRukAspLoading">
+
+    <select class="form-select mb-2" style="width: 300px" ng-model="aspirantura_ruk_asp_filter.filter" ng-change="onNagruzkaAspiranturaRukAspGlobalFilterChange()" ng-if="!nagruzka_selected_lecturer_uid">
+      <option value="">Вся нагрузка</option>
+      <option value="assigned">распределена</option>
+      <option value="not_assigned">не распределена</option>
+    </select>
+
+    <table id="DataTables_Table_aspirantura_ruk" datatable="ng" dt-options="dtOptions"  dt-column-defs="dtColumnDefs" dt-instance="onAspiranturaRukAspNagruzkaTableInstance" class="dataTable row-border hover display table "  style='margin: 0 0 ;width:100%; ' >
+      <thead>
+
+        <tr>
+          <th>ФИО аспиранта</th>
+          <th>Группа</th>
+          <th>Факультет</th>
+          <th>Направление подготовки</th>
+          <th>Курс</th>
+          <th>Факультет преподавателя</th>
+          <th>Кафедра преподавателя</th>
+          <th>Преподаватель</th>
+
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr ng-repeat="row in aspirantura_ruk_asp" class="pointer" ng-class="{'readonly': !MaySelectAspiranturaRukAspNagruzka(row) && c_roles.ruk_aspirantura}">
+          <td data-uid="">
+            {{row.fio}}
+          </td>
+          <td>{{row.group}}</td>
+          <td>{{row.department}}</td>
+          <td>{{row.napravlenie_title}}</td>
+          <td>{{row.course}}</td>
+          <td>{{row.lecturer_department_name}}</td>
+          <td>{{row.lecturer_chair_name}}</td>
+          <td>
+
+            <div ng-if="row.lecturer_uid">{{row.lecturer_fio}}</div>
+
+
+            <button class="btn btn-xs btn-primary mb-1" ng-click="row.show_lecturer_autocomplete = true">добавить</button>
+            <button class="btn btn-xs btn-dark mb-1" ng-click="NagruzkaAspiranturaRukAspDeleteLecturer(row)" ng-if="row.lecturer_uid">удалить</button>
+
+            <div ng-if="row.show_lecturer_autocomplete">
+              <!-- {{row.xml_content_of_load_UID}}_{{row.xml_content_of_load_staff_UID}} -->
+              <angucomplete-alt input-name=""
+                  placeholder="Введите ФИО"
+                  pause="400"
+                  initial-value=""
+                  focus-out="focusOutAspiranturaRukAspLecturer()"
+                  selected-object="NagruzkaAspiranturaRukAspSelectedLecturer"
+                  selected-object-data="row"
+                  input-changed="inputChangedLecturer"
+                  remote-url="ajax/get/get_all_sotrudniki.php?callback=JSON_CALLBACK&lectors_num=&s="
+                  title-field="fio"
+                  match-class="highlight"
+                  text-searching="Поиск..." 
+                  minlength="1"
+                  text-no-results="Не найдено"
+                  description-field="dolzhnost_hint"
+                  input-class="form-control autocomplete" style='width:50%' />
+            </div>
+          </td>
+        </tr>
+      </tbody>
+
+      <tfoot>
+        <tr>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+        </tr>
+      </tfoot>
+
+    </table>
+
+</div>

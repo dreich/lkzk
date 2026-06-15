@@ -323,7 +323,7 @@ function createCustomFilters(table_id, table, columns, scope)
     const colSettings = columns[columnIndex];
     
     // Отладочная информация
-    console.log('Column index:', columnIndex, 'Type:', typeof columnIndex, 'Footer cell found:', footerCell.length > 0, 'Column settings:', colSettings);
+    // console.log('Column index:', columnIndex, 'Type:', typeof columnIndex, 'Footer cell found:', footerCell.length > 0, 'Column settings:', colSettings);
     // CL(columnIndex);
     // console.log('Visible columns count:', table.columns(':visible').count());
     // console.log('Total columns count:', table.columns().count());
@@ -577,9 +577,12 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
       controller: 'NagruzkaCtrl',
       resolve:
       {
-        chairs_sprav : function($http)
+        chairs_sprav: function($http)
         {
-          return $http({url: 'ajax/get/get_chairs.php', method: 'GET'});
+          return $http({url: 'ajax/get/get_chairs.php', method: 'GET'})
+          .then(function(response) {
+                    return response.data; 
+                });
         },
         nagruzka_type: function($route)
         {
@@ -653,9 +656,12 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
       controller: 'NagruzkaCtrl',
       resolve:
       {
-        chairs_sprav : function($http)
+        chairs_sprav: function($http)
         {
-          return $http({url: 'ajax/get/get_chairs.php', method: 'GET'});
+          return $http({url: 'ajax/get/get_chairs.php', method: 'GET'})
+          .then(function(response) {
+                    return response.data; 
+                });
         },
         nagruzka_type: function($route)
         {
@@ -724,7 +730,10 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
       {
         chairs_sprav: function($http)
         {
-          return $http({url: 'ajax/get/get_chairs.php', method: 'GET'});
+          return $http({url: 'ajax/get/get_chairs.php', method: 'GET'})
+          .then(function(response) {
+                    return response.data; 
+                });
         },
         nagruzka_type: function($route)
         {
@@ -788,7 +797,10 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
       {
         chairs_sprav: function($http)
         {
-          return $http({url: 'ajax/get/get_chairs.php', method: 'GET'});
+          return $http({url: 'ajax/get/get_chairs.php', method: 'GET'})
+          .then(function(response) {
+                    return response.data; 
+                });
         },
         nagruzka_type: function($route)
         {
@@ -1419,13 +1431,11 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
   }
   
   $scope.$root = $rootScope;
-  $scope.chairs_sprav = chairs_sprav.data;
+  $scope.chairs_sprav = chairs_sprav;
   $scope.nagruzka_selected_chair_id = nagruzka_selected_chair_id;
   $scope.nagruzka_selected_lecturer_uid = lecturer_uid; // Store the lecturer_uid from the route
   // CL(lecturer_uid);
   
-  
-
   $scope.$_forms_obuchenia = $_forms_obuchenia;
   $scope.$_nagruzka_types = $_nagruzka_types;
   $scope._nagruzka_type = nagruzka_type;
@@ -1835,7 +1845,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
 
       // для пути вида /#/nagruzka (без вида нагрузки) статистику подгрузим
       // if (isEmpty($scope.nagruzka_stat))
-      if (!isEmpty($scope._chairs_ids))
+      if (!isEmpty($scope._chairs_ids) && $scope._nagruzka_type != 'aspirantura_itog_exam')
       {
         angular.forEach($scope._chairs_ids, function(chair_id, ind)
         {
@@ -1895,18 +1905,19 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
         })
       }
       // УОУП
+      // ! проверить для аспирантуры итог э.
       else if (!isEmpty($scope.nagruzka_selected_chair_id))
       {
         $scope.NagruzkaCtrlUpdateNagruzkaStat($scope._nagruzka_type, $scope.nagruzka_selected_chair_id);
       }
       // Руководитель подразделения аспирантуры
-      else if (c_roles.ruk_aspirantura)
+      else if (c_roles.ruk_aspirantura || $scope._nagruzka_type == 'aspirantura_itog_exam')
       {
         // if ($scope._nagruzka_type == 'aspirantura_itog_exam') only_stat = false; else only_stat = true;
         $scope.NagruzkaCtrlUpdateNagruzkaStat('aspirantura_itog_exam', null, lecturer_uid, false);
       }
 
-
+      CL($scope._nagruzka_type);
 
 
       $scope.dtInstance = dtInstance;
@@ -3171,12 +3182,12 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
   {
     // return true;
     
-    // CL(!isEmpty(nagruzka_row));
+    // CL($scope._nagruzka_type);
 
-    const val = (c_roles.zavkaf || c_roles.ruk_aspirantura) && ($scope.system_mode == 'mode_filling' || $scope.system_mode == 'mode_verification')
+    const val = (c_roles.zavkaf && !['aspirantura_itog_exam'].includes($scope._nagruzka_type) || c_roles.ruk_aspirantura) && ($scope.system_mode == 'mode_filling' || $scope.system_mode == 'mode_verification')
     && (!isEmpty(nagruzka_row) && !['refused', 'done_refused', 'require_admin_change', 'done_change'].includes(nagruzka_row.status) || nagruzka_row == undefined)
     // УОУП может только разбивать нагрузку
-    || c_roles.uoup && $scope.system_mode == 'mode_verification' && !['ksro', 'aspirantura'].includes($scope._nagruzka_type);
+    || c_roles.uoup && $scope.system_mode == 'mode_verification' && !['ksro', 'aspirantura_itog_exam'].includes($scope._nagruzka_type);
 
     // CL(val);
 
@@ -3207,9 +3218,9 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
 
      // (lector.zs || isEmpty(lector.lecturer_fio)) // && $scope.IsNagruzkaRowEditable(nagruzka_row)
     // && 
-    return (lector == undefined || lector.zs || isEmpty(lector.lecturer_fio)) && $scope.system_mode == 'mode_filling' && (c_roles.zavkaf || c_roles.ruk_aspirantura) && !['refused', 'done_refused', 'require_admin_change', 'done_change'].includes(nagruzka_row.status) 
+    return (lector == undefined || lector.zs || isEmpty(lector.lecturer_fio)) && $scope.system_mode == 'mode_filling' && (c_roles.zavkaf && !['aspirantura_itog_exam'].includes($scope._nagruzka_type) || c_roles.ruk_aspirantura) && !['refused', 'done_refused', 'require_admin_change', 'done_change'].includes(nagruzka_row.status) 
     && !isEmpty(nagruzka_row.lectors) && (nagruzka_row.lectors[0].zs || isEmpty(nagruzka_row.lectors[0].lecturer_fio))
-    || $scope.system_mode == 'mode_verification' && c_roles.uoup && !['ksro', 'aspirantura'].includes($scope._nagruzka_type);
+    || $scope.system_mode == 'mode_verification' && c_roles.uoup && !['ksro', 'aspirantura_itog_exam'].includes($scope._nagruzka_type);
   }
 
 
@@ -3271,6 +3282,10 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
     {
       return true;
     }
+    else if ($scope._nagruzka_type == 'aspirantura_itog_exam')
+    {
+      return false;
+    }
     // если это сотрудник (единственная роль) и просмотр отключен завкафом
     else if (c_roles.sotrudnik && Object.keys(c_roles).length == 1 && !isEmpty($scope.chairs_sprav[chair_id]) && !$scope.chairs_sprav[chair_id]['visible'])
     {
@@ -3282,11 +3297,10 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
     }
   }
 
-
-  
   
 
 })
+// End NagruzkaCtrl
 
 .controller ('UOUPNagruzkaCtrl', function($rootScope, $scope, $http, DTOptionsBuilder, DTColumnBuilder, DTColumnDefBuilder, ngDialog, $templateCache, $resource, uoup_nagruzka, nagruzka_uoup_stat, page, $cookies, system_mode, chairs_sprav, $location) // 
 {
@@ -6003,6 +6017,7 @@ $scope.toggleAdminChangeChair = function(chair)
 
   $scope.ShowAspiranturaTab('aspirantura_kand_exam');
   $scope.ShowAspiranturaTab('aspirantura_itog_exam');
+  // $scope.ShowAspiranturaTab('aspirantura_ruk_asp');
 
 })
 
@@ -6381,13 +6396,15 @@ $scope.toggleAdminChangeChair = function(chair)
     templateUrl: 'aspirantura_itog_exam.tpl.html?' + getRandom(10000, 99999),
     // Объявляем входящие параметры. '<' означает одностороннее связывание (one-way binding)
     bindings: {
-        systemMode: '<' 
+        systemMode: '<',
+        chairsSprav: '<'
     },
     // template: "abc",
 
     controller: function AspiranturaItogExamCtrl($scope, $rootScope, $timeout, $http, $templateCache, ngDialog, FileUploader, $filter, $controller)
     {
       CL('AspiranturaItogExamCtrl');
+      // CL(chairs_sprav);
 
       var $ctrl = this; // Сохраняем ссылку на контекст компонента
 
@@ -6416,7 +6433,7 @@ $scope.toggleAdminChangeChair = function(chair)
                 lecturer_uid: null,
                 nagruzka_stat: {},
                 nagruzka: [],
-                chairs_sprav: []
+                chairs_sprav: $ctrl.chairsSprav
             };
 
             // Инициализируем родительский NagruzkaCtrl
@@ -6436,10 +6453,290 @@ $scope.toggleAdminChangeChair = function(chair)
     templateUrl: 'aspirantura_ruk_asp.tpl.html?' + getRandom(10000, 99999),
     // template: "abc",
 
-    controller: function AspiranturaRukAspCtrl($scope, $rootScope, $timeout, $http, $templateCache, ngDialog, FileUploader, $filter)
+    controller: function AspiranturaRukAspCtrl($scope, $rootScope, $timeout, $http, $templateCache, ngDialog, FileUploader, $filter, $resource, DTOptionsBuilder, $location, DTColumnDefBuilder, $cookies)
     {
       CL('AspiranturaRukAspCtrl');
+
+      $scope.aspirantura_ruk_asp_filter = {filter: $cookies.get('global_nagruzka_filter_aspirantura_ruk_asp')};
+      
+      $scope.dtAspiranturaRukAspInstance = {};
+
+      const columns = [
+        // Фио аспиранта
+        {
+          name: 'fio',
+          type: 'input',
+          bRegex: false,
+        },
+        // группа
+        {
+          name: 'group_name',
+          type: 'input',
+          bRegex: false,
+        },
+        // Факультет
+        {
+          name: 'department',
+          type: 'select',
+          bRegex: false,
+        },
+        // Направление
+        {
+          name: 'napravlenie_title',
+          type: 'input',
+          bRegex: false,
+        },
+        // Курс
+        {
+          name: 'course',
+          type: 'select',
+          bRegex: false,
+        },
+        // Факультет преподавателя
+        {
+          name: 'lecturer_deparment_name',
+          type: 'input',
+          bRegex: false,
+        },
+        // Кафедра преподавателя
+        {
+          name: 'lecturer_chair_name',
+          type: 'input',
+          bRegex: false,
+        },
+        // Преподаватель
+        {
+          name: 'lecturer',
+          type: 'input',
+          bRegex: false,
+        },
+        
+      ];
+
+
+      $scope.dtOptions = DTOptionsBuilder //.fromSource('data.json')
+        .newOptions()
+        .withOption('stateSave', true)
+        .withOption('stateStorage', 'cookie')
+        .withOption('stateSaveCallback', function(settings, data) {
+            const path = $location.path();
+            const storageKey = 'DataTables_Table_aspirantura_ruk' + path.replace(/\//g, '_');
+            localStorage.setItem(storageKey, JSON.stringify(data));
+        })
+        .withOption('stateLoadCallback', function(settings) {
+            const path = $location.path();
+            const storageKey = 'DataTables_Table_aspirantura_ruk' + path.replace(/\//g, '_');
+            const saved = localStorage.getItem(storageKey);
+            return saved ? JSON.parse(saved) : null;
+        })
+        // .withOption('aoColumns', [{bVisible': false}])
+        .withPaginationType('full_numbers')
+        .withColVis()
+        // Add a state change function
+        // .withColVisStateChange(stateChange)
+        // Exclude the last column from the list
+        // .withColVisOption('aiExclude', [0,1,3,14,15])
+        .withLanguage({
+            "loadingRecords": "Загрузка...",
+            "processing": "Обработка..."
+        })
+        .withButtons([
+            {
+              extend: 'excel',
+              text: 'Excel', // Текст на самой кнопке
+              filename: "Нагрузка", // Имя файла
+              title: "Нагрузка", // Заголовок на первой строке листа
+              exportOptions: 
+              {
+                columns: function (idx, data, node) {
+                    // Проверяем, что столбец видимый и не первый
+                    // const column = $scope.dtAspiranturaKandExamInstance.dataTable.fnSettings().aoColumns[idx];
+                    return true; // column.bVisible && idx !== 0;
+                },
+                format: 
+                {
+                  body: function (data, column, row, node) 
+                  {
+                    if (!data || typeof data !== 'string') return data || '';
+
+                    // Создаем временный элемент
+                    const temp = document.createElement('div');
+                    temp.innerHTML = data;
+
+                    // Заменяем <br> на перенос строки перед получением textContent
+                    // Вариант 1: через replace
+                    const htmlWithBr = temp.innerHTML;
+                    temp.innerHTML = htmlWithBr.replace(/<br\s*\/?>/gi, ', ');
+
+                    return temp.textContent || temp.innerText || '';
+                  
+                  
+                  }
+                }
+              }
+            }
+        ])
+        ;
+
+
+      $scope.onAspiranturaRukAspNagruzkaTableInstance = function(dtAspiranturaRukAspInstance) 
+      {
+        CL('onAspiranturaRukAspNagruzkaTableInstance');
+        $scope.isAspiranturaRukAspLoading = true;
+
+        $scope.aspirantura_ruk_asp = $resource('ajax/get/get_aspirantura_ruk_asp.php').query(
+          function()
+          {
+            $scope.isAspiranturaRukAspLoading = false;
+          });
+
+        $scope.dtAspiranturaRukAspInstance = dtAspiranturaRukAspInstance;
+        const table = dtAspiranturaRukAspInstance.DataTable;
+        const lecturerColumnIndex = 7; // Index of the "Преподаватель" column
+        let filtersAspiranturaRukAspInitialized = false;
+
+        // Function to initialize filters only once
+        const initializeAspiranturaRukAspFiltersOnce = () => 
+        {
+          CL('initializeAspiranturaRukAspFiltersOnce');
+
+          if (!filtersAspiranturaRukAspInitialized) 
+          {
+            createCustomFilters('DataTables_Table_aspirantura_ruk', table, columns, $scope);
+            filtersAspiranturaRukAspInitialized = true;
+          }
+        };
+
+
+        // Handle column visibility changes
+        table.on('column-visibility.dt', () => 
+        {
+          // CL('column-visibility.dt');
+          // Only reinitialize filters if they haven't been initialized yet
+          if (!filtersAspiranturaRukAspInitialized) 
+          {
+            initializeAspiranturaRukAspFiltersOnce();
+          }
+          // applyLecturerFilter();
+        });
+
+      }
+
+      // если есть id, то это обновление, иначе - добавление новой строки
+      $scope.SaveNagruzkaAspirantRukAspRow = function(nagruzka_row)
+      {
+        $http({url: 'ajax/post/save_nagruzka_aspirant_ruk_asp.php', method: 'POST', data: nagruzka_row})
+              .then(function(response)
+              {
+                if (response.data.result == 'success')
+                {
+                  toastr.success("Данные сохранены");
+
+                  // if (isEmpty(nagruzka_row.id))
+                  // {
+                  //   nagruzka_row.id = response.data.id;
+                  //   $scope.aspirantura_ruk_asp.push(nagruzka_row);
+                  // }
+                }
+                else
+                {
+                  toastr.error("Ошибка");
+                }
+              });
+      }
+
+      $scope.NagruzkaAspiranturaRukAspDeleteLecturer = function(nagruzka_row)
+      {
+        $http({url: 'ajax/post/delete_nagruzka_aspirant_ruk_asp.php', method: 'POST', data: nagruzka_row})
+              .then(function(response)
+              {
+                if (response.data.result == 'success')
+                {
+                  toastr.success("Данные сохранены");
+
+                  // if (response.data.delete)
+                  // {
+                  //   deleteByColumn($scope.aspirantura_ruk_asp, 'id', nagruzka_row.id);
+                  // }
+                  // else
+                  {
+                    nagruzka_row.lecturer_login = nagruzka_row.lecturer_person_id = nagruzka_row.lecturer_fio = nagruzka_row.lecturer_uid = nagruzka_row.lecturer_chair_id = nagruzka_row.lecturer_chair_name = nagruzka_row.lecturer_department_id = nagruzka_row.lecturer_department_name = '';
+                  }
+                }
+                else
+                {
+                  toastr.error("Ошибка");
+                }
+              });
+      }
+
+
+      $scope.NagruzkaAspiranturaRukAspSelectedLecturer = function(data, nagruzka_row)
+      {
+        CL('NagruzkaAspiranturaRukAspSelectedLecturer');
+        
+        // CL(data.originalObject);
+        // CL(nagruzka_row);
+
+                // выбрали того же, ничего не делаем (хотя можно и обновить инфу по нему, вдруг кафедра у него другая стала)
+        // else if (!isEmpty(nagruzka_row.lecturer_uid) && nagruzka_row.lecturer_uid === data.originalObject.lecturer_uid)
+        // {
+        //   return;
+        // }
+        // else
+        {
+
+
+          // удалить распределение
+          if (data.originalObject.fio == '-')
+          {
+            nagruzka_row.lecturer_login = nagruzka_row.lecturer_person_id = nagruzka_row.lecturer_fio = nagruzka_row.lecturer_uid = nagruzka_row.lecturer_chair_id = nagruzka_row.lecturer_chair_name = nagruzka_row.lecturer_department_id = nagruzka_row.lecturer_department_name = '';
+          }
+          else if (!isEmpty(data))
+          {
+            nagruzka_row.lecturer_fio = data.originalObject.fio;
+            nagruzka_row.lecturer_uid = data.originalObject.lecturer_uid;
+            nagruzka_row.lecturer_person_id = data.originalObject.person_id;
+            nagruzka_row.lecturer_login = data.originalObject.lecturer_login;
+            nagruzka_row.lecturer_chair_id = data.originalObject.chair_id;
+            nagruzka_row.lecturer_chair_name = data.originalObject.chair_name;
+            nagruzka_row.lecturer_department_id = data.originalObject.department_id;
+            nagruzka_row.lecturer_department_name = data.originalObject.department_name;
+          }
+
+          nagruzka_row.show_lecturer_autocomplete = false;
+
+          $scope.SaveNagruzkaAspirantRukAspRow(nagruzka_row);
+
+        }
+      }
+
+      $scope.focusOutAspiranturaRukAspLecturer = function(row, data)
+      {
+        $scope.aspirantura_ruk_asp.forEach(nagruzka_row => 
+        {
+          nagruzka_row.show_lecturer_autocomplete = false;
+        });
+      }
+
+
+      $scope.CalcAspiranturaRukAspNagruzkaHours = function(nagruzka_row)
+      {
+        return roundToTwo(parseFloat(nagruzka_row.students_num) * 0.5);
+      }
+
+      $scope.onNagruzkaAspiranturaRukAspGlobalFilterChange = function() 
+      {
+        CL('onNagruzkaAspiranturaRukAspGlobalFilterChange');
+
+        $cookies.put('global_nagruzka_filter_aspirantura_ruk_asp', $scope.aspirantura_ruk_asp_filter.filter);
+
+        window.location.reload();
+      }
     }
+
+
+  // end AspiranturaRukAspCtrl
 })
 
 

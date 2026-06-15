@@ -81,7 +81,7 @@ if ($BUPDisciplines)
       // $Result = $mysqli->query("INSERT IGNORE INTO `aspirantura_kand_exam` 
       //                 SET `deleted` = '0', `bup_nrec` = '$bup_discipline[nrec]', `disc_nrec` = '$bup_discipline[disc_nrec]', `disc_abr` = '$bup_discipline[abr]', `disc_title` = '$bup_discipline[title]', `exam_semester` = '$bup_discipline[exam_semester]', `group` = '{$BUPGroups[$bup['reg_number']]['group']}', `students_num` = '{$BUPGroups[$bup['reg_number']]['students_in_group']}'");
 
-      $groups = JoinArrayElements($BUPGroupsByRegNum[$bup['reg_number']]);
+      $groups = $BUPGroupsByRegNum[$bup['reg_number']] ? JoinArrayElements($BUPGroupsByRegNum[$bup['reg_number']]) : '';
 
       // Т.к. в таблице может быть несколько строк по ключу с преподавателями, мы не можем использовать уникальный ключ,
       // поэтому.. проверим, есть ли строка по ключу
@@ -143,24 +143,38 @@ include '../connect/vkr.php';
 $Aspirants = GetRows('students_ip', ['education_level' => 'Аспирант', 'status' => 'Учится']);
 
 include '../connect.php';
+// echo sizeof($Aspirants);
 
 if ($Aspirants)
 {
   // Т.к. аспирант мог перестать учиться, (и не попадёт в массив) то проставим всем строкам deleted = 1
-  $mysqli->query("UPDATE `aspirantura_rukovodstvo` SET `deleted` = '1'");
+  $mysqli->query("UPDATE `aspirantura_ruk_asp` SET `deleted` = '1', `date_update` = NOW()");
 
   foreach ($Aspirants as $aspirant)
   {
-    $Result = $mysqli->query("INSERT IGNORE INTO `aspirantura_rukovodstvo` 
-                    SET `uid` = '$aspirant[uid]', 
-                        `fio` = '$aspirant[fio]',
-                        `department_id` = '$aspirant[department_id]',
-                        `department` = '$aspirant[department]',
-                        `napravlenie_code` = '$aspirant[napravlenie_code]',
-                        `napravlenie_title` = '$aspirant[napravlenie_title]',
-                        `course` = '$aspirant[course]',
-                        `deleted` = '0'
-                        ");
+    EchoLog($aspirant['group']);
+
+    $Result = $mysqli->query("INSERT INTO `aspirantura_ruk_asp` 
+                              SET `uid` = '$aspirant[uid]', 
+                                  `fio` = '$aspirant[fio]',
+                                  `department_id` = '$aspirant[department_id]',
+                                  `department` = '$aspirant[department]',
+                                  `napravlenie_code` = '$aspirant[napravlenie_code]',
+                                  `napravlenie_title` = '$aspirant[napravlenie_title]',
+                                  `course` = '$aspirant[course]',
+                                  `group` = '$aspirant[group]',
+                                  `deleted` = '0',
+                                  `date` = NOW()
+                              ON DUPLICATE KEY UPDATE
+                                  `fio` = VALUES(`fio`),
+                                  `department_id` = VALUES(`department_id`),
+                                  `department` = VALUES(`department`),
+                                  `napravlenie_code` = VALUES(`napravlenie_code`),
+                                  `napravlenie_title` = VALUES(`napravlenie_title`),
+                                  `course` = VALUES(`course`),
+                                  `group` = VALUES(`group`),
+                                  `deleted` = '0'
+                              ");
 
     if (!$Result)
     {
@@ -840,6 +854,7 @@ if ($Kandidats_arr)
     foreach ($Kandidats_arr as $sotrudnik)
     {
       if (!$SotrudnikiItogoByKey["$sotrudnik[person_id]-$sotrudnik[chair_id]"])
+
       $SotrudnikiItogoByKey["$sotrudnik[person_id]-$sotrudnik[chair_id]"] = $sotrudnik;
     }
   }
@@ -856,13 +871,14 @@ $ChairsSotrudnikiCurYear = GetChairSotrudniki($cur_year);
 $ChairsSotrudnikiPrevYear = GetChairSotrudniki($cur_year - 1);
 $ChairsSotrudnikiPrevPrevYear = GetChairSotrudniki($cur_year - 2);
 
-if ($ChairsSotrudnikiPrevPrevYear)
+if ($ChairsSotrudnikiCurYear)
 {
-  if ($ChairsSotrudnikiPrevPrevYear)
+  if ($ChairsSotrudnikiCurYear)
   {
-    foreach ($ChairsSotrudnikiPrevPrevYear as $sotrudnik)
+    foreach ($ChairsSotrudnikiCurYear as $sotrudnik)
     {
       $sotrudnik['type'] = 'worked';
+
       if (!$SotrudnikiItogoByKey["$sotrudnik[person_id]-$sotrudnik[chair_id]"])
       $SotrudnikiItogoByKey["$sotrudnik[person_id]-$sotrudnik[chair_id]"] = $sotrudnik;
     }
@@ -876,27 +892,39 @@ if ($ChairsSotrudnikiPrevYear)
     foreach ($ChairsSotrudnikiPrevYear as $sotrudnik)
     {
       $sotrudnik['type'] = 'worked';
+
       if (!$SotrudnikiItogoByKey["$sotrudnik[person_id]-$sotrudnik[chair_id]"])
       $SotrudnikiItogoByKey["$sotrudnik[person_id]-$sotrudnik[chair_id]"] = $sotrudnik;
     }
   }
 }
+
+if ($ChairsSotrudnikiPrevPrevYear)
+{
+  if ($ChairsSotrudnikiPrevPrevYear)
+  {
+    foreach ($ChairsSotrudnikiPrevPrevYear as $sotrudnik)
+    {
+      $sotrudnik['type'] = 'worked';
+
+      if (!$SotrudnikiItogoByKey["$sotrudnik[person_id]-$sotrudnik[chair_id]"])
+      $SotrudnikiItogoByKey["$sotrudnik[person_id]-$sotrudnik[chair_id]"] = $sotrudnik;
+    }
+  }
+}
+
+// EchoLog($ChairsSotrudnikiCurYear);
+// exit;
+
+
 
 // EchoLog($ChairsSotrudnikiPrevYear);
 // exit;
 
-if ($ChairsSotrudnikiCurYear)
-{
-  if ($ChairsSotrudnikiCurYear)
-  {
-    foreach ($ChairsSotrudnikiCurYear as $sotrudnik)
-    {
-      $sotrudnik['type'] = 'worked';
-      if (!$SotrudnikiItogoByKey["$sotrudnik[person_id]-$sotrudnik[chair_id]"])
-      $SotrudnikiItogoByKey["$sotrudnik[person_id]-$sotrudnik[chair_id]"] = $sotrudnik;
-    }
-  }
-}
+
+
+// EchoLog($SotrudnikiItogoByKey);
+// exit;
 
 unset($ChairsSotrudnikiCurYear);
 
@@ -976,7 +1004,7 @@ unset($SotrudnikiGPH);
 
 // EchoLog($SotrudnikiGPH);
 
-// print_r($SotrudnikiItogoByKey);
+// EchoLog($SotrudnikiItogoByKey);
 // exit;
 
 
@@ -1052,7 +1080,7 @@ if ($Sotrudniki)
       {
         $Result = $mysqli->query("
                   UPDATE `sotrudniki` 
-                  SET `date_remove` = NOW() 
+                  SET `date_remove` = NOW()
                   WHERE `date_remove` IS NULL AND `person_id` = '$sotr[person_id]' AND `chair_id` = '$sotr[chair_id]'
                   ");
 
@@ -1150,8 +1178,8 @@ if ($SotrudnikiItogoByKey)
 
     if ($person_id == 23413)
     {
-      EchoLog("Post_uid: $post_uid, chair_uid: $chair_uid, department_uid: $department_uid, person_type: $person_type");
-      EchoLog($lecturer);
+      // EchoLog("Post_uid: $post_uid, chair_uid: $chair_uid, department_uid: $department_uid, person_type: $person_type");
+      // EchoLog($lecturer);
     }
   
 
@@ -1935,7 +1963,7 @@ if ($XMLContentOfLoad)
         }
 
         // Что-то изменилось, нужно сбросить в нагрузке назначенного преподавателя
-        // TODO ! в других таблицах надо
+        // TODO ! в других таблицах надо !
         if ($some_changed)
         {
           $chair_id = $XMLChairByUID[$new_nagr_row['UID_Chair']]['Code'];
