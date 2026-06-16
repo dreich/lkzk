@@ -531,12 +531,15 @@ abstract class BaseNagruzkaProvider
         if ($this->userRole === 'uoup' && ($this->onlyStat || $this->isLite)) 
         {
           $nagruzkaData = $this->groupByChair($nagruzkaData, $statByChair);
+
+          // EchoLog($this->nagruzkaType);
           // Хук для добавления КСРО (используется только в FillingMode)
           // Предположительно, это добавляется когда вызывается nagruzka/?lite=1
-          if (!$this->nagruzkaType)
+          if (!$this->nagruzkaType || $this->nagruzkaType == 'all')
           {
+            // EchoLog('jere');
             $this->applyExtraUoupTransformations($nagruzkaData, $statByChair);
-            }
+          }
         }
 
         // 9. Финальная сборка ответа

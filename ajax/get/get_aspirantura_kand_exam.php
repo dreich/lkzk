@@ -11,7 +11,7 @@ if(empty($_SERVER['HTTP_X_REQUESTED_WITH']) || strtolower($_SERVER['HTTP_X_REQUE
     die(json_encode(['result' => 'error', 'message' => 'Только AJAX запросы']));
 }
 
-$filter = $_COOKIE['global_nagruzka_filter_aspirantura_kand_exam'];
+$filter = $_COOKIE['global_nagruzka_filter'];
 
 // $Chairs = GetTable('xml_chair', "", "", 'Code', 'Code, Name');
 
@@ -26,16 +26,16 @@ elseif ($filter == 'not_assigned')
 
 $Nagruzka = GetSQL("SELECT *
                     FROM `aspirantura_kand_exam`
-                    WHERE 1 $filter_sql
+                    WHERE `deleted` <> 1 $filter_sql
                   ");
 
-// if ($Chairs)
-// {
-//   foreach ($Chairs as &$chair)
-//   {
-//     $chair['visible'] = !!$chair['visible'];
-//   }
-// }
+if ($Nagruzka)
+{
+  foreach ($Nagruzka as &$nagruzka)
+  {
+    $nagruzka['chair_name'] = $nagruzka['chair_name'] ? $nagruzka['chair_name'] : $nagruzka['department_name'];
+  }
+}
 
 echo json_encode($Nagruzka);
 ?>

@@ -85,16 +85,16 @@ $filteredSotrudniki = [];
 
 foreach ($Sotrudniki as $sotrudnik) 
 {
-    // Заполняем dolzhnost_hint
-    $sotrudnik['dolzhnost_hint'] = ($sotrudnik['type'] == 'gph') 
-        ? 'ГПХ' 
-        : $sotrudnik['dolzhnost'];
-    
-    // Оставляем только тех, кто есть в справочнике xml_lecturer для подстраховки
-    if (isset($XMLLecturerByUID[$sotrudnik['lecturer_uid']]) || $sotrudnik['lecturer_uid'] == '-' || $sotrudnik['lecturer_person_id'] == '000000') 
-    {
-      $filteredSotrudniki[] = $sotrudnik;
-    }
+  // Заполняем dolzhnost_hint
+  $sotrudnik['dolzhnost_hint'] = ($sotrudnik['type'] == 'gph') 
+      ? 'ГПХ' 
+      : $sotrudnik['dolzhnost'];
+  
+  // Оставляем только тех, кто есть в справочнике xml_lecturer для подстраховки
+  if (isset($XMLLecturerByUID[$sotrudnik['lecturer_uid']]) || $sotrudnik['lecturer_uid'] == '-' || $sotrudnik['lecturer_person_id'] == '000000') 
+  {
+    $filteredSotrudniki[] = $sotrudnik;
+  }
 }
 
 $Sotrudniki = $filteredSotrudniki;

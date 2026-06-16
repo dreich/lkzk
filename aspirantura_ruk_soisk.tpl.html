@@ -1,0 +1,116 @@
+<div ng-if="isAspiranturaRukSoiskLoading">
+  <img src="/images/hourglass.png" style='position:fixed; left: 47%; top: 47%; z-index: 1000'>
+</div>
+
+<div ng-if="!isAspiranturaRukSoiskLoading">
+
+    <select class="form-select mb-2" style="width: 300px" ng-model="aspirantura_ruk_soisk_filter.filter" ng-change="onNagruzkaAspiranturaRukSoiskGlobalFilterChange()" ng-if="!nagruzka_selected_lecturer_uid">
+      <option value="">Вся нагрузка</option>
+      <option value="assigned">распределена</option>
+      <option value="not_assigned">не распределена</option>
+    </select>
+
+    <table id="DataTables_Table_aspirantura_soisk" datatable="ng" dt-options="dtOptions"  dt-column-defs="dtColumnDefs" dt-instance="onAspiranturaRukSoiskNagruzkaTableInstance" class="dataTable row-border hover display table "  style='margin: 0 0 ;width:100%; ' >
+      <thead>
+
+        <tr>
+          <th>ФИО</th>
+          <th>Приказ</th>
+          <th>Факультет преподавателя</th>
+          <th>Кафедра преподавателя</th>
+          <th>Преподаватель</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr ng-repeat="row in aspirantura_ruk_soisk" class="pointer" ng-class="{'readonly': false}">
+          <td>{{row.fio}} <span class="link glyphicon glyphicon-edit"></span></td>
+          <td>{{row.prikaz}} <span class="link glyphicon glyphicon-edit"></span></td>
+          <td>{{row.lecturer_department_name}}</td>
+          <td>{{row.lecturer_chair_name}}</td>
+          <td>
+
+            <div ng-if="row.lecturer_uid">{{row.lecturer_fio}}  <span class="link glyphicon glyphicon-edit"></span></div>
+
+
+            <!-- <button class="btn btn-xs btn-primary mb-1" ng-click="row.show_lecturer_autocomplete = true">добавить</button> -->
+            <!-- <button class="btn btn-xs btn-dark mb-1" ng-click="NagruzkaAspiranturaRukSoiskDeleteLecturer(row)" ng-if="row.lecturer_uid">удалить</button> -->
+
+            <div ng-if="row.show_lecturer_autocomplete">
+              <!-- {{row.xml_content_of_load_UID}}_{{row.xml_content_of_load_staff_UID}} -->
+              <angucomplete-alt input-name=""
+                  placeholder="Введите ФИО"
+                  pause="400"
+                  initial-value=""
+                  focus-out="focusOutAspiranturaRukSoiskLecturer()"
+                  selected-object="NagruzkaAspiranturaRukSoiskSelectedLecturer"
+                  selected-object-data="row"
+                  input-changed="inputChangedLecturer"
+                  remote-url="ajax/get/get_all_sotrudniki.php?callback=JSON_CALLBACK&lectors_num=&s="
+                  title-field="fio"
+                  match-class="highlight"
+                  text-searching="Поиск..." 
+                  minlength="1"
+                  text-no-results="Не найдено"
+                  description-field="dolzhnost_hint"
+                  input-class="form-control autocomplete" style='width:50%' />
+            </div>
+          </td>
+        </tr>
+      </tbody>
+
+      <tfoot>
+        <tr>
+          <th ind="0"></th>
+          <th ind="1"></th>
+          <th ind="2"></th>
+          <th ind="3"></th>
+          <th ind="4"></th>
+        </tr>
+      </tfoot>
+
+    </table>
+
+    <a ng-click="$root.ClearGreenTableFilters(dtAspiranturaRukSoiskInstance, aspirantura_ruk_soisk_filter)" class="link pointer" style="float:right">сбросить фильтры</a>
+
+
+<button class="btn btn-sm btn-primary" ng-click="show_aspirantura_ruk_soisk_add_form = true" ng-if="!show_aspirantura_ruk_soisk_add_form">Добавить</button>
+
+<div ng-if="show_aspirantura_ruk_soisk_add_form">
+  <h6>Добавить соискателя:</h6>
+
+  <label for="">ФИО</label>
+  <input type="text" class="form-control w-25" ng-model="aspirantura_ruk_soisk_add.fio">
+
+  <label for="">Приказ</label>
+  <input type="text" class="form-control w-25" ng-model="aspirantura_ruk_soisk_add.prikaz">
+
+  <div class="mt-2" style="width: 30%">
+    <label for="">Преподаватель:</label>
+    <angucomplete-alt id="aspirantura_ruk_soisk_add_autocomplete" input-name=""
+        placeholder="Введите ФИО"
+        pause="400"
+        initial-value=""
+        focus-out="focusOutAspiranturaRukSoiskLecturer()"
+        selected-object="NagruzkaAspiranturaRukSoiskSelectedLecturer"
+        selected-object-data="aspirantura_ruk_soisk_add"
+        remote-url="ajax/get/get_all_sotrudniki.php?callback=JSON_CALLBACK&s="
+        title-field="fio"
+        match-class="highlight"
+        text-searching="Поиск..." 
+        minlength="3"
+        text-no-results="Не найдено"
+        description-field="dolzhnost_hint"
+        input-class="form-control autocomplete" style='width:50%' />
+  </div>
+
+  <div ng-if="aspirantura_ruk_soisk_add.lecturer_department_name">Факультет преподавателя: {{aspirantura_ruk_soisk_add.lecturer_department_name}}</div>
+  <div ng-if="aspirantura_ruk_soisk_add.lecturer_chair_name">Кафедра преподавателя: {{aspirantura_ruk_soisk_add.lecturer_chair_name}}</div>
+
+  <button class="btn btn-success mt-3" ng-disabled="!aspirantura_ruk_soisk_add.fio.length || !aspirantura_ruk_soisk_add.prikaz || !aspirantura_ruk_soisk_add.lecturer_fio" ng-click="AspiranturaRukSoiskAdd()">Добавить</button>
+
+</div>
+
+</div>
+
+

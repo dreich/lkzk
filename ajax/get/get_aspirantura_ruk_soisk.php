@@ -1,6 +1,6 @@
 <?php
 
-// Получение нагрузки типа Аспирантура руководство аспирантами
+// Получение нагрузки типа Аспирантура руководство соискателями
 session_name('lkzk');
 session_start();
 require_once '../../functions.php';
@@ -25,7 +25,7 @@ elseif ($filter == 'not_assigned')
 }
 
 $Nagruzka = GetSQL("SELECT *
-                    FROM `aspirantura_ruk_asp`
+                    FROM `aspirantura_ruk_soisk`
                     WHERE `deleted` <> 1 $filter_sql
                   ");
 

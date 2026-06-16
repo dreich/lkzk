@@ -2,7 +2,7 @@
   <img src="/images/hourglass.png" style='position:fixed; left: 47%; top: 47%; z-index: 1000'>
 </div>
 
-<div ng-show="!isAspiranturaRukAspLoading">
+<div ng-if="!isAspiranturaRukAspLoading">
 
     <select class="form-select mb-2" style="width: 300px" ng-model="aspirantura_ruk_asp_filter.filter" ng-change="onNagruzkaAspiranturaRukAspGlobalFilterChange()" ng-if="!nagruzka_selected_lecturer_uid">
       <option value="">Вся нагрузка</option>
@@ -70,17 +70,20 @@
 
       <tfoot>
         <tr>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th></th>
+          <th ind="0"></th>
+          <th ind="1"></th>
+          <th ind="2"></th>
+          <th ind="3"></th>
+          <th ind="4"></th>
+          <th ind="5"></th>
+          <th ind="6"></th>
+          <th ind="7"></th>
         </tr>
       </tfoot>
 
     </table>
+
+    <a ng-click="$root.ClearGreenTableFilters(dtAspiranturaRukAspInstance, aspirantura_ruk_asp_filter)" class="link pointer" style="float:right">сбросить фильтры</a>
+
 
 </div>

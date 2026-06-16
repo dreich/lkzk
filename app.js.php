@@ -136,6 +136,64 @@ var checkSession = function($http, $scope, ngDialog)
     })
 }
 
+
+// доп. функция для зелёных таблиц, чтобы селект-фильтры фильтровали "с начала строки"
+function MakeFilterSelectsSearchFromStart(settings)
+{
+  // CL('MakeFilterSelectsSearchFromStart');
+  var api = new $.fn.dataTable.Api(settings);
+  var $table = $(api.table().node());
+
+  setTimeout(function() 
+  {
+    var $selects = $table.find('select.select_filter');
+    
+    $selects.each(function() {
+        var $select = $(this);
+        
+        // 1. Берем индекс из HTML-атрибута ind (ему не страшны скрытые колонки)
+        var columnIndex = parseInt($select.closest('td, th').attr('ind'), 10);
+
+        if (!isNaN(columnIndex) && columnIndex !== -1) {
+            var column = api.column(columnIndex);
+            var searchVal = column.search(); // Получаем сохраненную строку поиска
+
+            // 2. ВОЗВРАЩАЕМ ПОТЕРЯННЫЙ КОД: Восстановление визуального значения в селекте
+            if (searchVal) {
+                // Очищаем строку от регулярки '^\s*Значение\s*$', чтобы получить чистый текст
+                var cleanVal = searchVal
+                    .replace(/^\^\\s\*/, '')   // Удаляем ^\s*
+                    .replace(/\\s\*\$/, '');    // Удаляем \s*$
+
+                // Устанавливаем очищенное значение в селект
+                $select.val(cleanVal);
+            }
+        }
+
+        // 3. Обработчик изменения (change) с фиксом скрытых колонок
+        $select.off('change').on('change', function() 
+        {
+          var rawVal = $(this).val();
+          var val = $.trim(unescape(rawVal));
+          var colIndex = parseInt($(this).closest('td, th').attr('ind'), 10);
+
+          if (!isNaN(colIndex) && colIndex !== -1) {
+              var col = api.column(colIndex);
+              
+              if (val === '') {
+                  col.search('').draw();
+              } else {
+                  var escapedValue = $.fn.dataTable.util.escapeRegex(val);
+                  var strictRegex = '^\\s*' + escapedValue + '\\s*$';
+                  col.search(strictRegex, true, false).draw();
+              }
+          }
+        });
+    });
+    
+  }, 500); // Твой исходный таймаут в 1 секунду
+}
+
 function clearDataTablesStorage() {
   const prefixes = [
       'DataTables_Table_nagruzka_',
@@ -346,7 +404,7 @@ function createCustomFilters(table_id, table, columns, scope)
     {
       // CL(footerCell);
 
-      const select = $('<select class="form-select select_filter"></select>')
+      const select = $('<select class="form-select select_filter" style="min-width: 60px"></select>')
         .appendTo(footerCell)
         .on('change', function() {
           // Clear all checkboxes when filter changes
@@ -1177,7 +1235,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
         }
       }
     })
-    .when('/aspirantura',
+    .when('/aspirantura/:tab?',
     {
       templateUrl: 'aspirantura.tpl.html?' + getRandom(10000, 99999),
       controller: 'AspiranturaCtrl',
@@ -1279,19 +1337,23 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
   
 
     // Original filter clearing logic
-    if (filter_distinct) 
-    {
-      filter_distinct.global_nagruzka_filter = undefined;
-    }
+    // !! Не имеет смысла без сброса куков
+    // if (filter_distinct) 
+    // {
+    //   filter_distinct.global_nagruzka_filter = undefined;
+    // }
     
     if (table) 
     {
+      // CL('h1');
 
       // Очищаем внутренние фильтры DataTables
       table.search('').draw();
       
-      table.columns().every(function() {
-          this.search(''); // Очистка поиска для каждой колонки
+      table.columns().every(function() 
+      {
+        // CL('h2');
+        this.search(''); // Очистка поиска для каждой колонки
       });
       
       table.draw();
@@ -3482,19 +3544,22 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
             title: page_title // Заголовок на первой строке листа
           }
       ])
-    .withOption('initComplete', function(settings, json) {
+    .withOption('initComplete', function(settings, json) 
+    {
         // Скрываем индикатор когда загрузка завершена
-        $scope.$apply(function() {
+        $scope.$apply(function() 
+        {
           CL('initComplete');
             // $scope.isLoading = false;
 
-        // Дальше код только для того, чтобы селект выбирал с начала строки, а не подстроку
+          // Дальше код только для того, чтобы селект выбирал с начала строки, а не подстроку
           // 1. Сохраняем API таблицы в переменную, пока контекст this еще правильный
-        var api = new $.fn.dataTable.Api(settings);
-        var $table = $(api.table().node());
+          var api = new $.fn.dataTable.Api(settings);
+          var $table = $(api.table().node());
 
-        // 2. Даем браузеру и плагинам 300 миллисекунд на полную отрисовку селектов
-        setTimeout(function() {
+          // 2. Даем браузеру и плагинам 300 миллисекунд на полную отрисовку селектов
+          setTimeout(function() 
+          {
             
             // Вот теперь селекты 100% существуют на странице
             var $selects = $table.find('select.select_filter');
@@ -5970,9 +6035,30 @@ $scope.toggleAdminChangeChair = function(chair)
 
 })
 
-.controller('AspiranturaCtrl', function($templateCache, $scope, $rootScope, ngDialog, $http, $resource, DTOptionsBuilder, DTColumnDefBuilder, system_mode, aspirantura_selected_chair_id, aspirantura_selected_lecturer_uid, chairs_sprav, $location)
+.controller('AspiranturaCtrl', function($templateCache, $scope, $rootScope, ngDialog, $http, $resource, DTOptionsBuilder, DTColumnDefBuilder, system_mode, aspirantura_selected_chair_id, aspirantura_selected_lecturer_uid, chairs_sprav, $location, $routeParams)
 {
   CL('AspiranturaCtrl');
+
+  // Список ваших вкладок для проверки и дефолтного значения
+  var validTabs = ['aspirantura_kand_exam', 'aspirantura_itog_exam', 'aspirantura_ruk_asp', 'aspirantura_ruk_soiskatel'];
+  
+  // 1. Инициализация: берем вкладку из URL. Если её нет или она левая — берем первую по дефолту
+  var currentTab = $routeParams.tab;
+  if (!currentTab || validTabs.indexOf(currentTab) === -1) {
+      $scope.visible_tab = 'aspirantura_kand_exam';
+  } else {
+      $scope.visible_tab = currentTab;
+  }
+
+  // 2. Функция переключения вкладок
+  $scope.ShowAspiranturaTab = function(tabName) 
+  {
+    $scope.visible_tab = tabName;
+    
+    // Меняем путь в URL. Роутер поймет, что это тот же контроллер, 
+    // но обновит адресную строку на /aspirantura/имя_вкладки
+    $location.path('/aspirantura/' + tabName);
+  };
 
   $scope.c_login = c_login;
   $rootScope.page = 'aspirantura';
@@ -5996,6 +6082,7 @@ $scope.toggleAdminChangeChair = function(chair)
  
   $scope.c_roles = c_roles;
 
+  /*
   $scope.ShowAspiranturaTab = function(tab)
   {
     // if (!$scope.IsSelectedStageOpen()) return;
@@ -6015,8 +6102,10 @@ $scope.toggleAdminChangeChair = function(chair)
     }
   }
 
-  $scope.ShowAspiranturaTab('aspirantura_kand_exam');
-  $scope.ShowAspiranturaTab('aspirantura_itog_exam');
+  */
+
+  // $scope.ShowAspiranturaTab('aspirantura_kand_exam');
+  // $scope.ShowAspiranturaTab('aspirantura_itog_exam');
   // $scope.ShowAspiranturaTab('aspirantura_ruk_asp');
 
 })
@@ -6034,11 +6123,34 @@ $scope.toggleAdminChangeChair = function(chair)
       CL('AspiranturaKandExamCtrl');
       // $scope.isAspiranturaKandExamLoading = true;
 
-      $scope.aspirantura_kand_exam_filter = {filter: $cookies.get('global_nagruzka_filter_aspirantura_kand_exam')};
+      $scope.isAspiranturaKandExamLoading = true;
+
+      $scope.aspirantura_kand_exam = $resource('ajax/get/get_aspirantura_kand_exam.php').query(
+        function()
+        {
+          // Данные успешно пришли! Теперь можно скрывать лоадер
+          $scope.isAspiranturaKandExamLoading = false;
+
+          // СТРОГО ТУТ: Если инстанс таблицы уже готов, принудительно строим фильтры
+          if ($scope.dtAspiranturaKandExamInstance && $scope.dtAspiranturaKandExamInstance.DataTable) {
+              const table = $scope.dtAspiranturaKandExamInstance.DataTable;
+              createCustomFilters('DataTables_Table_aspirantura_kand_exam', table, columns, $scope);
+          }
+        }
+      );
+
+
+      $scope.aspirantura_kand_exam_filter = {global_nagruzka_filter: $cookies.get('global_nagruzka_filter')};
       
       $scope.dtAspiranturaKandExamInstance = {};
 
       const columns = [
+        // Факультет БУПа
+        {
+          name: 'bup_department_name',
+          type: 'select',
+          bRegex: false,
+        },
         // дисциплина
         {
           name: 'discipline_name',
@@ -6051,6 +6163,8 @@ $scope.toggleAdminChangeChair = function(chair)
           type: 'input',
           bRegex: false,
         },
+        // уровень образования (скрыт)
+        null,
         // Семестр
         {
           name: 'exam_semester',
@@ -6060,6 +6174,8 @@ $scope.toggleAdminChangeChair = function(chair)
           width: '100'
         },
         // Количество обучающихся
+        null,
+        // Вид работ, скрыт
         null,
         // Количество часов
         null,
@@ -6109,8 +6225,8 @@ $scope.toggleAdminChangeChair = function(chair)
                   // Если массив с колонками в кэше есть, явно говорим, 
                   // что столбцы должны быть СВЕРНУТЫ.
                   // ! dup lower
-                  if (data.columns[2]) data.columns[2].visible = false;
-                  if (data.columns[5]) data.columns[5].visible = false;
+                  if (data.columns[3]) data.columns[3].visible = false;
+                  if (data.columns[6]) data.columns[6].visible = false;
               }
               
               return data;
@@ -6161,18 +6277,63 @@ $scope.toggleAdminChangeChair = function(chair)
                 {
                   body: function (data, column, row, node) 
                   {
-                    if (!data || typeof data !== 'string') return data || '';
+                    // Для определённых столбцов своя обработка
+                    if (row === 10)
+                    {
+                      // Клонируем узел, чтобы не менять оригинал
+                      const clone = node.cloneNode(true);
+                      
+                      // Удаляем все комментарии из клона
+                      const walker = document.createTreeWalker(
+                          clone,
+                          NodeFilter.SHOW_COMMENT,
+                          {
+                              acceptNode: function(node) {
+                                  return NodeFilter.FILTER_ACCEPT;
+                              }
+                          }
+                      );
+                      
+                      const commentsToRemove = [];
+                      while (walker.nextNode()) {
+                          commentsToRemove.push(walker.currentNode);
+                      }
+                      commentsToRemove.forEach(comment => comment.remove());
 
-                    // Создаем временный элемент
-                    const temp = document.createElement('div');
-                    temp.innerHTML = data;
+                      // Находим и полностью удаляем все кнопки из клона вместе с их содержимым
+                      const buttonsToRemove = clone.querySelectorAll('button');
+                      buttonsToRemove.forEach(button => button.remove());
+                      
+                      // Получаем текст без комментариев
+                      let text = clone.textContent || clone.innerText || '';
+                      
+                      // Очищаем от лишних пробелов и переносов строк
+                      text = text.replace(/\s+/g, ' ').trim();
+                      
+                      // Разделяем лекторов (если нужно)
+                      text = text.replace(/\)\s+/, '); ');
 
-                    // Заменяем <br> на перенос строки перед получением textContent
-                    // Вариант 1: через replace
-                    const htmlWithBr = temp.innerHTML;
-                    temp.innerHTML = htmlWithBr.replace(/<br\s*\/?>/gi, ', ');
+                      // Заменяем "[не распределено]" на "не распределено"
+                      text = text.replace(/\[не распределено\]/g, 'не распределено');
+                      
+                      return text;
 
-                    return temp.textContent || temp.innerText || '';
+                    }
+                    else
+                    {
+                      if (!data || typeof data !== 'string') return data || '';
+
+                      // Создаем временный элемент
+                      const temp = document.createElement('div');
+                      temp.innerHTML = data;
+
+                      // Заменяем <br> на перенос строки перед получением textContent
+                      // Вариант 1: через replace
+                      const htmlWithBr = temp.innerHTML;
+                      temp.innerHTML = htmlWithBr.replace(/<br\s*\/?>/gi, ', ');
+
+                      return temp.textContent || temp.innerText || '';
+                    }
                   
                   
                   }
@@ -6183,73 +6344,88 @@ $scope.toggleAdminChangeChair = function(chair)
         // .withColumnFilter({
         //     aoColumns: columns
         // })
+        .withOption('initComplete', function(settings, json) 
+        {
+          // Скрываем индикатор когда загрузка завершена
+          $scope.$apply(function() 
+          {
+            CL('initComplete');
 
-        // .withOption('initComplete', function(settings, json) 
-        // {
-        //   // Скрываем индикатор когда загрузка завершена
-        //   CL("initComplete");
-        //   $scope.$apply(function() {
-        //       // $scope.isLoading = false;
-        //   });
+            MakeFilterSelectsSearchFromStart(settings);
 
-        //   // Добавляем создание фильтров
-        //   const api = this.api();
-        //   createCustomFilters('DataTables_Table_aspirantura_kand_exam', api, columns, $scope);
-        // })
-        // .withOption('processing', true)
+          });
+        })
+        .withOption('processing', true)
         ;
 
 
         $scope.dtColumnDefs = [
           // ! dup higher
-          DTColumnDefBuilder.newColumnDef(2).notVisible(), // Скрыть 3-й столбец Уровень образования
-          DTColumnDefBuilder.newColumnDef(5).notVisible(), // Скрыть 6-й столбец Вид работ
+          DTColumnDefBuilder.newColumnDef(3).notVisible(), // Скрыть 3-й столбец Уровень образования
+          DTColumnDefBuilder.newColumnDef(6).notVisible(), // Скрыть 6-й столбец Вид работ
       ];
 
       $scope.onAspiranturaKandExamNagruzkaTableInstance = function(dtAspiranturaKandExamInstance) 
       {
-        CL('onAspiranturaKandExamNagruzkaTableInstance');
-        $scope.isAspiranturaKandExamLoading = true;
+          CL('onAspiranturaKandExamNagruzkaTableInstance');
+          $scope.dtAspiranturaKandExamInstance = dtAspiranturaKandExamInstance;
+          const table = dtAspiranturaKandExamInstance.DataTable;
 
+          // Если сеть отработала ОЧЕНЬ быстро и данные прилетели РАНЬШЕ, чем создался инстанс:
+          if (!$scope.isAspiranturaKandExamLoading) {
+              createCustomFilters('DataTables_Table_aspirantura_kand_exam', table, columns, $scope);
+          }
 
-        $scope.aspirantura_kand_exam = $resource('ajax/get/get_aspirantura_kand_exam.php').query(
-          function()
-          {
-            $scope.isAspiranturaKandExamLoading = false;
+          // Следим за кнопками скрытия/показа колонок (ColVis)
+          table.on('column-visibility.dt', () => {
+              createCustomFilters('DataTables_Table_aspirantura_kand_exam', table, columns, $scope);
           });
+      };
+
+      // $scope.onAspiranturaKandExamNagruzkaTableInstance = function(dtAspiranturaKandExamInstance) 
+      // {
+      //   CL('onAspiranturaKandExamNagruzkaTableInstance');
+      //   $scope.isAspiranturaKandExamLoading = true;
 
 
-        $scope.dtAspiranturaKandExamInstance = dtAspiranturaKandExamInstance;
-        const table = dtAspiranturaKandExamInstance.DataTable;
-        const lecturerColumnIndex = 7; // Index of the "Преподаватель" column
-        let filtersAspiranturaKandExamInitialized = false;
-
-        // Function to initialize filters only once
-        const initializeAspiranturaKandExamFiltersOnce = () => 
-        {
-          CL('initializeAspiranturaKandExamFiltersOnce');
-
-          if (!filtersAspiranturaKandExamInitialized) 
-          {
-            createCustomFilters('DataTables_Table_aspirantura_kand_exam', table, columns, $scope);
-            filtersAspiranturaKandExamInitialized = true;
-          }
-        };
+      //   $scope.aspirantura_kand_exam = $resource('ajax/get/get_aspirantura_kand_exam.php').query(
+      //     function()
+      //     {
+      //       $scope.isAspiranturaKandExamLoading = false;
+      //     });
 
 
-        // Handle column visibility changes
-        table.on('column-visibility.dt', () => 
-        {
-          // CL('column-visibility.dt');
-          // Only reinitialize filters if they haven't been initialized yet
-          if (!filtersAspiranturaKandExamInitialized) 
-          {
-            initializeAspiranturaKandExamFiltersOnce();
-          }
-          // applyLecturerFilter();
-        });
+      //   $scope.dtAspiranturaKandExamInstance = dtAspiranturaKandExamInstance;
+      //   const table = dtAspiranturaKandExamInstance.DataTable;
+      //   const lecturerColumnIndex = 7; // Index of the "Преподаватель" column
+      //   let filtersAspiranturaKandExamInitialized = false;
 
-      }
+      //   // Function to initialize filters only once
+      //   const initializeAspiranturaKandExamFiltersOnce = () => 
+      //   {
+      //     CL('initializeAspiranturaKandExamFiltersOnce');
+
+      //     if (!filtersAspiranturaKandExamInitialized) 
+      //     {
+      //       createCustomFilters('DataTables_Table_aspirantura_kand_exam', table, columns, $scope);
+      //       filtersAspiranturaKandExamInitialized = true;
+      //     }
+      //   };
+
+
+      //   // Handle column visibility changes
+      //   table.on('column-visibility.dt', () => 
+      //   {
+      //     // CL('column-visibility.dt');
+      //     // Only reinitialize filters if they haven't been initialized yet
+      //     if (!filtersAspiranturaKandExamInitialized) 
+      //     {
+      //       initializeAspiranturaKandExamFiltersOnce();
+      //     }
+      //     // applyLecturerFilter();
+      //   });
+
+      // }
 
       // если есть id, то это обновление, иначе - добавление новой строки
       $scope.SaveNagruzkaAspirantKandExamRow = function(nagruzka_row)
@@ -6304,7 +6480,7 @@ $scope.toggleAdminChangeChair = function(chair)
       {
         CL('NagruzkaAspiranturaKandExamSelectedLecturer');
         
-        // CL(data.originalObject);
+        CL(data.originalObject);
         // CL(nagruzka_row);
 
         // В строке уже есть другой преподаватель, нужно создать новую строку нагрузки и поставить туда выбранного препода
@@ -6318,6 +6494,9 @@ $scope.toggleAdminChangeChair = function(chair)
           new_naruzka_row.lecturer_login = data.originalObject.lecturer_login;
           new_naruzka_row.chair_id = data.originalObject.chair_id;
           new_naruzka_row.chair_name = data.originalObject.chair_name;
+
+          if (!data.originalObject.chair_name) new_naruzka_row.chair_name = data.originalObject.department_name;
+
           new_naruzka_row.department_id = data.originalObject.department_id;
           new_naruzka_row.department_name = data.originalObject.department_name;
           new_naruzka_row.id = null;
@@ -6350,6 +6529,9 @@ $scope.toggleAdminChangeChair = function(chair)
             nagruzka_row.lecturer_login = data.originalObject.lecturer_login;
             nagruzka_row.chair_id = data.originalObject.chair_id;
             nagruzka_row.chair_name = data.originalObject.chair_name;
+
+            if (!data.originalObject.chair_name) nagruzka_row.chair_name = data.originalObject.department_name;
+            
             nagruzka_row.department_id = data.originalObject.department_id;
             nagruzka_row.department_name = data.originalObject.department_name;
           }
@@ -6380,7 +6562,7 @@ $scope.toggleAdminChangeChair = function(chair)
       {
         CL('onNagruzkaAspiranturaKandExamGlobalFilterChange');
 
-        $cookies.put('global_nagruzka_filter_aspirantura_kand_exam', $scope.aspirantura_kand_exam_filter.filter);
+        $cookies.put('global_nagruzka_filter', $scope.aspirantura_kand_exam_filter.global_nagruzka_filter);
 
         window.location.reload();
       }
@@ -6457,9 +6639,30 @@ $scope.toggleAdminChangeChair = function(chair)
     {
       CL('AspiranturaRukAspCtrl');
 
-      $scope.aspirantura_ruk_asp_filter = {filter: $cookies.get('global_nagruzka_filter_aspirantura_ruk_asp')};
+      // 1. Инициализируем лоадер в true сразу
+      $scope.isAspiranturaRukAspLoading = true;
+
+      // 2. Вынесли запрос данных в корень контроллера с логикой принудительной перерисовки фильтров
+      $scope.aspirantura_ruk_asp = $resource('ajax/get/get_aspirantura_ruk_asp.php').query(
+        function()
+        {
+          // Данные успешно пришли! Скрываем лоадер
+          $scope.isAspiranturaRukAspLoading = false;
+
+          // Если инстанс таблицы уже готов, принудительно строим фильтры
+          if ($scope.dtAspiranturaRukAspInstance && $scope.dtAspiranturaRukAspInstance.DataTable) {
+              const table = $scope.dtAspiranturaRukAspInstance.DataTable;
+              createCustomFilters('DataTables_Table_aspirantura_ruk', table, columns, $scope);
+          }
+        }
+      );
+
+
+      $scope.aspirantura_ruk_asp_filter = {filter: $cookies.get('global_nagruzka_filter')};
       
       $scope.dtAspiranturaRukAspInstance = {};
+
+
 
       const columns = [
         // Фио аспиранта
@@ -6514,7 +6717,7 @@ $scope.toggleAdminChangeChair = function(chair)
       ];
 
 
-      $scope.dtOptions = DTOptionsBuilder //.fromSource('data.json')
+      $scope.dtOptions = DTOptionsBuilder
         .newOptions()
         .withOption('stateSave', true)
         .withOption('stateStorage', 'cookie')
@@ -6529,13 +6732,8 @@ $scope.toggleAdminChangeChair = function(chair)
             const saved = localStorage.getItem(storageKey);
             return saved ? JSON.parse(saved) : null;
         })
-        // .withOption('aoColumns', [{bVisible': false}])
         .withPaginationType('full_numbers')
         .withColVis()
-        // Add a state change function
-        // .withColVisStateChange(stateChange)
-        // Exclude the last column from the list
-        // .withColVisOption('aiExclude', [0,1,3,14,15])
         .withLanguage({
             "loadingRecords": "Загрузка...",
             "processing": "Обработка..."
@@ -6543,84 +6741,59 @@ $scope.toggleAdminChangeChair = function(chair)
         .withButtons([
             {
               extend: 'excel',
-              text: 'Excel', // Текст на самой кнопке
-              filename: "Нагрузка", // Имя файла
-              title: "Нагрузка", // Заголовок на первой строке листа
+              text: 'Excel',
+              filename: "Нагрузка",
+              title: "Нагрузка",
               exportOptions: 
               {
                 columns: function (idx, data, node) {
-                    // Проверяем, что столбец видимый и не первый
-                    // const column = $scope.dtAspiranturaKandExamInstance.dataTable.fnSettings().aoColumns[idx];
-                    return true; // column.bVisible && idx !== 0;
+                    return true;
                 },
                 format: 
                 {
                   body: function (data, column, row, node) 
                   {
                     if (!data || typeof data !== 'string') return data || '';
-
-                    // Создаем временный элемент
                     const temp = document.createElement('div');
                     temp.innerHTML = data;
-
-                    // Заменяем <br> на перенос строки перед получением textContent
-                    // Вариант 1: через replace
                     const htmlWithBr = temp.innerHTML;
                     temp.innerHTML = htmlWithBr.replace(/<br\s*\/?>/gi, ', ');
-
                     return temp.textContent || temp.innerText || '';
-                  
-                  
                   }
                 }
               }
             }
         ])
-        ;
+        .withOption('initComplete', function(settings, json) 
+        {
+          // Скрываем индикатор когда загрузка завершена
+          $scope.$apply(function() 
+          {
+            CL('initComplete');
+
+            MakeFilterSelectsSearchFromStart(settings);
+
+          });
+        })
+        .withOption('processing', true);
 
 
       $scope.onAspiranturaRukAspNagruzkaTableInstance = function(dtAspiranturaRukAspInstance) 
       {
-        CL('onAspiranturaRukAspNagruzkaTableInstance');
-        $scope.isAspiranturaRukAspLoading = true;
+          CL('onAspiranturaRukAspNagruzkaTableInstance');
+          $scope.dtAspiranturaRukAspInstance = dtAspiranturaRukAspInstance;
+          const table = dtAspiranturaRukAspInstance.DataTable;
 
-        $scope.aspirantura_ruk_asp = $resource('ajax/get/get_aspirantura_ruk_asp.php').query(
-          function()
-          {
-            $scope.isAspiranturaRukAspLoading = false;
+          // Если сеть отработала ОЧЕНЬ быстро и данные прилетели РАНЬШЕ, чем создался инстанс:
+          if (!$scope.isAspiranturaRukAspLoading) {
+              createCustomFilters('DataTables_Table_aspirantura_ruk', table, columns, $scope);
+          }
+
+          // Следим за кнопками скрытия/показа колонок (ColVis)
+          table.on('column-visibility.dt', () => {
+              createCustomFilters('DataTables_Table_aspirantura_ruk', table, columns, $scope);
           });
-
-        $scope.dtAspiranturaRukAspInstance = dtAspiranturaRukAspInstance;
-        const table = dtAspiranturaRukAspInstance.DataTable;
-        const lecturerColumnIndex = 7; // Index of the "Преподаватель" column
-        let filtersAspiranturaRukAspInitialized = false;
-
-        // Function to initialize filters only once
-        const initializeAspiranturaRukAspFiltersOnce = () => 
-        {
-          CL('initializeAspiranturaRukAspFiltersOnce');
-
-          if (!filtersAspiranturaRukAspInitialized) 
-          {
-            createCustomFilters('DataTables_Table_aspirantura_ruk', table, columns, $scope);
-            filtersAspiranturaRukAspInitialized = true;
-          }
-        };
-
-
-        // Handle column visibility changes
-        table.on('column-visibility.dt', () => 
-        {
-          // CL('column-visibility.dt');
-          // Only reinitialize filters if they haven't been initialized yet
-          if (!filtersAspiranturaRukAspInitialized) 
-          {
-            initializeAspiranturaRukAspFiltersOnce();
-          }
-          // applyLecturerFilter();
-        });
-
-      }
+      };
 
       // если есть id, то это обновление, иначе - добавление новой строки
       $scope.SaveNagruzkaAspirantRukAspRow = function(nagruzka_row)
@@ -6729,7 +6902,7 @@ $scope.toggleAdminChangeChair = function(chair)
       {
         CL('onNagruzkaAspiranturaRukAspGlobalFilterChange');
 
-        $cookies.put('global_nagruzka_filter_aspirantura_ruk_asp', $scope.aspirantura_ruk_asp_filter.filter);
+        $cookies.put('global_nagruzka_filter', $scope.aspirantura_ruk_asp_filter.filter);
 
         window.location.reload();
       }
@@ -6742,14 +6915,362 @@ $scope.toggleAdminChangeChair = function(chair)
 
 /* Аспирантура: вкладка "Руководство соискателями" */
 
-.component('aspiranturaRukSoiskatel', {
-    templateUrl: 'aspirantura_ruk_soiskatel.tpl.html?' + getRandom(10000, 99999),
+.component('aspiranturaRukSoisk', {
+    templateUrl: 'aspirantura_ruk_soisk.tpl.html?' + getRandom(10000, 99999),
     // template: "abc",
 
-    controller: function AspiranturaRukSoiskatelCtrl($scope, $rootScope, $timeout, $http, $templateCache, ngDialog, FileUploader, $filter)
+    controller: function AspiranturaRukSoiskCtrl($scope, $rootScope, $timeout, $http, $templateCache, ngDialog, FileUploader, $filter, $resource, $cookies, DTOptionsBuilder, $location)
     {
-      CL('AspiranturaRukSoiskatelCtrl');
+      CL('AspiranturaRukSoiskCtrl');
+
+      // 1. Инициализируем лоадер в true сразу
+      $scope.isAspiranturaRukSoiskLoading = true;
+
+      // 2. Вынесли запрос данных в корень контроллера с логикой принудительной перерисовки фильтров
+      $scope.aspirantura_ruk_soisk = $resource('ajax/get/get_aspirantura_ruk_soisk.php').query(
+        function()
+        {
+          // Данные успешно пришли! Скрываем лоадер
+          $scope.isAspiranturaRukSoiskLoading = false;
+
+          // Если инстанс таблицы уже готов, принудительно строим фильтры
+          if ($scope.dtAspiranturaRukSoiskInstance && $scope.dtAspiranturaRukSoiskInstance.DataTable) {
+              const table = $scope.dtAspiranturaRukSoiskInstance.DataTable;
+              createCustomFilters('DataTables_Table_aspirantura_soisk', table, columns, $scope);
+          }
+        }
+      );
+
+
+      $scope.aspirantura_ruk_soisk_filter = {filter: $cookies.get('global_nagruzka_filter')};
+      
+      $scope.dtAspiranturaRukSoiskInstance = {};
+
+
+
+      const columns = [
+        // Фио аспиранта
+        {
+          name: 'fio',
+          type: 'input',
+          bRegex: false,
+        },
+        // группа
+        {
+          name: 'group_name',
+          type: 'input',
+          bRegex: false,
+        },
+        // Факультет
+        {
+          name: 'department',
+          type: 'select',
+          bRegex: false,
+        },
+        // Направление
+        {
+          name: 'napravlenie_title',
+          type: 'input',
+          bRegex: false,
+        },
+        // Курс
+        {
+          name: 'course',
+          type: 'select',
+          bRegex: false,
+        },
+        // Факультет преподавателя
+        {
+          name: 'lecturer_deparment_name',
+          type: 'input',
+          bRegex: false,
+        },
+        // Кафедра преподавателя
+        {
+          name: 'lecturer_chair_name',
+          type: 'input',
+          bRegex: false,
+        },
+        // Преподаватель
+        {
+          name: 'lecturer',
+          type: 'input',
+          bRegex: false,
+        },
+        
+      ];
+
+
+      $scope.dtOptions = DTOptionsBuilder
+        .newOptions()
+        .withOption('stateSave', true)
+        .withOption('stateStorage', 'cookie')
+        .withOption('stateSaveCallback', function(settings, data) {
+            const path = $location.path();
+            const storageKey = 'DataTables_Table_aspirantura_soisk' + path.replace(/\//g, '_');
+            localStorage.setItem(storageKey, JSON.stringify(data));
+        })
+        .withOption('stateLoadCallback', function(settings) {
+            const path = $location.path();
+            const storageKey = 'DataTables_Table_aspirantura_soisk' + path.replace(/\//g, '_');
+            const saved = localStorage.getItem(storageKey);
+            return saved ? JSON.parse(saved) : null;
+        })
+        .withPaginationType('full_numbers')
+        .withColVis()
+        .withLanguage({
+            "loadingRecords": "Загрузка...",
+            "processing": "Обработка..."
+        })
+        .withButtons([
+            {
+              extend: 'excel',
+              text: 'Excel',
+              filename: "Нагрузка",
+              title: "Нагрузка",
+              exportOptions: 
+              {
+                columns: function (idx, data, node) {
+                    return true;
+                },
+                format: 
+                {
+                  body: function (data, column, row, node) 
+                  {
+                    // Для определённых столбцов своя обработка
+                    if (row === 4)
+                    {
+                      // Клонируем узел, чтобы не менять оригинал
+                      const clone = node.cloneNode(true);
+                      
+                      // Удаляем все комментарии из клона
+                      const walker = document.createTreeWalker(
+                          clone,
+                          NodeFilter.SHOW_COMMENT,
+                          {
+                              acceptNode: function(node) {
+                                  return NodeFilter.FILTER_ACCEPT;
+                              }
+                          }
+                      );
+                      
+                      const commentsToRemove = [];
+                      while (walker.nextNode()) {
+                          commentsToRemove.push(walker.currentNode);
+                      }
+                      commentsToRemove.forEach(comment => comment.remove());
+
+                      // Находим и полностью удаляем все кнопки из клона вместе с их содержимым
+                      const buttonsToRemove = clone.querySelectorAll('button');
+                      buttonsToRemove.forEach(button => button.remove());
+                      
+                      // Получаем текст без комментариев
+                      let text = clone.textContent || clone.innerText || '';
+                      
+                      // Очищаем от лишних пробелов и переносов строк
+                      text = text.replace(/\s+/g, ' ').trim();
+                      
+                      // Разделяем лекторов (если нужно)
+                      text = text.replace(/\)\s+/, '); ');
+
+                      // Заменяем "[не распределено]" на "не распределено"
+                      text = text.replace(/\[не распределено\]/g, 'не распределено');
+                      
+                      return text;
+
+                    }
+                    else
+                    {
+                      if (!data || typeof data !== 'string') return data || '';
+
+                      // Создаем временный элемент
+                      const temp = document.createElement('div');
+                      temp.innerHTML = data;
+
+                      // Заменяем <br> на перенос строки перед получением textContent
+                      // Вариант 1: через replace
+                      const htmlWithBr = temp.innerHTML;
+                      temp.innerHTML = htmlWithBr.replace(/<br\s*\/?>/gi, ', ');
+
+                      return temp.textContent || temp.innerText || '';
+                    }
+                  }
+                }
+              }
+            }
+        ])
+        .withOption('initComplete', function(settings, json) 
+        {
+          // Скрываем индикатор когда загрузка завершена
+          $scope.$apply(function() 
+          {
+            CL('initComplete');
+
+            MakeFilterSelectsSearchFromStart(settings);
+
+          });
+        })
+        .withOption('processing', true);
+
+
+      $scope.onAspiranturaRukSoiskNagruzkaTableInstance = function(dtAspiranturaRukSoiskInstance) 
+      {
+          CL('onAspiranturaRukSoiskNagruzkaTableInstance');
+          $scope.dtAspiranturaRukSoiskInstance = dtAspiranturaRukSoiskInstance;
+          const table = dtAspiranturaRukSoiskInstance.DataTable;
+
+          // Если сеть отработала ОЧЕНЬ быстро и данные прилетели РАНЬШЕ, чем создался инстанс:
+          if (!$scope.isAspiranturaRukSoiskLoading) {
+              createCustomFilters('DataTables_Table_aspirantura_soisk', table, columns, $scope);
+          }
+
+          // Следим за кнопками скрытия/показа колонок (ColVis)
+          table.on('column-visibility.dt', () => {
+              createCustomFilters('DataTables_Table_aspirantura_soisk', table, columns, $scope);
+          });
+      };
+
+      // если есть id, то это обновление, иначе - добавление новой строки
+      $scope.SaveNagruzkaAspirantRukSoiskRow = function(nagruzka_row)
+      {
+        $http({url: 'ajax/post/save_nagruzka_aspirant_ruk_soisk.php', method: 'POST', data: nagruzka_row})
+              .then(function(response)
+              {
+                if (response.data.result == 'success')
+                {
+                  toastr.success("Данные сохранены");
+
+                  // if (isEmpty(nagruzka_row.id))
+                  // {
+                  //   nagruzka_row.id = response.data.id;
+                  //   $scope.aspirantura_ruk_asp.push(nagruzka_row);
+                  // }
+                }
+                else
+                {
+                  toastr.error("Ошибка");
+                }
+              });
+      }
+
+      $scope.NagruzkaAspiranturaRukSoiskDeleteLecturer = function(nagruzka_row)
+      {
+        $http({url: 'ajax/post/delete_nagruzka_aspirant_ruk_soisk.php', method: 'POST', data: nagruzka_row})
+              .then(function(response)
+              {
+                if (response.data.result == 'success')
+                {
+                  toastr.success("Данные сохранены");
+
+                  // if (response.data.delete)
+                  // {
+                  //   deleteByColumn($scope.aspirantura_ruk_asp, 'id', nagruzka_row.id);
+                  // }
+                  // else
+                  {
+                    nagruzka_row.lecturer_login = nagruzka_row.lecturer_person_id = nagruzka_row.lecturer_fio = nagruzka_row.lecturer_uid = nagruzka_row.lecturer_chair_id = nagruzka_row.lecturer_chair_name = nagruzka_row.lecturer_department_id = nagruzka_row.lecturer_department_name = '';
+                  }
+                }
+                else
+                {
+                  toastr.error("Ошибка");
+                }
+              });
+      }
+
+
+      $scope.NagruzkaAspiranturaRukSoiskSelectedLecturer = function(data, nagruzka_row)
+      {
+        CL('NagruzkaAspiranturaRukSoiskSelectedLecturer');
+        
+        // CL(data.originalObject);
+        // CL(nagruzka_row);
+
+        if (!isEmpty(data))
+        {
+          $scope.aspirantura_ruk_soisk_add.lecturer_fio = data.originalObject.fio;
+          $scope.aspirantura_ruk_soisk_add.lecturer_uid = data.originalObject.lecturer_uid;
+          $scope.aspirantura_ruk_soisk_add.lecturer_person_id = data.originalObject.person_id;
+          $scope.aspirantura_ruk_soisk_add.lecturer_login = data.originalObject.lecturer_login;
+          $scope.aspirantura_ruk_soisk_add.lecturer_chair_id = data.originalObject.chair_id;
+          $scope.aspirantura_ruk_soisk_add.lecturer_chair_name = data.originalObject.chair_name;
+          $scope.aspirantura_ruk_soisk_add.lecturer_department_id = data.originalObject.department_id;
+          $scope.aspirantura_ruk_soisk_add.lecturer_department_name = data.originalObject.department_name;
+        }
+
+        CL($scope.aspirantura_ruk_soisk_add);
+
+      }
+
+      $scope.focusOutAspiranturaRukSoiskLecturer = function(row, data)
+      {
+        CL('focusOutAspiranturaRukSoiskLecturer');
+
+
+        $scope.$broadcast('angucomplete-alt:clearInput', 'aspirantura_ruk_soisk_add_autocomplete');
+
+        $scope.aspirantura_ruk_soisk_add.lecturer_login = $scope.aspirantura_ruk_soisk_add.lecturer_person_id = $scope.aspirantura_ruk_soisk_add.lecturer_fio = $scope.aspirantura_ruk_soisk_add.lecturer_uid = $scope.aspirantura_ruk_soisk_add.lecturer_chair_id = $scope.aspirantura_ruk_soisk_add.lecturer_chair_name = $scope.aspirantura_ruk_soisk_add.lecturer_department_id = $scope.aspirantura_ruk_soisk_add.lecturer_department_name = '';
+
+        // $scope.aspirantura_ruk_soisk.forEach(nagruzka_row => 
+        // {
+        //   nagruzka_row.show_lecturer_autocomplete = false;
+        // });
+      }
+
+
+      $scope.AspiranturaRukSoiskAdd = function()
+      {
+        $http({url: 'ajax/post/save_nagruzka_aspirant_ruk_soisk.php', method: 'POST', data: $scope.aspirantura_ruk_soisk_add})
+              .then(function(response)
+              {
+                if (response.data.result == 'success')
+                {
+                  toastr.success("Данные сохранены");
+
+                  // if (isEmpty(nagruzka_row.id))
+                  {
+                    // nagruzka_row.id = response.data.id;
+                    $scope.aspirantura_ruk_soisk.push($scope.aspirantura_ruk_soisk_add);
+                    $scope.aspirantura_ruk_soisk_add = {};
+                    $scope.show_aspirantura_ruk_soisk_add_form = false;
+                    $scope.$broadcast('angucomplete-alt:clearInput', 'aspirantura_ruk_soisk_add_autocomplete');
+                  }
+                }
+                else
+                {
+                  toastr.error("Ошибка");
+                }
+              });
+      }
+
+
+      $scope.CalcAspiranturaRukSoiskNagruzkaHours = function(nagruzka_row)
+      {
+        return roundToTwo(parseFloat(nagruzka_row.students_num) * 0.5);
+      }
+
+      $scope.onNagruzkaAspiranturaRukSoiskGlobalFilterChange = function() 
+      {
+        CL('onNagruzkaAspiranturaRukSoiskGlobalFilterChange');
+
+        $cookies.put('global_nagruzka_filter', $scope.aspirantura_ruk_soisk_filter.filter);
+
+        window.location.reload();
+      }
+
+
+      $scope.AspiranturaRukSoiskShowAddForm = function()
+      {
+        $scope.show_aspirantura_ruk_soisk_add_form = true;
+
+        $scope.aspirantura_ruk_soisk_add = {};
+      }
+
+      $scope.AspiranturaRukSoiskShowAddForm();
+    
     }
+
+    // end AspiranturaRukSoiskCtrl
 })
 
 

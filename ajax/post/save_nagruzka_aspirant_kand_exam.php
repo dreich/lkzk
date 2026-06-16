@@ -30,6 +30,7 @@ if (!$data['id'])
 {
   $query = "INSERT INTO `aspirantura_kand_exam` 
             SET 
+              `bup_department_name` = '$data[bup_department_name]',
               `bup_nrec` = '$data[bup_nrec]',
               `disc_nrec` = '$data[disc_nrec]',
               `disc_abr` = '$data[disc_abr]',

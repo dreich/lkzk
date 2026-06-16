@@ -138,12 +138,16 @@ if ($_SESSION['c_login'])
         <a href="#/uoup" class="nav-link" ng-class="{active: page == 'uoup'}"><span class="glyphicon glyphicon-user"></span> Администраторы УОУП</a>
       </li> -->
 
-      <li class="nav-item" ng-if="c_roles.zavkaf || c_roles.sotrudnik || c_roles.ruk_aspirantura">
+      <li class="nav-item" ng-if="c_roles.zavkaf || c_roles.sotrudnik">
         <a href="#/nagruzka" class="nav-link" ng-class="{active: page == 'nagruzka'}" ><span class="glyphicon glyphicon-list"></span> Нагрузка</a>
       </li>
 
       <li class="nav-item" ng-if="c_roles.uoup">
         <a href="#/uoup_nagruzka" class="nav-link" ng-class="{active: page == 'uoup_nagruzka' || page == 'nagruzka'}" ><span class="glyphicon glyphicon-list"></span> Нагрузка</a>
+      </li>
+
+      <li class="nav-item" ng-if="c_roles.ruk_aspirantura">
+        <a href="#/aspirantura" class="nav-link" ng-class="{active: page ==  'aspirantura'}"><span class="glyphicon glyphicon-list"></span> Нагрузка</a>
       </li>
 
       <li class="nav-item" ng-if="c_roles.uoup">
@@ -172,9 +176,7 @@ if ($_SESSION['c_login'])
         </li>
       <? endif ?>
 
-<!--       <li class="nav-item" ng-if="c_roles.ruk_aspirantura">
-        <a href="#/aspirantura" class="nav-link" ng-class="{active: page ==  'aspirantura'}"><span class="glyphicon glyphicon-user"></span> Аспирантура</a>
-      </li> -->
+
 
 
 

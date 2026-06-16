@@ -2,9 +2,9 @@
   <img src="/images/hourglass.png" style='position:fixed; left: 47%; top: 47%; z-index: 1000'>
 </div>
 
-<div ng-show="!isAspiranturaKandExamLoading">
+<div ng-if="!isAspiranturaKandExamLoading">
 
-    <select class="form-select mb-2" style="width: 300px" ng-model="aspirantura_kand_exam_filter.filter" ng-change="onNagruzkaAspiranturaKandExamGlobalFilterChange()" ng-if="!nagruzka_selected_lecturer_uid">
+    <select class="form-select mb-2" style="width: 300px" ng-model="aspirantura_kand_exam_filter.global_nagruzka_filter" ng-change="onNagruzkaAspiranturaKandExamGlobalFilterChange()" ng-if="!nagruzka_selected_lecturer_uid">
       <option value="">Вся нагрузка</option>
       <option value="assigned">распределена</option>
       <option value="not_assigned">не распределена</option>
@@ -14,6 +14,7 @@
       <thead>
 
         <tr>
+          <th>Факультет</th>
           <th>Дисциплина</th>
           <th>Группы</th>
           <th>Уровень образования</th>
@@ -32,6 +33,7 @@
 
       <tbody>
         <tr ng-repeat="row in aspirantura_kand_exam" class="pointer" ng-class="{'readonly': !MaySelectAspiranturaKandExamNagruzka(row) && c_roles.ruk_aspirantura}">
+          <td>{{row.bup_department_name}}</td>
           <td data-uid="">
             {{row.disc_title}}
           </td>
@@ -76,19 +78,22 @@
 
       <tfoot>
         <tr>
+          <th ind="0"></th>
           <th ind="1"></th>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th></th>
+          <th ind="2"></th>
+          <th ind="3"></th>
+          <th ind="4"></th>
+          <th ind="5"></th>
+          <th ind="6"></th>
+          <th ind="7"></th>
+          <th ind="8"></th>
+          <th ind="9"></th>
+          <th ind="10"></th>
         </tr>
       </tfoot>
 
     </table>
+
+    <a ng-click="$root.ClearGreenTableFilters(dtAspiranturaKandExamInstance, aspirantura_kand_exam_filter)" class="link pointer" style="float:right">сбросить фильтры</a>
 
 </div>

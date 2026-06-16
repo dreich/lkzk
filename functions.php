@@ -2722,6 +2722,7 @@ function GetNagruzkaBaseQuery($dop_sql, $nagruzka_type = 'all', $department_from
     -- AND xml_content_of_load.`base_uid` = '26589.281474976763950'
     -- AND xml_content_of_load.`base_uid` = '26589.281474976879135'
     -- AND xml_content_of_load.`base_uid` IN('26589.281474976879129', '26589.281474976879132')
+    -- AND chair_id = '02910'
     -- AND LoadType = '0'
     $dop_sql
   ";

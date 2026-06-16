@@ -15,7 +15,7 @@ $UPDATE_TABLES = true;  // для проверки изменения хешей
 $Napravlenia = GetTable('napravlenia', "", "", "napravlenie");
 
 
-$BUPs = GetTable('bup', "", "", "nrec", "`nrec`, `reg_number`, `students_num`"); // reg_number
+$BUPs = GetTable('bup', "", "", "nrec", "`nrec`, `reg_number`, `students_num`, `department`, `year`"); // reg_number
 
 $BUPDisciplines = GetTable('bup_disciplines', "`exam_semester` IS NOT NULL AND `exam_semester` <> ''", "", "", "`nrec`, `disc_nrec`, `abr`, `title`, `exam_semester`");
 
@@ -55,8 +55,18 @@ if ($BUPDisciplines)
   {
     $bup = $BUPs[$bup_discipline['nrec']];
 
+    // строки должны удовлетворять год БУП + int((semestr - 1)/2) == текущий год
+    if ($bup['year'] + floor(($bup_discipline['exam_semester'] - 1) / 2) != date('Y'))
+    {
+      $bad_bup = true;
+    }
+    else
+    {
+      $bad_bup = false;
+    }
+
     // если в БУПе 0 студентов, пометим эту строку как удалённую (либо удалить...)
-    if (!$bup['students_num'])
+    if (!$bup['students_num'] || $bad_bup)
     {
       $Result = $mysqli->query("
         UPDATE `aspirantura_kand_exam` 
@@ -98,6 +108,7 @@ if ($BUPDisciplines)
       {
         $Result = $mysqli->query("INSERT INTO `aspirantura_kand_exam` 
         SET `deleted` = '0', 
+            `bup_department_name` = '$bup[department]',
             `bup_nrec` = '$bup_discipline[nrec]', 
             `disc_nrec` = '$bup_discipline[disc_nrec]', 
             `disc_abr` = '$bup_discipline[abr]', 
@@ -152,7 +163,7 @@ if ($Aspirants)
 
   foreach ($Aspirants as $aspirant)
   {
-    EchoLog($aspirant['group']);
+    // EchoLog($aspirant['group']);
 
     $Result = $mysqli->query("INSERT INTO `aspirantura_ruk_asp` 
                               SET `uid` = '$aspirant[uid]', 
