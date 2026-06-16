@@ -1,0 +1,34 @@
+<h6 ng-if="!aspirantura_ruk_soisk_edit.id">Добавить соискателя:</h6>
+<h6 ng-if="aspirantura_ruk_soisk_edit.id">Редактировать соискателя:</h6>
+
+<label for="">ФИО</label>
+<input type="text" class="form-control w-25" ng-model="aspirantura_ruk_soisk_edit.fio">
+
+<label for="">Приказ</label>
+<input type="text" class="form-control w-25" ng-model="aspirantura_ruk_soisk_edit.prikaz">
+
+<div class="mt-2" style="width: 30%">
+  <label for="">Преподаватель:  {{aspirantura_ruk_soisk_edit.lecturer_fio}}</label>
+  <angucomplete-alt id="aspirantura_ruk_soisk_edit_autocomplete" input-name=""
+      placeholder="Введите ФИО"
+      pause="400"
+      initial-value=""
+      focus-out="focusOutAspiranturaRukSoiskLecturer()"
+      selected-object="NagruzkaAspiranturaRukSoiskSelectedLecturer"
+      selected-object-data="aspirantura_ruk_soisk_edit"
+      remote-url="ajax/get/get_all_sotrudniki.php?callback=JSON_CALLBACK&s="
+      title-field="fio"
+      match-class="highlight"
+      text-searching="Поиск..." 
+      minlength="3"
+      text-no-results="Не найдено"
+      description-field="dolzhnost_hint"
+      input-class="form-control autocomplete" style='width:50%' />
+</div>
+
+<div ng-if="aspirantura_ruk_soisk_edit.lecturer_department_name">Факультет преподавателя: {{aspirantura_ruk_soisk_edit.lecturer_department_name}}</div>
+<div ng-if="aspirantura_ruk_soisk_edit.lecturer_chair_name">Кафедра преподавателя: {{aspirantura_ruk_soisk_edit.lecturer_chair_name}}</div>
+
+<button class="btn btn-success mt-3" ng-disabled="!aspirantura_ruk_soisk_edit.fio.length || !aspirantura_ruk_soisk_edit.prikaz || !aspirantura_ruk_soisk_edit.lecturer_fio" ng-click="confirm()"><span ng-if="!aspirantura_ruk_soisk_edit.id">Добавить</span><span ng-if="aspirantura_ruk_soisk_edit.id">Сохранить</span></button>
+
+<button class="btn btn-secondary mt-3" style="margin-left: 6px" ng-click="closeThisDialog(0)">Отмена</button>
