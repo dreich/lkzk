@@ -27,7 +27,8 @@ $XmlChairByCode = GetTable('xml_chair', "", "", "Code");
 
 foreach ($data as $nagruzka_lector)
 {
-  $query = "DELETE FROM `zavkaf_splits` WHERE `base_uid` = '$nagruzka_lector[base_uid]'";
+  $escaped_base_uid = $mysqli->real_escape_string($nagruzka_lector['base_uid']);
+  $query = "DELETE FROM `zavkaf_splits` WHERE `base_uid` = '$escaped_base_uid'";
   // EchoLog($query);
 
   $mysqli->query($query);
@@ -100,23 +101,39 @@ foreach ($data as $nagruzka_lector)
       
       $delete = $nagruzka_lector['delete'] ? '1' : '0';
 
+      $escaped_content_of_load_uid = $mysqli->real_escape_string($content_of_load_row['UID']);
+      $escaped_base_uid = $mysqli->real_escape_string($content_of_load_row['base_uid']);
+      $escaped_base_uid2 = $mysqli->real_escape_string($content_of_load_row['base_uid2']);
+      $escaped_new_base_uid2 = $mysqli->real_escape_string($new_base_uid2);
+      $escaped_LoadType = $mysqli->real_escape_string($nagruzka_lector['LoadType']);
+      $escaped_StudentAmount = $mysqli->real_escape_string($nagruzka_lector['StudentAmount']);
+      $escaped_Amount = $mysqli->real_escape_string($nagruzka_lector['Amount']);
+      $escaped_lecturer_login = $mysqli->real_escape_string($nagruzka_lector['lecturer_login']);
+      $escaped_lecturer_person_id = $mysqli->real_escape_string($nagruzka_lector['lecturer_person_id']);
+      $escaped_lecturer_fio = $mysqli->real_escape_string($nagruzka_lector['lecturer_fio']);
+      $escaped_lecturer_uid = $mysqli->real_escape_string($nagruzka_lector['lecturer_uid']);
+      $escaped_chair_uid = $mysqli->real_escape_string($XmlChairByCode[$nagruzka_lector['chair_id']]['UID']);
+      $escaped_zavkaf_login = $mysqli->real_escape_string($_SESSION['c_login']);
+      $escaped_zavkaf_fio = $mysqli->real_escape_string($_SESSION['c_fio']);
+      $escaped_delete = $mysqli->real_escape_string($delete);
+
       $query = "INSERT INTO `zavkaf_splits` SET 
-                      `content_of_load_uid` = '$content_of_load_row[UID]',
+                      `content_of_load_uid` = '$escaped_content_of_load_uid',
                       -- `content_of_load_uid_new` = '$new_content_of_load_uid',
-                      `base_uid` = '$content_of_load_row[base_uid]',
-                      `base_uid2` = '$content_of_load_row[base_uid2]',
-                      `base_uid2_new` = '$new_base_uid2',
-                      `LoadType` = '$nagruzka_lector[LoadType]',
-                      `StudentAmount` = '$nagruzka_lector[StudentAmount]',
-                      `Amount` = '$nagruzka_lector[Amount]',
-                      `lecturer_login` = '$nagruzka_lector[lecturer_login]',
-                      `lecturer_person_id` = '$nagruzka_lector[lecturer_person_id]',
-                      `lecturer_fio` = '$nagruzka_lector[lecturer_fio]',
-                      `lecturer_uid` = '$nagruzka_lector[lecturer_uid]',
-                      `chair_uid` = '{$XmlChairByCode[$nagruzka_lector['chair_id']]['UID']}',
-                      `zavkaf_login` = '$_SESSION[c_login]',
-                      `zavkaf_fio` = '$_SESSION[c_fio]',
-                      `delete` = '$delete'
+                      `base_uid` = '$escaped_base_uid',
+                      `base_uid2` = '$escaped_base_uid2',
+                      `base_uid2_new` = '$escaped_new_base_uid2',
+                      `LoadType` = '$escaped_LoadType',
+                      `StudentAmount` = '$escaped_StudentAmount',
+                      `Amount` = '$escaped_Amount',
+                      `lecturer_login` = '$escaped_lecturer_login',
+                      `lecturer_person_id` = '$escaped_lecturer_person_id',
+                      `lecturer_fio` = '$escaped_lecturer_fio',
+                      `lecturer_uid` = '$escaped_lecturer_uid',
+                      `chair_uid` = '$escaped_chair_uid',
+                      `zavkaf_login` = '$escaped_zavkaf_login',
+                      `zavkaf_fio` = '$escaped_zavkaf_fio',
+                      `delete` = '$escaped_delete'
 
                     ";
       

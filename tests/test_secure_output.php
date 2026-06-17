@@ -1,6 +1,6 @@
 <?php
 
-include 'functions.php';
+include_once __DIR__ . '/../functions.php';
 
 // Тесты для функции SecureOutput
 
