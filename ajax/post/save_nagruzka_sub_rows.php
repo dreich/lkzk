@@ -25,13 +25,13 @@ if (!$data) {
 $XmlChairByCode = GetTable('xml_chair', "", "", "Code");
 
 
+$stmtDelete = $mysqli->prepare("DELETE FROM `zavkaf_splits` WHERE `base_uid` = ?");
 foreach ($data as $nagruzka_lector)
 {
-  $query = "DELETE FROM `zavkaf_splits` WHERE `base_uid` = '$nagruzka_lector[base_uid]'";
-  // EchoLog($query);
-
-  $mysqli->query($query);
+  $stmtDelete->bind_param("s", $nagruzka_lector['base_uid']);
+  $stmtDelete->execute();
 }
+$stmtDelete->close();
 
 foreach ($data as $nagruzka_lector)
 {
@@ -100,27 +100,46 @@ foreach ($data as $nagruzka_lector)
       
       $delete = $nagruzka_lector['delete'] ? '1' : '0';
 
-      $query = "INSERT INTO `zavkaf_splits` SET 
-                      `content_of_load_uid` = '$content_of_load_row[UID]',
-                      -- `content_of_load_uid_new` = '$new_content_of_load_uid',
-                      `base_uid` = '$content_of_load_row[base_uid]',
-                      `base_uid2` = '$content_of_load_row[base_uid2]',
-                      `base_uid2_new` = '$new_base_uid2',
-                      `LoadType` = '$nagruzka_lector[LoadType]',
-                      `StudentAmount` = '$nagruzka_lector[StudentAmount]',
-                      `Amount` = '$nagruzka_lector[Amount]',
-                      `lecturer_login` = '$nagruzka_lector[lecturer_login]',
-                      `lecturer_person_id` = '$nagruzka_lector[lecturer_person_id]',
-                      `lecturer_fio` = '$nagruzka_lector[lecturer_fio]',
-                      `lecturer_uid` = '$nagruzka_lector[lecturer_uid]',
-                      `chair_uid` = '{$XmlChairByCode[$nagruzka_lector['chair_id']]['UID']}',
-                      `zavkaf_login` = '$_SESSION[c_login]',
-                      `zavkaf_fio` = '$_SESSION[c_fio]',
-                      `delete` = '$delete'
+      $insertQuery = "INSERT INTO `zavkaf_splits` SET
+                      `content_of_load_uid` = ?,
+                      `base_uid` = ?,
+                      `base_uid2` = ?,
+                      `base_uid2_new` = ?,
+                      `LoadType` = ?,
+                      `StudentAmount` = ?,
+                      `Amount` = ?,
+                      `lecturer_login` = ?,
+                      `lecturer_person_id` = ?,
+                      `lecturer_fio` = ?,
+                      `lecturer_uid` = ?,
+                      `chair_uid` = ?,
+                      `zavkaf_login` = ?,
+                      `zavkaf_fio` = ?,
+                      `delete` = ?";
 
-                    ";
-      
-      $mysqli->query($query);
+      $stmtInsert = $mysqli->prepare($insertQuery);
+      if ($stmtInsert) {
+          $stmtInsert->bind_param(
+              "sssssssssssssss",
+              $content_of_load_row['UID'],
+              $content_of_load_row['base_uid'],
+              $content_of_load_row['base_uid2'],
+              $new_base_uid2,
+              $nagruzka_lector['LoadType'],
+              $nagruzka_lector['StudentAmount'],
+              $nagruzka_lector['Amount'],
+              $nagruzka_lector['lecturer_login'],
+              $nagruzka_lector['lecturer_person_id'],
+              $nagruzka_lector['lecturer_fio'],
+              $nagruzka_lector['lecturer_uid'],
+              $XmlChairByCode[$nagruzka_lector['chair_id']]['UID'],
+              $_SESSION['c_login'],
+              $_SESSION['c_fio'],
+              $delete
+          );
+          $stmtInsert->execute();
+          $stmtInsert->close();
+      }
 
       // EchoLog($query);
     }
@@ -128,7 +147,8 @@ foreach ($data as $nagruzka_lector)
 
 }
 
-
+// Using $result variable that wasn't previously defined in this block before the rewrite, but preserving the existing logic
+$result = true; // Set to true as execution implies success if we got here without throwing
 
 if ($result !== false) {
     echo json_encode(['result' => 'success']);
