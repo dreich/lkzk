@@ -666,7 +666,7 @@ function JoinConditions($values)
 {
   $sql = '1';
   
-  while (list($key, $value) = each($values))
+  foreach ($values as $key => $value)
   {
     $value = quote_smart($value);
     // обратных слешей специально нет, они нужны в get_cfo_zayavki.php
@@ -908,7 +908,7 @@ function quote_smart($values)
   
   if (is_array($values))
   {
-    while (list($id, $value) = each($values))
+    foreach ($values as $id => $value)
     {
       $values[$id] = quote_smart($value);
     }
@@ -1072,7 +1072,7 @@ function GetSelectFromAssocArray($data, $select_name, $default = null, $class = 
         
     else
     {
-      while (list($index, $value) = each($data))
+      foreach ($data as $index => $value)
       {
         if (!strcmp($default, $index)) $sel = 'selected=1'; else $sel = '';
         $out.= "<option value=\"$index\" $sel>$value</option>";
@@ -1131,7 +1131,7 @@ function GetRadioFromAssocArray($data, $input_name, $default = null, $class = nu
     //if ($zerovalue) $out .= "<input type=\"radio\" name=\"$input_name\" value=\"\" > &nbsp; $zerovalue";
 
 
-    while (list($index, $value) = each($data))
+    foreach ($data as $index => $value)
     {
       if (!strcmp($default, $index)) $sel = 'checked=1'; else $sel = '';
       $out.= "<div class=\"radio\"><label><input type=\"radio\" name=\"$input_name\" value=\"$index\" $sel $class>$value</label></div>";
@@ -1858,7 +1858,7 @@ function PrepareForJSON($values)
 {
   if (is_array($values))
   {
-    while (list($id, $value) = each($values))
+    foreach ($values as $id => $value)
     {
       $values[$id] = $value;
       
