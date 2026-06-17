@@ -137,46 +137,201 @@ var checkSession = function($http, $scope, ngDialog)
     })
 }
 
-
-// доп. функция для зелёных таблиц, чтобы селект-фильтры фильтровали "с начала строки"
+/*
 function MakeFilterSelectsSearchFromStart(settings)
 {
-  // CL('MakeFilterSelectsSearchFromStart');
+  CL('MakeFilterSelectsSearchFromStart');
+
   var api = new $.fn.dataTable.Api(settings);
   var $table = $(api.table().node());
 
   setTimeout(function() 
   {
-    var $selects = $table.find('select.select_filter');
+    // Ищем и твои кастомные селекты, и элементы нативного плагина
+    var $filters = $table.find('select.select_filter, tfoot select, tfoot input');
     
-    $selects.each(function() {
-        var $select = $(this);
+    $filters.each(function() {
+        var $element = $(this);
+        var $th = $element.closest('td, th');
+
+        // Защита от двойного навешивания обработчиков
+        if ($element.hasClass('filter-initialized')) return;
+        $element.addClass('filter-initialized');
         
-        // 1. Берем индекс из HTML-атрибута ind (ему не страшны скрытые колонки)
-        var columnIndex = parseInt($select.closest('td, th').attr('ind'), 10);
+        // 1. УМНЫЙ ИНДЕКС
+        var attrInd = $th.attr('ind');
+        var columnIndex = (attrInd !== undefined && attrInd !== false) ? parseInt(attrInd, 10) : $th.index();
+
+        if (!isNaN(columnIndex) && columnIndex !== -1) {
+            var column = api.column(columnIndex);
+            var searchVal = column.search();
+
+            // 2. ЖЁСТКОЕ ВОССТАНОВЛЕНИЕ ЗНАЧЕНИЯ
+            if (searchVal) {
+                // Вырезаем регулярки и экранирования DataTables
+                var cleanVal = searchVal
+                    .replace(/^\^\\s\/, '')   
+                    .replace(/\\s\*\$/, '')    
+                    .replace(/^\^/, '')        
+                    .replace(/\\/g, '');       
+                
+                // Декодируем на случай URL-encoding
+                cleanVal = $.trim(unescape(cleanVal));
+
+                if ($element.is('input')) {
+                    $element.val(cleanVal);
+                } 
+                else if ($element.is('select')) {
+                    
+                    var tryApplyValue = function() {
+                        var applied = false;
+                        
+                        $element.find('option').each(function() {
+                            // Плагин может кодировать value, поэтому берем и value, и текстовое содержимое
+                            var cleanOptVal = $.trim(unescape($(this).val()));
+                            var cleanOptText = $.trim($(this).text());
+                            
+                            // Сравниваем очищенное сохраненное значение с опциями
+                            if (cleanOptVal === cleanVal || cleanOptText === cleanVal) {
+                                // Нашли! Железобетонно делаем опцию выбранной
+                                $(this).prop('selected', true);
+                                applied = true;
+                                return false; // Прерываем цикл .each()
+                            }
+                        });
+                        return applied;
+                    };
+
+                    // Пробуем применить. Если опций еще нет — ждем через setInterval
+                    if (!tryApplyValue()) {
+                        var attempts = 0;
+                        var interval = setInterval(function() {
+                            attempts++;
+                            if (tryApplyValue() || attempts > 20) {
+                                clearInterval(interval);
+                                
+                                // Если за 4 секунды так и не удалось найти совпадение — выводим отладку
+                                if (attempts > 20 && searchVal !== '') {
+                                    console.warn("⚠️ Не удалось восстановить селект для колонки №", columnIndex);
+                                    console.warn("Искали чистую строку: [" + cleanVal + "]");
+                                    console.warn("В селекте сейчас есть такие опции:");
+                                    $element.find('option').each(function() {
+                                        console.warn(" -> [" + $.trim($(this).text()) + "]");
+                                    });
+                                }
+                            }
+                        }, 200);
+                    }
+                }
+            }
+        }
+
+        // 3. ОБРАБОТЧИК ИЗМЕНЕНИЯ (change / keyup)
+        $element.off('change keyup').on('change keyup', function() 
+        {
+          CL('change keyup');
+
+          var rawVal = $(this).val();
+          var val = $.trim(unescape(rawVal));
+
+          CL(val);
+          
+          var currAttrInd = $(this).closest('td, th').attr('ind');
+          var colIndex = (currAttrInd !== undefined && currAttrInd !== false) ? parseInt(currAttrInd, 10) : $(this).closest('td, th').index();
+
+          CL(colIndex);
+
+          if (!isNaN(colIndex) && colIndex !== -1) 
+          {
+            var col = api.column(colIndex);
+
+            CL(col);
+            
+            if (val === '') 
+            {
+              col.search('').draw();
+            } 
+            else 
+            {
+              var escapedValue = $.fn.dataTable.util.escapeRegex(val);
+              var regex = $element.is('select') ? '^\\s*' + escapedValue + '\\s*$' : '^' + escapedValue;
+              
+              col.search(regex, true, false).draw();
+            }
+          }
+        });
+    });
+    
+  }, 500); 
+}
+*/
+
+/*
+// Универсальная функция для зелёных таблиц и нативного withColumnFilter
+function MakeFilterSelectsSearchFromStart(settings)
+{
+  var api = new $.fn.dataTable.Api(settings);
+  var $table = $(api.table().node());
+
+  setTimeout(function() 
+  {
+    // Ищем и твои кастомные селекты, и элементы нативного плагина в футере
+    var $filters = $table.find('select.select_filter, tfoot select, tfoot input');
+    
+    $filters.each(function() {
+        var $element = $(this);
+        var $th = $element.closest('td, th');
+
+        // Защита от двойного навешивания обработчиков
+        if ($element.hasClass('filter-initialized')) return;
+        $element.addClass('filter-initialized');
+        
+        // 1. УМНЫЙ ИНДЕКС: Если есть твой атрибут ind — берем его. Если нет — берем физический индекс.
+        var attrInd = $th.attr('ind');
+        var columnIndex = (attrInd !== undefined && attrInd !== false) ? parseInt(attrInd, 10) : $th.index();
 
         if (!isNaN(columnIndex) && columnIndex !== -1) {
             var column = api.column(columnIndex);
             var searchVal = column.search(); // Получаем сохраненную строку поиска
 
-            // 2. ВОЗВРАЩАЕМ ПОТЕРЯННЫЙ КОД: Восстановление визуального значения в селекте
+            // 2. ВОССТАНОВЛЕНИЕ ЗНАЧЕНИЯ (С поддержкой асинхронности)
             if (searchVal) {
-                // Очищаем строку от регулярки '^\s*Значение\s*$', чтобы получить чистый текст
+                // Очищаем строку от регулярок (и строгих, и "с начала строки")
                 var cleanVal = searchVal
-                    .replace(/^\^\\s\*/, '')   // Удаляем ^\s*
-                    .replace(/\\s\*\$/, '');    // Удаляем \s*$
+                    .replace(/^\^\\s\/, '')   // Удаляем ^\s*
+                    .replace(/\\s\*\$/, '')    // Удаляем \s*$
+                    .replace(/^\^/, '')        // Удаляем просто ^
+                    .replace(/\\/g, '');       // Удаляем экранирование
 
-                // Устанавливаем очищенное значение в селект
-                $select.val(cleanVal);
+                if ($element.is('input')) {
+                    $element.val(cleanVal);
+                } 
+                else if ($element.is('select')) {
+                    $element.val(cleanVal);
+                    
+                    // Если это нативный селект и опции от $http еще не подгрузились — ждем
+                    if ($element.val() !== cleanVal) {
+                        var attempts = 0;
+                        var interval = setInterval(function() {
+                            $element.val(cleanVal);
+                            attempts++;
+                            if ($element.val() === cleanVal || attempts > 20) { // 20 попыток = 4 сек
+                                clearInterval(interval);
+                            }
+                        }, 200);
+                    }
+                }
             }
         }
 
-        // 3. Обработчик изменения (change) с фиксом скрытых колонок
-        $select.off('change').on('change', function() 
+        // 3. ОБРАБОТЧИК ИЗМЕНЕНИЯ (change для select, keyup для input)
+        $element.off('change keyup').on('change keyup', function() 
         {
           var rawVal = $(this).val();
           var val = $.trim(unescape(rawVal));
-          var colIndex = parseInt($(this).closest('td, th').attr('ind'), 10);
+          
+          var currAttrInd = $(this).closest('td, th').attr('ind');
+          var colIndex = (currAttrInd !== undefined && currAttrInd !== false) ? parseInt(currAttrInd, 10) : $(this).closest('td, th').index();
 
           if (!isNaN(colIndex) && colIndex !== -1) {
               var col = api.column(colIndex);
@@ -185,15 +340,76 @@ function MakeFilterSelectsSearchFromStart(settings)
                   col.search('').draw();
               } else {
                   var escapedValue = $.fn.dataTable.util.escapeRegex(val);
-                  var strictRegex = '^\\s*' + escapedValue + '\\s*$';
-                  col.search(strictRegex, true, false).draw();
+                  
+                  // Для селектов оставляем строгий поиск (как было у тебя)
+                  // Для инпутов делаем поиск "с начала строки"
+                  var regex = $element.is('select') ? '^\\s*' + escapedValue + '\\s*$' : '^' + escapedValue;
+                  col.search(regex, true, false).draw();
               }
           }
         });
     });
     
-  }, 500); // Твой исходный таймаут в 1 секунду
+  }, 2000); // 500мс
 }
+*/
+
+// // доп. функция для зелёных таблиц, чтобы селект-фильтры фильтровали "с начала строки"
+// function MakeFilterSelectsSearchFromStart(settings)
+// {
+//   // CL('MakeFilterSelectsSearchFromStart');
+//   var api = new $.fn.dataTable.Api(settings);
+//   var $table = $(api.table().node());
+
+//   setTimeout(function() 
+//   {
+//     var $selects = $table.find('select.select_filter');
+    
+//     $selects.each(function() {
+//         var $select = $(this);
+        
+//         // 1. Берем индекс из HTML-атрибута ind (ему не страшны скрытые колонки)
+//         var columnIndex = parseInt($select.closest('td, th').attr('ind'), 10);
+
+//         if (!isNaN(columnIndex) && columnIndex !== -1) {
+//             var column = api.column(columnIndex);
+//             var searchVal = column.search(); // Получаем сохраненную строку поиска
+
+//             // 2. ВОЗВРАЩАЕМ ПОТЕРЯННЫЙ КОД: Восстановление визуального значения в селекте
+//             if (searchVal) {
+//                 // Очищаем строку от регулярки '^\s*Значение\s*$', чтобы получить чистый текст
+//                 var cleanVal = searchVal
+//                     .replace(/^\^\\s\*/, '')   // Удаляем ^\s*
+//                     .replace(/\\s\*\$/, '');    // Удаляем \s*$
+
+//                 // Устанавливаем очищенное значение в селект
+//                 $select.val(cleanVal);
+//             }
+//         }
+
+//         // 3. Обработчик изменения (change) с фиксом скрытых колонок
+//         $select.off('change').on('change', function() 
+//         {
+//           var rawVal = $(this).val();
+//           var val = $.trim(unescape(rawVal));
+//           var colIndex = parseInt($(this).closest('td, th').attr('ind'), 10);
+
+//           if (!isNaN(colIndex) && colIndex !== -1) {
+//               var col = api.column(colIndex);
+              
+//               if (val === '') {
+//                   col.search('').draw();
+//               } else {
+//                   var escapedValue = $.fn.dataTable.util.escapeRegex(val);
+//                   var strictRegex = '^\\s*' + escapedValue + '\\s*$';
+//                   col.search(strictRegex, true, false).draw();
+//               }
+//           }
+//         });
+//     });
+    
+//   }, 500); // Твой исходный таймаут в 1 секунду
+// }
 
 function clearDataTablesStorage() {
   const prefixes = [
@@ -220,6 +436,7 @@ function clearDataTablesStorage() {
   });
 }
 
+/*
 function createSelectFilter(column, footerCell) 
 {
   CL('createSelectFilter');
@@ -250,6 +467,8 @@ function createSelectFilter(column, footerCell)
     select.append('<option value="' + value + '">' + value + '</option>');
   });
 }
+*/
+
 
 // columns - описание столбцов таблицы
 /*
@@ -408,23 +627,34 @@ function createCustomFilters(table_id, table, columns, scope)
       const select = $('<select class="form-select select_filter" style="min-width: 60px"></select>')
         .appendTo(footerCell)
         .on('change', function() {
-          // Clear all checkboxes when filter changes
-          if ($scope.nagruzka && $scope.nagruzka.length > 0) {
-            $scope.$apply(function() {
-              $scope.nagruzka.forEach(function(row) {
-                row.selected = false;
-              });
-            });
-          }
-          column.search(this.value).draw();
+            var rawVal = this.value;
+            var val = $.trim(unescape(rawVal));
+            
+            if ($scope.nagruzka && $scope.nagruzka.length > 0) {
+                $scope.$apply(function() {
+                    $scope.nagruzka.forEach(function(row) {
+                        row.selected = false;
+                    });
+                });
+            }
+            
+            if (val === '') {
+                column.search('').draw();
+            } else {
+                var escaped = $.fn.dataTable.util.escapeRegex(val);
+                column.search('^' + escaped + '$', true, false).draw();
+                column.search(val); // ← ВОТ ЭТА СТРОКА: подменяет сохранённое значение на чистое
+            }
         });
 
         // Добавляем пустую опцию
         $('<option value=""></option>').appendTo(select);
       
       // Добавляем опции в селект
-      column.data().unique().sort().each(function(d) {
-        if (d) {
+      column.data().unique().sort().each(function(d) 
+      {
+        if (d) 
+        {
           $('<option value="' + d + '">' + d + '</option>').appendTo(select);
         }
       });
@@ -432,10 +662,65 @@ function createCustomFilters(table_id, table, columns, scope)
       // CL('Select filter created for column', columnIndex, 'with options:', select.find('option').length);
       
       // Устанавливаем сохраненное значение
+      // if (savedSearch) 
+      // {
+      //   select.val(savedSearch);
+
+      //   // Применяем поиск с начала строки
+      //   var escaped = $.fn.dataTable.util.escapeRegex(savedSearch);
+      //   column.search('^' + escaped + '$', true, false);
+      // }
+
       if (savedSearch) {
-        select.val(savedSearch);
-        // CL('Applied saved value:', savedSearch, 'to column', columnIndex);
-      }
+            // Очищаем от возможных regex-символов из предыдущих сохранений
+            var cleanSearch = savedSearch;
+            if (cleanSearch.indexOf('^') === 0) cleanSearch = cleanSearch.substring(1);
+            if (cleanSearch.lastIndexOf('$') === cleanSearch.length - 1) cleanSearch = cleanSearch.substring(0, cleanSearch.length - 1);
+            
+            select.val(cleanSearch);
+            
+            var escaped = $.fn.dataTable.util.escapeRegex(cleanSearch);
+            column.search('^' + escaped + '$', true, false);
+        }
+
+
+
+      // ДИАГНОСТИКА - добавьте после блока, где создаются все option
+    // if (savedSearch) {
+    //         console.log('=== Колонка ' + columnIndex + ' ===');
+    //         console.log('savedSearch RAW:', savedSearch);
+    //         console.log('savedSearch длина:', savedSearch.length);
+    //         console.log('savedSearch коды:', savedSearch.split('').map(function(c) { return c.charCodeAt(0); }));
+            
+    //         // Пробуем unescape
+    //         var unescaped = unescape(savedSearch);
+    //         console.log('unescape():', unescaped);
+    //         console.log('unescape() длина:', unescaped.length);
+            
+    //         // Пробуем decodeURIComponent
+    //         try {
+    //             var decoded = decodeURIComponent(savedSearch);
+    //             console.log('decodeURIComponent():', decoded);
+    //         } catch(e) {
+    //             console.log('decodeURIComponent error:', e.message);
+    //         }
+            
+    //         // Показываем все option в селекте
+    //         console.log('Опции в селекте:');
+    //         select.find('option').each(function(i) {
+    //             console.log('  [' + i + '] value="' + $(this).val() + '" text="' + $(this).text() + '"');
+    //             console.log('       value коды:', $(this).val().split('').map(function(c) { return c.charCodeAt(0); }));
+    //         });
+            
+    //         // Пробуем установить значение
+    //         select.val(savedSearch);
+    //         console.log('После select.val(savedSearch):', select.val());
+            
+    //         select.val(unescaped);
+    //         console.log('После select.val(unescaped):', select.val());
+    //     }
+
+
     } 
     else if (colSettings && colSettings.type === 'input')
     {
@@ -462,10 +747,29 @@ function createCustomFilters(table_id, table, columns, scope)
     {
       // CL('No filter type defined for column', columnIndex, '- skipping');
     }
+
+
+
   });
+
+  if (state && state.columns) {
+      var hasFilters = false;
+      table.columns().every(function() {
+          var idx = this.index();
+          var search = state.columns[idx]?.search?.search;
+          if (search) {
+              hasFilters = true;
+          }
+      });
+      if (hasFilters) {
+          table.draw(false);
+      }
+  }
+
+}
   
   // CL('createCustomFilters completed');
-}
+
 
 function UpdateNagruzkaStat($http, scope, nagr_type, chair_id, lecturer_uid, only_stat)
 {
@@ -1726,6 +2030,23 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
   }
 
   */
+  // $scope.dtInstance = dtInstance;
+  // const table = dtInstance.DataTable;
+  const lecturerColumnIndex = 15; // Index of the "Преподаватель" column
+  
+  let filtersInitialized = false;
+
+  // Теперь функция принимает готовый API таблицы как аргумент
+  const initializeFilters = (api) => 
+  {
+    CL('initializeFilters');
+
+    if (api) 
+    {
+      createCustomFilters('DataTables_Table_nagruzka', api, columns, $scope);
+      // MakeFilterSelectsSearchFromStart(api.settings()[0]);
+    }
+  };
 
   // function NagruzkaInit()
   {
@@ -1736,17 +2057,34 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
       .newOptions()
       .withOption('stateSave', true)
       .withOption('stateStorage', 'cookie')
-      .withOption('stateSaveCallback', function(settings, data) {
+      .withOption('stateSaveCallback', function(settings, data) 
+      {
+        // Очищаем regex-символы перед сохранением
+        if (data.columns) {
+            data.columns.forEach(function(col) {
+                if (col.search && col.search.search) {
+                    // Убираем ^ в начале и $ в конце
+                    var s = col.search.search;
+                    if (s.indexOf('^') === 0) s = s.substring(1);
+                    if (s.lastIndexOf('$') === s.length - 1) s = s.substring(0, s.length - 1);
+                    // Убираем экранирование (\\ -> пусто)
+                    s = s.replace(/\\\\/g, '');
+                    col.search.search = s;
+                }
+            });
+        }
+
           const path = $location.path();
           const storageKey = 'DataTables_Table_nagruzka_' + path.replace(/\//g, '_');
           localStorage.setItem(storageKey, JSON.stringify(data));
       })
       .withOption('stateLoadCallback', function(settings) {
-          const path = $location.path();
-          const storageKey = 'DataTables_Table_nagruzka_' + path.replace(/\//g, '_');
-          const saved = localStorage.getItem(storageKey);
-          return saved ? JSON.parse(saved) : null;
-      })
+    var path = $location.path();
+    var storageKey = 'DataTables_Table_nagruzka_' + path.replace(/\//g, '_');
+    var saved = localStorage.getItem(storageKey);
+    // Просто возвращаем как есть, без модификации
+    return saved ? JSON.parse(saved) : null;
+})
       // .withOption('aoColumns', [{bVisible': false}])
       .withPaginationType('full_numbers')
       .withColVis()
@@ -1864,8 +2202,12 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
         });
 
         // Добавляем создание фильтров
+        // Получаем нативный API и передаем в нашу функцию
         const api = this.api();
-        createCustomFilters('DataTables_Table_nagruzka', api, columns, $scope);
+        initializeFilters(api);
+        // const api = this.api();
+        // createCustomFilters('DataTables_Table_nagruzka', api, columns, $scope);
+        // MakeFilterSelectsSearchFromStart(settings);
       })
       // .withOption('processing', true)
       ;
@@ -1903,7 +2245,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
     $scope.onNagruzkaTableInstance = function(dtInstance) 
     {
       CL('onNagruzkaTableInstance');
-      $scope.isLoading = true;
+      // $scope.isLoading = true;
 
 
       // для пути вида /#/nagruzka (без вида нагрузки) статистику подгрузим
@@ -1983,22 +2325,9 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
       CL($scope._nagruzka_type);
 
 
-      $scope.dtInstance = dtInstance;
-      const table = dtInstance.DataTable;
-      const lecturerColumnIndex = 15; // Index of the "Преподаватель" column
-      let filtersInitialized = false;
+      
 
-      // Function to initialize filters only once
-      const initializeFiltersOnce = () => 
-      {
-        CL('initializeFiltersOnce');
-
-        if (!filtersInitialized) 
-        {
-          createCustomFilters('DataTables_Table_nagruzka', table, columns, $scope);
-          filtersInitialized = true;
-        }
-      };
+      
 
       // Function to apply lecturer filter
       /*
@@ -2060,15 +2389,17 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
 
       // Handle table redraws - use one() instead of on() to prevent multiple handlers
       // table.one('draw.dt', applyLecturerFilter);
+      $scope.dtInstance = dtInstance;
+      const table = dtInstance.DataTable; // Здесь API точно есть
 
       // Handle column visibility changes
       table.on('column-visibility.dt', () => 
       {
         // CL('column-visibility.dt');
         // Only reinitialize filters if they haven't been initialized yet
-        if (!filtersInitialized) 
+        // if (!filtersInitialized) 
         {
-          initializeFiltersOnce();
+          initializeFilters(table);
         }
         // applyLecturerFilter();
       });
@@ -2624,10 +2955,11 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
         {
           if (nagruzka_row.selected)
           {
-            SaveNagruzkaStatus(nagruzka_row, 'refused');
+            SaveNagruzkaStatus(nagruzka_row, 'refused', angular.copy($scope.group_action.message));
           }
         });
 
+        $scope.group_action.message = '';
         $scope.group_action.action = undefined;
       }
     }
@@ -2663,7 +2995,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
           {
             if (nagruzka_row.selected)
             {
-              SaveNagruzkaStatus(nagruzka_row, 'require_admin_change');
+              SaveNagruzkaStatus(nagruzka_row, 'require_admin_change', angular.copy($scope.group_action.message));
 
               // nagruzka_row.lecturer_fio = nagruzka_row.lecturer_uid = nagruzka_row.lecturer_person_id = '';
               nagruzka_row.lectors.forEach(lector => 
@@ -2673,6 +3005,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
             }
           });
 
+          $scope.group_action.message = '';
           $scope.group_action.action = undefined;
         }
 
@@ -2709,10 +3042,11 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
           if (nagruzka_row.selected)
           {
             // CL(nagruzka_row);
-            SaveNagruzkaStatus(nagruzka_row, 'write_admin_comment');
+            SaveNagruzkaStatus(nagruzka_row, 'write_admin_comment', angular.copy($scope.group_action.message));
           }
         });
 
+        $scope.group_action.message = '';
         $scope.group_action.action = undefined;
       }
     }
@@ -2907,7 +3241,16 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
       return !isEmpty(lector.lecturer_fio) && lector.lecturer_fio.toLowerCase() !== 'вакансия' && !lector.delete;
     })
 
-    // CL(filtered.length);
+    return filtered.length;
+  };
+
+  // определить, сколько в массиве не удалённых, не пустых лекторов, с вакансиями
+  $scope.GetNagruzkaLectorsNum = function(lectors)
+  {
+    const filtered = lectors.filter(function(lector)
+    {
+      return !isEmpty(lector.lecturer_fio)  && !lector.delete;
+    })
 
     return filtered.length;
   };
@@ -3160,9 +3503,9 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
                     
 
                     // Force Angular to detect the changes
-                    if (!$scope.$$phase) {
-                        $scope.$apply();
-                    }
+                    // if (!$scope.$$phase) {
+                    //     $scope.$apply();
+                    // }
 
                     // angular.forEach($scope.nagruzka, function(nagr, ind) {
                     //     if (nagr.selected) {
@@ -3209,29 +3552,32 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
     else if (nagruzka_row.LoadType == '1') return 'Часы';
   }
 
-  function SaveNagruzkaStatus(nagruzka_row, new_status)
+  // запускается в цикле по строкам нагрузки
+  // чтобы сообщение не затиралось из-за запуска функции в цикле, будем отправлять сюда копию переменной message
+  function SaveNagruzkaStatus(nagruzka_row, new_status, message)
   {
-    $http({url: 'ajax/post/save_nagruzka_status.php', method: 'POST', data: {status: new_status, message: $scope.group_action.message, load_base_UID2: nagruzka_row.base_uid2}})
+    $http({url: 'ajax/post/save_nagruzka_status.php', method: 'POST', data: {status: new_status, message: message, load_base_UID2: nagruzka_row.base_uid2}})
                 .then(function(data)
                 {
                   if (data.data.result == 'success')
                   {
                     nagruzka_row.status = new_status;
+                    nagruzka_row.selected = false;
 
                     if (new_status == 'write_admin_comment')
                     {
-                      nagruzka_row.comment_to_admin = $scope.group_action.message;
+                      nagruzka_row.comment_to_admin = message;
                     }
 
                     toastr.success("Данные сохранены");
 
-                    $scope.nagruzka.forEach(nagruzka_row => 
-                    {
-                      nagruzka_row.selected = false
-                    });
+                    // $scope.nagruzka.forEach(nagruzka_row => 
+                    // {
+                    //   nagruzka_row.selected = false
+                    // });
 
-                    $scope.group_action.action = undefined;
-                    $scope.group_action.message = '';
+                    // $scope.group_action.action = undefined;
+                    // $scope.group_action.message = '';
                   }
                   else
                   {
@@ -3370,8 +3716,6 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
   CL('UOUPNagruzkaCtrl');
 
   $rootScope.page = page;
-
-  
 
   $scope.system_mode = system_mode.data.mode; 
 
@@ -3513,7 +3857,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
   $scope.dtOptions = DTOptionsBuilder //.fromSource('data.json')
     .newOptions()
     .withOption('stateSave', true)
-
+    .withOption('destroy', true) // <-- ДОБАВИТЬ ЭТУ СТРОКУ
     .withOption('stateSaveCallback', function(settings, data) {
         const path = $location.path();
         const storageKey = 'DataTables_Table_uoup_nagruzka_' + path.replace(/\//g, '_');
@@ -3533,9 +3877,9 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
     // Exclude the last column from the list
     // .withColVisOption('aiExclude', [])
     // Т.к. на этой странице нет скрытия столбцов, то нет проблемы съезжания фильтров, поэтому используем штатный механизм
-    .withColumnFilter({
-        aoColumns: columns
-    })
+    // .withColumnFilter({
+    //     aoColumns: columns
+    // })
     // .withDOM('flrtip')
     // .withDOM('flBrtip')
     // .withDOM('<"pull-right"fB>rtip')
@@ -3548,6 +3892,14 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
             title: page_title // Заголовок на первой строке листа
           }
       ])
+    .withOption('initComplete', function(settings, json) 
+    {
+        // MakeFilterSelectsSearchFromStart(settings);
+       const table = new $.fn.dataTable.Api(settings);
+        // const storageKey = 'DataTables_Table_uoup_nagruzka_' + $location.path().replace(/\//g, '_');
+
+        createCustomFilters(settings.sTableId, table, columns, $scope);
+    })
     /*
     .withOption('initComplete', function(settings, json) 
     {
@@ -3622,7 +3974,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
   $scope.onUOUPNagruzkaTableInstance = function(dtInstance) 
   {
     CL('onUOUPNagruzkaTableInstance');
-    $scope.isLoading = true;
+    // $scope.isLoading = true;
 
     $scope.dtInstance = dtInstance;
     const table = dtInstance.DataTable;
@@ -6355,12 +6707,19 @@ $scope.toggleAdminChangeChair = function(chair)
         // })
         .withOption('initComplete', function(settings, json) 
         {
+          // var self = this;  // Сохраняем контекст до $apply
+
           // Скрываем индикатор когда загрузка завершена
           $scope.$apply(function() 
           {
             CL('initComplete');
-
-            MakeFilterSelectsSearchFromStart(settings);
+            // Создаём фильтры, если данные уже загружены
+            if (!$scope.isAspiranturaKandExamLoading) 
+            {
+                const table = new $.fn.dataTable.Api(settings);
+                createCustomFilters('DataTables_Table_aspirantura_kand_exam', table, columns, $scope);
+            }
+            // MakeFilterSelectsSearchFromStart(settings);
 
           });
         })
@@ -6709,13 +7068,13 @@ $scope.toggleAdminChangeChair = function(chair)
         // Факультет преподавателя
         {
           name: 'lecturer_deparment_name',
-          type: 'input',
+          type: 'select',
           bRegex: false,
         },
         // Кафедра преподавателя
         {
           name: 'lecturer_chair_name',
-          type: 'input',
+          type: 'select',
           bRegex: false,
         },
         // Преподаватель
@@ -6782,7 +7141,9 @@ $scope.toggleAdminChangeChair = function(chair)
           {
             CL('initComplete');
 
-            MakeFilterSelectsSearchFromStart(settings);
+            // MakeFilterSelectsSearchFromStart(settings);
+            const table = new $.fn.dataTable.Api(settings);
+            createCustomFilters('DataTables_Table_aspirantura_ruk', table, columns, $scope);
 
           });
         })
@@ -6884,6 +7245,9 @@ $scope.toggleAdminChangeChair = function(chair)
             nagruzka_row.lecturer_login = data.originalObject.lecturer_login;
             nagruzka_row.lecturer_chair_id = data.originalObject.chair_id;
             nagruzka_row.lecturer_chair_name = data.originalObject.chair_name;
+
+            if (!data.originalObject.chair_name) nagruzka_row.lecturer_chair_name = data.originalObject.department_name;
+            
             nagruzka_row.lecturer_department_id = data.originalObject.department_id;
             nagruzka_row.lecturer_department_name = data.originalObject.department_name;
           }
@@ -7021,9 +7385,11 @@ $scope.toggleAdminChangeChair = function(chair)
             const $tableNode = $(api.table().node());
 
             // Если DataTables перерисовал таблицу, и наши селекты пропали — создаем их заново
-            if ($tableNode.find('select.select_filter').length === 0 && !$scope.isAspiranturaRukSoiskLoading) {
+            if ($tableNode.find('select.select_filter').length === 0 && !$scope.isAspiranturaRukSoiskLoading) 
+            {
                 createCustomFilters('DataTables_Table_aspirantura_soisk', api, columns, $scope);
-                MakeFilterSelectsSearchFromStart(settings);
+
+                // MakeFilterSelectsSearchFromStart(settings);
             }
         })
         .withButtons([
@@ -7067,7 +7433,12 @@ $scope.toggleAdminChangeChair = function(chair)
           {
             CL('initComplete');
 
-            MakeFilterSelectsSearchFromStart(settings);
+            // MakeFilterSelectsSearchFromStart(settings);
+            if (!$scope.isAspiranturaRukSoiskLoading) 
+            {
+              const table = new $.fn.dataTable.Api(settings);
+              createCustomFilters('DataTables_Table_aspirantura_soisk', table, columns, $scope);
+            }
 
           });
         })
@@ -7088,14 +7459,14 @@ $scope.toggleAdminChangeChair = function(chair)
               // Если их нет — создаем заново
               if ($tableNode.find('select.select_filter').length === 0 && !$scope.isAspiranturaRukSoiskLoading) {
                   createCustomFilters('DataTables_Table_aspirantura_soisk', table, columns, $scope);
-                  MakeFilterSelectsSearchFromStart(table.settings()[0]);
+                  // MakeFilterSelectsSearchFromStart(table.settings()[0]);
               }
           });
 
           // Оставляем ваш обработчик скрытия/показа колонок (ColVis)
           table.on('column-visibility.dt', () => {
               createCustomFilters('DataTables_Table_aspirantura_soisk', table, columns, $scope);
-              MakeFilterSelectsSearchFromStart(table.settings()[0]);
+              // MakeFilterSelectsSearchFromStart(table.settings()[0]);
           });
       };
 

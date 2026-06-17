@@ -39,7 +39,7 @@ function LogOut($message = null)
   */
 
   // Удаление сохраненных состояний зеленых таблиц
-  setcookie('SpryMedia_DataTables_t_','',time()-999, '/');
+  // setcookie('SpryMedia_DataTables_t_','',time()-999, '/');
 
   //setcookie('SpryMedia_DataTables_ukrup__index.php','',time()-999, '/admin/');
   //for($i=0;$i<=20;$i++) setcookie("SpryMedia_DataTables_ukrup_{$i}_index.php", '', time()-999, '/admin/');
@@ -132,8 +132,8 @@ function Authorize($login, $password)
   global $_SESSION, $_COOKIE, $_full_admin_pass, $_full_admin_pass_mc, $_lite_admin_pass, $mysqli, $_roles, $_master_password;
   $result = false;
 
-  // TODO CHANGE GREEN TABLE ID
-  setcookie('SpryMedia_DataTables_t_', '', time()-999, '/');
+  // old GREEN TABLE ID
+  // setcookie('SpryMedia_DataTables_t_', '', time()-999, '/');
 
   if (session_status() === PHP_SESSION_NONE)
   {
@@ -698,7 +698,10 @@ function JoinConditions($values)
 */
 function JoinArrayElements($arr, $delim = ', ', $start_end = false, $left_quote = '', $right_quote = '')
 {
+  if (!is_array($arr)) return '';
+  
   $num = sizeof($arr);
+
   if ($num)
   {
     $str = '';

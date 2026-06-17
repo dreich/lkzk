@@ -149,7 +149,7 @@
                       selected-object="NagruzkaSelectedLecturer"
                       selected-object-data="lector"
                       input-changed="inputChangedLecturer"
-                      remote-url="ajax/get/selected_chair_sotrudniki.php?callback=JSON_CALLBACK&lectors_num={{GetNagruzkaRealLectorsNum(row.lectors)}}&chair_id={{row.chair_id}}&s="
+                      remote-url="ajax/get/selected_chair_sotrudniki.php?callback=JSON_CALLBACK&lectors_num={{GetNagruzkaLectorsNum(row.lectors)}}&chair_id={{row.chair_id}}&s="
                       title-field="fio"
                       match-class="highlight"
                       text-searching="Поиск..." 
@@ -205,7 +205,7 @@
         </tfoot>
       </table>
 
-      <a ng-click="ClearGreenTableFilters(dtInstance, filter_distinct, lecturer_uid, _nagruzka_type, nagruzka_selected_chair_id)" class="link pointer" style="float:right">сбросить фильтры</a>
+      <a ng-click="$root.ClearGreenTableFilters(dtInstance, filter_distinct, lecturer_uid, _nagruzka_type, nagruzka_selected_chair_id)" class="link pointer" style="float:right">сбросить фильтры</a>
 
     </div>
 

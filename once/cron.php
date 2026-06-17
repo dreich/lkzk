@@ -15,7 +15,7 @@ $UPDATE_TABLES = true;  // для проверки изменения хешей
 $Napravlenia = GetTable('napravlenia', "", "", "napravlenie");
 
 
-$BUPs = GetTable('bup', "", "", "nrec", "`nrec`, `reg_number`, `students_num`, `department`, `year`"); // reg_number
+$BUPs = GetTable('bup', "", "", "nrec", "`nrec`, `reg_number`, `students_num`, `department`, `year`, `end_date`"); // reg_number
 
 $BUPDisciplines = GetTable('bup_disciplines', "`exam_semester` IS NOT NULL AND `exam_semester` <> ''", "", "", "`nrec`, `disc_nrec`, `abr`, `title`, `exam_semester`");
 
@@ -166,8 +166,14 @@ if ($Aspirants)
   foreach ($Aspirants as $aspirant)
   {
     // EchoLog($aspirant['group']);
+    $bup = $BUPs[$aspirant['bup_nrec']];
 
-    $Result = $mysqli->query("INSERT INTO `aspirantura_ruk_asp` 
+    // дата окончания в БУПе студента должна быть больше 1 октября текущего года
+    $october1 = date('Y') . "-10-01";
+
+    if ($bup['end_date'] >= $october1)
+    {
+      $Result = $mysqli->query("INSERT INTO `aspirantura_ruk_asp` 
                               SET `uid` = '$aspirant[uid]', 
                                   `fio` = '$aspirant[fio]',
                                   `department_id` = '$aspirant[department_id]',
@@ -188,6 +194,13 @@ if ($Aspirants)
                                   `group` = VALUES(`group`),
                                   `deleted` = '0'
                               ");
+    }
+    // других нужно "удалить"
+    else
+    {
+      $Result = $mysqli->query("UPDATE `aspirantura_ruk_asp` SET `deleted` = '1' WHERE `uid` = '$aspirant[uid]'");
+    }
+    
 
     if (!$Result)
     {

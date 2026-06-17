@@ -108,7 +108,7 @@ elseif ($data['message'] && $data['status'] == 'write_admin_comment')
         mail_utf8($User['unnmail'], $_site_domain, $_from_mail, $message_subject, $message_text);
       }
 
-      mail_utf8('wwwlab@unn.ru', $_site_domain, $_from_mail, $message_subject, $message_text);
+      // mail_utf8('wwwlab@unn.ru', $_site_domain, $_from_mail, $message_subject, $message_text);
     }
   }
 }

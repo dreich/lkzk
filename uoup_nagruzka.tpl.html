@@ -89,48 +89,49 @@
   </div>
 
   <!-- dt-instance="dtInstance" -->
-  <table ng-if="!isLoading" id="DataTables_Table_nagruzka" datatable="ng" dt-options="dtOptions"  dt-column-defs="dtColumnDefs"  dt-instance="onUOUPNagruzkaTableInstance" class="dataTable row-border hover display table "  style='margin: 0 0 ;width:100%; '>
+  <div ng-if="!isLoading">
+    <table id="DataTables_Table_uoup_nagruzka" datatable="ng" dt-options="dtOptions"  dt-column-defs="dtColumnDefs"  dt-instance="onUOUPNagruzkaTableInstance" class="dataTable row-border hover display table "  style='margin: 0 0 ;width:100%; '>
 
-    <thead>
-      <tr>
-        <th>факультет/институт</th>
-        <th>кафедра</th>
-        <th>заведующий</th>
-        <th>всего нагрузки</th>
-        <th>распределено</th>
-        <th>не распределено</th>
-        <th>на вакансии</th>
-      </tr>
-    </thead>
+      <thead>
+        <tr>
+          <th>факультет/институт</th>
+          <th>кафедра</th>
+          <th>заведующий</th>
+          <th>всего нагрузки</th>
+          <th>распределено</th>
+          <th>не распределено</th>
+          <th>на вакансии</th>
+        </tr>
+      </thead>
 
-    <tbody>
-      <tr ng-repeat="row in uoup_nagruzka" ng-class="" class="pointer" ng-click="UOUPOpenChairNagruzka(row.chair_id)">
-        <td data-uid="{{row.base_uid2}}">
-          {{row.department_name}}
-        </td>
-        <td>{{row.chair_name}}</td>
-        <td>{{row.zavkaf_fio}}</td>
-        <td>{{row.total | toFixed:1}}</td>
-        <td>{{row.assigned | toFixed:1}}</td>
-        <td>{{row.not_assigned | toFixed:1}}</td>
-        <td>{{row.assigned_to_vacancy | toFixed:1}}</td>
-      </tr>
-    </tbody>
+      <tbody>
+        <tr ng-repeat="row in uoup_nagruzka" ng-class="" class="pointer" ng-click="UOUPOpenChairNagruzka(row.chair_id)">
+          <td data-uid="{{row.base_uid2}}">{{row.department_name}}</td>
+          <td>{{row.chair_name}}</td>
+          <td>{{row.zavkaf_fio}}</td>
+          <td>{{row.total | toFixed:1}}</td>
+          <td>{{row.assigned | toFixed:1}}</td>
+          <td>{{row.not_assigned | toFixed:1}}</td>
+          <td>{{row.assigned_to_vacancy | toFixed:1}}</td>
+        </tr>
+      </tbody>
 
-    <tfoot>
-      <tr>
-        <td ind="0"></td>
-        <td ind="1"></td>
-        <td ind="2"></td>
-        <td ind="3"></td>
-        <td ind="4"></td>
-        <td ind="5"></td>
-        <td ind="6"></td>
-      </tr>
-    </tfoot>
+      <tfoot>
+        <tr>
+          <th ind="0"></th>
+          <th ind="1"></th>
+          <th ind="2"></th>
+          <th ind="3"></th>
+          <th ind="4"></th>
+          <th ind="5"></th>
+          <th ind="6"></th>
+        </tr>
+      </tfoot>
 
-  </table>
+    </table>
 
-  <a ng-click="ClearGreenTableFilters(dtInstance, filter_distinct)" class="link pointer" style="float:right">сбросить фильтры</a>
+    <a ng-click="ClearGreenTableFilters(dtInstance, filter_distinct)" class="link pointer" style="float:right">сбросить фильтры</a>
+
+  </div>
 
 </div>

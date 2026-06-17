@@ -58,7 +58,7 @@ if ($data['load_base_UID2'])
     }
 
     // TMP
-    mail_utf8('wwwlab@unn.ru', $_site_domain, $_from_mail, $message_subject, $message_text);
+    // mail_utf8('wwwlab@unn.ru', $_site_domain, $_from_mail, $message_subject, $message_text);
   }
   else
   {
