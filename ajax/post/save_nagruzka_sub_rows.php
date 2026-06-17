@@ -25,12 +25,19 @@ if (!$data) {
 $XmlChairByCode = GetTable('xml_chair', "", "", "Code");
 
 
-foreach ($data as $nagruzka_lector)
-{
-  $query = "DELETE FROM `zavkaf_splits` WHERE `base_uid` = '$nagruzka_lector[base_uid]'";
-  // EchoLog($query);
-
-  $mysqli->query($query);
+$stmt = $mysqli->prepare("DELETE FROM `zavkaf_splits` WHERE `base_uid` = ?");
+if ($stmt) {
+    foreach ($data as $nagruzka_lector) {
+        $stmt->bind_param("s", $nagruzka_lector['base_uid']);
+        $stmt->execute();
+    }
+    $stmt->close();
+} else {
+    foreach ($data as $nagruzka_lector) {
+        $safe_base_uid = $mysqli->real_escape_string($nagruzka_lector['base_uid']);
+        $query = "DELETE FROM `zavkaf_splits` WHERE `base_uid` = '$safe_base_uid'";
+        $mysqli->query($query);
+    }
 }
 
 foreach ($data as $nagruzka_lector)
@@ -100,19 +107,27 @@ foreach ($data as $nagruzka_lector)
       
       $delete = $nagruzka_lector['delete'] ? '1' : '0';
 
+      $safe_LoadType = $mysqli->real_escape_string($nagruzka_lector['LoadType']);
+      $safe_StudentAmount = $mysqli->real_escape_string($nagruzka_lector['StudentAmount']);
+      $safe_Amount = $mysqli->real_escape_string($nagruzka_lector['Amount']);
+      $safe_lecturer_login = $mysqli->real_escape_string($nagruzka_lector['lecturer_login']);
+      $safe_lecturer_person_id = $mysqli->real_escape_string($nagruzka_lector['lecturer_person_id']);
+      $safe_lecturer_fio = $mysqli->real_escape_string($nagruzka_lector['lecturer_fio']);
+      $safe_lecturer_uid = $mysqli->real_escape_string($nagruzka_lector['lecturer_uid']);
+
       $query = "INSERT INTO `zavkaf_splits` SET 
                       `content_of_load_uid` = '$content_of_load_row[UID]',
                       -- `content_of_load_uid_new` = '$new_content_of_load_uid',
                       `base_uid` = '$content_of_load_row[base_uid]',
                       `base_uid2` = '$content_of_load_row[base_uid2]',
                       `base_uid2_new` = '$new_base_uid2',
-                      `LoadType` = '$nagruzka_lector[LoadType]',
-                      `StudentAmount` = '$nagruzka_lector[StudentAmount]',
-                      `Amount` = '$nagruzka_lector[Amount]',
-                      `lecturer_login` = '$nagruzka_lector[lecturer_login]',
-                      `lecturer_person_id` = '$nagruzka_lector[lecturer_person_id]',
-                      `lecturer_fio` = '$nagruzka_lector[lecturer_fio]',
-                      `lecturer_uid` = '$nagruzka_lector[lecturer_uid]',
+                      `LoadType` = '$safe_LoadType',
+                      `StudentAmount` = '$safe_StudentAmount',
+                      `Amount` = '$safe_Amount',
+                      `lecturer_login` = '$safe_lecturer_login',
+                      `lecturer_person_id` = '$safe_lecturer_person_id',
+                      `lecturer_fio` = '$safe_lecturer_fio',
+                      `lecturer_uid` = '$safe_lecturer_uid',
                       `chair_uid` = '{$XmlChairByCode[$nagruzka_lector['chair_id']]['UID']}',
                       `zavkaf_login` = '$_SESSION[c_login]',
                       `zavkaf_fio` = '$_SESSION[c_fio]',
@@ -120,7 +135,7 @@ foreach ($data as $nagruzka_lector)
 
                     ";
       
-      $mysqli->query($query);
+      $result = $mysqli->query($query);
 
       // EchoLog($query);
     }
