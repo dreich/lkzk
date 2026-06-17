@@ -14,6 +14,8 @@ if (!$_SESSION['c_login']) {
 
 $c_roles = ExplodePalki($_SESSION['c_roles'], true);
 
+$data = quote_smart($data);
+
 if ($c_roles['zavkaf'])
 {
   $XmlChairByCode = GetTable('xml_chair', "", "", "Code");
@@ -29,8 +31,8 @@ if (!$data) {
   exit;
 }
 
-
 $XMLLecturerByUID = GetTable('xml_lecturer', "", "", "UID");
+
 
 
 foreach ($data as $nagruzka_lector)
@@ -137,7 +139,13 @@ foreach ($data as $nagruzka_lector)
 
                     ";
       
-      $mysqli->query($query);
+      $Result = $mysqli->query($query);
+
+      if (!$Result)
+      {
+        EchoLog($mysqli->error);
+        EchoLog($query);
+      }
 
       // EchoLog($query);
     }

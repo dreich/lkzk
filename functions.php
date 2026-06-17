@@ -927,7 +927,7 @@ function quote_smart($values)
   
   if (is_array($values))
   {
-    while (list($id, $value) = each($values))
+    foreach ($values as $id => $value)
     {
       $values[$id] = quote_smart($value);
     }
