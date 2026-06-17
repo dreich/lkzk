@@ -31,4 +31,6 @@
 
 <button class="btn btn-success mt-3" ng-disabled="!aspirantura_ruk_soisk_edit.fio.length || !aspirantura_ruk_soisk_edit.prikaz || !aspirantura_ruk_soisk_edit.lecturer_fio" ng-click="confirm()"><span ng-if="!aspirantura_ruk_soisk_edit.id">Добавить</span><span ng-if="aspirantura_ruk_soisk_edit.id">Сохранить</span></button>
 
-<button class="btn btn-secondary mt-3" style="margin-left: 6px" ng-click="closeThisDialog(0)">Отмена</button>
+<button class="btn btn-primary mt-3" style="margin-left: 6px" ng-click="closeThisDialog(0)">Отмена</button>
+
+<button class="btn btn-secondary mt-3" style="margin-left: 6px" ng-click="closeThisDialog('delete')" ng-if="aspirantura_ruk_soisk_edit.id">Удалить</button>

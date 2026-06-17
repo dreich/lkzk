@@ -200,7 +200,7 @@ function Authorize($login, $password)
         $_SESSION['c_fio'] = $attrs['displayname'];;
         $_SESSION['c_roles'] = $User['roles'];
         $result = true;
-        ActivityLog(null, "Вход админа", '', "authorize auditor $login", 1);
+        ActivityLog(null, "Вход админа", '', "authorize $login", 1);
       }
 
       // EchoLog($_SESSION);
@@ -2749,8 +2749,6 @@ function PrepareNagruzka($_Nagruzka, $lite = false)
 
       if ($Nagruzka["$nagruzka[base_uid2]"] /* $nagruzka['base_uid'] != $nagruzka['original_uid'] && */ )
       {
-        
-
         if (!$lite && !in_array($nagruzka['discipline_name'], $Nagruzka["$nagruzka[base_uid2]"]['discipline_name_arr'], true))
         {
           $Nagruzka["$nagruzka[base_uid2]"]['discipline_name_arr'][] = $nagruzka['discipline_name'];
@@ -3205,10 +3203,11 @@ function loadXMLSafe($filename, $logErrors = true)
 }
 
 
-function safeAdd(&$target, $value) {
-    // Приводим к float, но обрабатываем некорректные значения как 0
-    $numericValue = is_numeric($value) ? (float) $value : 0;
-    $target = ((float) $target) + $numericValue;
+function safeAdd(&$target, $value) 
+{
+  // Приводим к float, но обрабатываем некорректные значения как 0
+  $numericValue = is_numeric($value) ? (float) $value : 0;
+  $target = ((float) $target) + $numericValue;
 }
 
 
@@ -3309,6 +3308,60 @@ function hash_column_values_only($data, $columns)
 function IsEducationLevelVO($education_level)
 {
   return in_array($education_level, ['бакалавриат', 'специалитет', 'магистратура', 'аспирантура', 'ординатура']);
+}
+
+
+// Сосчитать часы аспирантской нагрузки (всех подвидов сумма) для преподавателя
+// для aspirantura_itog_exam часы в зависимости от режима считаются по данным из Галактики, либо из сплитов (как и для других видов нагрузки)
+function CalcPersonAspiranturaHours($person_id, $nagruzka_type)
+{
+  global $_aspirantura_hours_per_student, $_aspirantura_ruk_asp_hours, $_aspirantura_ruk_soisk_hours;
+
+  $sum_hours = 0;
+
+  if ($nagruzka_type == 'aspirantura_kand_exam')
+  {
+    $Nagruzka = GetRows('aspirantura_kand_exam', ['lecturer_person_id' => $person_id]);
+
+    if ($Nagruzka)
+    {
+      foreach ($Nagruzka as $nagruzka)
+      {
+        safeAdd($sum_hours, $nagruzka['students_num'] * $_aspirantura_hours_per_student);
+      }
+    }
+  }
+  elseif ($nagruzka_type == 'aspirantura_itog_exam')
+  {
+    $query = GetNagruzkaBaseQuery($dopSql, $nagruzka_type, true, true);
+    $rawData = GetSQL($query);
+    $result = PrepareNagruzka($rawData, true);
+    // .. TODO MUCH WORK
+  }
+  elseif ($nagruzka_type == 'aspirantura_ruk_asp')
+  {
+    $Nagruzka = GetRows('aspirantura_ruk_asp', ['lecturer_person_id' => $person_id]);
+
+    if ($Nagruzka)
+    {
+      foreach ($Nagruzka as $nagruzka)
+      {
+        safeAdd($sum_hours, $_aspirantura_ruk_asp_hours);
+      }
+    }
+  }
+  elseif ($nagruzka_type == 'aspirantura_ruk_soisk')
+  {
+    $Nagruzka = GetRows('aspirantura_ruk_soisk', ['lecturer_person_id' => $person_id]);
+
+    if ($Nagruzka)
+    {
+      foreach ($Nagruzka as $nagruzka)
+      {
+        safeAdd($sum_hours, $_aspirantura_ruk_soisk_hours);
+      }
+    }
+  }
 }
 
 ?>

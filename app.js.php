@@ -52,6 +52,7 @@ const $_nagruzka_types =
 const c_login = '<?=$c_login?>';
 const c_fio = '<?=$c_fio?>';
 const c_person_id = '<?=$c_person_id?>';
+const $_aspirantura_hours_per_student = <?=$_aspirantura_hours_per_student?>;
 CL(c_person_id);
 // роли авторизованного
 const c_roles = {<?=ArrayToJS($c_roles)?>};
@@ -3396,7 +3397,10 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
   $scope.uoup_nagruzka = uoup_nagruzka ? uoup_nagruzka.data : null;
   $scope.nagruzka_uoup_stat = {}; //nagruzka_uoup_stat.data;
 
-  $scope.isLoading = true;
+  // Умная инициализация лоадера: 
+  // Если данные пришли из resolve (uoup_nagruzka не null), лоадер НЕ нужен (false).
+  // Если данных нет, включаем лоадер (true).
+  $scope.isLoading = ($scope.uoup_nagruzka === null);
 
   // нужно очистить глобальный фильтр, иначе он может притащиться из /#/nagruzka, и здесь невидимо всё портить
   // а он не используется по этому адресу
@@ -3544,6 +3548,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
             title: page_title // Заголовок на первой строке листа
           }
       ])
+    /*
     .withOption('initComplete', function(settings, json) 
     {
         // Скрываем индикатор когда загрузка завершена
@@ -3606,7 +3611,9 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
 
 
         });
-      });
+      })
+    */
+    ;
 
   $scope.dtColumnDefs = [
     // DTColumnDefBuilder.newColumnDef(7).notVisible().notSortable(),
@@ -3700,7 +3707,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
   // Нагрузка загружается либо до контроллера, либо здесь, в зависимости от страницы, где находимся
   if (!$scope.uoup_nagruzka)
   {
-    $scope.uoup_nagruzka = {};
+    $scope.uoup_nagruzka = null;
     
     $http({url: "ajax/get/nagruzka/?lite=1", method: 'GET'})
         .then(function (response) 
@@ -3708,7 +3715,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
           if (response.data)
           {
             $scope.uoup_nagruzka = response.data.nagruzka;
-            // $scope.isLoading = false;
+            $scope.isLoading = false;
           }
         })
 
@@ -6039,6 +6046,8 @@ $scope.toggleAdminChangeChair = function(chair)
 {
   CL('AspiranturaCtrl');
 
+  if (c_roles.ruk_aspirantura != '1') return;
+
   // Список ваших вкладок для проверки и дефолтного значения
   var validTabs = ['aspirantura_kand_exam', 'aspirantura_itog_exam', 'aspirantura_ruk_asp', 'aspirantura_ruk_soiskatel'];
   
@@ -6555,7 +6564,7 @@ $scope.toggleAdminChangeChair = function(chair)
 
       $scope.CalcAspiranturaKandExamNagruzkaHours = function(nagruzka_row)
       {
-        return roundToTwo(parseFloat(nagruzka_row.students_num) * 0.5);
+        return roundToTwo(parseFloat(nagruzka_row.students_num) * $_aspirantura_hours_per_student);
       }
 
       $scope.onNagruzkaAspiranturaKandExamGlobalFilterChange = function() 
@@ -6895,10 +6904,10 @@ $scope.toggleAdminChangeChair = function(chair)
       }
 
 
-      $scope.CalcAspiranturaRukAspNagruzkaHours = function(nagruzka_row)
-      {
-        return roundToTwo(parseFloat(nagruzka_row.students_num) * 0.5);
-      }
+      // $scope.CalcAspiranturaRukAspNagruzkaHours = function(nagruzka_row)
+      // {
+      //   return roundToTwo(parseFloat(nagruzka_row.students_num) * 0.5);
+      // }
 
       $scope.onNagruzkaAspiranturaRukAspGlobalFilterChange = function() 
       {
@@ -6957,40 +6966,22 @@ $scope.toggleAdminChangeChair = function(chair)
           type: 'input',
           bRegex: false,
         },
-        // группа
+        // Приказ
         {
-          name: 'group_name',
+          name: 'prikaz',
           type: 'input',
-          bRegex: false,
-        },
-        // Факультет
-        {
-          name: 'department',
-          type: 'select',
-          bRegex: false,
-        },
-        // Направление
-        {
-          name: 'napravlenie_title',
-          type: 'input',
-          bRegex: false,
-        },
-        // Курс
-        {
-          name: 'course',
-          type: 'select',
           bRegex: false,
         },
         // Факультет преподавателя
         {
           name: 'lecturer_deparment_name',
-          type: 'input',
+          type: 'select',
           bRegex: false,
         },
         // Кафедра преподавателя
         {
           name: 'lecturer_chair_name',
-          type: 'input',
+          type: 'select',
           bRegex: false,
         },
         // Преподаватель
@@ -7024,6 +7015,17 @@ $scope.toggleAdminChangeChair = function(chair)
             "loadingRecords": "Загрузка...",
             "processing": "Обработка..."
         })
+        .withOption('drawCallback', function(settings) {
+            // Этот нативный коллбэк срабатывает синхронно каждый раз после перерисовки DOM
+            const api = this.api();
+            const $tableNode = $(api.table().node());
+
+            // Если DataTables перерисовал таблицу, и наши селекты пропали — создаем их заново
+            if ($tableNode.find('select.select_filter').length === 0 && !$scope.isAspiranturaRukSoiskLoading) {
+                createCustomFilters('DataTables_Table_aspirantura_soisk', api, columns, $scope);
+                MakeFilterSelectsSearchFromStart(settings);
+            }
+        })
         .withButtons([
             {
               extend: 'excel',
@@ -7039,49 +7041,6 @@ $scope.toggleAdminChangeChair = function(chair)
                 {
                   body: function (data, column, row, node) 
                   {
-                    // Для определённых столбцов своя обработка
-                    if (row === 4)
-                    {
-                      // Клонируем узел, чтобы не менять оригинал
-                      const clone = node.cloneNode(true);
-                      
-                      // Удаляем все комментарии из клона
-                      const walker = document.createTreeWalker(
-                          clone,
-                          NodeFilter.SHOW_COMMENT,
-                          {
-                              acceptNode: function(node) {
-                                  return NodeFilter.FILTER_ACCEPT;
-                              }
-                          }
-                      );
-                      
-                      const commentsToRemove = [];
-                      while (walker.nextNode()) {
-                          commentsToRemove.push(walker.currentNode);
-                      }
-                      commentsToRemove.forEach(comment => comment.remove());
-
-                      // Находим и полностью удаляем все кнопки из клона вместе с их содержимым
-                      const buttonsToRemove = clone.querySelectorAll('button');
-                      buttonsToRemove.forEach(button => button.remove());
-                      
-                      // Получаем текст без комментариев
-                      let text = clone.textContent || clone.innerText || '';
-                      
-                      // Очищаем от лишних пробелов и переносов строк
-                      text = text.replace(/\s+/g, ' ').trim();
-                      
-                      // Разделяем лекторов (если нужно)
-                      text = text.replace(/\)\s+/, '); ');
-
-                      // Заменяем "[не распределено]" на "не распределено"
-                      text = text.replace(/\[не распределено\]/g, 'не распределено');
-                      
-                      return text;
-
-                    }
-                    else
                     {
                       if (!data || typeof data !== 'string') return data || '';
 
@@ -7114,23 +7073,48 @@ $scope.toggleAdminChangeChair = function(chair)
         })
         .withOption('processing', true);
 
-
       $scope.onAspiranturaRukSoiskNagruzkaTableInstance = function(dtAspiranturaRukSoiskInstance) 
       {
           CL('onAspiranturaRukSoiskNagruzkaTableInstance');
           $scope.dtAspiranturaRukSoiskInstance = dtAspiranturaRukSoiskInstance;
           const table = dtAspiranturaRukSoiskInstance.DataTable;
 
-          // Если сеть отработала ОЧЕНЬ быстро и данные прилетели РАНЬШЕ, чем создался инстанс:
-          if (!$scope.isAspiranturaRukSoiskLoading) {
-              createCustomFilters('DataTables_Table_aspirantura_soisk', table, columns, $scope);
-          }
+          // Нативное событие DataTables. Срабатывает ПОСЛЕ любой перерисовки таблицы 
+          // (первоначальная загрузка, сортировка, или когда Angular обновил массив данных)
+          table.on('draw.dt', function() {
+              const $tableNode = $(table.table().node());
+              
+              // Проверяем, не стер ли Angular наши фильтры при обновлении DOM
+              // Если их нет — создаем заново
+              if ($tableNode.find('select.select_filter').length === 0 && !$scope.isAspiranturaRukSoiskLoading) {
+                  createCustomFilters('DataTables_Table_aspirantura_soisk', table, columns, $scope);
+                  MakeFilterSelectsSearchFromStart(table.settings()[0]);
+              }
+          });
 
-          // Следим за кнопками скрытия/показа колонок (ColVis)
+          // Оставляем ваш обработчик скрытия/показа колонок (ColVis)
           table.on('column-visibility.dt', () => {
               createCustomFilters('DataTables_Table_aspirantura_soisk', table, columns, $scope);
+              MakeFilterSelectsSearchFromStart(table.settings()[0]);
           });
       };
+
+      // $scope.onAspiranturaRukSoiskNagruzkaTableInstance = function(dtAspiranturaRukSoiskInstance) 
+      // {
+      //     CL('onAspiranturaRukSoiskNagruzkaTableInstance');
+      //     $scope.dtAspiranturaRukSoiskInstance = dtAspiranturaRukSoiskInstance;
+      //     const table = dtAspiranturaRukSoiskInstance.DataTable;
+
+      //     // Если сеть отработала ОЧЕНЬ быстро и данные прилетели РАНЬШЕ, чем создался инстанс:
+      //     if (!$scope.isAspiranturaRukSoiskLoading) {
+      //         createCustomFilters('DataTables_Table_aspirantura_soisk', table, columns, $scope);
+      //     }
+
+      //     // Следим за кнопками скрытия/показа колонок (ColVis)
+      //     table.on('column-visibility.dt', () => {
+      //         createCustomFilters('DataTables_Table_aspirantura_soisk', table, columns, $scope);
+      //     });
+      // };
 
       // если есть id, то это обновление, иначе - добавление новой строки
       $scope.SaveNagruzkaAspirantRukSoiskRow = function(nagruzka_row)
@@ -7155,7 +7139,7 @@ $scope.toggleAdminChangeChair = function(chair)
               });
       }
 
-      $scope.NagruzkaAspiranturaRukSoiskDeleteLecturer = function(nagruzka_row)
+      $scope.NagruzkaAspiranturaRukSoiskDelete = function(nagruzka_row)
       {
         $http({url: 'ajax/post/delete_nagruzka_aspirant_ruk_soisk.php', method: 'POST', data: nagruzka_row})
               .then(function(response)
@@ -7166,11 +7150,11 @@ $scope.toggleAdminChangeChair = function(chair)
 
                   // if (response.data.delete)
                   // {
-                  //   deleteByColumn($scope.aspirantura_ruk_asp, 'id', nagruzka_row.id);
+                    deleteByColumn($scope.aspirantura_ruk_soisk, 'id', nagruzka_row.id);
                   // }
                   // else
                   {
-                    nagruzka_row.lecturer_login = nagruzka_row.lecturer_person_id = nagruzka_row.lecturer_fio = nagruzka_row.lecturer_uid = nagruzka_row.lecturer_chair_id = nagruzka_row.lecturer_chair_name = nagruzka_row.lecturer_department_id = nagruzka_row.lecturer_department_name = '';
+                    // nagruzka_row.lecturer_login = nagruzka_row.lecturer_person_id = nagruzka_row.lecturer_fio = nagruzka_row.lecturer_uid = nagruzka_row.lecturer_chair_id = nagruzka_row.lecturer_chair_name = nagruzka_row.lecturer_department_id = nagruzka_row.lecturer_department_name = '';
                   }
                 }
                 else
@@ -7196,6 +7180,9 @@ $scope.toggleAdminChangeChair = function(chair)
           $scope.aspirantura_ruk_soisk_edit.lecturer_login = data.originalObject.lecturer_login;
           $scope.aspirantura_ruk_soisk_edit.lecturer_chair_id = data.originalObject.chair_id;
           $scope.aspirantura_ruk_soisk_edit.lecturer_chair_name = data.originalObject.chair_name;
+
+          if (!data.originalObject.chair_name) $scope.aspirantura_ruk_soisk_edit.lecturer_chair_name = data.originalObject.department_name;
+
           $scope.aspirantura_ruk_soisk_edit.lecturer_department_id = data.originalObject.department_id;
           $scope.aspirantura_ruk_soisk_edit.lecturer_department_name = data.originalObject.department_name;
         }
@@ -7220,7 +7207,7 @@ $scope.toggleAdminChangeChair = function(chair)
       }
 
 
-      $scope.AspiranturaRukSoiskAdd = function()
+      $scope.AspiranturaRukSoiskSave = function()
       {
         $http({url: 'ajax/post/save_nagruzka_aspirant_ruk_soisk.php', method: 'POST', data: $scope.aspirantura_ruk_soisk_edit})
               .then(function(response)
@@ -7231,7 +7218,7 @@ $scope.toggleAdminChangeChair = function(chair)
 
                   if (isEmpty($scope.aspirantura_ruk_soisk_edit.id))
                   {
-                    aspirantura_ruk_soisk_edit.id = response.data.id;
+                    $scope.aspirantura_ruk_soisk_edit.id = response.data.id;
                     $scope.aspirantura_ruk_soisk.push($scope.aspirantura_ruk_soisk_edit);
                     
                     // $scope.show_aspirantura_ruk_soisk_edit_form = false;
@@ -7253,10 +7240,10 @@ $scope.toggleAdminChangeChair = function(chair)
       }
 
 
-      $scope.CalcAspiranturaRukSoiskNagruzkaHours = function(nagruzka_row)
-      {
-        return roundToTwo(parseFloat(nagruzka_row.students_num) * 0.5);
-      }
+      // $scope.CalcAspiranturaRukSoiskNagruzkaHours = function(nagruzka_row)
+      // {
+      //   return roundToTwo(parseFloat(nagruzka_row.students_num) * 0.5);
+      // }
 
       $scope.onNagruzkaAspiranturaRukSoiskGlobalFilterChange = function() 
       {
@@ -7282,28 +7269,10 @@ $scope.toggleAdminChangeChair = function(chair)
       {
         CL('AspiranturaRukSoiskOpenDialog');
 
-        $scope.aspirantura_ruk_soisk_edit = angular.copy(nagruzka_row);
-        
-        // const dialogScope = $scope.$new();
-        // dialogScope.nagruzka_row = angular.copy(nagruzka_row);
+        // для добавления
+        if (isEmpty(nagruzka_row)) nagruzka_row = {};
 
-        // Удалить комментарий у нагрузки (завкаф)
-        // dialogScope.DeleteComment = function(log_id)
-        // {
-        //   $http({url: 'ajax/post/delete_comment.php', method: 'POST', data: {id: log_id}})
-        //     .then(function(data)
-        //     {
-        //       if (data.data.result == 'success')
-        //       {
-        //         deleteByColumn(dialogScope.nagruzka_history, 'id', log_id);
-        //         toastr.success("Комментарий удалён");
-        //       }
-        //       else
-        //       {
-        //         toastr.error("Ошибка");
-        //       }
-        //     });
-        // }
+        $scope.aspirantura_ruk_soisk_edit = angular.copy(nagruzka_row);
 
         ngDialog.openConfirm({
                     template: "aspirantura_ruk_soisk_dialog.tpl.html" + "?" + getRandom(10000, 99999),
@@ -7314,26 +7283,21 @@ $scope.toggleAdminChangeChair = function(chair)
                   })
         .then(function (message) {  // да
 
-              $scope.AspiranturaRukSoiskAdd();
-              // toastr.success("Данные сохранены");
-
-              // $http({url: 'ajax/post/uoup_cancel.php', method: 'POST', data: {load_base_UID2: nagruzka_row.base_uid2, chair_id: nagruzka_row.chair_id, chair_name: nagruzka_row.chair_name, zavkaf_fio: nagruzka_row.zavkaf_fio, action: 'Админ УОУП отклонил запрос кафедры на внесение изменений', message: message}})
-              //   .then(function(response)
-              //   {
-              //     if (response.data.result == 'success')
-              //     {
-              //       toastr.success("Данные сохранены");
-              //       nagruzka_row.status = 'initial';
-              //     }
-              //     else
-              //     {
-              //       toastr.error("Ошибка");
-              //     }
-              //   });
+              $scope.AspiranturaRukSoiskSave();
 
             })
-            .catch(function dialogCloseErrorCallback(reason) {
-                    // ngDialog v1.4.0 throws an exception, when closing the dialog with reason “undefined”.
+            .catch(function dialogCloseErrorCallback(reason) 
+            {
+              CL(reason);
+
+              if (reason === 'delete') 
+              {
+                // Здесь вызываем функцию удаления
+                $scope.NagruzkaAspiranturaRukSoiskDelete($scope.aspirantura_ruk_soisk_edit);
+              } 
+              // else 
+              // {
+              // }
             });
       }
     

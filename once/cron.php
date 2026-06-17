@@ -42,7 +42,9 @@ include '../connect.php';
 fullBackupTable('nagruzka', 4);
 fullBackupTable('zavkaf_splits', 4);
 fullBackupTable('ksro', 4);
-// TODO backup аспирантура
+fullBackupTable('aspirantura_kand_exam', 4);
+fullBackupTable('aspirantura_ruk_asp', 4);
+fullBackupTable('aspirantura_ruk_soisk', 4);
 
 // echo sizeof($BUPDisciplines);
 
@@ -206,15 +208,18 @@ if ($_system_mode == 'export_to_galaktika')
 {
   if (GetSystemParam('may_set_mode_verification') == '1')
   {
-    $r1 = fullBackupTable('zavkaf_splits');
-    $r2 = fullBackupTable('ksro');
-    // TODO аспирантура
+    // Бэкапы и так делаются в начале скрипта всегда
+    // $r1 = fullBackupTable('zavkaf_splits');
+    // $r2 = fullBackupTable('ksro');
 
-    if ($r1 && $r2)
-    {
+    // if ($r1 && $r2)
+    // {
       $Result = $mysqli->query("DELETE FROM `zavkaf_splits`");
       $Result = $mysqli->query("DELETE FROM `ksro`");
-    }
+      $Result = $mysqli->query("DELETE FROM `aspirantura_kand_exam`");
+      $Result = $mysqli->query("DELETE FROM `aspirantura_ruk_asp`");
+      $Result = $mysqli->query("DELETE FROM `aspirantura_ruk_soisk`");
+    // }
 
     SaveSystemParam('may_set_mode_verification', '');
     SaveSystemParam('system_mode', 'mode_verification');
@@ -227,14 +232,17 @@ if ($_system_mode == 'export_to_galaktika')
 if ($_system_mode == 'mode_verification')
 {
   EchoLog("Режим выверка: очищаем все сплиты");
-  $r1 = fullBackupTable('zavkaf_splits');
-  $r2 = fullBackupTable('ksro');
-  // TODO аспирантура
+  // Бэкапы и так делаются в начале скрипта всегда
+  // $r1 = fullBackupTable('zavkaf_splits');
+  // $r2 = fullBackupTable('ksro');
 
-  if ($r1 && $r2)
+  // if ($r1 && $r2)
   {
     $Result = $mysqli->query("DELETE FROM `zavkaf_splits`");
     $Result = $mysqli->query("DELETE FROM `ksro`");
+    $Result = $mysqli->query("DELETE FROM `aspirantura_kand_exam`");
+    $Result = $mysqli->query("DELETE FROM `aspirantura_ruk_asp`");
+    $Result = $mysqli->query("DELETE FROM `aspirantura_ruk_soisk`");
   }
 
 }
@@ -564,7 +572,6 @@ function LoadXML($filename, $table_name)
       {
         $sql_arr[] = "`nagruzka_type` = 'aspirantura_itog_exam'";
       }
-      // TODO аналогично КСРО создать для аспирантуры
       elseif ($XMLKindOfWorkGIA1[$arr['UID_KindOfWork']] || ($XMLKindOfWorkGIA2[$arr['UID_KindOfWork']] && (mb_stripos($_XMLContentOfLoadStaffByBaseUID1[$base_uid]['Abbr'], "Б3") === 0 || mb_stripos($_XMLContentOfLoadStaffByBaseUID1[$base_uid]['Abbr'], "Б.3") === 0)))
       {
         $sql_arr[] = "`nagruzka_type` = 'gia'";
@@ -779,9 +786,8 @@ foreach ($kandidats_xml->Employee as $s)
 
     // echo $podrazdelenie_id . ' ' . $Podrazdelenia[$podrazdelenie_id]['pname'] . '<br>';
 
-    // Начинается с "Кафедра"
-    // TODO базовая кафедра!
-    if (mb_stripos($Podrazdelenia[$podrazdelenie_id]['pname'], 'Кафедра') === 0)
+    // Начинается с "Кафедра" или есть "базовая кафедра"
+    if (mb_stripos($Podrazdelenia[$podrazdelenie_id]['pname'], 'Кафедра') === 0 || mb_stripos($Podrazdelenia[$podrazdelenie_id]['pname'], 'базовая кафедра') !== false)
     {
       $Kandidats_arr["$person_id-$podrazdelenie_id"] = ['person_id' => $person_id, 'fio' => $fio, 'department_id' => $Podrazdelenia[$podrazdelenie_id]['ukrup_code'], 'dolzhnost' => $dolzhnost, 'type' => 'kandidat', 'chair_id' => $podrazdelenie_id, 'podrazdelenie_id' => $podrazdelenie_id];
 
@@ -1974,7 +1980,6 @@ if ($XMLContentOfLoad)
         }
 
         // Что-то изменилось, нужно сбросить в нагрузке назначенного преподавателя
-        // TODO ! в других таблицах надо !
         if ($some_changed)
         {
           $chair_id = $XMLChairByUID[$new_nagr_row['UID_Chair']]['Code'];

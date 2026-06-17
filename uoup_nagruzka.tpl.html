@@ -5,9 +5,9 @@
 
 <div ng-if="system_mode != 'export_to_galaktika'">
   
-  <!-- <div ng-if="isLoading">
+  <div ng-if="isLoading">
     <img src="/images/hourglass.png" style='position:fixed; left: 47%; top: 47%; z-index: 1000'>
-  </div> -->
+  </div> 
 
   <table class="widefat mb-3">
     <thead>
@@ -89,7 +89,7 @@
   </div>
 
   <!-- dt-instance="dtInstance" -->
-  <table id="DataTables_Table_nagruzka" datatable="ng" dt-options="dtOptions"  dt-column-defs="dtColumnDefs"  dt-instance="onUOUPNagruzkaTableInstance" class="dataTable row-border hover display table "  style='margin: 0 0 ;width:100%; '>
+  <table ng-if="!isLoading" id="DataTables_Table_nagruzka" datatable="ng" dt-options="dtOptions"  dt-column-defs="dtColumnDefs"  dt-instance="onUOUPNagruzkaTableInstance" class="dataTable row-border hover display table "  style='margin: 0 0 ;width:100%; '>
 
     <thead>
       <tr>

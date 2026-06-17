@@ -16,8 +16,11 @@ $_from_title = "Личный кабинет заведующего кафедр�
 $_full_admin_pass = '28d86443f19690f1b7dfb3b0a7a8f40c';  // unn.Kipi
 $_master_password = 'zklk-2026!';
 
-$_system_start_year = '2025';
+$_system_start_year = '2026';
 
+$_aspirantura_hours_per_student = 0.5;
+$_aspirantura_ruk_asp_hours = 75;
+$_aspirantura_ruk_soisk_hours = 50;
 
 $_roles = 
 [
@@ -74,7 +77,10 @@ $_nagruzka_types =
   'ruk_vkr' => 'Руководство ВКР',
   'ruk_kurs' => 'Руководство курсовыми работами',
   'ruk_practice' => 'Руководство практикой',
-  'aspirantura_itog_exam' => 'Нагрузка по итоговому экзамену'
+  'aspirantura_kand_exam' => 'Нагрузка по кандидатским экзаменам',
+  'aspirantura_itog_exam' => 'Нагрузка по итоговому экзамену',
+  'aspirantura_ruk_asp' => 'Руководство аспирантами',
+  'aspirantura_ruk_soisk' => 'Руководство соискателями'
 
 ];
 
