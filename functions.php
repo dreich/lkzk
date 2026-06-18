@@ -699,7 +699,7 @@ function JoinConditions($values)
 function JoinArrayElements($arr, $delim = ', ', $start_end = false, $left_quote = '', $right_quote = '')
 {
   if (!is_array($arr)) return '';
-  
+
   $num = sizeof($arr);
 
   if ($num)
@@ -3318,7 +3318,7 @@ function IsEducationLevelVO($education_level)
 // для aspirantura_itog_exam часы в зависимости от режима считаются по данным из Галактики, либо из сплитов (как и для других видов нагрузки)
 function CalcPersonAspiranturaHours($person_id, $nagruzka_type)
 {
-  global $_aspirantura_hours_per_student, $_aspirantura_ruk_asp_hours, $_aspirantura_ruk_soisk_hours;
+  global $_aspirantura_hours_per_student, $_aspirantura_ruk_asp_hours, $_aspirantura_ruk_soisk_hours, $_SERVER;
 
   $sum_hours = 0;
 
@@ -3336,10 +3336,25 @@ function CalcPersonAspiranturaHours($person_id, $nagruzka_type)
   }
   elseif ($nagruzka_type == 'aspirantura_itog_exam')
   {
-    $query = GetNagruzkaBaseQuery($dopSql, $nagruzka_type, true, true);
-    $rawData = GetSQL($query);
-    $result = PrepareNagruzka($rawData, true);
+    include $_SERVER['DOCUMENT_ROOT'] . "/ajax/get/nagruzka/BaseNagruzkaProvider.php";
+    include $_SERVER['DOCUMENT_ROOT'] . "/ajax/get/nagruzka/NagruzkaModeFactory.php";
+
+    // $query = GetNagruzkaBaseQuery($dopSql, $nagruzka_type, true, true);
+    // $rawData = GetSQL($query);
+    // $result = PrepareNagruzka($rawData, true);
     // .. TODO MUCH WORK
+
+    // Определяем режим работы системы
+    $modeRow = GetRow('params', ['param' => 'system_mode']);
+    $systemMode = isset($modeRow['value']) ? $modeRow['value'] : 'mode_closed';
+
+    $provider = NagruzkaModeFactory::create($systemMode, [], ['type' => $nagruzka_type, 'only_stat' => true]);
+
+    // Получаем данные
+    $result = $provider->getData();
+
+    safeAdd($sum_hours, $result['stat']['assigned']['sum']);
+
   }
   elseif ($nagruzka_type == 'aspirantura_ruk_asp')
   {
@@ -3365,6 +3380,11 @@ function CalcPersonAspiranturaHours($person_id, $nagruzka_type)
       }
     }
   }
+
+
+  return $sum_hours;
+
 }
+
 
 ?>

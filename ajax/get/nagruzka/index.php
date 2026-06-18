@@ -37,44 +37,8 @@ if (empty($_SERVER['HTTP_X_REQUESTED_WITH']) || $_SERVER['HTTP_X_REQUESTED_WITH'
 
 include '../../../functions.php';
 include 'BaseNagruzkaProvider.php';
+include 'NagruzkaModeFactory.php';
 
-// Фабрика режимов
-class NagruzkaModeFactory
-{
-    private static $modes = [
-        // 'mode_closed' => 'ClosedMode',
-        'mode_filling' => 'FillingMode',
-        'mode_exporting' => 'ExportingMode',
-        'mode_verification' => 'VerificationMode',
-        'mode_archive' => 'ArchiveMode'
-    ];
-
-    private static $modeFiles = [
-        // 'ClosedMode' => 'modes/ClosedMode.php',
-        'FillingMode' => 'modes/FillingMode.php',
-        'ExportingMode' => 'modes/ExportingMode.php',
-        'VerificationMode' => 'modes/VerificationMode.php',
-        'ArchiveMode' => 'modes/ArchiveMode.php'
-    ];
-
-    public static function create($mode, $session, $getParams)
-    {
-        $className = isset(self::$modes[$mode]) ? self::$modes[$mode] : 'ClosedMode';
-        $filePath = self::$modeFiles[$className];
-
-        if (!file_exists(__DIR__ . '/' . $filePath)) {
-            throw new Exception("Mode file not found: $filePath");
-        }
-
-        include_once __DIR__ . '/' . $filePath;
-
-        if (!class_exists($className)) {
-            throw new Exception("Mode class not found: $className");
-        }
-
-        return new $className($session, $getParams);
-    }
-}
 
 try {
     // Определяем режим работы системы
@@ -129,7 +93,8 @@ try {
     $result['can_edit'] = $provider->canEdit();
     $result['user_role'] = $provider->userRole;
 
-    $result['debug'] = [
+    $result['debug'] = 
+    [
         'memory_peak_mb' => round(memory_get_peak_usage(true) / 1024 / 1024, 2) . ' MB',
         'memory_current_mb' => round(memory_get_usage(true) / 1024 / 1024, 2) . ' MB'
     ];
