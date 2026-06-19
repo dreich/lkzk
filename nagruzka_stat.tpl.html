@@ -103,12 +103,12 @@
         <span ng-if="!true"><a href="{{GetNagruzkaTypesRowLink('aspirantura', chair_id, _lecturer_uids[$index])}}">Руководство аспирантами и соискателями, кандидатские экзамены</a></span>
         <span ng-if="true">Руководство аспирантами и соискателями, кандидатские экзамены</span>
       </td>
-      <td ng-if="!nagruzka_selected_lecturer_uid && !c_roles.sotrudnik">{{nagruzka_stat[chair_id]['aspirant']['total']['sum'] | toFixed:1}}</td>
-      <td ng-if="!nagruzka_selected_lecturer_uid && !c_roles.sotrudnik">{{nagruzka_stat[chair_id]['aspirant']['not_assigned']['sum'] | toFixed:1}}</td>
-      <td>{{nagruzka_stat[chair_id]['aspirant']['assigned']['sum'] | toFixed:1}}</td>
-      <td ng-if="nagruzka_selected_lecturer_uid || c_roles.sotrudnik">{{nagruzka_stat[chair_id]['aspirant']['assigned_auditorium']['sum'] | toFixed:1}}</td>
-      <td ng-if="nagruzka_selected_lecturer_uid || c_roles.sotrudnik">{{nagruzka_stat[chair_id]['aspirant']['assigned_english']['sum'] | toFixed:1}}</td>
-      <td ng-if="!nagruzka_selected_lecturer_uid && !c_roles.sotrudnik">{{nagruzka_stat[chair_id]['aspirant']['assigned_to_vacancy']['sum'] | toFixed:1}}</td>
+      <td ng-if="!nagruzka_selected_lecturer_uid && !c_roles.sotrudnik">{{GetNagruzkaStatusAspiranturaSum(chair_id, 'total') | toFixed:1}}</td>
+      <td ng-if="!nagruzka_selected_lecturer_uid && !c_roles.sotrudnik">{{GetNagruzkaStatusAspiranturaSum(chair_id, 'not_assigned') | toFixed:1}}</td>
+      <td>{{GetNagruzkaStatusAspiranturaSum(chair_id, 'assigned') | toFixed:1}}</td>
+      <td ng-if="nagruzka_selected_lecturer_uid || c_roles.sotrudnik">{{GetNagruzkaStatusAspiranturaSum(chair_id, 'assigned_auditorium') | toFixed:1}}</td>
+      <td ng-if="nagruzka_selected_lecturer_uid || c_roles.sotrudnik">{{GetNagruzkaStatusAspiranturaSum(chair_id, 'assigned_english') | toFixed:1}}</td>
+      <td ng-if="!nagruzka_selected_lecturer_uid && !c_roles.sotrudnik">{{GetNagruzkaStatusAspiranturaSum(chair_id, 'assigned_to_vacancy') | toFixed:1}}</td>
     </tr>
     
   </tbody>

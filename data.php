@@ -78,7 +78,7 @@ $_nagruzka_types =
   'ruk_kurs' => 'Руководство курсовыми работами',
   'ruk_practice' => 'Руководство практикой',
   'aspirantura_kand_exam' => 'Нагрузка по кандидатским экзаменам',
-  'aspirantura_itog_exam' => 'Нагрузка по итоговому экзамену',
+  'aspirantura_itog_exam' => 'Нагрузка по итоговому экзамену', // ~ nagruzka
   'aspirantura_ruk_asp' => 'Руководство аспирантами',
   'aspirantura_ruk_soisk' => 'Руководство соискателями'
 

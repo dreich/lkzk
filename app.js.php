@@ -45,6 +45,7 @@ const $_nagruzka_types =
   'ruk_practice': 'Руководство практикой',
   'ksro': 'Индивидуальные консультации и КСРО',
   'gia': 'ГИА',
+  // обобщённый псевдо-тип
   'aspirant': 'Руководство аспирантами и соискателями, кандидатские экзамены',
 };
 
@@ -671,11 +672,23 @@ function createCustomFilters(table_id, table, columns, scope)
       //   column.search('^' + escaped + '$', true, false);
       // }
 
-      if (savedSearch) {
+      if (savedSearch) 
+      {
+
+        // console.log('=== Колонка ' + columnIndex + ' ===');
+        // console.log('savedSearch RAW:', JSON.stringify(savedSearch));
+        // console.log('savedSearch длина:', savedSearch.length);
+        // console.log('Первый символ:', savedSearch.charCodeAt(0));
+        // console.log('Последний символ:', savedSearch.charCodeAt(savedSearch.length - 1));
+
             // Очищаем от возможных regex-символов из предыдущих сохранений
+           // Очищаем от ^ и $
             var cleanSearch = savedSearch;
             if (cleanSearch.indexOf('^') === 0) cleanSearch = cleanSearch.substring(1);
             if (cleanSearch.lastIndexOf('$') === cleanSearch.length - 1) cleanSearch = cleanSearch.substring(0, cleanSearch.length - 1);
+            
+            // Убираем ВСЕ обратные слеши (экранирование)
+            cleanSearch = cleanSearch.replace(/\\/g, '');
             
             select.val(cleanSearch);
             
@@ -791,6 +804,10 @@ function UpdateNagruzkaStat($http, scope, nagr_type, chair_id, lecturer_uid, onl
     {
       script = 'nagruzka/';
     }
+  }
+  else if (nagr_type == 'aspirant')
+  {
+    script = `get_aspirantura_stats.php`;
   }
   else
   {
@@ -1886,6 +1903,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
 
   $scope.NagruzkaCtrlUpdateNagruzkaStat = function(nagr_type, chair_id, lecturer_uid, only_stat)
   {
+    CL('NagruzkaCtrlUpdateNagruzkaStat');
     UpdateNagruzkaStat($http, $scope, nagr_type, chair_id, lecturer_uid, only_stat);
   }
 
@@ -2079,12 +2097,12 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
           localStorage.setItem(storageKey, JSON.stringify(data));
       })
       .withOption('stateLoadCallback', function(settings) {
-    var path = $location.path();
-    var storageKey = 'DataTables_Table_nagruzka_' + path.replace(/\//g, '_');
-    var saved = localStorage.getItem(storageKey);
-    // Просто возвращаем как есть, без модификации
-    return saved ? JSON.parse(saved) : null;
-})
+          var path = $location.path();
+          var storageKey = 'DataTables_Table_nagruzka_' + path.replace(/\//g, '_');
+          var saved = localStorage.getItem(storageKey);
+          // Просто возвращаем как есть, без модификации
+          return saved ? JSON.parse(saved) : null;
+      })
       // .withOption('aoColumns', [{bVisible': false}])
       .withPaginationType('full_numbers')
       .withColVis()
@@ -2287,11 +2305,13 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
           if ($scope._nagruzka_type == 'gia') only_stat = false; else only_stat = true;
           $scope.NagruzkaCtrlUpdateNagruzkaStat('gia', chair_id, lecturer_uid, only_stat);
 
-          if ($scope._nagruzka_type == 'aspirantura') only_stat = false; else only_stat = true;
-          $scope.NagruzkaCtrlUpdateNagruzkaStat('aspirantura_kand_exam', chair_id, lecturer_uid, only_stat);
-          $scope.NagruzkaCtrlUpdateNagruzkaStat('aspirantura_itog_exam', chair_id, lecturer_uid, only_stat);
-          $scope.NagruzkaCtrlUpdateNagruzkaStat('aspirantura_ruk_asp', chair_id, lecturer_uid, only_stat);
-          $scope.NagruzkaCtrlUpdateNagruzkaStat('aspirantura_ruk_soiskatel', chair_id, lecturer_uid, only_stat);
+          // if ($scope._nagruzka_type == 'aspirant') only_stat = false; else only_stat = true;
+          $scope.NagruzkaCtrlUpdateNagruzkaStat('aspirant', chair_id, lecturer_uid, true);
+
+          // $scope.NagruzkaCtrlUpdateNagruzkaStat('aspirantura_kand_exam', chair_id, lecturer_uid, only_stat);
+          $scope.NagruzkaCtrlUpdateNagruzkaStat('aspirantura_itog_exam', chair_id, lecturer_uid, true);
+          // $scope.NagruzkaCtrlUpdateNagruzkaStat('aspirantura_ruk_asp', chair_id, lecturer_uid, only_stat);
+          // $scope.NagruzkaCtrlUpdateNagruzkaStat('aspirantura_ruk_soiskatel', chair_id, lecturer_uid, only_stat);
 
           
 
@@ -3661,23 +3681,49 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
   }
 
 
-  $scope.GetNagruzkaStatusSum = function(chair_id, stat_type)
+  $scope.GetNagruzkaStatusSum = function(chair_id, stat_type) 
   {
-    if (!isEmpty($scope.nagruzka_stat))
-    return (!isEmpty($scope.nagruzka_stat[chair_id]['discipline']) && !isEmpty($scope.nagruzka_stat[chair_id]['discipline'][stat_type]) ? parseFloat($scope.nagruzka_stat[chair_id]['discipline'][stat_type]['sum']) : 0)
+    if (isEmpty($scope.nagruzka_stat)) return 0;
 
-          + (!isEmpty($scope.nagruzka_stat[chair_id]['ruk_vkr']) && !isEmpty($scope.nagruzka_stat[chair_id]['ruk_vkr'][stat_type]) ? parseFloat($scope.nagruzka_stat[chair_id]['ruk_vkr'][stat_type]['sum']) : 0)
+    const keys = ['discipline', 'ruk_vkr', 'ruk_kurs', 'ruk_practice', 'ksro', 'gia', 'aspirant'];
+    let sum = 0;
 
-          + (!isEmpty($scope.nagruzka_stat[chair_id]['ruk_kurs']) && !isEmpty($scope.nagruzka_stat[chair_id]['ruk_kurs'][stat_type]) ? parseFloat($scope.nagruzka_stat[chair_id]['ruk_kurs'][stat_type]['sum']) : 0)
+    for (let key of keys) 
+    {
+      if (key != 'aspirant')
+      {
+        const node = $scope.nagruzka_stat[chair_id]?.[key]?.[stat_type];
+        if (!isEmpty(node)) sum += parseFloat(node.sum) || 0;
+      }
+      else
+      {
+        sum += $scope.GetNagruzkaStatusAspiranturaSum(chair_id, stat_type);
+      }
+    }
 
-          + (!isEmpty($scope.nagruzka_stat[chair_id]['ruk_practice']) && !isEmpty($scope.nagruzka_stat[chair_id]['ruk_practice'][stat_type]) ? parseFloat($scope.nagruzka_stat[chair_id]['ruk_practice'][stat_type]['sum']) : 0)
+    return sum;
+  };
 
-          + (!isEmpty($scope.nagruzka_stat[chair_id]['ksro']) && !isEmpty($scope.nagruzka_stat[chair_id]['ksro'][stat_type]) ? parseFloat($scope.nagruzka_stat[chair_id]['ksro'][stat_type]['sum']) : 0)
+  // Сосчитать суммы всех аспирантских подтипов нагрузки
+  $scope.GetNagruzkaStatusAspiranturaSum = function(chair_id, stat_type)
+  {
+    if (isEmpty($scope.nagruzka_stat)) return 0;
 
-          + (!isEmpty($scope.nagruzka_stat[chair_id]['gia']) && !isEmpty($scope.nagruzka_stat[chair_id]['gia'][stat_type]) ? parseFloat($scope.nagruzka_stat[chair_id]['gia'][stat_type]['sum']) : 0)
+    const keys = ['aspirantura_kand_exam', 'aspirantura_itog_exam', 'aspirantura_ruk_asp', 'aspirantura_ruk_soisk'];
+    let sum = 0;
 
-          + (!isEmpty($scope.nagruzka_stat[chair_id]['aspirant']) && !isEmpty($scope.nagruzka_stat[chair_id]['aspirant'][stat_type]) ? parseFloat($scope.nagruzka_stat[chair_id]['aspirant'][stat_type]['sum']) : 0)
+    for (let key of keys) 
+    {
+      const node = $scope.nagruzka_stat[chair_id]?.[key]?.[stat_type];
+      if (!isEmpty(node)) sum += parseFloat(node.sum) || 0;
+
+      // CL(sum);
+    }
+
+    return sum;
   }
+
+  // $scope.nagruzka_stat[chair_id]?.['aspirantura_kand_exam']
 
 
   // Сотруднику не показывать статистику (соответственно и вход в нагрузку), если завкаф закрыл просмотр, либо не тот режим
@@ -4004,8 +4050,8 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
 
   $scope.UpdateUOUPNagruzkaStat = function(nagr_type)
   {
-    // CL('UpdateUOUPNagruzkaStat');
-    // CL(chair_id);
+    CL('UpdateUOUPNagruzkaStat');
+    CL(nagr_type);
 
     var script, url;
 
@@ -4021,6 +4067,10 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
         script = 'nagruzka';
         url = `ajax/get/nagruzka/?type=${nagr_type}&only_stat=1`;
       }
+    }
+    else if (nagr_type == 'aspirant')
+    {
+      url = `ajax/get/get_aspirantura_stats.php`;
     }
     else
     {
@@ -4048,7 +4098,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
           if (nagr_type != 'all')
           $scope.isLoading = false;
 
-          // CL($scope.nagruzka_stat);
+          CL($scope.nagruzka_uoup_stat);
           // CL(response.data.nagruzka);
 
         }
@@ -4077,33 +4127,55 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
     $scope.UpdateUOUPNagruzkaStat('ruk_practice');
     $scope.UpdateUOUPNagruzkaStat('ksro');
     $scope.UpdateUOUPNagruzkaStat('gia');
+    $scope.UpdateUOUPNagruzkaStat('aspirantura_itog_exam');
     $scope.UpdateUOUPNagruzkaStat('aspirant');
   }
 
   
-  $scope.GetUOUPNagruzkaStatusSum = function(stat_type)
+  $scope.GetUOUPNagruzkaStatsSum = function(stat_type) 
   {
-    // if (!isEmpty($scope.nagruzka_uoup_stat['discipline']) && !isEmpty($scope.nagruzka_uoup_stat['discipline'][stat_type]))
-    // CL($scope.nagruzka_uoup_stat['discipline'][stat_type]['sum']);
+    if (isEmpty($scope.nagruzka_uoup_stat)) return 0;
 
-    if (!isEmpty($scope.nagruzka_uoup_stat))
-    return (!isEmpty($scope.nagruzka_uoup_stat['discipline']) && !isEmpty($scope.nagruzka_uoup_stat['discipline'][stat_type]) ? parseFloat($scope.nagruzka_uoup_stat['discipline'][stat_type]['sum']) : 0)
+    var keys = ['discipline', 'ruk_vkr', 'ruk_kurs', 'ruk_practice', 'ksro', 'gia', 'aspirant', 'aspirantura_itog_exam'];
+    var sum = 0;
 
-          + (!isEmpty($scope.nagruzka_uoup_stat['ruk_vkr']) && !isEmpty($scope.nagruzka_uoup_stat['ruk_vkr'][stat_type]) ? parseFloat($scope.nagruzka_uoup_stat['ruk_vkr'][stat_type]['sum']) : 0)
+    for (var i = 0; i < keys.length; i++) 
+    {
+      {
+        var node = $scope.nagruzka_uoup_stat[keys[i]] && 
+                   $scope.nagruzka_uoup_stat[keys[i]][stat_type];
+        
+        if (!isEmpty(node)) sum += parseFloat(node['sum']) || 0;
+      }
 
-          + (!isEmpty($scope.nagruzka_uoup_stat['ruk_kurs']) && !isEmpty($scope.nagruzka_uoup_stat['ruk_kurs'][stat_type]) ? parseFloat($scope.nagruzka_uoup_stat['ruk_kurs'][stat_type]['sum']) : 0)
+    }
 
-          + (!isEmpty($scope.nagruzka_uoup_stat['ruk_practice']) && !isEmpty($scope.nagruzka_uoup_stat['ruk_practice'][stat_type]) ? parseFloat($scope.nagruzka_uoup_stat['ruk_practice'][stat_type]['sum']) : 0)
+    return sum;
+  }
 
-          + (!isEmpty($scope.nagruzka_uoup_stat['ksro']) && !isEmpty($scope.nagruzka_uoup_stat['ksro'][stat_type]) ? parseFloat($scope.nagruzka_uoup_stat['ksro'][stat_type]['sum']) : 0)
 
-          + (!isEmpty($scope.nagruzka_uoup_stat['gia']) && !isEmpty($scope.nagruzka_uoup_stat['gia'][stat_type]) ? parseFloat($scope.nagruzka_uoup_stat['gia'][stat_type]['sum']) : 0)
+  $scope.GetUOUPNagruzkaAspiranturaStatsSum = function(stat_type) 
+  {
+    if (isEmpty($scope.nagruzka_uoup_stat)) return 0;
 
-          + (!isEmpty($scope.nagruzka_uoup_stat['aspirant']) && !isEmpty($scope.nagruzka_uoup_stat['aspirant'][stat_type]) ? parseFloat($scope.nagruzka_uoup_stat['aspirant'][stat_type]['sum']) : 0)
+    // aspirant - все аспирантские типы, кроме aspirantura_itog_exam (потому что она часть "стандартной" нагрузки)
+    var keys = ['aspirant', 'aspirantura_itog_exam'];
+    var sum = 0;
+
+    for (var i = 0; i < keys.length; i++) 
+    {
+      var node = $scope.nagruzka_uoup_stat[keys[i]] && 
+                 $scope.nagruzka_uoup_stat[keys[i]][stat_type];
+      
+      if (!isEmpty(node)) sum += parseFloat(node['sum']) || 0;
+    }
+
+    return sum;
   }
   
-  
 })
+
+
 
 .controller ('SystemModeCtrl', function($rootScope, $scope, page, system_mode, $http, ngDialog, $templateCache, FileUploader, $resource) 
 {

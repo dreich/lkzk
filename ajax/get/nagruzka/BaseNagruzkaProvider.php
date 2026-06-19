@@ -87,10 +87,16 @@ abstract class BaseNagruzkaProvider
     {
       // Для аспирантской нагрузки в 1-й таблице (из Галактики) такие варианты:
       // 1) препода нет (-1), а кафедра - 25031.281474976763050 - центр аспирантуры
-      // 2) препод есть, а кафедра - где он работает (жду подтверждения от Горохова)
+      // 2) TODO препод есть [другой режим работы, не Заполнение], а кафедра - где он работает (жду подтверждения от Горохова)
       if ($this->nagruzkaType == 'aspirantura_itog_exam')
       {
-
+        // Это значит из NagruzkaCtrl запрос на получение статистики
+        // и выбрана кафедра.
+        // Т.к. в 1-й таблице по этой нагрузке, считай, кафедры нет, то должны будем фильтровать на уровне сплитов
+        if (!empty($this->chairId))
+        {
+           return ""; // "AND xml_content_of_load.UID_Lecturer = '-1' AND xml_content_of_load.UID_Chair = '25031.281474976763050'";
+        }
       }
 
       // Если получаем только одного преподавателя, то проверим, не ГПХ-шник ли он.
@@ -134,6 +140,8 @@ abstract class BaseNagruzkaProvider
           $chairUid = isset($chair['UID']) ? $chair['UID'] : null;
       }
 
+      // EchoLog($chairUid);
+
       if ($chairUid) 
       {
           return "AND xml_content_of_load.UID_Chair = '$chairUid'";
@@ -157,6 +165,11 @@ abstract class BaseNagruzkaProvider
         // EchoLog(memory_get_usage());
 
         $result = PrepareNagruzka($rawData, $this->isLite);
+
+        if ($this->nagruzkaType == 'aspirantura_itog_exam')
+        {
+            // EchoLog($query);
+        }
 
         // ✅ Явно удаляем $rawData, так как он больше не нужен
         unset($rawData);

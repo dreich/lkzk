@@ -65,20 +65,20 @@
       </tr>
       <tr ng-if="ShowNagruzkaUOUPTypeRow('aspirant')">
         <td>Руководство аспирантами и соискателями, кандидатские экзамены</td>
-        <td>{{nagruzka_uoup_stat['aspirant']['total']['sum'] | toFixed:1}}</td>
-        <td>{{nagruzka_uoup_stat['aspirant']['not_assigned']['sum'] | toFixed:1}}</td>
-        <td>{{nagruzka_uoup_stat['aspirant']['assigned']['sum'] | toFixed:1}}</td>
-        <td>{{nagruzka_uoup_stat['aspirant']['assigned_to_vacancy']['sum'] | toFixed:1}}</td>
+        <td>{{GetUOUPNagruzkaAspiranturaStatsSum('total') | toFixed:1}}</td>
+        <td>{{GetUOUPNagruzkaAspiranturaStatsSum('not_assigned') | toFixed:1}}</td>
+        <td>{{GetUOUPNagruzkaAspiranturaStatsSum('assigned') | toFixed:1}}</td>
+        <td>{{GetUOUPNagruzkaAspiranturaStatsSum('assigned_to_vacancy') | toFixed:1}}</td>
       </tr>
     </tbody>
 
     <tfoot>
       <tr>
         <td>Итого</td>
-        <td>{{GetUOUPNagruzkaStatusSum('total') | toFixed:1}}</td>
-        <td>{{GetUOUPNagruzkaStatusSum('not_assigned') | toFixed:1}}</td>
-        <td>{{GetUOUPNagruzkaStatusSum('assigned') | toFixed:1}}</td>
-        <td>{{GetUOUPNagruzkaStatusSum('assigned_to_vacancy') | toFixed:1}}</td>
+        <td>{{GetUOUPNagruzkaStatsSum('total') | toFixed:1}}</td>
+        <td>{{GetUOUPNagruzkaStatsSum('not_assigned') | toFixed:1}}</td>
+        <td>{{GetUOUPNagruzkaStatsSum('assigned') | toFixed:1}}</td>
+        <td>{{GetUOUPNagruzkaStatsSum('assigned_to_vacancy') | toFixed:1}}</td>
       </tr>
     </tfoot>
     
