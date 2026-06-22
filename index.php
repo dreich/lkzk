@@ -171,7 +171,7 @@ if ($_SESSION['c_login'])
       </li>
 
       <? if ($ZavkafInstruction): ?>
-        <li class="nav-item">
+        <li class="nav-item" ng-if="c_roles.zavkaf">
           <a href='/docs/get_zavkaf_instructions.php' class="nav-link"><span class="glyphicon glyphicon-book"></span> Справка</a>
         </li>
       <? endif ?>

@@ -886,6 +886,10 @@ function GetNagruzkaTypesRowLink(scope, nagruzka_type, chair_id, lecturer_uid)
   {
     link = '#/ksro';
   }
+  else if (nagruzka_type == 'aspirantura')
+  {
+    link = '#/aspirantura';
+  }
   else
   {
     link = '#/nagruzka/' + nagruzka_type;
@@ -1903,7 +1907,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
 
   $scope.NagruzkaCtrlUpdateNagruzkaStat = function(nagr_type, chair_id, lecturer_uid, only_stat)
   {
-    CL('NagruzkaCtrlUpdateNagruzkaStat');
+    // CL('NagruzkaCtrlUpdateNagruzkaStat');
     UpdateNagruzkaStat($http, $scope, nagr_type, chair_id, lecturer_uid, only_stat);
   }
 
@@ -2268,11 +2272,11 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
 
       // для пути вида /#/nagruzka (без вида нагрузки) статистику подгрузим
       // if (isEmpty($scope.nagruzka_stat))
-      if (!isEmpty($scope._chairs_ids) && $scope._nagruzka_type != 'aspirantura_itog_exam')
+      if (!isEmpty($scope._chairs_ids)) // && $scope._nagruzka_type != 'aspirantura_itog_exam')
       {
         angular.forEach($scope._chairs_ids, function(chair_id, ind)
         {
-          // CL('HERE');
+          CL('HERE');
 
           var lecturer_uid;
 
@@ -2308,8 +2312,9 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
           // if ($scope._nagruzka_type == 'aspirant') only_stat = false; else only_stat = true;
           $scope.NagruzkaCtrlUpdateNagruzkaStat('aspirant', chair_id, lecturer_uid, true);
 
+          // CL(chair_id);
           // $scope.NagruzkaCtrlUpdateNagruzkaStat('aspirantura_kand_exam', chair_id, lecturer_uid, only_stat);
-          $scope.NagruzkaCtrlUpdateNagruzkaStat('aspirantura_itog_exam', chair_id, lecturer_uid, true);
+          $scope.NagruzkaCtrlUpdateNagruzkaStat('aspirantura_itog_exam', chair_id, lecturer_uid, false);
           // $scope.NagruzkaCtrlUpdateNagruzkaStat('aspirantura_ruk_asp', chair_id, lecturer_uid, only_stat);
           // $scope.NagruzkaCtrlUpdateNagruzkaStat('aspirantura_ruk_soiskatel', chair_id, lecturer_uid, only_stat);
 
@@ -3681,7 +3686,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
   }
 
 
-  $scope.GetNagruzkaStatusSum = function(chair_id, stat_type) 
+  $scope.GetNagruzkaStatsSum = function(chair_id, stat_type) 
   {
     if (isEmpty($scope.nagruzka_stat)) return 0;
 
@@ -3697,19 +3702,22 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
       }
       else
       {
-        sum += $scope.GetNagruzkaStatusAspiranturaSum(chair_id, stat_type);
+        sum += $scope.GetNagruzkaStatsAspiranturaSum(chair_id, stat_type);
       }
     }
 
     return sum;
   };
 
+
   // Сосчитать суммы всех аспирантских подтипов нагрузки
-  $scope.GetNagruzkaStatusAspiranturaSum = function(chair_id, stat_type)
+  $scope.GetNagruzkaStatsAspiranturaSum = function(chair_id, stat_type)
   {
     if (isEmpty($scope.nagruzka_stat)) return 0;
 
-    const keys = ['aspirantura_kand_exam', 'aspirantura_itog_exam', 'aspirantura_ruk_asp', 'aspirantura_ruk_soisk'];
+    CL($scope.nagruzka_stat);
+
+    const keys = ['aspirant', 'aspirantura_itog_exam'];
     let sum = 0;
 
     for (let key of keys) 
@@ -6470,7 +6478,7 @@ $scope.toggleAdminChangeChair = function(chair)
 {
   CL('AspiranturaCtrl');
 
-  if (c_roles.ruk_aspirantura != '1') return;
+  if (c_roles.ruk_aspirantura != '1' && c_roles.zavkaf != '1') return;
 
   // Список ваших вкладок для проверки и дефолтного значения
   var validTabs = ['aspirantura_kand_exam', 'aspirantura_itog_exam', 'aspirantura_ruk_asp', 'aspirantura_ruk_soiskatel'];

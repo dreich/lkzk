@@ -42,8 +42,8 @@
             <div ng-if="row.lecturer_uid">{{row.lecturer_fio}}</div>
 
 
-            <button class="btn btn-xs btn-primary mb-1" ng-click="row.show_lecturer_autocomplete = true"><span ng-if="!row.lecturer_fio">добавить</span><span ng-if="row.lecturer_fio">изменить</span></button>
-            <button class="btn btn-xs btn-dark mb-1" ng-click="NagruzkaAspiranturaRukAspDeleteLecturer(row)" ng-if="row.lecturer_uid">удалить</button>
+            <button class="btn btn-xs btn-primary mb-1" ng-click="row.show_lecturer_autocomplete = true" ng-if="c_roles.ruk_aspirantura"><span ng-if="!row.lecturer_fio">добавить</span><span ng-if="row.lecturer_fio">изменить</span></button>
+            <button class="btn btn-xs btn-dark mb-1" ng-click="NagruzkaAspiranturaRukAspDeleteLecturer(row)" ng-if="row.lecturer_uid && c_roles.ruk_aspirantura">удалить</button>
 
             <div ng-if="row.show_lecturer_autocomplete">
               <!-- {{row.xml_content_of_load_UID}}_{{row.xml_content_of_load_staff_UID}} -->

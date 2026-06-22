@@ -322,18 +322,24 @@ abstract class BaseNagruzkaProvider
      */
     protected function filterByLecturer(&$nagruzkaData)
     {
-        if (empty($this->lecturerUid)) {
+        if (empty($this->lecturerUid)) 
+        {
             return;
         }
 
-        foreach ($nagruzkaData as $baseUid => $item) {
-            $filteredLectors = array_filter($item['lectors'], function($lector) {
+        foreach ($nagruzkaData as $baseUid => $item) 
+        {
+            $filteredLectors = array_filter($item['lectors'], function($lector) 
+            {
                 return $lector['lecturer_uid'] === $this->lecturerUid;
             });
 
-            if (empty($filteredLectors)) {
+            if (empty($filteredLectors)) 
+            {
                 unset($nagruzkaData[$baseUid]);
-            } else {
+            } 
+            else 
+            {
                 $nagruzkaData[$baseUid]['lectors'] = array_values($filteredLectors);
             }
         }
@@ -484,6 +490,33 @@ abstract class BaseNagruzkaProvider
         return GetRow($table, $where);
     }
 
+    // отфильтровать массив нагрузки по принципу: взять нагрузку только если внутри есть lectors (сплиты),
+    // и внутри есть лектор с указанной кафедрой $target_chair_uid
+    // Это актуально для режима заполнения, когда есть сплиты.
+    // TODO для другого режима нужно будет фильтровать по 1-й таблице (ЕСЛИ там будет кафедра препода вообще)
+    final public function filterAspirantItogoNagruzkaByChairUid(&$nagruzkaData, $target_chair_uid)
+    {
+        foreach ($nagruzkaData as $key => &$item) 
+        {
+            // Если нет lectors - удаляем элемент
+            if (empty($item['lectors'])) {
+                unset($nagruzkaData[$key]);
+                continue;
+            }
+            
+            // Оставляем только лекторов с нужным chair_uid
+            $item['lectors'] = array_filter($item['lectors'], function($lector) use ($target_chair_uid) {
+                return ($lector['chair_uid'] ? $lector['chair_uid'] : '') === $target_chair_uid;
+            });
+            
+            // Если после фильтрации lectors пуст - удаляем элемент
+            if (empty($item['lectors'])) {
+                unset($nagruzkaData[$key]);
+            }
+        }
+        unset($item); // разрываем ссылку
+    }
+
     /**
      * Единый пайплайн получения данных для всех режимов (Template Method)
      */
@@ -504,11 +537,6 @@ abstract class BaseNagruzkaProvider
 
         // EchoLog($this->nagruzkaType);
 
-        if ($this->nagruzkaType == 'aspirantura_itog_exam')
-        {
-            // EchoLog($dopSql);
-        }
-
         $nagruzkaData = $this->getBaseData($dopSql, $this->getNagruzkaTypeFilter());
 
         // if ($this->nagruzkaType == 'discipline')
@@ -516,6 +544,22 @@ abstract class BaseNagruzkaProvider
 
         // 3. Обработка сплитов (Логику определяют дочерние классы)
         $nagruzkaData = $this->applyModeSplits($nagruzkaData);
+
+        // если нужно получить нагрузку по конкретной кафедре (а в таблице 1 кафедры по ней нет), то нужно отфильтровать, используя сплиты.
+        // если сплитов для нагрузки нет, то не берём её
+        if ($this->nagruzkaType == 'aspirantura_itog_exam' && $this->systemMode == 'mode_filling' && !empty($this->chairId))
+        {
+            $chair = $this->getRow('xml_chair', ['Code' => $this->chairId]);
+            $chairUid = isset($chair['UID']) ? $chair['UID'] : null;
+            $this->filterAspirantItogoNagruzkaByChairUid($nagruzkaData, $chairUid);
+        }
+
+        if ($this->nagruzkaType == 'aspirantura_itog_exam')
+        {
+            // EchoLog($dopSql);
+            // EchoLog(sizeof($nagruzkaData));
+            // EchoLog($nagruzkaData);
+        }
 
         // if ($this->nagruzkaType == 'discipline')
         // EchoLog($nagruzkaData);
@@ -528,6 +572,13 @@ abstract class BaseNagruzkaProvider
 
         // 5. Фильтрация по преподавателю
         $this->filterByLecturer($nagruzkaData);
+
+        if ($this->nagruzkaType == 'discipline' && $this->chairId == '05419')
+        {
+            // EchoLog($dopSql);
+            // EchoLog(sizeof($nagruzkaData));
+            // EchoLog($nagruzkaData);
+        }
 
         // if ($this->nagruzkaType == 'discipline')
         // EchoLog($nagruzkaData);

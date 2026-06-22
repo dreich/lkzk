@@ -489,6 +489,69 @@ function Authorize($login, $password)
                 // if (!$lecturer_chairs_uids) $lecturer_chairs_uids = ['25031.281474976756214'];
 
                 // Для ГПХ-шников здесь есть UIDы факультета
+
+                if ($lecturer_chairs_uids)
+                {
+                    $chairs_ids = [];
+                    $chairs_titles = [];
+                    $all_chairs_data = []; // Временный массив для сохранения порядка
+                    
+                    // Сначала получим все кафедры
+                    $chairs_uids_str = JoinArrayElements($lecturer_chairs_uids, ', ', false, "'", "'");
+                    $xml_chairs = GetTable('xml_chair', "`UID` IN ($chairs_uids_str)");
+                    
+                    if ($xml_chairs) {
+                        foreach ($xml_chairs as $xml_chair_row) {
+                            $all_chairs_data[$xml_chair_row['UID']] = [
+                                'id' => $xml_chair_row['Code'],
+                                'title' => $xml_chair_row['Name']
+                            ];
+                        }
+                    }
+                    
+                    // Если это ГПХ-шник, добавим также факультеты
+                    $xml_faculty_for_gph = GetTable('xml_faculty', "`UID` IN ($chairs_uids_str)");
+                    
+                    if ($xml_faculty_for_gph) {
+                        foreach ($xml_faculty_for_gph as $xml_chair_row) {
+                            // Добавляем только если еще нет (приоритет кафедрам)
+                            if (!isset($all_chairs_data[$xml_chair_row['UID']])) {
+                                $all_chairs_data[$xml_chair_row['UID']] = [
+                                    'id' => $xml_chair_row['Code'],
+                                    'title' => $xml_chair_row['Name']
+                                ];
+                            }
+                        }
+                    }
+                    
+                    // Теперь собираем в порядке, соответствующем $lecturer_chairs_uids
+                    foreach ($lecturer_chairs_uids as $uid) {
+                        if (isset($all_chairs_data[$uid])) {
+                            $chairs_ids[] = $all_chairs_data[$uid]['id'];
+                            $chairs_titles[] = $all_chairs_data[$uid]['title'];
+                        }
+                    }
+                    
+                    $_SESSION['c_sotrudnik_chairs_ids'] = ImplodePalki($chairs_ids);
+                    $_SESSION['c_sotrudnik_chairs_titles'] = ImplodePalki($chairs_titles);
+                    $_SESSION['c_sotrudnik_lecturer_uids'] = ImplodePalki($lecturer_uids_for_session);
+                    $_SESSION['c_person_id'] = $Person['id'];
+                    $_SESSION['c_login'] = $clean_login;
+                    $_SESSION['c_fio'] = $attrs['displayname'];
+                    $result = true;
+                    
+                    if ($_SESSION['c_roles']) 
+                    {
+                      $_SESSION['c_roles'] .= 'sotrudnik|';
+                    } 
+                    else 
+                    {
+                      $_SESSION['c_roles'] = '|sotrudnik|';
+                    }
+                }
+
+
+                /*
                 if ($lecturer_chairs_uids)
                 {
                   // EchoLog($lecturer_chairs_uids);
@@ -538,6 +601,10 @@ function Authorize($login, $password)
                     $_SESSION['c_roles'] = '|sotrudnik|';
                   }
                 }
+
+                */
+
+
               }
 
               include './connect.php';

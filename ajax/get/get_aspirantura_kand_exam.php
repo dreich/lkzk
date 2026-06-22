@@ -13,6 +13,8 @@ if(empty($_SERVER['HTTP_X_REQUESTED_WITH']) || strtolower($_SERVER['HTTP_X_REQUE
 
 $filter = $_COOKIE['global_nagruzka_filter'];
 
+$c_roles = ExplodePalki($_SESSION['c_roles'], true);
+
 // $Chairs = GetTable('xml_chair', "", "", 'Code', 'Code, Name');
 
 if ($filter == 'assigned')
@@ -24,9 +26,18 @@ elseif ($filter == 'not_assigned')
   $filter_sql = "AND `lecturer_uid` = ''";
 }
 
+if ($c_roles['zavkaf'])
+{
+  $chair_sql = "AND `chair_id` = '$_SESSION[c_chair_id]'";
+}
+
+
+
 $Nagruzka = GetSQL("SELECT *
                     FROM `aspirantura_kand_exam`
-                    WHERE `deleted` <> 1 $filter_sql
+                    WHERE `deleted` <> 1 
+                    $filter_sql
+                    $chair_sql
                   ");
 
 if ($Nagruzka)

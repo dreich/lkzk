@@ -361,6 +361,7 @@ class SplitProcessor
         $lectorData['lecturer_person_id'] = $split['lecturer_person_id'];
         $lectorData['lecturer_uid'] = $split['lecturer_uid'];
         $lectorData['lecturer_fio'] = $split['lecturer_fio'];
+        $lectorData['chair_uid'] = $split['chair_uid'];
 
         if (isset($split['LoadType'])) {
             $lectorData['LoadType'] = $split['LoadType'];
