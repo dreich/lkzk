@@ -32,7 +32,8 @@
       </thead>
 
       <tbody>
-        <tr ng-repeat="row in aspirantura_kand_exam" class="pointer" ng-class="{'readonly': !MaySelectAspiranturaKandExamNagruzka(row) && c_roles.ruk_aspirantura}">
+         <!-- ng-class="{'readonly': !MaySelectAspiranturaKandExamNagruzka(row) && c_roles.ruk_aspirantura}" -->
+        <tr ng-repeat="row in aspirantura_kand_exam" class="">
           <td>{{row.bup_department_name}}</td>
           <td data-uid="">
             {{row.disc_title}}

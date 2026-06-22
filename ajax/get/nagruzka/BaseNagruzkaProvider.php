@@ -35,7 +35,7 @@ abstract class BaseNagruzkaProvider
     {
         $this->userRoles = $this->explodePalki($this->session['c_roles'] ? $this->session['c_roles'] : '', true);
         $this->userRole = $this->determinePrimaryRole();
-        $this->chairId = isset($this->getParams['chair_id']) ? $this->getParams['chair_id'] : null;
+        $this->chairId = isset($this->getParams['chair_id']) && $this->getParams['chair_id'] != 'null' ? $this->getParams['chair_id'] : null;
         $this->lecturerUid = isset($this->getParams['lecturer_uid']) ? $this->getParams['lecturer_uid'] : null;
         $this->isLite = !empty($this->getParams['lite']);
         $this->onlyStat = !empty($this->getParams['only_stat']);
@@ -537,13 +537,28 @@ abstract class BaseNagruzkaProvider
 
         // EchoLog($this->nagruzkaType);
 
+        if ($this->nagruzkaType == 'aspirantura_itog_exam')
+        {
+            // EchoLog($chairFilter);
+        }
+
         $nagruzkaData = $this->getBaseData($dopSql, $this->getNagruzkaTypeFilter());
+
+        if ($this->nagruzkaType == 'aspirantura_itog_exam')
+        {
+            // EchoLog(sizeof($nagruzkaData));
+        }
 
         // if ($this->nagruzkaType == 'discipline')
         // EchoLog(memory_get_usage());
 
         // 3. Обработка сплитов (Логику определяют дочерние классы)
         $nagruzkaData = $this->applyModeSplits($nagruzkaData);
+
+        if ($this->nagruzkaType == 'aspirantura_itog_exam')
+        {
+            // EchoLog(sizeof($nagruzkaData));
+        }
 
         // если нужно получить нагрузку по конкретной кафедре (а в таблице 1 кафедры по ней нет), то нужно отфильтровать, используя сплиты.
         // если сплитов для нагрузки нет, то не берём её
@@ -552,6 +567,13 @@ abstract class BaseNagruzkaProvider
             $chair = $this->getRow('xml_chair', ['Code' => $this->chairId]);
             $chairUid = isset($chair['UID']) ? $chair['UID'] : null;
             $this->filterAspirantItogoNagruzkaByChairUid($nagruzkaData, $chairUid);
+
+            // EchoLog($this->chairId);
+
+            if ($this->nagruzkaType == 'aspirantura_itog_exam')
+            {
+                // EchoLog(sizeof($nagruzkaData));
+            }
         }
 
         if ($this->nagruzkaType == 'aspirantura_itog_exam')

@@ -1834,6 +1834,8 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
   $scope.nagruzka = {};
   $scope.nagruzka_stat = {};
 
+  $scope._chairs_ids = $scope._lecturer_uids = $scope._chairs_titles = [];
+
   // TODO to fix lecturer_fio
   // if (!isEmpty($scope.nagruzka))
   // { 
@@ -1860,8 +1862,15 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
   }
   else if (c_roles.uoup)
   {
-    $scope._chairs_ids = [$scope.nagruzka_selected_chair_id];
-    $scope._lecturer_uids = [$scope.nagruzka_selected_lecturer_uid];
+    if (!isEmpty($scope.nagruzka_selected_chair_id))
+    {
+      $scope._chairs_ids = [$scope.nagruzka_selected_chair_id];
+    }
+
+    if (!isEmpty($scope.nagruzka_selected_lecturer_uid))
+    {
+      $scope._lecturer_uids = [$scope.nagruzka_selected_lecturer_uid];
+    }
   }
 
   // CL($scope.system_mode); 
@@ -2274,9 +2283,11 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
       // if (isEmpty($scope.nagruzka_stat))
       if (!isEmpty($scope._chairs_ids)) // && $scope._nagruzka_type != 'aspirantura_itog_exam')
       {
+        // CL('HERE');
+
         angular.forEach($scope._chairs_ids, function(chair_id, ind)
         {
-          CL('HERE');
+          
 
           var lecturer_uid;
 
@@ -2312,9 +2323,12 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
           // if ($scope._nagruzka_type == 'aspirant') only_stat = false; else only_stat = true;
           $scope.NagruzkaCtrlUpdateNagruzkaStat('aspirant', chair_id, lecturer_uid, true);
 
+          if ($scope._nagruzka_type == 'aspirantura_itog_exam') only_stat = false; else only_stat = true;
+          $scope.NagruzkaCtrlUpdateNagruzkaStat('aspirantura_itog_exam', chair_id, lecturer_uid, only_stat);
+
           // CL(chair_id);
           // $scope.NagruzkaCtrlUpdateNagruzkaStat('aspirantura_kand_exam', chair_id, lecturer_uid, only_stat);
-          $scope.NagruzkaCtrlUpdateNagruzkaStat('aspirantura_itog_exam', chair_id, lecturer_uid, false);
+          
           // $scope.NagruzkaCtrlUpdateNagruzkaStat('aspirantura_ruk_asp', chair_id, lecturer_uid, only_stat);
           // $scope.NagruzkaCtrlUpdateNagruzkaStat('aspirantura_ruk_soiskatel', chair_id, lecturer_uid, only_stat);
 
@@ -2338,6 +2352,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
       // ! проверить для аспирантуры итог э.
       else if (!isEmpty($scope.nagruzka_selected_chair_id))
       {
+        // EchoLog('HERRE');
         $scope.NagruzkaCtrlUpdateNagruzkaStat($scope._nagruzka_type, $scope.nagruzka_selected_chair_id);
       }
       // Руководитель подразделения аспирантуры
@@ -2350,9 +2365,6 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
       CL($scope._nagruzka_type);
 
 
-      
-
-      
 
       // Function to apply lecturer filter
       /*
@@ -6564,6 +6576,8 @@ $scope.toggleAdminChangeChair = function(chair)
       CL('AspiranturaKandExamCtrl');
       // $scope.isAspiranturaKandExamLoading = true;
 
+      $scope.c_roles = c_roles;
+
       $scope.isAspiranturaKandExamLoading = true;
 
       $scope.aspirantura_kand_exam = $resource('ajax/get/get_aspirantura_kand_exam.php').query(
@@ -7042,6 +7056,8 @@ $scope.toggleAdminChangeChair = function(chair)
 
       $scope._nagruzka_type = 'aspirantura_itog_exam';
 
+      CL($scope.c_roles);
+
 
       // 1. Формируем объект с локальными зависимостями (locals).
         // AngularJS автоматически подтянет стандартные сервисы ($http, $cookies и т.д.),
@@ -7088,6 +7104,8 @@ $scope.toggleAdminChangeChair = function(chair)
     controller: function AspiranturaRukAspCtrl($scope, $rootScope, $timeout, $http, $templateCache, ngDialog, FileUploader, $filter, $resource, DTOptionsBuilder, $location, DTColumnDefBuilder, $cookies)
     {
       CL('AspiranturaRukAspCtrl');
+
+      $scope.c_roles = c_roles;
 
       // 1. Инициализируем лоадер в true сразу
       $scope.isAspiranturaRukAspLoading = true;
@@ -7720,6 +7738,8 @@ $scope.toggleAdminChangeChair = function(chair)
       {
         CL('AspiranturaRukSoiskOpenDialog');
 
+        if (c_roles['ruk_aspirantura'] != '1') return;
+
         // для добавления
         if (isEmpty(nagruzka_row)) nagruzka_row = {};
 
@@ -7739,7 +7759,7 @@ $scope.toggleAdminChangeChair = function(chair)
             })
             .catch(function dialogCloseErrorCallback(reason) 
             {
-              CL(reason);
+              // CL(reason);
 
               if (reason === 'delete') 
               {
