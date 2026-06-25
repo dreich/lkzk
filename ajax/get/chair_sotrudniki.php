@@ -114,6 +114,43 @@ if ($_mode == 'mode_filling')
       }
     }
   }
+
+
+  $AspiranturaKandExam = GetTable('aspirantura_kand_exam', "`deleted` <> '1'");
+  $AspiranturaKandExamByPersonID = [];
+
+  if ($AspiranturaKandExam)
+  {
+    foreach ($AspiranturaKandExam as $row)
+    {
+      $AspiranturaKandExamByPersonID[$row['lecturer_person_id']][] = $row;
+    }
+  }
+
+
+  $AspiranturaRukAsp = GetTable('aspirantura_ruk_asp', "`deleted` <> '1'");
+  $AspiranturaRukAspByPersonID = [];
+
+  if ($AspiranturaRukAsp)
+  {
+    foreach ($AspiranturaRukAsp as $row)
+    {
+      $AspiranturaRukAspByPersonID[$row['lecturer_person_id']][] = $row;
+    }
+  }
+
+
+  $AspiranturaRukSoisk = GetTable('aspirantura_ruk_soisk', "`deleted` <> '1'");
+  $AspiranturaRukSoiskByPersonID = [];
+
+  if ($AspiranturaRukSoisk)
+  {
+    foreach ($AspiranturaRukSoisk as $row)
+    {
+      $AspiranturaRukSoiskByPersonID[$row['lecturer_person_id']][] = $row;
+    }
+  }
+
 }
 // в других режимах - из Галактики
 else
@@ -449,9 +486,11 @@ foreach ($employees as &$employee)
         }
     }
 
-    // В режиме заполнения нагрузку ИК-КСРО добавим из таблицы `ksro`
+    
     if ($_mode == 'mode_filling')
     {
+      // В режиме заполнения нагрузку ИК-КСРО добавим из таблицы `ksro`
+
       if ($KSROByPersonID[$personId])
       {
         foreach ($KSROByPersonID[$personId] as $lang_uid => $ksro_language_row)
@@ -463,8 +502,33 @@ foreach ($employees as &$employee)
             safeAdd($engAmount, $ksro_language_row['Amount']);
           }
         }
-        
       }
+
+
+      if ($AspiranturaKandExamByPersonID[$personId])
+      {
+        foreach ($AspiranturaKandExamByPersonID[$personId] as $row)
+        {
+          safeAdd($totalAmount, $row['students_num'] * $_aspirantura_hours_per_student);
+        }
+      }
+
+      if ($AspiranturaRukAspByPersonID[$personId])
+      {
+        foreach ($AspiranturaRukAspByPersonID[$personId] as $row)
+        {
+          safeAdd($totalAmount, $_aspirantura_ruk_asp_hours);
+        }
+      }
+
+      if ($AspiranturaRukSoiskByPersonID[$personId])
+      {
+        foreach ($AspiranturaRukSoiskByPersonID[$personId] as $row)
+        {
+          safeAdd($totalAmount, $_aspirantura_ruk_soisk_hours);
+        }
+      }
+
     }
     
     // Добавляем результаты к данным сотрудника

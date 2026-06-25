@@ -23,6 +23,7 @@ if ($Chairs)
 {
   foreach ($Chairs as &$chair)
   {
+    // видимость своей нагрузки для сотрудников данной кафедры
     $chair['visible'] = !!$chair['visible'];
   }
 }

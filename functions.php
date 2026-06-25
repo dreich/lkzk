@@ -469,7 +469,7 @@ function Authorize($login, $password)
                   {
                     foreach ($Splits as $row)
                     {
-                      $lecturer_chairs_uids[$row['chair_uid']] = $row['chair_uid'];
+                      $lecturer_chairs_uids[$row['chair_uid']] = $row['zavkaf_chair_uid'];
                       $lecturer_uids_for_session[$row['lecturer_uid']] = $row['lecturer_uid'];
                     }
                   }
@@ -477,7 +477,7 @@ function Authorize($login, $password)
 
 
                 // TODO тип нагрузки Аспирантура
-                // TODO что с ГПХ-шниками ?
+                // TODO что с ГПХ-шниками? Т.к. смотрим сплиты, то там будут нужные кафедры в zavkaf_chair_uid
 
                 // $SotrudnikRows = GetRows('sotrudniki', ['person_id' => $Person['id']]);
 
@@ -3277,7 +3277,7 @@ function safeAdd(&$target, $value)
 {
   // Приводим к float, но обрабатываем некорректные значения как 0
   $numericValue = is_numeric($value) ? (float) $value : 0;
-  $target = ((float) $target) + $numericValue;
+  $target = round(((float) $target) + $numericValue, 2);
 }
 
 

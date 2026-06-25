@@ -10,49 +10,36 @@
 <div ng-if="system_mode != 'export_to_galaktika'">
 
   <!-- {{_lecturer_uid}} -->
-  <h3 ng-if="nagruzka_selected_lecturer_uid && !c_roles.sotrudnik">
-    {{_lecturer_fio}}
-  </h3>
 
-  <h4>
-  {{$_nagruzka_types[_nagruzka_type]}}
-  </h4>
-<!--     {{nagruzka_selected_chair_id}}
-    {{chairs_sprav[nagruzka_selected_chair_id]['Name']}} -->
+  <div ng-if="_nagruzka_type != 'aspirantura_itog_exam'">
+    
 
 
-<!--   <div ng-if="nagruzka_selected_chair_id && !nagruzka_selected_lecturer_uid">
-    <h5 ng-if="!c_roles.uoup || c_roles.uoup && _nagruzka_type == 'all'">{{chairs_sprav[nagruzka_selected_chair_id]['Name']}}</h5>
-    <h5 ng-if="c_roles.uoup && _nagruzka_type != 'all'"><a href="/#/nagruzka/all/{{nagruzka_selected_chair_id}}">{{chairs_sprav[nagruzka_selected_chair_id]['Name']}}</a></h5>
-  </div> -->
+    <h3 ng-if="nagruzka_selected_lecturer_uid && !c_roles.sotrudnik">
+      {{_lecturer_fio}}
+    </h3>
 
+    <h4>
+    {{$_nagruzka_types[_nagruzka_type]}}
+    </h4>
 
+    <div ng-repeat="chair_id in _chairs_ids" ng-if="!nagruzka_selected_chair_id || nagruzka_selected_chair_id && nagruzka_selected_chair_id == chair_id">
+      <h5 ng-if="!c_roles.uoup">{{chairs_sprav[chair_id]['Name']}}</h5>
+      <h5 ng-if="c_roles.uoup"><a href="/#/nagruzka/all/{{chair_id}}">{{chairs_sprav[chair_id]['Name']}}</a></h5>
 
-  <div ng-repeat="chair_id in _chairs_ids" ng-if="!nagruzka_selected_chair_id || nagruzka_selected_chair_id && nagruzka_selected_chair_id == chair_id">
-    <!-- {{chair_id}} -->
-    <!-- <h5 ng-if="!c_roles.uoup">{{_chairs_titles[$index]}}</h5>
-    <h5 ng-if="c_roles.uoup"><a href="/#/nagruzka/all/chair_id">{{_chairs_titles[$index]}}</a></h5> -->
+      <div ng-if="c_roles.uoup"><a href="/#/sotrudniki/{{chair_id}}" class="btn btn-primary btn-xs mb-1">Сотрудники</a></div>
 
-    <h5 ng-if="!c_roles.uoup">{{chairs_sprav[chair_id]['Name']}}</h5>
-    <h5 ng-if="c_roles.uoup"><a href="/#/nagruzka/all/{{chair_id}}">{{chairs_sprav[chair_id]['Name']}}</a></h5>
+      <div class="alert alert-info w-50" ng-if="!NagruzkaStatVisible(chair_id) && c_roles.sotrudnik">
+        <p>Заведующий кафедрой пока не предоставил Вам возможность просмотра распределённой нагрузки</p>
+      </div>
 
-    <div ng-if="c_roles.uoup"><a href="/#/sotrudniki/{{chair_id}}" class="btn btn-primary btn-xs mb-1">Сотрудники</a></div>
+      <ng-include src="'./nagruzka_stat.tpl.html'" ng-if="NagruzkaStatVisible(chair_id)"></ng-include>
 
-    <!-- <div ng-if="chairs_sprav[chair_id]['visible']">vis</div> -->
-    <div class="alert alert-info w-50" ng-if="!NagruzkaStatVisible(chair_id) && c_roles.sotrudnik">
-      <p>Заведующий кафедрой пока не предоставил Вам возможность просмотра распределённой нагрузки</p>
     </div>
-
-    <ng-include src="'./nagruzka_stat.tpl.html'" ng-if="NagruzkaStatVisible(chair_id)"></ng-include>
-
   </div>
-
-
   <!-- c_roles.zavkaf -->
 
-  
-
-  <!-- {{nagruzka_type}} -->
+  <!-- {{_nagruzka_type}} -->
 
   <div ng-if="isLoading">
     <img src="/images/hourglass.png" style='position:fixed; left: 47%; top: 47%; z-index: 1000'>
@@ -68,10 +55,9 @@
       <option value="assigned_to_vacancy">распределена на вакансию</option>
     </select>
 
-    <table id="DataTables_Table_nagruzka" datatable="ng" dt-options="dtOptions"  dt-column-defs="dtColumnDefs" dt-instance="onNagruzkaTableInstance" class="dataTable row-border hover display table "  style='margin: 0 0 ;width:100%; ' >
+    <table id="DataTables_Table_nagruzka" datatable="ng" dt-options="dtOptions"  dt-column-defs="dtColumnDefs" dt-instance="onNagruzkaTableInstance" class="dataTable row-border hover display table" style='margin: 0 0 ;width:100%; ' >
       <!-- ng-show="nagruzka_type" -->
       <thead>
-
         <tr>
           <th style="width: 20px" ng-show="MaySelectNagruzka()">выбор</th>
           <th>Факультет</th>

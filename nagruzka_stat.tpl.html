@@ -1,7 +1,8 @@
 <!-- {{$index}}
 {{_lecturer_uids[$index]}} -->
 
-<table class="widefat mb-3" ng-if="!nagruzka_selected_chair_id || nagruzka_selected_chair_id && nagruzka_selected_chair_id == chair_id && !c_roles.sotrudnik">
+ <!-- ng-if="!nagruzka_selected_chair_id || nagruzka_selected_chair_id && nagruzka_selected_chair_id == chair_id && !c_roles.sotrudnik" -->
+<table class="widefat mb-3">
 
   <thead>
     <tr>
@@ -100,8 +101,8 @@
 
     <tr>
       <td>
-        <span ng-if="c_roles.zavkaf"><a href="{{GetNagruzkaTypesRowLink('aspirantura', chair_id, _lecturer_uids[$index])}}">Руководство аспирантами и соискателями, кандидатские экзамены</a></span>
-        <span ng-if="!c_roles.zavkaf">Руководство аспирантами и соискателями, кандидатские экзамены</span>
+        <span ng-if="true"><a href="{{GetNagruzkaTypesRowLink('aspirantura', chair_id, _lecturer_uids[$index])}}">Руководство аспирантами и соискателями, кандидатские экзамены</a></span>
+        <!-- <span ng-if="!c_roles.zavkaf">Руководство аспирантами и соискателями, кандидатские экзамены</span> -->
       </td>
       <td ng-if="!nagruzka_selected_lecturer_uid && !c_roles.sotrudnik">{{GetNagruzkaStatsAspiranturaSum(chair_id, 'total') | toFixed:1}}</td>
       <td ng-if="!nagruzka_selected_lecturer_uid && !c_roles.sotrudnik"></td>

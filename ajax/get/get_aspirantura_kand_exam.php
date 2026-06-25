@@ -31,6 +31,19 @@ if ($c_roles['zavkaf'])
   $chair_sql = "AND `chair_id` = '$_SESSION[c_chair_id]'";
 }
 
+if ($_GET['chair_id'])
+{
+  $chair_id = quote_smart($_GET['chair_id']);
+
+  $chair_sql = "AND `chair_id` = '$chair_id'";
+}
+
+if ($_GET['lecturer_uid'])
+{
+  $lecturer_uid = quote_smart($_GET['lecturer_uid']);
+  
+  $lecturer_sql = "AND `lecturer_uid` = '$lecturer_uid'";
+}
 
 
 $Nagruzka = GetSQL("SELECT *
@@ -38,6 +51,7 @@ $Nagruzka = GetSQL("SELECT *
                     WHERE `deleted` <> 1 
                     $filter_sql
                     $chair_sql
+                    $lecturer_sql
                   ");
 
 if ($Nagruzka)

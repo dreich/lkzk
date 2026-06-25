@@ -11,12 +11,14 @@ if(empty($_SERVER['HTTP_X_REQUESTED_WITH']) || strtolower($_SERVER['HTTP_X_REQUE
     die(json_encode(['result' => 'error', 'message' => 'Только AJAX запросы']));
 }
 
+$c_roles = ExplodePalki($_SESSION['c_roles'], true);
+
 $chair_id = quote_smart($_GET['chair_id']);
 $lecturer_uid = quote_smart($_GET['lecturer_uid']);
 
 $stats = ['total' => ['sum' => 0], 'assigned' => ['sum' => 0], 'not_assigned' => ['sum' => 0]];
 
-$aspirantura_kand_exam_params = [];
+$aspirantura_kand_exam_params = ['deleted' => 0];
 
 if ($chair_id)
 {
@@ -26,6 +28,11 @@ if ($chair_id)
 if ($lecturer_uid)
 {
   $aspirantura_kand_exam_params['lecturer_uid'] = $lecturer_uid;
+}
+
+if ($c_roles['zavkaf'] && !$aspirantura_kand_exam_params['chair_id'])
+{
+  $aspirantura_kand_exam_params['chair_id'] = $_SESSION['c_chair_id'];
 }
 
 
@@ -51,7 +58,7 @@ if ($AspiranturaKandExam)
 }
 
 
-$aspirantura_ruk_asp_params = [];
+$aspirantura_ruk_asp_params = ['deleted' => 0];
 
 if ($chair_id)
 {
@@ -84,7 +91,7 @@ if ($AspiranturaRukAsp)
 }
 
 
-$aspirantura_ruk_soisk_params = [];
+$aspirantura_ruk_soisk_params = ['deleted' => 0];
 
 
 if ($chair_id)

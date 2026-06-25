@@ -1,4 +1,4 @@
-<h3 ng-if="nagruzka_selected_lecturer_uid && !c_roles.sotrudnik">
+<h3 ng-if="ksro_selected_lecturer_uid && !c_roles.sotrudnik">
   {{_lecturer_fio}}
 </h3>
 
@@ -6,21 +6,29 @@
   {{$_nagruzka_types['ksro']}}
 </h4>
 
-<div ng-if="nagruzka_selected_lecturer_uid && !nagruzka_selected_lecturer_uid">
-  <!-- ??????????? -->
+<!-- <div ng-if="nagruzka_selected_lecturer_uid && !nagruzka_selected_lecturer_uid">
   <h5 ng-if="c_roles.uoup">{{chairs_sprav[nagruzka_selected_lecturer_uid]['Name']}}</h5>
-  <!-- <h5 ng-if="c_roles.uoup"><a href="/#/nagruzka/all/{{ksro_selected_chair_id}}">{{chairs_sprav[ksro_selected_chair_id]['Name']}}</a></h5> -->
+</div> -->
+
+
+<div ng-repeat="chair_id in _chairs_ids" ng-if="!nagruzka_selected_chair_id || nagruzka_selected_chair_id && nagruzka_selected_chair_id == chair_id">
+   <!-- ng-if="ksro_selected_chair_id && !ksro_selected_lecturer_uid" -->
+  <div>
+     <!-- ng-if="!c_roles.uoup || c_roles.uoup && _nagruzka_type == 'all'" -->
+    <!-- <h5>{{chairs_sprav[ksro_selected_chair_id]['Name']}}</h5> -->
+    <!--  && _nagruzka_type != 'all' -->
+    <h5 ng-if="!c_roles.uoup">{{chairs_sprav[chair_id]['Name']}}</h5>
+    <!-- <h5 ng-if="c_roles.uoup"><a href="/#/nagruzka/all/{{chair_id}}">{{chairs_sprav[ksro_selected_chair_id]['Name']}}</a></h5> -->
+    <h5 ng-if="c_roles.uoup"><a href="/#/nagruzka/all/{{chair_id}}">{{chairs_sprav[chair_id]['Name']}}</a></h5>
+    <div ng-if="c_roles.uoup"><a href="/#/sotrudniki/{{chair_id}}" class="btn btn-primary btn-xs mb-1">Сотрудники</a></div>
+  </div>
+
+  <div class="alert alert-info w-50" ng-if="!NagruzkaStatVisible(chair_id) && c_roles.sotrudnik">
+    <p>Заведующий кафедрой пока не предоставил Вам возможность просмотра распределённой нагрузки</p>
+  </div>
+
+  <ng-include src="'./nagruzka_stat.tpl.html'" ng-if="NagruzkaStatVisible(chair_id)"></ng-include>
 </div>
-
-<div ng-if="ksro_selected_chair_id && !nagruzka_selected_lecturer_uid">
-  <h5 ng-if="!c_roles.uoup || c_roles.uoup && _nagruzka_type == 'all'">{{chairs_sprav[ksro_selected_chair_id]['Name']}}</h5>
-  <h5 ng-if="c_roles.uoup && _nagruzka_type != 'all'"><a href="/#/nagruzka/all/{{ksro_selected_chair_id}}">{{chairs_sprav[ksro_selected_chair_id]['Name']}}</a></h5>
-</div>
-
-
-<ng-include src="'./nagruzka_stat.tpl.html'"></ng-include>
-
-
 
 <table class="widefat">
   <thead>
@@ -169,3 +177,5 @@
     <button class="btn btn-secondary btn-sm" ng-click="cancelKSRO()">Отмена</button>
   </div>
 </div>
+
+<div id="ksro_edit_form"></div>

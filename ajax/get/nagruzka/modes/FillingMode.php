@@ -11,6 +11,8 @@ class FillingMode extends BaseNagruzkaProvider
 {
     public function canView()
     {
+        global $_SERVER;
+
         // EchoLog($this->userRole);
         
         // EchoLog($this->session['c_chair_id']);
@@ -20,7 +22,10 @@ class FillingMode extends BaseNagruzkaProvider
             return !empty($this->session['c_chair_id']);
         }
 
-
+        if ($_SERVER['REMOTE_ADDR'] == '85.143.4.44')
+        {
+            EchoLog($this->userRole);
+        }
 
         if ($this->userRole === 'uoup' || $this->userRole === 'ruk_aspirantura') 
         {

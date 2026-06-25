@@ -35,7 +35,7 @@ if ($_mode == 'mode_filling')
   if ($c_roles['zavkaf'])
   {
     $c_chair_id = $_SESSION['c_chair_id'];
-    $_chair_sql = "`chair_id` = '$c_chair_id'";
+    $_chair_sql = "AND `chair_id` = '$c_chair_id'";
 
     if ($_lecturer_uid)
     {
@@ -47,7 +47,7 @@ if ($_mode == 'mode_filling')
     $_chair_id = quote_smart($_GET['chair_id']);
     if ($_chair_id)
     {
-      $_chair_sql = "`chair_id` = '$_chair_id'";
+      $_chair_sql = "AND `chair_id` = '$_chair_id'";
     }
     if ($_lecturer_uid)
     {
@@ -56,11 +56,19 @@ if ($_mode == 'mode_filling')
   }
   elseif ($c_roles['sotrudnik'])
   {
-    $_lecturer_uid_sql = "1 AND `lecturer_person_id` = '$_SESSION[c_person_id]'";
+    $_lecturer_uid_sql = "AND `lecturer_person_id` = '$_SESSION[c_person_id]'";
+
+    $_chair_id = quote_smart($_GET['chair_id']);
+
+    if ($_chair_id)
+    {
+      $_chair_sql = "AND `chair_id` = '$_chair_id'";
+    }
+
   }
   
 
-  $Rows = GetTable('ksro', "$_chair_sql $_lecturer_uid_sql");
+  $Rows = GetTable('ksro', "1 $_chair_sql $_lecturer_uid_sql");
   // EchoLog($Rows);
 }
 // в других режимах берём из Галактики

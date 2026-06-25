@@ -58,8 +58,10 @@ abstract class BaseNagruzkaProvider
     {
         if (!empty($this->userRoles['zavkaf'])) return 'zavkaf';
         if (!empty($this->userRoles['uoup'])) return 'uoup';
-        if (!empty($this->userRoles['sotrudnik'])) return 'sotrudnik'; 
         if (!empty($this->userRoles['ruk_aspirantura'])) return 'ruk_aspirantura';
+        // сотрудник должен быть последним
+        if (!empty($this->userRoles['sotrudnik'])) return 'sotrudnik'; 
+        
         return null;
     }
 
@@ -224,15 +226,20 @@ abstract class BaseNagruzkaProvider
         // ];
         $statByChair = [];
 
-        foreach ($nagruzkaData as $baseUid => $item) {
-            if (empty($item['lectors'])) {
-                continue;
-            }
+        foreach ($nagruzkaData as $baseUid => $item) 
+        {
+            // if (empty($item['lectors'])) 
+            // {
+            //     continue;
+            // }
 
             $hasAssigned = false;
             $hasVacancy = false;
             $hasNotAssigned = false;
 
+            $item['lectors_sum'] = 0;
+
+            if ($item['lectors'])
             foreach ($item['lectors'] as &$lector) 
             {
                 $lector['delete'] = !empty($lector['delete']);
@@ -242,10 +249,17 @@ abstract class BaseNagruzkaProvider
                 if ($lector['lecturer_fio'] && mb_strcasecmp($lector['lecturer_fio'], 'Вакансия') === 0) 
                 {
                     $hasVacancy = true;
+                    // если Вакансии включать в Распределено
+                    $hasAssigned = true;
+
                     // $stat['assigned_to_vacancy']['sum'] += (float) $lector['Amount'];
                     safeAdd($stat['assigned_to_vacancy']['sum'], $lector['Amount']);
                     // $statByChair[$lector['chair_id']]['assigned_to_vacancy']['sum'] += (float) $lector['Amount'];
                     safeAdd($statByChair[$lector['chair_id']]['assigned_to_vacancy']['sum'], $lector['Amount']);
+
+                    // если Вакансии включать в Распределено
+                    safeAdd($stat['assigned']['sum'], $lector['Amount']);
+                    safeAdd($statByChair[$lector['chair_id']]['assigned']['sum'], $lector['Amount']);
                 }
                 // Назначен преподаватель
                 elseif ($lector['lecturer_fio'] && mb_strcasecmp($lector['lecturer_fio'], 'Вакансия') !== 0) 
@@ -261,7 +275,6 @@ abstract class BaseNagruzkaProvider
                         }
                     }
 
-                    safeAdd($stat['assigned']['sum'], $lector['Amount']);
 
                     if ($_SERVER['REMOTE_ADDR'] == '85.143.4.44' && $this->nagruzkaType == 'ruk_vkr')
                     {
@@ -286,6 +299,7 @@ abstract class BaseNagruzkaProvider
                         safeAdd($statByChair[$lector['chair_id']]['assigned_english']['sum'], $lector['Amount']);
                     }
 
+                    safeAdd($stat['assigned']['sum'], $lector['Amount']);
                     safeAdd($statByChair[$lector['chair_id']]['assigned']['sum'], $lector['Amount']);
 
                 }
@@ -298,6 +312,23 @@ abstract class BaseNagruzkaProvider
                     // $statByChair[$lector['chair_id']]['not_assigned']['sum'] += (float) $lector['Amount'];
                     safeAdd($statByChair[$lector['chair_id']]['not_assigned']['sum'], $lector['Amount']);
                 }
+
+                safeAdd($item['lectors_sum'], $lector['Amount']);
+            }
+            else
+            {
+                safeAdd($stat['not_assigned']['sum'], $item['Amount']);
+                // safeAdd($statByChair[$lector['chair_id']]['not_assigned']['sum'], $item['Amount']);
+            }
+
+            if (!$hasAssigned && !$hasNotAssigned && $_SERVER['REMOTE_ADDR'] == '85.143.4.44')
+            {
+                EchoLog($item);
+            }
+
+            if ($item['lectors_sum'] != floatval($item['Amount']) && $this->nagruzkaType == 'discipline' && $_SERVER['REMOTE_ADDR'] == '85.143.4.44')
+            {
+                EchoLog($item);
             }
 
             $nagruzkaData[$baseUid]['assigned'] = $hasAssigned;

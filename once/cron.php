@@ -39,12 +39,15 @@ if ($BUPGroups)
 
 include '../connect.php';
 
-fullBackupTable('nagruzka', 4);
-fullBackupTable('zavkaf_splits', 4);
-fullBackupTable('ksro', 4);
-fullBackupTable('aspirantura_kand_exam', 4);
-fullBackupTable('aspirantura_ruk_asp', 4);
-fullBackupTable('aspirantura_ruk_soisk', 4);
+if ($UPDATE_TABLES)
+{
+  fullBackupTable('nagruzka', 4);
+  fullBackupTable('zavkaf_splits', 4);
+  fullBackupTable('ksro', 4);
+  fullBackupTable('aspirantura_kand_exam', 4);
+  fullBackupTable('aspirantura_ruk_asp', 4);
+  fullBackupTable('aspirantura_ruk_soisk', 4);
+}
 
 // echo sizeof($BUPDisciplines);
 
@@ -387,7 +390,8 @@ function GetChairSotrudniki($year, $dop_sql = "", $actual = null /*, $qualify_ca
 
     // если нет всевдо-подразделений, ничего страшного
     // #dup code functions.php Aurhorize()
-    $kaf_sql = "AND (($podrazdelenia_table_name.`pname` LIKE('Кафедра%') OR $podrazdelenia_table_name.`pname` LIKE('%базовая кафедра%')) $pseudo_departments_ids_sql ) ";
+    $kaf_sql = "AND (($podrazdelenia_table_name.`pname` LIKE('Кафедра%') OR $podrazdelenia_table_name.`pname` LIKE('%базовая кафедра%'))
+                OR `$position_table_name`.dolzhnost IN('декан факультета', 'директор института') $pseudo_departments_ids_sql ) ";
   }
 
   // AND $podrazdelenia_table_name.`parent_id` <> '00255'
@@ -1271,7 +1275,7 @@ if ($SotrudnikiItogoByKey)
       $query = "
               INSERT INTO `sotrudniki` 
               SET `person_id` = '$chair_sotrudnik[person_id]', `lecturer_uid` = '$lecturer[UID]', `lecturer_login` = '$login',
-              `fio` = '$chair_sotrudnik[fio]', `chair_id` = '$chair_sotrudnik[chair_id]', `chair_uid` = '$chair_uid',
+              `fio` = '$chair_sotrudnik[fio]', `chair_id` = '$chair_sotrudnik[chair_id]', `chair_uid` = '$lecturer[UID_Chair]',
               `department_id` = '$chair_sotrudnik[department_id]',
               `podrazdelenie_id` = '$chair_sotrudnik[podrazdelenie_id]', `dolzhnost` = '$chair_sotrudnik[dolzhnost]', `type` = '$chair_sotrudnik[type]', `selected` = '$selected', `stavka` = '$chair_sotrudnik[stavka]', `pku` = '$chair_sotrudnik[pku]', `pkg` = '$chair_sotrudnik[pkg]', `date_add` = NOW()
               ON DUPLICATE KEY UPDATE
@@ -1312,7 +1316,7 @@ if ($SotrudnikiItogoByKey)
                 SET `fio` = '$chair_sotrudnik[fio]', `dolzhnost` = '$chair_sotrudnik[dolzhnost]', `type` = '$chair_sotrudnik[type]', `stavka` = '$chair_sotrudnik[stavka]', `pku` = '$chair_sotrudnik[pku]', `pkg` = '$chair_sotrudnik[pkg]',
                 # !! обновление lecturer_uid, chair_uid
                 `lecturer_uid` = '$lecturer[UID]',
-                `chair_uid` = '$chair_uid',
+                `chair_uid` = '$lecturer[UID_Chair]',
                 `date_remove` = NULL
                 $sql_selected
                 WHERE `person_id` = '$chair_sotrudnik[person_id]' AND `chair_id` = '$chair_sotrudnik[chair_id]'
