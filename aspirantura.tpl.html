@@ -20,7 +20,7 @@
     <p>Заведующий кафедрой пока не предоставил Вам возможность просмотра распределённой нагрузки</p>
   </div>
 
-  <ng-include src="'./nagruzka_stat.tpl.html'" ng-if="NagruzkaStatVisible(chair_id)"></ng-include>
+  <ng-include src="'./aspirantura_nagruzka_stat.tpl.html'" ng-if="NagruzkaStatVisible(chair_id)"></ng-include>
 </div>
 
 
@@ -39,7 +39,7 @@
   </li>
 
   <li class="nav-item">
-    <a class="nav-link" ng-class="{'active': visible_tab == 'aspirantura_ruk_soiskatel', 'pointer': visible_tab != 'aspirantura_ruk_soiskatel'}" ng-click="ShowAspiranturaTab('aspirantura_ruk_soiskatel')">Руководство соискателями</a>
+    <a class="nav-link" ng-class="{'active': visible_tab == 'aspirantura_ruk_soisk', 'pointer': visible_tab != 'aspirantura_ruk_soisk'}" ng-click="ShowAspiranturaTab('aspirantura_ruk_soisk')">Руководство соискателями</a>
   </li>
 
 </ul>
@@ -68,7 +68,7 @@
   </div>
 
   <!-- Руководство соискателями -->
-  <div class="tab-pane fade pt-3" ng-class="{'show active': visible_tab == 'aspirantura_ruk_soiskatel'}" ng-if="visible_tab == 'aspirantura_ruk_soiskatel'">
+  <div class="tab-pane fade pt-3" ng-class="{'show active': visible_tab == 'aspirantura_ruk_soisk'}" ng-if="visible_tab == 'aspirantura_ruk_soisk'">
 
     <aspirantura-ruk-soisk aspirantura-selected-lecturer-uid="aspirantura_selected_lecturer_uid" aspirantura-selected-chair-id="aspirantura_selected_chair_id"></aspirantura-ruk-soisk>
 

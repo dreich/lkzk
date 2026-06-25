@@ -17,10 +17,13 @@ $chair_id = quote_smart($_GET['chair_id']);
 $lecturer_uid = quote_smart($_GET['lecturer_uid']);
 
 $stats = ['total' => ['sum' => 0], 'assigned' => ['sum' => 0], 'not_assigned' => ['sum' => 0]];
+// только assigned
+$stats_by_type = ['aspirantura_kand_exam' => 0, 'aspirantura_ruk_asp' => 0, 'aspirantura_ruk_soisk' => 0];
 
 $aspirantura_kand_exam_params = ['deleted' => 0];
 
-if ($chair_id)
+// all - для УОУП и рук-ля аспирантуры
+if ($chair_id && $chair_id != 'all')
 {
   $aspirantura_kand_exam_params['chair_id'] = $chair_id;
 }
@@ -49,6 +52,7 @@ if ($AspiranturaKandExam)
     if ($row['lecturer_uid'])
     {
       safeAdd($stats['assigned']['sum'], $hours);
+      safeAdd($stats_by_type['aspirantura_kand_exam'], $hours);
     }
     else
     {
@@ -60,7 +64,7 @@ if ($AspiranturaKandExam)
 
 $aspirantura_ruk_asp_params = ['deleted' => 0];
 
-if ($chair_id)
+if ($chair_id && $chair_id != 'all')
 {
   $aspirantura_ruk_asp_params['lecturer_chair_id'] = $chair_id;
 }
@@ -81,6 +85,7 @@ if ($AspiranturaRukAsp)
 
     if ($row['lecturer_uid'])
     {
+      safeAdd($stats_by_type['aspirantura_ruk_asp'], $_aspirantura_ruk_asp_hours);
       safeAdd($stats['assigned']['sum'], $_aspirantura_ruk_asp_hours);
     }
     else
@@ -94,7 +99,7 @@ if ($AspiranturaRukAsp)
 $aspirantura_ruk_soisk_params = ['deleted' => 0];
 
 
-if ($chair_id)
+if ($chair_id && $chair_id != 'all')
 {
   $aspirantura_ruk_soisk_params['lecturer_chair_id'] = $chair_id;
 }
@@ -115,6 +120,7 @@ if ($AspiranturaRukSoisk)
 
     if ($row['lecturer_uid'])
     {
+      safeAdd($stats_by_type['aspirantura_ruk_soisk'], $_aspirantura_ruk_soisk_hours);
       safeAdd($stats['assigned']['sum'], $_aspirantura_ruk_soisk_hours);
     }
     else
@@ -125,5 +131,7 @@ if ($AspiranturaRukSoisk)
 }
 
 
-echo json_encode(['stat' => $stats]);
+// !! Возможно, not_assigned в этом скрипте не имеет смысла
+
+echo json_encode(['stat' => $stats, 'stat_by_type' => $stats_by_type]);
 ?>

@@ -35,7 +35,7 @@ abstract class BaseNagruzkaProvider
     {
         $this->userRoles = $this->explodePalki($this->session['c_roles'] ? $this->session['c_roles'] : '', true);
         $this->userRole = $this->determinePrimaryRole();
-        $this->chairId = isset($this->getParams['chair_id']) && $this->getParams['chair_id'] != 'null' ? $this->getParams['chair_id'] : null;
+        $this->chairId = isset($this->getParams['chair_id']) && $this->getParams['chair_id'] != 'null' && $this->getParams['chair_id'] != 'all' ? $this->getParams['chair_id'] : null;
         $this->lecturerUid = isset($this->getParams['lecturer_uid']) ? $this->getParams['lecturer_uid'] : null;
         $this->isLite = !empty($this->getParams['lite']);
         $this->onlyStat = !empty($this->getParams['only_stat']);

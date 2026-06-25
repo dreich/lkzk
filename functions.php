@@ -463,7 +463,7 @@ function Authorize($login, $password)
 
                 if ($lecturer_uids_str)
                 {
-                  $Splits = GetTable('zavkaf_splits', "`lecturer_uid` IN ($lecturer_uids_str)");
+                  $Splits = GetTable('zavkaf_splits', "`lecturer_uid` IN ($lecturer_uids_str) AND `zavkaf_chair_uid` <> ''");
 
                   if ($Splits)
                   {
@@ -475,6 +475,7 @@ function Authorize($login, $password)
                   }
                 }
 
+                // EchoLog($lecturer_chairs_uids);
 
                 // TODO тип нагрузки Аспирантура
                 // TODO что с ГПХ-шниками? Т.к. смотрим сплиты, то там будут нужные кафедры в zavkaf_chair_uid
@@ -2722,7 +2723,7 @@ function GetNagruzkaBaseQuery($dop_sql, $nagruzka_type = 'all', $department_from
       xml_language.Name as language,
       xml_content_of_load_staff.UID_FormOfEducation,
       # Если == 1, то используются подгруппы вместо групп
-      xml_content_of_load_staff.TypeOfContingent,
+      #xml_content_of_load_staff.TypeOfContingent,
       xml_content_of_load.UID_Semester,
       xml_content_of_load.StudentAmount,
       xml_kind_of_work.Name as kind_of_work,
@@ -2829,14 +2830,16 @@ function PrepareNagruzka($_Nagruzka, $lite = false)
           $Nagruzka["$nagruzka[base_uid2]"]['discipline_UID_arr'][] = $nagruzka['discipline_UID'];
         }
 
-        if (!$lite && $nagruzka['TypeOfContingent'] != '1' && !in_array($nagruzka['group_name'], $Nagruzka["$nagruzka[base_uid2]"]['group_name_arr'], true))
+        // && $nagruzka['TypeOfContingent'] != '1'
+        if (!$lite && !empty($nagruzka['group_name']) && !in_array($nagruzka['group_name'], $Nagruzka["$nagruzka[base_uid2]"]['group_name_arr'], true))
         {
           $Nagruzka["$nagruzka[base_uid2]"]['group_name_arr'][] = $nagruzka['group_name'];
         }
 
         
-        // Если TypeOfContingent = 1, то группы берём по полю UID_SubGroup
-        if (!$lite && $nagruzka['TypeOfContingent'] == '1' && !in_array($nagruzka['subgroup_name'], $Nagruzka["$nagruzka[base_uid2]"]['group_name_arr'], true))
+        // -- Если TypeOfContingent = 1, то группы берём по полю UID_SubGroup
+        // $nagruzka['TypeOfContingent'] == '1'
+        if (!$lite && !empty($nagruzka['subgroup_name']) && !in_array($nagruzka['subgroup_name'], $Nagruzka["$nagruzka[base_uid2]"]['group_name_arr'], true))
         {
           $Nagruzka["$nagruzka[base_uid2]"]['group_name_arr'][] = $nagruzka['subgroup_name'];
         }
@@ -2871,12 +2874,14 @@ function PrepareNagruzka($_Nagruzka, $lite = false)
           $Nagruzka["$nagruzka[base_uid2]"]['discipline_name_arr'] = [$nagruzka['discipline_name']];
           $Nagruzka["$nagruzka[base_uid2]"]['discipline_UID_arr'] = [$nagruzka['discipline_UID']];
           
-          if ($nagruzka['TypeOfContingent'] != '1')
+          // $nagruzka['TypeOfContingent'] != '1'
+          if (!empty($nagruzka['group_name']))
           {
             $Nagruzka["$nagruzka[base_uid2]"]['group_name_arr'] = [$nagruzka['group_name']];
           }
           // TypeOfContingent = 1
-          else
+          // else
+          if (!empty($nagruzka['subgroup_name']))
           {
             $Nagruzka["$nagruzka[base_uid2]"]['group_name_arr'] = [$nagruzka['subgroup_name']];
           }

@@ -147,7 +147,7 @@ if ($_SESSION['c_login'])
       </li>
 
       <li class="nav-item" ng-if="c_roles.ruk_aspirantura">
-        <a href="#/aspirantura" class="nav-link" ng-class="{active: page ==  'aspirantura'}"><span class="glyphicon glyphicon-list"></span> Нагрузка</a>
+        <a href="#/aspirantura/aspirantura_kand_exam" class="nav-link" ng-class="{active: page ==  'aspirantura'}"><span class="glyphicon glyphicon-list"></span> Нагрузка</a>
       </li>
 
       <li class="nav-item" ng-if="c_roles.uoup">

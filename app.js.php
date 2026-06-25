@@ -578,7 +578,7 @@ function createCustomFilters(table_id, table, columns)
 
 function createCustomFilters(table_id, table, columns, scope) 
 {
-  CL('createCustomFilters');
+  // CL('createCustomFilters');
   // CL(table);
   // CL(columns);
   
@@ -798,6 +798,7 @@ function CommonNagruzkaStatVisible(system_mode, chair_id, nagruzka_type, chairs_
 {
   // if (!isEm$scope.chairs_sprav[chair_id])
   // CL($scope.chairs_sprav[chair_id]['visible']);
+  // CL(nagruzka_type);
 
   // в этих режимах всегда видно, там вроде readonly
   if (system_mode == 'mode_verification' || system_mode == 'mode_archive')
@@ -805,9 +806,9 @@ function CommonNagruzkaStatVisible(system_mode, chair_id, nagruzka_type, chairs_
     return true;
   }
   // TODO check this
-  else if (nagruzka_type == 'aspirantura_itog_exam')
+  else if (nagruzka_type == 'aspirantura')
   {
-    return false;
+    return true;
   }
   // если это сотрудник (единственная роль) и просмотр отключен завкафом
   else if (c_roles.sotrudnik && Object.keys(c_roles).length == 1 && !isEmpty(chairs_sprav[chair_id]) && !chairs_sprav[chair_id]['visible'])
@@ -887,6 +888,8 @@ function CommonUpdateNagruzkaStat($http, scope, nagr_type, chair_id, lecturer_ui
           }
         }
         scope.nagruzka_stat[chair_id][nagr_type] = response.data.stat;
+
+        // CL(scope.nagruzka_stat);
 
         if (nagr_type == 'aspirant')
         {
@@ -1667,6 +1670,10 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
         chairs_sprav: function($http)
         {
           return $http({url: 'ajax/get/get_chairs.php', method: 'GET'});
+        },
+        _nagruzka_type: function($route)
+        {
+          return $route.current.params.tab;
         }
       }
     })
@@ -1906,7 +1913,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
   $scope.chairs_sprav = chairs_sprav;
   $scope.nagruzka_selected_chair_id = nagruzka_selected_chair_id;
   $scope.nagruzka_selected_lecturer_uid = lecturer_uid; // Store the lecturer_uid from the route
-  // CL(lecturer_uid);
+  // CL(nagruzka_selected_chair_id);
   
   $scope.$_forms_obuchenia = $_forms_obuchenia;
   $scope.$_nagruzka_types = $_nagruzka_types;
@@ -2155,7 +2162,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
   // Теперь функция принимает готовый API таблицы как аргумент
   const initializeFilters = (api) => 
   {
-    CL('initializeFilters');
+    // CL('initializeFilters');
 
     if (api) 
     {
@@ -6607,15 +6614,16 @@ $scope.toggleAdminChangeChair = function(chair)
 
 // End KSROCtrl
 
-.controller('AspiranturaCtrl', function($templateCache, $scope, $rootScope, ngDialog, $http, $resource, DTOptionsBuilder, DTColumnDefBuilder, system_mode, aspirantura_selected_chair_id, aspirantura_selected_lecturer_uid, chairs_sprav, $location, $routeParams)
+.controller('AspiranturaCtrl', function($templateCache, $scope, $rootScope, ngDialog, $http, $resource, DTOptionsBuilder, DTColumnDefBuilder, system_mode, aspirantura_selected_chair_id, aspirantura_selected_lecturer_uid, chairs_sprav, $location, $routeParams, _nagruzka_type)
 {
   CL('AspiranturaCtrl');
   // CL(aspirantura_selected_chair_id);
   // CL(aspirantura_selected_lecturer_uid);
-  // CL(chairs_sprav);
+  // CL(_nagruzka_type);
   // return;
   
   $scope.chairs_sprav = chairs_sprav.data;
+  $scope._nagruzka_type = _nagruzka_type;
   $scope.nagruzka_selected_lecturer_uid = $scope.aspirantura_selected_lecturer_uid = aspirantura_selected_lecturer_uid; // Store the lecturer_uid from the route
   $scope.nagruzka_selected_chair_id = $scope.chair_id = $scope.aspirantura_selected_chair_id = aspirantura_selected_chair_id;
 
@@ -6644,6 +6652,11 @@ $scope.toggleAdminChangeChair = function(chair)
     {
       $scope._lecturer_uids = [$scope.nagruzka_selected_lecturer_uid];
     }
+
+    if (isEmpty($scope._chairs_ids))
+    {
+      $scope._chairs_ids = ['all'];
+    }
   }
   else if (c_roles.sotrudnik)
   {
@@ -6654,8 +6667,10 @@ $scope.toggleAdminChangeChair = function(chair)
     // $scope._chairs_titles = c_sotrudnik_chairs_titles;
   }
 
+  CL($scope._chairs_ids);
+
   // Список ваших вкладок для проверки и дефолтного значения
-  var validTabs = ['aspirantura_kand_exam', 'aspirantura_itog_exam', 'aspirantura_ruk_asp', 'aspirantura_ruk_soiskatel'];
+  var validTabs = ['aspirantura_kand_exam', 'aspirantura_itog_exam', 'aspirantura_ruk_asp', 'aspirantura_ruk_soisk'];
   
   // 1. Инициализация: берем вкладку из URL. Если её нет или она левая — берем первую по дефолту
   var currentTab = $routeParams.tab;
@@ -6668,8 +6683,8 @@ $scope.toggleAdminChangeChair = function(chair)
   // 2. Функция переключения вкладок
   $scope.ShowAspiranturaTab = function(tabName) 
   {
-    CL(aspirantura_selected_lecturer_uid);
-    CL(aspirantura_selected_chair_id);
+    // CL(aspirantura_selected_lecturer_uid);
+    // CL(aspirantura_selected_chair_id);
 
     $scope.visible_tab = tabName;
 
@@ -6693,10 +6708,11 @@ $scope.toggleAdminChangeChair = function(chair)
   CL($scope.aspirantura_selected_chair_id);
   $scope.chairs_sprav = chairs_sprav.data;
   $scope.$_nagruzka_types = $_nagruzka_types;
+
+  // depr.
+  $scope.nagruzka_stat = {};
   $scope.nagruzka_stat = {};
   $scope.isLoading = true;
-
-
 
   CL($scope.system_mode);
  
@@ -6723,20 +6739,64 @@ $scope.toggleAdminChangeChair = function(chair)
     CommonUpdateNagruzkaStat($http, $scope, nagr_type, chair_id, lecturer_uid, only_stat);
   }
 
-  $scope.AspiranturaCtrlUpdateNagruzkaStat('discipline', aspirantura_selected_chair_id, aspirantura_selected_lecturer_uid, true);
-  $scope.AspiranturaCtrlUpdateNagruzkaStat('ruk_vkr', aspirantura_selected_chair_id, aspirantura_selected_lecturer_uid, true);
-  $scope.AspiranturaCtrlUpdateNagruzkaStat('ruk_kurs', aspirantura_selected_chair_id, aspirantura_selected_lecturer_uid, true);
-  $scope.AspiranturaCtrlUpdateNagruzkaStat('ruk_practice', aspirantura_selected_chair_id, aspirantura_selected_lecturer_uid, true);
-  $scope.AspiranturaCtrlUpdateNagruzkaStat('ksro', aspirantura_selected_chair_id, aspirantura_selected_lecturer_uid, true);
-  $scope.AspiranturaCtrlUpdateNagruzkaStat('gia', aspirantura_selected_chair_id, aspirantura_selected_lecturer_uid, true);
-  $scope.AspiranturaCtrlUpdateNagruzkaStat('aspirant', aspirantura_selected_chair_id, aspirantura_selected_lecturer_uid, true);
-  $scope.AspiranturaCtrlUpdateNagruzkaStat('aspirantura_itog_exam', aspirantura_selected_chair_id, aspirantura_selected_lecturer_uid, true);
+  // вроде иначе дважды будет грузиться статистика, видимо, из другого контроллера
+  // if (!c_roles.ruk_aspirantura)
+  // {
+  //   $scope.AspiranturaCtrlUpdateNagruzkaStat('discipline', aspirantura_selected_chair_id, aspirantura_selected_lecturer_uid, true);
+  //   $scope.AspiranturaCtrlUpdateNagruzkaStat('ruk_vkr', aspirantura_selected_chair_id, aspirantura_selected_lecturer_uid, true);
+  //   $scope.AspiranturaCtrlUpdateNagruzkaStat('ruk_kurs', aspirantura_selected_chair_id, aspirantura_selected_lecturer_uid, true);
+  //   $scope.AspiranturaCtrlUpdateNagruzkaStat('ruk_practice', aspirantura_selected_chair_id, aspirantura_selected_lecturer_uid, true);
+  //   $scope.AspiranturaCtrlUpdateNagruzkaStat('ksro', aspirantura_selected_chair_id, aspirantura_selected_lecturer_uid, true);
+  //   $scope.AspiranturaCtrlUpdateNagruzkaStat('gia', aspirantura_selected_chair_id, aspirantura_selected_lecturer_uid, true);
+  //   $scope.AspiranturaCtrlUpdateNagruzkaStat('aspirant', aspirantura_selected_chair_id, aspirantura_selected_lecturer_uid, true);
+  //   $scope.AspiranturaCtrlUpdateNagruzkaStat('aspirantura_itog_exam', aspirantura_selected_chair_id, aspirantura_selected_lecturer_uid, true);
+  // }
+
 
   // Сотруднику не показывать статистику (соответственно и вход в нагрузку), если завкаф закрыл просмотр, либо не тот режим
+  // AspiranturaCtrl
   $scope.NagruzkaStatVisible = function(chair_id)
   {
-    return CommonNagruzkaStatVisible(system_mode, aspirantura_selected_chair_id, 'aspirantura', $scope.chairs_sprav);
+    return CommonNagruzkaStatVisible(system_mode, chair_id, 'aspirantura', $scope.chairs_sprav);
   }
+
+
+  if (!isEmpty($scope._chairs_ids)) // && $scope._nagruzka_type != 'aspirantura_itog_exam')
+  {
+    angular.forEach($scope._chairs_ids, function(chair_id, ind)
+    {
+
+      var path = '/ajax/get/get_aspirantura_stats.php?';
+      if (!isEmpty(chair_id)) path += `chair_id=${chair_id}`;
+      if (!isEmpty(aspirantura_selected_lecturer_uid)) path += `lecturer_uid=${aspirantura_selected_lecturer_uid}`;
+
+      $http({url: path, method: 'GET'})
+        .then(function (response) 
+        {
+          if (response.data)
+          {
+            if (isEmpty($scope.nagruzka_stat[chair_id])) $scope.nagruzka_stat[chair_id] = {};
+
+            $scope.nagruzka_stat[chair_id] = response.data.stat_by_type;
+
+            // CL($scope.nagruzka_stat[chair_id]);
+          }
+        });
+
+        // Некое дублирование, для таблицы статистики нужно получить здесь только статистику, потому что не можем (либо трудоёмко) получить её сюда из NagruzkaCtrl / AspiranturaItogExamCtrl
+        // TODO как вариант здесь получать и статистику, и все данные, и отправлять в дочерний контроллер, чтобы там не делать ajax
+        if (_nagruzka_type == 'aspirantura_itog_exam')
+        {
+          $scope.AspiranturaCtrlUpdateNagruzkaStat('aspirantura_itog_exam', chair_id, aspirantura_selected_lecturer_uid, true);
+        }
+
+        // $scope.AspiranturaCtrlUpdateNagruzkaStat('aspirantura_itog_exam', chair_id, aspirantura_selected_lecturer_uid, true);
+
+    });
+
+    
+  }
+
 
   /*
   $scope.ShowAspiranturaTab = function(tab)
@@ -7296,6 +7356,7 @@ $scope.toggleAdminChangeChair = function(chair)
             $scope._nagruzka_type = 'aspirantura_itog_exam';
 
             CL($ctrl.aspiranturaSelectedLecturerUid);
+            CL($ctrl.aspiranturaSelectedChairId);
 
             var locals = {
                 $scope: $scope,
@@ -7306,7 +7367,7 @@ $scope.toggleAdminChangeChair = function(chair)
                 lecturer_uid: $ctrl.aspiranturaSelectedLecturerUid,
                 nagruzka_selected_chair_id: $ctrl.aspiranturaSelectedChairId,
                 // Остальные заглушки или реальные данные
-                nagruzka_selected_chair_id: null,
+                // nagruzka_selected_chair_id: null,
                 nagruzka_stat: {},
                 nagruzka: [],
                 chairs_sprav: $ctrl.chairsSprav
@@ -7345,6 +7406,8 @@ $scope.toggleAdminChangeChair = function(chair)
       var $ctrl = this; // Сохраняем ссылку на контекст компонента
       $ctrl.$onInit = function()
       {
+        CL('$onInit');
+
         $scope.system_mode = $ctrl.systemMode;
         $scope.chairs_sprav = $ctrl.chairsSprav;
         $scope.aspirantura_selected_lecturer_uid = $ctrl.aspiranturaSelectedLecturerUid;
@@ -7934,7 +7997,7 @@ $scope.toggleAdminChangeChair = function(chair)
           $scope.aspirantura_ruk_soisk_edit.lecturer_department_name = data.originalObject.department_name;
         }
 
-        CL($scope.aspirantura_ruk_soisk_edit);
+        // CL($scope.aspirantura_ruk_soisk_edit);
 
       }
 

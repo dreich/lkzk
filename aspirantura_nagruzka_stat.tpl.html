@@ -1,0 +1,60 @@
+<!-- {{$index}}
+{{_lecturer_uids[$index]}} -->
+
+ <!-- ng-if="!nagruzka_selected_chair_id || nagruzka_selected_chair_id && nagruzka_selected_chair_id == chair_id && !c_roles.sotrudnik" -->
+ <!-- {{chair_id}} -->
+<table class="widefat mb-3">
+
+  <thead>
+    <tr>
+      <th>тип нагрузки</th>
+      <!-- <th>Всего нагрузки</th> -->
+      <!-- <th>Не распределено</th> -->
+      <th>
+        <!-- <span>Распределено</span> -->
+        Распределено
+      </th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr ng-if="_nagruzka_type == 'aspirantura_kand_exam'">
+      <td>Нагрузка по кандидатским экзаменам</td>
+      <td>{{nagruzka_stat[chair_id]['aspirantura_kand_exam'] | toFixed:1}}</td>
+      <!-- <td></td> -->
+      <!-- <td></td> -->
+    </tr>
+
+    <tr ng-if="_nagruzka_type == 'aspirantura_itog_exam'">
+      <td>Нагрузка по итоговому экзамену</td>
+      <!-- <td>{{nagruzka_stat[chair_id]['aspirantura_itog_exam']['total']['sum'] | toFixed:1}}</td> -->
+      <!-- <td>{{nagruzka_stat[chair_id]['aspirantura_itog_exam']['not_assigned'] | toFixed:1}}</td> -->
+      <td>{{nagruzka_stat[chair_id]['aspirantura_itog_exam']['assigned']['sum'] | toFixed:1}}</td>
+    </tr>
+
+    <tr ng-if="_nagruzka_type == 'aspirantura_ruk_asp'">
+      <td>Руководство аспирантами</td>
+      <td>{{nagruzka_stat[chair_id]['aspirantura_ruk_asp'] | toFixed:1}}</td>
+      <!-- <td></td> -->
+      <!-- <td></td> -->
+    </tr>
+
+    <tr ng-if="_nagruzka_type == 'aspirantura_ruk_soisk'">
+      <td>Руководство соискателями</td>
+      <td>{{nagruzka_stat[chair_id]['aspirantura_ruk_soisk'] | toFixed:1}}</td>
+      <!-- <td></td> -->
+      <!-- <td></td> -->
+    </tr>
+    
+  </tbody>
+
+<!--   <tfoot>
+    <tr>
+      <td>Итого</td>
+      <td>{{GetNagruzkaStatsSum(chair_id, 'total') | toFixed:1}}</td>
+      <td>{{GetNagruzkaStatsSum(chair_id, 'not_assigned') | toFixed:1}}</td>
+      <td>{{GetNagruzkaStatsSum(chair_id, 'assigned') | toFixed:1}}</td>
+    </tr>
+  </tfoot> -->
+  
+</table>
