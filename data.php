@@ -61,12 +61,13 @@ $_months =
   12 => 'декабрь'
 ];
 
+// указан приоритет
 $_sotrudnik_types = 
 [
-  'gph' => 'ГПХ',
-  'worked' => 'работал',
-  'kandidat' => 'кандидат',
-  'sotrudnik' => 'сотрудник'
+  'gph' => 'ГПХ', // 4
+  'worked' => 'работал',  // 3
+  'kandidat' => 'кандидат', // 2
+  'sotrudnik' => 'сотрудник'  // 1
 ];
 
 $_nagruzka_types = 

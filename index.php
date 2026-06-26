@@ -25,7 +25,7 @@ if ($_POST['action'] == 'log-in')
 
   if ($c_roles['ruk_aspirantura'])
   {
-    header('Location: ./#/aspirantura');
+    header('Location: ./#/aspirantura/aspirantura_kand_exam');
   }
   else
   {

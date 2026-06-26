@@ -97,14 +97,64 @@ foreach ($Sotrudniki as $sotrudnik)
   }
 }
 
-$Sotrudniki = $filteredSotrudniki;
+// Приоритеты типов: чем меньше число, тем выше приоритет
+$priority = [
+    'sotrudnik' => 1,
+    'kandidat'  => 2,
+    'worked'    => 3,
+    'gph'       => 4,
+];
+
+$unique = [];
+
+foreach ($filteredSotrudniki as $person) 
+{
+  $id = $person['person_id'];
+  $type = $person['type'];
+  
+  // Если тип неизвестен — пропускаем
+  if (!isset($priority[$type])) 
+  {
+    continue;
+  }
+  
+  // Если person_id ещё нет в результате
+  if (!isset($unique[$id])) 
+  {
+    $unique[$id] = $person;
+    continue;
+  }
+  
+  // Сравниваем приоритеты типов
+  if ($priority[$type] < $priority[$unique[$id]['type']]) 
+  {
+    // Текущий тип приоритетнее — заменяем
+    $unique[$id] = $person;
+  } 
+  elseif ($priority[$type] == $priority[$unique[$id]['type']]) 
+  {
+    // Типы одинаковые — выбираем того, у кого непустое selected_chairs_ids
+    $currentHasSelected = !empty($unique[$id]['selected_chairs_ids']);
+    $newHasSelected = !empty($person['selected_chairs_ids']);
+    
+    if (!$currentHasSelected && $newHasSelected) 
+    {
+        // У текущего лучшего пусто, а у нового непусто — заменяем
+        $unique[$id] = $person;
+    }
+    // Если у обоих одинаково — оставляем первого
+  }
+}
+
+// Сбросить ключи, чтобы получить обычный индексированный массив
+$Sotrudniki = array_values($unique);
 
 
 header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
 header("Pragma: no-cache");
 header("Expires: 0");
 header('Content-Type: application/javascript; charset=UTF-8');
-echo json_encode(array_values($Sotrudniki));
+echo json_encode($Sotrudniki);
 
 ?>
 

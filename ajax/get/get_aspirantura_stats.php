@@ -16,6 +16,12 @@ $c_roles = ExplodePalki($_SESSION['c_roles'], true);
 $chair_id = quote_smart($_GET['chair_id']);
 $lecturer_uid = quote_smart($_GET['lecturer_uid']);
 
+if ($lecturer_uid)
+{
+  $Lecturer = GetRow('xml_lecturer', ['UID' => $lecturer_uid]);
+  $lecturer_fio = $Lecturer['FIO'];
+}
+
 $stats = ['total' => ['sum' => 0], 'assigned' => ['sum' => 0], 'not_assigned' => ['sum' => 0]];
 // только assigned
 $stats_by_type = ['aspirantura_kand_exam' => 0, 'aspirantura_ruk_asp' => 0, 'aspirantura_ruk_soisk' => 0];
@@ -133,5 +139,5 @@ if ($AspiranturaRukSoisk)
 
 // !! Возможно, not_assigned в этом скрипте не имеет смысла
 
-echo json_encode(['stat' => $stats, 'stat_by_type' => $stats_by_type]);
+echo json_encode(['stat' => $stats, 'stat_by_type' => $stats_by_type, 'lecturer_fio' => $lecturer_fio]);
 ?>

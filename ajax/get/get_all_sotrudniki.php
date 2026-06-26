@@ -69,6 +69,30 @@ foreach ($Sotrudniki as $sotrudnik)
     }
 }
 
+// Приоритеты: чем меньше число, тем выше приоритет
+$priority = [
+    'sotrudnik' => 1,
+    'kandidat'  => 2,
+    'worked'    => 3,
+    'gph'       => 4,
+];
+
+$unique = [];
+
+foreach ($filteredSotrudniki as $person) 
+{
+  $id = $person['person_id'];
+  $type = $person['type'];
+
+  // Если person_id ещё нет в результате, или текущий type приоритетнее
+  if (!isset($unique[$id]) || $priority[$type] < $priority[$unique[$id]['type']])
+  {
+      $unique[$id] = $person;
+  }
+}
+
+// Сбросить ключи, чтобы получить обычный индексированный массив
+$filteredSotrudniki = array_values($unique);
 // $Sotrudniki = $filteredSotrudniki;
 
 

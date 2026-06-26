@@ -4202,7 +4202,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
           if (nagr_type != 'all')
           $scope.isLoading = false;
 
-          CL($scope.nagruzka_uoup_stat);
+          // CL($scope.nagruzka_uoup_stat);
           // CL(response.data.nagruzka);
 
         }
@@ -6767,8 +6767,8 @@ $scope.toggleAdminChangeChair = function(chair)
     {
 
       var path = '/ajax/get/get_aspirantura_stats.php?';
-      if (!isEmpty(chair_id)) path += `chair_id=${chair_id}`;
-      if (!isEmpty(aspirantura_selected_lecturer_uid)) path += `lecturer_uid=${aspirantura_selected_lecturer_uid}`;
+      if (!isEmpty(chair_id)) path += `&chair_id=${chair_id}`;
+      if (!isEmpty(aspirantura_selected_lecturer_uid)) path += `&lecturer_uid=${aspirantura_selected_lecturer_uid}`;
 
       $http({url: path, method: 'GET'})
         .then(function (response) 
@@ -6778,6 +6778,10 @@ $scope.toggleAdminChangeChair = function(chair)
             if (isEmpty($scope.nagruzka_stat[chair_id])) $scope.nagruzka_stat[chair_id] = {};
 
             $scope.nagruzka_stat[chair_id] = response.data.stat_by_type;
+            if (response.data.lecturer_fio)
+            {
+              $scope._lecturer_fio = response.data.lecturer_fio;
+            }
 
             // CL($scope.nagruzka_stat[chair_id]);
           }
