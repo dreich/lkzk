@@ -9,17 +9,51 @@ class SplitProcessor
     private $splits;
     private $splitsByBaseUid;
 
-    public function __construct($deleteFlag = '0')
+    public function __construct($deleteFlag = '0', $chairId, $nagruzka_type)
     {
-        $this->loadSplits($deleteFlag);
+        $this->loadSplits($deleteFlag, $chairId, $nagruzka_type);
     }
 
     /**
      * Загрузить сплиты из базы
      */
-    private function loadSplits($deleteFlag)
+    private function loadSplits($deleteFlag, $chairId, $nagruzka_type)
     {
-        $this->splits = GetTable('zavkaf_splits', "`delete` = '$deleteFlag'");
+        global $_SESSION;
+
+        $c_roles = ExplodePalki($_SESSION['c_roles'], true);
+
+        // EchoLog($nagruzka_type);
+
+        // !! нельзя фильтровать по zavkaf_chair_uid для нагрузки типа aspirantura_itog_exam, т.к. там нет кафедры
+        // $c_roles['zavkaf'] && 
+        if (!empty($chairId) && $nagruzka_type != 'aspirantura_itog_exam')
+        {
+          $XmlChairByCode = GetTable('xml_chair', "", "", "Code");
+
+          if ($c_roles['zavkaf']) $chair_id = $_SESSION['c_chair_id'];
+          else $chair_id = $chairId;
+
+          $ZavkafChair = $XmlChairByCode[$chair_id];
+
+          if ($ZavkafChair)
+          {
+            $zavkaf_chair_uid = $ZavkafChair['UID'];
+            $where_sql = "AND `zavkaf_chair_uid` = '$zavkaf_chair_uid'";
+          }
+        }
+
+        // EchoLog($chair_id);
+        // EchoLog($where_sql);
+
+        // Все поля: 'id', 'content_of_load_uid', 'base_uid', 'base_uid2', 'base_uid2_new', 'LoadType', 'StudentAmount', 'Amount', 'lecturer_login', 'lecturer_person_id', 'lecturer_fio', 'lecturer_uid', 'chair_uid', 'zavkaf_login', 'zavkaf_fio', 'zavkaf_chair_uid', 'delete', 'date'
+        // Исключённые поля: , `date`, `content_of_load_uid`, `base_uid2_new`, `zavkaf_chair_uid`
+
+        // работа со сплитами является узким местом, будем брать только используемые поля
+        $this->splits = GetTable('zavkaf_splits', "`delete` = '$deleteFlag' $where_sql", null, null, "`id`, `base_uid`, `base_uid2`, `LoadType`, `StudentAmount`, `Amount`, `lecturer_login`, `lecturer_person_id`, `lecturer_fio`, `lecturer_uid`, `chair_uid`, `zavkaf_login`, `zavkaf_fio`, `delete`, `zavkaf_chair_uid`");
+
+        // EchoLog(sizeof($this->splits));
+
         $this->indexSplits();
     }
 
@@ -64,6 +98,7 @@ class SplitProcessor
      */
     public function applySplits($nagruzkaData, $mode = '')
     {
+
         if (empty($nagruzkaData)) 
         {
             return $nagruzkaData;
@@ -98,7 +133,9 @@ class SplitProcessor
             {
                 $result[$baseUid] = $item;
                 $result[$baseUid]['lectors'] = [];
-            } else {
+            } 
+            else 
+            {
                 $result[$baseUid]['Amount'] += $item['Amount'];
             }
 
@@ -121,6 +158,7 @@ class SplitProcessor
                 // EchoLog("SPLITS:");
                 // EchoLog($splitRows);
 
+                if ($splitRows)
                 foreach ($splitRows as $splitRow) 
                 {
                     $lectorData = $this->createLectorDataFromSplit($item, $splitRow);
@@ -335,7 +373,7 @@ class SplitProcessor
             return [];
         }
 
-        // Возвращаем первую группу по content_of_load_uid
+        // -- Возвращаем первую группу по content_of_load_uid
         // return array_values($this->splitsByBaseUid[$baseUid][$baseUid2])[0];
         return $this->splitsByBaseUid[$baseUid][$baseUid2];
     }

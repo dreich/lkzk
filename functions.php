@@ -2779,7 +2779,8 @@ function GetNagruzkaBaseQuery($dop_sql, $nagruzka_type = 'all', $department_from
 
   FROM xml_content_of_load
   LEFT JOIN xml_lecturer ON xml_lecturer.UID = xml_content_of_load.UID_Lecturer
-  LEFT JOIN `nagruzka` ON nagruzka.load_base_UID2 = xml_content_of_load.base_uid2
+  INNER JOIN `nagruzka` ON nagruzka.load_base_UID2 = xml_content_of_load.base_uid2
+  
   --
   $sql_part2
   WHERE 
@@ -2787,10 +2788,6 @@ function GetNagruzkaBaseQuery($dop_sql, $nagruzka_type = 'all', $department_from
   #AND xml_content_of_load.`UID_Chair` <> '25031.0'
   $nagruzka_type_sql
 
-  -- AND (xml_content_of_load_staff.`Abbr` LIKE ('Б1.%') OR xml_content_of_load_staff.`Abbr` LIKE ('Ф%') OR xml_content_of_load_staff.`Abbr` LIKE ('1.%') OR xml_content_of_load_staff.`Abbr` LIKE ('1.01%') OR xml_content_of_load_staff.`Abbr` LIKE ('2.1%') OR xml_content_of_load_staff.`Abbr` LIKE ('2.01%') OR xml_content_of_load_staff.`Abbr` LIKE ('С1%') OR xml_content_of_load_staff.`Abbr` LIKE ('С2%') OR xml_content_of_load_staff.`Abbr` LIKE ('С3%') OR xml_content_of_load_staff.`Abbr` LIKE ('С4%'))
-  -- AND xml_content_of_load.UID_Lecturer = '26115.281474976793608'
-    -- AND xml_content_of_load.`base_uid` = '26589.281474976763944'
-    -- AND xml_content_of_load.`base_uid` = '26589.281474976763950'
     -- AND xml_content_of_load.`base_uid` = '26589.281474976879135'
     -- AND xml_content_of_load.`base_uid` IN('26589.281474976879129', '26589.281474976879132')
     -- AND chair_id = '02910'
@@ -2798,6 +2795,7 @@ function GetNagruzkaBaseQuery($dop_sql, $nagruzka_type = 'all', $department_from
     $dop_sql
   ";
 
+  // if ($nagruzka_type == 'aspirantura_itog_exam')
   // EchoLog($_nagruzka_base_query);
 
   return $_nagruzka_base_query;
@@ -2908,7 +2906,7 @@ function PrepareNagruzka($_Nagruzka, $lite = false)
       // $nagruzka['disciplines_UIDs_chain_str'] = ImplodePalki($nagruzka['discipline_UID_arr']);
       // $nagruzka['disciplines_Names_chain_str'] = ImplodePalki($nagruzka['discipline_name_arr']);
       $nagruzka['discipline_name'] = implode('<br>', $nagruzka['discipline_name_arr']);
-      $nagruzka['group_name'] = implode('<br>', $nagruzka['group_name_arr']);
+      $nagruzka['group_name'] = is_array($nagruzka['group_name_arr']) ? implode('<br>', $nagruzka['group_name_arr']) : '';
       // $nagruzka['subgroup_name'] = implode('<br>', $nagruzka['subgroup_name_arr']);
       $nagruzka['Abbr'] = implode('<br>', $nagruzka['Abbr_arr']);
       $nagruzka['napravlenie'] = implode('<br>', $nagruzka['napravlenie_arr']);
