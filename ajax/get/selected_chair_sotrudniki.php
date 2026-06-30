@@ -112,11 +112,6 @@ foreach ($filteredSotrudniki as $person)
   $id = $person['person_id'];
   $type = $person['type'];
   
-  // Если тип неизвестен — пропускаем
-  if (!isset($priority[$type])) 
-  {
-    continue;
-  }
   
   // Если person_id ещё нет в результате
   if (!isset($unique[$id])) 

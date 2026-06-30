@@ -24,9 +24,10 @@ $_aspirantura_ruk_soisk_hours = 50;
 
 $_roles = 
 [
-  'administrator' => 'Администратор',
+  'administrator' => 'Администратор', // такой роли вроде нет
   'uoup' => 'УОУП',
   'zavkaf' => 'Завкаф',
+  'dean' => 'Декан',
   'ruk_aspirantura' => 'Руководитель подразделения аспирантуры'
 ];
 

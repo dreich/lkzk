@@ -72,9 +72,11 @@ CL(c_department_id);
 const c_sotrudnik_chairs_ids = [<?=JoinArrayElements(ExplodePalki($_SESSION['c_sotrudnik_chairs_ids']), ', ', false, "'", "'")?>];
 const c_sotrudnik_chairs_titles = [<?=JoinArrayElements(ExplodePalki($_SESSION['c_sotrudnik_chairs_titles']), ', ', false, "'", "'")?>];
 const c_sotrudnik_lecturer_uids = [<?=JoinArrayElements(ExplodePalki($_SESSION['c_sotrudnik_lecturer_uids']), ', ', false, "'", "'")?>];
+const c_dean_chairs_ids = [<?=JoinArrayElements(ExplodePalki($_SESSION['c_dean_chairs_ids']), ', ', false, "'", "'")?>];
 CL(c_sotrudnik_chairs_ids);
 CL(c_sotrudnik_lecturer_uids);
 CL(c_sotrudnik_chairs_titles);
+CL(c_dean_chairs_ids);
 const $_languages = {'25031.281474976715638': 'Русский', '25031.945': 'Английский'};
 
 // HACK
@@ -982,19 +984,31 @@ function CommonGetNagruzkaTypesRowLink(scope, nagruzka_type, chair_id, lecturer_
     link = '#/nagruzka/' + nagruzka_type;
   }
 
+  /*
   // УОУП
   // scope.nagruzka_selected_chair_id
   if (c_roles['uoup'] && !isEmpty(chair_id)) link += '/' + chair_id;
   if (c_roles['uoup'] && !isEmpty(lecturer_uid)) link += '/' + lecturer_uid;
 
+  // Декан
+  // TODO проверять, что это кафедра/человек его факультета
+  if (c_roles['dean'] && !isEmpty(chair_id)) link += '/' + chair_id;
+  if (c_roles['dean'] && !isEmpty(lecturer_uid)) link += '/' + lecturer_uid;
+
   // ЗавКаф
+  // TODO заменить c_chair_id на chair_id, чтобы брался параметр функции ?
   if (c_roles['zavkaf'] && !isEmpty(c_chair_id)) link += '/' + c_chair_id;
   if (c_roles['zavkaf'] && !isEmpty(scope.nagruzka_selected_lecturer_uid)) link += '/' + scope.nagruzka_selected_lecturer_uid;
 
+  */
+
+  if (!isEmpty(chair_id)) link += '/' + chair_id;
+  if (!isEmpty(lecturer_uid)) link += '/' + lecturer_uid;
+
   // для сотрудника из параметра
-  if (c_roles.sotrudnik)
+  // if (c_roles.sotrudnik)
   {
-     link += `/${chair_id}/${lecturer_uid}`;
+     // link += `/${chair_id}/${lecturer_uid}`;
   }
 
   return link;
@@ -1839,6 +1853,11 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
     window.location.href = '/?logout';
   }
 
+  $scope.GetRolesNum = function()
+  {
+    return Object.keys(c_roles).length;
+  }
+
 })
 
 .controller ('SystemClosedCtrl', function($rootScope, $scope, page)
@@ -1862,6 +1881,11 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
   // window.location = '#/zayavki/' + cur_year;
 
   if (c_roles.uoup)
+  {
+    window.location = '#/uoup_nagruzka';
+  }
+
+  if (c_roles.dean)
   {
     window.location = '#/uoup_nagruzka';
   }
@@ -1933,7 +1957,20 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
   //   $scope.lecturer_fio = $scope.nagruzka[0]['lectors'][0].lecturer_fio;
   // }
 
-  if (c_roles.zavkaf)
+  // TODO защита от вставки в URL любой кафедры / чужого препода
+  if (c_roles.dean)
+  {
+    if (!isEmpty($scope.nagruzka_selected_chair_id))
+    {
+      $scope._chairs_ids = [$scope.nagruzka_selected_chair_id];
+    }
+
+    if (!isEmpty($scope.nagruzka_selected_lecturer_uid))
+    {
+      $scope._lecturer_uids = [$scope.nagruzka_selected_lecturer_uid];
+    }
+  }
+  else if (c_roles.zavkaf)
   {
     $scope._chairs_ids = [c_chair_id];
 
@@ -2936,7 +2973,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
   {
     CL('GroupActionSelectedLecturer');
     
-    CL(data);
+    // CL(data);
 
     if (!isEmpty(data))
     {
@@ -3259,7 +3296,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
   $scope.AddNagruzkaSubRow = function(nagruzka_row, fill_amounts)
   {
     CL('AddNagruzkaSubRow');
-    CL(nagruzka_row);
+    // CL(nagruzka_row);
 
     // CL(nagruzka_row.lectors[0]);
     const new_lector = angular.copy(nagruzka_row.lectors[0]);
@@ -3288,7 +3325,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
         $scope.$apply();
     }
 
-    CL(nagruzka_row.lectors);
+    // CL(nagruzka_row.lectors);
   }
 
   $scope.RemoveNagruzkaSubRow = function(nagruzka_row, index)
@@ -3505,8 +3542,8 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
         ];
     }
 
-    CL('After merging:');
-    CL(nagruzka_row.lectors);
+    // CL('After merging:');
+    // CL(nagruzka_row.lectors);
 
     $scope.SaveNagruzkaSubRows(nagruzka_row);
 
@@ -3831,7 +3868,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
   {
     if (isEmpty($scope.nagruzka_stat)) return 0;
 
-    CL($scope.nagruzka_stat);
+    // CL($scope.nagruzka_stat);
 
     const keys = ['aspirant', 'aspirantura_itog_exam'];
     let sum = 0;
@@ -4124,7 +4161,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
 
   $scope.onUOUPNagruzkaTableInstance = function(dtInstance) 
   {
-    CL('onUOUPNagruzkaTableInstance');
+    // CL('onUOUPNagruzkaTableInstance');
     // $scope.isLoading = true;
 
     $scope.dtInstance = dtInstance;
@@ -4155,8 +4192,8 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
 
   $scope.UpdateUOUPNagruzkaStat = function(nagr_type)
   {
-    CL('UpdateUOUPNagruzkaStat');
-    CL(nagr_type);
+    // CL('UpdateUOUPNagruzkaStat');
+    // CL(nagr_type);
 
     var script, url;
 
@@ -5782,7 +5819,7 @@ $scope.toggleAdminChangeChair = function(chair)
 
   var sotrudniki_chair_id_param = '';
 
-  if (c_roles.uoup)
+  if ((c_roles.uoup || c_roles.dean) && !isEmpty(sotrudniki_selected_chair_id))
   {
     sotrudniki_chair_id_param = `?chair_id=${sotrudniki_selected_chair_id}`;
   }
@@ -5870,6 +5907,12 @@ $scope.toggleAdminChangeChair = function(chair)
                   toastr.error("Ошибка");
                 }
               });
+  }
+
+
+  $scope.IsSotrudnikiEditable = function()
+  {
+    return c_roles.zavkaf;
   }
   
 })
@@ -6629,7 +6672,19 @@ $scope.toggleAdminChangeChair = function(chair)
 
   // if (c_roles.ruk_aspirantura != '1' && c_roles.zavkaf != '1') return;
 
-  if (c_roles.zavkaf)
+  if (c_roles.dean)
+  {
+    if (!isEmpty($scope.nagruzka_selected_chair_id))
+    {
+      $scope._chairs_ids = [$scope.nagruzka_selected_chair_id];
+    }
+
+    if (!isEmpty($scope.nagruzka_selected_lecturer_uid))
+    {
+      $scope._lecturer_uids = [$scope.nagruzka_selected_lecturer_uid];
+    }
+  }
+  else if (c_roles.zavkaf)
   {
     $scope._chairs_ids = [c_chair_id];
 

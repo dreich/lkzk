@@ -4,7 +4,7 @@ include_once __DIR__ . '/../BaseNagruzkaProvider.php';
 
 /**
  * Режим "Заполнение"
- * Данные по нагрузке доступны для редактирования завкафу
+ * Данные по нагрузке доступны
  * Привязки из Галактики игнорируются, работают только сплиты
  */
 class FillingMode extends BaseNagruzkaProvider
@@ -16,6 +16,12 @@ class FillingMode extends BaseNagruzkaProvider
         // EchoLog($this->userRole);
         
         // EchoLog($this->session['c_chair_id']);
+
+        if ($this->userRole === 'dean') 
+        {
+            return !empty($this->session['c_department_id']);
+        }
+
         // Завкаф видит свою кафедру, УОУП видит все, сотрудник видит только если есть lecturer_uid
         if ($this->userRole === 'zavkaf') 
         {
@@ -98,6 +104,8 @@ class FillingMode extends BaseNagruzkaProvider
 
         $rows = GetTable('ksro', "$chairSql $lecturerSql");
 
+        // EchoLog($rows);
+
         if (!empty($rows)) {
             foreach ($rows as $row) 
             {
@@ -144,11 +152,21 @@ class FillingMode extends BaseNagruzkaProvider
      * Получить SQL-условие для кафедры (для КСРО)
      */
     protected function getChairSqlForKsro()
-    {
-        if ($this->chairId) {
-            return "`chair_id` = '{$this->chairId}'";
-        }
-        return '';
+    {   
+      // роль декана, его кафедры
+      if ($this->chairUIDs)
+      {
+        $chairIds = JoinArrayElements($this->chairIds, ", ", false, "'", "'");
+
+        return "`chair_id` IN($chairIds)";
+      }
+
+      if ($this->chairId) 
+      {
+        return "`chair_id` = '{$this->chairId}'";
+      }
+
+      return '';
     }
 
     /**

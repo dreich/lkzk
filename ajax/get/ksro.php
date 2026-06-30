@@ -32,7 +32,31 @@ if ($_lecturer_uid)
 // редактирует только в этом режиме, поэтому берём из таблицы `ksro`, где храним "редактуру"
 if ($_mode == 'mode_filling')
 {
-  if ($c_roles['zavkaf'])
+  // TODO нужно брать по-разному, в зависимости, с какой страницы идёт загрузка
+  if ($c_roles['dean'])
+  {
+    $department_id = $_SESSION['c_department_id'];
+
+    $faculty = GetRow('xml_faculty', ['Code' => $department_id]);
+    $Chairs = GetRows('xml_chair', ['UID_Faculty' => $faculty['UID']]);
+    $chairIds = [];
+    $chairUIDs = [];
+
+    if ($Chairs)
+    {
+      foreach ($Chairs as $chair)
+      {
+        $chairIds[] = $chair['Code'];
+        $chairUIDs[] = $chair['UID'];
+      }
+    }
+
+    $ids_sql = JoinArrayElements($chairIds, ", ", false, "'", "'");
+
+    $_chair_sql = "AND `chair_id` IN ($ids_sql)";
+    // EchoLog($_chair_sql);
+  }
+  elseif ($c_roles['zavkaf'])
   {
     $c_chair_id = $_SESSION['c_chair_id'];
     $_chair_sql = "AND `chair_id` = '$c_chair_id'";
@@ -64,11 +88,11 @@ if ($_mode == 'mode_filling')
     {
       $_chair_sql = "AND `chair_id` = '$_chair_id'";
     }
-
   }
   
 
   $Rows = GetTable('ksro', "1 $_chair_sql $_lecturer_uid_sql");
+
   // EchoLog($Rows);
 }
 // в других режимах берём из Галактики
@@ -88,6 +112,8 @@ else
     $XMLChair = GetRow('xml_chair', ['Code' => $_chair_id]);
     $chair_id_sql = "AND `UID_Chair` = '$XMLChair[UID]'";
   }
+
+  // TODO роль dean
 
   if ($_lecturer_uid)
   {

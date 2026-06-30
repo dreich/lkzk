@@ -65,7 +65,7 @@ foreach ($Sotrudniki as $sotrudnik)
     {
       $sotrudnik['department_name'] = $XMLFacultyByCode[$sotrudnik['department_id']]['Name'];
       $sotrudnik['chair_name'] = $XMLChairByCode[$sotrudnik['chair_id']]['Name'];
-      $filteredSotrudniki["$sotrudnik[person_id]-$sotrudnik[type]"] = $sotrudnik;
+      $filteredSotrudniki["$sotrudnik[person_id]-$sotrudnik[chair_id]-$sotrudnik[type]"] = $sotrudnik;
     }
 }
 
@@ -83,11 +83,12 @@ foreach ($filteredSotrudniki as $person)
 {
   $id = $person['person_id'];
   $type = $person['type'];
+  $chair_id = $person['chair_id'];
 
   // Если person_id ещё нет в результате, или текущий type приоритетнее
-  if (!isset($unique[$id]) || $priority[$type] < $priority[$unique[$id]['type']])
+  if (!isset($unique["$id-$chair_id"]) || $priority[$type] < $priority[$unique["$id-$chair_id"]['type']])
   {
-      $unique[$id] = $person;
+      $unique["$id-$chair_id"] = $person;
   }
 }
 

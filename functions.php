@@ -312,7 +312,58 @@ function Authorize($login, $password)
 
               // EchoLog($clean_login);
               // EchoLog($Person);
+              $position_table_name = "position" . date('Y');
               $podrazdelenia_table_name = "podrazdelenia" . date('Y');
+
+              // для роли декан / директор
+              // #dup code cron.php
+              $DepInst = GetTable($position_table_name, "`chief_id` = $Person[id] AND `dolzhnost` IN('декан факультета', 'директор института')");
+
+              if ($DepInst)
+              {
+                $dep_id = $DepInst[0]['podrazdelenie_id'];
+                $Department = GetRow($podrazdelenia_table_name, ['id' => $dep_id]);
+
+                $_SESSION['c_login'] = $clean_login;
+                $_SESSION['c_fio'] = $attrs['displayname'];
+                $_SESSION['c_department_id'] = $dep_id;
+                $_SESSION['c_department_name'] = $Department['pname'];
+                $_SESSION['c_phone'] = $Contacts['mobile'];
+                $_SESSION['c_email'] = $Contacts['e_mail'];
+                $result = true;
+
+                if ($_SESSION['c_roles'])
+                {
+                  $_SESSION['c_roles'] .= 'dean|';
+                }
+                else
+                {
+                  $_SESSION['c_roles'] = '|dean|';
+                }
+
+                include 'connect.php';
+
+                $faculty = GetRow('xml_faculty', ['Code' => $dep_id]);
+                $Chairs = GetRows('xml_chair', ['UID_Faculty' => $faculty['UID']]);
+                $chairIds = [];
+                $chairUIDs = [];
+
+                if ($Chairs)
+                {
+                  foreach ($Chairs as $chair)
+                  {
+                    $chairIds[] = $chair['Code'];
+                    $chairUIDs[] = $chair['UID'];
+                  }
+                }
+
+                $_SESSION['c_dean_chairs_ids'] = ImplodePalki($chairIds);
+
+                ActivityLog(null, ['Вход декана'], '', 'authorize dean', 1);
+                include './connect/sotrudnik.php';
+              }
+              
+
               // has_real_chief означает, что chief действительно является руководителем этого подразделения, а не прописан здесь руководитель вышестоящий
               // #dup code cron.php
               $ChairsWithThisChief = GetTable($podrazdelenia_table_name, "`chief_id` = $Person[id] AND (`pname` LIKE ('Кафедра%') OR `pname` LIKE ('%базовая кафедра%')) AND `has_real_chief` = '1'");
@@ -371,7 +422,7 @@ function Authorize($login, $password)
                   $podr_ids[] = $podr['id'];
                 }
 
-                // Подразделение, в котором есть псевдо-кафедра
+                // Подразделение, в котором есть псевдо-кафедра (?)
                 if (in_array($HisNagruzkaOneRow[0]['department_id'], $podr_ids))
                 {
                   $_SESSION['c_login'] = $clean_login;
@@ -609,7 +660,6 @@ function Authorize($login, $password)
               }
 
               include './connect.php';
-   
 
             }
 
@@ -2780,7 +2830,7 @@ function GetNagruzkaBaseQuery($dop_sql, $nagruzka_type = 'all', $department_from
   FROM xml_content_of_load
   LEFT JOIN xml_lecturer ON xml_lecturer.UID = xml_content_of_load.UID_Lecturer
   INNER JOIN `nagruzka` ON nagruzka.load_base_UID2 = xml_content_of_load.base_uid2
-  
+
   --
   $sql_part2
   WHERE 
@@ -2795,7 +2845,7 @@ function GetNagruzkaBaseQuery($dop_sql, $nagruzka_type = 'all', $department_from
     $dop_sql
   ";
 
-  // if ($nagruzka_type == 'aspirantura_itog_exam')
+  // if ($nagruzka_type == 'discipline')
   // EchoLog($_nagruzka_base_query);
 
   return $_nagruzka_base_query;

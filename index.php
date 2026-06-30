@@ -146,6 +146,10 @@ if ($_SESSION['c_login'])
         <a href="#/uoup_nagruzka" class="nav-link" ng-class="{active: page == 'uoup_nagruzka' || page == 'nagruzka'}" ><span class="glyphicon glyphicon-list"></span> Нагрузка</a>
       </li>
 
+      <li class="nav-item" ng-if="c_roles.dean">
+        <a href="#/uoup_nagruzka" class="nav-link" ng-class="{active: page == 'uoup_nagruzka' || page == 'nagruzka'}" ><span class="glyphicon glyphicon-list"></span> Кафедры</a>
+      </li>
+
       <li class="nav-item" ng-if="c_roles.ruk_aspirantura">
         <a href="#/aspirantura/aspirantura_kand_exam" class="nav-link" ng-class="{active: page ==  'aspirantura'}"><span class="glyphicon glyphicon-list"></span> Нагрузка</a>
       </li>
@@ -209,8 +213,10 @@ if ($_SESSION['c_login'])
       <li class="nav-item">
         <a style='font-size: 80%;' class="nav-link">
           <?=$_SESSION['c_fio']?>
-          <div ng-if="!c_roles.zavkaf"><?=$_SESSION['c_roles_str']?></div>
-          <br><?=$_SESSION['c_chair_name']?>
+          <div ng-if="c_roles.uoup || c_roles.ruk_aspirantura"><?=$_SESSION['c_roles_str']?></div>
+          <div><?=$_SESSION['c_department_name']?></div>
+          <div><?=$_SESSION['c_chair_name']?></div>
+
         </a>
 
       </li>

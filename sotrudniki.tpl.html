@@ -2,7 +2,7 @@
 
   <h5 ng-if="sotrudniki_selected_chair_name">{{sotrudniki_selected_chair_name}}</h5>
 
-  <div style="margin-bottom: 20px" ng-if="c_roles.zavkaf">
+  <div style="margin-bottom: 20px" ng-if="IsSotrudnikiEditable()">
     <label style="display: inline-block">Сотрудники видят свою нагрузку</label>
     <select class="form-select" style="display: inline-block; width: 100px" ng-model="data.sotrudnik_chair_nagruzka_visibility" ng-change="SaveSotrudnikNagruzkaVisibility()">
       <option value="1">да</option> <option value="0">нет</option>
@@ -17,7 +17,7 @@
 
     <thead>
       <tr>
-        <th style="width: 20px" ng-if="c_roles.zavkaf">выбор</th>
+        <th style="width: 20px" ng-if="IsSotrudnikiEditable()">выбор</th>
         <th>ФИО</th>
         <th>должность</th>
         <th>тип</th>
@@ -34,7 +34,7 @@
         <!-- | orderBy:['-selected', 'type', 'fio'] -->
 
       <tr ng-repeat="person in sotrudniki" ng-click="navigateToNagruzka(person)" ng-class="{'pointer': person.amount_sum > 0}" >
-        <td ng-if="c_roles.zavkaf" ng-click="person.selected = !person.selected; SelectSotrudnik(person); $event.stopPropagation()">  
+        <td ng-if="IsSotrudnikiEditable()" ng-click="person.selected = !person.selected; SelectSotrudnik(person); $event.stopPropagation()">  
           <!-- sotrudniki_readonly -->
           <input type="checkbox" ng-model="person.selected" ng-change="SelectSotrudnik(person)" ng-click="$event.stopPropagation()" ng-disabled="(person.type == 'sotrudnik' && person.selected) || sotrudniki_readonly">
         </td>
@@ -76,7 +76,7 @@
 
      <tfoot>
         <tr>
-          <th ng-if="c_roles.zavkaf"></th>
+          <th ng-if="IsSotrudnikiEditable()"></th>
           <th></th>
           <th>
 <!--             

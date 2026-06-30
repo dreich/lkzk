@@ -22,9 +22,23 @@ $c_roles = ExplodePalki($_SESSION['c_roles'], true);
 
 
 // TODO проверить, что правильные коды для псевдо-кафедр (должны быть 888, 999...)
-if ($c_roles['uoup'])
+// TODO совмещение dean & zavkaf [через GET ?]
+if ($c_roles['uoup'] || $c_roles['dean'])
 {
   $chair_id = quote_smart($_GET['chair_id']);
+  // EchoLog($chair_id);
+
+  // защита
+  if ($c_roles['dean'])
+  {
+    // декан+завкаф смотрит список сотрудников без параметра кафедры
+    if (!$chair_id && $_roles['zavkaf'])
+    {
+      $chair_id = $_SESSION['c_chair_id'];
+    }
+
+    $dean_department_sql = " AND `department_id` = '$_SESSION[c_department_id]'";
+  }
 }
 // Завкаф
 else
@@ -37,6 +51,8 @@ $chair_uid = $XMLChairByCode[$chair_id]['UID'];
 
 // до подмены
 $xml_chair = GetRow('xml_chair', ['Code' => $chair_id]);
+
+
 
 // Авторизован зав. псевдо-кафедрой, сотрудников будем брать по коду псевдо-факультета, который у них в sotrudniki.chair_id
 // т.к. берём теперь по selected_chairs_ids, там подмена не нужна
@@ -56,7 +72,7 @@ else
 //   $chair_id = $_SESSION['c_chair_id'];
 // }
 
-
+// TO FIX? сейчас здесь фак. завкафа
 $department_id = $_SESSION['c_department_id'];
 // получим режим работы системы
 $ModeRow = GetRow('params', ['param' => 'system_mode']);
@@ -322,6 +338,7 @@ $employees = [];
 $query = "SELECT * FROM `sotrudniki` 
 WHERE ((`type` <> 'gph' AND `chair_id` = ?) 
        OR (`type` = 'gph' AND `department_id` = ?))
+  $dean_department_sql
   AND `date_remove` IS NULL
   ORDER BY `type` ASC # для того, чтобы (если получили одного сотрудника и ГПХ, и не ГПХ, то возьмётся не ГПХ)
   ";

@@ -22,6 +22,11 @@ if ($lecturer_uid)
   $lecturer_fio = $Lecturer['FIO'];
 }
 
+if ($c_roles['dean'])
+{
+  $c_department_id = $_SESSION['c_department_id'];
+}
+
 $stats = ['total' => ['sum' => 0], 'assigned' => ['sum' => 0], 'not_assigned' => ['sum' => 0]];
 // только assigned
 $stats_by_type = ['aspirantura_kand_exam' => 0, 'aspirantura_ruk_asp' => 0, 'aspirantura_ruk_soisk' => 0];
@@ -39,9 +44,16 @@ if ($lecturer_uid)
   $aspirantura_kand_exam_params['lecturer_uid'] = $lecturer_uid;
 }
 
-if ($c_roles['zavkaf'] && !$aspirantura_kand_exam_params['chair_id'])
+if (!$aspirantura_kand_exam_params['chair_id'])
 {
-  $aspirantura_kand_exam_params['chair_id'] = $_SESSION['c_chair_id'];
+  if ($c_roles['dean'] && $c_department_id)
+  {
+    $aspirantura_kand_exam_params['department_id'] = $c_department_id;
+  }
+  elseif ($c_roles['zavkaf'])
+  {
+    $aspirantura_kand_exam_params['chair_id'] = $_SESSION['c_chair_id'];
+  }
 }
 
 
@@ -80,6 +92,18 @@ if ($lecturer_uid)
   $aspirantura_ruk_asp_params['lecturer_uid'] = $lecturer_uid;
 }
 
+if (!$aspirantura_ruk_asp_params['lecturer_chair_id'])
+{
+  if ($c_roles['dean'] && $c_department_id)
+  {
+    $aspirantura_ruk_asp_params['lecturer_department_id'] = $c_department_id;
+  }
+  elseif ($c_roles['zavkaf'])
+  {
+    $aspirantura_ruk_asp_params['lecturer_chair_id'] = $_SESSION['c_chair_id'];
+  }
+}
+
 
 $AspiranturaRukAsp = GetRows('aspirantura_ruk_asp', $aspirantura_ruk_asp_params, null, null, 'lecturer_uid');
 
@@ -113,6 +137,18 @@ if ($chair_id && $chair_id != 'all')
 if ($lecturer_uid)
 {
   $aspirantura_ruk_soisk_params['lecturer_uid'] = $lecturer_uid;
+}
+
+if (!$aspirantura_ruk_soisk_params['lecturer_chair_id'])
+{
+  if ($c_roles['dean'] && $c_department_id)
+  {
+    $aspirantura_ruk_soisk_params['lecturer_department_id'] = $c_department_id;
+  }
+  elseif ($c_roles['zavkaf'])
+  {
+    $aspirantura_ruk_soisk_params['lecturer_chair_id'] = $_SESSION['c_chair_id'];
+  }
 }
 
 

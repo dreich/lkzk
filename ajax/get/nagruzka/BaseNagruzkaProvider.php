@@ -13,6 +13,11 @@ abstract class BaseNagruzkaProvider
     public $userRole;
     protected $userRoles;
     protected $chairId;
+
+    // кафедры для декана
+    protected $chairIds;
+    protected $chairUIDs;
+
     protected $lecturerUid;
     protected $lecturerFio;
     protected $systemMode;
@@ -35,14 +40,39 @@ abstract class BaseNagruzkaProvider
     {
         $this->userRoles = $this->explodePalki($this->session['c_roles'] ? $this->session['c_roles'] : '', true);
         $this->userRole = $this->determinePrimaryRole();
+
+
         $this->chairId = isset($this->getParams['chair_id']) && $this->getParams['chair_id'] != 'null' && $this->getParams['chair_id'] != 'all' ? $this->getParams['chair_id'] : null;
+
+        if ($this->userRole === 'dean') 
+        {
+          $department_id = $this->session['c_department_id'];
+
+          $faculty = GetRow('xml_faculty', ['Code' => $department_id]);
+          $Chairs = GetRows('xml_chair', ['UID_Faculty' => $faculty['UID']]);
+          $this->chairIds = [];
+          $this->chairUIDs = [];
+
+          if ($Chairs)
+          {
+            foreach ($Chairs as $chair)
+            {
+              $this->chairIds[] = $chair['Code'];
+              $this->chairUIDs[] = $chair['UID'];
+            }
+          }
+
+          $chairUids = JoinArrayElements($chair_uids, ", ", false, "'", "'");
+        }
+
         $this->lecturerUid = isset($this->getParams['lecturer_uid']) ? $this->getParams['lecturer_uid'] : null;
         $this->isLite = !empty($this->getParams['lite']);
         $this->onlyStat = !empty($this->getParams['only_stat']);
         $this->nagruzkaType = isset($this->getParams['type']) ? $this->getParams['type'] : 'all';
         $this->globalFilter = isset($_COOKIE['global_nagruzka_filter']) ? $_COOKIE['global_nagruzka_filter'] : null;
 
-        if ($this->lecturerUid) {
+        if ($this->lecturerUid) 
+        {
             $lecturer = $this->getRow('xml_lecturer', ['UID' => $this->lecturerUid]);
             $this->lecturerFio = isset($lecturer['FIO']) ? $lecturer['FIO'] : null;
         }
@@ -56,6 +86,7 @@ abstract class BaseNagruzkaProvider
      */
     protected function determinePrimaryRole()
     {
+        if (!empty($this->userRoles['dean'])) return 'dean';
         if (!empty($this->userRoles['zavkaf'])) return 'zavkaf';
         if (!empty($this->userRoles['uoup'])) return 'uoup';
         if (!empty($this->userRoles['ruk_aspirantura'])) return 'ruk_aspirantura';
@@ -127,26 +158,47 @@ abstract class BaseNagruzkaProvider
 
       $chairUid = null;
 
-      if ($this->userRole === 'zavkaf') 
+      // для декана и одновременно завкафа подход "первичной роли" не годится, т.к. кафедры для него зависят от страницы, на которой он находится
+      // ПОКА ТОЛЬКО ДЕКАН
+      if ($this->userRole === 'dean') 
       {
-          $cChairId = isset($this->session['c_chair_id']) ? $this->session['c_chair_id'] : null;
-          if ($cChairId) 
-          {
-              $chair = $this->getRow('xml_chair', ['Code' => $cChairId]);
-              $chairUid = isset($chair['UID']) ? $chair['UID'] : null;
-          }
+        // Если идёт кафедра из $_GET, то используем её (т.е. декан выбрал кафедру; сюда также попадёт декан+завкаф)
+        if ($this->chairId)
+        {
+          $chair = $this->getRow('xml_chair', ['Code' => $this->chairId]);
+          $chairUid = isset($chair['UID']) ? $chair['UID'] : null;
+        }
+        else
+        {
+          $chairUids = JoinArrayElements($this->chairUIDs, ", ", false, "'", "'");
+        }
+        
+      }
+      elseif ($this->userRole === 'zavkaf') 
+      {
+        $cChairId = isset($this->session['c_chair_id']) ? $this->session['c_chair_id'] : null;
+        if ($cChairId) 
+        {
+          $chair = $this->getRow('xml_chair', ['Code' => $cChairId]);
+          $chairUid = isset($chair['UID']) ? $chair['UID'] : null;
+        }
       } 
       elseif (($this->userRole === 'uoup' || $this->userRole === 'sotrudnik') && $this->chairId) 
       {
-          $chair = $this->getRow('xml_chair', ['Code' => $this->chairId]);
-          $chairUid = isset($chair['UID']) ? $chair['UID'] : null;
+        $chair = $this->getRow('xml_chair', ['Code' => $this->chairId]);
+        $chairUid = isset($chair['UID']) ? $chair['UID'] : null;
       }
 
       // EchoLog($chairUid);
 
       if ($chairUid) 
       {
-          return "AND xml_content_of_load.UID_Chair = '$chairUid'";
+        return "AND xml_content_of_load.UID_Chair = '$chairUid'";
+      }
+
+      if ($chairUids)
+      {
+        return "AND xml_content_of_load.UID_Chair IN ($chairUids)";
       }
 
       return '';
@@ -523,10 +575,11 @@ abstract class BaseNagruzkaProvider
     }
 
     // отфильтровать массив нагрузки по принципу: взять нагрузку только если внутри есть lectors (сплиты),
-    // и внутри есть лектор с указанной кафедрой $target_chair_uid
+    // и внутри есть лектор с указанной кафедрой $target_chair_uid.
+    // Если это декан, то у него есть $this->chairUIDs. Тогда фильтруем только его кафедры.
     // Это актуально для режима заполнения, когда есть сплиты.
     // TODO для другого режима нужно будет фильтровать по 1-й таблице (ЕСЛИ там будет кафедра препода вообще)
-    final public function filterAspirantItogoNagruzkaByChairUid(&$nagruzkaData, $target_chair_uid)
+    final public function filterAspirantItogoNagruzkaByChairUid(&$nagruzkaData, $target_chair_uid = "", $filter_by_chair_uids = false)
     {
         foreach ($nagruzkaData as $key => &$item) 
         {
@@ -537,9 +590,21 @@ abstract class BaseNagruzkaProvider
             }
             
             // Оставляем только лекторов с нужным chair_uid
-            $item['lectors'] = array_filter($item['lectors'], function($lector) use ($target_chair_uid) {
-                return ($lector['chair_uid'] ? $lector['chair_uid'] : '') === $target_chair_uid;
-            });
+            if ($target_chair_uid)
+            {
+              $item['lectors'] = array_filter($item['lectors'], function($lector) use ($target_chair_uid)
+              {
+                  return ($lector['chair_uid'] ? $lector['chair_uid'] : '') === $target_chair_uid;
+              });
+            }
+
+            if ($filter_by_chair_uids && $this->chairUIDs)
+            {
+              $item['lectors'] = array_filter($item['lectors'], function($lector)
+              {
+                return !empty($lector['chair_uid']) && in_array($lector['chair_uid'], $this->chairUIDs);
+              });
+            }
             
             // Если после фильтрации lectors пуст - удаляем элемент
             if (empty($item['lectors'])) {
@@ -594,8 +659,10 @@ abstract class BaseNagruzkaProvider
 
         // если нужно получить нагрузку по конкретной кафедре (а в таблице 1 кафедры по ней нет), то нужно отфильтровать, используя сплиты.
         // если сплитов для нагрузки нет, то не берём её
-        if ($this->nagruzkaType == 'aspirantura_itog_exam' && $this->systemMode == 'mode_filling' && !empty($this->chairId))
+        if ($this->nagruzkaType == 'aspirantura_itog_exam' && $this->systemMode == 'mode_filling')
         {
+          if (!empty($this->chairId))
+          {
             $chair = $this->getRow('xml_chair', ['Code' => $this->chairId]);
             $chairUid = isset($chair['UID']) ? $chair['UID'] : null;
             $this->filterAspirantItogoNagruzkaByChairUid($nagruzkaData, $chairUid);
@@ -604,8 +671,14 @@ abstract class BaseNagruzkaProvider
 
             if ($this->nagruzkaType == 'aspirantura_itog_exam')
             {
-                // EchoLog(sizeof($nagruzkaData));
+              // EchoLog(sizeof($nagruzkaData));
             }
+          }
+          // декан
+          elseif ($this->chairUIDs)
+          {
+            $this->filterAspirantItogoNagruzkaByChairUid($nagruzkaData, "", true);
+          }
         }
 
         if ($this->nagruzkaType == 'aspirantura_itog_exam')
@@ -642,13 +715,19 @@ abstract class BaseNagruzkaProvider
         $stat = $stats_obj['stat'];
         $statByChair = $stats_obj['statByChair'];
 
+        // if ($this->nagruzkaType == 'all')
+        // EchoLog($stats_obj['statByChair']);
+
         // 7. Глобальная фильтрация
         $this->applyGlobalFilter($nagruzkaData);
 
         // 8. Специфичная логика для УОУП (Группировка)
-        if ($this->userRole === 'uoup' && ($this->onlyStat || $this->isLite)) 
+        if (($this->userRole === 'uoup' || $this->userRole === 'dean') && ($this->onlyStat || $this->isLite)) 
         {
           $nagruzkaData = $this->groupByChair($nagruzkaData, $statByChair);
+
+          // if ($this->nagruzkaType == 'all')
+          // EchoLog($nagruzkaData);
 
           // EchoLog($this->nagruzkaType);
           // Хук для добавления КСРО (используется только в FillingMode)
