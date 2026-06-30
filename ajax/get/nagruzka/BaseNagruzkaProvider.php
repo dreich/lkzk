@@ -246,7 +246,7 @@ abstract class BaseNagruzkaProvider
     protected function processSplits($nagruzkaData, $mode = '')
     {
         // return $nagruzkaData;
-        $processor = new SplitProcessor('0', $this->chairId, $this->nagruzkaType);
+        $processor = new SplitProcessor('0', $this->chairId, $this->chairUIDs, $this->nagruzkaType);
         return $processor->applySplits($nagruzkaData, $mode);
     }
     

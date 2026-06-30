@@ -9,21 +9,23 @@ class SplitProcessor
     private $splits;
     private $splitsByBaseUid;
 
-    public function __construct($deleteFlag = '0', $chairId, $nagruzka_type)
+    // $chairUIDs - для декана
+    public function __construct($deleteFlag = '0', $chairId, $chairUIDs, $nagruzka_type)
     {
-        $this->loadSplits($deleteFlag, $chairId, $nagruzka_type);
+        $this->loadSplits($deleteFlag, $chairId, $chairUIDs, $nagruzka_type);
     }
 
     /**
      * Загрузить сплиты из базы
+     $chairUIDs - для декана
      */
-    private function loadSplits($deleteFlag, $chairId, $nagruzka_type)
+    private function loadSplits($deleteFlag, $chairId, $chairUIDs, $nagruzka_type)
     {
         global $_SESSION;
 
         $c_roles = ExplodePalki($_SESSION['c_roles'], true);
 
-        // EchoLog($nagruzka_type);
+        // EchoLog($chairId);
 
         // !! нельзя фильтровать по zavkaf_chair_uid для нагрузки типа aspirantura_itog_exam, т.к. там нет кафедры
         // $c_roles['zavkaf'] && 
@@ -31,8 +33,10 @@ class SplitProcessor
         {
           $XmlChairByCode = GetTable('xml_chair', "", "", "Code");
 
-          if ($c_roles['zavkaf']) $chair_id = $_SESSION['c_chair_id'];
+          if ($c_roles['zavkaf'] && !$chairId) $chair_id = $_SESSION['c_chair_id'];
           else $chair_id = $chairId;
+
+          // EchoLog($chair_id);
 
           $ZavkafChair = $XmlChairByCode[$chair_id];
 
@@ -42,6 +46,15 @@ class SplitProcessor
             $where_sql = "AND `zavkaf_chair_uid` = '$zavkaf_chair_uid'";
           }
         }
+        // для декана возьмём все кафедры его факультета, чтобы ограничить загружаемые сплиты
+        elseif (!empty($chairUIDs) && $nagruzka_type != 'aspirantura_itog_exam')
+        {
+            $chair_uids_str = JoinArrayElements($chairUIDs, ", ", false, "'", "'");
+            if ($chair_uids_str)
+            {
+                $where_sql = "AND `zavkaf_chair_uid` IN($chair_uids_str)";
+            }
+        }
 
         // EchoLog($chair_id);
         // EchoLog($where_sql);
@@ -50,7 +63,7 @@ class SplitProcessor
         // Исключённые поля: , `date`, `content_of_load_uid`, `base_uid2_new`, `zavkaf_chair_uid`
 
         // работа со сплитами является узким местом, будем брать только используемые поля
-        $this->splits = GetTable('zavkaf_splits', "`delete` = '$deleteFlag' $where_sql", null, null, "`id`, `base_uid`, `base_uid2`, `LoadType`, `StudentAmount`, `Amount`, `lecturer_login`, `lecturer_person_id`, `lecturer_fio`, `lecturer_uid`, `chair_uid`, `zavkaf_login`, `zavkaf_fio`, `delete`, `zavkaf_chair_uid`");
+        $this->splits = GetTable('zavkaf_splits', "`delete` = '$deleteFlag' $where_sql ", null, null, "`id`, `base_uid`, `base_uid2`, `LoadType`, `StudentAmount`, `Amount`, `lecturer_login`, `lecturer_person_id`, `lecturer_fio`, `lecturer_uid`, `chair_uid`, `zavkaf_login`, `zavkaf_fio`, `delete`, `zavkaf_chair_uid`");
 
         // EchoLog(sizeof($this->splits));
 

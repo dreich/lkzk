@@ -37,24 +37,44 @@ if ($_mode == 'mode_filling')
   {
     $department_id = $_SESSION['c_department_id'];
 
-    $faculty = GetRow('xml_faculty', ['Code' => $department_id]);
-    $Chairs = GetRows('xml_chair', ['UID_Faculty' => $faculty['UID']]);
-    $chairIds = [];
-    $chairUIDs = [];
+    $_dep_sql = "AND `department_id` = '$department_id'";
 
-    if ($Chairs)
+    $_chair_id = quote_smart($_GET['chair_id']);
+
+    // если идёт GET-параметр кафедры, то берём его
+    if ($_chair_id)
     {
-      foreach ($Chairs as $chair)
+      $_chair_sql = "AND `chair_id` = '$_chair_id'";
+    }
+    // если не идёт, берём все кафедры декана
+    else
+    {
+      $faculty = GetRow('xml_faculty', ['Code' => $department_id]);
+      $Chairs = GetRows('xml_chair', ['UID_Faculty' => $faculty['UID']]);
+      $chairIds = [];
+      $chairUIDs = [];
+
+      if ($Chairs)
       {
-        $chairIds[] = $chair['Code'];
-        $chairUIDs[] = $chair['UID'];
+        foreach ($Chairs as $chair)
+        {
+          $chairIds[] = $chair['Code'];
+          $chairUIDs[] = $chair['UID'];
+        }
       }
+
+      $ids_sql = JoinArrayElements($chairIds, ", ", false, "'", "'");
+
+      $_chair_sql = "AND `chair_id` IN ($ids_sql)";
+      // EchoLog($_chair_sql);
     }
 
-    $ids_sql = JoinArrayElements($chairIds, ", ", false, "'", "'");
+    if ($_lecturer_uid)
+    {
+      $_lecturer_uid_sql = "AND `uid` = '$_lecturer_uid'";
+    }
 
-    $_chair_sql = "AND `chair_id` IN ($ids_sql)";
-    // EchoLog($_chair_sql);
+    
   }
   elseif ($c_roles['zavkaf'])
   {
@@ -73,6 +93,7 @@ if ($_mode == 'mode_filling')
     {
       $_chair_sql = "AND `chair_id` = '$_chair_id'";
     }
+
     if ($_lecturer_uid)
     {
       $_lecturer_uid_sql = "AND `uid` = '$_lecturer_uid'";
@@ -91,7 +112,7 @@ if ($_mode == 'mode_filling')
   }
   
 
-  $Rows = GetTable('ksro', "1 $_chair_sql $_lecturer_uid_sql");
+  $Rows = GetTable('ksro', "1 $_dep_sql $_chair_sql $_lecturer_uid_sql");
 
   // EchoLog($Rows);
 }

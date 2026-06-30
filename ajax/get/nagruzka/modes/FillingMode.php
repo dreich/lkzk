@@ -81,10 +81,14 @@ class FillingMode extends BaseNagruzkaProvider
         return [];
     }
 
+    // для УОУП и декана добавить в статистику КСРО и аспирантуру (ручную, т.е. без nagruzka_itog_exam: из таблиц aspirantura_*)
     protected function applyExtraUoupTransformations(&$nagruzkaData, &$statByChair)
     {
         // Добавляем данные КСРО из таблицы ksro для статистики (Только в FillingMode)
         $this->addKsroToStats($nagruzkaData, $statByChair);
+
+        // Добавляем данные аспирантуры из таблиц aspirantura_* для статистики (Только в FillingMode)
+        $this->addAspiranturaToStats($nagruzkaData, $statByChair);
     }
 
     /**
@@ -94,76 +98,230 @@ class FillingMode extends BaseNagruzkaProvider
      */
     protected function addKsroToStats(&$nagruzkaData, &$statByChair)
     {
-        global $mysqli;
+      global $mysqli;
 
-        // Получаем SQL-условие для кафедры
-        $chairSql = $this->getChairSqlForKsro();
-        $lecturerSql = $this->getLecturerSqlForKsro();
+      // Получаем SQL-условие для кафедры и лектора
+      $chairSql = $this->getChairSqlKSRO();
+      $lecturerSql = $this->getLecturerSql();
 
-        // EchoLog($lecturerSql);
+      // EchoLog($lecturerSql);
 
-        $rows = GetTable('ksro', "$chairSql $lecturerSql");
+      $rows = GetTable('ksro', "1 $chairSql $lecturerSql");
 
-        // EchoLog($rows);
+      // EchoLog($rows);
 
-        if (!empty($rows)) {
-            foreach ($rows as $row) 
-            {
-                $chairId = $row['chair_id'];
-                $amount = (float) $row['Amount'];
+      if (!empty($rows)) 
+      {
+        foreach ($rows as $row) 
+        {
+          $chairId = $row['chair_id'];
+          $amount = (float) $row['Amount'];
 
-                // Добавляем в статистику по кафедре
-                if (!isset($statByChair[$chairId]['assigned']['sum'])) 
-                {
-                    $statByChair[$chairId]['assigned']['sum'] = 0;
-                }
-                if (!isset($statByChair[$chairId]['total']['sum'])) 
-                {
-                    $statByChair[$chairId]['total']['sum'] = 0;
-                }
+          // Добавляем в статистику по кафедре
+          if (!isset($statByChair[$chairId]['assigned']['sum'])) 
+          {
+              $statByChair[$chairId]['assigned']['sum'] = 0;
+          }
+          if (!isset($statByChair[$chairId]['total']['sum'])) 
+          {
+              $statByChair[$chairId]['total']['sum'] = 0;
+          }
 
-                $statByChair[$chairId]['assigned']['sum'] += $amount;
-                $statByChair[$chairId]['total']['sum'] += $amount;
-                
+          $statByChair[$chairId]['assigned']['sum'] += $amount;
+          $statByChair[$chairId]['total']['sum'] += $amount;
 
-                // Обновляем данные в nagruzkaData для этой кафедры
-                if (!$nagruzkaData[$chairId]) $nagruzkaData[$chairId] = [];
+          // Обновляем данные в nagruzkaData для этой кафедры
+          if (!$nagruzkaData[$chairId]) $nagruzkaData[$chairId] = [];
 
-                if (!$nagruzkaData[$chairId]['assigned']) $nagruzkaData[$chairId]['assigned'] = 0;
-                if (!$nagruzkaData[$chairId]['total']) $nagruzkaData[$chairId]['total'] = 0;
+          if (!$nagruzkaData[$chairId]['assigned']) $nagruzkaData[$chairId]['assigned'] = 0;
+          if (!$nagruzkaData[$chairId]['total']) $nagruzkaData[$chairId]['total'] = 0;
 
-                // Обновляем данные в nagruzkaData для этой кафедры
+          // Обновляем данные в nagruzkaData для этой кафедры
 
-                safeAdd($nagruzkaData[$chairId]['assigned'], $amount);
-                safeAdd($nagruzkaData[$chairId]['total'], $amount);
+          safeAdd($nagruzkaData[$chairId]['assigned'], $amount);
+          safeAdd($nagruzkaData[$chairId]['total'], $amount);
 
-                // Не уверен, что КСРО может быть на английском
-                if ($row['UID_Language'] === '25031.945')
-                {
-                    safeAdd($statByChair[$chairId]['assigned_english']['sum'], $amount);
-                    safeAdd($nagruzkaData[$chairId]['assigned_english'], $amount);
-                }
-                
-            }
+          // Не уверен, что КСРО может быть на английском
+          if ($row['UID_Language'] === '25031.945')
+          {
+              safeAdd($statByChair[$chairId]['assigned_english']['sum'], $amount);
+              safeAdd($nagruzkaData[$chairId]['assigned_english'], $amount);
+          }
+            
         }
+      }
+    }
+
+
+    protected function addAspiranturaToStats(&$nagruzkaData, &$statByChair)
+    {
+      global $mysqli, $_aspirantura_hours_per_student, $_aspirantura_ruk_asp_hours, $_aspirantura_ruk_soisk_hours;
+
+      // Получаем SQL-условие для кафедры и лектора
+      $chairSqlKSRO = $this->getChairSqlKSRO(); // временное, пока столбцы в таблице названы криво
+      $chairSqlAspirantura = $this->getChairSqlAspirantura();
+      $lecturerSql = $this->getLecturerSql();
+
+      $aspirantura_kand_exam = GetTable('aspirantura_kand_exam', "`deleted` <> '1' $chairSqlKSRO $lecturerSql");
+      $aspirantura_ruk_asp = GetTable('aspirantura_ruk_asp', "`deleted` <> '1' $chairSqlAspirantura $lecturerSql");
+      $aspirantura_ruk_soisk = GetTable('aspirantura_ruk_soisk', "`deleted` <> '1' $chairSqlAspirantura $lecturerSql");
+
+      if (!empty($aspirantura_kand_exam)) 
+      {
+        foreach ($aspirantura_kand_exam as $row) 
+        {
+          $chairId = $row['chair_id'];
+          $amount = $row['students_num'] * $_aspirantura_hours_per_student;
+
+          // Добавляем в статистику по кафедре
+          if (!isset($statByChair[$chairId]['assigned']['sum'])) 
+          {
+              $statByChair[$chairId]['assigned']['sum'] = 0;
+          }
+          if (!isset($statByChair[$chairId]['total']['sum'])) 
+          {
+              $statByChair[$chairId]['total']['sum'] = 0;
+          }
+
+          $statByChair[$chairId]['assigned']['sum'] += $amount;
+          $statByChair[$chairId]['total']['sum'] += $amount;
+
+          // Обновляем данные в nagruzkaData для этой кафедры
+          if (!$nagruzkaData[$chairId]) $nagruzkaData[$chairId] = [];
+
+          if (!$nagruzkaData[$chairId]['assigned']) $nagruzkaData[$chairId]['assigned'] = 0;
+          if (!$nagruzkaData[$chairId]['total']) $nagruzkaData[$chairId]['total'] = 0;
+
+          // Обновляем данные в nagruzkaData для этой кафедры
+
+          safeAdd($nagruzkaData[$chairId]['assigned'], $amount);
+          safeAdd($nagruzkaData[$chairId]['total'], $amount);
+        }
+      }
+
+
+      if (!empty($aspirantura_ruk_asp)) 
+      {
+        foreach ($aspirantura_ruk_asp as $row) 
+        {
+          $chairId = $row['lecturer_chair_id'];
+          $amount = $_aspirantura_ruk_asp_hours;
+
+          // Добавляем в статистику по кафедре
+          if (!isset($statByChair[$chairId]['assigned']['sum'])) 
+          {
+              $statByChair[$chairId]['assigned']['sum'] = 0;
+          }
+          if (!isset($statByChair[$chairId]['total']['sum'])) 
+          {
+              $statByChair[$chairId]['total']['sum'] = 0;
+          }
+
+          if ($row['lecturer_uid'])
+          {
+            $statByChair[$chairId]['assigned']['sum'] += $amount;
+          }
+          $statByChair[$chairId]['total']['sum'] += $amount;
+
+          // Обновляем данные в nagruzkaData для этой кафедры
+          if (!$nagruzkaData[$chairId]) $nagruzkaData[$chairId] = [];
+
+          if (!$nagruzkaData[$chairId]['assigned']) $nagruzkaData[$chairId]['assigned'] = 0;
+          if (!$nagruzkaData[$chairId]['total']) $nagruzkaData[$chairId]['total'] = 0;
+
+          // Обновляем данные в nagruzkaData для этой кафедры
+
+          if ($row['lecturer_uid'])
+          {
+            safeAdd($nagruzkaData[$chairId]['assigned'], $amount);
+          }
+
+          safeAdd($nagruzkaData[$chairId]['total'], $amount);
+        }
+      }
+
+
+      if (!empty($aspirantura_ruk_soisk)) 
+      {
+        foreach ($aspirantura_ruk_soisk as $row) 
+        {
+          $chairId = $row['lecturer_chair_id'];
+          $amount = $_aspirantura_ruk_soisk_hours;
+
+          // Добавляем в статистику по кафедре
+          if (!isset($statByChair[$chairId]['assigned']['sum'])) 
+          {
+              $statByChair[$chairId]['assigned']['sum'] = 0;
+          }
+          if (!isset($statByChair[$chairId]['total']['sum'])) 
+          {
+              $statByChair[$chairId]['total']['sum'] = 0;
+          }
+
+          if ($row['lecturer_uid'])
+          {
+            $statByChair[$chairId]['assigned']['sum'] += $amount;
+          }
+          $statByChair[$chairId]['total']['sum'] += $amount;
+
+          // Обновляем данные в nagruzkaData для этой кафедры
+          if (!$nagruzkaData[$chairId]) $nagruzkaData[$chairId] = [];
+
+          if (!$nagruzkaData[$chairId]['assigned']) $nagruzkaData[$chairId]['assigned'] = 0;
+          if (!$nagruzkaData[$chairId]['total']) $nagruzkaData[$chairId]['total'] = 0;
+
+          // Обновляем данные в nagruzkaData для этой кафедры
+
+          if ($row['lecturer_uid'])
+          {
+            safeAdd($nagruzkaData[$chairId]['assigned'], $amount);
+          }
+          
+          safeAdd($nagruzkaData[$chairId]['total'], $amount);
+        }
+      }
+
     }
 
     /**
-     * Получить SQL-условие для кафедры (для КСРО)
+     * Получить SQL-условие для кафедры (для аспирантских таблиц)
      */
-    protected function getChairSqlForKsro()
+    protected function getChairSqlAspirantura()
     {   
+      // если есть кафедра в GET, то она, наверно, приоритетнее
+      if ($this->chairId) 
+      {
+        return "AND `lecturer_chair_id` = '{$this->chairId}'";
+      }
+
       // роль декана, его кафедры
       if ($this->chairUIDs)
       {
         $chairIds = JoinArrayElements($this->chairIds, ", ", false, "'", "'");
 
-        return "`chair_id` IN($chairIds)";
+        return "AND `lecturer_chair_id` IN($chairIds)";
       }
 
+      return '';
+    }
+
+    /**
+     * Получить SQL-условие для кафедры (для КСРО)
+     */
+    protected function getChairSqlKSRO()
+    {   
+      // если есть кафедра в GET, то она, наверно, приоритетнее
       if ($this->chairId) 
       {
-        return "`chair_id` = '{$this->chairId}'";
+        return "AND `chair_id` = '{$this->chairId}'";
+      }
+
+      // роль декана, его кафедры
+      if ($this->chairUIDs)
+      {
+        $chairIds = JoinArrayElements($this->chairIds, ", ", false, "'", "'");
+
+        return "AND `chair_id` IN($chairIds)";
       }
 
       return '';
@@ -172,9 +330,10 @@ class FillingMode extends BaseNagruzkaProvider
     /**
      * Получить SQL-условие для преподавателя (для КСРО)
      */
-    protected function getLecturerSqlForKsro()
+    protected function getLecturerSql()
     {
-        if ($this->lecturerUid) {
+        if ($this->lecturerUid) 
+        {
             return "AND `lecturer_uid` = '{$this->lecturerUid}'";
         }
         return '';

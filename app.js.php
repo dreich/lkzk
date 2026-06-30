@@ -1957,12 +1957,24 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
   //   $scope.lecturer_fio = $scope.nagruzka[0]['lectors'][0].lecturer_fio;
   // }
 
-  // TODO защита от вставки в URL любой кафедры / чужого препода
+  //  && !c_roles.zavkaf
+  // м.б. и декан, и завкаф сюда
   if (c_roles.dean)
   {
-    if (!isEmpty($scope.nagruzka_selected_chair_id))
+    // декан и/или завкаф: в пути выбрана кафедра
+    if (!isEmpty($scope.nagruzka_selected_chair_id) && c_dean_chairs_ids.includes($scope.nagruzka_selected_chair_id))
     {
       $scope._chairs_ids = [$scope.nagruzka_selected_chair_id];
+    }
+    // в пути нет кафедры, но это завкаф
+    else if (c_roles.zavkaf)
+    {
+      $scope._chairs_ids = [c_chair_id];
+    }
+    else
+    {
+      window.location = `/#/nagruzka`;
+      return;
     }
 
     if (!isEmpty($scope.nagruzka_selected_lecturer_uid))
@@ -1970,6 +1982,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
       $scope._lecturer_uids = [$scope.nagruzka_selected_lecturer_uid];
     }
   }
+  // тогда здесь чисто завкаф
   else if (c_roles.zavkaf)
   {
     $scope._chairs_ids = [c_chair_id];
@@ -3769,8 +3782,9 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
     // return true;
     
     // CL($scope._nagruzka_type);
+    // CL($scope._chairs_ids.includes(nagruzka_selected_chair_id));
 
-    const val = (c_roles.zavkaf && !['aspirantura_itog_exam'].includes($scope._nagruzka_type) || c_roles.ruk_aspirantura) && ($scope.system_mode == 'mode_filling' || $scope.system_mode == 'mode_verification')
+    const val = (c_roles.zavkaf && $scope.nagruzka_selected_chair_id == c_chair_id && !['aspirantura_itog_exam'].includes($scope._nagruzka_type) || c_roles.ruk_aspirantura) && ($scope.system_mode == 'mode_filling' || $scope.system_mode == 'mode_verification')
     && (!isEmpty(nagruzka_row) && !['refused', 'done_refused', 'require_admin_change', 'done_change'].includes(nagruzka_row.status) || nagruzka_row == undefined)
     // УОУП может только разбивать нагрузку
     || c_roles.uoup && $scope.system_mode == 'mode_verification' && !['ksro', 'aspirantura_itog_exam'].includes($scope._nagruzka_type);
@@ -3804,7 +3818,8 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
 
      // (lector.zs || isEmpty(lector.lecturer_fio)) // && $scope.IsNagruzkaRowEditable(nagruzka_row)
     // && 
-    return (lector == undefined || lector.zs || isEmpty(lector.lecturer_fio)) && $scope.system_mode == 'mode_filling' && (c_roles.zavkaf && !['aspirantura_itog_exam'].includes($scope._nagruzka_type) || c_roles.ruk_aspirantura) && !['refused', 'done_refused', 'require_admin_change', 'done_change'].includes(nagruzka_row.status) 
+
+    return (lector == undefined || lector.zs || isEmpty(lector.lecturer_fio)) && $scope.system_mode == 'mode_filling' && (c_roles.zavkaf && !['aspirantura_itog_exam'].includes($scope._nagruzka_type) && $scope.nagruzka_selected_chair_id == c_chair_id || c_roles.ruk_aspirantura) && !['refused', 'done_refused', 'require_admin_change', 'done_change'].includes(nagruzka_row.status) 
     && !isEmpty(nagruzka_row.lectors) && (nagruzka_row.lectors[0].zs || isEmpty(nagruzka_row.lectors[0].lecturer_fio))
     || $scope.system_mode == 'mode_verification' && c_roles.uoup && !['ksro', 'aspirantura_itog_exam'].includes($scope._nagruzka_type);
   }
@@ -5691,6 +5706,18 @@ $scope.toggleAdminChangeChair = function(chair)
     window.location = '#/system_closed';
   }
 
+  if (c_roles.dean)
+  {
+    if (!isEmpty(sotrudniki_selected_chair_id) && c_dean_chairs_ids.includes(sotrudniki_selected_chair_id))
+    {
+    }
+    else
+    {
+      window.location = `/#/sotrudniki/${c_dean_chairs_ids[0]}`;
+      return;
+    }
+  }
+
   $rootScope.page = 'sotrudniki';
   $scope.$_sotrudnik_types = $_sotrudnik_types;
   CL(sotrudniki_selected_chair_id);
@@ -5819,6 +5846,8 @@ $scope.toggleAdminChangeChair = function(chair)
 
   var sotrudniki_chair_id_param = '';
 
+
+
   if ((c_roles.uoup || c_roles.dean) && !isEmpty(sotrudniki_selected_chair_id))
   {
     sotrudniki_chair_id_param = `?chair_id=${sotrudniki_selected_chair_id}`;
@@ -5912,7 +5941,7 @@ $scope.toggleAdminChangeChair = function(chair)
 
   $scope.IsSotrudnikiEditable = function()
   {
-    return c_roles.zavkaf;
+    return c_roles.zavkaf && c_chair_id == sotrudniki_selected_chair_id;
   }
   
 })
@@ -6247,7 +6276,24 @@ $scope.toggleAdminChangeChair = function(chair)
   CL(ksro_selected_lecturer_uid);
   CL(ksro_selected_chair_id);
 
-  if (c_roles.zavkaf)
+  if (c_roles.dean)
+  {
+    if (!isEmpty($scope.nagruzka_selected_chair_id) && c_dean_chairs_ids.includes($scope.nagruzka_selected_chair_id))
+    {
+      $scope._chairs_ids = [$scope.nagruzka_selected_chair_id];
+    }
+    else
+    {
+      window.location = `/#/ksro/${c_dean_chairs_ids[0]}`;
+      return;
+    }
+
+    if (!isEmpty($scope.nagruzka_selected_lecturer_uid))
+    {
+      $scope._lecturer_uids = [$scope.nagruzka_selected_lecturer_uid];
+    }
+  }
+  else if (c_roles.zavkaf)
   {
     $scope._chairs_ids = [c_chair_id];
 
@@ -6277,7 +6323,7 @@ $scope.toggleAdminChangeChair = function(chair)
     $scope._lecturer_uids = c_sotrudnik_lecturer_uids;
   }
 
-  CL($scope.system_mode);
+  // CL($scope.system_mode);
  
   $scope.c_roles = c_roles;
 
@@ -6618,8 +6664,9 @@ $scope.toggleAdminChangeChair = function(chair)
 
   $scope.MayEditKSRO = function()
   {
+    // CL($scope._chairs_ids);
     // CL($scope.system_mode == 'mode_filling');
-    return c_roles.zavkaf && $scope.system_mode == 'mode_filling';
+    return c_roles.zavkaf && c_chair_id == ksro_selected_chair_id && $scope.system_mode == 'mode_filling';
   }
 
   $scope.GetKSROSum = function(param)
@@ -6674,9 +6721,14 @@ $scope.toggleAdminChangeChair = function(chair)
 
   if (c_roles.dean)
   {
-    if (!isEmpty($scope.nagruzka_selected_chair_id))
+    if (!isEmpty($scope.nagruzka_selected_chair_id) && c_dean_chairs_ids.includes($scope.nagruzka_selected_chair_id))
     {
       $scope._chairs_ids = [$scope.nagruzka_selected_chair_id];
+    }
+    else
+    {
+      window.location = `/#/aspirantura/aspirantura_kand_exam/${c_dean_chairs_ids[0]}`;
+      return;
     }
 
     if (!isEmpty($scope.nagruzka_selected_lecturer_uid))
