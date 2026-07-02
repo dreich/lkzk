@@ -122,7 +122,7 @@ class SplitProcessor
         {
             $this->clearGalaxyLectors($nagruzkaData);
             // EchoLog($nagruzkaData);
-            $nagruzkaData = $this->consolidateLectors($nagruzkaData);
+            // $nagruzkaData = $this->consolidateLectors($nagruzkaData);
             // EchoLog($nagruzkaData);
         }
 

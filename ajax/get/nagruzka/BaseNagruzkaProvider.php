@@ -406,6 +406,8 @@ abstract class BaseNagruzkaProvider
      */
     protected function filterByLecturer(&$nagruzkaData)
     {
+      // EchoLog($this->lecturerUid);
+
         if (empty($this->lecturerUid)) 
         {
             return;
@@ -413,6 +415,11 @@ abstract class BaseNagruzkaProvider
 
         foreach ($nagruzkaData as $baseUid => $item) 
         {
+          if ($this->nagruzkaType == 'discipline')
+          {
+            // EchoLog($item['lectors']);
+          }
+
             $filteredLectors = array_filter($item['lectors'], function($lector) 
             {
                 return $lector['lecturer_uid'] === $this->lecturerUid;
@@ -630,6 +637,13 @@ abstract class BaseNagruzkaProvider
 
         // 2. Получение базовых данных (условия SQL отдают дочерние классы)
         $chairFilter = $this->getChairFilter();
+
+        if ($this->nagruzkaType == 'discipline')
+        {
+          // EchoLog($chairFilter);
+        }
+
+
         $dopSql = "$chairFilter AND `chair_id` IS NOT NULL AND `chair_id` <> '' AND `valid` = '1' " . $this->getModeSpecificSql();
 
         // EchoLog($this->nagruzkaType);
@@ -652,9 +666,9 @@ abstract class BaseNagruzkaProvider
         // 3. Обработка сплитов (Логику определяют дочерние классы)
         $nagruzkaData = $this->applyModeSplits($nagruzkaData);
 
-        if ($this->nagruzkaType == 'aspirantura_itog_exam')
+        if ($this->nagruzkaType == 'discipline')
         {
-            // EchoLog(sizeof($nagruzkaData));
+            // EchoLog($nagruzkaData);
         }
 
         // если нужно получить нагрузку по конкретной кафедре (а в таблице 1 кафедры по ней нет), то нужно отфильтровать, используя сплиты.
@@ -699,6 +713,9 @@ abstract class BaseNagruzkaProvider
 
         // 5. Фильтрация по преподавателю
         $this->filterByLecturer($nagruzkaData);
+
+        // if ($this->nagruzkaType == 'discipline')
+        // EchoLog(sizeof($nagruzkaData));
 
         if ($this->nagruzkaType == 'discipline' && $this->chairId == '05419')
         {

@@ -30,7 +30,7 @@ class FillingMode extends BaseNagruzkaProvider
 
         if ($_SERVER['REMOTE_ADDR'] == '85.143.4.44')
         {
-            EchoLog($this->userRole);
+            // EchoLog($this->userRole);
         }
 
         if ($this->userRole === 'uoup' || $this->userRole === 'ruk_aspirantura') 
@@ -170,6 +170,9 @@ class FillingMode extends BaseNagruzkaProvider
       {
         foreach ($aspirantura_kand_exam as $row) 
         {
+          // если нет препода, то мы такую строку не учитываем
+          if (empty($row['chair_id'])) continue;
+
           $chairId = $row['chair_id'];
           $amount = $row['students_num'] * $_aspirantura_hours_per_student;
 
@@ -187,23 +190,32 @@ class FillingMode extends BaseNagruzkaProvider
           $statByChair[$chairId]['total']['sum'] += $amount;
 
           // Обновляем данные в nagruzkaData для этой кафедры
-          if (!$nagruzkaData[$chairId]) $nagruzkaData[$chairId] = [];
+          // TODO !!!
+          // if (!$nagruzkaData[$chairId]) $nagruzkaData[$chairId] = [];
 
-          if (!$nagruzkaData[$chairId]['assigned']) $nagruzkaData[$chairId]['assigned'] = 0;
-          if (!$nagruzkaData[$chairId]['total']) $nagruzkaData[$chairId]['total'] = 0;
+          if ($nagruzkaData[$chairId])
+          {
+            if (!$nagruzkaData[$chairId]['assigned']) $nagruzkaData[$chairId]['assigned'] = 0;
+            if (!$nagruzkaData[$chairId]['total']) $nagruzkaData[$chairId]['total'] = 0;
 
-          // Обновляем данные в nagruzkaData для этой кафедры
+            // Обновляем данные в nagruzkaData для этой кафедры
 
-          safeAdd($nagruzkaData[$chairId]['assigned'], $amount);
-          safeAdd($nagruzkaData[$chairId]['total'], $amount);
+            safeAdd($nagruzkaData[$chairId]['assigned'], $amount);
+            safeAdd($nagruzkaData[$chairId]['total'], $amount);
+          }
         }
       }
 
+      // EchoLog($nagruzkaData);
+      // return;
 
       if (!empty($aspirantura_ruk_asp)) 
       {
         foreach ($aspirantura_ruk_asp as $row) 
         {
+          // если нет препода, то мы такую строку не учитываем
+          if (empty($row['lecturer_chair_id'])) continue;
+
           $chairId = $row['lecturer_chair_id'];
           $amount = $_aspirantura_ruk_asp_hours;
 
@@ -221,22 +233,27 @@ class FillingMode extends BaseNagruzkaProvider
           {
             $statByChair[$chairId]['assigned']['sum'] += $amount;
           }
+
           $statByChair[$chairId]['total']['sum'] += $amount;
 
           // Обновляем данные в nagruzkaData для этой кафедры
-          if (!$nagruzkaData[$chairId]) $nagruzkaData[$chairId] = [];
+          // TODO !!!
+          // if (!$nagruzkaData[$chairId]) $nagruzkaData[$chairId] = [];
 
-          if (!$nagruzkaData[$chairId]['assigned']) $nagruzkaData[$chairId]['assigned'] = 0;
-          if (!$nagruzkaData[$chairId]['total']) $nagruzkaData[$chairId]['total'] = 0;
-
-          // Обновляем данные в nagruzkaData для этой кафедры
-
-          if ($row['lecturer_uid'])
+          if ($nagruzkaData[$chairId])
           {
-            safeAdd($nagruzkaData[$chairId]['assigned'], $amount);
-          }
+            if (!$nagruzkaData[$chairId]['assigned']) $nagruzkaData[$chairId]['assigned'] = 0;
+            if (!$nagruzkaData[$chairId]['total']) $nagruzkaData[$chairId]['total'] = 0;
 
-          safeAdd($nagruzkaData[$chairId]['total'], $amount);
+            // Обновляем данные в nagruzkaData для этой кафедры
+
+            if ($row['lecturer_uid'])
+            {
+              safeAdd($nagruzkaData[$chairId]['assigned'], $amount);
+            }
+
+            safeAdd($nagruzkaData[$chairId]['total'], $amount);
+          }
         }
       }
 
@@ -245,6 +262,9 @@ class FillingMode extends BaseNagruzkaProvider
       {
         foreach ($aspirantura_ruk_soisk as $row) 
         {
+          // если нет препода, то мы такую строку не учитываем
+          if (empty($row['lecturer_chair_id'])) continue;
+
           $chairId = $row['lecturer_chair_id'];
           $amount = $_aspirantura_ruk_soisk_hours;
 
@@ -265,19 +285,22 @@ class FillingMode extends BaseNagruzkaProvider
           $statByChair[$chairId]['total']['sum'] += $amount;
 
           // Обновляем данные в nagruzkaData для этой кафедры
-          if (!$nagruzkaData[$chairId]) $nagruzkaData[$chairId] = [];
-
-          if (!$nagruzkaData[$chairId]['assigned']) $nagruzkaData[$chairId]['assigned'] = 0;
-          if (!$nagruzkaData[$chairId]['total']) $nagruzkaData[$chairId]['total'] = 0;
-
-          // Обновляем данные в nagruzkaData для этой кафедры
-
-          if ($row['lecturer_uid'])
+          // TODO !!!
+          // if (!$nagruzkaData[$chairId]) $nagruzkaData[$chairId] = [];
+          if ($nagruzkaData[$chairId])
           {
-            safeAdd($nagruzkaData[$chairId]['assigned'], $amount);
+            if (!$nagruzkaData[$chairId]['assigned']) $nagruzkaData[$chairId]['assigned'] = 0;
+            if (!$nagruzkaData[$chairId]['total']) $nagruzkaData[$chairId]['total'] = 0;
+
+            // Обновляем данные в nagruzkaData для этой кафедры
+
+            if ($row['lecturer_uid'])
+            {
+              safeAdd($nagruzkaData[$chairId]['assigned'], $amount);
+            }
+            
+            safeAdd($nagruzkaData[$chairId]['total'], $amount);
           }
-          
-          safeAdd($nagruzkaData[$chairId]['total'], $amount);
         }
       }
 

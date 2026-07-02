@@ -147,7 +147,7 @@ if ($_SESSION['c_login'])
       </li>
 
       <li class="nav-item" ng-if="c_roles.dean">
-        <a href="#/uoup_nagruzka" class="nav-link" ng-class="{active: page == 'uoup_nagruzka' || page == 'nagruzka'}" ><span class="glyphicon glyphicon-list"></span> Кафедры</a>
+        <a href="#/uoup_nagruzka" class="nav-link" ng-class="{active: page == 'uoup_nagruzka'}" ><span class="glyphicon glyphicon-list"></span> Кафедры</a>
       </li>
 
       <li class="nav-item" ng-if="c_roles.ruk_aspirantura">
