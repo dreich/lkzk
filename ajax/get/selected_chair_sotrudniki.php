@@ -40,7 +40,10 @@ else
   $department_id = $xml_faculty['Code'];
 }
 
-$s = quote_smart($_GET['s']);
+// Получаем строку, сразу чиним раскладку (если она была на латинице) и экранируем
+$raw_s = isset($_GET['s']) ? $_GET['s'] : '';
+$fixed_s = fixKeyboardLayout($raw_s);
+$s = quote_smart($fixed_s);
 
 // Если один препод в распределении, предложим его удалить
 if ($_GET['lectors_num'] == 1 && $s == '-')

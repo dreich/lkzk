@@ -62,7 +62,7 @@ abstract class BaseNagruzkaProvider
             }
           }
 
-          $chairUids = JoinArrayElements($chair_uids, ", ", false, "'", "'");
+          // $chairUids = JoinArrayElements($chair_uids, ", ", false, "'", "'");
         }
 
         $this->lecturerUid = isset($this->getParams['lecturer_uid']) ? $this->getParams['lecturer_uid'] : null;
@@ -171,7 +171,10 @@ abstract class BaseNagruzkaProvider
         else
         {
           $chairUids = JoinArrayElements($this->chairUIDs, ", ", false, "'", "'");
+          // EchoLog($chairUids);
         }
+
+        // EchoLog($chairUid);
         
       }
       elseif ($this->userRole === 'zavkaf') 
@@ -190,6 +193,9 @@ abstract class BaseNagruzkaProvider
       }
 
       // EchoLog($chairUid);
+
+      // TMP HACK
+      // return "AND xml_content_of_load.UID_Chair = '25031.281474976710937'";
 
       if ($chairUid) 
       {
@@ -359,11 +365,13 @@ abstract class BaseNagruzkaProvider
                 // Не назначен
                 else 
                 {
-                    $hasNotAssigned = true;
-                    // $stat['not_assigned']['sum'] += (float) $lector['Amount'];
-                    safeAdd($stat['not_assigned']['sum'], $lector['Amount']);
-                    // $statByChair[$lector['chair_id']]['not_assigned']['sum'] += (float) $lector['Amount'];
-                    safeAdd($statByChair[$lector['chair_id']]['not_assigned']['sum'], $lector['Amount']);
+                  // EchoLog($item);
+
+                  $hasNotAssigned = true;
+                  // $stat['not_assigned']['sum'] += (float) $lector['Amount'];
+                  safeAdd($stat['not_assigned']['sum'], $lector['Amount']);
+                  // $statByChair[$lector['chair_id']]['not_assigned']['sum'] += (float) $lector['Amount'];
+                  safeAdd($statByChair[$lector['chair_id']]['not_assigned']['sum'], $lector['Amount']);
                 }
 
                 safeAdd($item['lectors_sum'], $lector['Amount']);
@@ -406,7 +414,7 @@ abstract class BaseNagruzkaProvider
      */
     protected function filterByLecturer(&$nagruzkaData)
     {
-      // EchoLog($this->lecturerUid);
+        // EchoLog($this->lecturerUid);
 
         if (empty($this->lecturerUid)) 
         {
@@ -645,19 +653,20 @@ abstract class BaseNagruzkaProvider
 
 
         $dopSql = "$chairFilter AND `chair_id` IS NOT NULL AND `chair_id` <> '' AND `valid` = '1' " . $this->getModeSpecificSql();
+        // EchoLog($dopSql);
 
         // EchoLog($this->nagruzkaType);
 
-        if ($this->nagruzkaType == 'aspirantura_itog_exam')
-        {
-            // EchoLog($chairFilter);
-        }
+        // if ($this->nagruzkaType == 'discipline')
+        // {
+        //     EchoLog(sizeof($nagruzkaData));
+        // }
 
         $nagruzkaData = $this->getBaseData($dopSql, $this->getNagruzkaTypeFilter());
 
-        if ($this->nagruzkaType == 'aspirantura_itog_exam')
+        if ($this->nagruzkaType == 'discipline')
         {
-            // EchoLog(sizeof($nagruzkaData));
+          // EchoLog(sizeof($nagruzkaData));
         }
 
         // if ($this->nagruzkaType == 'discipline')
@@ -668,10 +677,10 @@ abstract class BaseNagruzkaProvider
 
         if ($this->nagruzkaType == 'discipline')
         {
-            // EchoLog($nagruzkaData);
+            // EchoLog(sizeof($nagruzkaData));
         }
 
-        // если нужно получить нагрузку по конкретной кафедре (а в таблице 1 кафедры по ней нет), то нужно отфильтровать, используя сплиты.
+        // если нужно получить данную нагрузку по конкретной кафедре (а в таблице 1 кафедры по ней нет), то нужно отфильтровать, используя сплиты.
         // если сплитов для нагрузки нет, то не берём её
         if ($this->nagruzkaType == 'aspirantura_itog_exam' && $this->systemMode == 'mode_filling')
         {

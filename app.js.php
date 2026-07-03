@@ -1884,16 +1884,19 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
   if (c_roles.uoup)
   {
     window.location = '#/uoup_nagruzka';
+    return;
   }
 
   if (c_roles.dean)
   {
     window.location = '#/uoup_nagruzka';
+    return;
   }
 
   if (c_roles.zavkaf || c_roles.sotrudnik)
   {
     window.location = '#/nagruzka';
+    return;
   }
 
 })
@@ -1971,6 +1974,11 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
     else if (c_roles.zavkaf)
     {
       $scope._chairs_ids = [c_chair_id];
+    }
+    else if (c_roles.sotrudnik)
+    {
+      $scope._chairs_ids = c_sotrudnik_chairs_ids;
+      $scope._lecturer_uids = c_sotrudnik_lecturer_uids;
     }
     else
     {
@@ -2435,23 +2443,34 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
 
         angular.forEach($scope._chairs_ids, function(chair_id, ind)
         {
-          
-
           var lecturer_uid;
 
-          // в URL`е выбран конкретный lecturer_uid, пропустим остальные
-          if (c_roles.sotrudnik && !isEmpty($scope.nagruzka_selected_lecturer_uid) && $scope.nagruzka_selected_lecturer_uid != c_sotrudnik_lecturer_uids[ind])
+          if (c_roles.zavkaf || c_roles.ruk_aspirantura || c_roles.uoup || c_roles.dean)
           {
-            return;
+            if ($scope.nagruzka_selected_lecturer_uid)
+            {
+              lecturer_uid = $scope.nagruzka_selected_lecturer_uid;
+            }
+            else if (c_roles.sotrudnik)
+            {
+              lecturer_uid = c_sotrudnik_lecturer_uids[ind];
+            }
           }
-
-          if (c_roles.sotrudnik)
+          // в URL`е выбран конкретный lecturer_uid, пропустим остальные
+          else if (c_roles.sotrudnik && !isEmpty($scope.nagruzka_selected_lecturer_uid))
+          {
+            if ($scope.nagruzka_selected_lecturer_uid == c_sotrudnik_lecturer_uids[ind])
+            {
+              lecturer_uid = c_sotrudnik_lecturer_uids[ind];
+            }
+            else
+            {
+              return;
+            }
+          }
+          else if (c_roles.sotrudnik)
           {
             lecturer_uid = c_sotrudnik_lecturer_uids[ind];
-          }
-          else if ((c_roles.zavkaf || c_roles.ruk_aspirantura || c_roles.uoup || c_roles.dean) && $scope.nagruzka_selected_lecturer_uid)
-          {
-            lecturer_uid = $scope.nagruzka_selected_lecturer_uid;
           }
 
           var only_stat;

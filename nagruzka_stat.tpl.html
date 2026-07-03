@@ -105,6 +105,7 @@
         <!-- <span ng-if="!c_roles.zavkaf">Руководство аспирантами и соискателями, кандидатские экзамены</span> -->
       </td>
       <td ng-if="!nagruzka_selected_lecturer_uid && !c_roles.sotrudnik">{{GetNagruzkaStatsAspiranturaSum(chair_id, 'total') | toFixed:1}}</td>
+      <!-- {{GetNagruzkaStatsAspiranturaSum(chair_id, 'not_assigned') | toFixed:1}} -->
       <td ng-if="!nagruzka_selected_lecturer_uid && !c_roles.sotrudnik"></td>
       <td>{{GetNagruzkaStatsAspiranturaSum(chair_id, 'assigned') | toFixed:1}}</td>
       <td ng-if="nagruzka_selected_lecturer_uid || c_roles.sotrudnik">{{GetNagruzkaStatsAspiranturaSum(chair_id, 'assigned_auditorium') | toFixed:1}}</td>

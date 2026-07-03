@@ -391,7 +391,7 @@ function GetChairSotrudniki($year, $dop_sql = "", $actual = null /*, $qualify_ca
     // если нет всевдо-подразделений, ничего страшного
     // #dup code functions.php Aurhorize()
     $kaf_sql = "AND (($podrazdelenia_table_name.`pname` LIKE('Кафедра%') OR $podrazdelenia_table_name.`pname` LIKE('%базовая кафедра%'))
-                OR `$position_table_name`.dolzhnost IN('декан факультета', 'директор института') $pseudo_departments_ids_sql ) ";
+                OR `$position_table_name`.dolzhnost IN('декан факультета', 'директор института', 'директор филиала') $pseudo_departments_ids_sql ) ";
   }
 
   // AND $podrazdelenia_table_name.`parent_id` <> '00255'
@@ -854,6 +854,7 @@ if ($XMLContentOfLoadChairsUnique)
 
 
 
+
 include '../connect/sotrudnik.php';
 
 $SotrudnikiItogoByKey = [];
@@ -1035,6 +1036,17 @@ if ($SotrudnikiGPH)
 }
 
 unset($SotrudnikiGPH);
+
+// 5. Доп. деканы. Добавляем из специальной таблицы dop_deans, потому что эти деканы не относятся к кафедрам
+
+// if ($DopDeans)
+// {
+//   foreach ($DopDeans as $dop_dean)
+//   {
+
+//   }
+// }
+
 
 // EchoLog($SotrudnikiGPH);
 
@@ -1259,14 +1271,14 @@ if ($SotrudnikiItogoByKey)
       //   EchoLog("! НЕ НАЙДЕН ЛЕКТОР ДЛЯ $person_id, $post_uid ($chair_sotrudnik[dolzhnost]), $chair_uid, $department_uid, $person_type)");
       // }
 
-      if ($chair_sotrudnik['type'] == 'sotrudnik')
-      {
-        $selected = '1';
-      }
-      else
-      {
-        $selected = '0';
-      }
+      // if ($chair_sotrudnik['type'] == 'sotrudnik')
+      // {
+      //   $selected = '1';
+      // }
+      // else
+      // {
+      //   $selected = '0';
+      // }
 
       $login = $Person[$chair_sotrudnik['person_id']]['alias'];
 
@@ -1277,7 +1289,7 @@ if ($SotrudnikiItogoByKey)
               SET `person_id` = '$chair_sotrudnik[person_id]', `lecturer_uid` = '$lecturer[UID]', `lecturer_login` = '$login',
               `fio` = '$chair_sotrudnik[fio]', `chair_id` = '$chair_sotrudnik[chair_id]', `chair_uid` = '$lecturer[UID_Chair]',
               `department_id` = '$chair_sotrudnik[department_id]',
-              `podrazdelenie_id` = '$chair_sotrudnik[podrazdelenie_id]', `dolzhnost` = '$chair_sotrudnik[dolzhnost]', `type` = '$chair_sotrudnik[type]', `selected` = '$selected', `stavka` = '$chair_sotrudnik[stavka]', `pku` = '$chair_sotrudnik[pku]', `pkg` = '$chair_sotrudnik[pkg]', `date_add` = NOW()
+              `podrazdelenie_id` = '$chair_sotrudnik[podrazdelenie_id]', `dolzhnost` = '$chair_sotrudnik[dolzhnost]', `type` = '$chair_sotrudnik[type]', `stavka` = '$chair_sotrudnik[stavka]', `pku` = '$chair_sotrudnik[pku]', `pkg` = '$chair_sotrudnik[pkg]', `date_add` = NOW()
               ON DUPLICATE KEY UPDATE
               `pku` = VALUES(`pku`),
               `pkg` = VALUES(`pkg`),
@@ -1301,14 +1313,14 @@ if ($SotrudnikiItogoByKey)
     // updating
     else
     {
-      if ($chair_sotrudnik['type'] == 'sotrudnik')
-      {
-        $sql_selected = ", `selected` = '1'";
-      }
-      else
-      {
-        $sql_selected = '';
-      }
+      // if ($chair_sotrudnik['type'] == 'sotrudnik')
+      // {
+      //   $sql_selected = ", `selected` = '1'";
+      // }
+      // else
+      // {
+      //   $sql_selected = '';
+      // }
 
       // `selected` = '$selected',
       $query = "

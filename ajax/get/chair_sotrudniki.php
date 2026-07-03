@@ -353,6 +353,13 @@ while ($row = $result->fetch_assoc())
   $employees[$row['person_id']] = $row;
 }
 
+$DopDean = GetRow('dop_deans', ['chair_id' => $chair_id_substituted]);
+
+if ($DopDean)
+{
+  $employees[$DopDean['person_id']] = GetRow('sotrudniki', ['person_id' => $DopDean['person_id'], 'dolzhnost' => 'декан факультета']);
+}
+
 // EchoLog($chair_id);
 // EchoLog($department_id);
 // EchoLog($employees);
