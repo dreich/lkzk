@@ -6704,6 +6704,8 @@ $scope.toggleAdminChangeChair = function(chair)
             // добавление
             else
             {
+              $scope.edit_ksro['load_ids'] = response.data.load_ids;
+              // нужен как признак добавление/редактирование: если добавляем, то сгенерируем load_id; если редактируем, и нет load_id, то не будем создавать load_id (значит, данные из Галактики). Хотя в том режиме Выверка, где из Галактики данные, наверно, не будет редактирования, но на всякий случай.
               $scope.edit_ksro['ids'] = response.data.ids;
               $scope.ksro.push($scope.edit_ksro);
             }

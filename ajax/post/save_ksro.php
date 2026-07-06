@@ -19,10 +19,6 @@ if (empty($_SERVER['HTTP_X_REQUESTED_WITH']) || $_SERVER['HTTP_X_REQUESTED_WITH'
 
 $XmlChairByCode = GetTable('xml_chair', "", "", "Code");
 
-$ksro_kind_uid = '26003.281474976710751';
-$ik_kind_uid = '26003.281474976710750';
-$ksro_discipline_uid = '26006.281474976727808';
-$ik_discipline_uid = '26006.281474976727807';
 
 $c_chair_id = $_SESSION['c_chair_id'];
 $c_department_id = $_SESSION['c_department_id'];
@@ -30,7 +26,7 @@ $c_department_id = $_SESSION['c_department_id'];
 $UID_Chair = $XmlChairByCode[$c_chair_id]['UID'];
 $UID_FacultyPerformer = $XmlChairByCode[$c_chair_id]['UID_Faculty'];
 
-$id = isset($data['id']) ? $data['id'] : null;
+// $id = isset($data['id']) ? $data['id'] : null;
 
 $result = [];
 
@@ -53,50 +49,51 @@ $fields = "
     // `ksro_osen` = '$data[ksro_osen]',
     // `ksro_vesna` = '$data[ksro_vesna]'
 
-// если нет ids, значит, это добавление, и мы должны их сгенерировать
-// if (!$data['ids'])
+// если нет ids, значит, это добавление, и мы должны сгенерировать load_ids
+// [если добавляем, то сгенерируем load_id; если редактируем, и нет load_id, то не будем создавать load_id (значит, данные из Галактики). Хотя в том режиме Выверка, где из Галактики данные, наверно, не будет редактирования, но на всякий случай.]
+if (!$data['load_ids'] && !$data['ids'])
 {
   // EchoLog($data['ids']);
-  $data['ids'] = new stdClass();
-  $data['ids']->id_ik_osen = uniq(16);
-  $data['ids']->id_ik_vesna = uniq(16);
-  $data['ids']->id_ksro_osen = uniq(16);
-  $data['ids']->id_ksro_vesna = uniq(16);
+  $data['load_ids'] = new stdClass();
+  $data['load_ids']->id_ik_osen = uniq(16);
+  $data['load_ids']->id_ik_vesna = uniq(16);
+  $data['load_ids']->id_ksro_osen = uniq(16);
+  $data['load_ids']->id_ksro_vesna = uniq(16);
 }
 
 $Result = $mysqli->query("
     REPLACE INTO `ksro` 
     SET $fields, 
-    `id` = '{$data['ids']->id_ik_osen}',
-    `UID_KindOfWork` = '$ik_kind_uid',
-    `UID_Discipline` = '$ik_discipline_uid',
+    `load_id` = '{$data['load_ids']->id_ik_osen}',
+    `UID_KindOfWork` = '$_ik_kind_uid',
+    `UID_Discipline` = '$_ik_discipline_uid',
     `UID_Semester` = '1', 
     `Amount` = '$data[ik_osen]'");
 
 $Result = $mysqli->query("
     REPLACE INTO `ksro` 
     SET $fields, 
-    `id` = '{$data['ids']->id_ik_vesna}',
-    `UID_KindOfWork` = '$ik_kind_uid',
-    `UID_Discipline` = '$ik_discipline_uid',
+    `load_id` = '{$data['load_ids']->id_ik_vesna}',
+    `UID_KindOfWork` = '$_ik_kind_uid',
+    `UID_Discipline` = '$_ik_discipline_uid',
     `UID_Semester` = '2', 
     `Amount` = '$data[ik_vesna]'");
 
 $Result = $mysqli->query("
     REPLACE INTO `ksro` 
     SET $fields, 
-    `id` = '{$data['ids']->id_ksro_osen}',
-    `UID_KindOfWork` = '$ksro_kind_uid',
-    `UID_Discipline` = '$ksro_discipline_uid',
+    `load_id` = '{$data['load_ids']->id_ksro_osen}',
+    `UID_KindOfWork` = '$_ksro_kind_uid',
+    `UID_Discipline` = '$_ksro_discipline_uid',
     `UID_Semester` = '1', 
     `Amount` = '$data[ksro_osen]'");
 
 $Result = $mysqli->query("
     REPLACE INTO `ksro` 
     SET $fields, 
-    `id` = '{$data['ids']->id_ksro_vesna}',
-    `UID_KindOfWork` = '$ksro_kind_uid',
-    `UID_Discipline` = '$ksro_discipline_uid',
+    `load_id` = '{$data['load_ids']->id_ksro_vesna}',
+    `UID_KindOfWork` = '$_ksro_kind_uid',
+    `UID_Discipline` = '$_ksro_discipline_uid',
     `UID_Semester` = '2', 
     `Amount` = '$data[ksro_vesna]'");
 
@@ -116,6 +113,7 @@ $Result = $mysqli->query("
 if ($Result)
 {
   $result['result'] = 'success';
+  $result['load_ids'] = $data['load_ids'];
   $result['ids'] = $data['ids'];
 }
 else

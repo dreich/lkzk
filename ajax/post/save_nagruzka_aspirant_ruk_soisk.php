@@ -41,8 +41,11 @@ $common_sql =
 
 if (!$data['id'])
 {
+  $load_id = uniq(16);
+
   $query = "INSERT INTO `aspirantura_ruk_soisk` 
-            SET 
+            SET
+              `load_id` = '$load_id',
               $common_sql
               `date` = NOW()
             ";

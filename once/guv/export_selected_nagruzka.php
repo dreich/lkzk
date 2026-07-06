@@ -1,7 +1,6 @@
 <?php
 
-include '../functions.php';
-include '../connect.php';
+include '../../functions.php';
 
 // EchoLog('Start export of selected nagruzka rows');
 

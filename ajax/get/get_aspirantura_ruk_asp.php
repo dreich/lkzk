@@ -51,7 +51,7 @@ $Nagruzka = GetSQL("SELECT *
                     $filter_sql
                     $chair_sql
                     $lecturer_sql
-                  ");
+                  ", 'uid');
 
 // if ($Chairs)
 // {
@@ -61,5 +61,9 @@ $Nagruzka = GetSQL("SELECT *
 //   }
 // }
 
-echo json_encode($Nagruzka);
+// $NagruzkaByAspirant = [];
+
+
+
+echo json_encode(array_values($Nagruzka));
 ?>

@@ -521,7 +521,7 @@ foreach ($employees as &$employee)
         {
           safeAdd($totalAmount, $ksro_language_row['Amount']);
 
-          if ($lang_uid === $language_eng_uid)
+          if ($lang_uid === $_language_eng_uid)
           {
             safeAdd($engAmount, $ksro_language_row['Amount']);
           }

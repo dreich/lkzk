@@ -1,7 +1,6 @@
 <?php
 
-include '../functions.php';
-include '../connect.php';
+include '../../functions.php';
 
 // EchoLog('Start export of selected nagruzka rows');
 
@@ -20,23 +19,20 @@ include '../connect.php';
 //             AND TRIM(IFNULL(nagruzka.lecturer_fio, '')) <> ''
 //         ";
 
+$XmlContentOfLoad = GetTable('xml_content_of_load', "`LoadId` <> ''", "", "LoadId", "LoadId");
 $XmlChairByCode = GetTable('xml_chair', "", "", "Code");
 
-$ksro_kind_uid = '26003.281474976710751';
-$ksro_discipline_uid = '26006.281474976727808';
-$ik_kind_uid = '26003.281474976710750';
-$ik_discipline_uid = '26006.281474976727807';
 
 
 $query = "SELECT * FROM `ksro`";
 
-$Result = $mysqli->query($query);
+// $Result = $mysqli->query($query);
 
-if (!$Result)
-{
-  EchoLog('DB error: ' . $mysqli->error);
-  exit;
-}
+// if (!$Result)
+// {
+//   EchoLog('DB error: ' . $mysqli->error);
+//   exit;
+// }
 
 $doc = new DOMDocument('1.0', 'UTF-8');
 $doc->formatOutput = true;
@@ -55,10 +51,14 @@ $data->appendChild($collection);
 
 $rows_count = 0;
 
+if ($Result)
 while ($Row = $Result->fetch_assoc())
 {
+  // если в xml уже есть такой load_id, то не выгружаем
+  if ($XmlContentOfLoad[$Row['load_id']]) continue;
+
   $object = $doc->createElement('Object');
-  $object->setAttribute('LoadId', $Row['id']);
+  $object->setAttribute('LoadId', $Row['load_id']);
   $object->setAttribute('class_id', 'ContentOfLoad');
   
   $prop_values = $doc->createElement('Collection');
@@ -119,7 +119,105 @@ while ($Row = $Result->fetch_assoc())
   $rows_count++;
 }
 
-$Result->free();
+if ($Result) $Result->free();
+
+
+$AspiranturaKandExam = GetTable('aspirantura_kand_exam', "`deleted` <> '1' AND `lecturer_uid` <> ''");
+
+if ($AspiranturaKandExam)
+{
+  foreach ($AspiranturaKandExam as $row)
+  {
+    // если в xml уже есть такой load_id, то не выгружаем
+    if ($XmlContentOfLoad[$row['load_id']]) continue;
+
+    $object = $doc->createElement('Object');
+    $object->setAttribute('LoadId', $row['load_id']);
+    $object->setAttribute('class_id', 'ContentOfLoad');
+    
+    $prop_values = $doc->createElement('Collection');
+    $prop_values->setAttribute('name', 'Prop_Values');
+    $prop_values->setAttribute('child_tags', 'prop_value');
+    $prop_values->setAttribute('caption', 'Свойства');
+    
+    // Amount
+    $prop_amount = $doc->createElement('prop_value');
+    $prop_amount->setAttribute('prop_name', 'Amount');
+    $prop_amount->setAttribute('value', $_aspirantura_hours_per_student * $row['students_num']);
+    $prop_values->appendChild($prop_amount);
+
+    // StudentAmount
+    $prop_amount = $doc->createElement('prop_value');
+    $prop_amount->setAttribute('prop_name', 'StudentAmount');
+    $prop_amount->setAttribute('value', $row['students_num']);
+    $prop_values->appendChild($prop_amount);
+    
+    // TypeOfContingent
+    $prop_contingent = $doc->createElement('prop_value');
+    $prop_contingent->setAttribute('prop_name', 'TypeOfContingent');
+    $prop_contingent->setAttribute('value', '2');
+    $prop_values->appendChild($prop_contingent);
+    
+    // UID_KindOfWork («Экзамен кандидатский»)
+    $prop_kind = $doc->createElement('prop_value');
+    $prop_kind->setAttribute('prop_name', 'UID_KindOfWork');
+    $prop_kind->setAttribute('value', $_aspirantura_kand_exam_kind_uid);
+    $prop_values->appendChild($prop_kind);
+    
+    // UID_Discipline
+    $uid_discipline = "26006.{$row['disc_nrec']}";
+
+    $prop_discipline = $doc->createElement('prop_value');
+    $prop_discipline->setAttribute('prop_name', 'UID_Discipline');
+    $prop_discipline->setAttribute('value', $uid_discipline);
+    $prop_values->appendChild($prop_discipline);
+    
+    // UID_Semester (осенний = 1, весенний = 2)
+    $prop_semester = $doc->createElement('prop_value');
+    $prop_semester->setAttribute('prop_name', 'UID_Semester');
+    $prop_semester->setAttribute('value', $row['UID_Semester']);
+    $prop_values->appendChild($prop_semester);
+    
+    // UID_Language
+
+    if ($row['bup_language'] == 'русский') $uid_language = $_language_rus_uid;
+    else if ($row['bup_language'] == 'английский') $uid_language = $_language_eng_uid;
+    else $uid_language = '';
+
+    $prop_language = $doc->createElement('prop_value');
+    $prop_language->setAttribute('prop_name', 'UID_Language');
+    $prop_language->setAttribute('value', $uid_language);
+    $prop_values->appendChild($prop_language);
+
+    // UID_Group
+    $prop_chair = $doc->createElement('prop_value');
+    $prop_chair->setAttribute('prop_name', 'UID_Chair');
+    $prop_chair->setAttribute('value', $row['groups_uid']);
+    $prop_values->appendChild($prop_chair);
+
+    // UID_Chair
+    // $prop_chair = $doc->createElement('prop_value');
+    // $prop_chair->setAttribute('prop_name', 'UID_Chair');
+    // $prop_chair->setAttribute('value', $Row['UID_Chair']);
+    // $prop_values->appendChild($prop_chair);
+    
+    // UID_FacultyPerformer
+    // $prop_faculty = $doc->createElement('prop_value');
+    // $prop_faculty->setAttribute('prop_name', 'UID_FacultyPerformer');
+    // $prop_faculty->setAttribute('value', $Row['UID_FacultyPerformer']);
+    // $prop_values->appendChild($prop_faculty);
+
+    $object->appendChild($prop_values);
+    $collection->appendChild($object);
+    $rows_count++;
+  }
+}
+
+
+
+
+
+
 
 // Сохраняем XML в файл
 $filename = 'ksro.xml';
@@ -127,11 +225,11 @@ $filepath = __DIR__ . '../' . $filename;
 
 // отдать в браузер
 
-header('Content-Type: text/xml; charset=UTF-8');
-header("Content-Disposition: attachment; filename=\"$filename\"");
-echo $doc->saveXML();
+// header('Content-Type: text/xml; charset=UTF-8');
+// header("Content-Disposition: attachment; filename=\"$filename\"");
+// echo $doc->saveXML();
 
-// $doc->save($filepath);
+$doc->save($filepath);
 
 EchoLog("Export finished. Exported $rows_count rows to file: $filename");
 

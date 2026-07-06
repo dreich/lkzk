@@ -1,3 +1,41 @@
+START TRANSACTION;
+
+-- Проверка: сколько строк будет затронуто
+SELECT COUNT(*) FROM aspirantura_ruk_asp 
+WHERE UID_Semester = '' OR UID_Semester IS NULL;
+
+-- Добавляем строки для семестра 1 (обновляем существующие) и создаём для семестра 2
+INSERT INTO aspirantura_ruk_asp (
+    uid, UID_Semester, load_id, fio, department_id, department,
+    napravlenie_code, napravlenie_title, course, `group`,
+    lecturer_login, lecturer_person_id, lecturer_uid, lecturer_fio,
+    lecturer_chair_id, lecturer_chair_name, lecturer_department_id,
+    lecturer_department_name, deleted, date_update, date
+)
+SELECT 
+    uid, '2', load_id, fio, department_id, department,
+    napravlenie_code, napravlenie_title, course, `group`,
+    lecturer_login, lecturer_person_id, lecturer_uid, lecturer_fio,
+    lecturer_chair_id, lecturer_chair_name, lecturer_department_id,
+    lecturer_department_name, deleted, date_update, date
+FROM aspirantura_ruk_asp
+WHERE UID_Semester = '' OR UID_Semester IS NULL;
+
+-- Обновляем существующие строки, присваивая им семестр 1
+UPDATE aspirantura_ruk_asp 
+SET UID_Semester = '1' 
+WHERE UID_Semester = '' OR UID_Semester IS NULL;
+
+COMMIT;
+-- или ROLLBACK; если что-то не так
+
+
+
+
+
+
+
+
 а если "работал" и две должности то что останется? мы же не знаем какая правильная, обе просрочены
 
 В КРОНЕ обновлять lecturer_uid нужно также в аспирантских таблицах!

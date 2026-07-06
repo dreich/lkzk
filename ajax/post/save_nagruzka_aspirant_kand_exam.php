@@ -28,8 +28,11 @@ if (!$data) {
 
 if (!$data['id'])
 {
+  $load_id = uniq(16);
+
   $query = "INSERT INTO `aspirantura_kand_exam` 
             SET 
+              `load_id` = '$load_id',
               `bup_department_name` = '$data[bup_department_name]',
               `bup_nrec` = '$data[bup_nrec]',
               `disc_nrec` = '$data[disc_nrec]',

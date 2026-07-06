@@ -80,7 +80,7 @@ function exportNewNagruzka()
 
     foreach ($rows as $row) {
         $object = $doc->createElement('Object');
-        $object->setAttribute('LoadId', $row['id']); // Временный ID для сопоставления
+        $object->setAttribute('LoadId', $row['load_id']); // Временный ID для сопоставления
         $object->setAttribute('class_id', 'ContentOfLoad');
         $collection->appendChild($object);
 

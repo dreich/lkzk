@@ -18,7 +18,7 @@ $_master_password = 'zklk-2026!';
 
 $_system_start_year = '2026';
 
-$_aspirantura_hours_per_student = 0.5;
+$_aspirantura_hours_per_student = 0.5;  // канд. экзам.
 $_aspirantura_ruk_asp_hours = 75;
 $_aspirantura_ruk_soisk_hours = 50;
 
@@ -125,21 +125,24 @@ $_system_modes =
   'mode_archive' => 'Архив'
 ];
 
-$ksro_kind_uid = '26003.281474976710751';
-$ksro_discipline_uid = '26006.281474976727808';
-$ik_kind_uid = '26003.281474976710750';
-$ik_discipline_uid = '26006.281474976727807';
-$language_eng_uid = '25031.945';
-$language_rus_uid = '25031.281474976715638';
+$_ksro_kind_uid = '26003.281474976710751';
+$_ksro_discipline_uid = '26006.281474976727808';
+$_ik_kind_uid = '26003.281474976710750';
+$_ik_discipline_uid = '26006.281474976727807';
+$_language_eng_uid = '25031.945';
+$_language_rus_uid = '25031.281474976715638';
+
+// Экзамен кандидатский xml_kind_of_work
+$_aspirantura_kand_exam_kind_uid = '26003.281474976710770';
 
 // ЛК ЗК (Аспирантура).docx
 // 2. Нагрузка по итоговому экзамену ~ nagruzka_type = aspirantura_itog_exam
 // «Участие в комиссии (председатель)»
-$aspirant_nagruzka_itog_examen_kind_uids = ['26003.281474976710768', '26003.281474976710684'];
+$_aspirant_nagruzka_itog_examen_kind_uids = ['26003.281474976710768', '26003.281474976710684'];
 // «Участие в комиссии»
 // $aspirant_nagruzka_itog_examen_kind_uid2 = '26003.281474976710684';
 // Дисциплина "Оценка соответствия диссертации требованиям, установленным для диссертаций на соискание ученой степени кандидата наук"
-$aspirant_nagruzka_itog_examen_discipline1 = '26006.281474976727451';
+$_aspirant_nagruzka_itog_examen_discipline1 = '26006.281474976727451';
 
 
 $_pseudo_chairs = 
