@@ -175,7 +175,7 @@ if ($AspiranturaKandExam)
     // UID_Semester (осенний = 1, весенний = 2)
     $prop_semester = $doc->createElement('prop_value');
     $prop_semester->setAttribute('prop_name', 'UID_Semester');
-    $prop_semester->setAttribute('value', $row['UID_Semester']);
+    $prop_semester->setAttribute('value', $row['exam_semester'] % 2 == 0 ? 2 : 1);
     $prop_values->appendChild($prop_semester);
     
     // UID_Language
@@ -214,6 +214,190 @@ if ($AspiranturaKandExam)
 }
 
 
+
+$AspiranturaRukAsp = GetTable('aspirantura_ruk_asp', "`deleted` <> '1' AND `lecturer_uid` <> ''");
+
+if ($AspiranturaRukAsp)
+{
+  foreach ($AspiranturaRukAsp as $row)
+  {
+    // если в xml уже есть такой load_id, то не выгружаем
+    if ($XmlContentOfLoad[$row['load_id']]) continue;
+
+    $object = $doc->createElement('Object');
+    $object->setAttribute('LoadId', $row['load_id']);
+    $object->setAttribute('class_id', 'ContentOfLoad');
+    
+    $prop_values = $doc->createElement('Collection');
+    $prop_values->setAttribute('name', 'Prop_Values');
+    $prop_values->setAttribute('child_tags', 'prop_value');
+    $prop_values->setAttribute('caption', 'Свойства');
+    
+    // Amount
+    $prop_amount = $doc->createElement('prop_value');
+    $prop_amount->setAttribute('prop_name', 'Amount');
+    $prop_amount->setAttribute('value', $_aspirantura_ruk_asp_hours / 2);
+    $prop_values->appendChild($prop_amount);
+
+    // StudentAmount
+    $prop_amount = $doc->createElement('prop_value');
+    $prop_amount->setAttribute('prop_name', 'StudentAmount');
+    $prop_amount->setAttribute('value', 1);
+    $prop_values->appendChild($prop_amount);
+    
+    // TypeOfContingent
+    $prop_contingent = $doc->createElement('prop_value');
+    $prop_contingent->setAttribute('prop_name', 'TypeOfContingent');
+    $prop_contingent->setAttribute('value', '');
+    $prop_values->appendChild($prop_contingent);
+    
+    // UID_KindOfWork («Руководство аспирантом»)
+    $prop_kind = $doc->createElement('prop_value');
+    $prop_kind->setAttribute('prop_name', 'UID_KindOfWork');
+    $prop_kind->setAttribute('value', $_aspirant_ruk_asp_kind_uid);
+    $prop_values->appendChild($prop_kind);
+    
+    // UID_Discipline
+    // Руководство аспирантом
+    $uid_discipline = '26006.281474976731761';
+
+    $prop_discipline = $doc->createElement('prop_value');
+    $prop_discipline->setAttribute('prop_name', 'UID_Discipline');
+    $prop_discipline->setAttribute('value', $uid_discipline);
+    $prop_values->appendChild($prop_discipline);
+    
+    // UID_Semester (осенний = 1, весенний = 2)
+    $prop_semester = $doc->createElement('prop_value');
+    $prop_semester->setAttribute('prop_name', 'UID_Semester');
+    $prop_semester->setAttribute('value', $row['UID_Semester']);
+    $prop_values->appendChild($prop_semester);
+    
+    // UID_Language
+    // if ($row['bup_language'] == 'русский') $uid_language = $_language_rus_uid;
+    // else if ($row['bup_language'] == 'английский') $uid_language = $_language_eng_uid;
+    // else $uid_language = '';
+
+    // $prop_language = $doc->createElement('prop_value');
+    // $prop_language->setAttribute('prop_name', 'UID_Language');
+    // $prop_language->setAttribute('value', $uid_language);
+    // $prop_values->appendChild($prop_language);
+
+    // UID_Group
+    // $prop_chair = $doc->createElement('prop_value');
+    // $prop_chair->setAttribute('prop_name', 'UID_Chair');
+    // $prop_chair->setAttribute('value', $row['groups_uid']);
+    // $prop_values->appendChild($prop_chair);
+
+    // UID_Chair
+    // $prop_chair = $doc->createElement('prop_value');
+    // $prop_chair->setAttribute('prop_name', 'UID_Chair');
+    // $prop_chair->setAttribute('value', $Row['UID_Chair']);
+    // $prop_values->appendChild($prop_chair);
+    
+    // UID_FacultyPerformer
+    // $prop_faculty = $doc->createElement('prop_value');
+    // $prop_faculty->setAttribute('prop_name', 'UID_FacultyPerformer');
+    // $prop_faculty->setAttribute('value', $Row['UID_FacultyPerformer']);
+    // $prop_values->appendChild($prop_faculty);
+
+    $object->appendChild($prop_values);
+    $collection->appendChild($object);
+    $rows_count++;
+  }
+}
+
+
+
+$AspiranturaRukSoisk = GetTable('aspirantura_ruk_soisk', "`deleted` <> '1' AND `lecturer_uid` <> ''");
+
+if ($AspiranturaRukSoisk)
+{
+  foreach ($AspiranturaRukSoisk as $row)
+  {
+    // если в xml уже есть такой load_id, то не выгружаем
+    if ($XmlContentOfLoad[$row['load_id']]) continue;
+
+    $object = $doc->createElement('Object');
+    $object->setAttribute('LoadId', $row['load_id']);
+    $object->setAttribute('class_id', 'ContentOfLoad');
+    
+    $prop_values = $doc->createElement('Collection');
+    $prop_values->setAttribute('name', 'Prop_Values');
+    $prop_values->setAttribute('child_tags', 'prop_value');
+    $prop_values->setAttribute('caption', 'Свойства');
+    
+    // Amount
+    $prop_amount = $doc->createElement('prop_value');
+    $prop_amount->setAttribute('prop_name', 'Amount');
+    $prop_amount->setAttribute('value', $_aspirantura_ruk_asp_hours / 2);
+    $prop_values->appendChild($prop_amount);
+
+    // StudentAmount
+    $prop_amount = $doc->createElement('prop_value');
+    $prop_amount->setAttribute('prop_name', 'StudentAmount');
+    $prop_amount->setAttribute('value', 1);
+    $prop_values->appendChild($prop_amount);
+    
+    // TypeOfContingent
+    $prop_contingent = $doc->createElement('prop_value');
+    $prop_contingent->setAttribute('prop_name', 'TypeOfContingent');
+    $prop_contingent->setAttribute('value', '');
+    $prop_values->appendChild($prop_contingent);
+    
+    // UID_KindOfWork («Руководство соискателем»)
+    $prop_kind = $doc->createElement('prop_value');
+    $prop_kind->setAttribute('prop_name', 'UID_KindOfWork');
+    $prop_kind->setAttribute('value', $_aspirant_ruk_soisk_kind_uid);
+    $prop_values->appendChild($prop_kind);
+    
+    // UID_Discipline
+    // Руководство соискателем
+    $uid_discipline = '26006.281474976731762';
+
+    $prop_discipline = $doc->createElement('prop_value');
+    $prop_discipline->setAttribute('prop_name', 'UID_Discipline');
+    $prop_discipline->setAttribute('value', $uid_discipline);
+    $prop_values->appendChild($prop_discipline);
+    
+    // UID_Semester (осенний = 1, весенний = 2)
+    $prop_semester = $doc->createElement('prop_value');
+    $prop_semester->setAttribute('prop_name', 'UID_Semester');
+    $prop_semester->setAttribute('value', $row['UID_Semester']);
+    $prop_values->appendChild($prop_semester);
+    
+    // UID_Language
+    // if ($row['bup_language'] == 'русский') $uid_language = $_language_rus_uid;
+    // else if ($row['bup_language'] == 'английский') $uid_language = $_language_eng_uid;
+    // else $uid_language = '';
+
+    // $prop_language = $doc->createElement('prop_value');
+    // $prop_language->setAttribute('prop_name', 'UID_Language');
+    // $prop_language->setAttribute('value', $uid_language);
+    // $prop_values->appendChild($prop_language);
+
+    // UID_Group
+    // $prop_chair = $doc->createElement('prop_value');
+    // $prop_chair->setAttribute('prop_name', 'UID_Chair');
+    // $prop_chair->setAttribute('value', $row['groups_uid']);
+    // $prop_values->appendChild($prop_chair);
+
+    // UID_Chair
+    // $prop_chair = $doc->createElement('prop_value');
+    // $prop_chair->setAttribute('prop_name', 'UID_Chair');
+    // $prop_chair->setAttribute('value', $Row['UID_Chair']);
+    // $prop_values->appendChild($prop_chair);
+    
+    // UID_FacultyPerformer
+    // $prop_faculty = $doc->createElement('prop_value');
+    // $prop_faculty->setAttribute('prop_name', 'UID_FacultyPerformer');
+    // $prop_faculty->setAttribute('value', $Row['UID_FacultyPerformer']);
+    // $prop_values->appendChild($prop_faculty);
+
+    $object->appendChild($prop_values);
+    $collection->appendChild($object);
+    $rows_count++;
+  }
+}
 
 
 

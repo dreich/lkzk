@@ -35,7 +35,8 @@ if (!$data) {
               `lecturer_chair_id` = '$data[lecturer_chair_id]',
               `lecturer_chair_name` = '$data[lecturer_chair_name]',
               `lecturer_department_id` = '$data[lecturer_department_id]',
-              `lecturer_department_name` = '$data[lecturer_department_name]'
+              `lecturer_department_name` = '$data[lecturer_department_name]',
+              `date_update` = NOW()
 
               WHERE `uid` = '$data[uid]'
             ";

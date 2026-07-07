@@ -26,7 +26,12 @@ if (!$data) {
 {
   $Result = $mysqli->query("
         DELETE FROM `aspirantura_ruk_soisk`
-        WHERE `id` = '$data[id]'
+        WHERE `id` = '{$data['ids'][0]}'
+      ");
+
+  $Result = $mysqli->query("
+        DELETE FROM `aspirantura_ruk_soisk`
+        WHERE `id` = '{$data['ids'][1]}'
       ");
 }
 

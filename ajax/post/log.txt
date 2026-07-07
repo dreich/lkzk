@@ -1,0 +1,41 @@
+[06.07.2026 - 15:01.41] Error in save_nagruzka_aspirant_ruk_soisk.php: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '`date_update` = NOW()' at line 18[/ajax/post/save_nagruzka_aspirant_ruk_soisk.php] [Chrome 149.0.0.0] [127.0.0.1]
+[06.07.2026 - 15:01.41] mail_utf8: wwwlab@unn.ru,  lkzk.unn.ru, wwwlab@unn.ru[/ajax/post/save_nagruzka_aspirant_ruk_soisk.php] [Chrome 149.0.0.0] [127.0.0.1]
+[06.07.2026 - 15:01.41] REPLACE INTO `aspirantura_ruk_soisk` 
+            SET 
+              `UID_Semester` = '2',
+              `load_id` = `load_id`,
+              
+`fio` = 'Ананьева Юлия Евгеньевна',
+`prikaz` = '06.49-06-6591/24 от 09.10.2024',
+`lecturer_login` = 'ivanova',
+`lecturer_person_id` = '2605',
+`lecturer_uid` = '26115.281474976793104',
+`lecturer_fio` = 'Иванова Ирина Павловна',
+`lecturer_chair_id` = '02717',
+`lecturer_chair_name` = 'Кафедра молекулярной биологии и иммунологии',
+`lecturer_department_id` = '02324',
+`lecturer_department_name` = 'Институт биологии и биомедицины',
+`deleted` = '0'
+
+              `date_update` = NOW()[/ajax/post/save_nagruzka_aspirant_ruk_soisk.php] [Chrome 149.0.0.0] [127.0.0.1]
+[06.07.2026 - 15:38.47] Error in save_nagruzka_aspirant_ruk_soisk.php: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 19[/ajax/post/save_nagruzka_aspirant_ruk_soisk.php] [Chrome 149.0.0.0] [127.0.0.1]
+[06.07.2026 - 15:38.47] mail_utf8: wwwlab@unn.ru,  lkzk.unn.ru, wwwlab@unn.ru[/ajax/post/save_nagruzka_aspirant_ruk_soisk.php] [Chrome 149.0.0.0] [127.0.0.1]
+[06.07.2026 - 15:38.47] UPDATE `aspirantura_ruk_soisk` 
+            SET 
+              
+
+`lecturer_login` = 'meerov',
+`lecturer_person_id` = '4558',
+`lecturer_uid` = '26115.281474976839652',
+`lecturer_fio` = 'Мееров Иосиф Борисович',
+`lecturer_chair_id` = '05314',
+`lecturer_chair_name` = 'Кафедра высокопроизводительных вычислений и системного программирования',
+`lecturer_department_id` = '02331',
+`lecturer_department_name` = 'Институт информационных технологий, математики и механики',
+`deleted` = '0',
+
+              `UID_Semester` = '2',
+              `fio` = 'Тест1',
+              `prikaz` = 'Приказ1',
+              `date_update` = NOW()
+              WHERE  `id` =[/ajax/post/save_nagruzka_aspirant_ruk_soisk.php] [Chrome 149.0.0.0] [127.0.0.1]

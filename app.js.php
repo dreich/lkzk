@@ -2383,7 +2383,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
 
       .withOption('initComplete', function(settings, json) {
         // Скрываем индикатор когда загрузка завершена
-        CL("initComplete");
+        // CL("initComplete");
         $scope.$apply(function() {
             // $scope.isLoading = false;
         });
@@ -2451,10 +2451,10 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
             {
               lecturer_uid = $scope.nagruzka_selected_lecturer_uid;
             }
-            else if (c_roles.sotrudnik)
-            {
-              lecturer_uid = c_sotrudnik_lecturer_uids[ind];
-            }
+            // else if (c_roles.sotrudnik)
+            // {
+            //   lecturer_uid = c_sotrudnik_lecturer_uids[ind];
+            // }
           }
           // в URL`е выбран конкретный lecturer_uid, пропустим остальные
           else if (c_roles.sotrudnik && !isEmpty($scope.nagruzka_selected_lecturer_uid))
@@ -7259,7 +7259,7 @@ $scope.toggleAdminChangeChair = function(chair)
           // Скрываем индикатор когда загрузка завершена
           $scope.$apply(function() 
           {
-            CL('initComplete');
+            // CL('initComplete');
             // Создаём фильтры, если данные уже загружены
             if (!$scope.isAspiranturaKandExamLoading) 
             {
@@ -7721,7 +7721,7 @@ $scope.toggleAdminChangeChair = function(chair)
           // Скрываем индикатор когда загрузка завершена
           $scope.$apply(function() 
           {
-            CL('initComplete');
+            // CL('initComplete');
 
             // MakeFilterSelectsSearchFromStart(settings);
             const table = new $.fn.dataTable.Api(settings);
@@ -8039,7 +8039,7 @@ $scope.toggleAdminChangeChair = function(chair)
           // Скрываем индикатор когда загрузка завершена
           $scope.$apply(function() 
           {
-            CL('initComplete');
+            // CL('initComplete');
 
             // MakeFilterSelectsSearchFromStart(settings);
             if (!$scope.isAspiranturaRukSoiskLoading) 
@@ -8129,7 +8129,10 @@ $scope.toggleAdminChangeChair = function(chair)
 
                   // if (response.data.delete)
                   // {
-                    deleteByColumn($scope.aspirantura_ruk_soisk, 'id', nagruzka_row.id);
+                    // TODO не работает, т.к. несколько id
+                    // deleteByColumn($scope.aspirantura_ruk_soisk, 'id', nagruzka_row.id);
+                    // пришлось перезагружать
+                    window.location.reload();
                   // }
                   // else
                   {
@@ -8195,9 +8198,10 @@ $scope.toggleAdminChangeChair = function(chair)
                 {
                   toastr.success("Данные сохранены");
 
-                  if (isEmpty($scope.aspirantura_ruk_soisk_edit.id))
+                  // добавление
+                  if (isEmpty($scope.aspirantura_ruk_soisk_edit.ids))
                   {
-                    $scope.aspirantura_ruk_soisk_edit.id = response.data.id;
+                    $scope.aspirantura_ruk_soisk_edit.ids = response.data.ids;
                     $scope.aspirantura_ruk_soisk.push($scope.aspirantura_ruk_soisk_edit);
                     
                     // $scope.show_aspirantura_ruk_soisk_edit_form = false;
@@ -8205,11 +8209,21 @@ $scope.toggleAdminChangeChair = function(chair)
                   }
                   else
                   {
-                    const obj_ind_in_array = findIndByColumn($scope.aspirantura_ruk_soisk, 'id', $scope.aspirantura_ruk_soisk_edit.id);
-                    $scope.aspirantura_ruk_soisk[obj_ind_in_array] = $scope.aspirantura_ruk_soisk_edit;
+                    // const obj_ind_in_array = findIndByColumn($scope.aspirantura_ruk_soisk, 'id', $scope.aspirantura_ruk_soisk_edit.id);
+                    CL($scope.aspirantura_ruk_soisk_edit_index);
+                    CL($scope.aspirantura_ruk_soisk_edit);
+
+                    // !! TODO здесь не работает, пришлось сделать обновление страницы
+                    // $scope.aspirantura_ruk_soisk[$scope.aspirantura_ruk_soisk_edit_index] = angular.copy($scope.aspirantura_ruk_soisk_edit);
+                    window.location.reload();
                   }
 
                   $scope.aspirantura_ruk_soisk_edit = {};
+
+                  // Вместо прямой очистки — отложенная
+                  // $timeout(function() {
+                  //     $scope.aspirantura_ruk_soisk_edit = {};
+                  // });
                 }
                 else
                 {
@@ -8244,9 +8258,9 @@ $scope.toggleAdminChangeChair = function(chair)
       // $scope.AspiranturaRukSoiskShowAddForm();
 
       // диалог добавление или редактирования
-      $scope.AspiranturaRukSoiskOpenDialog = function(nagruzka_row)
+      $scope.AspiranturaRukSoiskOpenDialog = function(nagruzka_row, row_index)
       {
-        CL('AspiranturaRukSoiskOpenDialog');
+        // CL('AspiranturaRukSoiskOpenDialog');
 
         if (c_roles['ruk_aspirantura'] != '1') return;
 
@@ -8254,6 +8268,9 @@ $scope.toggleAdminChangeChair = function(chair)
         if (isEmpty(nagruzka_row)) nagruzka_row = {};
 
         $scope.aspirantura_ruk_soisk_edit = angular.copy(nagruzka_row);
+        $scope.aspirantura_ruk_soisk_edit_index = row_index;
+        CL($scope.aspirantura_ruk_soisk_edit);
+        CL(row_index);
 
         ngDialog.openConfirm({
                     template: "aspirantura_ruk_soisk_dialog.tpl.html" + "?" + getRandom(10000, 99999),

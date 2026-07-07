@@ -23,7 +23,7 @@
       </thead>
 
       <tbody>
-        <tr ng-repeat="row in aspirantura_ruk_soisk" class="pointer" ng-class="{'readonly': false}" ng-click="AspiranturaRukSoiskOpenDialog(row)">
+        <tr ng-repeat="row in aspirantura_ruk_soisk" class="pointer" ng-class="{'readonly': false}" ng-click="AspiranturaRukSoiskOpenDialog(row, $index)">
           <td>{{row.fio}}</td>
           <td>{{row.prikaz}}</td>
           <td>{{row.lecturer_department_name}}</td>

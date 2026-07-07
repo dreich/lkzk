@@ -65,8 +65,8 @@ else
               `chair_id` = '$data[chair_id]',
               `chair_name` = '$data[chair_name]',
               `department_id` = '$data[department_id]',
-              `department_name` = '$data[department_name]'
-
+              `department_name` = '$data[department_name]',
+              `date_update` = NOW()
               WHERE `id` = '$data[id]'
             ";
 }

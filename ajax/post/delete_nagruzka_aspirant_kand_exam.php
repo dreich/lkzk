@@ -48,7 +48,8 @@ else
             `chair_id` = '',
             `chair_name` = '',
             `department_id` = '',
-            `department_name` = ''
+            `department_name` = '',
+            `date_update` = NOW()
         WHERE `id` = '$data[id]'
       ");
 }

@@ -25,10 +25,11 @@ if (!$data) {
   exit;
 }
 
+$data = quote_smart($data);
+
 $common_sql = 
 "
-`fio` = '$data[fio]',
-`prikaz` = '$data[prikaz]',
+
 `lecturer_login` = '$data[lecturer_login]',
 `lecturer_person_id` = '$data[lecturer_person_id]',
 `lecturer_uid` = '$data[lecturer_uid]',
@@ -37,8 +38,12 @@ $common_sql =
 `lecturer_chair_name` = '$data[lecturer_chair_name]',
 `lecturer_department_id` = '$data[lecturer_department_id]',
 `lecturer_department_name` = '$data[lecturer_department_name]',
+`deleted` = '0',
 ";
 
+$adding_ids = [];
+
+// Добавление
 if (!$data['id'])
 {
   $load_id = uniq(16);
@@ -46,21 +51,65 @@ if (!$data['id'])
   $query = "INSERT INTO `aspirantura_ruk_soisk` 
             SET
               `load_id` = '$load_id',
+              `fio` = '$data[fio]',
+              `prikaz` = '$data[prikaz]',
+              `UID_Semester` = '1',
               $common_sql
               `date` = NOW()
             ";
+
+  $Result = $mysqli->query($query);
+
+  $adding_ids[] = $mysqli->insert_id;
+
+  $load_id = uniq(16);
+
+  $query = "INSERT INTO `aspirantura_ruk_soisk` 
+            SET
+              `load_id` = '$load_id',
+              `fio` = '$data[fio]',
+              `prikaz` = '$data[prikaz]',
+              `UID_Semester` = '2',
+              $common_sql
+              `date` = NOW()
+            ";
+
+  $Result = $mysqli->query($query);
+
+  $adding_ids[] = $mysqli->insert_id;
 }
+// Обновление
 else
 {
+  // $data['ids'];
+
   $query = "UPDATE `aspirantura_ruk_soisk` 
             SET 
               $common_sql
+              `UID_Semester` = '1',
+              `fio` = '$data[fio]',
+              `prikaz` = '$data[prikaz]',
               `date_update` = NOW()
-              WHERE `id` = '$data[id]'
+              WHERE  `id` = {$data['ids'][0]}
             ";
+
+  $Result = $mysqli->query($query);
+
+
+  $query = "UPDATE `aspirantura_ruk_soisk` 
+            SET 
+              $common_sql
+              `UID_Semester` = '2',
+              `fio` = '$data[fio]',
+              `prikaz` = '$data[prikaz]',
+              `date_update` = NOW()
+              WHERE  `id` = {$data['ids'][1]}
+            ";
+
+  $Result = $mysqli->query($query);
 }
 
-$Result = $mysqli->query($query);
+
 
 if (!$Result)
 {
@@ -75,8 +124,10 @@ else
   }
 }
 
-if ($Result !== false) {
-    echo json_encode(['result' => 'success', 'id' => $id]);
-} else {
+if ($Result !== false) 
+{
+    echo json_encode(['result' => 'success', 'id' => $id, 'ids' => $adding_ids]);
+} else 
+{
     echo json_encode(['result' => 'error', 'message' => 'Failed to save']);
 }

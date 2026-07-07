@@ -54,13 +54,20 @@ $Nagruzka = GetSQL("SELECT *
                     $lecturer_sql
                   ");
 
-// if ($Chairs)
-// {
-//   foreach ($Chairs as &$chair)
-//   {
-//     $chair['visible'] = !!$chair['visible'];
-//   }
-// }
+$NagruzkaByPerson = [];
 
-echo json_encode($Nagruzka);
+if ($Nagruzka)
+{
+  foreach ($Nagruzka as $row)
+  {
+    if (!$NagruzkaByPerson["$row[fio]-$row[prikaz]"])
+    {
+      $NagruzkaByPerson["$row[fio]-$row[prikaz]"] = $row;
+    }
+    
+    $NagruzkaByPerson["$row[fio]-$row[prikaz]"]['ids'][] = $row['id'];
+  }
+}
+
+echo json_encode(array_values($NagruzkaByPerson));
 ?>

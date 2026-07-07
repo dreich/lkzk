@@ -17,7 +17,6 @@ include '../connect/opop2.php';
 EchoLog("Start cron");
 
 
-
 $Napravlenia = GetTable('napravlenia', "", "", "napravlenie");
 
 
@@ -174,7 +173,7 @@ if ($BUPDisciplines)
   }
 }
 
-exit;
+// exit;
 
 include '../connect/vkr.php';
 
@@ -209,6 +208,7 @@ function GetAspRukAspQuery($aspirant, $semester, $load_id)
                                   `deleted` = '0'
                               ";
 }
+
 
 if ($Aspirants)
 {
@@ -248,6 +248,8 @@ if ($Aspirants)
     }
   }
 }
+
+
 
 // exit;
 
@@ -468,11 +470,16 @@ $ContentOfLoadStaffBaseUID1sNotVo = [];
 
 function LoadXML($filename, $table_name)
 {
-  global $mysqli, $Napravlenia, $xml_content_of_load_columns_for_hash, $xml_content_of_load_staff_columns_for_hash, $XMLKindOfWorkGIA1, $XMLKindOfWorkGIA2, $XMLKindOfWorkVKR, $XMLKindOfWorkKurs, $_XMLContentOfLoadStaffByBaseUID1, $XMLSpeciality, $ContentOfLoadStaffBaseUID1sNotVo, $db_error, $_ksro_kind_uid, $_ksro_discipline_uid, $_ik_kind_uid, $_ik_discipline_uid, $_aspirant_nagruzka_itog_examen_kind_uids, $_aspirant_nagruzka_itog_examen_discipline1, $XMLLecturer, $XMLDiscipline, $XMLKindOfWorkForDisciplineSection;
+  global $mysqli, $Napravlenia, $xml_content_of_load_columns_for_hash, $xml_content_of_load_staff_columns_for_hash, $XMLKindOfWorkGIA1, $XMLKindOfWorkGIA2, $XMLKindOfWorkVKR, $XMLKindOfWorkKurs, $_XMLContentOfLoadStaffByBaseUID1, $XMLSpeciality, $ContentOfLoadStaffBaseUID1sNotVo, $db_error, $_ksro_kind_uid, $_ksro_discipline_uid, $_ik_kind_uid, $_ik_discipline_uid, $_aspirantura_kand_exam_kind_uid, $_aspirant_nagruzka_itog_examen_kind_uids, $_aspirant_nagruzka_itog_examen_discipline1, $_aspirant_ruk_asp_kind_uid, $_aspirant_ruk_soisk_kind_uid, $XMLLecturer, $XMLDiscipline, $XMLKindOfWorkForDisciplineSection;
+
+
 
   EchoLog("LoadXML: $table_name", 'file screen');
 
-  // if ($table_name === 'xml_content_of_load') EchoLog("HERE 1");
+  if ($table_name === 'xml_content_of_load' || $table_name === 'xml_content_of_load_staff')
+  {
+       gc_collect_cycles();
+  }
 
   $XML = loadXMLSafe($filename);
 
@@ -611,6 +618,7 @@ function LoadXML($filename, $table_name)
         // EchoLog(IsNagruzkaDiscipline($_XMLContentOfLoadStaffByBaseUID1[$base_uid]['Abbr']));
       }
 
+      // КСРО. Проставим base_uid.
       if ($arr['UID_KindOfWork'] === $_ksro_kind_uid || $arr['UID_KindOfWork'] === $_ik_kind_uid || $arr['UID_Discipline'] === $_ksro_discipline_uid ||  $arr['UID_Discipline'] === $_ik_discipline_uid)
       {
         $sql_arr[] = "`nagruzka_type` = 'ksro'";
@@ -621,6 +629,39 @@ function LoadXML($filename, $table_name)
           $mysqli->query("UPDATE `ksro` SET `base_uid` = '$base_uid' WHERE `load_id` = '$arr[LoadId]'");
         }
 
+      }
+      // Аспирантура - кандидатские экзамены. Проставим base_uid.
+      else if ($arr['UID_KindOfWork'] === $_aspirantura_kand_exam_kind_uid)
+      {
+        $sql_arr[] = "`nagruzka_type` = 'aspirantura_kand_exam'";
+
+        // Проставим base_uid, пришедший из Галактики
+        if ($arr['LoadId'] && $base_uid)
+        {
+          $mysqli->query("UPDATE `aspirantura_kand_exam` SET `base_uid` = '$base_uid' WHERE `load_id` = '$arr[LoadId]'");
+        }
+      }
+      // Аспирантура - руководство аспирантом. Проставим base_uid.
+      else if ($arr['UID_KindOfWork'] === $_aspirant_ruk_asp_kind_uid)
+      {
+        $sql_arr[] = "`nagruzka_type` = 'aspirantura_ruk_asp'";
+
+        // Проставим  base_uid, пришедший из Галактики
+        if ($arr['LoadId'] && $base_uid)
+        {
+          $mysqli->query("UPDATE `aspirantura_ruk_asp` SET `base_uid` = '$base_uid' WHERE `load_id` = '$arr[LoadId]'");
+        }
+      }
+      // Аспирантура - руководство соискателем. Проставим base_uid.
+      else if ($arr['UID_KindOfWork'] === $_aspirant_ruk_soisk_kind_uid)
+      {
+        $sql_arr[] = "`nagruzka_type` = 'aspirantura_ruk_soisk'";
+
+        // Проставим  base_uid, пришедший из Галактики
+        if ($arr['LoadId'] && $base_uid)
+        {
+          $mysqli->query("UPDATE `aspirantura_ruk_soisk` SET `base_uid` = '$base_uid' WHERE `load_id` = '$arr[LoadId]'");
+        }
       }
       // Должно быть выше ГИА, иначе отнесётся к ГИА
       elseif (in_array($arr['UID_KindOfWork'], $_aspirant_nagruzka_itog_examen_kind_uids) && $arr['UID_Discipline'] === $_aspirant_nagruzka_itog_examen_discipline1)
@@ -2455,4 +2496,11 @@ else
 
 EchoLog("END cron");
 echo "<br>Конец скрипта<br>";
+
+
+$peakMemory = round(memory_get_peak_usage(true) / 1024 / 1024, 2);
+        
+EchoLog("Peak memory usage: {$peakMemory} MB");
+
+
 ?>
