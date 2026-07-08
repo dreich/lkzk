@@ -541,7 +541,7 @@ foreach ($employees as &$employee)
       {
         foreach ($AspiranturaRukAspByPersonID[$personId] as $row)
         {
-          safeAdd($totalAmount, $_aspirantura_ruk_asp_hours);
+          safeAdd($totalAmount, $_aspirantura_ruk_asp_hours / 2);
         }
       }
 
@@ -549,7 +549,7 @@ foreach ($employees as &$employee)
       {
         foreach ($AspiranturaRukSoiskByPersonID[$personId] as $row)
         {
-          safeAdd($totalAmount, $_aspirantura_ruk_soisk_hours);
+          safeAdd($totalAmount, $_aspirantura_ruk_soisk_hours / 2);
         }
       }
 

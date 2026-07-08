@@ -6,6 +6,14 @@ include '../functions.php';
 
 exit;
 
+$Rows = GetTable('ksro');
+
+foreach ($Rows as $row)
+{
+  $load_id = uniq(16);
+  $mysqli->query("UPDATE `ksro` SET `load_id` = '$load_id' WHERE `id` = '$row[id]'");
+}
+
 $Rows = GetTable('aspirantura_kand_exam');
 
 foreach ($Rows as $row)

@@ -4,25 +4,12 @@ include '../../functions.php';
 
 // EchoLog('Start export of selected nagruzka rows');
 
-// $query = "
-//           SELECT
-//             xml_content_of_load.base_uid,
-//             xml_content_of_load.base_uid2,
-//             xml_content_of_load.LoadType,
-//             xml_content_of_load.Amount,
-//             xml_content_of_load.StudentAmount,
-//             nagruzka.lecturer_uid,
-//             nagruzka.lecturer_fio
-//           FROM `nagruzka`
-//           JOIN `xml_content_of_load` ON xml_content_of_load.base_uid = nagruzka.load_base_UID2
-//           WHERE nagruzka.valid = 1
-//             AND TRIM(IFNULL(nagruzka.lecturer_fio, '')) <> ''
-//         ";
 
 $XmlContentOfLoad = GetTable('xml_content_of_load', "`LoadId` <> ''", "", "LoadId", "LoadId");
 $XmlChairByCode = GetTable('xml_chair', "", "", "Code");
-
-
+$XmlFacultyByCode = GetTable('xml_faculty', "", "", "Code");
+$XmlFacultyByName = GetTable('xml_faculty', "", "", "Name");
+$XmlGroupByUID = GetTable('xml_group', "", "", "UID");
 
 $query = "SELECT * FROM `ksro`";
 
@@ -51,15 +38,20 @@ $data->appendChild($collection);
 
 $rows_count = 0;
 
+// КСРО
 if ($Result)
 while ($Row = $Result->fetch_assoc())
 {
   // если в xml уже есть такой load_id, то не выгружаем
   if ($XmlContentOfLoad[$Row['load_id']]) continue;
 
+  if (empty($Row['Amount'])) continue;
+
   $object = $doc->createElement('Object');
   $object->setAttribute('LoadId', $Row['load_id']);
   $object->setAttribute('class_id', 'ContentOfLoad');
+  $object->setAttribute('nagruzka_type', 'ksro');
+  $object->setAttribute('fio', $Row['lecturer_fio']);
   
   $prop_values = $doc->createElement('Collection');
   $prop_values->setAttribute('name', 'Prop_Values');
@@ -122,7 +114,7 @@ while ($Row = $Result->fetch_assoc())
 if ($Result) $Result->free();
 
 
-$AspiranturaKandExam = GetTable('aspirantura_kand_exam', "`deleted` <> '1' AND `lecturer_uid` <> ''");
+// $AspiranturaKandExam = GetTable('aspirantura_kand_exam', "`deleted` <> '1'");
 
 if ($AspiranturaKandExam)
 {
@@ -134,6 +126,8 @@ if ($AspiranturaKandExam)
     $object = $doc->createElement('Object');
     $object->setAttribute('LoadId', $row['load_id']);
     $object->setAttribute('class_id', 'ContentOfLoad');
+    $object->setAttribute('nagruzka_type', 'aspirantura_kand_exam');
+    $object->setAttribute('fio', $row['lecturer_fio']);
     
     $prop_values = $doc->createElement('Collection');
     $prop_values->setAttribute('name', 'Prop_Values');
@@ -191,21 +185,49 @@ if ($AspiranturaKandExam)
 
     // UID_Group
     $prop_chair = $doc->createElement('prop_value');
-    $prop_chair->setAttribute('prop_name', 'UID_Chair');
+    $prop_chair->setAttribute('prop_name', 'UID_Group');
     $prop_chair->setAttribute('value', $row['groups_uid']);
     $prop_values->appendChild($prop_chair);
 
+    // для таких случаев всем ставь
+    // факультет: 25031.281474976762091
+    // кафедру: 25031.281474976763050
+    // это аспирантский центр
+    if (empty($XmlChairByCode[$row['chair_id']]['UID']))
+    {
+      $chair_uid = '25031.281474976763050';
+      $fac_uid = '25031.281474976762091';
+    }
+    else
+    {
+      $chair_uid = $XmlChairByCode[$row['chair_id']]['UID'];
+      $fac_uid = $XmlFacultyByCode[$row['department_id']]['UID'];
+    }
+
     // UID_Chair
-    // $prop_chair = $doc->createElement('prop_value');
-    // $prop_chair->setAttribute('prop_name', 'UID_Chair');
-    // $prop_chair->setAttribute('value', $Row['UID_Chair']);
-    // $prop_values->appendChild($prop_chair);
+    $prop_chair = $doc->createElement('prop_value');
+    $prop_chair->setAttribute('prop_name', 'UID_Chair');
+    $prop_chair->setAttribute('value', $chair_uid);
+    $prop_values->appendChild($prop_chair);
     
     // UID_FacultyPerformer
-    // $prop_faculty = $doc->createElement('prop_value');
-    // $prop_faculty->setAttribute('prop_name', 'UID_FacultyPerformer');
-    // $prop_faculty->setAttribute('value', $Row['UID_FacultyPerformer']);
-    // $prop_values->appendChild($prop_faculty);
+    $prop_faculty = $doc->createElement('prop_value');
+    $prop_faculty->setAttribute('prop_name', 'UID_FacultyPerformer');
+    $prop_faculty->setAttribute('value', $fac_uid);
+    $prop_values->appendChild($prop_faculty);
+
+    // UID_FacultyOwner
+    $prop_faculty = $doc->createElement('prop_value');
+    $prop_faculty->setAttribute('prop_name', 'UID_FacultyOwner');
+    $prop_faculty->setAttribute('value', $XmlFacultyByName[$row['bup_department_name']]['UID']);
+    $prop_values->appendChild($prop_faculty);
+
+    // UID_Speciality
+    $prop_speciality = $doc->createElement('prop_value');
+    $prop_speciality->setAttribute('prop_name', 'UID_Speciality');
+    $prop_speciality->setAttribute('value', $XmlGroupByUID[$row['groups_uid']]['UID_Speciality']);
+    $prop_values->appendChild($prop_speciality);
+    
 
     $object->appendChild($prop_values);
     $collection->appendChild($object);
@@ -215,7 +237,7 @@ if ($AspiranturaKandExam)
 
 
 
-$AspiranturaRukAsp = GetTable('aspirantura_ruk_asp', "`deleted` <> '1' AND `lecturer_uid` <> ''");
+$AspiranturaRukAsp = GetTable('aspirantura_ruk_asp', "`deleted` <> '1' AND `lecturer_uid` = ''");
 
 if ($AspiranturaRukAsp)
 {
@@ -227,6 +249,8 @@ if ($AspiranturaRukAsp)
     $object = $doc->createElement('Object');
     $object->setAttribute('LoadId', $row['load_id']);
     $object->setAttribute('class_id', 'ContentOfLoad');
+    $object->setAttribute('nagruzka_type', 'aspirantura_ruk_asp');
+    $object->setAttribute('fio', $row['lecturer_fio']);
     
     $prop_values = $doc->createElement('Collection');
     $prop_values->setAttribute('name', 'Prop_Values');
@@ -248,7 +272,7 @@ if ($AspiranturaRukAsp)
     // TypeOfContingent
     $prop_contingent = $doc->createElement('prop_value');
     $prop_contingent->setAttribute('prop_name', 'TypeOfContingent');
-    $prop_contingent->setAttribute('value', '');
+    $prop_contingent->setAttribute('value', '4');
     $prop_values->appendChild($prop_contingent);
     
     // UID_KindOfWork («Руководство аспирантом»)
@@ -288,17 +312,44 @@ if ($AspiranturaRukAsp)
     // $prop_chair->setAttribute('value', $row['groups_uid']);
     // $prop_values->appendChild($prop_chair);
 
+    // для таких случаев всем ставь
+    // факультет: 25031.281474976762091
+    // кафедру: 25031.281474976763050
+    // это аспирантский центр
+    if (empty($XmlChairByCode[$row['lecturer_chair_id']]['UID']))
+    {
+      $chair_uid = '25031.281474976763050';
+      $fac_uid = '25031.281474976762091';
+    }
+    else
+    {
+      $chair_uid = $XmlChairByCode[$row['lecturer_chair_id']]['UID'];
+      $fac_uid = $XmlFacultyByCode[$row['lecturer_department_id']]['UID'];
+    }
+
     // UID_Chair
-    // $prop_chair = $doc->createElement('prop_value');
-    // $prop_chair->setAttribute('prop_name', 'UID_Chair');
-    // $prop_chair->setAttribute('value', $Row['UID_Chair']);
-    // $prop_values->appendChild($prop_chair);
+    $prop_chair = $doc->createElement('prop_value');
+    $prop_chair->setAttribute('prop_name', 'UID_Chair');
+    $prop_chair->setAttribute('value', $chair_uid);
+    $prop_values->appendChild($prop_chair);
     
     // UID_FacultyPerformer
-    // $prop_faculty = $doc->createElement('prop_value');
-    // $prop_faculty->setAttribute('prop_name', 'UID_FacultyPerformer');
-    // $prop_faculty->setAttribute('value', $Row['UID_FacultyPerformer']);
-    // $prop_values->appendChild($prop_faculty);
+    $prop_faculty = $doc->createElement('prop_value');
+    $prop_faculty->setAttribute('prop_name', 'UID_FacultyPerformer');
+    $prop_faculty->setAttribute('value', $fac_uid);
+    $prop_values->appendChild($prop_faculty);
+
+    // UID_Chair
+    $prop_chair = $doc->createElement('prop_value');
+    $prop_chair->setAttribute('prop_name', 'UID_Chair');
+    $prop_chair->setAttribute('value', $chair_uid);
+    $prop_values->appendChild($prop_chair);
+    
+    // UID_FacultyPerformer
+    $prop_faculty = $doc->createElement('prop_value');
+    $prop_faculty->setAttribute('prop_name', 'UID_FacultyPerformer');
+    $prop_faculty->setAttribute('value', $fac_uid);
+    $prop_values->appendChild($prop_faculty);
 
     $object->appendChild($prop_values);
     $collection->appendChild($object);
@@ -308,7 +359,7 @@ if ($AspiranturaRukAsp)
 
 
 
-$AspiranturaRukSoisk = GetTable('aspirantura_ruk_soisk', "`deleted` <> '1' AND `lecturer_uid` <> ''");
+// $AspiranturaRukSoisk = GetTable('aspirantura_ruk_soisk', "`deleted` <> '1'");
 
 if ($AspiranturaRukSoisk)
 {
@@ -320,6 +371,8 @@ if ($AspiranturaRukSoisk)
     $object = $doc->createElement('Object');
     $object->setAttribute('LoadId', $row['load_id']);
     $object->setAttribute('class_id', 'ContentOfLoad');
+    $object->setAttribute('nagruzka_type', 'aspirantura_ruk_soisk');
+    $object->setAttribute('fio', $row['lecturer_fio']);
     
     $prop_values = $doc->createElement('Collection');
     $prop_values->setAttribute('name', 'Prop_Values');
@@ -329,7 +382,7 @@ if ($AspiranturaRukSoisk)
     // Amount
     $prop_amount = $doc->createElement('prop_value');
     $prop_amount->setAttribute('prop_name', 'Amount');
-    $prop_amount->setAttribute('value', $_aspirantura_ruk_asp_hours / 2);
+    $prop_amount->setAttribute('value', $_aspirantura_ruk_soisk_hours / 2);
     $prop_values->appendChild($prop_amount);
 
     // StudentAmount
@@ -341,7 +394,7 @@ if ($AspiranturaRukSoisk)
     // TypeOfContingent
     $prop_contingent = $doc->createElement('prop_value');
     $prop_contingent->setAttribute('prop_name', 'TypeOfContingent');
-    $prop_contingent->setAttribute('value', '');
+    $prop_contingent->setAttribute('value', '4');
     $prop_values->appendChild($prop_contingent);
     
     // UID_KindOfWork («Руководство соискателем»)
@@ -381,17 +434,32 @@ if ($AspiranturaRukSoisk)
     // $prop_chair->setAttribute('value', $row['groups_uid']);
     // $prop_values->appendChild($prop_chair);
 
+    // для таких случаев всем ставь
+    // факультет: 25031.281474976762091
+    // кафедру: 25031.281474976763050
+    // это аспирантский центр
+    if (empty($XmlChairByCode[$row['lecturer_chair_id']]['UID']))
+    {
+      $chair_uid = '25031.281474976763050';
+      $fac_uid = '25031.281474976762091';
+    }
+    else
+    {
+      $chair_uid = $XmlChairByCode[$row['lecturer_chair_id']]['UID'];
+      $fac_uid = $XmlFacultyByCode[$row['lecturer_department_id']]['UID'];
+    }
+
     // UID_Chair
-    // $prop_chair = $doc->createElement('prop_value');
-    // $prop_chair->setAttribute('prop_name', 'UID_Chair');
-    // $prop_chair->setAttribute('value', $Row['UID_Chair']);
-    // $prop_values->appendChild($prop_chair);
+    $prop_chair = $doc->createElement('prop_value');
+    $prop_chair->setAttribute('prop_name', 'UID_Chair');
+    $prop_chair->setAttribute('value', $chair_uid);
+    $prop_values->appendChild($prop_chair);
     
     // UID_FacultyPerformer
-    // $prop_faculty = $doc->createElement('prop_value');
-    // $prop_faculty->setAttribute('prop_name', 'UID_FacultyPerformer');
-    // $prop_faculty->setAttribute('value', $Row['UID_FacultyPerformer']);
-    // $prop_values->appendChild($prop_faculty);
+    $prop_faculty = $doc->createElement('prop_value');
+    $prop_faculty->setAttribute('prop_name', 'UID_FacultyPerformer');
+    $prop_faculty->setAttribute('value', $fac_uid);
+    $prop_values->appendChild($prop_faculty);
 
     $object->appendChild($prop_values);
     $collection->appendChild($object);
@@ -402,19 +470,19 @@ if ($AspiranturaRukSoisk)
 
 
 
-
 // Сохраняем XML в файл
-$filename = 'ksro.xml';
-$filepath = __DIR__ . '../' . $filename;
-
-// отдать в браузер
-
-// header('Content-Type: text/xml; charset=UTF-8');
-// header("Content-Disposition: attachment; filename=\"$filename\"");
-// echo $doc->saveXML();
+$filename = 'export_ruk_asp.xml';
+$filepath = __DIR__ . '/' . $filename;
 
 $doc->save($filepath);
 
-EchoLog("Export finished. Exported $rows_count rows to file: $filename");
+// отдать в браузер
+
+header('Content-Type: text/xml; charset=UTF-8');
+header("Content-Disposition: attachment; filename=\"$filename\"");
+echo $doc->saveXML();
+
+
+// EchoLog("Export finished. Exported $rows_count rows to file: $filename");
 
 ?>

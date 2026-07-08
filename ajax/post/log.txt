@@ -39,3 +39,24 @@
               `prikaz` = 'Приказ1',
               `date_update` = NOW()
               WHERE  `id` =[/ajax/post/save_nagruzka_aspirant_ruk_soisk.php] [Chrome 149.0.0.0] [127.0.0.1]
+[07.07.2026 - 09:35.14] Error in save_nagruzka_aspirant_ruk_soisk.php: Duplicate entry '2-Тест-ТЕст' for key 'UID_Semester_fio_prikaz'[/ajax/post/save_nagruzka_aspirant_ruk_soisk.php] [Chrome 149.0.0.0] [127.0.0.1]
+[07.07.2026 - 09:35.14] mail_utf8: wwwlab@unn.ru,  lkzk.unn.ru, wwwlab@unn.ru[/ajax/post/save_nagruzka_aspirant_ruk_soisk.php] [Chrome 149.0.0.0] [127.0.0.1]
+[07.07.2026 - 09:35.14] INSERT INTO `aspirantura_ruk_soisk` 
+            SET
+              `load_id` = 'e63dce00f52f311d',
+              `fio` = 'Тест',
+              `prikaz` = 'ТЕст',
+              `UID_Semester` = '2',
+              
+
+`lecturer_login` = 'chuprunov',
+`lecturer_person_id` = '8212',
+`lecturer_uid` = '26115.281474976795302',
+`lecturer_fio` = 'Чупрунов Евгений Владимирович',
+`lecturer_chair_id` = '00066',
+`lecturer_chair_name` = 'Кафедра кристаллографии и экспериментальной физики',
+`lecturer_department_id` = '00152',
+`lecturer_department_name` = 'Физический факультет',
+`deleted` = '0',
+
+              `date` = NOW()[/ajax/post/save_nagruzka_aspirant_ruk_soisk.php] [Chrome 149.0.0.0] [127.0.0.1]

@@ -9,19 +9,39 @@ include_once __DIR__ . '/../BaseNagruzkaProvider.php';
  * Сплиты очищаются при синхронизации, берём данные из Галактики
  */
 class VerificationMode extends BaseNagruzkaProvider
-{
+{   
+    // Возможно, править также в FillingMode
     public function canView()
     {
-        // Все роли могут просматривать
-        if ($this->userRole === 'zavkaf') {
+        global $_SERVER;
+
+        // EchoLog($this->userRole);
+        
+        // EchoLog($this->session['c_chair_id']);
+
+        if ($this->userRole === 'dean') 
+        {
+            return !empty($this->session['c_department_id']);
+        }
+
+        // Завкаф видит свою кафедру, УОУП видит все, сотрудник видит только если есть lecturer_uid
+        if ($this->userRole === 'zavkaf') 
+        {
             return !empty($this->session['c_chair_id']);
         }
 
-        if ($this->userRole === 'uoup') {
+        if ($_SERVER['REMOTE_ADDR'] == '85.143.4.44')
+        {
+            // EchoLog($this->userRole);
+        }
+
+        if ($this->userRole === 'uoup' || $this->userRole === 'ruk_aspirantura') 
+        {
             return true;
         }
 
-        if ($this->userRole === 'sotrudnik') {
+        if ($this->userRole === 'sotrudnik') 
+        {
             return !empty($this->lecturerUid);
         }
 
@@ -36,6 +56,7 @@ class VerificationMode extends BaseNagruzkaProvider
 
     public function getNagruzkaTypeFilter()
     {
+        // Используем type из GET-параметров (all, empty, или конкретный тип)
         return $this->nagruzkaType ?: 'all';
     }
 

@@ -1,12 +1,15 @@
 <?php
 
+include '../functions.php';
+
 // print_r($_SERVER);
 // exit;
 
-$LOAD_NEW_DATA_FROM_NETWORK = true;
-$UPDATE_TABLES = true;  // для проверки изменения хешей это должно быть включено
+// Получим режим работы системы из БД
+$_system_mode = GetSystemParam('system_mode');
 
-include '../functions.php';
+$LOAD_NEW_DATA_FROM_NETWORK = false;
+$UPDATE_TABLES = false;  // для проверки изменения хешей это должно быть включено
 
 $XMLGroupByName = GetTable('xml_group', "", "", "Name", "Name, UID");
 
@@ -50,14 +53,14 @@ if ($BUPGroups)
 
 include '../connect.php';
 
-if ($UPDATE_TABLES)
+if ($UPDATE_TABLES) //  && $_system_mode == 'mode_filling')
 {
-  fullBackupTable('nagruzka', 4);
-  fullBackupTable('zavkaf_splits', 4);
-  fullBackupTable('ksro', 4);
-  fullBackupTable('aspirantura_kand_exam', 4);
-  fullBackupTable('aspirantura_ruk_asp', 4);
-  fullBackupTable('aspirantura_ruk_soisk', 4);
+  fullBackupTable('nagruzka', 10);
+  fullBackupTable('zavkaf_splits', 10);
+  fullBackupTable('ksro', 10);
+  fullBackupTable('aspirantura_kand_exam', 10);
+  fullBackupTable('aspirantura_ruk_asp', 10);
+  fullBackupTable('aspirantura_ruk_soisk', 10);
 }
 
 echo sizeof($BUPDisciplines);
@@ -175,86 +178,58 @@ if ($BUPDisciplines)
 
 // exit;
 
-include '../connect/vkr.php';
-
-$Aspirants = GetRows('students_ip', ['education_level' => 'Аспирант', 'status' => 'Учится']);
-
-include '../connect.php';
-// echo sizeof($Aspirants);
-
-function GetAspRukAspQuery($aspirant, $semester, $load_id)
+if ($_system_mode == 'mode_filling')
 {
-  return "INSERT INTO `aspirantura_ruk_asp` 
-                              SET `load_id` = '$load_id',
-                                  `uid` = '$aspirant[uid]', 
-                                  `UID_Semester` = '$semester',
-                                  `fio` = '$aspirant[fio]',
-                                  `department_id` = '$aspirant[department_id]',
-                                  `department` = '$aspirant[department]',
-                                  `napravlenie_code` = '$aspirant[napravlenie_code]',
-                                  `napravlenie_title` = '$aspirant[napravlenie_title]',
-                                  `course` = '$aspirant[course]',
-                                  `group` = '$aspirant[group]',
-                                  `deleted` = '0',
-                                  `date` = NOW()
-                              ON DUPLICATE KEY UPDATE
-                                  `fio` = VALUES(`fio`),
-                                  `department_id` = VALUES(`department_id`),
-                                  `department` = VALUES(`department`),
-                                  `napravlenie_code` = VALUES(`napravlenie_code`),
-                                  `napravlenie_title` = VALUES(`napravlenie_title`),
-                                  `course` = VALUES(`course`),
-                                  `group` = VALUES(`group`),
-                                  `deleted` = '0'
-                              ";
-}
+  include '../connect/vkr.php';
+
+  $Aspirants = GetRows('students_ip', ['education_level' => 'Аспирант', 'status' => 'Учится']);
+
+  include '../connect.php';
+  // echo sizeof($Aspirants);
 
 
-if ($Aspirants)
-{
-  // Т.к. аспирант мог перестать учиться, (и не попадёт в массив) то проставим всем строкам deleted = 1
-  $mysqli->query("UPDATE `aspirantura_ruk_asp` SET `deleted` = '1', `date_update` = NOW()");
-
-  foreach ($Aspirants as $aspirant)
+  if ($Aspirants)
   {
-    // EchoLog($aspirant['group']);
-    $bup = $BUPs[$aspirant['bup_nrec']];
+    // Т.к. аспирант мог перестать учиться, (и не попадёт в массив) то проставим всем строкам deleted = 1
+    $mysqli->query("UPDATE `aspirantura_ruk_asp` SET `deleted` = '1', `date_update` = NOW()");
 
-    // дата окончания в БУПе студента должна быть больше 1 октября текущего года
-    $october1 = date('Y') . "-10-01";
-
-    if ($bup['end_date'] >= $october1)
+    foreach ($Aspirants as $aspirant)
     {
-      $load_id = uniq(16);
-      $semester = 1;
-      $query = GetAspRukAspQuery($aspirant, $semester, $load_id);
-      $Result = $mysqli->query($query);
+      // EchoLog($aspirant['group']);
+      $bup = $BUPs[$aspirant['bup_nrec']];
 
-      $load_id = uniq(16);
-      $semester = 2;
-      $query = GetAspRukAspQuery($aspirant, $semester, $load_id);
-      $Result = $mysqli->query($query);
-    }
-    // других нужно "удалить"
-    else
-    {
-      $Result = $mysqli->query("UPDATE `aspirantura_ruk_asp` SET `deleted` = '1' WHERE `uid` = '$aspirant[uid]'");
-    }
-    
+      // дата окончания в БУПе студента должна быть больше 1 октября текущего года
+      $october1 = date('Y') . "-10-01";
 
-    if (!$Result)
-    {
-      EchoLog("Error #583 in cron: " . $mysqli->error);
+      if ($bup['end_date'] >= $october1)
+      {
+        $load_id = uniq(16);
+        $semester = 1;
+        $query = GetAspRukAspQuery($aspirant, $semester, $load_id);
+        $Result = $mysqli->query($query);
+
+        $load_id = uniq(16);
+        $semester = 2;
+        $query = GetAspRukAspQuery($aspirant, $semester, $load_id);
+        $Result = $mysqli->query($query);
+      }
+      // других нужно "удалить"
+      else
+      {
+        $Result = $mysqli->query("UPDATE `aspirantura_ruk_asp` SET `deleted` = '1' WHERE `uid` = '$aspirant[uid]'");
+      }
+      
+      if (!$Result)
+      {
+        EchoLog("Error #583 in cron: " . $mysqli->error);
+      }
     }
   }
 }
 
-
-
 // exit;
 
-// Получим режим работы системы из БД
-$_system_mode = GetSystemParam('system_mode');
+
 
 // Временный режим выгрузки в Галактику
 // Если в этом режиме ещё не стоит параметр may_set_mode_verification, то запуск этого скрипта дополнительно проставляет base_uid для нагрузки вида КСРО и Аспирантура (хотя это делает всегда)
@@ -270,10 +245,10 @@ if ($_system_mode == 'export_to_galaktika')
     // if ($r1 && $r2)
     // {
       $Result = $mysqli->query("DELETE FROM `zavkaf_splits`");
-      $Result = $mysqli->query("DELETE FROM `ksro`");
-      $Result = $mysqli->query("DELETE FROM `aspirantura_kand_exam`");
-      $Result = $mysqli->query("DELETE FROM `aspirantura_ruk_asp`");
-      $Result = $mysqli->query("DELETE FROM `aspirantura_ruk_soisk`");
+      // $Result = $mysqli->query("DELETE FROM `ksro`");
+      // $Result = $mysqli->query("DELETE FROM `aspirantura_kand_exam`");
+      // $Result = $mysqli->query("DELETE FROM `aspirantura_ruk_asp`");
+      // $Result = $mysqli->query("DELETE FROM `aspirantura_ruk_soisk`");
     // }
 
     SaveSystemParam('may_set_mode_verification', '');
@@ -294,12 +269,11 @@ if ($_system_mode == 'mode_verification')
   // if ($r1 && $r2)
   {
     $Result = $mysqli->query("DELETE FROM `zavkaf_splits`");
-    $Result = $mysqli->query("DELETE FROM `ksro`");
-    $Result = $mysqli->query("DELETE FROM `aspirantura_kand_exam`");
-    $Result = $mysqli->query("DELETE FROM `aspirantura_ruk_asp`");
-    $Result = $mysqli->query("DELETE FROM `aspirantura_ruk_soisk`");
+    // $Result = $mysqli->query("DELETE FROM `ksro`");
+    // $Result = $mysqli->query("DELETE FROM `aspirantura_kand_exam`");
+    // $Result = $mysqli->query("DELETE FROM `aspirantura_ruk_asp`");
+    // $Result = $mysqli->query("DELETE FROM `aspirantura_ruk_soisk`");
   }
-
 }
 
 // exit;
@@ -1592,6 +1566,90 @@ foreach ($SotrudnikiByPersonChair as $sotrudnik)
 
       }
     }
+
+
+    $AspiranturaKandExamForSotrudnik = GetRows('aspirantura_kand_exam', ['lecturer_person_id' => $sotrudnik['person_id'], 'chair_id' => $sotrudnik['chair_id']]);
+
+    if ($AspiranturaKandExamForSotrudnik)
+    {
+      foreach($AspiranturaKandExamForSotrudnik as $asp_row)
+      {
+        if ($asp_row['lecturer_uid'] !== $lecturer['UID'])
+        {
+          EchoLog("Заменяется lecturer_uid в aspirantura_kand_exam для person_id=$sotrudnik[person_id], row_id: $asp_row[id], lecturer uids: $asp_row[lecturer_uid] !=> $lecturer[UID], chair_id: $sotrudnik[chair_id]");
+
+          // если нужно обновлять не только lecturer_uid, то запрос нужно вынести из if (как в ksro)
+          $Result = $mysqli->query("UPDATE `aspirantura_kand_exam`
+                                  SET `lecturer_uid` = '$lecturer[UID]'
+                                  WHERE `id` = '$asp_row[id]'
+                                ");
+
+          if (!$Result)
+          {
+            EchoLog($mysqli->error);
+            EchoLog($query);
+            $db_error = true;
+          }
+        }
+      }
+    }
+
+
+
+    $AspiranturaRukAspForSotrudnik = GetRows('aspirantura_ruk_asp', ['lecturer_person_id' => $sotrudnik['person_id'], 'lecturer_chair_id' => $sotrudnik['chair_id']]);
+
+    if ($AspiranturaRukAspForSotrudnik)
+    {
+      foreach($AspiranturaRukAspForSotrudnik as $asp_row)
+      {
+        if ($asp_row['lecturer_uid'] !== $lecturer['UID'])
+        {
+          EchoLog("Заменяется lecturer_uid в aspirantura_ruk_asp для person_id=$sotrudnik[person_id], row_id: $asp_row[uid] (sem $asp_row[UID_Semester]), lecturer uids: $asp_row[lecturer_uid] !=> $lecturer[UID], chair_id: $sotrudnik[chair_id]");
+
+          // если нужно обновлять не только lecturer_uid, то запрос нужно вынести из if (как в ksro)
+          $Result = $mysqli->query("UPDATE `aspirantura_ruk_asp`
+                                  SET `lecturer_uid` = '$lecturer[UID]'
+                                  WHERE `uid` = '$asp_row[uid]' AND `UID_Semester` = '$asp_row[UID_Semester]'
+                                ");
+
+          if (!$Result)
+          {
+            EchoLog($mysqli->error);
+            EchoLog($query);
+            $db_error = true;
+          }
+        }
+      }
+    }
+
+
+    $AspiranturaRukSoiskForSotrudnik = GetRows('aspirantura_ruk_soisk', ['lecturer_person_id' => $sotrudnik['person_id'], 'lecturer_chair_id' => $sotrudnik['chair_id']]);
+
+    if ($AspiranturaRukSoiskForSotrudnik)
+    {
+      foreach($AspiranturaRukSoiskForSotrudnik as $asp_row)
+      {
+        if ($asp_row['lecturer_uid'] !== $lecturer['UID'])
+        {
+          EchoLog("Заменяется lecturer_uid в aspirantura_ruk_soisk для person_id=$sotrudnik[person_id], row_id: $asp_row[id], lecturer uids: $asp_row[lecturer_uid] !=> $lecturer[UID], chair_id: $sotrudnik[chair_id]");
+
+          // если нужно обновлять не только lecturer_uid, то запрос нужно вынести из if (как в ksro)
+          $Result = $mysqli->query("UPDATE `aspirantura_ruk_soisk`
+                                  SET `lecturer_uid` = '$lecturer[UID]'
+                                  WHERE `id` = '$asp_row[id]'
+                                ");
+
+          if (!$Result)
+          {
+            EchoLog($mysqli->error);
+            EchoLog($query);
+            $db_error = true;
+          }
+        }
+      }
+    }
+
+
   }
   
 }
@@ -1974,6 +2032,10 @@ if ($XMLContentOfLoad)
         EchoLog("Прежняя нагрузка (base_uid2=$base_uid2, content_uid=$xml_content_of_load_UID) не обнаружена в текущем справочнике xml_content_of_load, удаляем");
 
         $mysqli->query("DELETE FROM `nagruzka` WHERE `load_base_UID2` = '$base_uid2'");
+        // TODO !!! удалять это (помечать) и в сплитах, и м.б. КСРО, аспирантура !!!
+        // TODO взять тип нагрузки и "удалять" в соотв. таблицах
+        // !! если нагрузка исчезла НЕ СЕГОДНЯ НОЧЬЮ, А РАНЬШЕ, то она здесь не удалится
+        $mysqli->query("UPDATE `zavkaf_splits` SET `delete` = '1' WHERE `base_uid2` = '$base_uid2'");
 
         continue;
       }

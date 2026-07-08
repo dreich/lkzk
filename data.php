@@ -18,9 +18,6 @@ $_master_password = 'zklk-2026!';
 
 $_system_start_year = '2026';
 
-$_aspirantura_hours_per_student = 0.5;  // канд. экзам.
-$_aspirantura_ruk_asp_hours = 75;
-$_aspirantura_ruk_soisk_hours = 50;
 
 $_roles = 
 [
@@ -125,6 +122,10 @@ $_system_modes =
   'mode_archive' => 'Архив'
 ];
 
+$_aspirantura_hours_per_student = 0.5;  // канд. экзам.
+$_aspirantura_ruk_asp_hours = 75;
+$_aspirantura_ruk_soisk_hours = 50;
+
 $_ksro_kind_uid = '26003.281474976710751';
 $_ksro_discipline_uid = '26006.281474976727808';
 $_ik_kind_uid = '26003.281474976710750';
@@ -148,7 +149,7 @@ $_aspirant_nagruzka_itog_examen_discipline1 = '26006.281474976727451';
 $_aspirant_ruk_asp_kind_uid = '26003.281474976710753';
 
 // Руководство соискателем kind_uid
-$_aspirant_ruk_asp_kind_uid = '26003.281474976710754';
+$_aspirant_ruk_soisk_kind_uid = '26003.281474976710754';
 
 $_pseudo_chairs = 
 [

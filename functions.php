@@ -3336,7 +3336,7 @@ function safeAdd(&$target, $value)
 
 
 
-function fullBackupTable($tableName, $maxBackups = 3) 
+function fullBackupTable($tableName, $maxBackups = 4) 
 {
   global $mysqli;
   
@@ -3383,7 +3383,7 @@ function fullBackupTable($tableName, $maxBackups = 3)
  * @param string $tableName Оригинальное имя таблицы
  * @param int $keep Количество бэкапов, которые нужно сохранить
  */
-function rotateBackups($tableName, $keep = 3)
+function rotateBackups($tableName, $keep = 4)
 {
   global $mysqli;
   
@@ -3392,7 +3392,12 @@ function rotateBackups($tableName, $keep = 3)
   
   $backups = [];
   while ($row = $result->fetch_row()) {
-      $backups[] = $row[0];
+      // Пропускаем таблицы, содержащие "copy" в названии
+      if (stripos($row[0], 'copy') === false) {
+          $backups[] = $row[0];
+      } else {
+          EchoLog("Пропущена таблица с 'copy': {$row[0]}", 'file screen');
+      }
   }
   
   // Если бэкапов больше, чем нужно
@@ -3484,7 +3489,7 @@ function CalcPersonAspiranturaHours($person_id, $nagruzka_type)
     {
       foreach ($Nagruzka as $nagruzka)
       {
-        safeAdd($sum_hours, $_aspirantura_ruk_asp_hours);
+        safeAdd($sum_hours, $_aspirantura_ruk_asp_hours / 2);
       }
     }
   }
@@ -3496,7 +3501,7 @@ function CalcPersonAspiranturaHours($person_id, $nagruzka_type)
     {
       foreach ($Nagruzka as $nagruzka)
       {
-        safeAdd($sum_hours, $_aspirantura_ruk_soisk_hours);
+        safeAdd($sum_hours, $_aspirantura_ruk_soisk_hours / 2);
       }
     }
   }
@@ -3535,6 +3540,31 @@ function fixKeyboardLayout($str)
 }
 
 
-
+function GetAspRukAspQuery($aspirant, $semester, $load_id)
+{
+  return "INSERT INTO `aspirantura_ruk_asp` 
+                              SET `load_id` = '$load_id',
+                                  `uid` = '$aspirant[uid]', 
+                                  `UID_Semester` = '$semester',
+                                  `fio` = '$aspirant[fio]',
+                                  `department_id` = '$aspirant[department_id]',
+                                  `department` = '$aspirant[department]',
+                                  `napravlenie_code` = '$aspirant[napravlenie_code]',
+                                  `napravlenie_title` = '$aspirant[napravlenie_title]',
+                                  `course` = '$aspirant[course]',
+                                  `group` = '$aspirant[group]',
+                                  `deleted` = '0',
+                                  `date` = NOW()
+                              ON DUPLICATE KEY UPDATE
+                                  `fio` = VALUES(`fio`),
+                                  `department_id` = VALUES(`department_id`),
+                                  `department` = VALUES(`department`),
+                                  `napravlenie_code` = VALUES(`napravlenie_code`),
+                                  `napravlenie_title` = VALUES(`napravlenie_title`),
+                                  `course` = VALUES(`course`),
+                                  `group` = VALUES(`group`),
+                                  `deleted` = '0'
+                              ";
+}
 
 ?>

@@ -111,16 +111,16 @@ if ($AspiranturaRukAsp)
 {
   foreach ($AspiranturaRukAsp as $row)
   {
-    safeAdd($stats['total']['sum'], $_aspirantura_ruk_asp_hours);
+    safeAdd($stats['total']['sum'], $_aspirantura_ruk_asp_hours / 2);
 
     if ($row['lecturer_uid'])
     {
-      safeAdd($stats_by_type['aspirantura_ruk_asp'], $_aspirantura_ruk_asp_hours);
-      safeAdd($stats['assigned']['sum'], $_aspirantura_ruk_asp_hours);
+      safeAdd($stats_by_type['aspirantura_ruk_asp'], $_aspirantura_ruk_asp_hours / 2);
+      safeAdd($stats['assigned']['sum'], $_aspirantura_ruk_asp_hours / 2);
     }
     else
     {
-      safeAdd($stats['not_assigned']['sum'], $_aspirantura_ruk_asp_hours);
+      safeAdd($stats['not_assigned']['sum'], $_aspirantura_ruk_asp_hours / 2);
     }
   }
 }
@@ -158,16 +158,16 @@ if ($AspiranturaRukSoisk)
 {
   foreach ($AspiranturaRukSoisk as $row)
   {
-    safeAdd($stats['total']['sum'], $_aspirantura_ruk_soisk_hours);
+    safeAdd($stats['total']['sum'], $_aspirantura_ruk_soisk_hours / 2);
 
     if ($row['lecturer_uid'])
     {
-      safeAdd($stats_by_type['aspirantura_ruk_soisk'], $_aspirantura_ruk_soisk_hours);
-      safeAdd($stats['assigned']['sum'], $_aspirantura_ruk_soisk_hours);
+      safeAdd($stats_by_type['aspirantura_ruk_soisk'], $_aspirantura_ruk_soisk_hours / 2);
+      safeAdd($stats['assigned']['sum'], $_aspirantura_ruk_soisk_hours / 2);
     }
     else
     {
-      safeAdd($stats['not_assigned']['sum'], $_aspirantura_ruk_soisk_hours);
+      safeAdd($stats['not_assigned']['sum'], $_aspirantura_ruk_soisk_hours / 2);
     }
   }
 }
