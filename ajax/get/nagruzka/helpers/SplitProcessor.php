@@ -122,7 +122,7 @@ class SplitProcessor
         {
             $this->clearGalaxyLectors($nagruzkaData);
             // EchoLog($nagruzkaData);
-            // $nagruzkaData = $this->consolidateLectors($nagruzkaData);
+            $nagruzkaData = $this->consolidateLectors($nagruzkaData);
             // EchoLog($nagruzkaData);
         }
 
@@ -139,6 +139,10 @@ class SplitProcessor
         {
             // СРАЗУ ОСВОБОЖДАЕМ ПАМЯТЬ ИЗ СТАРОГО МАССИВА
             // unset($nagruzkaData[$baseUid2]);
+
+            // TMP HACK пока мы хотим отображать именно сплиты для сравнения с ГУВ
+            // возможно, это правильно всегда, и не нужно использовать base_uid2 исходный
+            $item['base_uid2'] = $item['base_uid'];
 
             $baseUid = $item['base_uid'];
 

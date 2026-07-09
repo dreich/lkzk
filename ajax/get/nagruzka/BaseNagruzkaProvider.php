@@ -672,9 +672,9 @@ abstract class BaseNagruzkaProvider
 
         $nagruzkaData = $this->getBaseData($dopSql, $this->getNagruzkaTypeFilter());
 
-        if ($this->nagruzkaType == 'discipline')
+        if ($this->nagruzkaType == 'ruk_practice')
         {
-          // EchoLog(sizeof($nagruzkaData));
+          EchoLog($nagruzkaData);
         }
 
         // if ($this->nagruzkaType == 'discipline')
