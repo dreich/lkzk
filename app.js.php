@@ -3815,10 +3815,10 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
     // CL($scope._nagruzka_type);
     // CL($scope._chairs_ids.includes(nagruzka_selected_chair_id));
 
-    const val = false && ((c_roles.zavkaf && $scope.nagruzka_selected_chair_id == c_chair_id && !['aspirantura_itog_exam'].includes($scope._nagruzka_type) || c_roles.ruk_aspirantura) && ($scope.system_mode == 'mode_filling' || $scope.system_mode == 'mode_verification')
+    const val = ((c_roles.zavkaf && $scope.nagruzka_selected_chair_id == c_chair_id && !['aspirantura_itog_exam'].includes($scope._nagruzka_type) || c_roles.ruk_aspirantura) && ($scope.system_mode == 'mode_filling' || $scope.system_mode == 'mode_verification')
     && (!isEmpty(nagruzka_row) && !['refused', 'done_refused', 'require_admin_change', 'done_change'].includes(nagruzka_row.status) || nagruzka_row == undefined))
     // УОУП может только разбивать нагрузку
-    || false && c_roles.uoup && $scope.system_mode == 'mode_verification' && !['ksro', 'aspirantura_itog_exam'].includes($scope._nagruzka_type);
+    || c_roles.uoup /* && $scope.system_mode == 'mode_verification' */ && !['ksro', 'aspirantura_itog_exam'].includes($scope._nagruzka_type);
 
     // CL(val);
 
@@ -3837,9 +3837,11 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
      // (lector.zs || isEmpty(lector.lecturer_fio)) // && $scope.IsNagruzkaRowEditable(nagruzka_row)
     // && 
 
-    return false && ((lector == undefined || lector.zs || isEmpty(lector.lecturer_fio)) && $scope.system_mode == 'mode_filling' && (c_roles.zavkaf && !['aspirantura_itog_exam'].includes($scope._nagruzka_type) && $scope.nagruzka_selected_chair_id == c_chair_id || c_roles.ruk_aspirantura) && !['refused', 'done_refused', 'require_admin_change', 'done_change'].includes(nagruzka_row.status) 
+    return false && ((lector == undefined || lector.zs || isEmpty(lector.lecturer_fio)) && $scope.system_mode == 'mode_filling' && (c_roles.zavkaf && !['aspirantura_itog_exam'].includes($scope._nagruzka_type) && $scope.nagruzka_selected_chair_id == c_chair_id) && !['refused', 'done_refused', 'require_admin_change', 'done_change'].includes(nagruzka_row.status) 
     && !isEmpty(nagruzka_row.lectors) && (nagruzka_row.lectors[0].zs || isEmpty(nagruzka_row.lectors[0].lecturer_fio)))
-    || false && $scope.system_mode == 'mode_verification' && c_roles.uoup && !['ksro', 'aspirantura_itog_exam'].includes($scope._nagruzka_type);
+    || $scope.system_mode == 'mode_verification' && c_roles.uoup && !['ksro', 'aspirantura_itog_exam'].includes($scope._nagruzka_type)
+    || c_roles.ruk_aspirantura && ['aspirantura_itog_exam'].includes($scope._nagruzka_type)
+    ;
   }
 
 
@@ -3860,8 +3862,10 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
 
   $scope.IsGroupActionAllowed = function(group_action)
   {
-    return c_roles.zavkaf && ($scope.system_mode == 'mode_filling' || $scope.system_mode == 'mode_verification' && group_action == 'require_admin_change') && ['assign_to_sotrudnik', 'assign_to_vacancy', 'write_admin_comment', 'assign_to_several_sotrudniki'].includes(group_action)
-    || c_roles.ruk_aspirantura && ($scope.system_mode == 'mode_filling' || $scope.system_mode == 'mode_verification') && ['assign_to_sotrudnik', 'refuse_nagruzka', 'require_admin_change', 'write_admin_comment'].includes(group_action)
+    return c_roles.zavkaf && ($scope.system_mode == 'mode_filling' || $scope.system_mode == 'mode_verification' && group_action == 'require_admin_change') // && ['assign_to_sotrudnik', 'assign_to_vacancy', 'write_admin_comment', 'assign_to_several_sotrudniki', 'require_admin_change'].includes(group_action)
+
+    || c_roles.ruk_aspirantura && ($scope.system_mode == 'mode_filling' && ['assign_to_sotrudnik', 'refuse_nagruzka', 'require_admin_change', 'write_admin_comment'].includes(group_action) || $scope.system_mode == 'mode_verification' && ['assign_to_sotrudnik', 'require_admin_change', 'write_admin_comment'].includes(group_action)) 
+
     || c_roles.uoup && $scope.system_mode == 'mode_verification' && ['assign_to_several_sotrudniki', 'assign_to_sotrudnik', 'assign_to_vacancy'].includes(group_action);
   }
 
@@ -5901,7 +5905,7 @@ $scope.toggleAdminChangeChair = function(chair)
   $scope.IsSotrudnikiEditable = function()
   {
     // TMP HACK
-    // return true;
+    return false;
     return c_roles.zavkaf && (isEmpty(sotrudniki_selected_chair_id) || c_chair_id == sotrudniki_selected_chair_id);
   }
 

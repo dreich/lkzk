@@ -8,10 +8,12 @@ class SplitProcessor
 {
     private $splits;
     private $splitsByBaseUid;
+    private $mode;
 
     // $chairUIDs - для декана
-    public function __construct($deleteFlag = '0', $chairId, $chairUIDs, $nagruzka_type)
+    public function __construct($deleteFlag = '0', $chairId, $chairUIDs, $nagruzka_type, $mode)
     {
+        $this->mode = $mode;
         $this->loadSplits($deleteFlag, $chairId, $chairUIDs, $nagruzka_type);
     }
 
@@ -27,9 +29,11 @@ class SplitProcessor
 
         // EchoLog($chairId);
 
+        // Дальше код для ускорения загрузки. В режиме заполнения очень много строк в сплитах, мы их отфильтруем
         // !! нельзя фильтровать по zavkaf_chair_uid для нагрузки типа aspirantura_itog_exam, т.к. там нет кафедры
+        // !! В режиме выверки сплиты привязывает УОУП, из-за чего zavkaf_chair_uid пусто, и мы не можем фильтровать по нему
         // $c_roles['zavkaf'] && 
-        if (!empty($chairId) && $nagruzka_type != 'aspirantura_itog_exam')
+        if (!empty($chairId) && $nagruzka_type != 'aspirantura_itog_exam' && $this->mode == 'mode_filling')
         {
           $XmlChairByCode = GetTable('xml_chair', "", "", "Code");
 
@@ -47,7 +51,7 @@ class SplitProcessor
           }
         }
         // для декана возьмём все кафедры его факультета, чтобы ограничить загружаемые сплиты
-        elseif (!empty($chairUIDs) && $nagruzka_type != 'aspirantura_itog_exam')
+        elseif (!empty($chairUIDs) && $nagruzka_type != 'aspirantura_itog_exam' && $this->mode == 'mode_filling')
         {
             $chair_uids_str = JoinArrayElements($chairUIDs, ", ", false, "'", "'");
             if ($chair_uids_str)
@@ -65,6 +69,7 @@ class SplitProcessor
         // работа со сплитами является узким местом, будем брать только используемые поля
         $this->splits = GetTable('zavkaf_splits', "`delete` = '$deleteFlag' $where_sql ", null, null, "`id`, `base_uid`, `base_uid2`, `LoadType`, `StudentAmount`, `Amount`, `lecturer_login`, `lecturer_person_id`, `lecturer_fio`, `lecturer_uid`, `chair_uid`, `zavkaf_login`, `zavkaf_fio`, `delete`, `zavkaf_chair_uid`");
 
+        // if ($nagruzka_type == 'discipline')
         // EchoLog(sizeof($this->splits));
 
         $this->indexSplits();
@@ -75,13 +80,16 @@ class SplitProcessor
      */
     private function indexSplits()
     {
+        // EchoLog('indexSplits');
+
         $this->splitsByBaseUid = [];
 
         if (empty($this->splits)) {
             return;
         }
 
-        foreach ($this->splits as $split) {
+        foreach ($this->splits as $split) 
+        {
             $baseUid = $split['base_uid'];
             $baseUid2 = $split['base_uid2'];
             // $contentOfLoadUid = $split['content_of_load_uid'];
@@ -98,6 +106,8 @@ class SplitProcessor
             $this->splitsByBaseUid[$baseUid][$baseUid2][] = $split;
         }
 
+        // EchoLog($this->splitsByBaseUid);
+
         unset($this->splits);
     }
 
@@ -105,12 +115,12 @@ class SplitProcessor
      * Применить сплиты к данным нагрузки
      * 
      * @param array $nagruzkaData Данные из Галактики
-     * @param string $mode Режим работы: 'mode_filling'
-     *                     В режиме 'mode_filling' лекторы из Галактики очищаются (как будто UID_Lecturer = -1)
+     * В режиме 'mode_filling' лекторы из Галактики очищаются (как будто UID_Lecturer = -1)
      * @return array Обработанные данные с примененными сплитами
      */
-    public function applySplits($nagruzkaData, $mode = '')
+    public function applySplits($nagruzkaData)
     {
+        // EchoLog('applySplits');
 
         if (empty($nagruzkaData)) 
         {
@@ -118,7 +128,7 @@ class SplitProcessor
         }
 
         // В режиме заполнения очищаем лекторов из Галактики и объединяем дубликаты
-        if ($mode === 'mode_filling') 
+        if ($this->mode === 'mode_filling') 
         {
             $this->clearGalaxyLectors($nagruzkaData);
             // EchoLog($nagruzkaData);
@@ -140,9 +150,14 @@ class SplitProcessor
             // СРАЗУ ОСВОБОЖДАЕМ ПАМЯТЬ ИЗ СТАРОГО МАССИВА
             // unset($nagruzkaData[$baseUid2]);
 
-            // TMP HACK пока мы хотим отображать именно сплиты для сравнения с ГУВ
-            // возможно, это правильно всегда, и не нужно использовать base_uid2 исходный
-            $item['base_uid2'] = $item['base_uid'];
+            // ~HACK #523 пока мы хотим отображать именно сплиты для сравнения с ГУВ
+            // -- возможно, это правильно всегда, и не нужно использовать base_uid2 исходный
+            // В выверке считаем, что у нас сплиты уже созданы от новых base_uid2 из ГУВ, поэтому хак не нужен
+            // он нужен только когда в сплитах ещё сплиты, которые по окончанию заполнения отправили в ГУВ
+            if ($this->mode == 'mode_filling')
+            {
+                $item['base_uid2'] = $item['base_uid'];
+            }
 
             $baseUid = $item['base_uid'];
 
@@ -157,10 +172,10 @@ class SplitProcessor
                 $result[$baseUid]['Amount'] += $item['Amount'];
             }
 
-            // if ($baseUid === '26589.281474976773465')
-            //     {
-            //         EchoLog("HERE");
-            //     }
+            if ($baseUid === '26589.281474976861584')
+            {
+                EchoLog("HERE");
+            }
 
             // Проверяем есть ли сплиты для этого base_uid
             if ($this->hasSplitsByBaseUID($baseUid)) //, $item['base_uid2'])) 
@@ -168,10 +183,10 @@ class SplitProcessor
 
                 $splitRows = $this->getSplits($baseUid, $item['base_uid2']);
 
-                // if ($baseUid === '26589.281474976827021')
-                // {
-                //     EchoLog($splitRows);
-                // }
+                if ($baseUid === '26589.281474976861584')
+                {
+                    EchoLog($splitRows);
+                }
 
                 // EchoLog("SPLITS:");
                 // EchoLog($splitRows);
@@ -188,11 +203,21 @@ class SplitProcessor
                 // {
                 //     EchoLog($result);
                 // }
-            } 
+            }
+            // сплитов нет
             else 
             {
                 // if (empty($processedSplits[$baseUid][$item['base_uid2']])) 
                 {
+                    // в режиме Выверка нужно взять это поле из 1й таблицы
+                    $item['lecturer_uid'] = $item['UID_Lecturer'];
+                    $item['chair_uid'] = $item['UID_Chair'];
+
+                    // TODO Можно unset UID_Lecturer, UID_Chair для скорости,
+                    // Потому что эти поля специально добавлены для этого случая
+                    unset($item['UID_Lecturer']);
+                    unset($item['UID_Chair']);
+
                     $result[$baseUid]['lectors'][] = $item;
                 }
             }
@@ -439,6 +464,7 @@ class SplitProcessor
 
     /**
      * Просто группировка по base_uid без применения сплитов
+     * СЕЙЧАС НЕ ИСП.
      */
     private function groupByBaseUid($nagruzkaData)
     {

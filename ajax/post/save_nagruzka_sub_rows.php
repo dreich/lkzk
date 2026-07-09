@@ -155,8 +155,11 @@ foreach ($data as $nagruzka_lector)
 
 
 
-if ($result !== false) {
-    echo json_encode(['result' => 'success']);
-} else {
-    echo json_encode(['result' => 'error', 'message' => 'Failed to save']);
+if ($result !== false) 
+{
+  echo json_encode(['result' => 'success']);
+} 
+else 
+{
+  echo json_encode(['result' => 'error', 'message' => 'Failed to save']);
 }

@@ -2819,6 +2819,8 @@ function GetNagruzkaBaseQuery($dop_sql, $nagruzka_type = 'all', $department_from
   xml_lecturer.FIO as lecturer_fio,
   xml_content_of_load.UID_Language, #нужно для таблицы статистики для столбца англ. нагрузка
   xml_content_of_load.TypeWorkload, #нужно для таблицы статистики для столбца аудиторная нагрузка
+  xml_content_of_load.UID_Lecturer, #нужно для режима выверка [SplitProcessor::applySplits()]
+  xml_content_of_load.UID_Chair, #нужно для режима выверка [SplitProcessor::applySplits()]
   # кто ведёт
   nagruzka.chair_id, 
   nagruzka.chair_name, nagruzka.department_name,
@@ -2838,14 +2840,18 @@ function GetNagruzkaBaseQuery($dop_sql, $nagruzka_type = 'all', $department_from
   #AND xml_content_of_load.`UID_Chair` <> '25031.0'
   $nagruzka_type_sql
 
-    -- AND xml_content_of_load.`base_uid` = '26589.281474976879135'
+    -- AND xml_content_of_load.`base_uid` = '26589.281474976851224'
     -- AND xml_content_of_load.`base_uid` IN('26589.281474976879129', '26589.281474976879132')
-    -- AND chair_id = '02910'
+    -- AND chair_id = '02617'
+    -- AND `nagruzka_type` = 'ruk_practice'
     -- AND LoadType = '0'
     $dop_sql
   ";
 
-  // if ($nagruzka_type == 'discipline')
+  // EchoLog($nagruzka_type_sql);
+  // EchoLog($dop_sql);
+
+  // if ($nagruzka_type == 'ruk_kurs')
   // EchoLog($_nagruzka_base_query);
 
   return $_nagruzka_base_query;

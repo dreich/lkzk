@@ -25,9 +25,9 @@ include '../../functions.php';
 
 $ZavkafSplits = GetTable('zavkaf_splits', "`base_uid` IS NOT NULL AND `base_uid` <> '' AND `delete` <> '1'", "base_uid");
 $KSRO = GetTable('ksro', "`base_uid` IS NOT NULL AND `base_uid` <> '' AND `Amount` <> ''", "base_uid");
-$AspiranturaKandExam = GetTable('aspirantura_kand_exam', "`base_uid` IS NOT NULL AND `base_uid` <> '' AND `deleted` <> '1'", "base_uid");
-$AspiranturaRukAsp = GetTable('aspirantura_ruk_asp', "`base_uid` IS NOT NULL AND `base_uid` <> '' AND `deleted` <> '1'", "base_uid");
-$AspiranturaRukSoisk = GetTable('aspirantura_ruk_soisk', "`base_uid` IS NOT NULL AND `base_uid` <> '' AND `deleted` <> '1'", "base_uid");
+// $AspiranturaKandExam = GetTable('aspirantura_kand_exam', "`base_uid` IS NOT NULL AND `base_uid` <> '' AND `deleted` <> '1'", "base_uid");
+// $AspiranturaRukAsp = GetTable('aspirantura_ruk_asp', "`base_uid` IS NOT NULL AND `base_uid` <> '' AND `deleted` <> '1'", "base_uid");
+// $AspiranturaRukSoisk = GetTable('aspirantura_ruk_soisk', "`base_uid` IS NOT NULL AND `base_uid` <> '' AND `deleted` <> '1'", "base_uid");
 
 if (!$ZavkafSplits && !$KSRO)
 {
@@ -142,10 +142,10 @@ if ($AspiranturaRukSoiskByBaseUID)
   }
 }
 
-$doc->save("clean.xml");
+$doc->save("clean2.xml");
 
 
-
+exit;
 
 // Выгрузка в XML
 

@@ -218,7 +218,12 @@ abstract class BaseNagruzkaProvider
         if ($this->onlyStat) $this->isLite = true;
 
         $query = GetNagruzkaBaseQuery($dopSql, $type, true, $this->isLite);
-        // EchoLog($query);
+
+        if ($type == 'discipline')
+        {
+          // EchoLog($query);
+        }
+
         $rawData = GetSQL($query);
 
         // if ($type == 'discipline')
@@ -252,8 +257,8 @@ abstract class BaseNagruzkaProvider
     protected function processSplits($nagruzkaData, $mode = '')
     {
         // return $nagruzkaData;
-        $processor = new SplitProcessor('0', $this->chairId, $this->chairUIDs, $this->nagruzkaType);
-        return $processor->applySplits($nagruzkaData, $mode);
+        $processor = new SplitProcessor('0', $this->chairId, $this->chairUIDs, $this->nagruzkaType, $mode);
+        return $processor->applySplits($nagruzkaData);
     }
     
 
@@ -632,7 +637,7 @@ abstract class BaseNagruzkaProvider
     public function getCommonDataSQL()
     {
       // данные типы нагрузки выдаются отдельными скриптами
-      return "";
+      // return "";
       return "AND `nagruzka_type` NOT IN ('ksro', 'aspirantura_kand_exam', 'aspirantura_ruk_asp', 'aspirantura_ruk_soisk')";
     }
 
@@ -674,7 +679,7 @@ abstract class BaseNagruzkaProvider
 
         if ($this->nagruzkaType == 'ruk_practice')
         {
-          EchoLog($nagruzkaData);
+          // EchoLog($nagruzkaData);
         }
 
         // if ($this->nagruzkaType == 'discipline')
