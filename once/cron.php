@@ -8,8 +8,8 @@ include '../functions.php';
 // Получим режим работы системы из БД
 $_system_mode = GetSystemParam('system_mode');
 
-$LOAD_NEW_DATA_FROM_NETWORK = false;
-$UPDATE_TABLES = false;  // для проверки изменения хешей это должно быть включено
+$LOAD_NEW_DATA_FROM_NETWORK = true;
+$UPDATE_TABLES = true;  // для проверки изменения хешей это должно быть включено
 
 $XMLGroupByName = GetTable('xml_group', "", "", "Name", "Name, UID");
 
@@ -2530,7 +2530,7 @@ if ($XMLContentOfLoad)
 
     mail_utf8('wwwlab@unn.ru', $_site_domain, $_from_mail, $message_subject, $message_text);
     mail_utf8($_admin_mail, $_site_domain, $_from_mail, $message_subject, $message_text);
-    
+    EchoLog($message_text, 'file');
   }
 }
 else

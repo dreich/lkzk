@@ -65,11 +65,12 @@ class FillingMode extends BaseNagruzkaProvider
         return !($this->userRole === 'sotrudnik' && empty($this->lecturerUid));
     }
 
-    protected function getModeSpecificSql()
-    {
-        // В режиме заполнения исключаем КСРО из основного запроса
-        return "AND `nagruzka_type` <> 'ksro'";
-    }
+    // protected function getModeSpecificSql()
+    // {
+    //     // В режиме заполнения исключаем КСРО из основного запроса
+    //     // return "";
+    //     return "AND `nagruzka_type` <> 'ksro'";
+    // }
 
     protected function applyModeSplits($nagruzkaData)
     {

@@ -133,6 +133,7 @@ class SplitProcessor
         $result = [];
         $processedSplits = [];
 
+
         // $baseUid или $baseUid2 (?)
         foreach ($nagruzkaData as $baseUid2 => $item) 
         {

@@ -246,7 +246,7 @@ abstract class BaseNagruzkaProvider
      * Обработка сплитов через SplitProcessor
      * 
      * @param array $nagruzkaData Данные нагрузки
-     * @param string $mode Режим работы ('filling')
+     * @param string $mode Режим работы
      */
     
     protected function processSplits($nagruzkaData, $mode = '')
@@ -629,6 +629,14 @@ abstract class BaseNagruzkaProvider
         unset($item); // разрываем ссылку
     }
 
+    public function getCommonDataSQL()
+    {
+      // данные типы нагрузки выдаются отдельными скриптами
+      return "";
+      return "AND `nagruzka_type` NOT IN ('ksro', 'aspirantura_kand_exam', 'aspirantura_ruk_asp', 'aspirantura_ruk_soisk')";
+    }
+
+
     /**
      * Единый пайплайн получения данных для всех режимов (Template Method)
      */
@@ -652,7 +660,7 @@ abstract class BaseNagruzkaProvider
         }
 
 
-        $dopSql = "$chairFilter AND `chair_id` IS NOT NULL AND `chair_id` <> '' AND `valid` = '1' " . $this->getModeSpecificSql();
+        $dopSql = "$chairFilter AND `chair_id` IS NOT NULL AND `chair_id` <> '' AND `valid` = '1' " . $this->getCommonDataSQL();
         // EchoLog($dopSql);
 
         // EchoLog($this->nagruzkaType);
@@ -682,7 +690,7 @@ abstract class BaseNagruzkaProvider
 
         // если нужно получить данную нагрузку по конкретной кафедре (а в таблице 1 кафедры по ней нет), то нужно отфильтровать, используя сплиты.
         // если сплитов для нагрузки нет, то не берём её
-        if ($this->nagruzkaType == 'aspirantura_itog_exam' && $this->systemMode == 'mode_filling')
+        if ($this->nagruzkaType == 'aspirantura_itog_exam') //  && $this->systemMode == 'mode_filling')
         {
           if (!empty($this->chairId))
           {
@@ -756,7 +764,7 @@ abstract class BaseNagruzkaProvider
           // EchoLog($nagruzkaData);
 
           // EchoLog($this->nagruzkaType);
-          // Хук для добавления КСРО (используется только в FillingMode)
+          // Хук для добавления КСРО (-- используется только в FillingMode)
           // Предположительно, это добавляется когда вызывается nagruzka/?lite=1
           if (!$this->nagruzkaType || $this->nagruzkaType == 'all')
           {
@@ -807,7 +815,8 @@ abstract class BaseNagruzkaProvider
     abstract public function getNagruzkaTypeFilter();
     
     abstract protected function canAccessData();
-    abstract protected function getModeSpecificSql();
+    // пока не исп.
+    // abstract protected function getModeSpecificSql();
     abstract protected function applyModeSplits($nagruzkaData);
     abstract protected function getExtraResponseData();
     

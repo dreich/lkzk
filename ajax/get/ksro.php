@@ -30,7 +30,7 @@ if ($_lecturer_uid)
 // EchoLog($c_roles);
 
 // редактирует только в этом режиме, поэтому берём из таблицы `ksro`, где храним "редактуру"
-if ($_mode == 'mode_filling')
+if (true || $_mode == 'mode_filling')
 {
   // TODO нужно брать по-разному, в зависимости, с какой страницы идёт загрузка
   if ($c_roles['dean'])
@@ -116,7 +116,7 @@ if ($_mode == 'mode_filling')
 
   // EchoLog($Rows);
 }
-// в других режимах берём из Галактики
+// OLD в других режимах берём из Галактики
 else
 {
   if ($c_roles['zavkaf'])

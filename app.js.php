@@ -836,14 +836,14 @@ function CommonUpdateNagruzkaStat($http, scope, nagr_type, chair_id, lecturer_ui
 
   if (nagr_type == 'ksro')
   {
-    if (scope.system_mode == 'mode_filling')
+    // if (scope.system_mode == 'mode_filling')
     {
       script = 'ksro.php';
     }
-    else
-    {
-      script = 'nagruzka/';
-    }
+    // else
+    // {
+    //   script = 'nagruzka/';
+    // }
   }
   else if (nagr_type == 'aspirant')
   {
@@ -880,7 +880,7 @@ function CommonUpdateNagruzkaStat($http, scope, nagr_type, chair_id, lecturer_ui
 
         if (!only_stat)
         {
-          if (nagr_type == 'ksro' && scope.system_mode == 'mode_filling')
+          if (nagr_type == 'ksro') // && scope.system_mode == 'mode_filling')
           {
             scope.ksro = response.data.nagruzka;
           }
@@ -1917,7 +1917,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
     return;
   }
 
-  if (nagruzka_type == 'ksro' && $scope.system_mode == 'mode_filling')
+  if (nagruzka_type == 'ksro') // && $scope.system_mode == 'mode_filling')
   {
     var path = "/#/ksro";
 
@@ -1927,7 +1927,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
     window.location = path;
   }
 
-  if (nagruzka_type == 'aspirantura' && $scope.system_mode == 'mode_filling')
+  if (nagruzka_type == 'aspirantura') // && $scope.system_mode == 'mode_filling')
   {
     var path = "/#/aspirantura";
 
@@ -4247,16 +4247,16 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
 
     if (nagr_type == 'ksro')
     {
-      if ($scope.system_mode == 'mode_filling')
+      // if ($scope.system_mode == 'mode_filling')
       {
         script = 'ksro';
         url = `ajax/get/ksro.php?type=${nagr_type}&only_stat=1`;
       }
-      else
-      {
-        script = 'nagruzka';
-        url = `ajax/get/nagruzka/?type=${nagr_type}&only_stat=1`;
-      }
+      // else
+      // {
+      //   script = 'nagruzka';
+      //   url = `ajax/get/nagruzka/?type=${nagr_type}&only_stat=1`;
+      // }
     }
     else if (nagr_type == 'aspirant')
     {

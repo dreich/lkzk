@@ -65,10 +65,11 @@ class VerificationMode extends BaseNagruzkaProvider
         return !($this->userRole === 'sotrudnik' && empty($this->lecturerUid));
     }
 
-    protected function getModeSpecificSql()
-    {
-        return ""; // Никаких дополнительных исключений по SQL нет
-    }
+    // protected function getModeSpecificSql()
+    // {
+    //     // return ""; // Никаких дополнительных исключений по SQL нет
+    //     return "AND `nagruzka_type` <> 'ksro'";
+    // }
 
     protected function applyModeSplits($nagruzkaData)
     {
