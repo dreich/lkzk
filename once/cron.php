@@ -65,7 +65,9 @@ if ($UPDATE_TABLES) //  && $_system_mode == 'mode_filling')
 
 echo sizeof($BUPDisciplines);
 
-if ($BUPDisciplines)
+// только в этом режиме есть данные в полях bup_nrec, disc_nrec, disc_abr. А в заполнении, когда данные из ГУВ, они пустые.
+// !! Поэтому, если в заполнении будет разрешено править канд. экзам., то нужно смотреть скрипт сохранения, там эти поля используются!
+if ($BUPDisciplines && $_system_mode == 'mode_filling')
 {
   // т.к. мы не знаем, покроем ли все существующие в aspirantura_kand_exam строки (может быть дисциплина исчезла), то проставим всем строкам deleted = 1
   $mysqli->query("UPDATE `aspirantura_kand_exam` SET `deleted` = '1'");
@@ -205,11 +207,13 @@ if ($_system_mode == 'mode_filling')
       {
         $load_id = uniq(16);
         $semester = 1;
+        // INSERT
         $query = GetAspRukAspQuery($aspirant, $semester, $load_id);
         $Result = $mysqli->query($query);
 
         $load_id = uniq(16);
         $semester = 2;
+        // INSERT
         $query = GetAspRukAspQuery($aspirant, $semester, $load_id);
         $Result = $mysqli->query($query);
       }

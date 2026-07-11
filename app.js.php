@@ -3840,7 +3840,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
     return false && ((lector == undefined || lector.zs || isEmpty(lector.lecturer_fio)) && $scope.system_mode == 'mode_filling' && (c_roles.zavkaf && !['aspirantura_itog_exam'].includes($scope._nagruzka_type) && $scope.nagruzka_selected_chair_id == c_chair_id) && !['refused', 'done_refused', 'require_admin_change', 'done_change'].includes(nagruzka_row.status) 
     && !isEmpty(nagruzka_row.lectors) && (nagruzka_row.lectors[0].zs || isEmpty(nagruzka_row.lectors[0].lecturer_fio)))
     || $scope.system_mode == 'mode_verification' && c_roles.uoup && !['ksro', 'aspirantura_itog_exam'].includes($scope._nagruzka_type)
-    || c_roles.ruk_aspirantura && ['aspirantura_itog_exam'].includes($scope._nagruzka_type)
+    || c_roles.ruk_aspirantura && ['aspirantura_itog_exam'].includes($scope._nagruzka_type) //  && $scope.system_mode == 'mode_filling'
     ;
   }
 
@@ -7490,7 +7490,10 @@ $scope.toggleAdminChangeChair = function(chair)
         window.location.reload();
       }
 
-
+      $scope.AspiranturaKandExamEditable = function()
+      {
+        return c_roles.ruk_aspirantura && $scope.system_mode == 'mode_filling';
+      }
 
     }
     // end controller
@@ -7902,7 +7905,7 @@ $scope.toggleAdminChangeChair = function(chair)
       $ctrl.$onInit = function()
       {
         $scope.system_mode = $ctrl.systemMode;
-        $scope.chairs_sprav = $ctrl.chairsSprav;
+        // $scope.chairs_sprav = $ctrl.chairsSprav;
         $scope.aspirantura_selected_lecturer_uid = $ctrl.aspiranturaSelectedLecturerUid;
         $scope.aspirantura_selected_chair_id = $ctrl.aspiranturaSelectedChairId;
 
@@ -8263,6 +8266,12 @@ $scope.toggleAdminChangeChair = function(chair)
         $scope.show_aspirantura_ruk_soisk_edit_form = true;
 
         $scope.aspirantura_ruk_soisk_edit = {};
+      }
+
+
+      $scope.MayAddAspiranturaRukSoisk = function()
+      {
+        return c_roles.ruk_aspirantura && $scope.system_mode == 'mode_filling';
       }
 
       // $scope.AspiranturaRukSoiskShowAddForm();
