@@ -8,6 +8,13 @@ $Person = GetTable('person', "", "", "id", "id, alias");
 
 include '../connect.php';
 
+$_system_mode = GetSystemMode();
+
+if ($_system_mode != 'mode_verification')
+{
+  EchoLog("do_aspirantura_ruk_soisk.php: wrong system mode $_system_mode");
+}
+
 $XMLChairByUID = GetTable('xml_chair', "", "", "UID");
 $XMLFacultyByUID = GetTable('xml_faculty', "", "", "UID");
 $XMLLecturerByUID = GetTable('xml_lecturer', "", "", "UID");
@@ -15,7 +22,6 @@ $XMLPostByUID = GetTable('xml_post', "", "", "UID");
 $XMLDisciplineByUID = GetTable('xml_discipline', "", "", "UID");
 $XMLGroupByUID = GetTable('xml_group', "", "", "UID", 'UID, Name');
 $AspiranturaRukSoisk = GetRows('xml_content_of_load', ['nagruzka_type' => 'aspirantura_ruk_soisk']);
-
 
 echo sizeof($AspiranturaRukSoisk);
 // Не можем очищать таблицу, т.к. из ГУВ идут не все поля: даже нет полей аспирантских (uid) в данный момент
@@ -45,10 +51,24 @@ foreach ($AspiranturaRukSoisk as $row)
     $lecturer_person_id = $XMLLecturerByUID[$lecturer_uid]['Tab_number'];
     // Кафедра преподавателя
     $lecturer_chair_uid = $XMLLecturerByUID[$lecturer_uid]['UID_Chair'];
-    $lecturer_chair_id = $XMLChairByUID[$lecturer_chair_uid]['Code'];
-    $lecturer_chair_name = $XMLChairByUID[$lecturer_chair_uid]['Name'];
-    // Факультет преподавателя
-    $lecturer_faculty_uid = $XMLChairByUID[$lecturer_chair_uid]['UID_Faculty'];
+
+    if ($XMLChairByUID[$lecturer_chair_uid])
+    {
+      $lecturer_chair_id = $XMLChairByUID[$lecturer_chair_uid]['Code'];
+      $lecturer_chair_name = $XMLChairByUID[$lecturer_chair_uid]['Name'];
+      // Факультет преподавателя
+      $lecturer_faculty_uid = $XMLChairByUID[$lecturer_chair_uid]['UID_Faculty'];
+    }
+    // ГПХ и псевдо-фак.
+    // Пока для данной нагрузки пример не обнаружен, но сделано по аналогии с другими аспирантскими, где такое встречается
+    else
+    {
+      $lecturer_chair_id = $XMLFacultyByUID[$lecturer_chair_uid]['Code'];
+      $lecturer_chair_name = $XMLFacultyByUID[$lecturer_chair_uid]['Name'];
+      // Факультет преподавателя
+      $lecturer_faculty_uid = $XMLFacultyByUID[$lecturer_chair_uid]['UID'];
+    }
+
     $lecturer_faculty_id = $XMLFacultyByUID[$lecturer_faculty_uid]['Code'];
     $lecturer_faculty_name = $XMLFacultyByUID[$lecturer_faculty_uid]['Name'];
     $login = $Person[$lecturer_person_id]['alias'];

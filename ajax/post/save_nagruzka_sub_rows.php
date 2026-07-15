@@ -34,14 +34,14 @@ if (!$data) {
 $XMLLecturerByUID = GetTable('xml_lecturer', "", "", "UID");
 
 
+// для безопасности перенесём внутрь следующего цикла в условие
+// foreach ($data as $nagruzka_lector)
+// {
+//   $query = "DELETE FROM `zavkaf_splits` WHERE `base_uid` = '$nagruzka_lector[base_uid]'";
+//   // EchoLog($query);
 
-foreach ($data as $nagruzka_lector)
-{
-  $query = "DELETE FROM `zavkaf_splits` WHERE `base_uid` = '$nagruzka_lector[base_uid]'";
-  // EchoLog($query);
-
-  $mysqli->query($query);
-}
+//   $mysqli->query($query);
+// }
 
 foreach ($data as $nagruzka_lector)
 {
@@ -73,12 +73,17 @@ foreach ($data as $nagruzka_lector)
 
   // $XMLContentOfLoadRows = GetTable('xml_content_of_load', $sql);
   // С таким base_uid2 может быть более одной строки, если споточенность, возьмём одну
+  // С первого взгляда здесь мы только получаем content_of_load_uid (который в принципе не нужен, лишь для просмотра возможных споточенных строк в zavkaf_splits). Но получение этих строк послужит защитой того, что такой base_uid2 (который мы запишем в zavkaf_splits) есть в xml_content_of_load
   $content_of_load_row = GetRow('xml_content_of_load', ['base_uid2' => $nagruzka_lector['base_uid2']]);
   // EchoLog($XMLContentOfLoadRows);
 
 
   if ($content_of_load_row)
   {
+    $query = "DELETE FROM `zavkaf_splits` WHERE `base_uid` = '$nagruzka_lector[base_uid]'";
+    // EchoLog($query);
+    $mysqli->query($query);
+
     // EchoLog(sizeof($XMLContentOfLoadRows));
     // foreach ($XMLContentOfLoadRows as $content_of_load_row)
     {

@@ -255,12 +255,14 @@ $query = "SELECT
     zs.lecturer_uid as UID_Lecturer
 FROM zavkaf_splits zs
 #JOIN xml_content_of_load x ON zs.content_of_load_uid = x.UID
-JOIN xml_content_of_load x ON zs.base_uid2 = x.base_uid2
+# TMP HACK WAS zs.base_uid2
+JOIN xml_content_of_load x ON zs.base_uid2_new = x.base_uid2
 WHERE zs.`delete` = 0 AND `zavkaf_chair_uid` = '$chair_uid'";
 
 // Возможно,  AND `zavkaf_chair_uid` = '$chair_uid' не нужно
 
 // Debug: Log the query
+// if ($_SERVER['REMOTE_ADDR'] == '85.143.4.44')
 // EchoLog("Executing query: " . $query);
 
 $splitsLoads = [];
@@ -294,7 +296,8 @@ $query = "SELECT
     x.TypeWorkload
 FROM zavkaf_splits zs
 #JOIN xml_content_of_load x ON zs.content_of_load_uid = x.UID
-JOIN xml_content_of_load x ON zs.base_uid2 = x.base_uid2
+# TMP HACK WAS zs.base_uid2
+JOIN xml_content_of_load x ON zs.base_uid2_new = x.base_uid2
 #JOIN xml_lecturer ON x.UID_Lecturer = xml_lecturer.UID
 WHERE zs.delete = 0  AND `zavkaf_chair_uid` = '$chair_uid'
   AND x.base_uid2 IN (

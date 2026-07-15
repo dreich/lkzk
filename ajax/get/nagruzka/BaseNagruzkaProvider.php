@@ -686,6 +686,7 @@ abstract class BaseNagruzkaProvider
         // EchoLog(memory_get_usage());
 
         // 3. Обработка сплитов (Логику определяют дочерние классы)
+        // Если хотим не применять сплиты, то нельзя просто закомментить строку
         $nagruzkaData = $this->applyModeSplits($nagruzkaData);
 
         if ($this->nagruzkaType == 'discipline')
@@ -746,8 +747,8 @@ abstract class BaseNagruzkaProvider
             // EchoLog($nagruzkaData);
         }
 
-        // if ($this->nagruzkaType == 'discipline')
-        // EchoLog($nagruzkaData);
+        if ($this->nagruzkaType == 'discipline')
+        EchoLog(sizeof($nagruzkaData));
 
         // 6. Расчет статистики
         $stats_obj = $this->calculateStats($nagruzkaData);

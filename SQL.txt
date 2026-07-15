@@ -1,0 +1,16 @@
+Запрос для проверки, что в сплитах есть/нет нагрузки, которой НЕТ в xml_content_of_loads:
+
+SELECT COUNT(*) 
+FROM zavkaf_splits zs
+LEFT JOIN xml_content_of_load xcol ON zs.base_uid = xcol.base_uid
+WHERE xcol.base_uid IS NULL 
+  AND zs.`delete` <> '1';
+
+
+А это запрос, чтобы в сплитах пометить такие строки удалёнными:
+
+UPDATE zavkaf_splits zs
+LEFT JOIN xml_content_of_load xcol ON zs.base_uid = xcol.base_uid
+SET zs.`delete` = '1'
+WHERE xcol.base_uid IS NULL 
+  AND zs.`delete` <> '1';

@@ -156,7 +156,7 @@ class SplitProcessor
             // он нужен только когда в сплитах ещё сплиты, которые по окончанию заполнения отправили в ГУВ
             if ($this->mode == 'mode_filling')
             {
-                $item['base_uid2'] = $item['base_uid'];
+                // $item['base_uid2'] = $item['base_uid'];
             }
 
             $baseUid = $item['base_uid'];
@@ -174,7 +174,7 @@ class SplitProcessor
 
             if ($baseUid === '26589.281474976861584')
             {
-                EchoLog("HERE");
+                // EchoLog("HERE");
             }
 
             // Проверяем есть ли сплиты для этого base_uid
@@ -185,7 +185,7 @@ class SplitProcessor
 
                 if ($baseUid === '26589.281474976861584')
                 {
-                    EchoLog($splitRows);
+                    // EchoLog($splitRows);
                 }
 
                 // EchoLog("SPLITS:");
@@ -342,9 +342,12 @@ class SplitProcessor
             
             // Используем base_uid2 как ключ для группировки
             // После очистки лекторов base_uid2 не содержит информации о лекторе
-            if (!isset($consolidated[$item['base_uid']])) {
+            if (!isset($consolidated[$item['base_uid']])) 
+            {
                 $consolidated[$item['base_uid']] = $item;
-            } else {
+            } 
+            else 
+            {
                 // Суммируем Amount и StudentAmount
                 $consolidated[$item['base_uid']]['Amount'] += $item['Amount'];
                 $consolidated[$item['base_uid']]['StudentAmount'] += $item['StudentAmount'];

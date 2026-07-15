@@ -8,6 +8,13 @@ $Person = GetTable('person', "", "", "id", "id, alias");
 
 include '../connect.php';
 
+$_system_mode = GetSystemMode();
+
+if ($_system_mode != 'mode_verification')
+{
+  EchoLog("do_ksro.php: wrong system mode $_system_mode");
+}
+
 $XMLChairByUID = GetTable('xml_chair', "", "", "UID");
 $XMLFacultyByUID = GetTable('xml_faculty', "", "", "UID");
 $XMLLecturerByUID = GetTable('xml_lecturer', "", "", "UID");

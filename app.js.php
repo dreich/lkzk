@@ -3446,11 +3446,11 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
         sum = nagruzka_lectors.reduce((sum, lector) => sum + parseFloat(lector['Amount']), 0);
       }
 
-      return sum;
+      return roundToTwo(sum);
     }
     else
     {
-      return nagruzka_row['Amount'];
+      return roundToTwo(nagruzka_row['Amount']);
     }
   }
 
@@ -3837,6 +3837,9 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
      // (lector.zs || isEmpty(lector.lecturer_fio)) // && $scope.IsNagruzkaRowEditable(nagruzka_row)
     // && 
 
+    // TMP HACK
+    // return true;
+    
     return false && ((lector == undefined || lector.zs || isEmpty(lector.lecturer_fio)) && $scope.system_mode == 'mode_filling' && (c_roles.zavkaf && !['aspirantura_itog_exam'].includes($scope._nagruzka_type) && $scope.nagruzka_selected_chair_id == c_chair_id) && !['refused', 'done_refused', 'require_admin_change', 'done_change'].includes(nagruzka_row.status) 
     && !isEmpty(nagruzka_row.lectors) && (nagruzka_row.lectors[0].zs || isEmpty(nagruzka_row.lectors[0].lecturer_fio)))
     || $scope.system_mode == 'mode_verification' && c_roles.uoup && !['ksro', 'aspirantura_itog_exam'].includes($scope._nagruzka_type)
@@ -3862,7 +3865,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
 
   $scope.IsGroupActionAllowed = function(group_action)
   {
-    return c_roles.zavkaf && ($scope.system_mode == 'mode_filling' || $scope.system_mode == 'mode_verification' && group_action == 'require_admin_change') // && ['assign_to_sotrudnik', 'assign_to_vacancy', 'write_admin_comment', 'assign_to_several_sotrudniki', 'require_admin_change'].includes(group_action)
+    return c_roles.zavkaf && ($scope.system_mode == 'mode_filling' || $scope.system_mode == 'mode_verification') && group_action == 'require_admin_change' // && ['assign_to_sotrudnik', 'assign_to_vacancy', 'write_admin_comment', 'assign_to_several_sotrudniki', 'require_admin_change'].includes(group_action)
 
     || c_roles.ruk_aspirantura && ($scope.system_mode == 'mode_filling' && ['assign_to_sotrudnik', 'refuse_nagruzka', 'require_admin_change', 'write_admin_comment'].includes(group_action) || $scope.system_mode == 'mode_verification' && ['assign_to_sotrudnik', 'require_admin_change', 'write_admin_comment'].includes(group_action)) 
 
@@ -4315,13 +4318,13 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
         })
 
     $scope.UpdateUOUPNagruzkaStat('discipline');
-    $scope.UpdateUOUPNagruzkaStat('ruk_vkr');
-    $scope.UpdateUOUPNagruzkaStat('ruk_kurs');
-    $scope.UpdateUOUPNagruzkaStat('ruk_practice');
-    $scope.UpdateUOUPNagruzkaStat('ksro');
-    $scope.UpdateUOUPNagruzkaStat('gia');
-    $scope.UpdateUOUPNagruzkaStat('aspirantura_itog_exam');
-    $scope.UpdateUOUPNagruzkaStat('aspirant');
+    // $scope.UpdateUOUPNagruzkaStat('ruk_vkr');
+    // $scope.UpdateUOUPNagruzkaStat('ruk_kurs');
+    // $scope.UpdateUOUPNagruzkaStat('ruk_practice');
+    // $scope.UpdateUOUPNagruzkaStat('ksro');
+    // $scope.UpdateUOUPNagruzkaStat('gia');
+    // $scope.UpdateUOUPNagruzkaStat('aspirantura_itog_exam');
+    // $scope.UpdateUOUPNagruzkaStat('aspirant');
   }
 
   

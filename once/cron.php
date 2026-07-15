@@ -248,7 +248,7 @@ if ($_system_mode == 'export_to_galaktika')
 
     // if ($r1 && $r2)
     // {
-      $Result = $mysqli->query("DELETE FROM `zavkaf_splits`");
+      // $Result = $mysqli->query("DELETE FROM `zavkaf_splits`");
       // $Result = $mysqli->query("DELETE FROM `ksro`");
       // $Result = $mysqli->query("DELETE FROM `aspirantura_kand_exam`");
       // $Result = $mysqli->query("DELETE FROM `aspirantura_ruk_asp`");
@@ -272,7 +272,7 @@ if ($_system_mode == 'mode_verification')
 
   // if ($r1 && $r2)
   {
-    $Result = $mysqli->query("DELETE FROM `zavkaf_splits`");
+    // $Result = $mysqli->query("DELETE FROM `zavkaf_splits`");
     // $Result = $mysqli->query("DELETE FROM `ksro`");
     // $Result = $mysqli->query("DELETE FROM `aspirantura_kand_exam`");
     // $Result = $mysqli->query("DELETE FROM `aspirantura_ruk_asp`");
@@ -1881,7 +1881,8 @@ $XMLContentOfLoad = GetTable('xml_content_of_load', "", "", "UID", "UID, UID_Cha
 // EchoLog("HERE 666");
 // EchoLog($XMLContentOfLoad['26589.281474976799017']);
 
-// $XMLContentOfLoadByBaseUID = GetTable('xml_content_of_load', "", "", "base_uid", "UID, UID_Chair, base_uid, hash, UID_Lecturer");
+// просто для определения присутствия нагрузки по base_uid
+$XMLContentOfLoadByBaseUID = GetTable('xml_content_of_load', "", "", "base_uid", "UID, UID_Chair, base_uid, hash, UID_Lecturer");
 $_XMLContentOfLoadStaff = GetTable('xml_content_of_load_staff', "", "", null, "UID, base_uid2, UID_ContentOfLoad, hash");
 
 $XMLContentOfLoadStaffByBaseUID2 = [];
@@ -2032,15 +2033,15 @@ if ($XMLContentOfLoad)
       // т.е. нет такой нагрузки независимо от споточенности
       // т.к. в цикле идём по UID, и base_uid может повторяться, то код в скобках может повториться
       // -- в случае, если выше уже не удалили эту нагрузку / не заменили base_uid2
-      if (!$XMLContentOfLoadByBaseUID2[$base_uid2])
+      // В режиме заполнения base_uid = base_uid2, т.к. из ГУВ не приходят распределения,
+      if (!$XMLContentOfLoadByBaseUID[$base_uid]) // $base_uid2 [не подходит при переходе от заполнения к выверке, когда хотят видеть данные сплитов, когда ещё и из ГУВ идёт уже распределённая эта же нагрузка]
       {
-        EchoLog("Прежняя нагрузка (base_uid2=$base_uid2, content_uid=$xml_content_of_load_UID) не обнаружена в текущем справочнике xml_content_of_load, удаляем");
+        EchoLog("Прежняя нагрузка (base_uid = $base_uid, base_uid2 = $base_uid2, content_uid = $xml_content_of_load_UID) не обнаружена в текущем справочнике xml_content_of_load, удаляем");
 
         $mysqli->query("DELETE FROM `nagruzka` WHERE `load_base_UID2` = '$base_uid2'");
-        // TODO !!! удалять это (помечать) и в сплитах, и м.б. КСРО, аспирантура !!!
-        // TODO взять тип нагрузки и "удалять" в соотв. таблицах
+        // Аспирантура и КСРО - в режиме Выверка обновляются в отдельном месте
         // !! если нагрузка исчезла НЕ СЕГОДНЯ НОЧЬЮ, А РАНЬШЕ, то она здесь не удалится
-        $mysqli->query("UPDATE `zavkaf_splits` SET `delete` = '1' WHERE `base_uid2` = '$base_uid2'");
+        $mysqli->query("UPDATE `zavkaf_splits` SET `delete` = '1' WHERE `base_uid` = '$base_uid'");
 
         continue;
       }
