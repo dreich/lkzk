@@ -734,6 +734,9 @@ abstract class BaseNagruzkaProvider
         // if ($this->nagruzkaType == 'discipline')
         // EchoLog($nagruzkaData);
 
+        if ($this->nagruzkaType == 'discipline')
+        EchoLog(sizeof($nagruzkaData));
+      
         // 5. Фильтрация по преподавателю
         $this->filterByLecturer($nagruzkaData);
 

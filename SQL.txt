@@ -14,3 +14,24 @@ LEFT JOIN xml_content_of_load xcol ON zs.base_uid = xcol.base_uid
 SET zs.`delete` = '1'
 WHERE xcol.base_uid IS NULL 
   AND zs.`delete` <> '1';
+
+
+* Запрос, чтобы найти сплитовые нагрузки, которые не распределились в ГУВ
+[видимо, есть лишние строки, когда распределение частичное]
+
+SELECT xml_content_of_load.nagruzka_type, xml_content_of_load.base_uid2, zavkaf_splits.* 
+FROM zavkaf_splits 
+LEFT JOIN xml_content_of_load
+ON xml_content_of_load.base_uid2 = zavkaf_splits.base_uid2
+WHERE 1
+#AND zavkaf_splits.lecturer_uid = '26115.281474976828721'
+AND zavkaf_splits.base_uid2 <> zavkaf_splits.base_uid2_new
+AND nagruzka_type IS NOT NULL
+
+* Запрос, чтобы проставить в сплитах, где Вакансия, lecturer_uid и поправить base_uid2_new
+
+UPDATE
+`zavkaf_splits`
+SET lecturer_uid = '26115.281474976893938', `base_uid2_new` = CONCAT(`base_uid2_new`, '.26115.281474976893938')
+WHERE `lecturer_fio` = 'Вакансия'
+AND `lecturer_uid`= ''

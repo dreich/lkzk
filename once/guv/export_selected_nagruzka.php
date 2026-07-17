@@ -24,10 +24,27 @@
 
 include '../../functions.php';
 
-
+$splits_table_name = 'zavkaf_splits_09_07_2026';
 // $ZavkafSplits = GetTable('zavkaf_splits', "`base_uid` IS NOT NULL AND `base_uid` <> '' AND `delete` <> '1'", "base_uid");
 // из-за бага, выгрузить доп. пропущенные строки Вакансий
-$ZavkafSplits = GetTable('zavkaf_splits', "`base_uid` IS NOT NULL AND `base_uid` <> '' AND `delete` <> '1' AND `lecturer_fio` = 'Вакансия' AND `lecturer_uid` = ''", "base_uid");
+$ZavkafSplits = GetTable($splits_table_name, "`base_uid` IS NOT NULL AND `base_uid` <> '' AND `delete` <> '1' AND `lecturer_fio` = 'Вакансия' AND `lecturer_uid` = ''", "base_uid", "base_uid"); // !!! схлопывание по base_uid для использования ниже
+
+// Нужно перечислить все сплиты для base_uid, полученных выше, т.е. не только вакансии, а всё распределение для base_uid
+$ZavkafSplitsFullBaseUID = [];
+
+if ($ZavkafSplits)
+foreach ($ZavkafSplits as $zs)
+{
+  $splits = GetRows($splits_table_name, ['base_uid' => $zs['base_uid'], 'delete' => 0]);
+
+  if (!$splits)
+  {
+    echo "Нет строк для $zs[base_uid]";
+    exit;
+  }
+
+  $ZavkafSplitsFullBaseUID = array_merge($ZavkafSplitsFullBaseUID, $splits);
+}
 
 // $KSRO = GetTable('ksro', "`base_uid` IS NOT NULL AND `base_uid` <> '' AND `Amount` <> ''", "base_uid");
 // $AspiranturaKandExam = GetTable('aspirantura_kand_exam', "`base_uid` IS NOT NULL AND `base_uid` <> '' AND `deleted` <> '1'", "base_uid");
@@ -159,18 +176,18 @@ if ($AspiranturaRukSoiskByBaseUID)
 // Выгрузка в XML
 
 
-$doc = new DOMDocument('1.0', 'UTF-8');
-$doc->formatOutput = true;
+// $doc = new DOMDocument('1.0', 'UTF-8');
+// $doc->formatOutput = true;
 
-$root = $doc->createElement('ContentOfLoads');
-$doc->appendChild($root);
+// $root = $doc->createElement('ContentOfLoads');
+// $doc->appendChild($root);
 
-foreach ($ZavkafSplits as $row)
+foreach ($ZavkafSplitsFullBaseUID as $row)
 {
   // на данный момент не понятно, как -1 может быть в таблице
   // || !$row['lecturer_uid'] - нельзя, отсеются вакансии
 
-  if ($row['lecturer_uid'] == '-1') continue;
+  if ($row['lecturer_uid'] == '-1' || !$row['lecturer_fio']) continue;
 
   // if ($row['LoadType'] == 1)
   // {
@@ -186,14 +203,25 @@ foreach ($ZavkafSplits as $row)
   // $node->setAttribute('LoadType', $row['LoadType']);
   $node->setAttribute('Amount', $row['Amount']);
   $node->setAttribute('StudentAmount', $row['StudentAmount']);
+
   // !! TMP HACK for vacancy fix
-  $node->setAttribute('UID_Lecturer', '26115.281474976893938' /* $row['lecturer_uid'] */);
+
+  if ($row['lecturer_fio'] == 'Вакансия')
+  {
+    $lecturer_uid = '26115.281474976893938';
+  }
+  else
+  {
+    $lecturer_uid = $row['lecturer_uid'];
+  }
+
+  $node->setAttribute('UID_Lecturer', $lecturer_uid /* $row['lecturer_uid'] */);
   // $node->setAttribute('delete', $row['delete']);
   $root->appendChild($node);
   $rows_count++;
 }
 
-$doc->save("zavkaf_splits_fix_vacancy.xml");
+$doc->save("zavkaf_splits_fix_vacancy3.xml");
 exit;
 
 

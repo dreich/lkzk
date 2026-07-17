@@ -803,7 +803,7 @@ function JoinConditions($values)
   {
     $value = quote_smart($value);
     // обратных слешей специально нет, они нужны в get_cfo_zayavki.php
-    $sql .= " AND $key = '$value'";
+    $sql .= " AND `$key` = '$value'";
   }
 //  EchoLog($sql);
   return $sql;
@@ -2851,7 +2851,7 @@ function GetNagruzkaBaseQuery($dop_sql, $nagruzka_type = 'all', $department_from
   // EchoLog($nagruzka_type_sql);
   // EchoLog($dop_sql);
 
-  // if ($nagruzka_type == 'ruk_kurs')
+  // if ($nagruzka_type == 'discipline')
   // EchoLog($_nagruzka_base_query);
 
   return $_nagruzka_base_query;
@@ -3402,7 +3402,7 @@ function rotateBackups($tableName, $keep = 4)
       if (stripos($row[0], 'copy') === false) {
           $backups[] = $row[0];
       } else {
-          EchoLog("Пропущена таблица с 'copy': {$row[0]}", 'file screen');
+          // EchoLog("Пропущена таблица с 'copy': {$row[0]}", 'file screen');
       }
   }
   

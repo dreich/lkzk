@@ -156,7 +156,7 @@ class SplitProcessor
             // он нужен только когда в сплитах ещё сплиты, которые по окончанию заполнения отправили в ГУВ
             if ($this->mode == 'mode_filling')
             {
-                // $item['base_uid2'] = $item['base_uid'];
+                $item['base_uid2'] = $item['base_uid'];
             }
 
             $baseUid = $item['base_uid'];
