@@ -1,4 +1,6 @@
 <?php
+ini_set("memory_limit", "1G");
+
 if (session_status() === PHP_SESSION_NONE)
 {
   session_name('lkzk');
@@ -37,7 +39,7 @@ if (!empty($c_roles['uoup']))
   $dean_dep_id = $_SESSION['c_department_id']; // Code in xml_faculty
   $faculty = GetRow('xml_faculty', ['Code' => $dean_dep_id]);
   if ($faculty)
-{
+  {
     $filter_faculty_uid = $faculty['UID'];
   }
   $filter_chair_uid = isset($_GET['chair_uid']) ? $_GET['chair_uid'] : null;
@@ -47,7 +49,7 @@ if (!empty($c_roles['uoup']))
   $zavkaf_chair_id = $_SESSION['c_chair_id']; // Code in xml_chair
   $chair = GetRow('xml_chair', ['Code' => $zavkaf_chair_id]);
   if ($chair)
-{
+  {
     $filter_chair_uid = $chair['UID'];
   }
 }
@@ -65,27 +67,27 @@ if ($filter_faculty_uid)
 {
   $filter_type = isset($_GET['filter_type']) ? $_GET['filter_type'] : 'owner';
   if ($filter_type === 'owner')
-{
+  {
     $where[] = "ls.UID_FacultyOwner = '" . $mysqli->real_escape_string($filter_faculty_uid) . "'";
   } elseif ($filter_type === 'performer')
-{
+  {
     $chairs = GetRows('xml_chair', ['UID_Faculty' => $filter_faculty_uid]);
     $chair_uids = [];
     if ($chairs)
-{
+    {
       foreach ($chairs as $ch)
-{
+      {
           $chair_uids[] = "'" . $mysqli->real_escape_string($ch['UID']) . "'";
       }
       if ($chair_uids)
-{
+      {
           $where[] = "l.UID_Chair IN (" . implode(',', $chair_uids) . ")";
       } else
-{
+      {
           $where[] = "0=1";
       }
     } else
-{
+    {
       $where[] = "0=1";
     }
   }
@@ -140,7 +142,7 @@ $res = $mysqli->query("SELECT UID, Name, Number, YearOfEntry, YearOfEducation FR
 if ($res)
 {
   while ($row = $res->fetch_assoc())
-{
+  {
     $groups[$row['UID']] = $row;
   }
 }
@@ -150,7 +152,7 @@ $res = $mysqli->query("SELECT person_id, chair_id, dolzhnost, pku, stavka FROM s
 if ($res)
 {
   while ($row = $res->fetch_assoc())
-{
+  {
     $sotrudniki[$row['person_id'] . '_' . $row['chair_id']] = $row;
   }
 }
@@ -160,7 +162,7 @@ $res = $mysqli->query("SELECT UID, Name FROM xml_course");
 if ($res)
 {
   while ($row = $res->fetch_assoc())
-{
+  {
     $courseNames[$row['UID']] = $row['Name'];
   }
 }
@@ -170,7 +172,7 @@ $res = $mysqli->query("SELECT UID, Name FROM xml_language");
 if ($res)
 {
   while ($row = $res->fetch_assoc())
-{
+  {
     $langNames[$row['UID']] = $row['Name'];
   }
 }
@@ -180,7 +182,7 @@ $res = $mysqli->query("SELECT UID, Name FROM xml_form_of_education");
 if ($res)
 {
   while ($row = $res->fetch_assoc())
-{
+  {
     $formNames[$row['UID']] = $row['Name'];
   }
 }
@@ -190,7 +192,7 @@ $res = $mysqli->query("SELECT UID, Name FROM xml_semester");
 if ($res)
 {
   while ($row = $res->fetch_assoc())
-{
+  {
     $semesters[$row['UID']] = $row['Name'];
   }
 }
@@ -232,14 +234,14 @@ while ($row = $result->fetch_assoc())
   $yearsOfEntry = [];
 
   foreach ($groupUids as $gUid)
-{
+  {
     $gUid = trim($gUid);
     if (isset($groups[$gUid]))
-{
+    {
       $groupNames[] = $groups[$gUid]['Name'];
       $num = $groups[$gUid]['Number'];
       if (strlen($num) >= 4)
-{
+      {
           $year = '20' . substr($num, 2, 2);
           $yearsOfEntry[$year] = $year;
       }
@@ -251,7 +253,7 @@ while ($row = $result->fetch_assoc())
 
   $fio = $row['LecturerFIO'];
   if (empty($row['UID_Lecturer']) || $row['UID_Lecturer'] == '26115.281474976893938' || $row['UID_Lecturer'] == '-1')
-{
+  {
     $fio = 'Вакансия';
   }
 
@@ -260,10 +262,10 @@ while ($row = $result->fetch_assoc())
   $stavka = '';
 
   if ($fio !== 'Вакансия' && !empty($row['LecturerPersonId']) && !empty($row['ChairCode']))
-{
+  {
     $key = $row['LecturerPersonId'] . '_' . $row['ChairCode'];
     if (isset($sotrudniki[$key]))
-{
+    {
       $dolzhnost = $sotrudniki[$key]['dolzhnost'];
       $pku = $sotrudniki[$key]['pku'];
       $stavka = $sotrudniki[$key]['stavka'];
@@ -290,7 +292,7 @@ while ($row = $result->fetch_assoc())
   $langUID = $row['UID_Language'];
   $lang = isset($langNames[$langUID]) ? $langNames[$langUID] : '';
   if (empty($lang))
-{
+  {
     if ($langUID == '26002.281474976711674') $lang = 'Английский';
     elseif ($langUID) $lang = 'Русский';
   }
@@ -308,10 +310,10 @@ while ($row = $result->fetch_assoc())
   $semesterName = isset($semesters[$semesterUID]) ? $semesters[$semesterUID] : '';
   $semester = '';
   if (strpos(mb_strtolower($semesterName, 'UTF-8'), 'осен') !== false)
-{
+  {
     $semester = 'О';
   } elseif (strpos(mb_strtolower($semesterName, 'UTF-8'), 'весен') !== false)
-{
+  {
     $semester = 'В';
   }
   $sheet->setCellValueByColumnAndRow(16, $rowIdx, $semester);
@@ -325,35 +327,35 @@ while ($row = $result->fetch_assoc())
   $auditor_hours = 0;
 
   if ($nType == 'aspirantura_ruk_asp')
-{
+  {
     $sheet->setCellValueByColumnAndRow(37, $rowIdx, $amount);
     $total_hours += $amount;
   } elseif ($nType == 'aspirantura_ruk_soisk')
-{
+  {
     $sheet->setCellValueByColumnAndRow(38, $rowIdx, $amount);
     $total_hours += $amount;
   } elseif ($nType == 'ik' || mb_stripos($kwName, 'Индивидуальные консультации', 0, 'UTF-8') !== false)
-{
+  {
     $sheet->setCellValueByColumnAndRow(39, $rowIdx, $amount);
     $total_hours += $amount;
   } elseif ($nType == 'ksro' || mb_stripos($kwName, 'Контроль самостоятельной работы', 0, 'UTF-8') !== false)
-{
+  {
     $sheet->setCellValueByColumnAndRow(40, $rowIdx, $amount);
     $total_hours += $amount;
   } else
-{
+  {
     if (isset($col_mapping[$kwName]))
-{
+    {
       $colNum = $col_mapping[$kwName];
       $sheet->setCellValueByColumnAndRow($colNum, $rowIdx, $amount);
       $total_hours += $amount;
 
       if ($colNum >= 18 && $colNum <= 27)
-{
+      {
           $auditor_hours += $amount;
       }
     } elseif ($nType == 'aspirantura_kand_exam')
-{
+    {
       $sheet->setCellValueByColumnAndRow(26, $rowIdx, $amount);
       $total_hours += $amount;
       $auditor_hours += $amount;
@@ -365,10 +367,10 @@ while ($row = $result->fetch_assoc())
   $sheet->setCellValueByColumnAndRow(43, $rowIdx, $auditor_hours);
 
   if (mb_strtolower($lang, 'UTF-8') == 'английский')
-{
+  {
     $sheet->setCellValueByColumnAndRow(44, $rowIdx, $total_hours);
   } else
-{
+  {
     $sheet->setCellValueByColumnAndRow(44, $rowIdx, 0);
   }
 
