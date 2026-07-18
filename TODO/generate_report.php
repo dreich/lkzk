@@ -101,7 +101,7 @@ $where_sql = count($where) > 0 ? "WHERE " . implode(' AND ', $where) : "";
 
 $query = "
   SELECT
-    l.UID_Group, l.UID_Lecturer, l.Amount, l.StudentAmount, l.UID_Language, l.UID_FormOfEducation, l.UID_Course, l.UID_Semester, l.nagruzka_type, l.YearOfEducation,
+    l.UID_Group, l.UID_Lecturer, l.Amount, l.StudentAmount, l.UID_Language, l.UID_Course, l.UID_Semester, l.nagruzka_type, l.YearOfEducation,
     ls.UID_FacultyOwner,
     ls.UID_FacultyPerformer,
     ls.UID_Speciality,
