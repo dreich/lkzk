@@ -2831,8 +2831,9 @@ function GetNagruzkaBaseQuery($dop_sql, $nagruzka_type = 'all', $department_from
 
   FROM xml_content_of_load
   LEFT JOIN xml_lecturer ON xml_lecturer.UID = xml_content_of_load.UID_Lecturer
-  INNER JOIN `nagruzka` ON nagruzka.load_base_UID2 = xml_content_of_load.base_uid2
-
+  # просто JOIN для режима заполнения + просмотр сплитов + те же сплиты из ГУВ
+  #JOIN `nagruzka` ON nagruzka.load_base_UID2 = xml_content_of_load.base_uid2
+  LEFT JOIN `nagruzka` ON nagruzka.load_base_UID2 = xml_content_of_load.base_uid2
   --
   $sql_part2
   WHERE 
@@ -2851,8 +2852,8 @@ function GetNagruzkaBaseQuery($dop_sql, $nagruzka_type = 'all', $department_from
   // EchoLog($nagruzka_type_sql);
   // EchoLog($dop_sql);
 
-  // if ($nagruzka_type == 'discipline')
-  // EchoLog($_nagruzka_base_query);
+  if ($nagruzka_type == 'ruk_vkr')
+  EchoLog($_nagruzka_base_query);
 
   return $_nagruzka_base_query;
 

@@ -24,17 +24,20 @@
 
 include '../../functions.php';
 
-$splits_table_name = 'zavkaf_splits_09_07_2026';
+$splits_table_name = 'zavkaf_splits';
 // $ZavkafSplits = GetTable('zavkaf_splits', "`base_uid` IS NOT NULL AND `base_uid` <> '' AND `delete` <> '1'", "base_uid");
 // из-за бага, выгрузить доп. пропущенные строки Вакансий
-$ZavkafSplits = GetTable($splits_table_name, "`base_uid` IS NOT NULL AND `base_uid` <> '' AND `delete` <> '1' AND `lecturer_fio` = 'Вакансия' AND `lecturer_uid` = ''", "base_uid", "base_uid"); // !!! схлопывание по base_uid для использования ниже
+// $ZavkafSplits = GetTable($splits_table_name, "`base_uid` IS NOT NULL AND `base_uid` <> '' AND `delete` <> '1' AND `lecturer_fio` = 'Вакансия' AND `lecturer_uid` = ''", "base_uid", "base_uid"); // !!! схлопывание по base_uid для использования ниже
+$ZavkafSplits = GetTable($splits_table_name, "`base_uid` IS NOT NULL AND `base_uid` <> '' AND `delete` <> '1' AND `lecturer_uid` = '26115.281474976893938'", "base_uid", "base_uid"); // !!! схлопывание по base_uid для использования ниже
 
 // Нужно перечислить все сплиты для base_uid, полученных выше, т.е. не только вакансии, а всё распределение для base_uid
-$ZavkafSplitsFullBaseUID = [];
-
+// т.к. в ГУВ нельзя передать для base_uid несколько раз одного и того же лектора (включая вакансию), то будем схлопывать и суммировать часы и студентов
+$ZavkafSplitsByUID_Lecturer_UID = [];
+// 26589.281474976811101
 if ($ZavkafSplits)
 foreach ($ZavkafSplits as $zs)
 {
+  EchoLog($zs['base_uid']);
   $splits = GetRows($splits_table_name, ['base_uid' => $zs['base_uid'], 'delete' => 0]);
 
   if (!$splits)
@@ -42,8 +45,23 @@ foreach ($ZavkafSplits as $zs)
     echo "Нет строк для $zs[base_uid]";
     exit;
   }
+  else
+  {
+    foreach ($splits as $split)
+    {
+      if (!$ZavkafSplitsByUID_Lecturer_UID["$split[base_uid]-$split[lecturer_uid]"])
+      {
+        $ZavkafSplitsByUID_Lecturer_UID["$split[base_uid]-$split[lecturer_uid]"] = $split;
+      }
+      else
+      {
+        safeAdd($ZavkafSplitsByUID_Lecturer_UID["$split[base_uid]-$split[lecturer_uid]"]['Amount'], $split['Amount']);
+        safeAdd($ZavkafSplitsByUID_Lecturer_UID["$split[base_uid]-$split[lecturer_uid]"]['StudentAmount'], $split['StudentAmount']);
+      }
+    }
+  }
 
-  $ZavkafSplitsFullBaseUID = array_merge($ZavkafSplitsFullBaseUID, $splits);
+  // $ZavkafSplitsByUID_Lecturer_UID = array_merge($ZavkafSplitsByUID_Lecturer_UID, $splits);
 }
 
 // $KSRO = GetTable('ksro', "`base_uid` IS NOT NULL AND `base_uid` <> '' AND `Amount` <> ''", "base_uid");
@@ -182,7 +200,7 @@ if ($AspiranturaRukSoiskByBaseUID)
 // $root = $doc->createElement('ContentOfLoads');
 // $doc->appendChild($root);
 
-foreach ($ZavkafSplitsFullBaseUID as $row)
+foreach ($ZavkafSplitsByUID_Lecturer_UID as $row)
 {
   // на данный момент не понятно, как -1 может быть в таблице
   // || !$row['lecturer_uid'] - нельзя, отсеются вакансии
@@ -221,7 +239,7 @@ foreach ($ZavkafSplitsFullBaseUID as $row)
   $rows_count++;
 }
 
-$doc->save("zavkaf_splits_fix_vacancy3.xml");
+$doc->save("zavkaf_splits_fix_vacancy4.xml");
 exit;
 
 

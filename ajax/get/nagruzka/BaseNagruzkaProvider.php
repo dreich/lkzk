@@ -536,23 +536,23 @@ abstract class BaseNagruzkaProvider
      */
     protected function groupByChair($nagruzkaData, $statByChair)
     {
-        $result = [];
+      $result = [];
 
-        foreach ($nagruzkaData as $item) 
+      foreach ($nagruzkaData as $item)
+      {
+        $chairId = $item['chair_id'];
+
+        if (!isset($result[$chairId]))
         {
-            $chairId = $item['chair_id'];
-
-            if (!isset($result[$chairId])) 
-            {
-                $result[$chairId] = $item;
-                $result[$chairId]['assigned_to_vacancy'] = isset($statByChair[$chairId]['assigned_to_vacancy']['sum']) ? $statByChair[$chairId]['assigned_to_vacancy']['sum'] : 0;
-                $result[$chairId]['assigned'] = isset($statByChair[$chairId]['assigned']['sum']) ? $statByChair[$chairId]['assigned']['sum'] : 0;
-                $result[$chairId]['not_assigned'] = isset($statByChair[$chairId]['not_assigned']['sum']) ? $statByChair[$chairId]['not_assigned']['sum'] : 0;
-                $result[$chairId]['total'] = isset($statByChair[$chairId]['total']['sum']) ? $statByChair[$chairId]['total']['sum'] : 0;
-            }
+            $result[$chairId] = $item;
+            $result[$chairId]['assigned_to_vacancy'] = isset($statByChair[$chairId]['assigned_to_vacancy']['sum']) ? $statByChair[$chairId]['assigned_to_vacancy']['sum'] : 0;
+            $result[$chairId]['assigned'] = isset($statByChair[$chairId]['assigned']['sum']) ? $statByChair[$chairId]['assigned']['sum'] : 0;
+            $result[$chairId]['not_assigned'] = isset($statByChair[$chairId]['not_assigned']['sum']) ? $statByChair[$chairId]['not_assigned']['sum'] : 0;
+            $result[$chairId]['total'] = isset($statByChair[$chairId]['total']['sum']) ? $statByChair[$chairId]['total']['sum'] : 0;
         }
+      }
 
-        return $result;
+      return $result;
     }
 
     /**
@@ -677,7 +677,7 @@ abstract class BaseNagruzkaProvider
 
         $nagruzkaData = $this->getBaseData($dopSql, $this->getNagruzkaTypeFilter());
 
-        if ($this->nagruzkaType == 'ruk_practice')
+        if ($this->nagruzkaType == 'ruk_vkr')
         {
           // EchoLog($nagruzkaData);
         }
@@ -689,9 +689,9 @@ abstract class BaseNagruzkaProvider
         // Если хотим не применять сплиты, то нельзя просто закомментить строку
         $nagruzkaData = $this->applyModeSplits($nagruzkaData);
 
-        if ($this->nagruzkaType == 'discipline')
+        if ($this->nagruzkaType == 'ruk_vkr')
         {
-            // EchoLog(sizeof($nagruzkaData));
+            // EchoLog($nagruzkaData);
         }
 
         // если нужно получить данную нагрузку по конкретной кафедре (а в таблице 1 кафедры по ней нет), то нужно отфильтровать, используя сплиты.
@@ -734,8 +734,8 @@ abstract class BaseNagruzkaProvider
         // if ($this->nagruzkaType == 'discipline')
         // EchoLog($nagruzkaData);
 
-        if ($this->nagruzkaType == 'discipline')
-        EchoLog(sizeof($nagruzkaData));
+        // if ($this->nagruzkaType == 'discipline')
+        // EchoLog(sizeof($nagruzkaData));
       
         // 5. Фильтрация по преподавателю
         $this->filterByLecturer($nagruzkaData);
@@ -750,11 +750,12 @@ abstract class BaseNagruzkaProvider
             // EchoLog($nagruzkaData);
         }
 
-        if ($this->nagruzkaType == 'discipline')
-        EchoLog(sizeof($nagruzkaData));
+        // if ($this->nagruzkaType == 'discipline')
+        // EchoLog(sizeof($nagruzkaData));
 
         // 6. Расчет статистики
         $stats_obj = $this->calculateStats($nagruzkaData);
+        // EchoLog($stats_obj);
         $stat = $stats_obj['stat'];
         $statByChair = $stats_obj['statByChair'];
 
@@ -763,6 +764,8 @@ abstract class BaseNagruzkaProvider
 
         // 7. Глобальная фильтрация
         $this->applyGlobalFilter($nagruzkaData);
+
+        // EchoLog($nagruzkaData);
 
         // 8. Специфичная логика для УОУП (Группировка)
         if (($this->userRole === 'uoup' || $this->userRole === 'dean') && ($this->onlyStat || $this->isLite)) 

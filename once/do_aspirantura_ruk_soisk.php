@@ -1,6 +1,6 @@
 <?
 
-include '../functions.php';
+include_once '../functions.php';
 
 include '../connect/sotrudnik.php';
 
@@ -26,7 +26,7 @@ $AspiranturaRukSoisk = GetRows('xml_content_of_load', ['nagruzka_type' => 'aspir
 echo sizeof($AspiranturaRukSoisk);
 // Не можем очищать таблицу, т.к. из ГУВ идут не все поля: даже нет полей аспирантских (uid) в данный момент
 // $mysqli->query("TRUNCATE `aspirantura_ruk_soisk`");
-// Скорее всего нужно будет удалить строки с пустым load_id
+// Скорее всего нужно будет удалить строки с пустым load_id ?
 
 $AspiranturaRukSoiskCurrentByLoadId = GetTable('aspirantura_ruk_soisk', "`load_id` IS NOT NULL AND `load_id` <> ''", "", "load_id");
 
@@ -86,9 +86,9 @@ foreach ($AspiranturaRukSoisk as $row)
   // только поля, которые идут из ГУВ, чтобы не перезатереть те, которые не приходят
   $common_sql = "
     `base_uid` = '$row[base_uid]',
-    `department_id` = '$faculty_id',
-    `department` = '$faculty_name',
-    `group` = '$groups',
+    # `department_id` = '$faculty_id',
+    # `department` = '$faculty_name',
+    # `group` = '$groups',
     `lecturer_chair_id` = '$lecturer_chair_id',
     `lecturer_chair_name` = '$lecturer_chair_name',
     `lecturer_department_id` = '$lecturer_faculty_id',

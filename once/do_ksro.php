@@ -1,6 +1,6 @@
 <?
 
-include '../functions.php';
+include_once '../functions.php';
 
 include '../connect/sotrudnik.php';
 
@@ -27,6 +27,7 @@ $mysqli->query("TRUNCATE `ksro`");
 
 foreach ($GUVKSRO as $row)
 {
+  if ($row['UID_Lecturer'] == '-1') continue;
 
   $chair_id = $XMLChairByUID[$row['UID_Chair']]['Code'];
   $faculty_uid = $XMLChairByUID[$row['UID_Chair']]['UID_Faculty'];

@@ -101,6 +101,7 @@ $where_sql = count($where) > 0 ? "WHERE " . implode(' AND ', $where) : "";
 
 $query = "
   SELECT
+    l.base_uid,
     l.UID_Group, l.UID_Lecturer, l.Amount, l.StudentAmount, l.UID_Language, l.UID_Course, l.UID_Semester, l.nagruzka_type, l.YearOfEducation,
     ls.UID_FacultyOwner,
     ls.UID_FacultyPerformer,
@@ -109,9 +110,11 @@ $query = "
     ls.UID_FormOfEducation,
     ls.Abbr,
     f_owner.Name as FacultyOwnerName,
+    f_owner.Abbr as FacultyOwnerAbbr,
     c.Name as ChairName,
     c.Code as ChairCode,
     f_perf.Name as FacultyPerformerName,
+    f_perf.Abbr as FacultyPerformerAbbr,
     d.Name as DisciplineName,
     lec.FIO as LecturerFIO,
     lec.Tab_number as LecturerPersonId,
@@ -128,6 +131,7 @@ $query = "
   LEFT JOIN xml_speciality sp ON sp.UID = ls.UID_Speciality
   LEFT JOIN xml_kind_of_work kw ON kw.UID = l.UID_KindOfWork
   $where_sql
+  AND `nagruzka_type` = 'discipline'
 ";
 
 $result = $mysqli->query($query);
@@ -264,6 +268,18 @@ while ($row = $result->fetch_assoc())
   if ($fio !== 'Вакансия' && !empty($row['LecturerPersonId']) && !empty($row['ChairCode']))
   {
     $key = $row['LecturerPersonId'] . '_' . $row['ChairCode'];
+    if (!isset($sotrudniki[$key]) && !empty($row['UID_FacultyPerformer']))
+    {
+      $facultyCode = GetRow('xml_faculty', ['UID' => $row['UID_FacultyPerformer']]);
+      if ($facultyCode)
+      {
+        $keyFallback = $row['LecturerPersonId'] . '_' . $facultyCode['Code'];
+        if (isset($sotrudniki[$keyFallback]))
+        {
+          $key = $keyFallback;
+        }
+      }
+    }
     if (isset($sotrudniki[$key]))
     {
       $dolzhnost = $sotrudniki[$key]['dolzhnost'];
@@ -275,8 +291,8 @@ while ($row = $result->fetch_assoc())
   $amount = (float)str_replace(',', '.', $row['Amount']);
   $studentAmount = (float)str_replace(',', '.', $row['StudentAmount']);
 
-  $sheet->setCellValueByColumnAndRow(1, $rowIdx, $row['FacultyOwnerName']);
-  $sheet->setCellValueByColumnAndRow(2, $rowIdx, $row['FacultyPerformerName']);
+  $sheet->setCellValueByColumnAndRow(1, $rowIdx, $row['base_uid'] . " " . $row['FacultyOwnerAbbr']);
+  $sheet->setCellValueByColumnAndRow(2, $rowIdx, $row['FacultyPerformerAbbr']);
   $sheet->setCellValueByColumnAndRow(3, $rowIdx, $row['ChairName']);
   $sheet->setCellValueByColumnAndRow(4, $rowIdx, $fio);
   $sheet->setCellValueByColumnAndRow(5, $rowIdx, $dolzhnost);
