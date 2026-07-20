@@ -221,7 +221,7 @@ $col_mapping = [
   'Руководство ВКР' => 36
 ];
 
-$templatePath = __DIR__ . '/Шаблон отчёта по учебной нагрузке.xlsx';
+$templatePath = __DIR__ . '/template.xlsx';
 $spreadsheet = IOFactory::load($templatePath);
 $sheet = $spreadsheet->getActiveSheet();
 
