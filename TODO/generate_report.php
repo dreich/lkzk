@@ -61,6 +61,9 @@ if (!$hasAccess)
   return;
 }
 
+$XmlChairByCode = GetTable('xml_chair', "", "", "Code");
+$XmlFacultyByUID = GetTable('xml_faculty', "", "", "UID");
+
 // Build query
 $where = [];
 if ($filter_faculty_uid)
@@ -102,7 +105,7 @@ $where_sql = count($where) > 0 ? "WHERE " . implode(' AND ', $where) : "";
 $query = "
   SELECT
     l.base_uid,
-    l.UID_Group, l.UID_Lecturer, l.Amount, l.StudentAmount, l.UID_Language, l.UID_Course, l.UID_Semester, l.nagruzka_type, l.YearOfEducation,
+    ls.UID_Group, ls.UID_SubGroup, l.UID_Lecturer, l.Amount, l.StudentAmount, l.UID_Language, l.UID_Course, l.UID_Semester, l.nagruzka_type, l.YearOfEducation,
     ls.UID_FacultyOwner,
     ls.UID_FacultyPerformer,
     ls.UID_Speciality,
@@ -233,21 +236,45 @@ $rowIdx = 3;
 
 while ($row = $result->fetch_assoc())
 {
-  $groupUids = explode(',', $row['UID_Group']);
-  $groupNames = [];
-  $yearsOfEntry = [];
-
-  foreach ($groupUids as $gUid)
+  if ($row['UID_Group'])
   {
-    $gUid = trim($gUid);
-    if (isset($groups[$gUid]))
+    $groupUids = explode(',', $row['UID_Group']);
+    $groupNames = [];
+    $yearsOfEntry = [];
+
+    foreach ($groupUids as $gUid)
     {
-      $groupNames[] = $groups[$gUid]['Name'];
-      $num = $groups[$gUid]['Number'];
-      if (strlen($num) >= 4)
+      $gUid = trim($gUid);
+      if (isset($groups[$gUid]))
       {
-          $year = '20' . substr($num, 2, 2);
-          $yearsOfEntry[$year] = $year;
+        $groupNames[] = $groups[$gUid]['Name'];
+        $num = $groups[$gUid]['Number'];
+        if (strlen($num) >= 4)
+        {
+            $year = '20' . substr($num, 2, 2);
+            $yearsOfEntry[$year] = $year;
+        }
+      }
+    }
+  }
+  elseif ($row['UID_SubGroup'])
+  {
+    $groupUids = explode(',', $row['UID_Group']);
+    $groupNames = [];
+    $yearsOfEntry = [];
+
+    foreach ($groupUids as $gUid)
+    {
+      $gUid = trim($gUid);
+      if (isset($groups[$gUid]))
+      {
+        $groupNames[] = $groups[$gUid]['Name'];
+        $num = $groups[$gUid]['Number'];
+        if (strlen($num) >= 4)
+        {
+            $year = '20' . substr($num, 2, 2);
+            $yearsOfEntry[$year] = $year;
+        }
       }
     }
   }
@@ -268,18 +295,16 @@ while ($row = $result->fetch_assoc())
   if ($fio !== 'Вакансия' && !empty($row['LecturerPersonId']) && !empty($row['ChairCode']))
   {
     $key = $row['LecturerPersonId'] . '_' . $row['ChairCode'];
-    if (!isset($sotrudniki[$key]) && !empty($row['UID_FacultyPerformer']))
+
+    // для псевдо и ГПХ искать по факультету
+    if (!$sotrudniki[$key])
     {
-      $facultyCode = GetRow('xml_faculty', ['UID' => $row['UID_FacultyPerformer']]);
-      if ($facultyCode)
-      {
-        $keyFallback = $row['LecturerPersonId'] . '_' . $facultyCode['Code'];
-        if (isset($sotrudniki[$keyFallback]))
-        {
-          $key = $keyFallback;
-        }
-      }
+      $faculty_uid = $XmlChairByCode[$row['ChairCode']]['UID_Faculty'];
+      $faculty_code = $XmlFacultyByUID[$faculty_uid]['Code'];
+
+      $key = $row['LecturerPersonId'] . '_' . $faculty_code;
     }
+
     if (isset($sotrudniki[$key]))
     {
       $dolzhnost = $sotrudniki[$key]['dolzhnost'];
