@@ -35,3 +35,12 @@ UPDATE
 SET lecturer_uid = '26115.281474976893938', `base_uid2_new` = CONCAT(`base_uid2_new`, '.26115.281474976893938')
 WHERE `lecturer_fio` = 'Вакансия'
 AND `lecturer_uid`= ''
+
+
+* Находить строки где комбинация uid нагрузки и uid лектора не уникальна..
+
+SELECT base_uid, lecturer_uid, COUNT(*) AS c
+FROM zavkaf_splits
+WHERE `delete` = '0' AND `lecturer_uid` <> ''
+GROUP BY base_uid, lecturer_uid
+HAVING c > 1

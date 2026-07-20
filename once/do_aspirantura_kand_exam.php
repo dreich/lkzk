@@ -2,7 +2,7 @@
 
 // !! TODO У некоторых кафедра и факультет пустые (псевдо-кафедры, декан)
 
-include '../functions.php';
+include_once '../functions.php';
 
 include '../connect/sotrudnik.php';
 
@@ -71,6 +71,7 @@ foreach ($AspiranturaKandExam as $row)
   else $lang = '';
 
   $discipline_title = $XMLDisciplineByUID[$row['UID_Discipline']]['Name'];
+  $discipline_nrec = str_replace('26006.', '', $row['UID_Discipline']);
 
   $groups = $XMLGroupByUID[$row['UID_Group']]['Name'];
 
@@ -80,7 +81,7 @@ foreach ($AspiranturaKandExam as $row)
       `bup_nrec` = '',
       `bup_department_name` = '$faculty_name',
       `bup_language` = '$lang',
-      `disc_nrec` = '',
+      `disc_nrec` = '$discipline_nrec',
       `disc_abr` = '',
       `disc_title` = '$discipline_title',
       `exam_semester` = '$row[UID_Semester]',

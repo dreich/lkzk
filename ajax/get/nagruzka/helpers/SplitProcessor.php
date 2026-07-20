@@ -404,9 +404,11 @@ class SplitProcessor
         return !empty($this->splitsByBaseUid[$baseUid][$baseUid2]);
     }
 
+    // !! В режиме выверки не должно быть сплитов
     public function hasSplitsByBaseUID($baseUid)
     {
-        return !empty($this->splitsByBaseUid[$baseUid]);
+        if ($this->mode == 'mode_verification') return false;
+        else return !empty($this->splitsByBaseUid[$baseUid]);
     }
 
     /**
@@ -426,6 +428,7 @@ class SplitProcessor
 
     /**
      * Получить первый сплит для строки
+     * НЕ ИСП.
      */
     public function getFirstSplit($baseUid, $baseUid2)
     {
@@ -473,7 +476,8 @@ class SplitProcessor
     {
         $result = [];
 
-        foreach ($nagruzkaData as $baseUid2 => $item) {
+        foreach ($nagruzkaData as $baseUid2 => $item) 
+        {
             $baseUid = $item['base_uid'];
 
             if (!isset($result[$baseUid])) {

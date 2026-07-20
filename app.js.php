@@ -4318,13 +4318,13 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
         })
 
     $scope.UpdateUOUPNagruzkaStat('discipline');
-    // $scope.UpdateUOUPNagruzkaStat('ruk_vkr');
-    // $scope.UpdateUOUPNagruzkaStat('ruk_kurs');
-    // $scope.UpdateUOUPNagruzkaStat('ruk_practice');
-    // $scope.UpdateUOUPNagruzkaStat('ksro');
-    // $scope.UpdateUOUPNagruzkaStat('gia');
-    // $scope.UpdateUOUPNagruzkaStat('aspirantura_itog_exam');
-    // $scope.UpdateUOUPNagruzkaStat('aspirant');
+    $scope.UpdateUOUPNagruzkaStat('ruk_vkr');
+    $scope.UpdateUOUPNagruzkaStat('ruk_kurs');
+    $scope.UpdateUOUPNagruzkaStat('ruk_practice');
+    $scope.UpdateUOUPNagruzkaStat('ksro');
+    $scope.UpdateUOUPNagruzkaStat('gia');
+    $scope.UpdateUOUPNagruzkaStat('aspirantura_itog_exam');
+    $scope.UpdateUOUPNagruzkaStat('aspirant');
   }
 
   
