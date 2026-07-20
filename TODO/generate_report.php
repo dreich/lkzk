@@ -100,7 +100,8 @@ if ($filter_chair_uid)
   $where[] = "l.UID_Chair = '" . $mysqli->real_escape_string($filter_chair_uid) . "'";
 }
 
-$where[] = "l.nagruzka_type = 'discipline'"; $where_sql = "WHERE " . implode(' AND ', $where);
+$where[] = "l.nagruzka_type = 'discipline'";
+$where_sql = "WHERE " . implode(' AND ', $where);
 
 $query = "
   SELECT
