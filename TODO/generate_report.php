@@ -164,15 +164,6 @@ if ($res)
   }
 }
 
-$courseNames = [];
-$res = $mysqli->query("SELECT UID, Name FROM xml_course");
-if ($res)
-{
-  while ($row = $res->fetch_assoc())
-  {
-    $courseNames[$row['UID']] = $row['Name'];
-  }
-}
 
 $langNames = [];
 $res = $mysqli->query("SELECT UID, Name FROM xml_language");
@@ -184,25 +175,7 @@ if ($res)
   }
 }
 
-$formNames = [];
-$res = $mysqli->query("SELECT UID, Name FROM xml_form_of_education");
-if ($res)
-{
-  while ($row = $res->fetch_assoc())
-  {
-    $formNames[$row['UID']] = $row['Name'];
-  }
-}
 
-$semesters = [];
-$res = $mysqli->query("SELECT UID, Name FROM xml_semester");
-if ($res)
-{
-  while ($row = $res->fetch_assoc())
-  {
-    $semesters[$row['UID']] = $row['Name'];
-  }
-}
 
 $col_mapping = [
   'Лекция' => 18,
@@ -301,7 +274,7 @@ while ($row = $result->fetch_assoc())
     {
       $faculty_uid = $XmlChairByCode[$row['ChairCode']]['UID_Faculty'];
       $faculty_code = $XmlFacultyByUID[$faculty_uid]['Code'];
-      
+
       $key = $row['LecturerPersonId'] . '_' . $faculty_code;
     }
 
@@ -314,7 +287,7 @@ while ($row = $result->fetch_assoc())
   }
 
   $amount = (float)str_replace(',', '.', $row['Amount']);
-  $studentAmount = (float)str_replace(',', '.', $row['StudentAmount']);
+
   
   $sheet->setCellValueByColumnAndRow(1, $rowIdx, $row['base_uid'] . " " . $row['FacultyOwnerAbbr']);
   $sheet->setCellValueByColumnAndRow(2, $rowIdx, $row['FacultyPerformerAbbr']);
@@ -340,25 +313,17 @@ while ($row = $result->fetch_assoc())
   $sheet->setCellValueByColumnAndRow(13, $rowIdx, $lang);
 
   $formUID = $row['UID_FormOfEducation'];
-  $form = isset($formNames[$formUID]) ? $formNames[$formUID] : '';
+  $form = isset($_forms_obuchenia[$formUID]) ? $_forms_obuchenia[$formUID] : '';
   $sheet->setCellValueByColumnAndRow(14, $rowIdx, $form);
 
-  $courseUID = $row['UID_Course'];
-  $course = isset($courseNames[$courseUID]) ? $courseNames[$courseUID] : '';
-  $sheet->setCellValueByColumnAndRow(15, $rowIdx, $course);
+  $sheet->setCellValueByColumnAndRow(15, $rowIdx, $row['UID_Course']);
   
-  $semesterUID = $row['UID_Semester'];
-  $semesterName = isset($semesters[$semesterUID]) ? $semesters[$semesterUID] : '';
-  $semester = '';
-  if (strpos(mb_strtolower($semesterName, 'UTF-8'), 'осен') !== false)
-  {
-    $semester = 'О';
-  } elseif (strpos(mb_strtolower($semesterName, 'UTF-8'), 'весен') !== false)
-  {
-    $semester = 'В';
-  }
+  $semester = $row['UID_Semester'] % 2 == 0 ? 'В' : 'О';
+
   $sheet->setCellValueByColumnAndRow(16, $rowIdx, $semester);
   
+  $studentAmount = (float)str_replace(',', '.', $row['StudentAmount']);
+
   $sheet->setCellValueByColumnAndRow(17, $rowIdx, $studentAmount);
   
   $kwName = trim($row['KindOfWorkName']);
@@ -371,19 +336,23 @@ while ($row = $result->fetch_assoc())
   {
     $sheet->setCellValueByColumnAndRow(37, $rowIdx, $amount);
     $total_hours += $amount;
-  } elseif ($nType == 'aspirantura_ruk_soisk')
+  } 
+  elseif ($nType == 'aspirantura_ruk_soisk')
   {
     $sheet->setCellValueByColumnAndRow(38, $rowIdx, $amount);
     $total_hours += $amount;
-  } elseif ($nType == 'ik' || mb_stripos($kwName, 'Индивидуальные консультации', 0, 'UTF-8') !== false)
+  } 
+  elseif ($nType == 'ik' || mb_stripos($kwName, 'Индивидуальные консультации', 0, 'UTF-8') !== false)
   {
     $sheet->setCellValueByColumnAndRow(39, $rowIdx, $amount);
     $total_hours += $amount;
-  } elseif ($nType == 'ksro' || mb_stripos($kwName, 'Контроль самостоятельной работы', 0, 'UTF-8') !== false)
+  } 
+  elseif ($nType == 'ksro' || mb_stripos($kwName, 'Контроль самостоятельной работы', 0, 'UTF-8') !== false)
   {
     $sheet->setCellValueByColumnAndRow(40, $rowIdx, $amount);
     $total_hours += $amount;
-  } else
+  } 
+  else
   {
     if (isset($col_mapping[$kwName]))
     {
@@ -393,9 +362,10 @@ while ($row = $result->fetch_assoc())
       
       if ($colNum >= 18 && $colNum <= 27)
       {
-          $auditor_hours += $amount;
+        $auditor_hours += $amount;
       }
-    } elseif ($nType == 'aspirantura_kand_exam')
+    } 
+    elseif ($nType == 'aspirantura_kand_exam')
     {
       $sheet->setCellValueByColumnAndRow(26, $rowIdx, $amount);
       $total_hours += $amount;
