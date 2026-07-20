@@ -100,7 +100,7 @@ if ($filter_chair_uid)
   $where[] = "l.UID_Chair = '" . $mysqli->real_escape_string($filter_chair_uid) . "'";
 }
 
-$where_sql = count($where) > 0 ? "WHERE " . implode(' AND ', $where) : "";
+$where[] = "l.nagruzka_type = 'discipline'"; $where_sql = "WHERE " . implode(' AND ', $where);
 
 $query = "
   SELECT
@@ -134,7 +134,7 @@ $query = "
   LEFT JOIN xml_speciality sp ON sp.UID = ls.UID_Speciality
   LEFT JOIN xml_kind_of_work kw ON kw.UID = l.UID_KindOfWork
   $where_sql
-  AND `nagruzka_type` = 'discipline'
+
 ";
 
 $result = $mysqli->query($query);
