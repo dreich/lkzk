@@ -283,7 +283,7 @@ while ($row = $result->fetch_assoc())
     {
       $dolzhnost = $sotrudniki[$key]['dolzhnost'];
       $pku = $sotrudniki[$key]['pku'];
-      $stavka = $sotrudniki[$key]['stavka'];
+      $stavka = (float)str_replace(',', '.', $sotrudniki[$key]['stavka']);
     }
   }
 
