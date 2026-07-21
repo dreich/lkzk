@@ -110,6 +110,8 @@ $query = "
   SELECT 
     n.comment_to_admin,
     l.base_uid,
+    l.UID_Chair,
+    f_perf.UID,
     ls.UID_Group, ls.UID_SubGroup, l.UID_Lecturer, l.Amount, l.StudentAmount, l.UID_Language, l.UID_Course, l.UID_Semester, l.nagruzka_type, l.UID_KindOfWork, l.YearOfEducation,
     ls.UID_FacultyOwner,
     ls.UID_FacultyPerformer,
@@ -128,7 +130,8 @@ $query = "
     lec.Tab_number as LecturerPersonId,
     sp.Name as SpecialityName,
     sp.education_level,
-    kw.Name as KindOfWorkName
+    kw.Name as KindOfWorkName,
+    spz.Name as napravlennost
   FROM xml_content_of_load l
   LEFT JOIN `nagruzka` n ON l.base_uid = n.load_base_UID2
   LEFT JOIN xml_content_of_load_staff ls ON ls.UID_ContentOfLoad = l.UID
@@ -139,8 +142,11 @@ $query = "
   LEFT JOIN xml_lecturer lec ON lec.UID = l.UID_Lecturer
   LEFT JOIN xml_speciality sp ON sp.UID = ls.UID_Speciality
   LEFT JOIN xml_kind_of_work kw ON kw.UID = l.UID_KindOfWork
+  LEFT JOIN xml_specialization spz ON spz.UID = ls.UID_Specialization
   $where_sql
-  AND `nagruzka_type` IN ('ruk_vkr', 'ruk_kurs', 'ruk_practice', 'gia')
+  #AND `nagruzka_type` IN ('ruk_vkr', 'ruk_kurs', 'ruk_practice', 'gia')
+  #AND `nagruzka_type` IN ('aspirantura_kand_exam')
+  AND `nagruzka_type` IN ('discipline')
 ";
 
 $result = $mysqli->query($query);
@@ -221,6 +227,7 @@ $rowIdx = 3;
 
 while ($row = $result->fetch_assoc())
 {
+  EchoLog($row);
   $groupNames = [];
   $yearsOfEntry = [];
 
@@ -311,22 +318,20 @@ while ($row = $result->fetch_assoc())
 
   
   // $row['base_uid'] . " " . 
-  $sheet->setCellValueByColumnAndRow(1, $rowIdx, $row['FacultyOwnerAbbr']);
-
-
+  $sheet->setCellValueByColumnAndRow(1, $rowIdx, $row['base_uid'] . " " . $row['FacultyOwnerAbbr']);
 
   $sheet->setCellValueByColumnAndRow(2, $rowIdx, $row['FacultyPerformerAbbr']);
   $sheet->setCellValueByColumnAndRow(3, $rowIdx, $row['ChairName']);
   $sheet->setCellValueByColumnAndRow(4, $rowIdx, $fio);
   $sheet->setCellValueByColumnAndRow(5, $rowIdx, $dolzhnost);
   $sheet->setCellValueByColumnAndRow(6, $rowIdx, $pku);
-  $sheet->setCellValueByColumnAndRow(7, $rowIdx, $stavka);
+  $sheet->setCellValueByColumnAndRow(7, $rowIdx, (float) str_replace(',', '.', $sotrudniki[$key]['stavka']));
   $sheet->setCellValueByColumnAndRow(8, $rowIdx, $row['DisciplineName']);
   $sheet->setCellValueByColumnAndRow(9, $rowIdx, $groupStr);
   
   $sheet->setCellValueByColumnAndRow(10, $rowIdx, $row['education_level']);
   $sheet->setCellValueByColumnAndRow(11, $rowIdx, $row['SpecialityName']);
-  $sheet->setCellValueByColumnAndRow(12, $rowIdx, ''); 
+  $sheet->setCellValueByColumnAndRow(12, $rowIdx, $row['napravlennost']); 
 
   $langUID = $row['UID_Language'];
   $lang = isset($langNames[$langUID]) ? $langNames[$langUID] : '';

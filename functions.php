@@ -2852,8 +2852,8 @@ function GetNagruzkaBaseQuery($dop_sql, $nagruzka_type = 'all', $department_from
   // EchoLog($nagruzka_type_sql);
   // EchoLog($dop_sql);
 
-  if ($nagruzka_type == 'ruk_vkr')
-  EchoLog($_nagruzka_base_query);
+  // if ($nagruzka_type == 'ruk_vkr')
+  // EchoLog($_nagruzka_base_query);
 
   return $_nagruzka_base_query;
 
@@ -2956,6 +2956,7 @@ function PrepareNagruzka($_Nagruzka, $lite = false)
       
     }
 
+    // ! Возможно, на самом деле эти объединения нужны только для групп
     unset($nagruzka);
     if (!$lite)
     foreach ($Nagruzka as &$nagruzka)
