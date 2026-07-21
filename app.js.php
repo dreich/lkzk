@@ -3810,7 +3810,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
   // СМ. ТАКЖЕ NagruzkaMayAssignLector()
   $scope.MaySelectNagruzka = function(nagruzka_row)
   {
-    // return true;
+    return false;
     
     // CL($scope._nagruzka_type);
     // CL($scope._chairs_ids.includes(nagruzka_selected_chair_id));
@@ -3838,7 +3838,7 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
     // && 
 
     // TMP HACK
-    // return true;
+    return false;
     
     return false && ((lector == undefined || lector.zs || isEmpty(lector.lecturer_fio)) && $scope.system_mode == 'mode_filling' && (c_roles.zavkaf && !['aspirantura_itog_exam'].includes($scope._nagruzka_type) && $scope.nagruzka_selected_chair_id == c_chair_id) && !['refused', 'done_refused', 'require_admin_change', 'done_change'].includes(nagruzka_row.status) 
     && !isEmpty(nagruzka_row.lectors) && (nagruzka_row.lectors[0].zs || isEmpty(nagruzka_row.lectors[0].lecturer_fio)))

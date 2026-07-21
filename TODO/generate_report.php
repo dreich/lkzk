@@ -28,22 +28,26 @@ $hasAccess = false;
 $filter_faculty_uid = null;
 $filter_chair_uid = null;
 
-if (!empty($c_roles['uoup']))
-{
-  $hasAccess = true;
-  $filter_faculty_uid = isset($_GET['faculty_uid']) ? $_GET['faculty_uid'] : null;
-  $filter_chair_uid = isset($_GET['chair_uid']) ? $_GET['chair_uid'] : null;
-} elseif (!empty($c_roles['dean']))
-{
-  $hasAccess = true;
-  $dean_dep_id = $_SESSION['c_department_id']; // Code in xml_faculty
-  $faculty = GetRow('xml_faculty', ['Code' => $dean_dep_id]);
-  if ($faculty)
-  {
-    $filter_faculty_uid = $faculty['UID'];
-  }
-  $filter_chair_uid = isset($_GET['chair_uid']) ? $_GET['chair_uid'] : null;
-} elseif (!empty($c_roles['zavkaf']))
+// if (!empty($c_roles['uoup']))
+// {
+//   $hasAccess = true;
+//   $filter_faculty_uid = isset($_GET['faculty_uid']) ? $_GET['faculty_uid'] : null;
+//   $filter_chair_uid = isset($_GET['chair_uid']) ? $_GET['chair_uid'] : null;
+// } 
+// // TODO !!!
+// elseif (!empty($c_roles['dean']))
+// {
+//   $hasAccess = true;
+//   $dean_dep_id = $_SESSION['c_department_id']; // Code in xml_faculty
+//   $faculty = GetRow('xml_faculty', ['Code' => $dean_dep_id]);
+//   if ($faculty)
+//   {
+//     $filter_faculty_uid = $faculty['UID'];
+//   }
+//   $filter_chair_uid = isset($_GET['chair_uid']) ? $_GET['chair_uid'] : null;
+// } 
+// else
+if (!empty($c_roles['zavkaf']))
 {
   $hasAccess = true;
   $zavkaf_chair_id = $_SESSION['c_chair_id']; // Code in xml_chair
@@ -101,11 +105,12 @@ if ($filter_chair_uid)
 }
 
 $where_sql = count($where) > 0 ? "WHERE " . implode(' AND ', $where) : "";
-
+// comment_to_admin
 $query = "
   SELECT 
+    n.comment_to_admin,
     l.base_uid,
-    ls.UID_Group, ls.UID_SubGroup, l.UID_Lecturer, l.Amount, l.StudentAmount, l.UID_Language, l.UID_Course, l.UID_Semester, l.nagruzka_type, l.YearOfEducation,
+    ls.UID_Group, ls.UID_SubGroup, l.UID_Lecturer, l.Amount, l.StudentAmount, l.UID_Language, l.UID_Course, l.UID_Semester, l.nagruzka_type, l.UID_KindOfWork, l.YearOfEducation,
     ls.UID_FacultyOwner,
     ls.UID_FacultyPerformer,
     ls.UID_Speciality,
@@ -125,6 +130,7 @@ $query = "
     sp.education_level,
     kw.Name as KindOfWorkName
   FROM xml_content_of_load l
+  LEFT JOIN `nagruzka` n ON l.base_uid = n.load_base_UID2
   LEFT JOIN xml_content_of_load_staff ls ON ls.UID_ContentOfLoad = l.UID
   LEFT JOIN xml_faculty f_owner ON f_owner.UID = ls.UID_FacultyOwner
   LEFT JOIN xml_chair c ON c.UID = l.UID_Chair
@@ -134,7 +140,7 @@ $query = "
   LEFT JOIN xml_speciality sp ON sp.UID = ls.UID_Speciality
   LEFT JOIN xml_kind_of_work kw ON kw.UID = l.UID_KindOfWork
   $where_sql
-  AND `nagruzka_type` = 'discipline'
+  AND `nagruzka_type` IN ('ruk_vkr', 'ruk_kurs', 'ruk_practice', 'gia')
 ";
 
 $result = $mysqli->query($query);
@@ -142,6 +148,12 @@ if (!$result)
 {
   echo "Error executing query: " . $mysqli->error;
   return;
+}
+
+if (!$result->num_rows)
+{
+  echo "Данных нет";
+  exit;
 }
 
 $groups = [];
@@ -178,27 +190,27 @@ if ($res)
 
 
 $col_mapping = [
-  'Лекция' => 18,
-  'Практика (семинарские занятия)' => 19,
-  'Лабораторная' => 20,
-  'Консультации перед экзаменом' => 21,
-  'Зачет' => 22,
-  'Зачет по практике' => 22,
-  'Дифференцированный зачет' => 23,
-  'Дифференцированный зачет по практике' => 23,
-  'Экзамен' => 24,
-  'Промежуточная аттестация по курсовой работе (проекту)' => 25,
-  'Участие в комиссии' => 26,
-  'Участие в комиссии (председатель)' => 27,
-  'Контрольная работа' => 28,
-  'Руководство курсовой работой (проектом)' => 29,
-  'Организация курсовой работы (проекта)' => 30,
-  'Практика выездная' => 31,
-  'Практика групповая в организации' => 32,
-  'Практика групповая в университете' => 33,
-  'Практика индивидуальная в организации' => 34,
-  'Практика индивидуальная в университете' => 35,
-  'Руководство ВКР' => 36
+  '26003.281474976710659' => 18, // Лекция
+  '26003.281474976710660' => 20, // Лабораторная
+  '26003.281474976710661' => 19, // Практика семинарские занятия
+  '26003.281474976710662' => 24, // Экзамен
+  '26003.281474976710663' => 22, // Зачёт
+  '26003.281474976710665' => 21, // Консультации перед экзаменом
+  '26003.281474976710672' => 28, // Контрольная работа
+  '26003.281474976710676' => 23, // Дифференцированный зачет
+  '26003.281474976710684' => 26, // Участие в комиссии
+  '26003.281474976710713' => 23, // Дифференцированный зачет по практике
+  '26003.281474976710728' => 22, // Зачёт по практике
+  '26003.281474976710748' => 29, // Руководство курсовой работой проектом
+  '26003.281474976710749' => 30, // Организация курсовой работы проекта
+  '26003.281474976710757' => 33, // Практика групповая в университете
+  '26003.281474976710758' => 35, // Практика индивидуальная в университете
+  '26003.281474976710761' => 32, // Практика групповая в организации
+  '26003.281474976710762' => 34, // Практика индивидуальная в организации
+  '26003.281474976710763' => 31, // Практика выездная
+  '26003.281474976710767' => 36, // Руководство ВКР
+  '26003.281474976710768' => 27, // Участие в комиссии (председатель)
+  '26003.281474976710769' => 25, // Промежуточная аттестация по курсовой работе (проекту)
 ];
 
 $templatePath = __DIR__ . '/template.xlsx';
@@ -209,12 +221,13 @@ $rowIdx = 3;
 
 while ($row = $result->fetch_assoc())
 {
+  $groupNames = [];
+  $yearsOfEntry = [];
+
   if ($row['UID_Group'])
   {
     $groupUids = explode(',', $row['UID_Group']);
-    $groupNames = [];
-    $yearsOfEntry = [];
-    
+
     foreach ($groupUids as $gUid)
     {
       $gUid = trim($gUid);
@@ -233,8 +246,6 @@ while ($row = $result->fetch_assoc())
   elseif ($row['UID_SubGroup'])
   {
     $groupUids = explode(',', $row['UID_Group']);
-    $groupNames = [];
-    $yearsOfEntry = [];
     
     foreach ($groupUids as $gUid)
     {
@@ -288,8 +299,22 @@ while ($row = $result->fetch_assoc())
 
   $amount = (float)str_replace(',', '.', $row['Amount']);
 
+  if ($nType == 'aspirantura_ruk_soisk')
+  {
+    $amount = 50;
+  }
+
+  if ($nType == 'aspirantura_ruk_asp')
+  {
+    $amount = 75;
+  }
+
   
-  $sheet->setCellValueByColumnAndRow(1, $rowIdx, $row['base_uid'] . " " . $row['FacultyOwnerAbbr']);
+  // $row['base_uid'] . " " . 
+  $sheet->setCellValueByColumnAndRow(1, $rowIdx, $row['FacultyOwnerAbbr']);
+
+
+
   $sheet->setCellValueByColumnAndRow(2, $rowIdx, $row['FacultyPerformerAbbr']);
   $sheet->setCellValueByColumnAndRow(3, $rowIdx, $row['ChairName']);
   $sheet->setCellValueByColumnAndRow(4, $rowIdx, $fio);
@@ -316,7 +341,7 @@ while ($row = $result->fetch_assoc())
   $form = isset($_forms_obuchenia[$formUID]) ? $_forms_obuchenia[$formUID] : '';
   $sheet->setCellValueByColumnAndRow(14, $rowIdx, $form);
 
-  $sheet->setCellValueByColumnAndRow(15, $rowIdx, $row['UID_Course']);
+  $sheet->setCellValueByColumnAndRow(15, $rowIdx, $row['UID_Course'] ? $row['UID_Course'] : '');
   
   $semester = $row['UID_Semester'] % 2 == 0 ? 'В' : 'О';
 
@@ -354,9 +379,9 @@ while ($row = $result->fetch_assoc())
   } 
   else
   {
-    if (isset($col_mapping[$kwName]))
+    if (isset($col_mapping[$row['UID_KindOfWork']]))
     {
-      $colNum = $col_mapping[$kwName];
+      $colNum = $col_mapping[$row['UID_KindOfWork']];
       $sheet->setCellValueByColumnAndRow($colNum, $rowIdx, $amount);
       $total_hours += $amount;
       
@@ -372,8 +397,17 @@ while ($row = $result->fetch_assoc())
       $auditor_hours += $amount;
     }
   }
+
+  if ($nType == 'aspirantura_ruk_asp' || $nType == 'aspirantura_ruk_soisk')
+  {
+    $comment = $row['fio'];
+  }
+  else
+  {
+    $comment = $row['comment_to_admin'];
+  }
   
-  $sheet->setCellValueByColumnAndRow(41, $rowIdx, '');
+  $sheet->setCellValueByColumnAndRow(41, $rowIdx, $comment);
   $sheet->setCellValueByColumnAndRow(42, $rowIdx, $total_hours);
   $sheet->setCellValueByColumnAndRow(43, $rowIdx, $auditor_hours);
   

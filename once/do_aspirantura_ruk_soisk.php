@@ -23,7 +23,7 @@ $XMLDisciplineByUID = GetTable('xml_discipline', "", "", "UID");
 $XMLGroupByUID = GetTable('xml_group', "", "", "UID", 'UID, Name');
 $AspiranturaRukSoisk = GetRows('xml_content_of_load', ['nagruzka_type' => 'aspirantura_ruk_soisk']);
 
-echo sizeof($AspiranturaRukSoisk);
+// echo sizeof($AspiranturaRukSoisk);
 // Не можем очищать таблицу, т.к. из ГУВ идут не все поля: даже нет полей аспирантских (uid) в данный момент
 // $mysqli->query("TRUNCATE `aspirantura_ruk_soisk`");
 // Скорее всего нужно будет удалить строки с пустым load_id ?
@@ -118,8 +118,7 @@ foreach ($AspiranturaRukSoisk as $row)
   {
     $query = "INSERT INTO `aspirantura_ruk_soisk`
                     SET
-                    `uid` = NULL,
-                    `UID_Semester` = NULL,
+                    `UID_Semester` = $row[UID_Semester],
                     `load_id` = NULL,
                     `fio` = '',
                     `napravlenie_code` = '',

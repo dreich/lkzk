@@ -88,7 +88,7 @@ foreach ($AspiranturaRukAsp as $row)
     `base_uid` = '$row[base_uid]',
     `department_id` = '$faculty_id',
     `department` = '$faculty_name',
-    `group` = '$groups',
+    #`group` = '$groups',
     `lecturer_chair_id` = '$lecturer_chair_id',
     `lecturer_chair_name` = '$lecturer_chair_name',
     `lecturer_department_id` = '$lecturer_faculty_id',
