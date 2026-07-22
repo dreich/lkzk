@@ -751,7 +751,7 @@ abstract class BaseNagruzkaProvider
         }
 
         // if ($this->nagruzkaType == 'discipline')
-        // EchoLog(sizeof($nagruzkaData));
+        EchoLog($nagruzkaData);
 
         // 6. Расчет статистики
         $stats_obj = $this->calculateStats($nagruzkaData);

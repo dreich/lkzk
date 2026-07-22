@@ -35,19 +35,18 @@ $filter_chair_uid = null;
 //   $filter_chair_uid = isset($_GET['chair_uid']) ? $_GET['chair_uid'] : null;
 // } 
 // // TODO !!!
+// elseif (!empty($c_roles['dean']))
+// {
+//   $hasAccess = true;
+//   $dean_dep_id = $_SESSION['c_department_id']; // Code in xml_faculty
+//   $faculty = GetRow('xml_faculty', ['Code' => $dean_dep_id]);
+//   if ($faculty)
+//   {
+//     $filter_faculty_uid = $faculty['UID'];
+//   }
+//   $filter_chair_uid = isset($_GET['chair_uid']) ? $_GET['chair_uid'] : null;
+// } 
 // else
-if (!empty($c_roles['dean']))
-{
-  $hasAccess = true;
-  $dean_dep_id = $_SESSION['c_department_id']; // Code in xml_faculty
-  $faculty = GetRow('xml_faculty', ['Code' => $dean_dep_id]);
-  if ($faculty)
-  {
-    $filter_faculty_uid = $faculty['UID'];
-  }
-  $filter_chair_uid = isset($_GET['chair_uid']) ? $_GET['chair_uid'] : null;
-} 
-else
 if (!empty($c_roles['zavkaf']))
 {
   $hasAccess = true;
@@ -73,13 +72,11 @@ $XmlFacultyByUID = GetTable('xml_faculty', "", "", "UID");
 $where = [];
 if ($filter_faculty_uid)
 {
-  $filter_type = isset($_GET['filter_type']) ? $_GET['filter_type'] : 'performer'; // owner
-
+  $filter_type = isset($_GET['filter_type']) ? $_GET['filter_type'] : 'owner';
   if ($filter_type === 'owner')
   {
     $where[] = "ls.UID_FacultyOwner = '" . $mysqli->real_escape_string($filter_faculty_uid) . "'";
-  } 
-  elseif ($filter_type === 'performer')
+  } elseif ($filter_type === 'performer')
   {
     $chairs = GetRows('xml_chair', ['UID_Faculty' => $filter_faculty_uid]);
     $chair_uids = [];
@@ -111,14 +108,13 @@ $where_sql = count($where) > 0 ? "WHERE " . implode(' AND ', $where) : "";
 // comment_to_admin
 $query = "
   SELECT 
-    l.UID as UID_ContentOfLoad,
     n.comment_to_admin,
     l.base_uid,
     l.UID_Chair,
     f_perf.UID,
     ls.UID_Group, ls.UID_SubGroup, l.UID_Lecturer, l.Amount, l.StudentAmount, l.UID_Language, l.UID_Course, l.UID_Semester, l.nagruzka_type, l.UID_KindOfWork, l.YearOfEducation,
     ls.UID_FacultyOwner,
-    ls.UID_FacultyPerformer,
+    #ls.UID_FacultyPerformer,
     ls.UID_Speciality,
     ls.UID_Specialization,
     ls.UID_FormOfEducation,
@@ -150,7 +146,7 @@ $query = "
   $where_sql
   #AND `nagruzka_type` IN ('ruk_vkr', 'ruk_kurs', 'ruk_practice', 'gia')
   #AND `nagruzka_type` IN ('aspirantura_kand_exam')
-  -- AND `nagruzka_type` IN ('discipline')
+  AND `nagruzka_type` IN ('discipline')
 ";
 
 $result = $mysqli->query($query);
@@ -227,60 +223,11 @@ $templatePath = __DIR__ . '/template.xlsx';
 $spreadsheet = IOFactory::load($templatePath);
 $sheet = $spreadsheet->getActiveSheet();
 
-$rowIdx = 2;
+$rowIdx = 3;
 
-$groupedData = [];
 while ($row = $result->fetch_assoc())
 {
-  $uid = $row['UID_ContentOfLoad'];
-  if (!$uid) $uid = uniqid(); // fallback just in case
-  
-  if (!isset($groupedData[$uid]))
-  {
-    $groupedData[$uid] = $row;
-    $groupedData[$uid]['UID_Group_arr'] = $row['UID_Group'] ? explode(',', $row['UID_Group']) : [];
-    $groupedData[$uid]['UID_SubGroup_arr'] = $row['UID_SubGroup'] ? explode(',', $row['UID_SubGroup']) : [];
-    $groupedData[$uid]['Abbr_arr'] = $row['Abbr'] ? [$row['Abbr']] : [];
-    $groupedData[$uid]['SpecialityName_arr'] = $row['SpecialityName'] ? [$row['SpecialityName']] : [];
-    $groupedData[$uid]['napravlennost_arr'] = $row['napravlennost'] ? [$row['napravlennost']] : [];
-    $groupedData[$uid]['FacultyOwnerAbbr_arr'] = $row['FacultyOwnerAbbr'] ? [$row['FacultyOwnerAbbr']] : [];
-    $groupedData[$uid]['UID_FormOfEducation_arr'] = [$row['UID_FormOfEducation']];
-  }
-  else
-  {
-    if ($row['UID_Group']) $groupedData[$uid]['UID_Group_arr'] = array_merge($groupedData[$uid]['UID_Group_arr'], explode(',', $row['UID_Group']));
-    if ($row['UID_SubGroup']) $groupedData[$uid]['UID_SubGroup_arr'] = array_merge($groupedData[$uid]['UID_SubGroup_arr'], explode(',', $row['UID_SubGroup']));
-    if ($row['Abbr']) $groupedData[$uid]['Abbr_arr'][] = $row['Abbr'];
-    if ($row['SpecialityName']) $groupedData[$uid]['SpecialityName_arr'][] = $row['SpecialityName'];
-    if ($row['napravlennost']) $groupedData[$uid]['napravlennost_arr'][] = $row['napravlennost'];
-    if ($row['FacultyOwnerAbbr']) $groupedData[$uid]['FacultyOwnerAbbr_arr'][] = $row['FacultyOwnerAbbr'];
-    if ($row['UID_FormOfEducation']) $groupedData[$uid]['UID_FormOfEducation_arr'][] = $row['UID_FormOfEducation'];
-  }
-}
-
-
-
-foreach ($groupedData as $uid => $row)
-{
-  // EchoLog($row);
-
-  $row['UID_Group'] = implode(',', array_unique($row['UID_Group_arr']));
-  $row['UID_SubGroup'] = implode(',', array_unique($row['UID_SubGroup_arr']));
-  $row['Abbr'] = implode(', ', array_unique($row['Abbr_arr']));
-  $row['SpecialityName'] = implode(', ', array_unique($row['SpecialityName_arr']));
-  $row['napravlennost'] = implode(', ', array_unique($row['napravlennost_arr']));
-  $row['FacultyOwnerAbbr'] = implode(', ', array_unique($row['FacultyOwnerAbbr_arr']));
-  $row['UID_FormOfEducation'] = empty($row['UID_FormOfEducation_arr']) ? '' : $row['UID_FormOfEducation_arr'][0];
-  
-  $formNames = [];
-  foreach (array_unique($row['UID_FormOfEducation_arr']) as $fUid) {
-    if (isset($_forms_obuchenia[$fUid])) {
-      $formNames[] = $_forms_obuchenia[$fUid];
-    }
-  }
-  $formStr = implode(', ', $formNames);
-
-  // EchoLog($row['UID_FormOfEducation_arr']);
+  EchoLog($row);
   $groupNames = [];
   $yearsOfEntry = [];
 
@@ -305,7 +252,7 @@ foreach ($groupedData as $uid => $row)
   }
   elseif ($row['UID_SubGroup'])
   {
-    $groupUids = explode(',', $row['UID_SubGroup']);
+    $groupUids = explode(',', $row['UID_Group']);
     
     foreach ($groupUids as $gUid)
     {
@@ -371,7 +318,7 @@ foreach ($groupedData as $uid => $row)
 
   
   // $row['base_uid'] . " " . 
-  $sheet->setCellValueByColumnAndRow(1, $rowIdx, $row['FacultyOwnerAbbr']);
+  $sheet->setCellValueByColumnAndRow(1, $rowIdx, $row['base_uid'] . " " . $row['FacultyOwnerAbbr']);
 
   $sheet->setCellValueByColumnAndRow(2, $rowIdx, $row['FacultyPerformerAbbr']);
   $sheet->setCellValueByColumnAndRow(3, $rowIdx, $row['ChairName']);
@@ -395,7 +342,9 @@ foreach ($groupedData as $uid => $row)
   }
   $sheet->setCellValueByColumnAndRow(13, $rowIdx, $lang);
 
-  $sheet->setCellValueByColumnAndRow(14, $rowIdx, $formStr);
+  $formUID = $row['UID_FormOfEducation'];
+  $form = isset($_forms_obuchenia[$formUID]) ? $_forms_obuchenia[$formUID] : '';
+  $sheet->setCellValueByColumnAndRow(14, $rowIdx, $form);
 
   $sheet->setCellValueByColumnAndRow(15, $rowIdx, $row['UID_Course'] ? $row['UID_Course'] : '');
   

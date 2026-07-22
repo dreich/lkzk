@@ -170,6 +170,12 @@ class SplitProcessor
             else 
             {
                 $result[$baseUid]['Amount'] += $item['Amount'];
+
+                // В режиме заполнения это было не нужно
+                if ($this->mode == 'mode_verification')
+                {
+                    $result[$baseUid]['StudentAmount'] += $item['StudentAmount'];
+                }
             }
 
             if ($baseUid === '26589.281474976861584')

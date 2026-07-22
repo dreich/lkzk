@@ -2841,7 +2841,7 @@ function GetNagruzkaBaseQuery($dop_sql, $nagruzka_type = 'all', $department_from
   #AND xml_content_of_load.`UID_Chair` <> '25031.0'
   $nagruzka_type_sql
 
-    -- AND xml_content_of_load.`base_uid` = '26589.281474976872653'
+    -- AND xml_content_of_load.`base_uid` = '26589.281474976858317'
     -- AND xml_content_of_load.`base_uid` IN('26589.281474976879129', '26589.281474976879132')
     -- AND chair_id = '02617'
     -- AND `nagruzka_type` = 'ruk_practice'
