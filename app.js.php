@@ -1100,6 +1100,12 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
 
       }
     })
+    // Интерфейс завкафа
+    .when('/reports',
+    {
+      templateUrl: 'reports.tpl.html?' + getRandom(10000, 99999),
+      controller: 'ReportsCtrl'
+    })
     // фильтрация по преподавателю
     /*
     .when('/nagruzka/discipline/:lecturer_uid',
@@ -1871,6 +1877,15 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
 {
   CL('ExportToGalaktiakCtrl');
   $rootScope.page = page;
+})
+
+.controller ('ReportsCtrl', function($rootScope, $scope)
+{
+  CL('ReportsCtrl');
+  $rootScope.page = 'reports';
+
+
+
 })
 
 .controller ('IndexCtrl', function($scope, $rootScope)
@@ -5790,7 +5805,7 @@ $scope.toggleAdminChangeChair = function(chair)
               columns: function (idx, data, node) {
                   // Проверяем, что столбец видимый и не первый
                   const column = $scope.dtInstance.dataTable.fnSettings().aoColumns[idx];
-                  return column.bVisible && (c_roles.zavkaf && idx !== 0 || !c_roles.zavkaf);
+                  return column.bVisible && (c_roles.zavkaf && idx !== 0 || !c_roles.zavkaf || !$scope.IsSotrudnikiEditable());
               },
               /*
               format: 

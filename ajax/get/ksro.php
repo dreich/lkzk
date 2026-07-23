@@ -111,10 +111,11 @@ if (true || $_mode == 'mode_filling')
     }
   }
   
+  $sql = "1 $_dep_sql $_chair_sql $_lecturer_uid_sql";
 
-  $Rows = GetTable('ksro', "1 $_dep_sql $_chair_sql $_lecturer_uid_sql");
+  $Rows = GetTable('ksro', $sql);
 
-  // EchoLog($Rows);
+  // EchoLog($sql);
 }
 // OLD в других режимах берём из Галактики
 else
@@ -177,7 +178,10 @@ if ($Rows)
         $RowsByKey["$row[lecturer_person_id]-$row[UID_Language]"]['load_ids']['id_ksro_osen'] = $row['load_id'];
       }
 
-      $Stat['assigned']['sum'] = $Stat['total']['sum'] += (float) $row['Amount'];
+      safeAdd($Stat['assigned']['sum'], $row['Amount']);
+      safeAdd($Stat['total']['sum'], $row['Amount']);
+
+      // $Stat['assigned']['sum'] = $Stat['total']['sum'] += (float) $row['Amount'];
     }
     elseif ($row['UID_KindOfWork'] === $_ksro_kind_uid && $row['UID_Semester'] == 2)
     {
@@ -189,7 +193,9 @@ if ($Rows)
         $RowsByKey["$row[lecturer_person_id]-$row[UID_Language]"]['load_ids']['id_ksro_vesna'] = $row['load_id'];
       }
 
-      $Stat['assigned']['sum'] = $Stat['total']['sum'] += (float) $row['Amount'];
+      // $Stat['assigned']['sum'] = $Stat['total']['sum'] += (float) $row['Amount'];
+      safeAdd($Stat['assigned']['sum'], $row['Amount']);
+      safeAdd($Stat['total']['sum'], $row['Amount']);
     }
     elseif ($row['UID_KindOfWork'] === $_ik_kind_uid && $row['UID_Semester'] == 1)
     {
@@ -201,7 +207,9 @@ if ($Rows)
         $RowsByKey["$row[lecturer_person_id]-$row[UID_Language]"]['load_ids']['id_ik_osen'] = $row['load_id'];
       }
 
-      $Stat['assigned']['sum'] = $Stat['total']['sum'] += (float) $row['Amount'];
+      safeAdd($Stat['assigned']['sum'], $row['Amount']);
+      safeAdd($Stat['total']['sum'], $row['Amount']);
+      // $Stat['assigned']['sum'] = $Stat['total']['sum'] += (float) $row['Amount'];
     }
     elseif ($row['UID_KindOfWork'] === $_ik_kind_uid && $row['UID_Semester'] == 2)
     {
@@ -213,7 +221,14 @@ if ($Rows)
         $RowsByKey["$row[lecturer_person_id]-$row[UID_Language]"]['load_ids']['id_ik_vesna'] = $row['load_id'];
       }
 
-      $Stat['assigned']['sum'] = $Stat['total']['sum'] += (float) $row['Amount'];
+      safeAdd($Stat['assigned']['sum'], $row['Amount']);
+      safeAdd($Stat['total']['sum'], $row['Amount']);
+      // $Stat['assigned']['sum'] = $Stat['total']['sum'] += (float) $row['Amount'];
+    }
+
+    if ($row['UID_Language'] == $_language_eng_uid)
+    {
+      safeAdd($Stat['assigned_english']['sum'], $row['Amount']);
     }
   }
 }

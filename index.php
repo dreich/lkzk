@@ -202,6 +202,10 @@ if ($_SESSION['c_login'])
       <? endif ?>
 
       <li class="nav-item" ng-if="c_roles.uoup">
+        <a href="#/reports" class="nav-link" ng-class="{active: page == 'reports'}" ><span class="glyphicon glyphicon-book"></span> Отчёты</a>
+      </li>
+
+      <li class="nav-item" ng-if="c_roles.uoup">
         <a href="#/system_mode" class="nav-link" ng-class="{active: page == 'system_mode'}" ><span class="glyphicon glyphicon-cog"></span> Настройки</a>
       </li>
 

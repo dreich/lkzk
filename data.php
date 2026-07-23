@@ -18,6 +18,8 @@ $_master_password = 'zklk-2026!';
 
 $_system_start_year = '2026';
 
+$_use_splits = false;
+
 
 $_roles = 
 [

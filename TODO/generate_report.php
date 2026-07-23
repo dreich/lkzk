@@ -1,6 +1,6 @@
 <?php
 ini_set("memory_limit", "1G");
-
+// exit;
 if (session_status() === PHP_SESSION_NONE)
 {
   session_name('lkzk');
@@ -68,6 +68,8 @@ if (!$hasAccess)
 
 $XmlChairByCode = GetTable('xml_chair', "", "", "Code");
 $XmlFacultyByUID = GetTable('xml_faculty', "", "", "UID");
+$AspiranturaRukAspByLoadId = GetTable('aspirantura_ruk_asp', "", "", "load_id", "load_id, fio");
+$AspiranturaRukSoiskByLoadId = GetTable('aspirantura_ruk_soisk', "", "", "load_id", "load_id, fio");
 
 // Build query
 $where = [];
@@ -111,12 +113,15 @@ $where_sql = count($where) > 0 ? "WHERE " . implode(' AND ', $where) : "";
 // comment_to_admin
 $query = "
   SELECT 
-    l.UID as UID_ContentOfLoad,
+    #l.UID as UID_ContentOfLoad,
+    ls.UID_ContentOfLoad,
     n.comment_to_admin,
     l.base_uid,
     l.UID_Chair,
+    l.LoadId,
     f_perf.UID,
-    ls.UID_Group, ls.UID_SubGroup, l.UID_Lecturer, l.Amount, l.StudentAmount, l.UID_Language, l.UID_Course, l.UID_Semester, l.nagruzka_type, l.UID_KindOfWork, l.YearOfEducation,
+    l.UID_Language as content_of_load_UID_Language,
+    ls.UID_Group, ls.UID_SubGroup, l.UID_Lecturer, l.Amount, l.StudentAmount, ls.UID_Language, l.UID_Course, l.UID_Semester, l.nagruzka_type, l.UID_KindOfWork, l.YearOfEducation,
     ls.UID_FacultyOwner,
     ls.UID_FacultyPerformer,
     ls.UID_Speciality,
@@ -138,7 +143,7 @@ $query = "
     spz.Name as napravlennost
   FROM xml_content_of_load l
   LEFT JOIN `nagruzka` n ON l.base_uid = n.load_base_UID2
-  LEFT JOIN xml_content_of_load_staff ls ON ls.UID_ContentOfLoad = l.UID
+  LEFT JOIN xml_content_of_load_staff ls ON ls.UID_ContentOfLoad = l.base_uid2
   LEFT JOIN xml_faculty f_owner ON f_owner.UID = ls.UID_FacultyOwner
   LEFT JOIN xml_chair c ON c.UID = l.UID_Chair
   LEFT JOIN xml_faculty f_perf ON f_perf.UID = c.UID_Faculty
@@ -149,8 +154,11 @@ $query = "
   LEFT JOIN xml_specialization spz ON spz.UID = ls.UID_Specialization
   $where_sql
   #AND `nagruzka_type` IN ('ruk_vkr', 'ruk_kurs', 'ruk_practice', 'gia')
-  #AND `nagruzka_type` IN ('aspirantura_kand_exam')
+  -- AND `nagruzka_type` IN ('aspirantura_kand_exam', 'aspirantura_ruk_asp', 'aspirantura_ruk_soisk', 'ksro')
+  -- AND `nagruzka_type` IN ('aspirantura_ruk_asp')
+  -- AND `nagruzka_type` IN ('aspirantura_ruk_soisk')
   -- AND `nagruzka_type` IN ('discipline')
+  -- AND `nagruzka_type` IN ('ksro')
 ";
 
 $result = $mysqli->query($query);
@@ -167,7 +175,7 @@ if (!$result->num_rows)
 }
 
 $groups = [];
-$res = $mysqli->query("SELECT UID, Name, Number, YearOfEntry, YearOfEducation FROM xml_group");
+$res = $mysqli->query("SELECT UID, Name, Number FROM xml_group");
 if ($res)
 {
   while ($row = $res->fetch_assoc())
@@ -175,6 +183,17 @@ if ($res)
     $groups[$row['UID']] = $row;
   }
 }
+
+$sub_groups = [];
+$res = $mysqli->query("SELECT UID, Name, Number FROM xml_subgroup");
+if ($res)
+{
+  while ($row = $res->fetch_assoc())
+  {
+    $sub_groups[$row['UID']] = $row;
+  }
+}
+
 
 $sotrudniki = [];
 $res = $mysqli->query("SELECT person_id, chair_id, dolzhnost, pku, stavka FROM sotrudniki");
@@ -244,6 +263,8 @@ while ($row = $result->fetch_assoc())
     $groupedData[$uid]['SpecialityName_arr'] = $row['SpecialityName'] ? [$row['SpecialityName']] : [];
     $groupedData[$uid]['napravlennost_arr'] = $row['napravlennost'] ? [$row['napravlennost']] : [];
     $groupedData[$uid]['FacultyOwnerAbbr_arr'] = $row['FacultyOwnerAbbr'] ? [$row['FacultyOwnerAbbr']] : [];
+    $groupedData[$uid]['UID_Language_arr'] = $row['UID_Language'] ? [$row['UID_Language']] : [];
+    $groupedData[$uid]['DisciplineName_arr'] = $row['DisciplineName'] ? [$row['DisciplineName']] : [];
     $groupedData[$uid]['UID_FormOfEducation_arr'] = [$row['UID_FormOfEducation']];
   }
   else
@@ -255,6 +276,8 @@ while ($row = $result->fetch_assoc())
     if ($row['napravlennost']) $groupedData[$uid]['napravlennost_arr'][] = $row['napravlennost'];
     if ($row['FacultyOwnerAbbr']) $groupedData[$uid]['FacultyOwnerAbbr_arr'][] = $row['FacultyOwnerAbbr'];
     if ($row['UID_FormOfEducation']) $groupedData[$uid]['UID_FormOfEducation_arr'][] = $row['UID_FormOfEducation'];
+    if ($row['DisciplineName']) $groupedData[$uid]['DisciplineName_arr'][] = $row['DisciplineName'];
+    if ($row['UID_Language']) $groupedData[$uid]['UID_Language_arr'][] = $row['UID_Language'];
   }
 }
 
@@ -262,7 +285,9 @@ while ($row = $result->fetch_assoc())
 
 foreach ($groupedData as $uid => $row)
 {
-  // EchoLog($row);
+
+  $kwName = trim($row['KindOfWorkName']);
+  $nType = trim($row['nagruzka_type']);
 
   $row['UID_Group'] = implode(',', array_unique($row['UID_Group_arr']));
   $row['UID_SubGroup'] = implode(',', array_unique($row['UID_SubGroup_arr']));
@@ -270,6 +295,8 @@ foreach ($groupedData as $uid => $row)
   $row['SpecialityName'] = implode(', ', array_unique($row['SpecialityName_arr']));
   $row['napravlennost'] = implode(', ', array_unique($row['napravlennost_arr']));
   $row['FacultyOwnerAbbr'] = implode(', ', array_unique($row['FacultyOwnerAbbr_arr']));
+  $row['UID_Language'] = implode(', ', array_unique($row['UID_Language_arr']));
+  $row['DisciplineName'] = implode(', ', array_unique($row['DisciplineName_arr']));
   $row['UID_FormOfEducation'] = empty($row['UID_FormOfEducation_arr']) ? '' : $row['UID_FormOfEducation_arr'][0];
   
   $formNames = [];
@@ -310,10 +337,10 @@ foreach ($groupedData as $uid => $row)
     foreach ($groupUids as $gUid)
     {
       $gUid = trim($gUid);
-      if (isset($groups[$gUid]))
+      if (isset($sub_groups[$gUid]))
       {
-        $groupNames[] = $groups[$gUid]['Name'];
-        $num = $groups[$gUid]['Number'];
+        $groupNames[] = $sub_groups[$gUid]['Name'];
+        $num = $sub_groups[$gUid]['Number'];
         if (strlen($num) >= 4)
         {
             $year = '20' . substr($num, 2, 2);
@@ -327,9 +354,12 @@ foreach ($groupedData as $uid => $row)
   $yearOfEntryStr = implode(', ', array_keys($yearsOfEntry));
   
   $fio = $row['LecturerFIO'];
-  if (empty($row['UID_Lecturer']) || $row['UID_Lecturer'] == '26115.281474976893938' || $row['UID_Lecturer'] == '-1')
+
+  if (empty($row['UID_Lecturer']) || $row['UID_Lecturer'] === '26115.281474976893938' || $row['UID_Lecturer'] === '-1')
   {
     $fio = 'Вакансия';
+
+    // EchoLog($row);
   }
   
   $dolzhnost = '';
@@ -359,20 +389,25 @@ foreach ($groupedData as $uid => $row)
 
   $amount = (float)str_replace(',', '.', $row['Amount']);
 
-  if ($nType == 'aspirantura_ruk_soisk')
-  {
-    $amount = 50;
-  }
+  // if ($nType == 'aspirantura_ruk_soisk')
+  // {
+  //   $amount = 50;
+  // }
 
-  if ($nType == 'aspirantura_ruk_asp')
+  // if ($nType == 'aspirantura_ruk_asp')
+  // {
+  //   $amount = 75;
+  // }
+
+
+  if ($nType == 'aspirantura_ruk_asp' || $nType == 'aspirantura_ruk_soisk' || $nType == 'ksro')
   {
-    $amount = 75;
+    $row['FacultyOwnerAbbr'] = $row['FacultyPerformerAbbr'];
   }
 
   
   // $row['base_uid'] . " " . 
   $sheet->setCellValueByColumnAndRow(1, $rowIdx, $row['FacultyOwnerAbbr']);
-
   $sheet->setCellValueByColumnAndRow(2, $rowIdx, $row['FacultyPerformerAbbr']);
   $sheet->setCellValueByColumnAndRow(3, $rowIdx, $row['ChairName']);
   $sheet->setCellValueByColumnAndRow(4, $rowIdx, $fio);
@@ -386,11 +421,22 @@ foreach ($groupedData as $uid => $row)
   $sheet->setCellValueByColumnAndRow(11, $rowIdx, $row['SpecialityName']);
   $sheet->setCellValueByColumnAndRow(12, $rowIdx, $row['napravlennost']); 
 
-  $langUID = $row['UID_Language'];
-  $lang = isset($langNames[$langUID]) ? $langNames[$langUID] : '';
+  // $langUID = $row['UID_Language'] ? $row['UID_Language'] : $_language_rus_uid; // если нет, то русский
+  $lang = isset($langNames[$row['UID_Language']]) ? $langNames[$row['UID_Language']] : '';
+
+  // if ($row['base_uid'] === '26589.281474976927695')
+  // {
+  //   EchoLog($row);
+  //   EchoLog($lang);
+  // }
+
+
   if (empty($lang))
   {
-    if ($langUID == '26002.281474976711674') $lang = 'Английский';
+    // если пустой язык во 2-й таблице (либо нет строк во 2-й таблице для КСРО/Асп.), то попробуем взять язык из 1-й таблицы
+    $langUID = $row['content_of_load_UID_Language'];
+
+    if ($langUID === $_language_eng_uid) $lang = 'Английский';
     elseif ($langUID) $lang = 'Русский';
   }
   $sheet->setCellValueByColumnAndRow(13, $rowIdx, $lang);
@@ -407,8 +453,7 @@ foreach ($groupedData as $uid => $row)
 
   $sheet->setCellValueByColumnAndRow(17, $rowIdx, $studentAmount);
   
-  $kwName = trim($row['KindOfWorkName']);
-  $nType = trim($row['nagruzka_type']);
+
   
   $total_hours = 0;
   $auditor_hours = 0;
@@ -454,9 +499,13 @@ foreach ($groupedData as $uid => $row)
     }
   }
 
-  if ($nType == 'aspirantura_ruk_asp' || $nType == 'aspirantura_ruk_soisk')
+  if ($nType == 'aspirantura_ruk_asp')
   {
-    $comment = $row['fio'];
+    $comment = $AspiranturaRukAspByLoadId[$row['LoadId']]['fio'];
+  }
+  elseif ($nType == 'aspirantura_ruk_soisk')
+  {
+    $comment = $AspiranturaRukSoiskByLoadId[$row['LoadId']]['fio'];
   }
   else
   {

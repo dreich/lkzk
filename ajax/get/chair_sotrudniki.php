@@ -101,9 +101,12 @@ $_mode = $ModeRow['value'];
 // 1. Подключение к БД и проверка авторизации
 
 // В режиме редактирования нагрузку ИК-КСРО и Асп. нужно брать из таблицы ksro
-if ($_mode == 'mode_filling')
+if (true || $_mode == 'mode_filling')
 {
   $_ksro_sql = "AND x.`nagruzka_type` <> 'ksro' AND x.`nagruzka_type` <> 'aspirantura_kand_exam' AND x.`nagruzka_type` <> 'aspirantura_ruk_asp' AND x.`nagruzka_type` <> 'aspirantura_ruk_soisk'";
+
+  // $_ksro_sql = "AND x.`nagruzka_type` = 'discipline'";
+
   // EchoLog($chair_id);
   // TODO проверить
   // if ($_pseudo_chairs[$chair_id])
@@ -131,6 +134,8 @@ if ($_mode == 'mode_filling')
     }
   }
 
+  // EchoLog($KSROByPersonID[1896]);
+
 
   $AspiranturaKandExam = GetTable('aspirantura_kand_exam', "`deleted` <> '1'");
   $AspiranturaKandExamByPersonID = [];
@@ -144,6 +149,9 @@ if ($_mode == 'mode_filling')
   }
 
 
+  // EchoLog($AspiranturaKandExamByPersonID[1896]);
+
+
   $AspiranturaRukAsp = GetTable('aspirantura_ruk_asp', "`deleted` <> '1'");
   $AspiranturaRukAspByPersonID = [];
 
@@ -154,6 +162,8 @@ if ($_mode == 'mode_filling')
       $AspiranturaRukAspByPersonID[$row['lecturer_person_id']][] = $row;
     }
   }
+
+  // EchoLog($AspiranturaRukAspByPersonID[1896]);
 
 
   $AspiranturaRukSoisk = GetTable('aspirantura_ruk_soisk', "`deleted` <> '1'");
@@ -166,6 +176,8 @@ if ($_mode == 'mode_filling')
       $AspiranturaRukSoiskByPersonID[$row['lecturer_person_id']][] = $row;
     }
   }
+
+  // EchoLog($AspiranturaRukSoiskByPersonID[1896]);
 
 }
 // в других режимах - из Галактики
@@ -192,11 +204,13 @@ $_ksro_sql
 #AND `nagruzka_type` = 'ruk_vkr'
 ";
 
+// EchoLog($query);
+
 // AND x.UID_Chair = '$chair_uid' добавлено из-за того, что ГПХ-шникам берётся в кафедру нагрузка по другой кафедре,
 // пример: #meerov#, сотрудник Эссиет Экемини энтони
 
-$rows = GetSQL($query) ?: [];
-foreach ($rows as $row) 
+$_original_rows = GetSQL($query) ?: [];
+foreach ($_original_rows as $row) 
 {
   $originalLoads[$row['Tab_number']][$row['base_uid2']] = 
   [
@@ -228,9 +242,11 @@ $_ksro_sql
 // AND x.UID_Chair = '$chair_uid' добавлено из-за того, что ГПХ-шникам берётся в кафедру нагрузка по другой кафедре,
 // пример: #meerov#, сотрудник Эссиет Экемини энтони
 
-$rows = GetSQL($query) ?: [];
+$_original_english_rows = GetSQL($query) ?: [];
 // EchoLog($query);
-foreach ($rows as $row) 
+
+if ($_original_english_rows)
+foreach ($_original_english_rows as $row) 
 {
   // if (!isset($englishLoads[$row['Tab_number']])) {
   //     $englishLoads[$row['Tab_number']] = [];
@@ -280,9 +296,11 @@ $splitsLoads = [];
 // признак того, что оригинальная нагрузка переразбита в сплитах, такие оригинальные часы плюсовать не будем
 $splitsLoadsByBaseUID2 = [];
 
-$rows = GetSQL($query) ?: [];
+if ($_use_splits)
+$_splits_rows = GetSQL($query) ?: [];
 
-foreach ($rows as $row) 
+if ($_splits_rows)
+foreach ($_splits_rows as $row) 
 {
   $splitsLoadsByBaseUID2[$row['base_uid2']] = true;
 
@@ -296,36 +314,36 @@ foreach ($rows as $row)
 }
 
 // TMP HACK добавляем руководство ВКР, пока в ГУВ есть баг!
-$query = "SELECT 
-    zs.lecturer_person_id,
-    zs.base_uid2,
-    zs.base_uid2_new,
-    zs.Amount,
-    zs.LoadType,
-    zs.`delete`,
-    x.TypeWorkload,
-    zs.lecturer_uid as UID_Lecturer
-FROM zavkaf_splits zs
-#JOIN xml_content_of_load x ON zs.content_of_load_uid = x.UID
-# -- TMP HACK WAS zs.base_uid2
-JOIN xml_content_of_load x ON zs.base_uid2 = x.base_uid2
-WHERE zs.`delete` = 0 AND `zavkaf_chair_uid` = '$chair_uid' AND `nagruzka_type` IN ('ruk_vkr', 'gia') ";
+// $query = "SELECT 
+//     zs.lecturer_person_id,
+//     zs.base_uid2,
+//     zs.base_uid2_new,
+//     zs.Amount,
+//     zs.LoadType,
+//     zs.`delete`,
+//     x.TypeWorkload,
+//     zs.lecturer_uid as UID_Lecturer
+// FROM zavkaf_splits zs
+// #JOIN xml_content_of_load x ON zs.content_of_load_uid = x.UID
+// # -- TMP HACK WAS zs.base_uid2
+// JOIN xml_content_of_load x ON zs.base_uid2 = x.base_uid2
+// WHERE zs.`delete` = 0 AND `zavkaf_chair_uid` = '$chair_uid' AND `nagruzka_type` IN ('ruk_vkr', 'gia') ";
 
 
-$rows = GetSQL($query) ?: [];
+// $rows = GetSQL($query) ?: [];
 
-foreach ($rows as $row) 
-{
-  $splitsLoadsByBaseUID2[$row['base_uid2']] = true;
+// foreach ($rows as $row) 
+// {
+//   $splitsLoadsByBaseUID2[$row['base_uid2']] = true;
 
-  $splitsLoads[$row['lecturer_person_id']][$row['base_uid2_new']] = 
-  [
-    'UID_Lecturer' => $row['UID_Lecturer'],
-    'amount' => (float)$row['Amount'],
-    'base_uid2_new' => $row['base_uid2_new'],
-    'type_workload' => $row['TypeWorkload']
-  ];
-}
+//   $splitsLoads[$row['lecturer_person_id']][$row['base_uid2_new']] = 
+//   [
+//     'UID_Lecturer' => $row['UID_Lecturer'],
+//     'amount' => (float)$row['Amount'],
+//     'base_uid2_new' => $row['base_uid2_new'],
+//     'type_workload' => $row['TypeWorkload']
+//   ];
+// }
 
 
 
@@ -354,9 +372,13 @@ WHERE zs.delete = 0  AND `zavkaf_chair_uid` = '$chair_uid'
 // Возможно,  AND `zavkaf_chair_uid` = '$chair_uid' не нужно
 
 $englishSplits = [];
-$rows = GetSQL($query) ?: [];
 
-foreach ($rows as $row) 
+// !! Раскомментировать для режима заполнения 
+if ($_use_splits)
+$_splits_english_rows = GetSQL($query) ?: [];
+
+if ($_splits_english_rows)
+foreach ($_splits_english_rows as $row) 
 {
   $splitsLoadsByBaseUID2[$row['base_uid2']] = true;
 
@@ -386,6 +408,7 @@ $employees = [];
 $query = "SELECT * FROM `sotrudniki` 
 WHERE ((`type` <> 'gph' AND `chair_id` = ?) 
        OR (`type` = 'gph' AND `department_id` = ?))
+  -- AND `person_id` = 50570
   $dean_department_sql
   AND `date_remove` IS NULL
   ORDER BY `type` ASC # для того, чтобы (если получили одного сотрудника и ГПХ, и не ГПХ, то возьмётся не ГПХ)
@@ -427,6 +450,8 @@ if ($DopDean)
 // EchoLog($englishSplits[70297]);
 // EchoLog($englishLoads[1129]);
 
+// EchoLog($employees);
+
 // 7. Объединяем данные
 foreach ($employees as &$employee) 
 {
@@ -450,7 +475,7 @@ foreach ($employees as &$employee)
             // EchoLog($engLoad);
             continue;
         }
-        if ($engLoad['UID_Lecturer'] != $employee['lecturer_uid']) 
+        if ($engLoad['UID_Lecturer'] !== $employee['lecturer_uid']) 
         {
             continue;
         }
@@ -470,7 +495,7 @@ foreach ($employees as &$employee)
             // EchoLog($engLoad);
             continue;
         }
-        if ($engLoad['UID_Lecturer'] != $employee['lecturer_uid']) {
+        if ($engLoad['UID_Lecturer'] !== $employee['lecturer_uid']) {
             continue;
         }
 
@@ -495,7 +520,7 @@ foreach ($employees as &$employee)
                 continue;
             }
 
-            if ($load['UID_Lecturer'] != $employee['lecturer_uid']) {
+            if ($load['UID_Lecturer'] !== $employee['lecturer_uid']) {
                 continue;
             }
             
@@ -504,7 +529,7 @@ foreach ($employees as &$employee)
             if (isset($englishSplits[$personId])) {
                 foreach ($englishSplits[$personId] as $engLoad) 
                 {
-                    if ($engLoad['UID_Lecturer'] == $load['UID_Lecturer'] && 
+                    if ($engLoad['UID_Lecturer'] === $load['UID_Lecturer'] && 
                         $engLoad['amount'] == $load['amount']) {
                         $isEnglish = true;
                         break;
@@ -539,18 +564,25 @@ foreach ($employees as &$employee)
     // Добавляем оставшуюся оригинальную нагрузку
     if (isset($originalLoads[$personId])) //  && $_mode != 'mode_filling') 
     {
+        // EchoLog($employee);
+
         foreach ($originalLoads[$personId] as $base_uid2 => $load) 
         {
+          // EchoLog($load);
+
           // if (empty($load['UID_Lecturer'])) EchoLog($load);
-          if ($load['UID_Lecturer'] != $employee['lecturer_uid']) continue;
+          if ($load['UID_Lecturer'] !== $employee['lecturer_uid']) continue;
+          // EchoLog('here');
 
           // Если оригинальная (Галактика) нагрузка была перераспределена
           if ($splitsLoadsByBaseUID2[$base_uid2]) continue;
 
+           // EchoLog('here2');
+
           $totalAmount += $load['amount'];
           // if ($personId == 70297)
           // {
-          //   EchoLog($load['amount']);
+            // EchoLog($load['amount']);
           // }
           if ($load['type_workload'] == '0') {
               $auditoriumAmount += $load['amount'];
@@ -560,7 +592,7 @@ foreach ($employees as &$employee)
     }
 
     
-    if ($_mode == 'mode_filling')
+    // if ($_mode == 'mode_filling')
     {
       // В режиме заполнения нагрузку ИК-КСРО добавим из таблицы `ksro`
 

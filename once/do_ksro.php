@@ -21,9 +21,10 @@ $XMLLecturerByUID = GetTable('xml_lecturer', "", "", "UID");
 $XMLPostByUID = GetTable('xml_post', "", "", "UID");
 $GUVKSRO = GetRows('xml_content_of_load', ['nagruzka_type' => 'ksro']);
 
+$table_name = "ksro_guv";
 
 echo sizeof($GUVKSRO);
-$mysqli->query("TRUNCATE `ksro`");
+$mysqli->query("TRUNCATE `$table_name`");
 
 foreach ($GUVKSRO as $row)
 {
@@ -41,7 +42,7 @@ foreach ($GUVKSRO as $row)
   $lecturer_person_id = $XMLLecturerByUID[$lecturer_uid]['Tab_number'];
   $login = $Person[$lecturer_person_id]['alias'];
 
-  $query = "INSERT INTO `ksro` SET
+  $query = "INSERT INTO `$table_name` SET
       `load_id` = '$row[LoadId]',
       `base_uid` = '$row[base_uid]',
       `chair_id` = '$chair_id',

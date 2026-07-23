@@ -895,7 +895,7 @@ abstract class BaseNagruzkaProvider
           safeAdd($nagruzkaData[$chairId]['assigned'], $amount);
           safeAdd($nagruzkaData[$chairId]['total'], $amount);
 
-          // Не уверен, что КСРО может быть на английском
+          // Не уверен, что КСРО может быть на английском [может]
           if ($row['UID_Language'] === '25031.945')
           {
               safeAdd($statByChair[$chairId]['assigned_english']['sum'], $amount);

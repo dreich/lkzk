@@ -2793,7 +2793,7 @@ function GetNagruzkaBaseQuery($dop_sql, $nagruzka_type = 'all', $department_from
     ";
 
     $sql_part2 = "
-      LEFT JOIN xml_content_of_load_staff ON xml_content_of_load.base_uid = xml_content_of_load_staff.base_uid
+      
       LEFT JOIN xml_group ON xml_group.`UID` = xml_content_of_load_staff.`UID_Group`
       LEFT JOIN xml_subgroup ON xml_subgroup.`UID` = xml_content_of_load_staff.`UID_SubGroup`
       LEFT JOIN xml_discipline ON xml_discipline.UID = xml_content_of_load.UID_Discipline
@@ -2803,7 +2803,7 @@ function GetNagruzkaBaseQuery($dop_sql, $nagruzka_type = 'all', $department_from
       LEFT JOIN xml_faculty ON xml_faculty.UID = xml_content_of_load_staff.`UID_FacultyOwner`
       LEFT JOIN xml_speciality ON xml_speciality.UID = xml_content_of_load_staff.UID_Speciality
       LEFT JOIN xml_specialization ON xml_specialization.UID = xml_content_of_load_staff.UID_Specialization
-      LEFT JOIN xml_language ON xml_language.UID = xml_content_of_load_staff.UID_Language
+      
       LEFT JOIN xml_kind_of_work ON xml_kind_of_work.UID = xml_content_of_load.UID_KindOfWork
       LEFT JOIN xml_post ON xml_post.UID = xml_lecturer.UID_Post
     ";
@@ -2817,7 +2817,9 @@ function GetNagruzkaBaseQuery($dop_sql, $nagruzka_type = 'all', $department_from
   xml_content_of_load.base_uid2,
   xml_content_of_load.Amount,
   xml_lecturer.FIO as lecturer_fio,
-  xml_content_of_load.UID_Language, #нужно для таблицы статистики для столбца англ. нагрузка
+  # TODO как брать язык из xml_content_of_load_staff ? вxml_content_of_load язык не всегда есть
+  # либо если языка нет, проставлять русский
+  xml_content_of_load_staff.UID_Language, #нужно для таблицы статистики для столбца англ. нагрузка
   xml_content_of_load.TypeWorkload, #нужно для таблицы статистики для столбца аудиторная нагрузка
   xml_content_of_load.UID_Lecturer, #нужно для режима выверка [SplitProcessor::applySplits()]
   xml_content_of_load.UID_Chair, #нужно для режима выверка [SplitProcessor::applySplits()]
@@ -2830,7 +2832,9 @@ function GetNagruzkaBaseQuery($dop_sql, $nagruzka_type = 'all', $department_from
   #$department_sql
 
   FROM xml_content_of_load
+  LEFT JOIN xml_content_of_load_staff ON xml_content_of_load.base_uid = xml_content_of_load_staff.base_uid
   LEFT JOIN xml_lecturer ON xml_lecturer.UID = xml_content_of_load.UID_Lecturer
+  LEFT JOIN xml_language ON xml_language.UID = xml_content_of_load_staff.UID_Language
   # просто JOIN для режима заполнения + просмотр сплитов + те же сплиты из ГУВ
   #JOIN `nagruzka` ON nagruzka.load_base_UID2 = xml_content_of_load.base_uid2
   LEFT JOIN `nagruzka` ON nagruzka.load_base_UID2 = xml_content_of_load.base_uid2
