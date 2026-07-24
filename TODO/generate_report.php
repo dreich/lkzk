@@ -72,6 +72,69 @@ $XmlFacultyByUID = GetTable('xml_faculty', "", "", "UID");
 $AspiranturaRukAspByLoadId = GetTable('aspirantura_ruk_asp', "", "", "load_id", "load_id, fio");
 $AspiranturaRukSoiskByLoadId = GetTable('aspirantura_ruk_soisk', "", "", "load_id", "load_id, fio");
 
+// Determine the list of faculties to process
+$faculty_uids_to_process = [];
+if (empty($filter_faculty_uid) && empty($filter_chair_uid) && !empty($c_roles['uoup'])) {
+  $res = $mysqli->query("SELECT UID FROM xml_faculty");
+  if ($res) {
+    while ($row = $res->fetch_assoc()) {
+      $faculty_uids_to_process[] = $row['UID'];
+    }
+  }
+} else {
+  $faculty_uids_to_process[] = $filter_faculty_uid;
+}
+
+$groups = [];
+$res = $mysqli->query("SELECT UID, Name, Number FROM xml_group");
+if ($res)
+{
+  while ($row = $res->fetch_assoc())
+  {
+    $groups[$row['UID']] = $row;
+  }
+}
+
+$sub_groups = [];
+$res = $mysqli->query("SELECT UID, Name, Number FROM xml_subgroup");
+if ($res)
+{
+  while ($row = $res->fetch_assoc())
+  {
+    $sub_groups[$row['UID']] = $row;
+  }
+}
+
+$sotrudniki = [];
+$res = $mysqli->query("SELECT person_id, chair_id, dolzhnost, pku, stavka FROM sotrudniki");
+if ($res)
+{
+  while ($row = $res->fetch_assoc())
+  {
+    $sotrudniki[$row['person_id'] . '_' . $row['chair_id']] = $row;
+  }
+}
+
+$langNames = [];
+$res = $mysqli->query("SELECT UID, Name FROM xml_language");
+if ($res)
+{
+  while ($row = $res->fetch_assoc())
+  {
+    $langNames[$row['UID']] = $row['Name'];
+  }
+}
+
+$templatePath = __DIR__ . '/template.xlsx';
+$spreadsheet = IOFactory::load($templatePath);
+$sheet = $spreadsheet->getActiveSheet();
+$rowIdx = 2;
+
+$hasData = false;
+
+foreach ($faculty_uids_to_process as $current_faculty_uid) {
+  $filter_faculty_uid = $current_faculty_uid;
+
 // Build query
 $where = [];
 if ($filter_faculty_uid)
@@ -184,54 +247,8 @@ if (!$result)
 
 if (!$result->num_rows)
 {
-  echo "Данных нет";
-  exit;
+  continue;
 }
-
-$groups = [];
-$res = $mysqli->query("SELECT UID, Name, Number FROM xml_group");
-if ($res)
-{
-  while ($row = $res->fetch_assoc())
-  {
-    $groups[$row['UID']] = $row;
-  }
-}
-
-$sub_groups = [];
-$res = $mysqli->query("SELECT UID, Name, Number FROM xml_subgroup");
-if ($res)
-{
-  while ($row = $res->fetch_assoc())
-  {
-    $sub_groups[$row['UID']] = $row;
-  }
-}
-
-
-$sotrudniki = [];
-$res = $mysqli->query("SELECT person_id, chair_id, dolzhnost, pku, stavka FROM sotrudniki");
-if ($res)
-{
-  while ($row = $res->fetch_assoc())
-  {
-    $sotrudniki[$row['person_id'] . '_' . $row['chair_id']] = $row;
-  }
-}
-
-
-$langNames = [];
-$res = $mysqli->query("SELECT UID, Name FROM xml_language");
-if ($res)
-{
-  while ($row = $res->fetch_assoc())
-  {
-    $langNames[$row['UID']] = $row['Name'];
-  }
-}
-
-
-
 $col_mapping = [
   '26003.281474976710659' => 18, // Лекция
   '26003.281474976710660' => 20, // Лабораторная
@@ -255,12 +272,6 @@ $col_mapping = [
   '26003.281474976710768' => 27, // Участие в комиссии (председатель)
   '26003.281474976710769' => 25, // Промежуточная аттестация по курсовой работе (проекту)
 ];
-
-$templatePath = __DIR__ . '/template.xlsx';
-$spreadsheet = IOFactory::load($templatePath);
-$sheet = $spreadsheet->getActiveSheet();
-
-$rowIdx = 2;
 
 $groupedData = [];
 while ($row = $result->fetch_assoc())
@@ -419,130 +430,104 @@ foreach ($groupedData as $uid => $row)
   }
 
   
-  // $row['base_uid'] . " " . 
-  $sheet->setCellValueByColumnAndRow(1, $rowIdx, $row['FacultyOwnerAbbr']);
-  $sheet->setCellValueByColumnAndRow(2, $rowIdx, $row['FacultyPerformerAbbr']);
-  $sheet->setCellValueByColumnAndRow(3, $rowIdx, $row['ChairName']);
-  $sheet->setCellValueByColumnAndRow(4, $rowIdx, $fio);
-  $sheet->setCellValueByColumnAndRow(5, $rowIdx, $dolzhnost);
-  $sheet->setCellValueByColumnAndRow(6, $rowIdx, $pku);
-  $sheet->setCellValueByColumnAndRow(7, $rowIdx, (float) str_replace(',', '.', $sotrudniki[$key]['stavka']));
-  $sheet->setCellValueByColumnAndRow(8, $rowIdx, $row['DisciplineName']);
-  $sheet->setCellValueByColumnAndRow(9, $rowIdx, $groupStr);
-  
-  $sheet->setCellValueByColumnAndRow(10, $rowIdx, $row['education_level']);
-  $sheet->setCellValueByColumnAndRow(11, $rowIdx, $row['SpecialityName']);
-  $sheet->setCellValueByColumnAndRow(12, $rowIdx, $row['napravlennost']); 
-
-  // $langUID = $row['UID_Language'] ? $row['UID_Language'] : $_language_rus_uid; // если нет, то русский
   $lang = isset($langNames[$row['UID_Language']]) ? $langNames[$row['UID_Language']] : '';
-
-  // if ($row['base_uid'] === '26589.281474976927695')
-  // {
-  //   EchoLog($row);
-  //   EchoLog($lang);
-  // }
-
-
-  if (empty($lang))
-  {
-    // если пустой язык во 2-й таблице (либо нет строк во 2-й таблице для КСРО/Асп.), то попробуем взять язык из 1-й таблицы
+  if (empty($lang)) {
     $langUID = $row['content_of_load_UID_Language'];
-
     if ($langUID === $_language_eng_uid) $lang = 'Английский';
     elseif ($langUID) $lang = 'Русский';
   }
-  $sheet->setCellValueByColumnAndRow(13, $rowIdx, $lang);
 
-  $sheet->setCellValueByColumnAndRow(14, $rowIdx, $formStr);
-
-  $sheet->setCellValueByColumnAndRow(15, $rowIdx, $row['UID_Course'] ? $row['UID_Course'] : '');
-  
   $semester = $row['UID_Semester'] % 2 == 0 ? 'В' : 'О';
-
-  $sheet->setCellValueByColumnAndRow(16, $rowIdx, $semester);
-  
   $studentAmount = (float)str_replace(',', '.', $row['StudentAmount']);
+  $stavka = (float) str_replace(',', '.', isset($sotrudniki[$key]) ? $sotrudniki[$key]['stavka'] : 0);
 
-  $sheet->setCellValueByColumnAndRow(17, $rowIdx, $studentAmount);
+  $rowData = array_fill(0, 48, '');
   
+  $rowData[0] = $row['FacultyOwnerAbbr']; // A
+  $rowData[1] = $row['FacultyPerformerAbbr']; // B
+  $rowData[2] = $row['ChairName']; // C
+  $rowData[3] = $fio; // D
+  $rowData[4] = $dolzhnost; // E
+  $rowData[5] = $pku; // F
+  $rowData[6] = $stavka; // G
+  $rowData[7] = $row['DisciplineName']; // H
+  $rowData[8] = $groupStr; // I
+  $rowData[9] = $row['education_level']; // J
+  $rowData[10] = $row['SpecialityName']; // K
+  $rowData[11] = $row['napravlennost']; // L
+  $rowData[12] = $lang; // M
+  $rowData[13] = $formStr; // N
+  $rowData[14] = $row['UID_Course'] ? $row['UID_Course'] : ''; // O
+  $rowData[15] = $semester; // P
+  $rowData[16] = $studentAmount; // Q
 
-  
   $total_hours = 0;
   $auditor_hours = 0;
   
-  if ($nType == 'aspirantura_ruk_asp')
-  {
-    $sheet->setCellValueByColumnAndRow(37, $rowIdx, $amount);
+  if ($nType == 'aspirantura_ruk_asp') {
+    $rowData[36] = $amount; // AK
     $total_hours += $amount;
-  } 
-  elseif ($nType == 'aspirantura_ruk_soisk')
-  {
-    $sheet->setCellValueByColumnAndRow(38, $rowIdx, $amount);
+  } elseif ($nType == 'aspirantura_ruk_soisk') {
+    $rowData[37] = $amount; // AL
     $total_hours += $amount;
-  } 
-  elseif ($nType == 'ik' || mb_stripos($kwName, 'Индивидуальные консультации', 0, 'UTF-8') !== false)
-  {
-    $sheet->setCellValueByColumnAndRow(39, $rowIdx, $amount);
+  } elseif ($nType == 'ik' || mb_stripos($kwName, 'Индивидуальные консультации', 0, 'UTF-8') !== false) {
+    $rowData[38] = $amount; // AM
     $total_hours += $amount;
-  } 
-  elseif ($nType == 'ksro' || mb_stripos($kwName, 'Контроль самостоятельной работы', 0, 'UTF-8') !== false)
-  {
-    $sheet->setCellValueByColumnAndRow(40, $rowIdx, $amount);
+  } elseif ($nType == 'ksro' || mb_stripos($kwName, 'Контроль самостоятельной работы', 0, 'UTF-8') !== false) {
+    $rowData[39] = $amount; // AN
     $total_hours += $amount;
-  } 
-  else
-  {
-    if (isset($col_mapping[$row['UID_KindOfWork']]))
-    {
+  } else {
+    if (isset($col_mapping[$row['UID_KindOfWork']])) {
       $colNum = $col_mapping[$row['UID_KindOfWork']];
-      $sheet->setCellValueByColumnAndRow($colNum, $rowIdx, $amount);
+      $rowData[$colNum - 1] = $amount;
       $total_hours += $amount;
       
-      if ($colNum >= 18 && $colNum <= 27)
-      {
+      if ($colNum >= 18 && $colNum <= 27) {
         $auditor_hours += $amount;
       }
-    } 
-    elseif ($nType == 'aspirantura_kand_exam')
-    {
-      $sheet->setCellValueByColumnAndRow(26, $rowIdx, $amount);
+    } elseif ($nType == 'aspirantura_kand_exam') {
+      $rowData[25] = $amount; // Z
       $total_hours += $amount;
       $auditor_hours += $amount;
     }
   }
 
-  if ($nType == 'aspirantura_ruk_asp')
-  {
+  if ($nType == 'aspirantura_ruk_asp') {
     $comment = $AspiranturaRukAspByLoadId[$row['LoadId']]['fio'];
-  }
-  elseif ($nType == 'aspirantura_ruk_soisk')
-  {
+  } elseif ($nType == 'aspirantura_ruk_soisk') {
     $comment = $AspiranturaRukSoiskByLoadId[$row['LoadId']]['fio'];
-  }
-  else
-  {
+  } else {
     $comment = $row['comment_to_admin'];
   }
   
-  $sheet->setCellValueByColumnAndRow(41, $rowIdx, $comment);
-  $sheet->setCellValueByColumnAndRow(42, $rowIdx, $total_hours);
-  $sheet->setCellValueByColumnAndRow(43, $rowIdx, $auditor_hours);
+  $rowData[40] = $comment; // AO
+  $rowData[41] = $total_hours; // AP
+  $rowData[42] = $auditor_hours; // AQ
   
-  if (mb_strtolower($lang, 'UTF-8') == 'английский')
-  {
-    $sheet->setCellValueByColumnAndRow(44, $rowIdx, $total_hours);
-  } else
-  {
-    $sheet->setCellValueByColumnAndRow(44, $rowIdx, 0);
+  if (mb_strtolower($lang, 'UTF-8') == 'английский') {
+    $rowData[43] = $total_hours; // AR
+  } else {
+    $rowData[43] = 0; // AR
   }
   
-  $sheet->setCellValueByColumnAndRow(45, $rowIdx, $yearOfEntryStr);
-  $sheet->setCellValueByColumnAndRow(46, $rowIdx, $row['YearOfEducation']);
-  $sheet->setCellValueByColumnAndRow(47, $rowIdx, $row['Abbr'] ?: '');
-  $sheet->setCellValueByColumnAndRow(48, $rowIdx, '');
+  $rowData[44] = $yearOfEntryStr; // AS
+  $rowData[45] = $row['YearOfEducation']; // AT
+  $rowData[46] = $row['Abbr'] ?: ''; // AU
+  $rowData[47] = ''; // AV
+
+  $sheet->fromArray($rowData, null, 'A' . $rowIdx);
   
   $rowIdx++;
+}
+
+  $hasData = true;
+  $result->free();
+  unset($groupedData);
+} // end foreach faculty
+
+if (!$hasData) {
+  echo "Данных нет";
+  exit;
 }
 
 // Add output headers correctly and ensure no whitespace causes header issues
