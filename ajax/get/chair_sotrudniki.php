@@ -103,9 +103,9 @@ $_mode = $ModeRow['value'];
 // В режиме редактирования нагрузку ИК-КСРО и Асп. нужно брать из таблицы ksro
 if (true || $_mode == 'mode_filling')
 {
-  $_ksro_sql = "AND x.`nagruzka_type` <> 'ksro' AND x.`nagruzka_type` <> 'aspirantura_kand_exam' AND x.`nagruzka_type` <> 'aspirantura_ruk_asp' AND x.`nagruzka_type` <> 'aspirantura_ruk_soisk'";
+  $_ksro_sql = "AND l.`nagruzka_type` <> 'ksro' AND l.`nagruzka_type` <> 'aspirantura_kand_exam' AND l.`nagruzka_type` <> 'aspirantura_ruk_asp' AND l.`nagruzka_type` <> 'aspirantura_ruk_soisk'";
 
-  $_ksro_sql = "AND x.`nagruzka_type` = 'discipline'";
+  // $_ksro_sql = "AND l.`nagruzka_type` = 'discipline'";
 
   // EchoLog($chair_id);
   // TODO проверить
@@ -183,30 +183,30 @@ if (true || $_mode == 'mode_filling')
 // в других режимах - из Галактики
 else
 {
-  $_ksro_sql = "AND x.`nagruzka_type` <> ''";
+  $_ksro_sql = "AND l.`nagruzka_type` <> ''";
 }
 
 // 2. Получаем "оригинальную" нагрузку из Галактики (русскую и английскую)
 $originalLoads = [];
 $query = "SELECT 
     xml_lecturer.Tab_number,
-    x.UID_Lecturer,
-    x.base_uid2,
-    x.Amount,
-    x.TypeWorkload
+    l.UID_Lecturer,
+    l.base_uid2,
+    l.Amount,
+    l.TypeWorkload
     -- n.type
 FROM nagruzka n
-JOIN xml_content_of_load x ON n.load_base_UID2 = x.base_uid2
-JOIN xml_lecturer ON x.UID_Lecturer = xml_lecturer.UID
-WHERE xml_lecturer.Tab_number IS NOT NULL AND x.UID_Chair = '$chair_uid'
-# AND x.UID_Lecturer = '26115.281474976905003'
+JOIN xml_content_of_load l ON n.load_base_UID2 = l.base_uid2
+JOIN xml_lecturer ON l.UID_Lecturer = xml_lecturer.UID
+WHERE xml_lecturer.Tab_number IS NOT NULL AND l.UID_Chair = '$chair_uid'
+# AND l.UID_Lecturer = '26115.281474976905003'
 $_ksro_sql
 #AND `nagruzka_type` = 'ruk_vkr'
 ";
 
 // EchoLog($query);
 
-// AND x.UID_Chair = '$chair_uid' добавлено из-за того, что ГПХ-шникам берётся в кафедру нагрузка по другой кафедре,
+// AND l.UID_Chair = '$chair_uid' добавлено из-за того, что ГПХ-шникам берётся в кафедру нагрузка по другой кафедре,
 // пример: #meerov#, сотрудник Эссиет Экемини энтони
 
 $_original_rows = GetSQL($query) ?: [];
@@ -278,12 +278,12 @@ $query = "SELECT
     zs.Amount,
     zs.LoadType,
     zs.`delete`,
-    x.TypeWorkload,
+    l.TypeWorkload,
     zs.lecturer_uid as UID_Lecturer
 FROM zavkaf_splits zs
-#JOIN xml_content_of_load x ON zs.content_of_load_uid = x.UID
+#JOIN xml_content_of_load x ON zs.content_of_load_uid = l.UID
 # TMP HACK WAS zs.base_uid2
-JOIN xml_content_of_load x ON zs.base_uid2_new = x.base_uid2
+JOIN xml_content_of_load l ON zs.base_uid2_new = l.base_uid2
 WHERE zs.`delete` = 0 AND `zavkaf_chair_uid` = '$chair_uid'";
 
 // EchoLog($chair_uid);
@@ -323,12 +323,12 @@ foreach ($_splits_rows as $row)
 //     zs.Amount,
 //     zs.LoadType,
 //     zs.`delete`,
-//     x.TypeWorkload,
+//     l.TypeWorkload,
 //     zs.lecturer_uid as UID_Lecturer
 // FROM zavkaf_splits zs
-// #JOIN xml_content_of_load x ON zs.content_of_load_uid = x.UID
+// #JOIN xml_content_of_load l ON zs.content_of_load_uid = l.UID
 // # -- TMP HACK WAS zs.base_uid2
-// JOIN xml_content_of_load x ON zs.base_uid2 = x.base_uid2
+// JOIN xml_content_of_load l ON zs.base_uid2 = l.base_uid2
 // WHERE zs.`delete` = 0 AND `zavkaf_chair_uid` = '$chair_uid' AND `nagruzka_type` IN ('ruk_vkr', 'gia') ";
 
 
@@ -358,14 +358,14 @@ $query = "SELECT
     zs.Amount,
     zs.base_uid2,
     zs.base_uid2_new,
-    x.TypeWorkload
+    l.TypeWorkload
 FROM zavkaf_splits zs
-#JOIN xml_content_of_load x ON zs.content_of_load_uid = x.UID
+#JOIN xml_content_of_load x ON zs.content_of_load_uid = l.UID
 # TMP HACK WAS zs.base_uid2
-JOIN xml_content_of_load x ON zs.base_uid2_new = x.base_uid2
-#JOIN xml_lecturer ON x.UID_Lecturer = xml_lecturer.UID
+JOIN xml_content_of_load l ON zs.base_uid2_new = l.base_uid2
+#JOIN xml_lecturer ON l.UID_Lecturer = xml_lecturer.UID
 WHERE zs.delete = 0  AND `zavkaf_chair_uid` = '$chair_uid'
-  AND x.base_uid2 IN (
+  AND l.base_uid2 IN (
       SELECT DISTINCT base_uid2 
       FROM xml_content_of_load_staff 
       WHERE UID_Language = '25031.945'
@@ -408,23 +408,28 @@ foreach ($_splits_english_rows as $row)
 $employees = [];
 
 $query = "SELECT * FROM `sotrudniki` 
-WHERE ((`type` <> 'gph' AND `chair_id` = ?) 
-       OR (`type` = 'gph' AND `department_id` = ?))
-  AND `person_id` = 51556
+WHERE ((`type` <> 'gph' AND `chair_id` = '$chair_id_substituted') 
+       OR (`type` = 'gph' AND (`department_id` = '$department_id' OR `selected_chairs_ids` LIKE('%|$chair_id_substituted|%'))))
+  -- AND `person_id` = 51556
   $dean_department_sql
   AND `date_remove` IS NULL
   ORDER BY `type` ASC # для того, чтобы (если получили одного сотрудника и ГПХ, и не ГПХ, то возьмётся не ГПХ)
   ";
 
-$stmt = $mysqli->prepare($query);
-$stmt->bind_param('ss', $chair_id_substituted, $department_id);
-$stmt->execute();
-$result = $stmt->get_result();
-while ($row = $result->fetch_assoc()) 
+EchoLog($department_id);
+
+// $stmt = $mysqli->prepare($query);
+// $stmt->bind_param('ss', $chair_id_substituted, $department_id);
+// $stmt->execute();
+$result = GetSQL($query); // $stmt->get_result();
+foreach ($result as $row)
 {
   // $row['person_id']
   $employees[$row['person_id']] = $row;
 }
+
+EchoLog($employees);
+EchoLog(sizeof($employees));
 
 $DopDean = GetRow('dop_deans', ['chair_id' => $chair_id_substituted]);
 

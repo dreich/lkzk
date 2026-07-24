@@ -5931,7 +5931,10 @@ $scope.toggleAdminChangeChair = function(chair)
   // скроем сотрудников не selected
   $scope.HideSotrudnik = function(sotrudnik)
   {
-    return !c_roles.zavkaf && c_roles.dean && !sotrudnik.selected || c_roles.zavkaf && !isEmpty(sotrudniki_selected_chair_id) && c_chair_id != sotrudniki_selected_chair_id && !sotrudnik.selected;
+    const v = !c_roles.zavkaf && c_roles.dean && !sotrudnik.selected || c_roles.zavkaf && !isEmpty(sotrudniki_selected_chair_id) && c_chair_id != sotrudniki_selected_chair_id && !sotrudnik.selected;
+
+    // CL(v);
+    return v;
   }
 
   /*

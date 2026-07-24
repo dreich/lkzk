@@ -27,6 +27,9 @@ $BUPs = GetTable('bup', "", "", "nrec", "`nrec`, `reg_number`, `students_num`, `
 
 $BUPDisciplines = GetTable('bup_disciplines', "`exam_semester` IS NOT NULL AND `exam_semester` <> ''", "", "", "`nrec`, `disc_nrec`, `abr`, `title`, `exam_semester`");
 
+$peakMemory = round(memory_get_peak_usage(true) / 1024 / 1024, 2);
+echo "Memory usage #1: {$peakMemory} MB<br>";
+
 // -- Объяснение сортировки: Должна получиться одна группа, если вдруг получилось несколько, то взять одну (для однозначности отсортировать сначала где больше студентов, если одинаково то по имени). [ЛК ЗК (аспирантура).docx]
 
 // $BUPGroups = GetTable('bup_groups', "`students_in_group` <> '' AND `students_in_group` <> '0'", "`students_in_group` ASC, `group` DESC", "reg_number");
@@ -55,18 +58,19 @@ include '../connect.php';
 
 if ($UPDATE_TABLES) //  && $_system_mode == 'mode_filling')
 {
-  fullBackupTable('nagruzka', 10);
-  fullBackupTable('zavkaf_splits', 10);
-  fullBackupTable('ksro', 10);
-  fullBackupTable('aspirantura_kand_exam', 10);
-  fullBackupTable('aspirantura_ruk_asp', 10);
-  fullBackupTable('aspirantura_ruk_soisk', 10);
+  // fullBackupTable('nagruzka', 10);
+  // fullBackupTable('zavkaf_splits', 10);
+  // fullBackupTable('ksro', 10);
+  // fullBackupTable('aspirantura_kand_exam', 10);
+  // fullBackupTable('aspirantura_ruk_asp', 10);
+  // fullBackupTable('aspirantura_ruk_soisk', 10);
 }
 
 echo sizeof($BUPDisciplines);
 
 // только в этом режиме есть данные в полях bup_nrec, disc_nrec, disc_abr. А в заполнении, когда данные из ГУВ, они пустые.
 // !! Поэтому, если в заполнении будет разрешено править канд. экзам., то нужно смотреть скрипт сохранения, там эти поля используются!
+// TMP HACK # 523
 if ($BUPDisciplines && $_system_mode == 'mode_filling')
 {
   // т.к. мы не знаем, покроем ли все существующие в aspirantura_kand_exam строки (может быть дисциплина исчезла), то проставим всем строкам deleted = 1
@@ -179,7 +183,7 @@ if ($BUPDisciplines && $_system_mode == 'mode_filling')
 }
 
 // exit;
-
+// TMP HACK 523
 if ($_system_mode == 'mode_filling')
 {
   include '../connect/vkr.php';
@@ -319,6 +323,9 @@ if ($_pseudo_chairs)
 
 // EchoLog($pseudo_departments_ids);
 
+$peakMemory = round(memory_get_peak_usage(true) / 1024 / 1024, 2);
+echo "Memory usage #1a: {$peakMemory} MB<br>";
+
 // нагрузка до обновления
 $XMLContentOfLoadPrev = GetTable('xml_content_of_load', "", "", "UID", "UID, base_uid, base_uid2, hash, UID_Chair");
 
@@ -332,7 +339,13 @@ if ($XMLContentOfLoadPrev)
   }
 }
 
+$peakMemory = round(memory_get_peak_usage(true) / 1024 / 1024, 2);
+echo "Memory usage #2: {$peakMemory} MB<br>";
+
 $_XMLContentOfLoadStaffPrev = GetTable('xml_content_of_load_staff', "", "", null, "UID, base_uid2, UID_ContentOfLoad, hash");
+
+$peakMemory = round(memory_get_peak_usage(true) / 1024 / 1024, 2);
+echo "Memory usage #2a: {$peakMemory} MB<br>";
 
 // нагрузка стафф до обновления
 $XMLContentOfLoadStaffPrevByBaseUID2 = [];
@@ -343,9 +356,19 @@ foreach ($_XMLContentOfLoadStaffPrev as $row)
   $XMLContentOfLoadStaffPrevByBaseUID2[$row['base_uid2']][$row['UID']] = $row;
 }
 
+$peakMemory = round(memory_get_peak_usage(true) / 1024 / 1024, 2);
+echo "Memory usage #2b: {$peakMemory} MB<br>";
+
 unset($_XMLContentOfLoadStaffPrev);
 
-$NagruzkaPrev = GetTable('nagruzka', "", "", "load_base_UID2");
+$peakMemory = round(memory_get_peak_usage(true) / 1024 / 1024, 2);
+echo "Memory usage #2c: {$peakMemory} MB<br>";
+
+// !!! для данного массива перечисляем нужные столбцы, потому что не хватает памяти
+$NagruzkaPrev = GetTable('nagruzka', "", "", "load_base_UID2", 'load_base_UID2, lecturer_fio, status');
+
+$peakMemory = round(memory_get_peak_usage(true) / 1024 / 1024, 2);
+echo "Memory usage #2d: {$peakMemory} MB<br>";
 
 // EchoLog($NagruzkaPrev['26589.281474976773927']);
 // без этой строки непонятный баг: ошибочно проваливаемся в if (!$NagruzkaPrev[$nagr['base_uid']])
@@ -440,6 +463,9 @@ $Podrazdelenia = GetTable("podrazdelenia$cur_year", "", "", "id");
 $Person = GetTable('person', '', '', 'id', 'id, alias');
 
 // print_r($Podrazdelenia);
+
+$peakMemory = round(memory_get_peak_usage(true) / 1024 / 1024, 2);
+echo "Memory usage #3: {$peakMemory} MB<br>";
 
 // т.к. сначала загружаем 2ю таблицу и пропускаем в ней строки не ВО, а признак не ВО определяется именно по 2й,
 // то нужно сохранить пропущенные base_uid, чтобы не грузить их и в 1ю таблицу
@@ -745,8 +771,12 @@ include '../connect.php';
 
 if ($LOAD_NEW_DATA_FROM_NETWORK)
 {
-  file_put_contents('ContentOfLoad.xml', file_get_contents('http://192.168.59.100/nagruzka/ContentOfLoad.xml'));
-  file_put_contents('ContentOfLoadStaff.xml', file_get_contents('http://192.168.59.100/nagruzka/ContentOfLoadStaff.xml'));
+  // file_put_contents('ContentOfLoad.xml', file_get_contents('http://192.168.59.100/nagruzka/ContentOfLoad.xml'));
+  copy('http://192.168.59.100/nagruzka/ContentOfLoad.xml', 'ContentOfLoad.xml');
+
+  // file_put_contents('ContentOfLoadStaff.xml', file_get_contents('http://192.168.59.100/nagruzka/ContentOfLoadStaff.xml'));
+  copy('http://192.168.59.100/nagruzka/ContentOfLoadStaff.xml', 'ContentOfLoadStaff.xml');
+
   file_put_contents('SubGroup.xml', file_get_contents('http://192.168.59.100/nagruzka/SubGroup.xml'));
   file_put_contents('Group.xml', file_get_contents('http://192.168.59.100/nagruzka/Group.xml'));
   file_put_contents('Stream.xml', file_get_contents('http://192.168.59.100/nagruzka/Stream.xml'));
@@ -767,6 +797,8 @@ if ($LOAD_NEW_DATA_FROM_NETWORK)
   file_put_contents('nngu.ais.employees.add.xml', file_get_contents($url));
 }
 
+// exit;
+
 // $mysqli->query("START TRANSACTION");
 
 
@@ -783,6 +815,9 @@ if ($UPDATE_TABLES)
   LoadXML('SubGroup.xml', 'xml_subgroup');
   LoadXML('Chair.xml', 'xml_chair');
   LoadXML('KindOfWork.xml', 'xml_kind_of_work');
+
+  $peakMemory = round(memory_get_peak_usage(true) / 1024 / 1024, 2);
+  echo "Memory usage #4: {$peakMemory} MB<br>";
 
   // понадобится в LoadXML('ContentOfLoad.xml', 'xml_content_of_load')
   // ГИА два критерия (один будет связан с аббревиатурой)
@@ -808,8 +843,14 @@ if ($UPDATE_TABLES)
 
   LoadXML('Post.xml', 'xml_post');
 
+  $peakMemory = round(memory_get_peak_usage(true) / 1024 / 1024, 2);
+  echo "Memory usage #5: {$peakMemory} MB<br>";
+
   // должно идти до загрузки xml_content_of_load
   LoadXML('ContentOfLoadStaff.xml', 'xml_content_of_load_staff');
+
+  $peakMemory = round(memory_get_peak_usage(true) / 1024 / 1024, 2);
+  echo "Memory usage #6: {$peakMemory} MB<br>";
 
   // Чтобы определить, является ли нагрузка xml_content_of_load типом Руководство практикой (определяется по аббревиатуре в xml_content_of_load_staff), получим по одной любой строке из xml_content_of_load_staff
   // Также это используется для получения уровня образования (указаны в xml_content_of_load_staff.UID_Speciality ~ xml_speciality), чтобы не загружать лишние
@@ -818,8 +859,8 @@ if ($UPDATE_TABLES)
   // Должно идти после загрузки xml_content_of_load_staff
   LoadXML('ContentOfLoad.xml', 'xml_content_of_load');
 }
+// конец загрузки данных из ГУВ
 
-// $mysqli->query("COMMIT");
 // exit;
 // 
 // Если  начинать транзакцию раньше, до загрузки страниц, то происходит непонятное с обновлением строк справочников, пришлось перенести сюда
@@ -1488,10 +1529,10 @@ foreach ($SotrudnikiByPersonChair as $sotrudnik)
         EchoLog("Заменяем в сплите для person_id=$sotrudnik[person_id], split_id: $split_row[id] (base_uid2 $split_row[base_uid2]), lecturer uids: $split_row[lecturer_uid] !=> $lecturer[UID], chair_uid: $chair_uid");
 
         // content_of_load_uid не правим, т.к. считается, что завкаф разбивает "с нуля", т.е. из Галактики нет разбиений, значит uid не содержит сотрудников
-        $base_uid2_obj = parseNagruzkaBaseUid2($split_row['content_of_load_uid_new']);
+        // $base_uid2_obj = parseNagruzkaBaseUid2($split_row['content_of_load_uid_new']);
 
         // заменяем суффикс лектора на новый
-        $base_uid2_obj['lector_suffix'] = $lecturer['UID'];
+        // $base_uid2_obj['lector_suffix'] = $lecturer['UID'];
 
         // склеиваем в обновлённый base_uid2
         // $new_content_of_load_uid_new = glueNagruzkaBaseUid2Parts($base_uid2_obj);
@@ -2034,14 +2075,29 @@ if ($XMLContentOfLoad)
       // т.к. в цикле идём по UID, и base_uid может повторяться, то код в скобках может повториться
       // -- в случае, если выше уже не удалили эту нагрузку / не заменили base_uid2
       // В режиме заполнения base_uid = base_uid2, т.к. из ГУВ не приходят распределения,
-      if (!$XMLContentOfLoadByBaseUID[$base_uid]) // $base_uid2 [не подходит при переходе от заполнения к выверке, когда хотят видеть данные сплитов, когда ещё и из ГУВ идёт уже распределённая эта же нагрузка]
+      // HACK # 523
+      if ($_system_mode == 'mode_filling' && !$XMLContentOfLoadByBaseUID[$base_uid] || $_system_mode == 'mode_verification' && !$XMLContentOfLoadByBaseUID2[$base_uid2]) // !!! TMP ? $base_uid <- $base_uid2 [не подходит при [mode_filling] переходе от заполнения к выверке, когда хотят видеть данные сплитов, когда ещё и из ГУВ идёт уже распределённая эта же нагрузка]
+      // !! когда будет чистый режим заполнения, нужно вернуть $base_uid2
+      // if (!$XMLContentOfLoadByBaseUID[$base_uid2])
       {
-        EchoLog("Прежняя нагрузка (base_uid = $base_uid, base_uid2 = $base_uid2, content_uid = $xml_content_of_load_UID) не обнаружена в текущем справочнике xml_content_of_load, удаляем");
+        EchoLog("READONLY: Прежняя нагрузка (base_uid = $base_uid, base_uid2 = $base_uid2, content_uid = $xml_content_of_load_UID) не обнаружена в текущем справочнике xml_content_of_load, удаляем");
 
-        $mysqli->query("DELETE FROM `nagruzka` WHERE `load_base_UID2` = '$base_uid2'");
+        // HACK comment # 523
+        // Должно быть уместно, но пока закомментирую, т.к. удалять прям строки боязно; из таблицы в отчёт берётся столбец admin_comment
+        // TMP COMMENT
+        // !!! Обнаружено, что при переходе в режим Выверки из-за смены base_uid2 строки стираются, а вместе с ними комментарии!!!
+        // Нет, не совсем так. Строки почему-то остались. 
+        // Пример: 26589.281474976847625 -> 26589.281474976847625.26115.281474976893938
+        // Обе строки есть, но коммент только в первой
+        // $mysqli->query("DELETE FROM `nagruzka` WHERE `load_base_UID2` = '$base_uid2'");
+
         // Аспирантура и КСРО - в режиме Выверка обновляются в отдельном месте
         // !! если нагрузка исчезла НЕ СЕГОДНЯ НОЧЬЮ, А РАНЬШЕ, то она здесь не удалится
-        $mysqli->query("UPDATE `zavkaf_splits` SET `delete` = '1' WHERE `base_uid` = '$base_uid'");
+        // HACK comment # 523
+        // if ($_system_mode == 'mode_filling')
+        // {
+        //   $mysqli->query("UPDATE `zavkaf_splits` SET `delete` = '1' WHERE `base_uid` = '$base_uid'");
+        // }
 
         continue;
       }
@@ -2051,9 +2107,22 @@ if ($XMLContentOfLoad)
       {
         $some_changed = false;
 
+        // if (!is_array($XMLContentOfLoadPrevByBaseUID2[$base_uid2]))
+        // {
+        //   EchoLog("XMLContentOfLoadPrevByBaseUID2[$base_uid2] пустой");
+        // }
+
+        // if (!is_array($XMLContentOfLoadByBaseUID2[$base_uid2]))
+        // {
+        //   EchoLog("XMLContentOfLoadByBaseUID2[$base_uid2] пустой");
+        // }
+
         // Проверим, изменилось ли количество строк в xml_content_of_load для конкретного base_UID (а, значит, для строки таблица nagruzka) - это означает изменение споточенности (суффиксов)
         // Если это изменилось, то нужно очистить привязанного преподавателя
-        if (sizeof($XMLContentOfLoadPrevByBaseUID2[$base_uid2]) != sizeof($XMLContentOfLoadByBaseUID2[$base_uid2]))
+        // sizeof() вернёт 0, если элемента массива нет
+        if (isset($XMLContentOfLoadPrevByBaseUID2[$base_uid2]) && isset($XMLContentOfLoadByBaseUID2[$base_uid2]) 
+          && sizeof($XMLContentOfLoadPrevByBaseUID2[$base_uid2]) > 0 && sizeof($XMLContentOfLoadByBaseUID2[$base_uid2]) > 0
+          && sizeof($XMLContentOfLoadPrevByBaseUID2[$base_uid2]) != sizeof($XMLContentOfLoadByBaseUID2[$base_uid2]))
         {
           $some_changed = true;
           EchoLog("Для base_uid2 = $base_uid2 (uid = $xml_content_of_load_UID) изменилось количество строк в таблице xml_content_of_load, очистим преподавателя {$NagruzkaPrev[$base_uid2]['lecturer_fio']}");
@@ -2172,11 +2241,15 @@ if ($XMLContentOfLoad)
             // на самом деле лекторы здесь не хранятся
             $NagruzkaPrev[$base_uid2]['lecturer_fio'] = '';
 
-            $mysqli->query("UPDATE `zavkaf_splits` SET `delete` = '1' WHERE `base_uid` = '$base_uid'");
+            // HACK comment # 523
+            // if ($_system_mode == 'mode_filling')
+            // {
+            //   $mysqli->query("UPDATE `zavkaf_splits` SET `delete` = '1' WHERE `base_uid` = '$base_uid'");
+            // }
 
             // -- выведем только если лектор был
             // if ($base_uid2 === '26589.281474976786399' || $NagruzkaPrev[$base_uid2]['lecturer_fio'])
-            EchoLog("Очистили лекторов кафедры {$XMLChairByUID[$new_nagr_row['UID_Chair']]['Name']} ($chair_id) у нагрузки base_uid = $base_uid, base_uid2 = $base_uid2");
+            EchoLog("READONLY: Очистили лекторов кафедры {$XMLChairByUID[$new_nagr_row['UID_Chair']]['Name']} ($chair_id) у нагрузки base_uid = $base_uid, base_uid2 = $base_uid2");
           }
           else
           {
@@ -2522,9 +2595,6 @@ if ($XMLContentOfLoad)
         $db_error = true;
       }
     }
-
-
-
 
   }
   // исчезло более трети строк нагрузки в справочнике, отправим письмо
