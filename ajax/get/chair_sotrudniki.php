@@ -105,7 +105,7 @@ if (true || $_mode == 'mode_filling')
 {
   $_ksro_sql = "AND x.`nagruzka_type` <> 'ksro' AND x.`nagruzka_type` <> 'aspirantura_kand_exam' AND x.`nagruzka_type` <> 'aspirantura_ruk_asp' AND x.`nagruzka_type` <> 'aspirantura_ruk_soisk'";
 
-  // $_ksro_sql = "AND x.`nagruzka_type` = 'discipline'";
+  $_ksro_sql = "AND x.`nagruzka_type` = 'discipline'";
 
   // EchoLog($chair_id);
   // TODO проверить
@@ -114,25 +114,25 @@ if (true || $_mode == 'mode_filling')
   //   // подменяем на код родителя
   //   $ksro_chair_id = $_pseudo_chairs[$chair_id];
   // }
-
+  // !!!!! ПРИБАВЛЯЕТСЯ КСРО
   $KSRO = GetTable('ksro', "`chair_id` = '$chair_id'");
   // EchoLog($KSRO);
   $KSROByPersonID = [];
 
-  if ($KSRO)
-  {
-    foreach ($KSRO as $ksro)
-    {
-      if (!$KSROByPersonID[$ksro['lecturer_person_id']][$ksro['UID_Language']])
-      {
-        $KSROByPersonID[$ksro['lecturer_person_id']][$ksro['UID_Language']] = $ksro;
-      }
-      else
-      {
-        safeAdd($KSROByPersonID[$ksro['lecturer_person_id']][$ksro['UID_Language']]['Amount'], $ksro['Amount']);
-      }
-    }
-  }
+  // if ($KSRO)
+  // {
+  //   foreach ($KSRO as $ksro)
+  //   {
+  //     if (!$KSROByPersonID[$ksro['lecturer_person_id']][$ksro['UID_Language']])
+  //     {
+  //       $KSROByPersonID[$ksro['lecturer_person_id']][$ksro['UID_Language']] = $ksro;
+  //     }
+  //     else
+  //     {
+  //       safeAdd($KSROByPersonID[$ksro['lecturer_person_id']][$ksro['UID_Language']]['Amount'], $ksro['Amount']);
+  //     }
+  //   }
+  // }
 
   // EchoLog($KSROByPersonID[1896]);
 
@@ -226,20 +226,22 @@ foreach ($_original_rows as $row)
 $englishLoads = [];
 $query = "SELECT 
     xml_lecturer.Tab_number,
-    x.UID_Lecturer,
-    x.base_uid2,
-    x.Amount,
-    x.TypeWorkload
+    l.UID_Lecturer,
+    l.base_uid2,
+    l.Amount,
+    l.TypeWorkload,
+    l.UID_Language as content_of_load_UID_Language,
+    ls.UID_Language
 FROM nagruzka n
-JOIN xml_content_of_load x ON n.load_base_UID2 = x.base_uid2
-#JOIN xml_content_of_load_staff s ON x.base_uid2 = s.base_uid2
-JOIN xml_lecturer ON x.UID_Lecturer = xml_lecturer.UID
-WHERE xml_lecturer.Tab_number IS NOT NULL AND x.UID_Language = '25031.945' AND x.UID_Chair = '$chair_uid'
+JOIN xml_content_of_load l ON n.load_base_UID2 = l.base_uid2
+LEFT JOIN xml_content_of_load_staff ls ON ls.UID_ContentOfLoad = l.base_uid2
+JOIN xml_lecturer ON l.UID_Lecturer = xml_lecturer.UID
+WHERE xml_lecturer.Tab_number IS NOT NULL AND l.UID_Language = '25031.945' AND l.UID_Chair = '$chair_uid'
 # AND xml_lecturer.Tab_number = '1129'
 $_ksro_sql
 ";
  
-// AND x.UID_Chair = '$chair_uid' добавлено из-за того, что ГПХ-шникам берётся в кафедру нагрузка по другой кафедре,
+// AND l.UID_Chair = '$chair_uid' добавлено из-за того, что ГПХ-шникам берётся в кафедру нагрузка по другой кафедре,
 // пример: #meerov#, сотрудник Эссиет Экемини энтони
 
 $_original_english_rows = GetSQL($query) ?: [];
@@ -408,7 +410,7 @@ $employees = [];
 $query = "SELECT * FROM `sotrudniki` 
 WHERE ((`type` <> 'gph' AND `chair_id` = ?) 
        OR (`type` = 'gph' AND `department_id` = ?))
-  -- AND `person_id` = 50570
+  AND `person_id` = 51556
   $dean_department_sql
   AND `date_remove` IS NULL
   ORDER BY `type` ASC # для того, чтобы (если получили одного сотрудника и ГПХ, и не ГПХ, то возьмётся не ГПХ)

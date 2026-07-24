@@ -1,5 +1,5 @@
 <?php
-ini_set("memory_limit", "1G");
+
 // exit;
 if (session_status() === PHP_SESSION_NONE)
 {
@@ -83,7 +83,9 @@ if ($filter_faculty_uid)
   } 
   elseif ($filter_type === 'performer')
   {
-    $chairs = GetRows('xml_chair', ['UID_Faculty' => $filter_faculty_uid]);
+    // $chairs = GetRows('xml_chair', ['UID_Faculty' => $filter_faculty_uid]);
+    $chairs = GetTable('xml_chair', "`UID_Faculty` IN ('$filter_faculty_uid', '25031.281474976710980')");
+
     $chair_uids = [];
     if ($chairs)
     {
@@ -282,10 +284,9 @@ while ($row = $result->fetch_assoc())
 }
 
 
-
+// Основной цикл вывода
 foreach ($groupedData as $uid => $row)
 {
-
   $kwName = trim($row['KindOfWorkName']);
   $nType = trim($row['nagruzka_type']);
 
@@ -542,3 +543,9 @@ if (!headers_sent())
 
 $writer = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($spreadsheet);
 $writer->save('php://output');
+
+
+$peakMemory = round(memory_get_peak_usage(true) / 1024 / 1024, 2);
+
+EchoLog("Memory used: $peakMemory MB");
+?>
