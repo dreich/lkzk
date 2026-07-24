@@ -28,15 +28,15 @@ $hasAccess = false;
 $filter_faculty_uid = null;
 $filter_chair_uid = null;
 
-// if (!empty($c_roles['uoup']))
-// {
-//   $hasAccess = true;
-//   $filter_faculty_uid = isset($_GET['faculty_uid']) ? $_GET['faculty_uid'] : null;
-//   $filter_chair_uid = isset($_GET['chair_uid']) ? $_GET['chair_uid'] : null;
-// } 
-// // TODO !!!
-// else
-if (!empty($c_roles['dean']))
+if (!empty($c_roles['uoup']))
+{
+  $hasAccess = true;
+  $filter_faculty_uid = isset($_GET['faculty']) ? $_GET['faculty'] : null;
+  $filter_chair_uid = isset($_GET['chair']) ? $_GET['chair'] : null;
+  $report_type = isset($_GET['type']) ? (int)$_GET['type'] : 1;
+} 
+// TODO !!!
+elseif (!empty($c_roles['dean']))
 {
   $hasAccess = true;
   $dean_dep_id = $_SESSION['c_department_id']; // Code in xml_faculty
@@ -45,7 +45,8 @@ if (!empty($c_roles['dean']))
   {
     $filter_faculty_uid = $faculty['UID'];
   }
-  $filter_chair_uid = isset($_GET['chair_uid']) ? $_GET['chair_uid'] : null;
+  $filter_chair_uid = isset($_GET['chair']) ? $_GET['chair'] : null;
+  $report_type = isset($_GET['type']) ? (int)$_GET['type'] : 1;
 } 
 else
 if (!empty($c_roles['zavkaf']))
@@ -75,17 +76,13 @@ $AspiranturaRukSoiskByLoadId = GetTable('aspirantura_ruk_soisk', "", "", "load_i
 $where = [];
 if ($filter_faculty_uid)
 {
-  $filter_type = isset($_GET['filter_type']) ? $_GET['filter_type'] : 'performer'; // owner
-
-  if ($filter_type === 'owner')
+  if ($report_type === 1)
   {
     $where[] = "ls.UID_FacultyOwner = '" . $mysqli->real_escape_string($filter_faculty_uid) . "'";
   } 
-  elseif ($filter_type === 'performer')
+  elseif ($report_type === 2 || $report_type === 3)
   {
-    // $chairs = GetRows('xml_chair', ['UID_Faculty' => $filter_faculty_uid]);
-    $chairs = GetTable('xml_chair', "`UID_Faculty` IN ('$filter_faculty_uid', '25031.281474976710980')");
-
+    $chairs = GetRows('xml_chair', ['UID_Faculty' => $filter_faculty_uid]);
     $chair_uids = [];
     if ($chairs)
     {
@@ -106,9 +103,24 @@ if ($filter_faculty_uid)
     }
   }
 }
-if ($filter_chair_uid)
+
+if (!empty($c_roles['zavkaf']) && empty($c_roles['uoup']) && empty($c_roles['dean'])) {
+    $filter_chair_uid = $XmlChairByCode[$_SESSION['c_chair_id']]['UID']; // For ZavKaf, force their own chair using UID instead of Code
+}
+
+if ($filter_chair_uid && $report_type !== 1 && $report_type !== 2)
 {
   $where[] = "l.UID_Chair = '" . $mysqli->real_escape_string($filter_chair_uid) . "'";
+}
+
+if (!empty($c_roles['zavkaf']) && empty($c_roles['uoup']) && empty($c_roles['dean'])) {
+    $where[] = "l.UID_Chair = '" . $mysqli->real_escape_string($filter_chair_uid) . "'"; // For ZavKaf force chair unconditionally
+}
+
+
+if (isset($_GET['year'])) {
+    $year = (int)$_GET['year'];
+    $where[] = "l.YearOfEducation = '" . $year . "'";
 }
 
 $where_sql = count($where) > 0 ? "WHERE " . implode(' AND ', $where) : "";

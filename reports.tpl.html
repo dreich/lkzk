@@ -1,0 +1,56 @@
+<div class="row">
+    <div class="col-md-6 offset-md-3">
+        <div class="card mt-4">
+            <div class="card-header">
+                <h3>Генерация отчетов</h3>
+            </div>
+            <div class="card-body">
+                <form ng-submit="generateReport()">
+                    <div class="form-group mb-3">
+                        <label>Вид отчета:</label>
+                        <select class="form-control" ng-model="data.selectedReportType" ng-options="t.id as t.name for t in reportTypes"></select>
+                    </div>
+                    
+                    <div class="form-group mb-3">
+                        <label>Учебный год:</label>
+                        <select class="form-control" ng-model="data.selectedYear" ng-options="y as y for y in years"></select>
+                    </div>
+
+                    <div ng-if="c_roles.uoup && selectedReportType != 4" class="form-group mb-3">
+                        <label>Факультет:</label>
+                        <select class="form-control" ng-model="data.selectedFaculty" ng-change="loadChairs()">
+                            <option value="">-- Все факультеты --</option>
+                            <option ng-repeat="f in faculties" value="{{f.UID}}">{{f.Name}}</option>
+                        </select>
+                    </div>
+
+                    <!-- Text display for Dean -->
+                    <div ng-if="c_roles.dean && selectedReportType != 3" class="form-group mb-3">
+                        <label>Факультет:</label>
+                        <p class="form-control-static"><strong>{{ c_department_name }}</strong></p>
+                    </div>
+
+                    <!-- Text display for ZavKaf -->
+                    <div ng-if="c_roles.zavkaf && !c_roles.dean && !c_roles.uoup" class="form-group mb-3">
+                        <label>Факультет:</label>
+                        <p class="form-control-static"><strong>{{ c_department_name }}</strong></p>
+                        <label>Кафедра:</label>
+                        <p class="form-control-static"><strong>{{ c_chair_name }}</strong></p>
+                    </div>
+
+                    <div ng-if="(c_roles.uoup && selectedFaculty) || (c_roles.dean && selectedReportType == 3)" class="form-group mb-3">
+                        <label>Кафедра:</label>
+                        <select class="form-control" ng-model="data.selectedChair">
+                            <option value="">-- Все кафедры --</option>
+                            <option ng-repeat="c in chairs" value="{{c.UID}}">{{c.Name}}</option>
+                        </select>
+                    </div>
+
+                    <div class="mt-4">
+                        <button type="submit" class="btn btn-primary">Сгенерировать Excel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

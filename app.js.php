@@ -1879,12 +1879,79 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
   $rootScope.page = page;
 })
 
-.controller ('ReportsCtrl', function($rootScope, $scope)
+.controller ('ReportsCtrl', function($rootScope, $scope, $http)
 {
   CL('ReportsCtrl');
   $rootScope.page = 'reports';
+  
+  $scope.c_roles = c_roles;
+  $scope.years = [];
+  var currentYear = new Date().getFullYear();
+  for (var i = currentYear - 2; i <= currentYear + 2; i++) {
+    $scope.years.push(i);
+  }
+  $scope.selectedYear = currentYear;
 
+  $scope.data = {};
+  
+  $scope.reportTypes = [
+    {id: 1, name: '1. По факультету владельцу'},
+    {id: 2, name: '2. По факультету исполнителю'},
+    {id: 3, name: '3. По кафедре исполнителя'},
+  ];
+  
+  if (c_roles.uoup) {
+    $scope.reportTypes.push({id: 4, name: '4. Полный отчет'});
+  }
+  
+  $scope.selectedReportType = $scope.reportTypes[0].id;
+  
+  $scope.faculties = [];
+  $scope.chairs = [];
+  
+  $scope.selectedFaculty = '';
+  $scope.selectedChair = '';
+  
+  $scope.c_department_name = typeof c_department_name !== 'undefined' ? c_department_name : '';
+  $scope.c_chair_name = typeof c_chair_name !== 'undefined' ? c_chair_name : '';
 
+  if (c_roles.uoup) {
+    $http.get('ajax/get/get_faculties.php').then(function(res) {
+      $scope.faculties = res.data;
+    });
+    
+    $scope.loadChairs = function() {
+        $scope.chairs = [];
+        if ($scope.selectedFaculty) {
+            $http.get('ajax/get/get_chairs_by_faculty.php?faculty=' + $scope.selectedFaculty).then(function(res) {
+                $scope.chairs = res.data;
+            });
+        }
+    };
+  } else if (c_roles.dean) {
+     $http.get('ajax/get/get_chairs_by_faculty.php?dean=1').then(function(res) {
+        $scope.chairs = res.data;
+    });
+  } else if (c_roles.zavkaf) {
+     $scope.reportTypes = [
+         {id: 1, name: '1. По факультету владельцу (только своя кафедра)'}
+     ];
+     $scope.selectedReportType = 1;
+  }
+  
+  
+  $scope.generateReport = function() {
+      var url = 'TODO/generate_report.php?year=' + $scope.data.selectedYear + '&type=' + $scope.data.selectedReportType;
+      
+      if (c_roles.uoup) {
+          if ($scope.data.selectedFaculty) url += '&faculty=' + $scope.data.selectedFaculty;
+          if ($scope.data.selectedChair) url += '&chair=' + $scope.data.selectedChair;
+      } else if (c_roles.dean) {
+          if ($scope.data.selectedChair) url += '&chair=' + $scope.data.selectedChair;
+      }
+      
+      window.open(url, '_blank');
+  };
 
 })
 
@@ -2690,6 +2757,8 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
 
   $scope.GetNagruzkaAmountSum = function() 
   {
+    CL('GetNagruzkaAmountSum');
+
     // CL($scope.filter_distinct.global_nagruzka_filter);
     
     if (!$.fn.DataTable || !$.fn.DataTable.isDataTable('.dataTable')) {
@@ -2701,9 +2770,12 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
 
     // Use existing approach to get filtered nagruzka objects
     const filtered_rows_indexes = $scope.GetFilteredNagruzkaRowsIndexes();
-    const visibleNagruzka = filtered_rows_indexes.map(function(i) {
-        return $scope.nagruzka[i];
+    const visibleNagruzka = filtered_rows_indexes.map(function(i) 
+    {
+      return $scope.nagruzka[i];
     });
+
+    CL(filtered_rows_indexes.length);
 
     // Log the filtered nagruzka objects
     // console.log('Filtered nagruzka objects:', visibleNagruzka);
@@ -2724,7 +2796,9 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
                 });
             }
         });
-    } else if ($scope.filter_distinct.global_nagruzka_filter) {
+    } 
+    else if ($scope.filter_distinct.global_nagruzka_filter) 
+    {
         // console.log('Calculating sum for global_nagruzka_filter:', $scope.filter_distinct.global_nagruzka_filter);
         
         visibleNagruzka.forEach(item => {
@@ -2748,21 +2822,24 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
                 });
             }
         });
-    } else {
-        // No lecturer filter or global filter, sum all amounts
-        // console.log('Calculating sum for all lecturers');
-        visibleNagruzka.forEach(item => {
-            // totalSum += parseFloat(item.Amount) || 0;
+    } 
+    else 
+    {
+      // No lecturer filter or global filter, sum all amounts
+      // console.log('Calculating sum for all lecturers');
+      visibleNagruzka.forEach(item => 
+      {
+        // totalSum += parseFloat(item.Amount) || 0;
 
-            if (item && item.lectors && item.lectors.length > 0) {
-                item.lectors.forEach(lector => {
-                    if (!lector.delete)
-                    totalSum += parseFloat(lector.Amount) || 0;
-                });
-            }
-        });
-
-        
+        if (item && item.lectors && item.lectors.length > 0) 
+        {
+            item.lectors.forEach(lector => {
+                if (!lector.delete)
+                totalSum += parseFloat(lector.Amount) || 0;
+            });
+        }
+      });
+      
     }
     
     // console.log('Calculated sum:', totalSum);

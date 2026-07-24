@@ -44,3 +44,16 @@ FROM zavkaf_splits
 WHERE `delete` = '0' AND `lecturer_uid` <> ''
 GROUP BY base_uid, lecturer_uid
 HAVING c > 1
+
+
+* (Есть исполнитель кафедра и препод должен быть с этой кафедры. Если с другой - вот это хочется видеть.)
+
+SELECT xml_content_of_load.base_uid, xml_content_of_load.UID_Chair AS chair1, xml_lecturer.UID_Chair AS chair2, xml_content_of_load.UID_Lecturer, sotrudniki.type
+FROM xml_content_of_load
+JOIN xml_lecturer ON xml_lecturer.UID = xml_content_of_load.UID_Lecturer
+JOIN sotrudniki ON sotrudniki.lecturer_uid = xml_content_of_load.UID_Lecturer
+WHERE xml_content_of_load.UID_Chair <> xml_lecturer.UID_Chair AND `type` <> 'gph'
+# скроем ВШОПФ, центр аспирантуры
+AND xml_content_of_load.UID_Chair <> '25031.281474976726442' AND xml_content_of_load.UID_Chair <> '25031.281474976763050'
+# скроем декана Малышева, у него в поле кафедра - факультет
+AND xml_lecturer.UID_Chair <> '25031.281474976710966' 
