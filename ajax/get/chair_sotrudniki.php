@@ -119,20 +119,20 @@ if (true || $_mode == 'mode_filling')
   // EchoLog($KSRO);
   $KSROByPersonID = [];
 
-  // if ($KSRO)
-  // {
-  //   foreach ($KSRO as $ksro)
-  //   {
-  //     if (!$KSROByPersonID[$ksro['lecturer_person_id']][$ksro['UID_Language']])
-  //     {
-  //       $KSROByPersonID[$ksro['lecturer_person_id']][$ksro['UID_Language']] = $ksro;
-  //     }
-  //     else
-  //     {
-  //       safeAdd($KSROByPersonID[$ksro['lecturer_person_id']][$ksro['UID_Language']]['Amount'], $ksro['Amount']);
-  //     }
-  //   }
-  // }
+  if ($KSRO)
+  {
+    foreach ($KSRO as $ksro)
+    {
+      if (!$KSROByPersonID[$ksro['lecturer_person_id']][$ksro['UID_Language']])
+      {
+        $KSROByPersonID[$ksro['lecturer_person_id']][$ksro['UID_Language']] = $ksro;
+      }
+      else
+      {
+        safeAdd($KSROByPersonID[$ksro['lecturer_person_id']][$ksro['UID_Language']]['Amount'], $ksro['Amount']);
+      }
+    }
+  }
 
   // EchoLog($KSROByPersonID[1896]);
 
@@ -200,6 +200,7 @@ JOIN xml_content_of_load l ON n.load_base_UID2 = l.base_uid2
 JOIN xml_lecturer ON l.UID_Lecturer = xml_lecturer.UID
 WHERE xml_lecturer.Tab_number IS NOT NULL AND l.UID_Chair = '$chair_uid'
 # AND l.UID_Lecturer = '26115.281474976905003'
+-- AND l.base_uid = '26589.281474976825467'
 $_ksro_sql
 #AND `nagruzka_type` = 'ruk_vkr'
 ";
@@ -236,7 +237,7 @@ FROM nagruzka n
 JOIN xml_content_of_load l ON n.load_base_UID2 = l.base_uid2
 LEFT JOIN xml_content_of_load_staff ls ON ls.UID_ContentOfLoad = l.base_uid2
 JOIN xml_lecturer ON l.UID_Lecturer = xml_lecturer.UID
-WHERE xml_lecturer.Tab_number IS NOT NULL AND l.UID_Language = '25031.945' AND l.UID_Chair = '$chair_uid'
+WHERE xml_lecturer.Tab_number IS NOT NULL AND l.UID_Chair = '$chair_uid' # AND l.UID_Language = '25031.945'
 # AND xml_lecturer.Tab_number = '1129'
 $_ksro_sql
 ";
@@ -259,12 +260,23 @@ foreach ($_original_english_rows as $row)
   //     'type_workload' => $row['TypeWorkload']
   // ];
 
-  $englishLoads[$row['Tab_number']][$row['base_uid2']] = 
-  [
-    'UID_Lecturer' => $row['UID_Lecturer'],
-    'amount' => (float)$row['Amount'],
-    'type_workload' => $row['TypeWorkload'],
-  ];
+  $uid = $row['base_uid2']; // = UID_ContentOfLoad
+
+  // в первую очередь берём язык из 2-й таблицы, потом из 1-й. если нету, то русский
+  $language_uid = $row['UID_Language'] ? $row['UID_Language'] : $row['content_of_load_UID_Language'];
+
+  if (!$language_uid) $language_uid = $_language_rus_uid;
+
+  // берём только английскую нагрузку сюда
+  if ($language_uid === $_language_eng_uid)
+  {
+    $englishLoads[$row['Tab_number']][$uid] =
+    [
+      'UID_Lecturer' => $row['UID_Lecturer'],
+      'amount' => (float)$row['Amount'],
+      'type_workload' => $row['TypeWorkload'],
+    ];
+  }
 }
 
 // EchoLog($englishLoads);
@@ -416,7 +428,7 @@ WHERE ((`type` <> 'gph' AND `chair_id` = '$chair_id_substituted')
   ORDER BY `type` ASC # для того, чтобы (если получили одного сотрудника и ГПХ, и не ГПХ, то возьмётся не ГПХ)
   ";
 
-EchoLog($department_id);
+// EchoLog($department_id);
 
 // $stmt = $mysqli->prepare($query);
 // $stmt->bind_param('ss', $chair_id_substituted, $department_id);
@@ -428,8 +440,8 @@ foreach ($result as $row)
   $employees[$row['person_id']] = $row;
 }
 
-EchoLog($employees);
-EchoLog(sizeof($employees));
+// EchoLog($employees);
+// EchoLog(sizeof($employees));
 
 $DopDean = GetRow('dop_deans', ['chair_id' => $chair_id_substituted]);
 
