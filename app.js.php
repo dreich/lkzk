@@ -1890,18 +1890,18 @@ angular.module('app', ['ngRoute', 'ngDialog', 'angucomplete-alt', 'ngAnimate', '
   for (var i = currentYear - 2; i <= currentYear + 2; i++) {
     $scope.years.push(i);
   }
-  $scope.selectedYear = currentYear;
 
-  $scope.data = {};
+  $scope.data = {selectedYear: currentYear, selectedReportType: 2};
   
   $scope.reportTypes = [
-    {id: 1, name: '1. По факультету владельцу'},
-    {id: 2, name: '2. По факультету исполнителю'},
-    {id: 3, name: '3. По кафедре исполнителя'},
+    {id: 1, name: 'По факультету владельцу'},
+    {id: 2, name: 'По факультету исполнителю'},
+    {id: 3, name: 'По кафедре исполнителя'},
   ];
   
-  if (c_roles.uoup) {
-    $scope.reportTypes.push({id: 4, name: '4. Полный отчет'});
+  if (c_roles.uoup) 
+  {
+    $scope.reportTypes.push({id: 4, name: 'Полный отчет'});
   }
   
   $scope.selectedReportType = $scope.reportTypes[0].id;
