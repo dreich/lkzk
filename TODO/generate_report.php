@@ -149,7 +149,8 @@ foreach ($faculty_uids_to_process as $current_faculty_uid)
   {
     if ($report_type === 1)
     {
-      $where[] = "ls.UID_FacultyOwner = '" . $mysqli->real_escape_string($filter_faculty_uid) . "'";
+      $escaped_faculty_uid = $mysqli->real_escape_string($filter_faculty_uid);
+      $where[] = "(ls.UID_FacultyOwner = '" . $escaped_faculty_uid . "' OR (c.UID_Faculty = '" . $escaped_faculty_uid . "' AND l.nagruzka_type IN ('aspirantura_ruk_asp', 'aspirantura_ruk_soisk', 'aspirantura_kand_exam', 'ksro')))";
     } 
     elseif ($report_type === 2 || $report_type === 3)
     {
@@ -288,6 +289,13 @@ foreach ($faculty_uids_to_process as $current_faculty_uid)
     $uid = $row['UID_ContentOfLoad'];
     if (!$uid) $uid = uniqid(); // fallback just in case
     
+    $nType = trim($row['nagruzka_type']);
+    if ($nType == 'aspirantura_ruk_asp' || $nType == 'aspirantura_ruk_soisk' || $nType == 'aspirantura_kand_exam' || $nType == 'ksro')
+    {
+      $row['FacultyOwnerAbbr'] = $row['FacultyPerformerAbbr'];
+      $row['FacultyOwnerName'] = $row['FacultyPerformerName'];
+    }
+
     if (!isset($groupedData[$uid]))
     {
       $groupedData[$uid] = $row;
@@ -431,12 +439,6 @@ foreach ($faculty_uids_to_process as $current_faculty_uid)
     // {
     //   $amount = 75;
     // }
-
-
-    if ($nType == 'aspirantura_ruk_asp' || $nType == 'aspirantura_ruk_soisk' || $nType == 'aspirantura_kand_exam' || $nType == 'ksro')
-    {
-      $row['FacultyOwnerAbbr'] = $row['FacultyPerformerAbbr'];
-    }
 
     
     $lang = isset($langNames[$row['UID_Language']]) ? $langNames[$row['UID_Language']] : '';
