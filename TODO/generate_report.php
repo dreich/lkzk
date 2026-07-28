@@ -18,8 +18,8 @@ require_once __DIR__ . '/../connect.php';
 require_once __DIR__ . '/../functions.php';
 require_once __DIR__ . '/../vendor/autoload.php';
 
-use PhpOffice\PhpSpreadsheet\IOFactory;
-use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
+use OpenSpout\Writer\Common\Creator\WriterEntityFactory;
+use OpenSpout\Writer\Common\Creator\Style\StyleBuilder;
 
 $c_roles = function_exists('ExplodePalki') ? ExplodePalki($_SESSION['c_roles'], true) : [];
 
@@ -71,69 +71,6 @@ $XmlChairByCode = GetTable('xml_chair', "", "", "Code");
 $XmlFacultyByUID = GetTable('xml_faculty', "", "", "UID");
 $AspiranturaRukAspByLoadId = GetTable('aspirantura_ruk_asp', "", "", "load_id", "load_id, fio");
 $AspiranturaRukSoiskByLoadId = GetTable('aspirantura_ruk_soisk', "", "", "load_id", "load_id, fio");
-
-// Determine the list of faculties to process
-$faculty_uids_to_process = [];
-if (empty($filter_faculty_uid) && empty($filter_chair_uid) && !empty($c_roles['uoup'])) {
-  $res = $mysqli->query("SELECT UID FROM xml_faculty");
-  if ($res) {
-    while ($row = $res->fetch_assoc()) {
-      $faculty_uids_to_process[] = $row['UID'];
-    }
-  }
-} else {
-  $faculty_uids_to_process[] = $filter_faculty_uid;
-}
-
-$groups = [];
-$res = $mysqli->query("SELECT UID, Name, Number FROM xml_group");
-if ($res)
-{
-  while ($row = $res->fetch_assoc())
-  {
-    $groups[$row['UID']] = $row;
-  }
-}
-
-$sub_groups = [];
-$res = $mysqli->query("SELECT UID, Name, Number FROM xml_subgroup");
-if ($res)
-{
-  while ($row = $res->fetch_assoc())
-  {
-    $sub_groups[$row['UID']] = $row;
-  }
-}
-
-$sotrudniki = [];
-$res = $mysqli->query("SELECT person_id, chair_id, dolzhnost, pku, stavka FROM sotrudniki");
-if ($res)
-{
-  while ($row = $res->fetch_assoc())
-  {
-    $sotrudniki[$row['person_id'] . '_' . $row['chair_id']] = $row;
-  }
-}
-
-$langNames = [];
-$res = $mysqli->query("SELECT UID, Name FROM xml_language");
-if ($res)
-{
-  while ($row = $res->fetch_assoc())
-  {
-    $langNames[$row['UID']] = $row['Name'];
-  }
-}
-
-$templatePath = __DIR__ . '/template.xlsx';
-$spreadsheet = IOFactory::load($templatePath);
-$sheet = $spreadsheet->getActiveSheet();
-$rowIdx = 2;
-
-$hasData = false;
-
-foreach ($faculty_uids_to_process as $current_faculty_uid) {
-  $filter_faculty_uid = $current_faculty_uid;
 
 // Build query
 $where = [];
@@ -247,8 +184,54 @@ if (!$result)
 
 if (!$result->num_rows)
 {
-  continue;
+  echo "Данных нет";
+  exit;
 }
+
+$groups = [];
+$res = $mysqli->query("SELECT UID, Name, Number FROM xml_group");
+if ($res)
+{
+  while ($row = $res->fetch_assoc())
+  {
+    $groups[$row['UID']] = $row;
+  }
+}
+
+$sub_groups = [];
+$res = $mysqli->query("SELECT UID, Name, Number FROM xml_subgroup");
+if ($res)
+{
+  while ($row = $res->fetch_assoc())
+  {
+    $sub_groups[$row['UID']] = $row;
+  }
+}
+
+
+$sotrudniki = [];
+$res = $mysqli->query("SELECT person_id, chair_id, dolzhnost, pku, stavka FROM sotrudniki");
+if ($res)
+{
+  while ($row = $res->fetch_assoc())
+  {
+    $sotrudniki[$row['person_id'] . '_' . $row['chair_id']] = $row;
+  }
+}
+
+
+$langNames = [];
+$res = $mysqli->query("SELECT UID, Name FROM xml_language");
+if ($res)
+{
+  while ($row = $res->fetch_assoc())
+  {
+    $langNames[$row['UID']] = $row['Name'];
+  }
+}
+
+
+
 $col_mapping = [
   '26003.281474976710659' => 18, // Лекция
   '26003.281474976710660' => 20, // Лабораторная
@@ -271,6 +254,25 @@ $col_mapping = [
   '26003.281474976710767' => 36, // Руководство ВКР
   '26003.281474976710768' => 27, // Участие в комиссии (председатель)
   '26003.281474976710769' => 25, // Промежуточная аттестация по курсовой работе (проекту)
+];
+
+// Prepare OpenSpout 3.x Writer
+$style = (new StyleBuilder())
+           ->setFontName('Calibri')
+           ->setFontSize(9)
+           ->build();
+
+$writer = WriterEntityFactory::createXLSXWriter();
+$writer->setDefaultRowStyle($style);
+
+// Do not send headers or open writer until we know we have data!
+$isWriterOpened = false;
+
+// Write headers (extracted from template.xlsx or inferred)
+$headerValues = [
+    'Фак-т каф.', 'Фак-т студ.', 'Кафедра', 'ФИО', 'Должность', 'ПКУ', 'Ставка', 'Дисциплина', 'Группа', 'Ур. об.', 'Специальность', 'Направленность', 'Язык', 'Форма', 'Курс', 'Сем.', 'Студ.',
+    'Лек', 'Прак', 'Лаб', 'Конс.Э', 'Зач', 'Диф.Зач/Зач.Пр', 'Экз', 'ПромАтт.КР', 'Уч.Ком', 'Пред.Ком', 'Контр.Раб', 'Рук.КР', 'Орг.КР', 'Пр.Выезд', 'Пр.Гр.Орг', 'Пр.Гр.Унив', 'Пр.Инд.Орг', 'Пр.Инд.Унив', 'Рук.ВКР', 'Асп', 'Соиск', 'ИК', 'КСРО',
+    'Комментарий', 'Всего часов', 'Ауд. часов', 'Ино. часов', 'Год пост.', 'Уч. год', 'Аббрев.', ''
 ];
 
 $groupedData = [];
@@ -514,32 +516,34 @@ foreach ($groupedData as $uid => $row)
   $rowData[45] = $row['YearOfEducation']; // AT
   $rowData[46] = $row['Abbr'] ?: ''; // AU
   $rowData[47] = ''; // AV
-
-  $sheet->fromArray($rowData, null, 'A' . $rowIdx);
   
-  $rowIdx++;
+  if (!$isWriterOpened) {
+      // openToBrowser inside spout sends headers automatically. We just call it.
+      @$writer->openToBrowser('report.xlsx');
+      $isWriterOpened = true;
+
+      $cells = [];
+      foreach ($headerValues as $val) {
+          $cells[] = WriterEntityFactory::createCell($val);
+      }
+      $headerRow = WriterEntityFactory::createRow($cells);
+      $writer->addRow($headerRow);
+  }
+
+  // Convert array to Spout Row
+  $cells = [];
+  foreach ($rowData as $val) {
+      // Avoid passing null to fromValue
+      $cells[] = WriterEntityFactory::createCell($val !== null ? $val : '');
+  }
+  $spoutRow = WriterEntityFactory::createRow($cells);
+  $writer->addRow($spoutRow);
 }
 
-  $hasData = true;
-  $result->free();
-  unset($groupedData);
-} // end foreach faculty
-
-if (!$hasData) {
-  echo "Данных нет";
-  exit;
+// Finish writing
+if ($isWriterOpened) {
+    $writer->close();
 }
-
-// Add output headers correctly and ensure no whitespace causes header issues
-if (!headers_sent())
-{
-  header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-  header('Content-Disposition: attachment;filename="report.xlsx"');
-  header('Cache-Control: max-age=0');
-}
-
-$writer = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($spreadsheet);
-$writer->save('php://output');
 
 
 $peakMemory = round(memory_get_peak_usage(true) / 1024 / 1024, 2);
