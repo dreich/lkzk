@@ -18,8 +18,8 @@ require_once __DIR__ . '/../connect.php';
 require_once __DIR__ . '/../functions.php';
 require_once __DIR__ . '/../vendor/autoload.php';
 
-use OpenSpout\Writer\Common\Creator\WriterEntityFactory;
-use OpenSpout\Writer\Common\Creator\Style\StyleBuilder;
+use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
+use Box\Spout\Writer\Common\Creator\Style\StyleBuilder;
 
 $c_roles = function_exists('ExplodePalki') ? ExplodePalki($_SESSION['c_roles'], true) : [];
 

@@ -1,6 +1,6 @@
 {
     "require": {
         "phpoffice/phpspreadsheet": "^1.8",
-        "openspout/openspout": "^3.3"
+        "box/spout": "^3.3"
     }
 }
