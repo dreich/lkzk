@@ -260,6 +260,7 @@ $col_mapping = [
 $style = (new StyleBuilder())
            ->setFontName('Calibri')
            ->setFontSize(9)
+           ->setShouldWrapText(false)
            ->build();
 
 $writer = WriterEntityFactory::createXLSXWriter();
